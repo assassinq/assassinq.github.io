@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>c语言/python实现rc4加密解密算法 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ccryptopython" />
+  
+  
+  
+  
+  <meta name="description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
+<meta name="keywords" content="c,crypto,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言&#x2F;Python实现rc4加密解密算法">
+<meta property="og:url" content="http://AssassinQ.com/2018/05/13/C语言-Python实现rc4加密解密算法/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-w.jpg">
+<meta property="og:updated_time" content="2018-05-16T14:32:55.048Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言&#x2F;Python实现rc4加密解密算法">
+<meta name="twitter:description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-w.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-C语言-Python实现rc4加密解密算法" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      C语言/Python实现rc4加密解密算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/05/13/C语言-Python实现rc4加密解密算法/" class="article-date">
+	  <time datetime="2018-05-13T02:47:11.000Z" itemprop="datePublished">2018-05-13</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。</p>
+<a id="more"></a>
+<p>RC4算法的特点是算法简单，运行速度快，而且密钥长度是可变的，可变范围为1-256字节(8-2048比特)，在如今技术支持的前提下，当密钥长度为128比特时，用暴力法搜索密钥已经不太可行，所以可以预见RC4的密钥范围任然可以在今后相当长的时间里抵御暴力搜索密钥的攻击。实际上，如今也没有找到对于128bit密钥长度的RC4加密算法的有效攻击方法。</p>
+<p>RC4加密算法是一种对称加密算法。所谓对称加密算法，说得直白一点，就是加密与解密的过程一模一样。假设定义RC4的运算过程是rc4(key,data)，那么，密文=rc4(key,明文)，明文=rc4(key,密文)。所以，对一段数据迭代地做奇数次RC4运算，就得到密文，对这段数据迭代地做偶数次RC4运算，结果依旧是原来的那段数据。</p>
+<h1 id="rc4加密解密原理"><a href="#rc4加密解密原理" class="headerlink" title="rc4加密解密原理"></a>rc4加密解密原理</h1><p>先介绍算法中的几个关键变量：</p>
+<p>1、密钥流：RC4算法的关键是根据明文和密钥生成相应的密钥流，密钥流的长度和明文的长度是对应的，也就是说明文的长度是500字节，那么密钥流也是500字节。当然，加密生成的密文也是500字节，因为密文第i字节=明文第i字节^密钥流第i字节；</p>
+<p>2、状态向量S：长度为256，S[0],S[1]…..S[255]。每个单元都是一个字节，算法运行的任何时候，S都包括0-255的8比特数的排列组合，只不过值的位置发生了变换；</p>
+<p>3、临时向量T：长度也为256，每个单元也是一个字节。如果密钥的长度是256字节，就直接把密钥的值赋给T，否则，轮转地将密钥的每个字节赋给T；</p>
+<p>4、密钥K：长度为1-256字节，注意密钥的长度keylen与明文长度、密钥流的长度没有必然关系，通常密钥的长度趣味16字节（128比特）。</p>
+<p>算法流程图如下：</p>
+<p><img src="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-w.jpg" alt="image"></p>
+<h1 id="利用Key生成S盒——The-key-scheduling-algorithm-KSA"><a href="#利用Key生成S盒——The-key-scheduling-algorithm-KSA" class="headerlink" title="利用Key生成S盒——The key-scheduling algorithm (KSA)"></a>利用Key生成S盒——The key-scheduling algorithm (KSA)</h1><p>密钥调度算法用于初始化数组S盒中的置换。</p>
+<p>“keylength”被定义为密钥中的字节数，并且可以在1≤keylength≤256的范围内，通常在5和16之间，对应于40到128位的密钥长度。</p>
+<p>首先，数组“S”被初始化为i。然后以类似于PRGA的方式对S进行256次迭代处理，同时也以密钥的字节为单位进行混合。</p>
+<h1 id="利用S盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA"><a href="#利用S盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA" class="headerlink" title="利用S盒生成密钥流——The pseudo-random generation algorithm(PRGA)"></a>利用S盒生成密钥流——The pseudo-random generation algorithm(PRGA)</h1><p>对于需要的迭代次数，PRGA修改状态并输出一个字节的密钥流。</p>
+<p>在每次迭代中，PRGA递增i，将i指向的S的值与j相加，交换S[i]和S[j]的值，然后在S[i]+S[j]（模256）。</p>
+<p>每256个迭代，S的每个元素至少与另一个元素交换一次。</p>
+<h1 id="Code-in-C"><a href="#Code-in-C" class="headerlink" title="Code in C"></a>Code in C</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;cstdio&gt;</span><br><span class="line">#include&lt;cstdlib&gt;</span><br><span class="line">#include&lt;cstring&gt;</span><br><span class="line">#define MAX 256</span><br><span class="line"></span><br><span class="line">void rc4_init(unsigned char *sbox, unsigned char *key, unsigned long len)</span><br><span class="line">&#123;</span><br><span class="line">    int j = 0;</span><br><span class="line">    char t[MAX] = &#123;0&#125;;</span><br><span class="line">    unsigned char tmp = 0;</span><br><span class="line">    for(int i = 0; i &lt; MAX; i++)//初始化算法</span><br><span class="line">    &#123;</span><br><span class="line">        sbox[i] = i;</span><br><span class="line">        t[i] = key[i % len];</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i = 0; i &lt; MAX; i++)//伪随机子密码生成算法</span><br><span class="line">    &#123;</span><br><span class="line">        j = (j + sbox[i] + t[i]) % MAX;</span><br><span class="line">        tmp = sbox[i];</span><br><span class="line">        sbox[i] = sbox[j];</span><br><span class="line">        sbox[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">unsigned char rc4_crypto(unsigned char *sbox, unsigned char *data, unsigned long len)</span><br><span class="line">&#123;</span><br><span class="line">    int i = 0, j = 0;</span><br><span class="line">    unsigned char tmp = 0;</span><br><span class="line">    unsigned long k = 0;</span><br><span class="line">    for(k = 0; k &lt; len; k++)</span><br><span class="line">    &#123;</span><br><span class="line">        i = (i + 1) % MAX;</span><br><span class="line">        j = (j + sbox[i]) % MAX;</span><br><span class="line">        tmp = sbox[i];</span><br><span class="line">        sbox[i] = sbox[j];</span><br><span class="line">        sbox[j] = tmp;</span><br><span class="line">        int t = (sbox[i] + sbox[j]) % MAX;</span><br><span class="line">        data[k] ^= sbox[t];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char s1[MAX] = &#123;0&#125;, s2[MAX] = &#123;0&#125;;</span><br><span class="line">    char key[MAX] = &#123;0&#125;, data[2 * MAX] = &#123;0&#125;;</span><br><span class="line">    printf(&quot;Please input the key:\n&quot;);</span><br><span class="line">    scanf(&quot;%s&quot;, key);</span><br><span class="line">    printf(&quot;Please input the data:\n&quot;);</span><br><span class="line">    scanf(&quot;%s&quot;, data);</span><br><span class="line">    unsigned long len = strlen(data);</span><br><span class="line">    rc4_init(s1, (unsigned char *)key, strlen(key));</span><br><span class="line">    for(int i = 0; i &lt; MAX; i++)</span><br><span class="line">        s2[i] = s1[i];</span><br><span class="line">    rc4_crypto(s1, (unsigned char *)data, len);</span><br><span class="line">    printf(&quot;%s\n&quot;, data);</span><br><span class="line">    rc4_crypto(s2, (unsigned char *)data, len);</span><br><span class="line">    printf(&quot;%s\n&quot;, data);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Code-in-Python"><a href="#Code-in-Python" class="headerlink" title="Code in Python"></a>Code in Python</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import random, base64</span><br><span class="line">from hashlib import sha1</span><br><span class="line"></span><br><span class="line">def crypt(data, key):</span><br><span class="line">    &quot;&quot;&quot;RC4 algorithm&quot;&quot;&quot;</span><br><span class="line">    x = 0</span><br><span class="line">    box = range(256)</span><br><span class="line">    for i in range(256):</span><br><span class="line">        x = (x + box[i] + ord(key[i % len(key)])) % 256</span><br><span class="line">        box[i], box[x] = box[x], box[i]</span><br><span class="line">    x = y = 0</span><br><span class="line">    out = []</span><br><span class="line">    for char in data:</span><br><span class="line">        x = (x + 1) % 256</span><br><span class="line">        y = (y + box[x]) % 256</span><br><span class="line">        box[x], box[y] = box[y], box[x]</span><br><span class="line">        out.append(chr(ord(char) ^ box[(box[x] + box[y]) % 256]))</span><br><span class="line"></span><br><span class="line">    return &apos;&apos;.join(out)</span><br><span class="line"></span><br><span class="line">def tencode(data, key, encode=base64.b64encode, salt_length=16):</span><br><span class="line">    &quot;&quot;&quot;RC4 encryption with random salt and final encoding&quot;&quot;&quot;</span><br><span class="line">    salt = &apos;&apos;</span><br><span class="line">    for n in range(salt_length):</span><br><span class="line">        salt += chr(random.randrange(256))</span><br><span class="line">    data = salt + crypt(data, sha1(key + salt).digest())</span><br><span class="line">    if encode:</span><br><span class="line">        data = encode(data)</span><br><span class="line">    return data</span><br><span class="line"></span><br><span class="line">def tdecode(data, key, decode=base64.b64decode, salt_length=16):</span><br><span class="line">    &quot;&quot;&quot;RC4 decryption of encoded data&quot;&quot;&quot;</span><br><span class="line">    if decode:</span><br><span class="line">        data = decode(data)</span><br><span class="line">    salt = data[:salt_length]</span><br><span class="line">    return crypt(data[salt_length:], sha1(key + salt).digest())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__==&apos;__main__&apos;:</span><br><span class="line">    # 需要加密的数据</span><br><span class="line">    data = &apos;hello python 爱的实打实大师大师大师的发送到发送到&apos;</span><br><span class="line">    # 密钥</span><br><span class="line">    key = &apos;123456&apos;</span><br><span class="line">    # 加码</span><br><span class="line">    encoded_data = tencode(data=data, key=key)</span><br><span class="line">    print encoded_data</span><br><span class="line">    # 解码</span><br><span class="line">    decoded_data = tdecode(data=encoded_data, key=key)</span><br><span class="line">    print decoded_data</span><br></pre></td></tr></table></figure>
+<p>参考网站：<br><a href="https://blog.csdn.net/white_idiot/article/details/65937877" target="_blank" rel="noopener">https://blog.csdn.net/white_idiot/article/details/65937877</a><br><a href="https://blog.csdn.net/lc_910927/article/details/37599161" target="_blank" rel="noopener">https://blog.csdn.net/lc_910927/article/details/37599161</a><br><a href="https://www.cnblogs.com/zibility/p/5404478.html" target="_blank" rel="noopener">https://www.cnblogs.com/zibility/p/5404478.html</a><br><a href="https://blog.csdn.net/white_eyes/article/details/6560355" target="_blank" rel="noopener">https://blog.csdn.net/white_eyes/article/details/6560355</a><br><a href="https://www.biaodianfu.com/rc4.html" target="_blank" rel="noopener">https://www.biaodianfu.com/rc4.html</a><br><a href="https://blog.csdn.net/themagickeyjianan/article/details/52277073" target="_blank" rel="noopener">https://blog.csdn.net/themagickeyjianan/article/details/52277073</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/14/简单WEB总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          简单WEB总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/12/C语言实现base64解密加密/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C语言实现base64解密加密</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rc4加密解密原理"><span class="nav-number">1.</span> <span class="nav-text">rc4加密解密原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用Key生成S盒——The-key-scheduling-algorithm-KSA"><span class="nav-number">2.</span> <span class="nav-text">利用Key生成S盒——The key-scheduling algorithm (KSA)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用S盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA"><span class="nav-number">3.</span> <span class="nav-text">利用S盒生成密钥流——The pseudo-random generation algorithm(PRGA)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code-in-C"><span class="nav-number">4.</span> <span class="nav-text">Code in C</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code-in-Python"><span class="nav-number">5.</span> <span class="nav-text">Code in Python</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

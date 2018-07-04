@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>简单web总结 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfweb" />
+  
+  
+  
+  
+  <meta name="description" content="把一个阶段下来学到的web知识总结一下，简单地收个尾。">
+<meta name="keywords" content="ctf,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单WEB总结">
+<meta property="og:url" content="http://AssassinQ.com/2018/05/14/简单WEB总结/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="把一个阶段下来学到的web知识总结一下，简单地收个尾。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-16T14:33:04.778Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单WEB总结">
+<meta name="twitter:description" content="把一个阶段下来学到的web知识总结一下，简单地收个尾。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-简单WEB总结" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      简单WEB总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/05/14/简单WEB总结/" class="article-date">
+	  <time datetime="2018-05-14T08:49:22.000Z" itemprop="datePublished">2018-05-14</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>把一个阶段下来学到的web知识总结一下，简单地收个尾。</p>
+<a id="more"></a>
+<h1 id="PHP黑魔法"><a href="#PHP黑魔法" class="headerlink" title="PHP黑魔法"></a>PHP黑魔法</h1><p>接触了web后，最大的感触莫过于php真的是世界上最好（玩）的语言。稍微整理了一些简单的知识。</p>
+<h2 id="弱类型"><a href="#弱类型" class="headerlink" title="弱类型"></a>弱类型</h2><p>弱类型的语言对变量的数据类型没有限制，你可以在任何地时候将变量赋值给任意的其他类型的变量，同时变量也可以转换成任意地其他类型的数据。</p>
+<p>类型转换是无法避免的问题。例如需要将GET或者是POST的参数转换为int类型，或者是两个变量不匹配的时候，PHP会自动地进行变量转换。但是PHP是一个弱类型的语言，导致在进行类型转换的时候会存在很多意想不到的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">null == false;                       //true</span><br><span class="line">&apos;&apos; == null;                          //true</span><br><span class="line">0 == &apos;=&apos;;                            //true</span><br><span class="line">0 == &apos;abcdefg&apos;;                      //true</span><br><span class="line">0 ===&apos;abcdefg&apos;;                      //false</span><br><span class="line">1 == &apos;1abcdefg&apos;;                     //true</span><br><span class="line">&quot;0e132456789&quot;==&quot;0e7124511451155&quot;;    //true</span><br><span class="line">&quot;0e123456abc&quot;==&quot;0e1dddada&quot;;	         //false</span><br><span class="line">&quot;0e1abc&quot;==&quot;0&quot;;                       //true</span><br><span class="line">&quot;0x1e240&quot;==&quot;123456&quot;;		         //true</span><br><span class="line">&quot;0x1e240&quot;==123456;		             //true</span><br><span class="line">&quot;0x1e240&quot;==&quot;1e240&quot;;		             //false</span><br></pre></td></tr></table></figure>
+<h2 id="php函数"><a href="#php函数" class="headerlink" title="php函数"></a>php函数</h2><p>简单地记录几个函数。</p>
+<h3 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp()"></a>strcmp()</h3><p>任意数组通过strcmp与任意字符串比较的结果都是NULL。其他还有很多玩法。</p>
+<h3 id="md5-和sha"><a href="#md5-和sha" class="headerlink" title="md5()和sha()"></a>md5()和sha()</h3><p>这两个函数对数组加密会产生NULL。</p>
+<h3 id="extract"><a href="#extract" class="headerlink" title="extract()"></a>extract()</h3><p>变量覆盖。</p>
+<h3 id="ereg"><a href="#ereg" class="headerlink" title="ereg()"></a>ereg()</h3><p>正则表达式函数ereg可通过%00截断绕过。</p>
+<h3 id="strpos"><a href="#strpos" class="headerlink" title="strpos()"></a>strpos()</h3><p>strpos可通过数组返回NULL来绕过。</p>
+<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>主要对普通回显注入、布尔盲注、时间盲注有一些经验。还有一些绕过的方式有了一些了解。</p>
+<h2 id="mysql基础函数"><a href="#mysql基础函数" class="headerlink" title="mysql基础函数"></a>mysql基础函数</h2><p>简短地记录几个。</p>
+<h3 id="if-和case-when"><a href="#if-和case-when" class="headerlink" title="if()和case when"></a>if()和case when</h3><p>用于时间盲注的判断。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select *,if(sva=1,&quot;男&quot;,&quot;女&quot;) as ssva from taname where sva != &quot;&quot;</span><br><span class="line">select CASE sva WHEN 1 THEN &apos;男&apos; ELSE &apos;女&apos; END as ssva from taname where sva != &quot;&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="sleep-和benchmark"><a href="#sleep-和benchmark" class="headerlink" title="sleep()和benchmark()"></a>sleep()和benchmark()</h3><p>用于时间盲注。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sleep(10)</span><br><span class="line">benchmark(sha(1), 1000000000000)</span><br></pre></td></tr></table></figure>
+<h3 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h3><p>猜测select语句中的列数。</p>
+<h3 id="concat-和group-concat"><a href="#concat-和group-concat" class="headerlink" title="concat()和group_concat()"></a>concat()和group_concat()</h3><p>用分隔符连接字符串。</p>
+<h3 id="substr-和mid"><a href="#substr-和mid" class="headerlink" title="substr()和mid()"></a>substr()和mid()</h3><p>用于盲注时的判断。</p>
+<h2 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h2><p>无法直接搜索到结果，通过其他方式来得出结果。<a href="https://lalajun.github.io/2017/09/24/WEB-CTF%E4%B8%AD%E7%9A%84sql%E7%9B%B2%E6%B3%A8/" target="_blank" rel="noopener">铁盆学长的这篇文章</a>看懂基本能掌握简单的盲注了。</p>
+<h3 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h3><p>问你问题时，你只会回答对或错。</p>
+<p>payload如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;1&apos; and substr((select group_concat(schema_name) from information_schema.schemata),&#123;&#125;,1)=&#123;&#125;#&quot;.format() //猜解库名</span><br><span class="line">&quot;1&apos; and substr((select group_concat(table_name) from information_schema.tables where table_schema=&quot;xxxx&quot;),&#123;&#125;,1)=&#123;&#125;#&quot;.format() //猜解表名</span><br><span class="line">&quot;1&apos; and substr((select group_concat(column_name) from information_schema.columns where table_name=&quot;xxxx&quot;),&#123;&#125;,1)=&#123;&#125;#&quot;.format() //猜解列名</span><br><span class="line">&quot;1&apos; and substr((select group_concat(xxxx) from xxxx.xxxx),&#123;&#125;,1)=&#123;&#125;#&quot;.format() //猜解列中数据</span><br></pre></td></tr></table></figure>
+<p>脚本中通过判断response中返回的内容来猜测数据。</p>
+<h3 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h3><p>问你问题时，你只会“啊”地叫一声，如果正确就过一会儿叫，反之立马就叫。</p>
+<p>时间盲注的脚本实际上是差不多的，只是不同的地方是通过if以及benchmark来判断。</p>
+<p>还有<a href="https://blog.csdn.net/pygain/article/details/53086389" target="_blank" rel="noopener">这篇文章</a>可以更好地理解盲注。</p>
+<p>盲注的脚本在实验吧的wp里写过好几次，感觉每次都可以直接拿来用。</p>
+<p>参考网站：<br><a href="https://blog.spoock.com/2016/06/25/weakly-typed-security/" target="_blank" rel="noopener">https://blog.spoock.com/2016/06/25/weakly-typed-security/</a><br><a href="http://www.bugku.com/thread-30-1-1.html" target="_blank" rel="noopener">http://www.bugku.com/thread-30-1-1.html</a><br><a href="http://www.bugku.com/forum.php?mod=viewthread&amp;tid=1072&amp;extra=page%3D1" target="_blank" rel="noopener">http://www.bugku.com/forum.php?mod=viewthread&amp;tid=1072&amp;extra=page%3D1</a><br><a href="http://outofmemory.cn/code-snippet/1149/MySQL-if-case-statement-usage-summary" target="_blank" rel="noopener">http://outofmemory.cn/code-snippet/1149/MySQL-if-case-statement-usage-summary</a></p>
+<p>总结就差不多这样，关于其他文件上传、XSS以及一些奇淫技巧了解的不是很多，日后再来完善。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/15/寄存器学习/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          寄存器学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/13/C语言-Python实现rc4加密解密算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C语言/Python实现rc4加密解密算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP黑魔法"><span class="nav-number">1.</span> <span class="nav-text">PHP黑魔法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#弱类型"><span class="nav-number">1.1.</span> <span class="nav-text">弱类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php函数"><span class="nav-number">1.2.</span> <span class="nav-text">php函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#strcmp"><span class="nav-number">1.2.1.</span> <span class="nav-text">strcmp()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#md5-和sha"><span class="nav-number">1.2.2.</span> <span class="nav-text">md5()和sha()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extract"><span class="nav-number">1.2.3.</span> <span class="nav-text">extract()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ereg"><span class="nav-number">1.2.4.</span> <span class="nav-text">ereg()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strpos"><span class="nav-number">1.2.5.</span> <span class="nav-text">strpos()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL注入"><span class="nav-number">2.</span> <span class="nav-text">SQL注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql基础函数"><span class="nav-number">2.1.</span> <span class="nav-text">mysql基础函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#if-和case-when"><span class="nav-number">2.1.1.</span> <span class="nav-text">if()和case when</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sleep-和benchmark"><span class="nav-number">2.1.2.</span> <span class="nav-text">sleep()和benchmark()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#order-by"><span class="nav-number">2.1.3.</span> <span class="nav-text">order by</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#concat-和group-concat"><span class="nav-number">2.1.4.</span> <span class="nav-text">concat()和group_concat()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#substr-和mid"><span class="nav-number">2.1.5.</span> <span class="nav-text">substr()和mid()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#盲注"><span class="nav-number">2.2.</span> <span class="nav-text">盲注</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔盲注"><span class="nav-number">2.2.1.</span> <span class="nav-text">布尔盲注</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间盲注"><span class="nav-number">2.2.2.</span> <span class="nav-text">时间盲注</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

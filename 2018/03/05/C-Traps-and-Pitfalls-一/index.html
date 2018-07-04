@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>c traps and pitfalls（一） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="notec" />
+  
+  
+  
+  
+  <meta name="description" content="今天下午花了一点时间看《C陷阱与缺陷》，读完了第一二两章。很多一些小细节上的东西都有一些颠覆，所以做一下笔记。这本书相对挺薄的，但内容还是比较丰富，应当慢慢研读。">
+<meta name="keywords" content="note,c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C Traps and Pitfalls（一）">
+<meta property="og:url" content="http://AssassinQ.com/2018/03/05/C-Traps-and-Pitfalls-一/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="今天下午花了一点时间看《C陷阱与缺陷》，读完了第一二两章。很多一些小细节上的东西都有一些颠覆，所以做一下笔记。这本书相对挺薄的，但内容还是比较丰富，应当慢慢研读。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1c7qhppu5nus9ebao81hck1chaa.jpg-j.jpg">
+<meta property="og:updated_time" content="2018-07-02T13:30:38.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C Traps and Pitfalls（一）">
+<meta name="twitter:description" content="今天下午花了一点时间看《C陷阱与缺陷》，读完了第一二两章。很多一些小细节上的东西都有一些颠覆，所以做一下笔记。这本书相对挺薄的，但内容还是比较丰富，应当慢慢研读。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1c7qhppu5nus9ebao81hck1chaa.jpg-j.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-C-Traps-and-Pitfalls-一" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      C Traps and Pitfalls（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/03/05/C-Traps-and-Pitfalls-一/" class="article-date">
+	  <time datetime="2018-03-05T09:15:33.000Z" itemprop="datePublished">2018-03-05</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天下午花了一点时间看《C陷阱与缺陷》，读完了第一二两章。很多一些小细节上的东西都有一些颠覆，所以做一下笔记。这本书相对挺薄的，但内容还是比较丰富，应当慢慢研读。</p>
+<a id="more"></a>
+<h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><p>单括号括起的一个字符代表一个整数，而用双括号括起的的一个字符代表一个指针。（p12）</p>
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char *slash = &apos;/&apos;;</span><br></pre></td></tr></table></figure>
+<p>以上语句在编译时会生成一条错误消息，因为’/‘并不是一个字符指针。</p>
+<h1 id="2"><a href="#2" class="headerlink" title="2"></a>2</h1><p>问题：某些C编译器允许嵌套注释。请写一个测试程序，要求：无论是对允许嵌套注释的编译器，还是对不允许嵌套的编译器，该程序都能正常通过编译（无错误消息出现），但是两种情况下程序执行的结果却不相同。（提示：在用双引号括起的字符串中，注释符/*属于字符串的一部分，而在注释中出现的双引号””又属于注释的一部分）（p12）</p>
+<p>以下代码转自：<a href="http://blog.csdn.net/yangluoning/article/details/10075297" target="_blank" rel="noopener">http://blog.csdn.net/yangluoning/article/details/10075297</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#define A /* aaa /* a*/ a</span><br><span class="line">#define B */</span><br><span class="line"></span><br><span class="line">bool CanNesting()</span><br><span class="line">&#123;</span><br><span class="line">#ifdef B</span><br><span class="line">    return false;</span><br><span class="line">#else</span><br><span class="line">    return true;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面程序中，如果支持嵌套，B的宏定义属于注释的一部分，所以B应该没有被定义，函数返回true。否则，就不支持<br>嵌套，函数返回false。</p>
+<h1 id="3"><a href="#3" class="headerlink" title="3"></a>3</h1><p>a+++++b的含义是什么？（p13）</p>
+<p>C编译器通过贪心算法对代码进行分解编译。</p>
+<p>故a+++++b应为((a++)++)+b</p>
+<p>又因为a++的结果为左值，而左值不能再进行运算，故编译不能通过。</p>
+<p>若写成a+++ ++b即为(a++)+(++b)，编译能够通过。</p>
+<h1 id="4"><a href="#4" class="headerlink" title="4"></a>4</h1><p>C语言允许初始化列表中出现多余的逗号，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int days[] = &#123;31, 28, 31, 30, 31, 30,</span><br><span class="line">			31, 31, 30, 31, 30, 31,&#125;;</span><br></pre></td></tr></table></figure>
+<p>为什么这种特性是有用的？（p31）</p>
+<p>初始化列表每一行都是以逗号结尾的，正因为每一行在语法上的这种相似性，编译器才能够更方便地处理很大的初始化列表。</p>
+<h1 id="5"><a href="#5" class="headerlink" title="5"></a>5</h1><p>理解函数声明：（p15）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(*(void(*)())0)();</span><br></pre></td></tr></table></figure>
+<p>构造这类表达式其实只有一条简单的规则：按照使用的方式来声明。</p>
+<p>任何C变量的声明都由两部分组成：类型以及一组类似表达式的声明符。声明符从表面上看与表达式有些类似，对它求值应该返回一个声明中给定类型的结果。最简单的声明符就是单个变量，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float f, g;</span><br></pre></td></tr></table></figure>
+<p>这个声明的含义是：当对其求值时，表达式f和g的类型为浮点数类型（float）。因为声明符与表达式的相似，所以我们也可以在声明符中任意使用括号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float ((f));</span><br></pre></td></tr></table></figure>
+<p>这个声明的含义是：当对其求值时，((f))的类型为浮点类型，由此可以推知，f也是浮点类型。</p>
+<p>同样的逻辑也适用于函数和指针类型的声明，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float ff();</span><br></pre></td></tr></table></figure>
+<p>这个声明的含义是：表达式ff()求值结果是一个浮点数，也就是说，ff是一个返回值为浮点类型的函数。类似地，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float *pf;</span><br></pre></td></tr></table></figure>
+<p>这个声明的含义是*pf是一个浮点数，也就是说，pf是一个指向浮点数的指针。</p>
+<p>以上这些形式在声明中还可以组合起来，就像在表达式中进行组合一样。因此，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float *g(), (*h)();</span><br></pre></td></tr></table></figure>
+<p>表示g()与(h)()是浮点表达式。因为()结合优先级高于，g()也就是*(g())：g是一个函数，该函数的返回值类型为指向浮点数的指针。同理，可以得出h是一个函数指针，h所指向函数的返回值为浮点类型。</p>
+<p>一旦我们知道了如何声明一个给定类型的变量，那么该类型的类型转换符就很容易得到了：只需要把声明中的变量名和声明末尾的分号去掉，再将剩余的部分用一个括号整个“封装”起来即可。例如，因为下面的声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float (*h)();</span><br></pre></td></tr></table></figure>
+<p>表示h是一个指向返回值为浮点类型的函数的指针，因此，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(float (*)())</span><br></pre></td></tr></table></figure>
+<p>表示一个“指向返回值为浮点类型的函数的指针”的类型转换符。</p>
+<p>拥有了这些预备知识，我们现在可以分两步来分析表达式 ((void()())0)() 。</p>
+<p>第一步，假定变量fp是一个函数指针，那么如何调用fp所指向的函数呢？调用方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(*fp)();</span><br></pre></td></tr></table></figure>
+<p>因为fp是一个函数指针，那么fp就是该指针所指向的函数，所以(fp)()就是调用该函数的方式。ANSI C标准允许程序员将上式简写为fp()，但是一定要记住这种写法只是一种简写形式。</p>
+<p>在表达式(fp)()中，fp两侧的括号非常重要，因为函数运算符()的优先级高于单目运算符。如果fp两侧没有括号，那么fp()实际上与(fp())的含义完全一致，ANSI C把它作为((fp)())的简写形式。</p>
+<p>现在，剩下的问题就只是找到一个恰当的表达式来替换fp。我们将在分析的第二步来解决这个问题。如果C编译器能够理解我们大脑中对于类型的认识，那么我们可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(*0)();</span><br></pre></td></tr></table></figure>
+<p>上式并不能生效，因为运算符必须要一个指针来做操作数。而且，这个指针还应该是一个函数指针，这样经运算符作用后的结果才能作为函数被调用。因此，在上式中必须对0作类型转换，转换后的类型可以大致描述为：“指向返回值为void类型的函数的指针”。</p>
+<p>如果fp是一个指向返回值为void类型的函数的指针，那么(*fp)()的值为void，fp的声明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void (*fp)();</span><br></pre></td></tr></table></figure>
+<p>因此，我们可以用下式来完成调用存储位置为0的子例程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">void (*fp)();</span><br><span class="line">(*fp)();</span><br></pre></td></tr></table></figure>
+<p>译注：此处作者假设fp默认初始化为0，这种写法不宜提倡。</p>
+<p>这种写法的代价是多声明了一个“哑”变量。</p>
+<p>但是，我们一旦知道如何声明一个变量，也就自然知道如何对一个常数进行类型转换，将其转型为该变量的类型：只需要在变量声明中将变量名去掉即可。因此，将常数0转型为“指向返回值为void的函数的指针”类型，可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(void (*)())0</span><br></pre></td></tr></table></figure>
+<p>因此，我们可以用(void (*)())0来替换fp，从而得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(*(void (*)())0)();</span><br></pre></td></tr></table></figure>
+<p>末尾的分号使得表达式成为一个语句。</p>
+<h1 id="6"><a href="#6" class="headerlink" title="6"></a>6</h1><p>C语言运算符优先级表（由上至下，优先级依次递减）（p21）</p>
+<p><img src="http://t1.aixinxi.net/o_1c7qhppu5nus9ebao81hck1chaa.jpg-j.jpg" alt="image"></p>
+<h1 id="其他收获"><a href="#其他收获" class="headerlink" title="其他收获"></a>其他收获</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	char hello[] = &#123;&apos;H&apos;, &apos;e&apos;, &apos;l&apos;, &apos;l&apos;, &apos;o&apos;, &apos; &apos;, &apos;w&apos;, &apos;o&apos;, &apos;r&apos;, &apos;l&apos;, &apos;d&apos;, &apos;\n&apos;, 0&#125;;</span><br><span class="line">	printf(hello);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样形式的printf也是能编译通过并成功运行的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/">note</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/10/解决linux安装过程中DHCP安装失败/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          解决linux安装过程中DHCP安装失败
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">解决复制文件时对于目标文件系统文件过大</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1"><span class="nav-number">1.</span> <span class="nav-text">1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3"><span class="nav-number">3.</span> <span class="nav-text">3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4"><span class="nav-number">4.</span> <span class="nav-text">4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5"><span class="nav-number">5.</span> <span class="nav-text">5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6"><span class="nav-number">6.</span> <span class="nav-text">6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他收获"><span class="nav-number">7.</span> <span class="nav-text">其他收获</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

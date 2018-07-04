@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>寄存器学习 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="notere" />
+  
+  
+  
+  
+  <meta name="description" content="学习汇编语言，记录一下寄存器的知识点。">
+<meta name="keywords" content="note,re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寄存器学习">
+<meta property="og:url" content="http://AssassinQ.com/2018/05/15/寄存器学习/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="学习汇编语言，记录一下寄存器的知识点。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-16T14:32:28.670Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="寄存器学习">
+<meta name="twitter:description" content="学习汇编语言，记录一下寄存器的知识点。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-寄存器学习" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      寄存器学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/05/15/寄存器学习/" class="article-date">
+	  <time datetime="2018-05-15T12:06:56.000Z" itemprop="datePublished">2018-05-15</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学习汇编语言，记录一下寄存器的知识点。</p>
+<a id="more"></a>
+<p>这里记录下8086微处理器的寄存器组。8086的寄存器组分成8个通用寄存器、4个段寄存器、1个标志寄存器和1个指令指针寄存器，它们均为16位。</p>
+<h1 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h1><p>8086有8个通用的16位寄存器，其中4个数据寄存器还可以分成高8位和低8位两个独立的寄存器。</p>
+<h2 id="数据寄存器"><a href="#数据寄存器" class="headerlink" title="数据寄存器"></a>数据寄存器</h2><p>8086的4个16位数据寄存器分别为：AX、BX、CX、DX。它们都可以分成两个独立的8位寄存器：AH/AL、BH/BL、CH/CL、DH/DL。对其中某个8位进行的操作不会影响到另外对应的8位的数据。数据寄存器是通用的，用来存放计算的结果和操作数。</p>
+<h3 id="AX"><a href="#AX" class="headerlink" title="AX"></a>AX</h3><p>累加器，使用频度最高，用于算术、逻辑运算以及与外设传送信息等。</p>
+<h3 id="BX"><a href="#BX" class="headerlink" title="BX"></a>BX</h3><p>基址寄存器，常用作存放寄存器的地址。</p>
+<h3 id="CX"><a href="#CX" class="headerlink" title="CX"></a>CX</h3><p>计数器，作为循环和串操作等指令中的隐含计数器。</p>
+<h3 id="DX"><a href="#DX" class="headerlink" title="DX"></a>DX</h3><p>数据寄存器，常用来存放双字长数据的高16位，或存放外设端口地址。</p>
+<h2 id="变址及指针寄存器"><a href="#变址及指针寄存器" class="headerlink" title="变址及指针寄存器"></a>变址及指针寄存器</h2><p>变址及指针寄存器包括SI、DI、BP、SP四个十六位寄存器，常用于存储器寻址时提供地址。</p>
+<h3 id="SI"><a href="#SI" class="headerlink" title="SI"></a>SI</h3><p>源变址寄存器，在串指令中与DS联用，确定数据段中某一存储单元的地址。在串指令中还具有自动增量或减量的功能。</p>
+<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3><p>目的变址寄存器，在串指令中与ES联用，确定附加段中某一存储单元的地址。在串指令中还具有自动增量或减量的功能。</p>
+<h3 id="SP"><a href="#SP" class="headerlink" title="SP"></a>SP</h3><p>堆栈指针寄存器，指示栈顶的偏移地址。可与SS段寄存器联用，以确定堆栈段中的存储单元地址。特别地，堆栈是主存中一个特殊的区域，采用FILO或是LIFO的操作方式，而不是随机存取操作方式。堆栈通常由处理器自动维持，由堆栈段寄存器SS和堆栈指针寄存器SP共同指示。故SP实际上可以归类为专用寄存器。</p>
+<h3 id="BP"><a href="#BP" class="headerlink" title="BP"></a>BP</h3><p>基址指针寄存器，表示堆栈段中的基地址。可与SS段寄存器联用，以确定堆栈段中的存储单元地址。</p>
+<h1 id="标志寄存器"><a href="#标志寄存器" class="headerlink" title="标志寄存器"></a>标志寄存器</h1><p>标志用于反映指令执行结果或控制指令执行形式。许多指令执行之后会影响有关的标志位，也有许多指令的执行要利用某些标志。8086处理器中各种常用的标志形成一个16位的标志寄存器FLAGS（也被称为程序状态字寄存器）。标志寄存器中的各种标志分成两类：6个状态标志和3个控制标志。</p>
+<h2 id="状态标志"><a href="#状态标志" class="headerlink" title="状态标志"></a>状态标志</h2><p>最基本的标志，用来记录指令执行结果的辅助信息。加减运算和逻辑运算是主要设置它们的指令。状态标志有6个，但主要使用其中的5个来构成各种条件、分支指令判断这些条件实现程序分支。从低位到高位分别是：进位标志CF（Carry FLag）、奇偶标志PF（Parity Flag）、调整标志AF（Adjust Flag）、零标志ZF（Zero FLag）、符号标志SF（Sign Flag）、溢出标志OF（Overflow Flag）。</p>
+<h2 id="控制标志"><a href="#控制标志" class="headerlink" title="控制标志"></a>控制标志</h2><p>控制标志位由程序根据需要用指令设置，用于控制处理器执行指令的方式。</p>
+<h3 id="DF（Direction-Flag）"><a href="#DF（Direction-Flag）" class="headerlink" title="DF（Direction Flag）"></a>DF（Direction Flag）</h3><p>方向标志，仅用于串操作指令中。</p>
+<h3 id="IF（Interrupt-enable-Flag）"><a href="#IF（Interrupt-enable-Flag）" class="headerlink" title="IF（Interrupt-enable Flag）"></a>IF（Interrupt-enable Flag）</h3><p>中断允许标志，或简称中断标志，用于控制外部可屏蔽中断是否可以被处理器响应。</p>
+<h3 id="TF（Trap-Flag）"><a href="#TF（Trap-Flag）" class="headerlink" title="TF（Trap Flag）"></a>TF（Trap Flag）</h3><p>陷阱标志，或称单步标志，用于控制处理器是否进入单步操作方式。</p>
+<h1 id="指令指针寄存器"><a href="#指令指针寄存器" class="headerlink" title="指令指针寄存器"></a>指令指针寄存器</h1><p>程序由指令组成，指令存放在主存储器中。处理器需要一个专用寄存器表示将要执行的指令在主存的位置，这个位置用存储器地址表示。8086处理器中，这个存储器地址保存在16位指令指针寄存器IP（Instruction Pointer）中。</p>
+<p>IP是专用寄存器，具有自动增量的能力。处理器执行完一条指令，IP就加上该指令的字节数，以此指向下一条指令，实现程序的顺序执行。需要实现分支、调用等操作时要修改IP，它的改变将引起程序转移到指定的指令执行。但IP寄存器不能像通用寄存器那样直接赋值修改，需要执行控制转移指令（如跳转、分支、调用和返回指令）、出现中断或异常时被处理器赋值而相应改变。</p>
+<h1 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h1><p>一个段安排一类代码或数据。对应用程序来说，主要涉及3类段：存放程序中指令代码的代码段（Code Segment）、存放当前运行程序所用数据的数据段（Data Segment）和指明程序使用的堆栈区域的堆栈段（Stack Segment）。</p>
+<p>为了表明段在主存中的位置，8086设计有4个16位段寄存器：代码段寄存器（CS）、堆栈段寄存器（SS）、数据段寄存器（DS）、附加段寄存器（Extra Segment）。其中，附加段寄存器也是用于存放数据的数据段，专门为处理数据串设计的串操作指令必须使用附加段作为其目的操作数的存放区域。8086不支持将数据直接送入段寄存器的操作。</p>
+<h1 id="Debug命令"><a href="#Debug命令" class="headerlink" title="Debug命令"></a>Debug命令</h1><p>debug命令是在windows32位下的一个命令。作为一个新手，我觉得学会简单地使用debug可以对寄存器的学习有一定的帮助。</p>
+<h2 id="R"><a href="#R" class="headerlink" title="R"></a>R</h2><p>查看、改变CPU寄存器的内存。</p>
+<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>查看内存中的内容。</p>
+<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>改写内存中的内容。</p>
+<h2 id="U"><a href="#U" class="headerlink" title="U"></a>U</h2><p>将内存中的机器指令翻译成汇编指令。</p>
+<h2 id="T"><a href="#T" class="headerlink" title="T"></a>T</h2><p>执行一条机器指令。</p>
+<h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><p>以汇编指令的格式在内存中写入一条机器指令。</p>
+<p>跟着<a href="https://www.bilibili.com/video/av18899713/?p=11" target="_blank" rel="noopener">这个视频</a>做一遍会对寄存器的理解更深。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/">note</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/16/Apache-Rewrite（路由重写）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Apache Rewrite（路由重写）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/14/简单WEB总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">简单WEB总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通用寄存器"><span class="nav-number">1.</span> <span class="nav-text">通用寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据寄存器"><span class="nav-number">1.1.</span> <span class="nav-text">数据寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AX"><span class="nav-number">1.1.1.</span> <span class="nav-text">AX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BX"><span class="nav-number">1.1.2.</span> <span class="nav-text">BX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CX"><span class="nav-number">1.1.3.</span> <span class="nav-text">CX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DX"><span class="nav-number">1.1.4.</span> <span class="nav-text">DX</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变址及指针寄存器"><span class="nav-number">1.2.</span> <span class="nav-text">变址及指针寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SI"><span class="nav-number">1.2.1.</span> <span class="nav-text">SI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DI"><span class="nav-number">1.2.2.</span> <span class="nav-text">DI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SP"><span class="nav-number">1.2.3.</span> <span class="nav-text">SP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BP"><span class="nav-number">1.2.4.</span> <span class="nav-text">BP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标志寄存器"><span class="nav-number">2.</span> <span class="nav-text">标志寄存器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#状态标志"><span class="nav-number">2.1.</span> <span class="nav-text">状态标志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制标志"><span class="nav-number">2.2.</span> <span class="nav-text">控制标志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DF（Direction-Flag）"><span class="nav-number">2.2.1.</span> <span class="nav-text">DF（Direction Flag）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IF（Interrupt-enable-Flag）"><span class="nav-number">2.2.2.</span> <span class="nav-text">IF（Interrupt-enable Flag）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TF（Trap-Flag）"><span class="nav-number">2.2.3.</span> <span class="nav-text">TF（Trap Flag）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令指针寄存器"><span class="nav-number">3.</span> <span class="nav-text">指令指针寄存器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#段寄存器"><span class="nav-number">4.</span> <span class="nav-text">段寄存器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Debug命令"><span class="nav-number">5.</span> <span class="nav-text">Debug命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#R"><span class="nav-number">5.1.</span> <span class="nav-text">R</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D"><span class="nav-number">5.2.</span> <span class="nav-text">D</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#E"><span class="nav-number">5.3.</span> <span class="nav-text">E</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#U"><span class="nav-number">5.4.</span> <span class="nav-text">U</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#T"><span class="nav-number">5.5.</span> <span class="nav-text">T</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A"><span class="nav-number">5.6.</span> <span class="nav-text">A</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>docker/dockerfile基本命令 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="noteweb" />
+  
+  
+  
+  
+  <meta name="description" content="Docker学习第一步。">
+<meta name="keywords" content="note,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker&#x2F;Dockerfile基本命令">
+<meta property="og:url" content="http://AssassinQ.com/2018/04/22/Docker-Dockerfile基本命令/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Docker学习第一步。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-02T00:55:19.766Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker&#x2F;Dockerfile基本命令">
+<meta name="twitter:description" content="Docker学习第一步。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Docker-Dockerfile基本命令" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Docker/Dockerfile基本命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/04/22/Docker-Dockerfile基本命令/" class="article-date">
+	  <time datetime="2018-04-22T14:29:26.000Z" itemprop="datePublished">2018-04-22</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Docker学习第一步。</p>
+<a id="more"></a>
+<h1 id="Docker与虚拟机的优缺点"><a href="#Docker与虚拟机的优缺点" class="headerlink" title="Docker与虚拟机的优缺点"></a>Docker与虚拟机的优缺点</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">特性</th>
+<th style="text-align:center">Docker容器技术</th>
+<th style="text-align:center">虚拟机技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">占用磁盘空间</td>
+<td style="text-align:center">小，甚至只有几十KB（镜像层的情况）</td>
+<td style="text-align:center">非常大，可达GB</td>
+</tr>
+<tr>
+<td style="text-align:center">启动速度</td>
+<td style="text-align:center">快，几秒钟</td>
+<td style="text-align:center">慢，几分钟</td>
+</tr>
+<tr>
+<td style="text-align:center">运行形态</td>
+<td style="text-align:center">直接运行于宿主机的内核上，不同容器共同享同一个Linux内核</td>
+<td style="text-align:center">运行于Hypervisior上</td>
+</tr>
+<tr>
+<td style="text-align:center">并发性</td>
+<td style="text-align:center">一台宿主机可以启动成百上千个容器</td>
+<td style="text-align:center">最多几十个虚拟机</td>
+</tr>
+<tr>
+<td style="text-align:center">性能</td>
+<td style="text-align:center">接近宿主机本地进程</td>
+<td style="text-align:center">逊于宿主机</td>
+</tr>
+<tr>
+<td style="text-align:center">资源利用率</td>
+<td style="text-align:center">高</td>
+<td style="text-align:center">低</td>
+</tr>
+<tr>
+<td style="text-align:center">隔离性</td>
+<td style="text-align:center">安全隔离</td>
+<td style="text-align:center">完全隔离</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Docker-命令"><a href="#Docker-命令" class="headerlink" title="Docker 命令"></a>Docker 命令</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">docker pull</td>
+<td style="text-align:center">获取image</td>
+</tr>
+<tr>
+<td style="text-align:center">docker build</td>
+<td style="text-align:center">创建image</td>
+</tr>
+<tr>
+<td style="text-align:center">docker images</td>
+<td style="text-align:center">列出image</td>
+</tr>
+<tr>
+<td style="text-align:center">docker run</td>
+<td style="text-align:center">运行container</td>
+</tr>
+<tr>
+<td style="text-align:center">docker ps</td>
+<td style="text-align:center">列出container</td>
+</tr>
+<tr>
+<td style="text-align:center">docker rm</td>
+<td style="text-align:center">删除container</td>
+</tr>
+<tr>
+<td style="text-align:center">docker rmi</td>
+<td style="text-align:center">删除image</td>
+</tr>
+<tr>
+<td style="text-align:center">docker cp</td>
+<td style="text-align:center">在host和container之间拷贝文件</td>
+</tr>
+<tr>
+<td style="text-align:center">docker commit</td>
+<td style="text-align:center">保存改动为新的image</td>
+</tr>
+<tr>
+<td style="text-align:center">docker diff</td>
+<td style="text-align:center">查看容器变化</td>
+</tr>
+<tr>
+<td style="text-align:center">docker events</td>
+<td style="text-align:center">查看事件</td>
+</tr>
+<tr>
+<td style="text-align:center">docker exec</td>
+<td style="text-align:center">进入容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker export</td>
+<td style="text-align:center">导出容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker history</td>
+<td style="text-align:center">查看镜像历史</td>
+</tr>
+<tr>
+<td style="text-align:center">docker import</td>
+<td style="text-align:center">导入容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker info</td>
+<td style="text-align:center">查看docker信息</td>
+</tr>
+<tr>
+<td style="text-align:center">docker inspect</td>
+<td style="text-align:center">查看各项详细信息</td>
+</tr>
+<tr>
+<td style="text-align:center">docker kill</td>
+<td style="text-align:center">杀死容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker login</td>
+<td style="text-align:center">登陆仓库</td>
+</tr>
+<tr>
+<td style="text-align:center">docker logout</td>
+<td style="text-align:center">登出仓库</td>
+</tr>
+<tr>
+<td style="text-align:center">docker logs</td>
+<td style="text-align:center">查看容器日志</td>
+</tr>
+<tr>
+<td style="text-align:center">docker network</td>
+<td style="text-align:center">管理网络</td>
+</tr>
+<tr>
+<td style="text-align:center">docker node</td>
+<td style="text-align:center">管理节点</td>
+</tr>
+<tr>
+<td style="text-align:center">docker pause</td>
+<td style="text-align:center">暂停容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker port</td>
+<td style="text-align:center">查看容器端口</td>
+</tr>
+<tr>
+<td style="text-align:center">docker rename</td>
+<td style="text-align:center">重命名容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker restart</td>
+<td style="text-align:center">重启容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker save</td>
+<td style="text-align:center">导出镜像</td>
+</tr>
+<tr>
+<td style="text-align:center">docker search</td>
+<td style="text-align:center">搜索镜像</td>
+</tr>
+<tr>
+<td style="text-align:center">docker service</td>
+<td style="text-align:center">管理服务</td>
+</tr>
+<tr>
+<td style="text-align:center">docker stats</td>
+<td style="text-align:center">查看容器状态</td>
+</tr>
+<tr>
+<td style="text-align:center">docker stop</td>
+<td style="text-align:center">停止容器</td>
+</tr>
+<tr>
+<td style="text-align:center">docker version</td>
+<td style="text-align:center">查看docker版本</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Dockerfile-语法"><a href="#Dockerfile-语法" class="headerlink" title="Dockerfile 语法"></a>Dockerfile 语法</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:center">导入基础镜像</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:center">执行命令</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:center">添加文件</td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:center">拷贝文件</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:center">执行命令</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:center">暴露端口</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:center">指定路径</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:center">维护者</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:center">设定环境变量</td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:center">容器入口</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:center">指定用户</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:center">挂载点</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:center">设置二次指令</td>
+</tr>
+<tr>
+<td style="text-align:center">LABEL</td>
+<td style="text-align:center">设置元数据</td>
+</tr>
+<tr>
+<td style="text-align:center">ARG</td>
+<td style="text-align:center">设置构建变量</td>
+</tr>
+<tr>
+<td style="text-align:center">STOPSIGNAL</td>
+<td style="text-align:center">设置停止信号</td>
+</tr>
+<tr>
+<td style="text-align:center">HEALTHCHECK</td>
+<td style="text-align:center">检查镜像状态</td>
+</tr>
+<tr>
+<td style="text-align:center">SHELL</td>
+<td style="text-align:center">设置命令执行环境</td>
+</tr>
+</tbody>
+</table>
+<p>推荐一篇写得很详细的<a href="https://blog.devzeng.com/blog/build-docker-image-with-dockerfile.html" target="_blank" rel="noopener">博客</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/">note</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/26/Do-you-know-Google-hacking/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Do you know Google hacking?
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/17/Mac下利用hexo和github搭建博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Mac下利用hexo和github搭建博客</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker与虚拟机的优缺点"><span class="nav-number">1.</span> <span class="nav-text">Docker与虚拟机的优缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-命令"><span class="nav-number">2.</span> <span class="nav-text">Docker 命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dockerfile-语法"><span class="nav-number">3.</span> <span class="nav-text">Dockerfile 语法</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

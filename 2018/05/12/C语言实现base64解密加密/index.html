@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>c语言实现base64解密加密 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ccrypto" />
+  
+  
+  
+  
+  <meta name="description" content="Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。">
+<meta name="keywords" content="c,crypto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言实现base64解密加密">
+<meta property="og:url" content="http://AssassinQ.com/2018/05/12/C语言实现base64解密加密/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-13T02:48:33.580Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言实现base64解密加密">
+<meta name="twitter:description" content="Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-C语言实现base64解密加密" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      C语言实现base64解密加密
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/05/12/C语言实现base64解密加密/" class="article-date">
+	  <time datetime="2018-05-12T03:49:45.000Z" itemprop="datePublished">2018-05-12</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。</p>
+<a id="more"></a>
+<p>经过Base64转换之后的数据大小变大了，为原数据的4/3大小。但是方便了传输，比如由于base64的编码中没有&lt;&gt;等特殊字符，可以不用转义扫描，直接放在XML中，放在MIME中，甚至直接不经过转义扫描存进数据库中。由于有这些方便的特性，即使数据量变大，base64编码还是被广泛使用。</p>
+<h1 id="编码原理"><a href="#编码原理" class="headerlink" title="编码原理"></a>编码原理</h1><p>每个字节8位，每次取出3个字节，也就是3 x 8 = 24 位。然后每次从此24位中取出6位，然后在前端补2位0，组成新的8位，也就是一个字节。这样就将3个字节转换成了4个字节。由于前面两位都是0，所以转换后的每个字节能表示的最大数字为63， 也就是说转换后的每个字节只可能是0-63中的一个数字。</p>
+<p>然后根据规范给出的Base64索引表，将1-63 这64个数字转换成”ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/“中的一个。</p>
+<p>当最后取出3个字节不够时，不够的位置补0，并且最后少一个字节时编码的最后加一个“=”，少两个字节时加两个”=”。</p>
+<h1 id="解码原理"><a href="#解码原理" class="headerlink" title="解码原理"></a>解码原理</h1><p>解码是编码的反向过程，每次取出4个字节，然后将每个字节的字符转换成原始Base64索引表对应的索引数字，也就是编码时3字节转换成4字节的转换结果。然后使用位操作将每字节前2位去掉，重新转换成3字节。需要注意的是最后对于结尾“=”的处理。</p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;cstdio&gt;</span><br><span class="line">#include&lt;cstdlib&gt;</span><br><span class="line">#include&lt;cstring&gt;</span><br><span class="line">#define MAX 100</span><br><span class="line"></span><br><span class="line">const char *base64payload = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=&quot;;</span><br><span class="line"></span><br><span class="line">int find_pos(char c)</span><br><span class="line">&#123;</span><br><span class="line">    for(int i = 0; i &lt; 65; i++)</span><br><span class="line">        if(c == base64payload[i])</span><br><span class="line">            return i;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">unsigned char *base64_encode(const char *s, const int len)</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int sign = len % 3;</span><br><span class="line">    unsigned int res_len = len % 3 ? ((len) / 3 + 1) * 4 : (len) / 3 * 4;</span><br><span class="line">    unsigned int i = 0, j = 0;</span><br><span class="line">    unsigned char *res = (unsigned char *)malloc(res_len + 1);</span><br><span class="line">    memset(res, 0, res_len + 1);</span><br><span class="line">    for(i = 0, j = 0; i &lt; len; i += 3, j += 4)</span><br><span class="line">    &#123;</span><br><span class="line">        if(i + 2 &gt;= len)</span><br><span class="line">        &#123;</span><br><span class="line">            res[j] = (s[i] &gt;&gt; 2) &amp; 0x3F;</span><br><span class="line">            if(sign == 1)//因为只多出一个数据，故需要补两个&apos;=&apos;</span><br><span class="line">            &#123;</span><br><span class="line">                res[j + 1] = ((s[i] &amp; 0x03) &lt;&lt; 4) &amp; 0x3F;</span><br><span class="line">                res[j + 2] = 0x40;//0x40对应数字64，即为base64payload中下标为64的&apos;=&apos;</span><br><span class="line">                res[j + 3] = 0x40;</span><br><span class="line">            &#125;</span><br><span class="line">            else if(sign == 2)//因为多出两个数据，故需要补一个&apos;=&apos;</span><br><span class="line">            &#123;</span><br><span class="line">                res[j + 1] = (((s[i] &amp; 0x03) &lt;&lt; 4) | ((s[i + 1] &gt;&gt; 4) &amp; 0x0F));</span><br><span class="line">                res[j + 2] = ((s[i + 1] &amp; 0x0F) &lt;&lt; 2) &amp; 0x3F;</span><br><span class="line">                res[j + 3] = 0x40;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res[j] = (s[i] &gt;&gt; 2) &amp; 0x3F;//取第一个字节的前六位，最高两位补零</span><br><span class="line">        res[j + 1] = (((s[i] &amp; 0x03) &lt;&lt; 4) | ((s[i + 1] &gt;&gt; 4) &amp; 0x0F));//取第一个字节的最后两位和第二个字节的前四位，最高两位补零</span><br><span class="line">        res[j + 2] = (((s[i + 1] &amp; 0x0F) &lt;&lt; 2) | ((s[i + 2] &gt;&gt; 6) &amp; 0x03));//取第二个字节的后四位和第三个字节的前两位，最高两位补零</span><br><span class="line">        res[j + 3] = (s[i + 2] &amp; 0x3F);//取第三个字节的最后六位，最高两位补零</span><br><span class="line">    &#125;</span><br><span class="line">    for(j = 0; j &lt; res_len; j++)</span><br><span class="line">        res[j] = base64payload[res[j]];</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">unsigned char *base64_decode(const char *s, const int len)</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int res_len = len / 4 * 3;</span><br><span class="line">    unsigned int i = 0, j = 0;</span><br><span class="line">    unsigned char *res = (unsigned char *)malloc(res_len + 1);</span><br><span class="line">    memset(res, 0, res_len + 1);</span><br><span class="line">    int count = len / 4;</span><br><span class="line">    for(i = 0; i &lt; count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        int s_index = i * 4;</span><br><span class="line">        int res_index = i * 3;</span><br><span class="line">        int buffer[4];//四个字节一组存入</span><br><span class="line">        int sign = 0;</span><br><span class="line">        for(j = 0; j &lt; 4; j++)</span><br><span class="line">            buffer[j] = find_pos(s[s_index + j]);</span><br><span class="line">        if(i == count - 1)</span><br><span class="line">            for(j = 0; j &lt; 4; j++)</span><br><span class="line">                if(buffer[j] == 0x40)//如果为&apos;=&apos;，sign的值加一</span><br><span class="line">                    sign++;</span><br><span class="line">        res[res_index] = ((buffer[0] &amp; 0x3F) &lt;&lt; 2 | (buffer[1] &amp; 0x30) &gt;&gt; 4);</span><br><span class="line">        if(sign == 2)</span><br><span class="line">            break;</span><br><span class="line">        res[res_index + 1] = ((buffer[1] &amp; 0x0f) &lt;&lt; 4 | (buffer[2] &amp; 0x3C) &gt;&gt; 2);</span><br><span class="line">        if(sign == 1)</span><br><span class="line">            break;</span><br><span class="line">        res[res_index + 2] = ((buffer[2] &amp; 0x03) &lt;&lt; 6 | (buffer[3] &amp; 0x3F));</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char s1[MAX];</span><br><span class="line">    scanf(&quot;%s&quot;, s1);</span><br><span class="line">    unsigned char *s2 = base64_encode((const char *)s1, strlen((const char *)s1));</span><br><span class="line">    printf(&quot;%s\n&quot;, s2);</span><br><span class="line">    unsigned char *s3 = base64_decode((const char *)s2, strlen((const char *)s2));</span><br><span class="line">    printf(&quot;%s\n&quot;, s3);</span><br><span class="line">    free(s2);</span><br><span class="line">    free(s3);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过对base64的实现，熟悉了几个位运算符，对二进制的认识更清晰了一些。</p>
+<p>参考网站：<br><a href="https://blog.csdn.net/irwin_chen/article/details/9360845" target="_blank" rel="noopener">https://blog.csdn.net/irwin_chen/article/details/9360845</a><br><a href="http://www.cppblog.com/izualzhy/archive/2012/07/19/184222.html" target="_blank" rel="noopener">http://www.cppblog.com/izualzhy/archive/2012/07/19/184222.html</a><br><a href="http://www.cppblog.com/izualzhy/archive/2012/07/20/184311.html" target="_blank" rel="noopener">http://www.cppblog.com/izualzhy/archive/2012/07/20/184311.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/13/C语言-Python实现rc4加密解密算法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C语言/Python实现rc4加密解密算法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/07/2018-ZJGSCTF-writeup/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018 ZJGSCTF writeup</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#编码原理"><span class="nav-number">1.</span> <span class="nav-text">编码原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解码原理"><span class="nav-number">2.</span> <span class="nav-text">解码原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">3.</span> <span class="nav-text">Code</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

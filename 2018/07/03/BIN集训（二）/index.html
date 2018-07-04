@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>bin集训（二） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfbin" />
+  
+  
+  
+  
+  <meta name="description" content="学好二进制必须先打好基础。">
+<meta name="keywords" content="ctf,bin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BIN集训（二）">
+<meta property="og:url" content="http://AssassinQ.com/2018/07/03/BIN集训（二）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="学好二进制必须先打好基础。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=c05506e79482d158af8f51e3e16372bd/c2fdfc039245d688c56332adacc27d1ed21b2451.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chfq2pqn1e85gen2hl1ke4uqua.png-j.jpg">
+<meta property="og:updated_time" content="2018-07-03T10:15:02.665Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BIN集训（二）">
+<meta name="twitter:description" content="学好二进制必须先打好基础。">
+<meta name="twitter:image" content="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=c05506e79482d158af8f51e3e16372bd/c2fdfc039245d688c56332adacc27d1ed21b2451.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-BIN集训（二）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      BIN集训（二）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/03/BIN集训（二）/" class="article-date">
+	  <time datetime="2018-07-03T02:32:36.000Z" itemprop="datePublished">2018-07-03</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学好二进制必须先打好基础。</p>
+<a id="more"></a>
+<p>了解了电脑中的程序如何运行，以及栈在程序运行时是如何变化的。</p>
+<h1 id="程序运行基本原理"><a href="#程序运行基本原理" class="headerlink" title="程序运行基本原理"></a>程序运行基本原理</h1><p>CPU访问快慢的速度依次为：寄存器-&gt;缓存-&gt;内存-&gt;硬盘。</p>
+<p>硬盘用于永久存储所有的数据。当程序运行时，程序内容会被放进内存中，占用内存的空间。缓存和寄存器则相对速度更快，作为数据和CPU之间连接的桥梁。</p>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>CPU内部用来存放数据的一些小型存储区域，用来暂时存放参与运算的数据和运算结果。和CPU速度相当，空间比较小在kb级别。CPU访问寄存器的速度是最快的。寄存器是一种容量有限的存储器，并且非常小，因此只把一些计算机的指令等一些计算机频繁用到的数据存储在其中，加快直接同内存读取指令和读写数据的速度。</p>
+<h2 id="缓存（CACHE）"><a href="#缓存（CACHE）" class="headerlink" title="缓存（CACHE）"></a>缓存（CACHE）</h2><p>存在于内存与CPU之间的存储器，容量比较小但速度比内存高得多，接近于CPU的速度，比寄存器要慢1倍左右，但是空间可以达到MB级别。高速缓存在CPU要频繁访问内存中的一些数据时，如果每次都从内存中去读，花费的时间会更多，因此在寄存器和内存之间有了缓存，把CPU要频繁访问的一些数据存储在缓冲中，这样效率就会更高。但需要注意的是，缓冲的大小也是很小的，不能存放大量的数据。缓存又可以分为一级和二级缓存，一级的速度大于二级的速度。CPU向内存读取数据时，首先查询缓存区是否有对应数据，如果有则直接读取，没有再从内存中读取。</p>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><p>计算机运行过程中的存储主力，用于存储 指令（编译好的代码段），运行中的各个静态，动态，临时变量，外部文件的指针等等。寄存器和高速缓存只是加速存储速度的中间部件，原始运行文件都是先加入到内存中，因此内存的大小决定了一个可运行程序的最大大小。速度比缓存要慢10倍左右，但是空间可以达到GB级别，当前个人电脑一般都不小于4G。分为只读（ROM）和随机存储器（RAM）。</p>
+<h2 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h2><p>用来存储需要永久存储的文件，归入外存储器，访问速度比内存要慢上万倍，但是价格也比较便宜，空间也很大。</p>
+<h1 id="ASCII码"><a href="#ASCII码" class="headerlink" title="ASCII码"></a>ASCII码</h1><p><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=c05506e79482d158af8f51e3e16372bd/c2fdfc039245d688c56332adacc27d1ed21b2451.jpg" alt="ASCII码表"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, <span class="string">'A'</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%c\n"</span>, <span class="number">65</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="小端序"><a href="#小端序" class="headerlink" title="小端序"></a>小端序</h1><p>数据的高位字节存放在地址的高端，低位字节存放在地址的低端</p>
+<h2 id="不同类型数据的字节长度"><a href="#不同类型数据的字节长度" class="headerlink" title="不同类型数据的字节长度"></a>不同类型数据的字节长度</h2><blockquote>
+<ul>
+<li><strong>sizeof(int)</strong>: 4 bit</li>
+<li><strong>sizeof(short)</strong>: 2 bit</li>
+<li><strong>sizeof(float)</strong>: 4 bit</li>
+<li><strong>sizeof(double)</strong>: 8 bit</li>
+<li><strong>sizeof(char)</strong>: 1 bit</li>
+</ul>
+</blockquote>
+<h2 id="不同类型数据的小端序存储方式"><a href="#不同类型数据的小端序存储方式" class="headerlink" title="不同类型数据的小端序存储方式"></a>不同类型数据的小端序存储方式</h2><blockquote>
+<ul>
+<li><strong>int 0x12345678</strong>: 78 56 34 12</li>
+<li><strong>char [] “1234”</strong>: 30 31 32 33 00</li>
+<li><strong>short 0xdead</strong>: ad de</li>
+<li><strong>short 0x12345678</strong>: 34 12 78 56</li>
+</ul>
+</blockquote>
+<h1 id="调试SWAP程序"><a href="#调试SWAP程序" class="headerlink" title="调试SWAP程序"></a>调试SWAP程序</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *aa, <span class="keyword">int</span> *bb)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cc = *aa;</span><br><span class="line">    *aa = *bb;</span><br><span class="line">    *bb = cc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">100</span>, b = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, a, b);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>表格模拟程序执行时的栈：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ADDRESS</th>
+<th style="text-align:center">VALUE</th>
+<th style="text-align:center">NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0x7ffee7574978</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">b</td>
+</tr>
+<tr>
+<td style="text-align:center">0x7ffee7574974</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">a</td>
+</tr>
+<tr>
+<td style="text-align:center">0x7ffee7574970</td>
+<td style="text-align:center">0x7ffee7574978</td>
+<td style="text-align:center">bb</td>
+</tr>
+<tr>
+<td style="text-align:center">0x7ffee757496c</td>
+<td style="text-align:center">0x7ffee7574974</td>
+<td style="text-align:center">aa</td>
+</tr>
+<tr>
+<td style="text-align:center">0x7ffee7574968</td>
+<td style="text-align:center">??</td>
+<td style="text-align:center">cc</td>
+</tr>
+</tbody>
+</table>
+<p>流程图模拟程序执行时的栈：</p>
+<p><img src="http://t1.aixinxi.net/o_1chfq2pqn1e85gen2hl1ke4uqua.png-j.jpg" alt="流程图"></p>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://blog.csdn.net/sinat_37138973/article/details/79012270" target="_blank" rel="noopener">https://blog.csdn.net/sinat_37138973/article/details/79012270</a><br><a href="https://blog.csdn.net/younkerjqb/article/details/53432422" target="_blank" rel="noopener">https://blog.csdn.net/younkerjqb/article/details/53432422</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bin/">bin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/02/WEB集训（一）（下）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">WEB集训（一）（下）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#程序运行基本原理"><span class="nav-number">1.</span> <span class="nav-text">程序运行基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#寄存器"><span class="nav-number">1.1.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存（CACHE）"><span class="nav-number">1.2.</span> <span class="nav-text">缓存（CACHE）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存"><span class="nav-number">1.3.</span> <span class="nav-text">内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬盘"><span class="nav-number">1.4.</span> <span class="nav-text">硬盘</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ASCII码"><span class="nav-number">2.</span> <span class="nav-text">ASCII码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小端序"><span class="nav-number">3.</span> <span class="nav-text">小端序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同类型数据的字节长度"><span class="nav-number">3.1.</span> <span class="nav-text">不同类型数据的字节长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同类型数据的小端序存储方式"><span class="nav-number">3.2.</span> <span class="nav-text">不同类型数据的小端序存储方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试SWAP程序"><span class="nav-number">4.</span> <span class="nav-text">调试SWAP程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 qianfei11 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
