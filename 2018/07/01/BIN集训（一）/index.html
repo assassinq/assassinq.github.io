@@ -6,13 +6,13 @@
   <title>bin集训（一） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="ctfre" />
+  <meta name="keywords" content="rectf" />
   
   
   
   
   <meta name="description" content="有幸上到潘大佬的课，赶紧做笔记。">
-<meta name="keywords" content="ctf,re">
+<meta name="keywords" content="re,ctf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BIN集训（一）">
 <meta property="og:url" content="http://AssassinQ.com/2018/07/01/BIN集训（一）/index.html">
@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chat2o1s11pu1puvrus1kh812apa.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chat3i6f1lm72951du015t9n2ra.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chav8ft91efi1c0918c91g4c97ia.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-05T03:24:19.153Z">
+<meta property="og:updated_time" content="2018-07-05T12:28:31.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（一）">
 <meta name="twitter:description" content="有幸上到潘大佬的课，赶紧做笔记。">
@@ -404,32 +404,88 @@
 <td style="text-align:center">跳转</td>
 </tr>
 <tr>
-<td style="text-align:center"><strong>JE</strong></td>
-<td style="text-align:center">相等时跳转</td>
+<td style="text-align:center">JA</td>
+<td style="text-align:center">大于时跳转（&gt;）</td>
 </tr>
 <tr>
-<td style="text-align:center"><strong>JNE</strong></td>
-<td style="text-align:center">不相等时跳转</td>
+<td style="text-align:center">JNA</td>
+<td style="text-align:center">不大于时跳转（&lt;=）</td>
 </tr>
 <tr>
-<td style="text-align:center"><strong>JB</strong></td>
-<td style="text-align:center">低于时跳转</td>
+<td style="text-align:center">JAE</td>
+<td style="text-align:center">大于等于时跳转（&gt;=）</td>
 </tr>
 <tr>
-<td style="text-align:center"><strong>JNB</strong></td>
-<td style="text-align:center">不低于时跳转</td>
+<td style="text-align:center">JB</td>
+<td style="text-align:center">小于时跳转（&lt;）</td>
 </tr>
 <tr>
-<td style="text-align:center"><strong>JA</strong></td>
-<td style="text-align:center">高于时跳转</td>
+<td style="text-align:center">JNB</td>
+<td style="text-align:center">不小于时跳转（&gt;=）</td>
 </tr>
 <tr>
-<td style="text-align:center"><strong>JL</strong></td>
-<td style="text-align:center">小于时跳转</td>
+<td style="text-align:center">JBE</td>
+<td style="text-align:center">小于等于时跳转（&lt;=）</td>
 </tr>
 <tr>
-<td style="text-align:center"><strong>JG</strong></td>
-<td style="text-align:center">大于时跳转</td>
+<td style="text-align:center">JE</td>
+<td style="text-align:center">相等时跳转（==）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNE</td>
+<td style="text-align:center">不等于时跳转（!=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNBE</td>
+<td style="text-align:center">不小于等于时跳转（&gt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JG</td>
+<td style="text-align:center">大于时跳转（有符号）（&gt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNG</td>
+<td style="text-align:center">不大于时跳转（有符号）（&lt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JGE</td>
+<td style="text-align:center">大于等于时跳转（有符号）（&gt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JL</td>
+<td style="text-align:center">小于时跳转（有符号）（&lt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNL</td>
+<td style="text-align:center">不小于时跳转（有符号）（&gt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JLE</td>
+<td style="text-align:center">小于等于时跳转（有符号）（&lt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNGE</td>
+<td style="text-align:center">不大于等于时跳转（有符号）（&lt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNLE</td>
+<td style="text-align:center">不小于等于时跳转（有符号）（&gt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JZ</td>
+<td style="text-align:center">ZF为0时跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JNZ</td>
+<td style="text-align:center">ZF不为0时跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JS</td>
+<td style="text-align:center">有符号时跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JNS</td>
+<td style="text-align:center">无符号时跳转</td>
 </tr>
 </tbody>
 </table>
