@@ -19,6 +19,8 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="今天学姐复习了前天的数字型和字符型注入，讲了SQL注入中可能出现的过滤以及绕过的方式，以及布尔型盲注和时间型盲注。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chjv3f9j1i2p15u21tfaglr17nla.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chjv4mk7uj917psab01ipukgoa.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chi7uoc815l71qs71c48am9o1ga.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chi7vsjr7331v0t1v1e183r1cbda.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chi81ldkcoa1ejl2jea5eqfda.png-j.jpg">
@@ -54,11 +56,11 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mffn1guuqnpdo1qcktkka.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mfu0a14io1vjh1ltr1ikvekja.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mn9g51v86224ndl35d14bma.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-05T00:48:25.367Z">
+<meta property="og:updated_time" content="2018-07-05T00:58:21.924Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB集训（二）">
 <meta name="twitter:description" content="今天学姐复习了前天的数字型和字符型注入，讲了SQL注入中可能出现的过滤以及绕过的方式，以及布尔型盲注和时间型盲注。">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1chi7uoc815l71qs71c48am9o1ga.png-j.jpg">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1chjv3f9j1i2p15u21tfaglr17nla.png-j.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -272,6 +274,9 @@
 <p>比如“\’”的urlencode编码为%5c%27，在前面加上%df，会使得%df%5c构成一个汉字，%27则作为一个单独的单引号</p>
 <h2 id="order-by被过滤"><a href="#order-by被过滤" class="headerlink" title="order by被过滤"></a>order by被过滤</h2><p>使用into变量来绕过：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users limit 1,1 into @a,@b,@c</span><br></pre></td></tr></table></figure>
+<p>在本地一张有六个字段的表中测试：</p>
+<p><img src="http://t1.aixinxi.net/o_1chjv3f9j1i2p15u21tfaglr17nla.png-j.jpg" alt="当字段数不匹配时会报错"></p>
+<p><img src="http://t1.aixinxi.net/o_1chjv4mk7uj917psab01ipukgoa.png-j.jpg" alt="匹配时不会报错"></p>
 <h2 id="利用等价函数"><a href="#利用等价函数" class="headerlink" title="利用等价函数"></a>利用等价函数</h2><blockquote>
 <ul>
 <li>hex()、bin() ==&gt; ascii()</li>
