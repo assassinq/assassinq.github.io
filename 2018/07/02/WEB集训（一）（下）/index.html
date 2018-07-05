@@ -27,7 +27,12 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chdhsm8u17ge1m3u1b7ii2fg83a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chdi1ua71140tae1lov170i1gj5a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chdi3s1e8l06881nlsh6k126va.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-03T00:57:24.291Z">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chko4vu114a9m6a1lj01og016i0a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chko628v15171nee1ftg15t5kr3a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chko6fppjc31ik9n2d15qk1vfla.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chko6sevuflnqftls2n01o0va.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chko77as9ci14k1116n1i0514npa.png-j.jpg">
+<meta property="og:updated_time" content="2018-07-05T08:22:46.248Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB集训（一）（下）">
 <meta name="twitter:description" content="下午学姐介绍了一下burpsuite的基本功能，练习了几道题目。">
@@ -226,7 +231,15 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--password.txt--&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="http://t1.aixinxi.net/o_1chdi1ua71140tae1lov170i1gj5a.png-j.jpg" alt="得到一列字符串"></p>
 <p><img src="http://t1.aixinxi.net/o_1chdi3s1e8l06881nlsh6k126va.png-j.jpg" alt="爆破后得到一个不一样的密码"></p>
-<p>未完待续…</p>
+<p>登陆后在cookies中返回了一个提示newpage，显然是base64解密</p>
+<p><img src="http://t1.aixinxi.net/o_1chko4vu114a9m6a1lj01og016i0a.png-j.jpg" alt="newpage提示"></p>
+<p><img src="http://t1.aixinxi.net/o_1chko628v15171nee1ftg15t5kr3a.png-j.jpg" alt="base64解密后得到新的网站地址"></p>
+<p>打开新的网页后，一开始猜测是xss。然后随便输入留言内容，再抓包抓下来，发现没有权限。</p>
+<p><img src="http://t1.aixinxi.net/o_1chko6fppjc31ik9n2d15qk1vfla.png-j.jpg" alt="没有权限"></p>
+<p>尝试修改userlevel的值为root，没有权限的提示消失了</p>
+<p><img src="http://t1.aixinxi.net/o_1chko6sevuflnqftls2n01o0va.png-j.jpg" alt="提示消失"></p>
+<p>然后发现返回的set-cookies中islogin的值为0，尝试修改为1，即得到flag（%7B和%7D分别表示前后单引号）</p>
+<p><img src="http://t1.aixinxi.net/o_1chko77as9ci14k1116n1i0514npa.png-j.jpg" alt="拿到flag"></p>
 
       
     </div>

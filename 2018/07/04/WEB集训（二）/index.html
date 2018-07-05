@@ -45,18 +45,16 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chip5fub1h261ru3rk91une12r0a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chip5sblf5818b82kv5gn0na.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chip6apt2j1u5p1je91ii51uf8a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1c99kvbbi174kr7cojp10cf83ea.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99kun6j17uf1j27qv11eev4ula.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99kvp7p4mr1beb1agg1fjf13kga.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99l08vsgb01dj41j5315tkjha.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1c99laa9tmpn7p53at1ms52nea.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99lao5p1obk30ffo21udvfiha.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99lb7881hkm1h5u9rcobb11lla.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99met581ku610t66do1e01k25a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mffn1guuqnpdo1qcktkka.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mfu0a14io1vjh1ltr1ikvekja.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mn9g51v86224ndl35d14bma.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-05T00:58:21.924Z">
+<meta property="og:updated_time" content="2018-07-05T09:28:41.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB集训（二）">
 <meta name="twitter:description" content="今天学姐复习了前天的数字型和字符型注入，讲了SQL注入中可能出现的过滤以及绕过的方式，以及布尔型盲注和时间型盲注。">
@@ -363,22 +361,18 @@
 <p><img src="http://t1.aixinxi.net/o_1chip5sblf5818b82kv5gn0na.png-j.jpg" alt="返回结果"></p>
 <p>网页源码：</p>
 <p><img src="http://t1.aixinxi.net/o_1chip6apt2j1u5p1je91ii51uf8a.png-j.jpg" alt="过滤了很多东西"></p>
-<h1 id="实验吧简单SQL"><a href="#实验吧简单SQL" class="headerlink" title="实验吧简单SQL"></a>实验吧简单SQL</h1><p>以下三道题目是不懂事的时候瞎写的，之后有时间会完善。</p>
+<h1 id="实验吧简单SQL"><a href="#实验吧简单SQL" class="headerlink" title="实验吧简单SQL"></a>实验吧简单SQL</h1><p>以下三道题是实验吧的三道不同类型的SQL注入</p>
 <h2 id="简单的sql注入"><a href="#简单的sql注入" class="headerlink" title="简单的sql注入"></a>简单的sql注入</h2><p>通过注入获得flag值（提交格式：flag{}）。<br><a href="http://ctf5.shiyanbar.com/423/web/" target="_blank" rel="noopener">解题链接</a></p>
-<p>先简单地输入1。</p>
-<p><img src="http://t1.aixinxi.net/o_1c99kvbbi174kr7cojp10cf83ea.png-j.jpg" alt="image"></p>
-<p>再输入1 and 1=1，发现and被过滤掉了。</p>
+<p>输入“1 and 1=1”，发现and被过滤掉了。</p>
 <p><img src="http://t1.aixinxi.net/o_1c99kun6j17uf1j27qv11eev4ula.png-j.jpg" alt="image"></p>
-<p>经过尝试，发现双写and以及后面的空格可以躲过过滤。</p>
+<p>双写and以及后面的空格可以绕过过滤。</p>
 <p><img src="http://t1.aixinxi.net/o_1c99kvp7p4mr1beb1agg1fjf13kga.png-j.jpg" alt="image"></p>
 <p>随意地猜测表名为flag，一下子就试出来flag了。</p>
 <p><img src="http://t1.aixinxi.net/o_1c99l08vsgb01dj41j5315tkjha.png-j.jpg" alt="image"></p>
 <h2 id="简单的sql注入之2"><a href="#简单的sql注入之2" class="headerlink" title="简单的sql注入之2"></a>简单的sql注入之2</h2><p>有回显的mysql注入<br>格式：flag{}<br><a href="http://ctf5.shiyanbar.com/web/index_2.php" target="_blank" rel="noopener">解题链接</a></p>
-<p>先输入1</p>
-<p><img src="http://t1.aixinxi.net/o_1c99laa9tmpn7p53at1ms52nea.png-j.jpg" alt="image"></p>
-<p>再输入1 and 1=1，出现‘sqli detected’。多次尝试后发现空格被过滤。</p>
+<p>输入“1 and 1=1”，出现‘sqli detected’。而“1<br>and1=1”不会。说明空格被过滤。</p>
 <p><img src="http://t1.aixinxi.net/o_1c99lao5p1obk30ffo21udvfiha.png-j.jpg" alt="image"></p>
-<p>空格用‘/**/’代替，同时还是简单地猜测表名是flag就拿到了flag。</p>
+<p>空格用“/**/”代替，同时还是简单地猜测表名是flag就拿到了flag。</p>
 <p><img src="http://t1.aixinxi.net/o_1c99lb7881hkm1h5u9rcobb11lla.png-j.jpg" alt="image"></p>
 <h2 id="简单的sql注入之3"><a href="#简单的sql注入之3" class="headerlink" title="简单的sql注入之3"></a>简单的sql注入之3</h2><p>mysql报错注入<br>格式：flag{}<br><a href="http://ctf5.shiyanbar.com/web/index_3.php" target="_blank" rel="noopener">解题链接</a></p>
 <p>依次输入1 and 1=1和1 and 1=2，可发现存在注入。</p>
@@ -442,6 +436,15 @@ var a = new Donate({
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/07/05/BIN集训（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          BIN集训（三）
+        
+      </div>
+    </a>
   
   
     <a href="/2018/07/03/BIN集训（二）/" id="article-nav-older" class="article-nav-link-wrap">

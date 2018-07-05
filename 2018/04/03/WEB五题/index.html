@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>web六题 | AssassinQ</title>
+  <title>web五题 | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="ctfwpweb" />
@@ -14,14 +14,14 @@
   <meta name="description" content="六道web的wp。">
 <meta name="keywords" content="ctf,wp,web">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WEB六题">
-<meta property="og:url" content="http://AssassinQ.com/2018/04/03/WEB六题/index.html">
+<meta property="og:title" content="WEB五题">
+<meta property="og:url" content="http://AssassinQ.com/2018/04/03/WEB五题/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="六道web的wp。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-18T09:11:00.359Z">
+<meta property="og:updated_time" content="2018-07-05T07:04:30.445Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WEB六题">
+<meta name="twitter:title" content="WEB五题">
 <meta name="twitter:description" content="六道web的wp。">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
@@ -162,7 +162,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-WEB六题" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-WEB五题" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -170,7 +170,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      WEB六题
+      WEB五题
     </h1>
   
 
@@ -178,7 +178,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/04/03/WEB六题/" class="article-date">
+	<a href="/2018/04/03/WEB五题/" class="article-date">
 	  <time datetime="2018-04-03T14:21:36.000Z" itemprop="datePublished">2018-04-03</time>
 	</a>
 
@@ -196,7 +196,6 @@
         <p>六道web的wp。</p>
 <a id="more"></a>
 <h1 id="相信我，这是最简单的"><a href="#相信我，这是最简单的" class="headerlink" title="相信我，这是最简单的"></a>相信我，这是最简单的</h1><p>听说右键源码就有flag。</p>
-<h1 id="签到题"><a href="#签到题" class="headerlink" title="签到题"></a>签到题</h1><p>提示只有localhost可以得到flag，可以用burpsuite或者用火狐的插件modifyheaders在http头中添加x-forwarded-for：127.0.0.1，再访问。提示只有chinese才能访问，再把http头中的accept-language中除了中文外的其他删掉后，再访问得到flag。</p>
 <h1 id="md5碰撞？"><a href="#md5碰撞？" class="headerlink" title="md5碰撞？"></a>md5碰撞？</h1><p>源码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$md51 = md5(&apos;QNKCDZO&apos;);</span><br><span class="line">$a = @$_GET[&apos;a&apos;];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line">if(isset($a))&#123;</span><br><span class="line">if ($a != &apos;QNKCDZO&apos; &amp;&amp; $md51 == $md52) &#123;</span><br><span class="line">echo &quot;zjgsuctf&#123;**&#125;&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">echo &quot;false!!!&quot;;</span><br><span class="line">&#125;&#125;</span><br><span class="line">else&#123;echo &quot;please input a&quot;;&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 <p>源码的意思大概是输入a，a不等于QNKCDZO，但是两者的md5值相等。</p>
@@ -205,15 +204,15 @@
 <p>所以只要找到md5值同样也是0e开头的字符串，作为a的值输入即可得到flag。</p>
 <p>其实是<a href="https://blog.csdn.net/anzhuangguai/article/details/70049960" target="_blank" rel="noopener">南邮的一道题</a>。</p>
 <h1 id="很轻松的一道题目"><a href="#很轻松的一道题目" class="headerlink" title="很轻松的一道题目"></a>很轻松的一道题目</h1><p>php审计，打开后代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> &lt;?php</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&apos;isadmin&apos;]=0;</span><br><span class="line">show_source(&apos;index.php&apos;);</span><br><span class="line">$a=&quot;0&quot;;</span><br><span class="line">if(isset($_POST[&apos;zz&apos;]))&#123;</span><br><span class="line">$b = $_POST[&apos;zz&apos;];</span><br><span class="line">extract($_GET);</span><br><span class="line">if($a==1 &amp;&amp; $b===&apos;this is every easy&apos;)&#123;</span><br><span class="line">$_SESSION[&apos;isadmin&apos;]=1;</span><br><span class="line">&#125;</span><br><span class="line">header(&quot;location:./flag.php&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[<span class="string">'isadmin'</span>]=<span class="number">0</span>;</span><br><span class="line">show_source(<span class="string">'index.php'</span>);</span><br><span class="line">$a=<span class="string">"0"</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'zz'</span>]))&#123;</span><br><span class="line">$b = $_POST[<span class="string">'zz'</span>];</span><br><span class="line">extract($_GET);</span><br><span class="line"><span class="keyword">if</span>($a==<span class="number">1</span> &amp;&amp; $b===<span class="string">'this is every easy'</span>)&#123;</span><br><span class="line">$_SESSION[<span class="string">'isadmin'</span>]=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">header(<span class="string">"location:./flag.php"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>大意是post变量zz的值，使b等于zz；get变量a的值；要a=1以及b=this is every easy，才可以以admin身份进入flag.php来得到flag。</p>
 <p>这里的post和get用火狐的插件hackbar可以比较方便地实现。</p>
 <p>拿到flag之后，让我们一起喊：php是世界上最好的语言！</p>
 <h1 id="简单sql"><a href="#简单sql" class="headerlink" title="简单sql"></a>简单sql</h1><p>右键网页源码看到注释里有php源码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$conn=@mysql_connect(&quot;localhost&quot;,&apos;zz&apos;,&apos;***&apos;) or die(&quot;数据库连接失败！&quot;);;</span><br><span class="line"></span><br><span class="line">       mysql_select_db(&quot;sql1&quot;,$conn) or die(&quot;您要选择的数据库不存在&quot;);</span><br><span class="line"></span><br><span class="line">       $name=$_POST[&apos;username&apos;];</span><br><span class="line"></span><br><span class="line">       $pwd=$_POST[&apos;password&apos;];</span><br><span class="line"></span><br><span class="line">       $sql=&quot;select * from users where username=&apos;$name&apos; and password=&apos;$pwd&apos;&quot;;</span><br><span class="line"></span><br><span class="line">       @$query=mysql_query($sql);</span><br><span class="line"></span><br><span class="line">       @$arr=mysql_fetch_array($query);</span><br><span class="line"></span><br><span class="line">       if(is_array($arr))&#123;</span><br><span class="line"></span><br><span class="line">              echo &quot;zjgsflag&#123;****&#125;&quot;;</span><br><span class="line"></span><br><span class="line">       &#125;else&#123;</span><br><span class="line"></span><br><span class="line">              echo &quot;您的用户名或密码输入有误，&lt;a href=\&quot;index.php\&quot;&gt;请重新登录！&lt;/a&gt;&quot;;</span><br></pre></td></tr></table></figure>
 <p>源码中能够得到的主要信息应该是sql语句。意思是从users表中选出所有username和password等于post的值的信息。</p>
-<p>毕竟我只是个web萌新，简单sql就用简单想法。username随便填，然后用单引号闭合，后面再union一个select语句把user中所有的内容搞出来，然后再用#把后面的password注释掉，就得到了flag。</p>
-<p>这样输入后sql语句即为</p>
+<p>username用单引号闭合，后面union一个select语句把user中所有的内容输出，然后再用注释符把后面的password注释掉，就得到了flag。</p>
+<p>这样输入后payload即为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where username=&apos;balabala&apos; union select * from users # and password=&apos;balabala&apos;</span><br></pre></td></tr></table></figure>
 <h1 id="Are-you-a-hacker"><a href="#Are-you-a-hacker" class="headerlink" title="Are you a hacker?"></a>Are you a hacker?</h1><p>发现没有什么突破口，于是就掏出我们的大宝贝————御剑后台扫描器珍藏版！</p>
 <p>二话不说扫一扫，发现一个shell.php。</p>
@@ -299,7 +298,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相信我，这是最简单的"><span class="nav-number">1.</span> <span class="nav-text">相信我，这是最简单的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#签到题"><span class="nav-number">2.</span> <span class="nav-text">签到题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#md5碰撞？"><span class="nav-number">3.</span> <span class="nav-text">md5碰撞？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#很轻松的一道题目"><span class="nav-number">4.</span> <span class="nav-text">很轻松的一道题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单sql"><span class="nav-number">5.</span> <span class="nav-text">简单sql</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Are-you-a-hacker"><span class="nav-number">6.</span> <span class="nav-text">Are you a hacker?</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相信我，这是最简单的"><span class="nav-number">1.</span> <span class="nav-text">相信我，这是最简单的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#md5碰撞？"><span class="nav-number">2.</span> <span class="nav-text">md5碰撞？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#很轻松的一道题目"><span class="nav-number">3.</span> <span class="nav-text">很轻松的一道题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单sql"><span class="nav-number">4.</span> <span class="nav-text">简单sql</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Are-you-a-hacker"><span class="nav-number">5.</span> <span class="nav-text">Are you a hacker?</span></a></li></ol>
     
     </div>
   </aside>
