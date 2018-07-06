@@ -6,13 +6,13 @@
   <title>bin集训（三） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="rectf" />
+  <meta name="keywords" content="ctfre" />
   
   
   
   
   <meta name="description" content="今天学长带我们反推汇编语言到简单的C语言分支结构语句。">
-<meta name="keywords" content="re,ctf">
+<meta name="keywords" content="ctf,re">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BIN集训（三）">
 <meta property="og:url" content="http://AssassinQ.com/2018/07/05/BIN集训（三）/index.html">
@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chklk23k1lma176jn3ofi11vspa.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chkll9921u60ahqbct1prdca7a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chklll3n14l8efg1g6e1pf3mo6a.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-05T08:01:46.215Z">
+<meta property="og:updated_time" content="2018-07-06T10:07:00.926Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（三）">
 <meta name="twitter:description" content="今天学长带我们反推汇编语言到简单的C语言分支结构语句。">
@@ -205,7 +205,7 @@
       
         <p>今天学长带我们反推汇编语言到简单的C语言分支结构语句。</p>
 <a id="more"></a>
-<p>通过看懂简单的汇编语言能够更熟悉OD，了解了简单re题目的做法。下面的汇编代码都是在mac下用lldb反汇编出来的。</p>
+<p>通过看懂简单的汇编语言能够更熟悉OD，了解了简单re题目的做法。下面的汇编代码都是在mac下用lldb编译出来的。</p>
 <h1 id="if"><a href="#if" class="headerlink" title="if"></a>if</h1><p>if就是通过简单的一个CMP判断后JMP来实现</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(a &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"greater"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>汇编代码：</p>
@@ -311,6 +311,15 @@ var a = new Donate({
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/07/06/WEB集训（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          WEB集训（三）
+        
+      </div>
+    </a>
   
   
     <a href="/2018/07/04/WEB集训（二）/" id="article-nav-older" class="article-nav-link-wrap">
