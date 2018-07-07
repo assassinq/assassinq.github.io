@@ -21,7 +21,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=c05506e79482d158af8f51e3e16372bd/c2fdfc039245d688c56332adacc27d1ed21b2451.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chfq2pqn1e85gen2hl1ke4uqua.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-05T03:15:47.432Z">
+<meta property="og:updated_time" content="2018-07-07T05:55:40.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（二）">
 <meta name="twitter:description" content="学好二进制必须先打好基础。">
@@ -225,6 +225,18 @@
 <li><strong>short 0x12345678</strong>: 34 12 78 56</li>
 </ul>
 </blockquote>
+<h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><ul>
+<li>先进后出</li>
+<li>从高地址向低地址延伸</li>
+</ul>
+<p>作用：</p>
+<blockquote>
+<ul>
+<li>暂时保存变量</li>
+<li>调用函数时传递参数</li>
+<li>保存函数返回地址</li>
+</ul>
+</blockquote>
 <h1 id="调试SWAP程序"><a href="#调试SWAP程序" class="headerlink" title="调试SWAP程序"></a>调试SWAP程序</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *aa, <span class="keyword">int</span> *bb)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cc = *aa;</span><br><span class="line">    *aa = *bb;</span><br><span class="line">    *bb = cc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">100</span>, b = <span class="number">2</span>;</span><br><span class="line">    swap(&amp;a, &amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, a, b);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>表格模拟程序执行时的栈：</p>
 <table>
@@ -370,7 +382,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#程序运行基本原理"><span class="nav-number">1.</span> <span class="nav-text">程序运行基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#寄存器"><span class="nav-number">1.1.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存（CACHE）"><span class="nav-number">1.2.</span> <span class="nav-text">缓存（CACHE）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存"><span class="nav-number">1.3.</span> <span class="nav-text">内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬盘"><span class="nav-number">1.4.</span> <span class="nav-text">硬盘</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ASCII码"><span class="nav-number">2.</span> <span class="nav-text">ASCII码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小端序"><span class="nav-number">3.</span> <span class="nav-text">小端序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同类型数据的字节长度"><span class="nav-number">3.1.</span> <span class="nav-text">不同类型数据的字节长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同类型数据的小端序存储方式"><span class="nav-number">3.2.</span> <span class="nav-text">不同类型数据的小端序存储方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试SWAP程序"><span class="nav-number">4.</span> <span class="nav-text">调试SWAP程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#程序运行基本原理"><span class="nav-number">1.</span> <span class="nav-text">程序运行基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#寄存器"><span class="nav-number">1.1.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存（CACHE）"><span class="nav-number">1.2.</span> <span class="nav-text">缓存（CACHE）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存"><span class="nav-number">1.3.</span> <span class="nav-text">内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬盘"><span class="nav-number">1.4.</span> <span class="nav-text">硬盘</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ASCII码"><span class="nav-number">2.</span> <span class="nav-text">ASCII码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小端序"><span class="nav-number">3.</span> <span class="nav-text">小端序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同类型数据的字节长度"><span class="nav-number">3.1.</span> <span class="nav-text">不同类型数据的字节长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同类型数据的小端序存储方式"><span class="nav-number">3.2.</span> <span class="nav-text">不同类型数据的小端序存储方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈"><span class="nav-number">4.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试SWAP程序"><span class="nav-number">5.</span> <span class="nav-text">调试SWAP程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">6.</span> <span class="nav-text">参考网站</span></a></li></ol>
     
     </div>
   </aside>
