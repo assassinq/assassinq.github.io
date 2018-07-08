@@ -20,7 +20,7 @@
 <meta property="og:description" content="初涉PWN。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://images0.cnitblog.com/cnitblog_com/houcy/%E6%A0%88%E5%B8%A7%E5%9B%BE.jpg">
-<meta property="og:image" content="https://images0.cnblogs.com/blog2015/458325/201504/121552471181241.png">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chrmmgua10au1cbmgd31b7u1b1sa.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqgv06716qj1h1m1v7c1730dnaa.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqfqt08124n11961f8t1saf3kja.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqglrfi1faghql1oi3qu6tpca.png-j.jpg">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqi2mer199noqu14qh6h91am1a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqiihjr1rcq17u1ba31laa9ra.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqlhoto1nfehjs1f77upqkdla.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-07T15:45:29.122Z">
+<meta property="og:updated_time" content="2018-07-08T01:05:01.409Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（四）">
 <meta name="twitter:description" content="初涉PWN。">
@@ -227,7 +227,7 @@
 <li>弹出当前帧，恢复上一个栈帧。具体包括：<1> 在堆栈平衡的基础上，给ESP加上栈帧的大小，降低栈顶，回收当前栈帧的空间。<2> 将当前栈帧底部保存的前栈帧EBP值弹入EBP寄存器，恢复出上一个栈帧。<3> 将函数返回地址弹给EIP寄存器。</3></2></1></li>
 <li>跳转：按照函数返回地址跳回母函数中继续执行。</li>
 </ol>
-<p><img src="https://images0.cnblogs.com/blog2015/458325/201504/121552471181241.png" alt="每次调用一个函数都会新增一个栈帧（这里栈底在下，栈顶在上）"></p>
+<p><img src="http://t1.aixinxi.net/o_1chrmmgua10au1cbmgd31b7u1b1sa.png-j.jpg" alt="每次调用一个函数都会新增一个栈帧（这里栈底在下，栈顶在上）"></p>
 <p>PS：栈的守护天使——GS，也称作Stack Canary/Cookie</p>
 <h2 id="调用函数（Call）"><a href="#调用函数（Call）" class="headerlink" title="调用函数（Call）"></a>调用函数（Call）</h2><p>CALL可以化为两部分，即<code>Push retaddr + Jump</code>。先讲函数返回的地址入栈，再跳转到函数执行的位置处。</p>
 <h2 id="返回值（Ret）"><a href="#返回值（Ret）" class="headerlink" title="返回值（Ret）"></a>返回值（Ret）</h2><p>RET也可以转化为两部分，即<code>Pop retaddr + Jump</code>。先是把返回值的地址出栈，再跳转回原本调用函数处。</p>
@@ -421,7 +421,7 @@
 <p>源代码中使用了<code>gets()</code>函数，存在缓存区溢出，故第一个想法应该就是通过对变量<code>buf</code>操作使其覆盖变量<code>magic</code>的值，使两者相同后得到shell。</p>
 <p><code>buf</code>被定义为一个占100字节的字符串，而<code>magic</code>被定义为一个占4字节的整型。</p>
 <p><img src="http://t1.aixinxi.net/o_1chqlhoto1nfehjs1f77upqkdla.png-j.jpg" alt="左侧文本记录了在调试过程中记录下的两个变量的地址"></p>
-<p>根据调试过程可以知道，<code>buf</code>的地址为0xffffcf68，而<code>magic</code>的地址为0xffffcfcc。<code>buf</code>的地址比<code>magic</code>的地址更低，两者在栈中显然是先压入<code>magic</code>再压入<code>buf</code>。又因为输入数据显然是从低位向高位输入，那么我们可以通过变化<code>buf</code>的值来覆盖<code>magic</code>的值。最简单的方法显然是让两者都等于零。</p>
+<p>根据调试过程可以知道，<code>buf</code>的地址为0xffffcf68，而<code>magic</code>的地址为0xffffcfcc。<code>buf</code>的地址比<code>magic</code>的地址更低，两者在栈中显然是先压入<code>magic</code>再压入<code>buf</code>。又因为输入数据是从低位向高位输入，那么我们可以通过变化<code>buf</code>的值来覆盖<code>magic</code>的值。最简单的方法显然是让两者都等于零。</p>
 <p>根据以上的推测，那么输入字符串的长度应当至少为100+4=104字节才可能完全覆盖变量<code>magic</code>。</p>
 <p>故payload为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./3-13'</span>)</span><br><span class="line">payload = <span class="string">'\0'</span> * <span class="number">104</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
