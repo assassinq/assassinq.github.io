@@ -21,6 +21,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chsq3bmoikm14k0qsqd25r8a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chsq4e371utsenu138e14b9fkma.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1chssbk9p11oh1na91uv5p6t1puha.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chs40qhrapp10cb1uee12v01t5la.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chs44n9m19b0f32d0l1tf1nc2a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chs4kdnvqk5rsv3hnk7n1jl8a.png-j.jpg">
@@ -31,7 +32,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chsq2qtqpnd15s31eh1mh41ptda.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chsb6t171lh913uajpi1mi517v2a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chsb7m9l1r96men1cguh3jifaa.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-08T11:47:15.139Z">
+<meta property="og:updated_time" content="2018-07-08T12:05:28.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB集训（四）">
 <meta name="twitter:description" content="涛哥带我学XSS。">
@@ -276,6 +277,8 @@
 </ul>
 <h1 id="DVWA之XSS"><a href="#DVWA之XSS" class="headerlink" title="DVWA之XSS"></a>DVWA之XSS</h1><p>发现Metasploitable中的DVWA版本有点新，High Level竟然就是Impossible Level。最后还是用了以前PHPSTUDY里的旧版本来实验。</p>
 <p>实验中主要根据源码分析被过滤的部分，寻找绕过的方法。</p>
+<p>今天在这里遇到了一个坑记录一下。就是重置数据库的时候出现了无法删除dvwa数据库的错误。在命令行和图形界面都删除不了，最后直接去mysql目录下删除，才可以重置。</p>
+<p><img src="http://t1.aixinxi.net/o_1chssbk9p11oh1na91uv5p6t1puha.png-j.jpg" alt="无法删除dvwa库"></p>
 <h2 id="XSS-Reflected（反射型XSS）"><a href="#XSS-Reflected（反射型XSS）" class="headerlink" title="XSS Reflected（反射型XSS）"></a>XSS Reflected（反射型XSS）</h2><p>反射型相对简单一些。</p>
 <h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a>Low</h3><p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// Is there any input?</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">    <span class="comment">// Feedback for end user</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'&lt;pre&gt;Hello '</span> . $_GET[ <span class="string">'name'</span> ] . <span class="string">'&lt;/pre&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
