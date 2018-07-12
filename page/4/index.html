@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>tag: web | AssassinQ</title>
+  <title>AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
@@ -12,7 +12,7 @@
   <meta name="description" content="ZJGSU-IS-17">
 <meta property="og:type" content="website">
 <meta property="og:title" content="AssassinQ">
-<meta property="og:url" content="http://AssassinQ.com/tags/web/page/2/index.html">
+<meta property="og:url" content="http://AssassinQ.com/page/4/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="ZJGSU-IS-17">
 <meta property="og:locale" content="default">
@@ -47,17 +47,13 @@
   <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
+    <link rel="stylesheet" href="/css/home.css" >
   
 
   
 
   
-    <link rel="stylesheet" href="/css/header-post.css" >
-  
 
-  
-    <link rel="stylesheet" href="/css/archive.css" >
   
   
   
@@ -72,182 +68,253 @@
 
 
   
-  <div id="container">
-    <div id="wrap">
+    <header id="header">
+
+	<!-- 背景图模式 -->
+	
+
+    
+      <div id="intrologo" class="intro-logo">
+    
+ 
+
+
+    <canvas width="100%" height="100%"></canvas>
+    <script>
+      var c = document.getElementsByTagName('canvas')[0],
+          x = c.getContext('2d'),
+          w = window.innerWidth,
+          h = window.innerHeight,
+          pr = window.devicePixelRatio || 1,
+          f = 90,
+          q,
+          m = Math,
+          r = 0,
+          u = m.PI*2,
+          v = m.cos,
+          z = m.random
+      c.width = w*pr
+      c.height = h*pr
+      x.scale(pr, pr)
+      x.globalAlpha = 0.6
+
+      <!-- 折线Polyline背景 -->
       
-        <header>
+        function i(){
+            x.clearRect(0,0,w,h)
+            q=[{x:0,y:h*.7+f},{x:0,y:h*.7-f}]
+            while(q[1].x<w+f) d(q[0], q[1])
+        }
+        function d(i,j){   
+            x.beginPath()
+            x.moveTo(i.x, i.y)
+            x.lineTo(j.x, j.y)
+            var k = j.x + (z()*2-0.25)*f,
+                n = y(j.y)
+            x.lineTo(k, n)
+            x.closePath()
+            r-=u/-50
+            x.fillStyle = '#'+(v(r)*127+128<<16 | v(r+u/3)*127+128<<8 | v(r+u/3*2)*127+128).toString(16)
+            x.fill()
+            q[0] = q[1]
+            q[1] = {x:k,y:n}
+        }
+        function y(p){
+            var t = p + (z()*2-1.1)*f
+            return (t>h||t<0) ? y(p) : t
+        }
+        document.getElementById("intrologo").onclick = i
+        document.getElementById("intrologo").ontouchstart = i
+        i()
 
-    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-inner">
-          
-          <div class="container"> 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
+      <!-- 多边形trianglify背景 -->
+      
+    </script>
+    
 
-            
-              <a class="brand" style="
-                 margin-top: 0px;"  
-                 >
-                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
-              </a>
-            
-            
-            <div class="navbar-collapse collapse">
-              <ul class="hnav navbar-nav">
-                
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/links">links</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/about">About</a> </li>
-                
-                  <li><div id="search-form-wrap">
+    
+      <div id="homelogo" class="homelogo"> 
+    
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div></li>
-            </div>
+        
+          <div class="homelogoback" >
+            <h1><a href="#content" id="logo">AssassinQ</a></h1>
+            <h3>ZJGSU-IS-17</h3>
+            <h5>Q14NF3111</h5>
+            <!-- <p><a href="https://github.com/iTimeTraveler" target="_blank">Github</a></p> -->
           </div>
-                
-      </div>
+        
+    
     </div>
+  </div>
+
+  <!-- 自适应主页背景大图 -->
+  
+
+ <!-- home_logo_image居中 -->
+ 
+    <script>
+        var homelogodiv = document.getElementById("homelogo");
+        if (document.all.homelogo.offsetWidth > document.body.clientWidth) {
+          homelogodiv.style.width = document.body.clientWidth + "px";
+          homelogodiv.style.marginLeft = document.body.clientWidth * -0.5 + "px";
+        } else {
+          homelogodiv.style.width = homelogodiv.clientWidth  + "px";
+          homelogodiv.style.marginLeft = (homelogodiv.clientWidth)  * -0.5 + "px";
+        }
+    </script>
+  
+
+  <div class="intro-navigate">
+      <p class="navigater-list">
+        
+          <a id="beautifont" class="main-nav-link" href="/">Home</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/archives">Archives</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/tags">Tags</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/links">links</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/about">About</a>
+        
+      </p>
+  </div>
 
 </header>
-
-
-
+  
+  <div id="container">
+    <div id="wrap">
       
             
       <div id="content" class="outer">
         
           <section id="main" style="float:none;">
   
-  
-  
+    <article id="post-网络安全实验室之基础关"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2018" class="archive-year">2018</a></h1>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/04/22/Docker-Dockerfile基本命令/" class="archive-article-date">
-	  <time datetime="2018-04-22T14:29:26.000Z" itemprop="datePublished">2018-04-22</time>
-	</a>
-
-      
+      <header class="article-header">
+        
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/04/22/Docker-Dockerfile基本命令/">Docker/Dockerfile基本命令</a>
+      <a class="article-title" href="/2017/11/19/网络安全实验室之基础关/">网络安全实验室之基础关</a>
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+    <div class="article-meta">
       
-	<a href="/2018/04/03/WEB五题/" class="archive-article-date">
-	  <time datetime="2018-04-03T14:21:36.000Z" itemprop="datePublished">2018-04-03</time>
+	<a href="/2017/11/19/网络安全实验室之基础关/" class="article-date">
+	  <time datetime="2017-11-19T12:51:38.000Z" itemprop="datePublished">2017-11-19</time>
 	</a>
 
       
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第一次写wp，主要是一些web题。</p>
+        <!-- 第一次写wp，主要是一些web题。
+
+第一题key在哪里？分值: 100过关地址
+查看网页源代码
+
+第二题再加密一次你就得到key啦~分值: 150加密之后的数据为xrlvf23xfqwsxsqf
+恺撒密码解码
+
+或者rot13解码
+
+第三题猜猜这是经过了多少次加密？分值: 200加密后的字符串为:
+Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1......  -->
+        <p class="article-more-link">
+          <a href="/2017/11/19/网络安全实验室之基础关/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-Windows下利用hexo和github搭建博客"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/04/03/WEB五题/">WEB五题</a>
+      <a class="article-title" href="/2017/11/18/Windows下利用hexo和github搭建博客/">Windows下利用hexo和github搭建博客</a>
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+    <div class="article-meta">
       
-	<a href="/2018/03/20/实验吧之WEB/" class="archive-article-date">
-	  <time datetime="2018-03-20T09:00:59.000Z" itemprop="datePublished">2018-03-20</time>
+	<a href="/2017/11/18/Windows下利用hexo和github搭建博客/" class="article-date">
+	  <time datetime="2017-11-18T14:12:54.000Z" itemprop="datePublished">2017-11-18</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/03/20/实验吧之WEB/">实验吧之WEB</a>
-    </h1>
-  
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录下在windows下搭建博客的步骤。</p>
+        <!-- 记录下在windows下搭建博客的步骤。
 
-    </header>
+下载安装gitgit下载地址
+下载安装node.jsnode.js下载地址
+github账号注册和新建仓库仓库名必须为“账户名.github.io”，勾选“Initialize this repository with a README”
+安装hexo通过命令行输入
+1npm install hexo -g
+注：-g是指全局安装hexo。
+再输入
+......  -->
+        <p class="article-more-link">
+          <a href="/2017/11/18/Windows下利用hexo和github搭建博客/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li></ul>
+
+    </footer>
   </div>
+  
 </article>
-  
-  
-    </div></section>
+
+<!-- Table of Contents -->
+
   
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/tags/web/">&laquo; Prev</a><a class="page-number" href="/tags/web/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
   </nav>
 
 </section>
         
       </div>
+      
+        <div align="center" style="margin-top: 30px;"><hr class="hr" style="margin:0px; height:3px;"></div>
       
       <footer id="footer">
   
@@ -338,6 +405,8 @@
 
 <script src="/js/scripts.js"></script>
 
+
+  <script src="/js/home.js"></script>
 
 
 

