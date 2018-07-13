@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ci9453jh1e2k1rn919jab3ov53a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ci94nhbv1r421629ttjs75r29a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ci94b1bvs1ciao125r1m9j1rkea.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-13T06:23:23.213Z">
+<meta property="og:updated_time" content="2018-07-13T06:48:19.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（七）">
 <meta name="twitter:description" content="Base64和RC4算法在RE中的应用。">
@@ -267,7 +267,7 @@
 <li>构造Sbox。</li>
 <li>对数据进行异或运算。</li>
 </ol>
-<p>具体代码在<a href="https://qianfei11.github.io/2018/05/13/C%E8%AF%AD%E8%A8%80-Python%E5%AE%9E%E7%8E%B0rc4%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">之前的博客</a>中也有记录。</p>
+<p>具体代码在<a href="https://qianfei11.github.io/2018/05/13/C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0rc4%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">之前的博客</a>中也有记录。</p>
 <h1 id="BBBase-exe"><a href="#BBBase-exe" class="headerlink" title="BBBase.exe"></a>BBBase.exe</h1><p>打开程序，随便输入没啥反应。拖进OD，找到main函数，很容易发现一堆有位运算操作的指令。再根据在内存中的数据，可以找到加密的索引表。</p>
 <p><img src="http://t1.aixinxi.net/o_1ci93lbvsq76h9u17e81n7b1nbsa.png-j.jpg" alt="位运算代码块以及索引表"></p>
 <p>容易知道这是一种类似base64的加密方式，可以修改索引表来对被加密的数据进行解密。payload如下：</p>
