@@ -6,13 +6,13 @@
   <title>c语言实现rc4加密解密算法 | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="cryptoc" />
+  <meta name="keywords" content="ccrypto" />
   
   
   
   
   <meta name="description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
-<meta name="keywords" content="crypto,c">
+<meta name="keywords" content="c,crypto">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言实现rc4加密解密算法">
 <meta property="og:url" content="http://AssassinQ.com/2018/05/13/C语言实现rc4加密解密算法/index.html">
@@ -20,7 +20,7 @@
 <meta property="og:description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-13T06:50:33.397Z">
+<meta property="og:updated_time" content="2018-07-13T08:10:00.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C语言实现rc4加密解密算法">
 <meta name="twitter:description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
@@ -204,8 +204,7 @@
 <p>2、状态向量S：长度为256，S[0],S[1]…..S[255]。每个单元都是一个字节，算法运行的任何时候，S都包括0-255的8比特数的排列组合，只不过值的位置发生了变换；</p>
 <p>3、临时向量T：长度也为256，每个单元也是一个字节。如果密钥的长度是256字节，就直接把密钥的值赋给T，否则，轮转地将密钥的每个字节赋给T；</p>
 <p>4、密钥K：长度为1-256字节，注意密钥的长度keylen与明文长度、密钥流的长度没有必然关系，通常密钥的长度趣味16字节（128比特）。</p>
-<p>算法流程图如下：</p>
-<p><img src="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-j.jpg" alt="image"></p>
+<p><img src="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-j.jpg" alt="算法流程图"></p>
 <h1 id="利用Key生成S盒——The-key-scheduling-algorithm-KSA"><a href="#利用Key生成S盒——The-key-scheduling-algorithm-KSA" class="headerlink" title="利用Key生成S盒——The key-scheduling algorithm (KSA)"></a>利用Key生成S盒——The key-scheduling algorithm (KSA)</h1><p>密钥调度算法用于初始化数组S盒中的置换。</p>
 <p>“keylength”被定义为密钥中的字节数，并且可以在1≤keylength≤256的范围内，通常在5和16之间，对应于40到128位的密钥长度。</p>
 <p>首先，数组“S”被初始化为i。然后以类似于PRGA的方式对S进行256次迭代处理，同时也以密钥的字节为单位进行混合。</p>
