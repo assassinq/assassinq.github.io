@@ -19,12 +19,10 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="今天下午花了一点时间看《C陷阱与缺陷》，读完了第一二两章。很多一些小细节上的东西都有一些颠覆，所以做一下笔记。这本书相对挺薄的，但内容还是比较丰富，应当慢慢研读。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1c7qhppu5nus9ebao81hck1chaa.jpg-j.jpg">
-<meta property="og:updated_time" content="2018-07-02T13:30:38.563Z">
+<meta property="og:updated_time" content="2018-07-13T06:34:49.472Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C Traps and Pitfalls（一）">
 <meta name="twitter:description" content="今天下午花了一点时间看《C陷阱与缺陷》，读完了第一二两章。很多一些小细节上的东西都有一些颠覆，所以做一下笔记。这本书相对挺薄的，但内容还是比较丰富，应当慢慢研读。">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1c7qhppu5nus9ebao81hck1chaa.jpg-j.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -254,10 +252,97 @@
 <p>因此，我们可以用(void (*)())0来替换fp，从而得到：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(*(void (*)())0)();</span><br></pre></td></tr></table></figure>
 <p>末尾的分号使得表达式成为一个语句。</p>
-<h1 id="6"><a href="#6" class="headerlink" title="6"></a>6</h1><p>C语言运算符优先级表（由上至下，优先级依次递减）（p21）</p>
-<p><img src="http://t1.aixinxi.net/o_1c7qhppu5nus9ebao81hck1chaa.jpg-j.jpg" alt="image"></p>
-<h1 id="其他收获"><a href="#其他收获" class="headerlink" title="其他收获"></a>其他收获</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	char hello[] = &#123;&apos;H&apos;, &apos;e&apos;, &apos;l&apos;, &apos;l&apos;, &apos;o&apos;, &apos; &apos;, &apos;w&apos;, &apos;o&apos;, &apos;r&apos;, &apos;l&apos;, &apos;d&apos;, &apos;\n&apos;, 0&#125;;</span><br><span class="line">	printf(hello);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样形式的printf也是能编译通过并成功运行的。</p>
+<h1 id="6"><a href="#6" class="headerlink" title="6"></a>6</h1><p><a href="https://blog.csdn.net/sunshihua12829/article/details/47912123" target="_blank" rel="noopener">C语言运算符优先级表</a>（由上至下，优先级依次递减）（p21）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">优先级</th>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">结合性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>(</code> <code>)</code> <code>[</code> <code>]</code> <code>-&gt;</code>（指针） <code>.</code>（对象）</td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><code>!</code> <code>~</code> <code>++</code> <code>--</code> <code>-</code>（负号） <code>(type)</code>（强制类型转换） <code>*</code>（取值） <code>&amp;</code>（取地址） <code>sizeof</code></td>
+<td style="text-align:center">自右至左</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><code>*</code> <code>/</code> <code>%</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><code>+</code> <code>-</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center"><code>&lt;&lt;</code> <code>&gt;&gt;</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center"><code>==</code> <code>!=</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center"><code>&amp;</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><code>^</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">`</td>
+<td style="text-align:center">`</td>
+<td>自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center"><code>&amp;&amp;</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">`</td>
+<td style="text-align:center"></td>
+<td>`</td>
+<td>自左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:center"><code>?:</code>（条件运算符）</td>
+<td style="text-align:center">自右至左</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center"><code>=</code> <code>/=</code> <code>*=</code> <code>%=</code> <code>+=</code> <code>-=</code> <code>&lt;&lt;=</code> <code>&gt;&gt;=</code> <code>&amp;=</code> <code>^=</code> `</td>
+<td style="text-align:center">=`</td>
+<td>自右至左</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center"><code>,</code></td>
+<td style="text-align:center">自左向右</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -337,7 +422,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1"><span class="nav-number">1.</span> <span class="nav-text">1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3"><span class="nav-number">3.</span> <span class="nav-text">3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4"><span class="nav-number">4.</span> <span class="nav-text">4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5"><span class="nav-number">5.</span> <span class="nav-text">5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6"><span class="nav-number">6.</span> <span class="nav-text">6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他收获"><span class="nav-number">7.</span> <span class="nav-text">其他收获</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1"><span class="nav-number">1.</span> <span class="nav-text">1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3"><span class="nav-number">3.</span> <span class="nav-text">3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4"><span class="nav-number">4.</span> <span class="nav-text">4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5"><span class="nav-number">5.</span> <span class="nav-text">5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6"><span class="nav-number">6.</span> <span class="nav-text">6</span></a></li></ol>
     
     </div>
   </aside>
