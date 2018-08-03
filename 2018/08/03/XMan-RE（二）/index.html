@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>xman re（二） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="rectf" />
+  
+  
+  
+  
+  <meta name="description" content="A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。">
+<meta name="keywords" content="re,ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMan RE（二）">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/03/XMan-RE（二）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ck03tl1ugng16o7rb64hv76pa.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ck03rkpe1gbg1cck5r81jis17bka.png-j.jpg">
+<meta property="og:updated_time" content="2018-08-03T14:56:43.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XMan RE（二）">
+<meta name="twitter:description" content="A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ck03tl1ugng16o7rb64hv76pa.png-j.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-XMan-RE（二）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      XMan RE（二）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/03/XMan-RE（二）/" class="article-date">
+	  <time datetime="2018-08-03T02:31:27.000Z" itemprop="datePublished">2018-08-03</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。</p>
+<a id="more"></a>
+<h1 id="hide"><a href="#hide" class="headerlink" title="hide"></a>hide</h1><p>拿到文件先<code>file</code>一下，是64位的ELF文件。然后<code>strings</code>一下，发现有upx壳。</p>
+<p>用<code>upx -d</code>不能脱，改用<code>dd</code>直接把内存dump下来。</p>
+<p><img src="http://t1.aixinxi.net/o_1ck03tl1ugng16o7rb64hv76pa.png-j.jpg" alt="直接dump内存"></p>
+<p>然后可以拖进ida开始逆。先是找到了一个藏假flag的函数，逻辑明显的错误的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">int64 <span class="title">sub_4009EF</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *v0; <span class="comment">// rsi@4</span></span><br><span class="line">  __int64 v1; <span class="comment">// rdx@4</span></span><br><span class="line">  __int64 result; <span class="comment">// rax@6</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [sp+10h] [bp-70h]@3</span></span><br><span class="line">  __int64 v4; <span class="comment">// [sp+78h] [bp-8h]@1</span></span><br><span class="line"></span><br><span class="line">  v4 = v28;</span><br><span class="line">  <span class="keyword">if</span> ( sub_43F380(<span class="number">0</span>) )</span><br><span class="line">    sub_40EAD0(<span class="number">0L</span>L, <span class="number">0L</span>L);</span><br><span class="line">  sub_43E9B0(<span class="number">1L</span>L, <span class="string">"Enter the flag:\n"</span>, <span class="number">16L</span>L);</span><br><span class="line">  sub_43E950(<span class="number">0L</span>L, &amp;v3, <span class="number">32L</span>L);</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> <span class="keyword">int</span>)sub_4009AE((__int64)&amp;v3) != <span class="number">0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v0 = <span class="string">"You are right\n"</span>;</span><br><span class="line">    sub_43E9B0(<span class="number">1L</span>L, <span class="string">"You are right\n"</span>, <span class="number">14L</span>L);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    v0 = <span class="string">"You are wrong\n"</span>;</span><br><span class="line">    sub_43E9B0(<span class="number">1L</span>L, <span class="string">"You are wrong\n"</span>, <span class="number">14L</span>L);</span><br><span class="line">  &#125;</span><br><span class="line">  result = <span class="number">0L</span>L;</span><br><span class="line">  <span class="keyword">if</span> ( v28 != v4 )</span><br><span class="line">    sub_442480(<span class="number">1L</span>L, v0, v1, v28 ^ v4);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据<code>&quot;Enter the flag:\n&quot;</code>进行交叉引用，找到了真正藏flag的地方。</p>
+<p><img src="http://t1.aixinxi.net/o_1ck03rkpe1gbg1cck5r81jis17bka.png-j.jpg" alt="找到真正藏flag的地方"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">LOAD:00000000004C8EA1     flag_place      proc near</span><br><span class="line">LOAD:00000000004C8EA1 000                 xor     edi, edi        ; request</span><br><span class="line">LOAD:00000000004C8EA3 000                 xor     rsi, rsi        ; pid</span><br><span class="line">LOAD:00000000004C8EA6 000                 xor     rdx, rdx        ; addr</span><br><span class="line">LOAD:00000000004C8EA9 000                 xor     r10, r10        ; data</span><br><span class="line">LOAD:00000000004C8EAC 000                 mov     eax, 65h</span><br><span class="line">LOAD:00000000004C8EB1 000                 syscall                 ; LINUX - sys_ptrace</span><br><span class="line">LOAD:00000000004C8EB3 000                 cmp     eax, 0</span><br><span class="line">LOAD:00000000004C8EB6 000                 jnz     locret_4C8FDB</span><br><span class="line">LOAD:00000000004C8EBC 000                 xor     rdi, rdi</span><br><span class="line">LOAD:00000000004C8EBF 000                 inc     rdi             ; fd</span><br><span class="line">LOAD:00000000004C8EC2 000                 mov     rsi, offset aEnterTheFlag ; buf</span><br><span class="line">LOAD:00000000004C8EC9 000                 mov     rdx, 10h        ; count</span><br><span class="line">LOAD:00000000004C8ED0 000                 xor     eax, eax</span><br><span class="line">LOAD:00000000004C8ED2 000                 inc     eax</span><br><span class="line">LOAD:00000000004C8ED4 000                 syscall                 ; LINUX - sys_write</span><br><span class="line">LOAD:00000000004C8ED6 000                 xor     rdi, rdi        ; fd</span><br><span class="line">LOAD:00000000004C8ED9 000                 xor     eax, eax</span><br><span class="line">LOAD:00000000004C8EDB 000                 mov     rsi, offset byte_6CCDB0 ; buf</span><br><span class="line">LOAD:00000000004C8EE2 000                 mov     rdx, 20h        ; count</span><br><span class="line">LOAD:00000000004C8EE9 000                 syscall                 ; LINUX - sys_read</span><br><span class="line">LOAD:00000000004C8EEB 000                 cmp     eax, 0</span><br><span class="line">LOAD:00000000004C8EEE 000                 jle     loc_4C8FA9</span><br><span class="line">LOAD:00000000004C8EF4 000                 mov     rdi, offset byte_6CCDB0</span><br><span class="line">LOAD:00000000004C8EFB 000                 mov     rcx, 0FFFFFFFFFFFFFFFFh</span><br><span class="line">LOAD:00000000004C8F02 000                 xor     eax, eax</span><br><span class="line">LOAD:00000000004C8F04 000                 repne scasb</span><br><span class="line">LOAD:00000000004C8F06 000                 not     rcx</span><br><span class="line">LOAD:00000000004C8F09 000                 sub     rcx, 1</span><br><span class="line">LOAD:00000000004C8F0D 000                 cmp     rcx, 15h        ; strlen=21</span><br><span class="line">LOAD:00000000004C8F11 000                 jnz     loc_4C8FA9</span><br><span class="line">LOAD:00000000004C8F17 000                 mov     rdi, offset byte_6CCDB0</span><br><span class="line">LOAD:00000000004C8F1E 000                 cmp     byte ptr [rdi+1], 77h ; w</span><br><span class="line">LOAD:00000000004C8F22 000                 jnz     loc_4C8FA9</span><br><span class="line">LOAD:00000000004C8F28 000                 cmp     byte ptr [rdi+2], 62h ; b</span><br><span class="line">LOAD:00000000004C8F2C 000                 jnz     short loc_4C8FA9</span><br><span class="line">LOAD:00000000004C8F2E 000                 cmp     byte ptr [rdi+3], 7Bh ; &#123;</span><br><span class="line">LOAD:00000000004C8F32 000                 jnz     short loc_4C8FA9</span><br><span class="line">LOAD:00000000004C8F34 000                 cmp     byte ptr [rdi+14h], 7Dh ; &#125;</span><br><span class="line">LOAD:00000000004C8F38 000                 jnz     short loc_4C8FA9</span><br><span class="line">LOAD:00000000004C8F3A 000                 mov     rdi, offset unk_6CCDB4</span><br><span class="line">LOAD:00000000004C8F41 000                 call    trans1</span><br><span class="line">LOAD:00000000004C8F46 000                 mov     rdi, offset unk_6CCDB4</span><br><span class="line">LOAD:00000000004C8F4D 000                 call    trans2</span><br><span class="line">LOAD:00000000004C8F52 000                 mov     rdi, offset unk_6CCDB4</span><br><span class="line">LOAD:00000000004C8F59 000                 call    trans1</span><br><span class="line">LOAD:00000000004C8F5E 000                 mov     rdi, offset unk_6CCDB4</span><br><span class="line">LOAD:00000000004C8F65 000                 call    trans2</span><br><span class="line">LOAD:00000000004C8F6A 000                 mov     rdi, offset unk_6CCDB4</span><br><span class="line">LOAD:00000000004C8F71 000                 call    trans1</span><br><span class="line">LOAD:00000000004C8F76 000                 mov     rdi, offset unk_6CCDB4</span><br><span class="line">LOAD:00000000004C8F7D 000                 call    trans2</span><br><span class="line">LOAD:00000000004C8F82 000                 mov     rsi, offset qword_4C8CB0</span><br><span class="line">LOAD:00000000004C8F89 000                 mov     rdx, 0</span><br><span class="line">LOAD:00000000004C8F90</span><br><span class="line">LOAD:00000000004C8F90     loc_4C8F90:                             ; CODE XREF: flag_place+106↓j</span><br><span class="line">LOAD:00000000004C8F90 000                 cmp     rdx, 10h</span><br><span class="line">LOAD:00000000004C8F94 000                 jnb     short loc_4C8FB2</span><br><span class="line">LOAD:00000000004C8F96 000                 mov     al, [rdi]</span><br><span class="line">LOAD:00000000004C8F98 000                 mov     ah, [rsi]</span><br><span class="line">LOAD:00000000004C8F9A 000                 cmp     al, ah</span><br><span class="line">LOAD:00000000004C8F9C 000                 jnz     short loc_4C8FA9</span><br><span class="line">LOAD:00000000004C8F9E 000                 inc     rdx</span><br><span class="line">LOAD:00000000004C8FA1 000                 inc     rdi</span><br><span class="line">LOAD:00000000004C8FA4 000                 inc     rsi</span><br><span class="line">LOAD:00000000004C8FA7 000                 jmp     short loc_4C8F90</span><br><span class="line">LOAD:00000000004C8FA9     ; ---------------------------------------------------------------------------</span><br><span class="line">LOAD:00000000004C8FA9</span><br><span class="line">LOAD:00000000004C8FA9     loc_4C8FA9:                             ; CODE XREF: flag_place+4D↑j</span><br><span class="line">LOAD:00000000004C8FA9                                             ; flag_place+70↑j ...</span><br><span class="line">LOAD:00000000004C8FA9 000                 mov     rsi, offset aYouAreWrong ; &quot;You are wrong\n&quot;</span><br><span class="line">LOAD:00000000004C8FB0 000                 jmp     short loc_4C8FB9</span><br><span class="line">LOAD:00000000004C8FB2     ; ---------------------------------------------------------------------------</span><br><span class="line">LOAD:00000000004C8FB2</span><br><span class="line">LOAD:00000000004C8FB2     loc_4C8FB2:                             ; CODE XREF: flag_place+F3↑j</span><br><span class="line">LOAD:00000000004C8FB2 000                 mov     rsi, offset aYouAreRight ; &quot;You are right\n&quot;</span><br></pre></td></tr></table></figure>
+<p>直接根据汇编代码可以判断出flag的处理过程，经过两个加密函数，共三次加密。</p>
+<p>第一个加密函数将flag分成前后两段，分别进行一系列按位移位操作，总共循环七次。这一段逆起来有些麻烦。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">trans1</span><span class="params">(<span class="keyword">char</span> *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v2; <span class="comment">// rt1</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> former; <span class="comment">// [rsp+18h] [rbp-48h]</span></span><br><span class="line">  __int64 later; <span class="comment">// [rsp+1Ch] [rbp-44h]</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+24h] [rbp-3Ch]</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> j; <span class="comment">// [rsp+28h] [rbp-38h]</span></span><br><span class="line">  <span class="keyword">int</span> v7[<span class="number">5</span>]; <span class="comment">// [rsp+40h] [rbp-20h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v8; <span class="comment">// [rsp+58h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v8 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v7[<span class="number">0</span>] = <span class="number">1883844979</span>;</span><br><span class="line">  v7[<span class="number">1</span>] = <span class="number">1165112144</span>;</span><br><span class="line">  v7[<span class="number">2</span>] = <span class="number">2035430262</span>;</span><br><span class="line">  v7[<span class="number">3</span>] = <span class="number">861484132</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">1</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    former = *(_DWORD *)&amp;a1[<span class="number">8</span> * i];</span><br><span class="line">    later = *(<span class="keyword">unsigned</span> <span class="keyword">int</span> *)&amp;a1[<span class="number">8</span> * i + <span class="number">4</span>];</span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">7</span>; ++j )</span><br><span class="line">    &#123;</span><br><span class="line">      former += (v7[BYTE4(later) &amp; <span class="number">3</span>] + HIDWORD(later)) ^ ((((<span class="keyword">unsigned</span> <span class="keyword">int</span>)later &gt;&gt; <span class="number">5</span>) ^ <span class="number">16</span> * later) + later);</span><br><span class="line">      HIDWORD(later) += <span class="number">1735289196</span>;</span><br><span class="line">      LODWORD(later) = ((v7[(HIDWORD(later) &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>] + HIDWORD(later)) ^ (((former &gt;&gt; <span class="number">5</span>) ^ <span class="number">16</span> * former) + former))</span><br><span class="line">                     + later;</span><br><span class="line">    &#125;</span><br><span class="line">    *(_DWORD *)&amp;a1[<span class="number">8</span> * i] = former;</span><br><span class="line">    *(_DWORD *)&amp;a1[<span class="number">8</span> * i + <span class="number">4</span>] = later;</span><br><span class="line">  &#125;</span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  result = v2 ^ v8;</span><br><span class="line">  <span class="keyword">if</span> ( v2 != v8 )</span><br><span class="line">    result = ((__int64 (*)(<span class="keyword">void</span>))loc_4C8B9A)();</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二段加密函数是个简单的异或，对称加密。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">_BYTE *__<span class="function">fastcall <span class="title">trans2</span><span class="params">(__int64 a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _BYTE *result; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+14h] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">15</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    result = (_BYTE *)(i + a1);</span><br><span class="line">    *result ^= i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后通过动态调试，可以data段找到被加密过的flag，取出密文后，写出解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">u32</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> struct.unpack(<span class="string">"&lt;I"</span>, data)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">p32</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> struct.pack(<span class="string">"&lt;I"</span>, data)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(data)</span>:</span></span><br><span class="line">    delta = <span class="number">0x676E696C</span></span><br><span class="line">    key = [<span class="number">1883844979</span>, <span class="number">1165112144</span>, <span class="number">2035430262</span>, <span class="number">861484132</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(key)):</span><br><span class="line">        key[i] %= <span class="number">0x100000000</span></span><br><span class="line">    sum = delta * <span class="number">8</span></span><br><span class="line">    high = u32(data[:<span class="number">4</span>])</span><br><span class="line">    low = u32(data[<span class="number">4</span>:<span class="number">8</span>])</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>):</span><br><span class="line">        low -= ((((high &lt;&lt; <span class="number">4</span>) % <span class="number">0x100000000</span>) ^ (high &gt;&gt; <span class="number">5</span>)) + high) ^ (sum + key[(sum &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>])</span><br><span class="line">        low %= <span class="number">0x100000000</span></span><br><span class="line">        sum -= delta</span><br><span class="line">        high -= ((((low &lt;&lt; <span class="number">4</span>) % <span class="number">0x100000000</span>) ^ (low &gt;&gt; <span class="number">5</span>)) + low) ^ (sum + key[sum &amp; <span class="number">3</span>])</span><br><span class="line">        high %= <span class="number">0x100000000</span></span><br><span class="line">    <span class="keyword">return</span> p32(high) + p32(low)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xor</span><span class="params">(data)</span>:</span></span><br><span class="line">    res = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(data)):</span><br><span class="line">        res += chr(ord(data[i]) ^ i)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    s0 = [<span class="number">0x52</span>, <span class="number">0xB8</span>, <span class="number">0x13</span>, <span class="number">0x7F</span>, <span class="number">0x35</span>, <span class="number">0x8C</span>, <span class="number">0xF2</span>, <span class="number">0x1B</span>, <span class="number">0xF4</span>, <span class="number">0x63</span>, <span class="number">0x86</span>, <span class="number">0xD2</span>, <span class="number">0x73</span>, <span class="number">0x4F</span>, <span class="number">0x1E</span>, <span class="number">0x31</span>]</span><br><span class="line">    s = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s0)):</span><br><span class="line">        s += chr(s0[i])</span><br><span class="line">    <span class="keyword">print</span> s</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">        flag = xor(s)</span><br><span class="line">        s = decrypt(flag[<span class="number">0</span>:<span class="number">8</span>]) + decrypt(flag[<span class="number">8</span>:<span class="number">16</span>])</span><br><span class="line">        <span class="keyword">print</span> s</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'flag:'</span>, <span class="string">'qwb&#123;'</span> + s + <span class="string">'&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h1 id="magic"><a href="#magic" class="headerlink" title="magic"></a>magic</h1><p>file后发现是一个64位PE文件。</p>
+<h2 id="longjmp-amp-setjump"><a href="#longjmp-amp-setjump" class="headerlink" title="longjmp &amp; setjump"></a>longjmp &amp; setjump</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> jmp_buf buf;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">second</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"second\n"</span>);</span><br><span class="line">    longjmp(buf, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">first</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    second();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"first\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!setjmp(buf))</span><br><span class="line">        first();</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"main\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Irregular-RE"><a href="#Irregular-RE" class="headerlink" title="Irregular RE"></a>Irregular RE</h1><p>各种各样的格式文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lua/python/java/lua-jit/hashell/applescript/js/solidity/webassembly/etc…</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firmware/raw bin/risc-v/etc…</span><br><span class="line">chip8/avr/clemency/etc…</span><br></pre></td></tr></table></figure>
+<p>一般情况下，需要找到文件格式对应的识别器、反汇编器、反编译器等后，再进行正式逆向。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/02/XMan-RE（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XMan RE（一）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hide"><span class="nav-number">1.</span> <span class="nav-text">hide</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#magic"><span class="nav-number">2.</span> <span class="nav-text">magic</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#longjmp-amp-setjump"><span class="nav-number">2.1.</span> <span class="nav-text">longjmp &amp; setjump</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Irregular-RE"><span class="nav-number">3.</span> <span class="nav-text">Irregular RE</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
