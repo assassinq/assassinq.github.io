@@ -6,20 +6,23 @@
   <title>xman pwn（一） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="ctfpwn" />
   
   
   
-  <meta name="description" content="kernel space调用约定 32: stack 64: rdi, rsi, rdx, rcx, r8, r9, stack  系统调用 32: eax - syscall, ebx, ecx, edx 64: rax - syscall, rdi, rsi, rdx, rcx, r8, r9  IO ==&amp;gt; sleep/rawinputcyclic pattern(cyclic(),">
+  
+  <meta name="description" content="丁佬tql，我完全pwn不起来。">
+<meta name="keywords" content="ctf,pwn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XMan PWN（一）">
 <meta property="og:url" content="http://AssassinQ.com/2018/08/05/XMan-PWN（一）/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="kernel space调用约定 32: stack 64: rdi, rsi, rdx, rcx, r8, r9, stack  系统调用 32: eax - syscall, ebx, ecx, edx 64: rax - syscall, rdi, rsi, rdx, rcx, r8, r9  IO ==&amp;gt; sleep/rawinputcyclic pattern(cyclic(),">
+<meta property="og:description" content="丁佬tql，我完全pwn不起来。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-05T10:04:28.337Z">
+<meta property="og:updated_time" content="2018-08-05T15:21:52.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan PWN（一）">
-<meta name="twitter:description" content="kernel space调用约定 32: stack 64: rdi, rsi, rdx, rcx, r8, r9, stack  系统调用 32: eax - syscall, ebx, ecx, edx 64: rax - syscall, rdi, rsi, rdx, rcx, r8, r9  IO ==&amp;gt; sleep/rawinputcyclic pattern(cyclic(),">
+<meta name="twitter:description" content="丁佬tql，我完全pwn不起来。">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -190,7 +193,8 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <p>丁佬tql，我完全pwn不起来。</p>
+<a id="more"></a>
 <h1 id="kernel-space"><a href="#kernel-space" class="headerlink" title="kernel space"></a>kernel space</h1><h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><ul>
 <li>32: stack</li>
 <li>64: rdi, rsi, rdx, rcx, r8, r9, stack</li>
@@ -200,8 +204,14 @@
 <li>64: rax - syscall, rdi, rsi, rdx, rcx, r8, r9</li>
 </ul>
 <p>IO ==&gt; sleep/rawinput<br>cyclic pattern(cyclic(), cyclic_find())<br>fmtstr_payload</p>
-<h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><p>%mX控制输出字符数量<br>%n写入</p>
-<p>%d - 十进制 - 输出十进制整数<br>%s - 字符串 - 从内存中读取字符串<br>%x - 十六进制 - 输出十六进制数<br>%c - 字符 - 输出字符<br>%p - 指针 - 指针地址<br>%n - 到目前为止所写的字符数</p>
+<h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><ul>
+<li>%d - 十进制 - 输出十进制整数</li>
+<li>%s - 字符串 - 从内存中读取字符串</li>
+<li>%x - 十六进制 - 输出十六进制数</li>
+<li>%c - 字符 - 输出字符</li>
+<li>%p - 指针 - 指针地址</li>
+<li>%n - 到目前为止所写的字符数</li>
+</ul>
 <h1 id="栈溢出漏洞"><a href="#栈溢出漏洞" class="headerlink" title="栈溢出漏洞"></a>栈溢出漏洞</h1><p>ret2shellcode</p>
 <p>ROP/JOP/COP</p>
 <h2 id="ROPgadget"><a href="#ROPgadget" class="headerlink" title="ROPgadget"></a>ROPgadget</h2><ul>
@@ -209,7 +219,7 @@
 <li>ret2vdso, ret2vsyscall -&gt; special gadget(mapping)</li>
 <li>ret2csu -&gt; (–depth 20)</li>
 </ul>
-<h1 id="dl-resolve"><a href="#dl-resolve" class="headerlink" title="dl-resolve"></a>dl-resolve</h1><h2 id="PLT-amp-GOT"><a href="#PLT-amp-GOT" class="headerlink" title="PLT &amp; GOT"></a>PLT &amp; GOT</h2><p>PLT(Global Offset Table): push index; call GOT; jmp PLT[0]<br>GOT(Procedure Link Table): </p>
+<h1 id="dl-resolve"><a href="#dl-resolve" class="headerlink" title="dl-resolve"></a>dl-resolve</h1><h2 id="PLT-amp-GOT"><a href="#PLT-amp-GOT" class="headerlink" title="PLT &amp; GOT"></a>PLT &amp; GOT</h2><p>PLT(Global Offset Table): push index; call GOT; jmp PLT[0]<br>GOT(Procedure Link Table): jmp PLT[0]</p>
 <h1 id="SROP"><a href="#SROP" class="headerlink" title="SROP"></a>SROP</h1><p>signal: …</p>
 <h1 id="tricks"><a href="#tricks" class="headerlink" title="tricks"></a>tricks</h1><p>stack pivot</p>
 <p>tls</p>
@@ -258,6 +268,8 @@ var a = new Donate({
 
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
     </footer>
   </div>
   
