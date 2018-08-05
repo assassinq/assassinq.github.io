@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>xman android（一） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfre" />
+  
+  
+  
+  
+  <meta name="description" content="jr大佬带我学android，从入门到放弃。">
+<meta name="keywords" content="ctf,re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMan Android（一）">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/04/XMan-Android（一）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="jr大佬带我学android，从入门到放弃。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ck2r20sgcolu0l6k713lqce7a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ck2r7r1e11o9q5o17391im9itaa.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ck2t6f2m1fhp1p6ptpnfj11qlja.png-j.jpg">
+<meta property="og:updated_time" content="2018-08-05T09:30:17.140Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XMan Android（一）">
+<meta name="twitter:description" content="jr大佬带我学android，从入门到放弃。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ck2r20sgcolu0l6k713lqce7a.png-j.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-XMan-Android（一）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      XMan Android（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/04/XMan-Android（一）/" class="article-date">
+	  <time datetime="2018-08-04T05:34:56.000Z" itemprop="datePublished">2018-08-04</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>jr大佬带我学android，从入门到放弃。</p>
+<a id="more"></a>
+<h1 id="相关工具在命令行的使用"><a href="#相关工具在命令行的使用" class="headerlink" title="相关工具在命令行的使用"></a>相关工具在命令行的使用</h1><h2 id="apktool"><a href="#apktool" class="headerlink" title="apktool"></a>apktool</h2><p>解包<code>apk</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool_2.3.0.jar d *.apk -o [output file]</span><br></pre></td></tr></table></figure>
+<p>打包<code>apk</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool_2.3.0.jar b [output file]</span><br></pre></td></tr></table></figure>
+<h2 id="smali-baksmali"><a href="#smali-baksmali" class="headerlink" title="smali/baksmali"></a>smali/baksmali</h2><p><code>dex</code>文件转换成<code>smali</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar baksmali-2.1.3.jar -o [output file] *.dex</span><br></pre></td></tr></table></figure>
+<p><code>smali</code>文件转换成<code>dex</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar smali-2.1.3.jar -o *.dex [smali file]</span><br></pre></td></tr></table></figure>
+<h2 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar"></a>dex2jar</h2><p>反编译<code>apk</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d2j-dex2jar.bat classes.dex</span><br></pre></td></tr></table></figure>
+<h1 id="com-j-crackme-apk"><a href="#com-j-crackme-apk" class="headerlink" title="com.j.crackme.apk"></a>com.j.crackme.apk</h1><p>拖进jadx，在<code>MainActivity</code>中看出逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle bundle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(bundle);</span><br><span class="line">        setContentView((<span class="keyword">int</span>) R.layout.activity_main);</span><br><span class="line">        ((Button) findViewById(R.id.button)).setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                MainActivity.<span class="keyword">this</span>.a();</span><br><span class="line">                EditText editText = (EditText) MainActivity.<span class="keyword">this</span>.findViewById(R.id.edit_text);</span><br><span class="line">                String obj = editText.getText().toString();</span><br><span class="line">                <span class="keyword">if</span> (MainActivity.<span class="keyword">this</span>.clazz != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> (Base64.encodeToString(((IMyClass) MainActivity.<span class="keyword">this</span>.clazz.newInstance()).check(obj), <span class="number">0</span>).equals(<span class="string">"+sfQ39PX3eGOzOGNyt/Kj90=\n"</span>)) &#123;</span><br><span class="line">                            Toast.makeText(MainActivity.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"Good job"</span>, <span class="number">0</span>).show();</span><br><span class="line">                            editText.setText(String.format(<span class="string">"flag&#123;%s&#125;"</span>, <span class="keyword">new</span> Object[]&#123;obj&#125;));</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            Toast.makeText(MainActivity.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"Why you say so"</span>, <span class="number">0</span>).show();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (View view2) &#123;</span><br><span class="line">                        view2.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.clazz == <span class="keyword">null</span> &amp;&amp; c()) &#123;</span><br><span class="line">            StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            stringBuilder.append(getApplicationInfo().dataDir);</span><br><span class="line">            stringBuilder.append(File.separator);</span><br><span class="line">            stringBuilder.append(<span class="string">"files"</span>);</span><br><span class="line">            stringBuilder.append(File.separator);</span><br><span class="line">            stringBuilder.append(<span class="string">"plugin.jar"</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.clazz = <span class="keyword">new</span> DexClassLoader(<span class="keyword">new</span> File(stringBuilder.toString()).getAbsolutePath(), getApplicationInfo().dataDir, <span class="keyword">null</span>, getClassLoader()).loadClass(<span class="string">"com.j.base.MyClass"</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">c</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">byte</span>[] d = d(getAssets().open(<span class="string">"plugin"</span>));</span><br><span class="line">            <span class="keyword">if</span> (d == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; d.length; i++) &#123;</span><br><span class="line">                d[i] = (<span class="keyword">byte</span>) (d[i] ^ <span class="number">239</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            BufferedOutputStream bufferedOutputStream = <span class="keyword">new</span> BufferedOutputStream(openFileOutput(<span class="string">"plugin.jar"</span>, <span class="number">0</span>));</span><br><span class="line">            bufferedOutputStream.write(d);</span><br><span class="line">            bufferedOutputStream.flush();</span><br><span class="line">            bufferedOutputStream.close();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] d(InputStream inputStream) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ByteArrayOutputStream byteArrayOutputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            <span class="keyword">byte</span>[] bArr = <span class="keyword">new</span> <span class="keyword">byte</span>[AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT];</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> read = inputStream.read(bArr);</span><br><span class="line">                <span class="keyword">if</span> (read != -<span class="number">1</span>) &#123;</span><br><span class="line">                    byteArrayOutputStream.write(bArr, <span class="number">0</span>, read);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    byteArrayOutputStream.flush();</span><br><span class="line">                    byteArrayOutputStream.close();</span><br><span class="line">                    inputStream.close();</span><br><span class="line">                    <span class="keyword">return</span> byteArrayOutputStream.toByteArray();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InputStream inputStream2) &#123;</span><br><span class="line">            inputStream2.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>onClick</code>中先调用了<code>a()</code>，然后在<code>a()</code>中调用了<code>c()</code>。<code>c()</code>中打开了目录下的一个<code>plugin</code>文件，对其逐字节和数字<code>239</code>进行异或，生成一个<code>plugin.jar</code>，然后调用其中的<code>check()</code>函数。<code>d()</code>则用来检测读取文件是否正常。根据<code>check()</code>对输入字符串加密后，再经过Base64加密的值与<code>+sfQ39PX3eGOzOGNyt/Kj90=\n</code>相等即正确。</p>
+<p>根据<code>c()</code>，写出输出<code>plugin.jar</code>的脚本：</p>
+<p><img src="http://t1.aixinxi.net/o_1ck2r20sgcolu0l6k713lqce7a.png-j.jpg" alt="脚本"></p>
+<p>然后将jar文件拖入jadx，得到<code>check()</code>的逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> <span class="keyword">implements</span> <span class="title">IMyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] check(String input) &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = input.getBytes();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bytes.length; i++) &#123;</span><br><span class="line">            bytes[i] = (<span class="keyword">byte</span>) (bytes[i] ^ <span class="number">190</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bytes;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后脚本得到flag：</p>
+<p><img src="http://t1.aixinxi.net/o_1ck2r7r1e11o9q5o17391im9itaa.png-j.jpg" alt="payload"></p>
+<h1 id="com-j-hiddendata-apk"><a href="#com-j-hiddendata-apk" class="headerlink" title="com.j.hiddendata.apk"></a>com.j.hiddendata.apk</h1><p>拿进jadx，在<code>MainActivity</code>中找到加密函数<code>check()</code>，但是加密函数存在于native层。可以在解压后的lib目录下将<code>.so</code>文件拖入ida：</p>
+<p><img src="http://t1.aixinxi.net/o_1ck2t6f2m1fhp1p6ptpnfj11qlja.png-j.jpg" alt="真正的加密函数不在这里"></p>
+<p>在<code>JNI_OnLoad</code>中找到加密函数，理清函数的逻辑：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">key_func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _BYTE *data; <span class="comment">// r14</span></span><br><span class="line">  __int64 index; <span class="comment">// rdi</span></span><br><span class="line">  <span class="keyword">char</span> *v2; <span class="comment">// rbx</span></span><br><span class="line">  <span class="keyword">void</span> *result; <span class="comment">// rax</span></span><br><span class="line"></span><br><span class="line">  data = <span class="built_in">malloc</span>(<span class="number">0x10</span>uLL);</span><br><span class="line">  index = <span class="number">0L</span>L;</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v2 = ori;</span><br><span class="line">    data[index] = keys[(<span class="keyword">signed</span> <span class="keyword">int</span>)index % <span class="number">4</span>] ^ (((<span class="keyword">unsigned</span> <span class="keyword">int</span>)(<span class="keyword">unsigned</span> __int8)ori[index] &gt;&gt; (<span class="keyword">signed</span> <span class="keyword">int</span>)index % <span class="number">4</span>) | (ori[index] &lt;&lt; (<span class="keyword">signed</span> <span class="keyword">int</span>)index / <span class="number">4</span>));</span><br><span class="line">    <span class="keyword">if</span> ( index == <span class="number">15</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> ( ++index == <span class="number">16</span> )</span><br><span class="line">      <span class="keyword">goto</span> LABEL_6;</span><br><span class="line">  &#125;</span><br><span class="line">  __android_log_print(</span><br><span class="line">    <span class="number">4L</span>L,</span><br><span class="line">    (__int64)<span class="string">"hidden"</span>,</span><br><span class="line">    (__int64)<span class="string">"%d %d %d"</span>,</span><br><span class="line">    (<span class="keyword">unsigned</span> __int8)(v2[<span class="number">15</span>] &gt;&gt; <span class="number">3</span>),</span><br><span class="line">    (<span class="keyword">unsigned</span> __int8)(<span class="number">8</span> * v2[<span class="number">15</span>]));</span><br><span class="line">LABEL_6:</span><br><span class="line">  result = &amp;after;</span><br><span class="line">  after = data;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段是关键函数，这里将<code>ori</code>和<code>keys</code>进行一系列移位和异或运算，并将结果赋值给<code>after</code>。</p>
+<p>下面对输入的字符串进行比较：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> __int64 __<span class="function">fastcall <span class="title">str_cmp</span><span class="params">(__m128 *a1, <span class="keyword">int</span> a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _BOOL4 v2; <span class="comment">// ebp</span></span><br><span class="line">  __m128 *v3; <span class="comment">// rbx</span></span><br><span class="line">  __int64 v4; <span class="comment">// r8</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [rsp+0h] [rbp-98h]</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// [rsp+4h] [rbp-94h]</span></span><br><span class="line">  <span class="keyword">char</span> v8; <span class="comment">// [rsp+8h] [rbp-90h]</span></span><br><span class="line">  <span class="keyword">char</span> v9; <span class="comment">// [rsp+Ch] [rbp-8Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v10; <span class="comment">// [rsp+10h] [rbp-88h]</span></span><br><span class="line">  <span class="keyword">char</span> v11; <span class="comment">// [rsp+14h] [rbp-84h]</span></span><br><span class="line">  <span class="keyword">char</span> v12; <span class="comment">// [rsp+18h] [rbp-80h]</span></span><br><span class="line">  <span class="keyword">char</span> v13; <span class="comment">// [rsp+1Ch] [rbp-7Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v14; <span class="comment">// [rsp+20h] [rbp-78h]</span></span><br><span class="line">  <span class="keyword">char</span> v15; <span class="comment">// [rsp+24h] [rbp-74h]</span></span><br><span class="line">  <span class="keyword">char</span> v16; <span class="comment">// [rsp+28h] [rbp-70h]</span></span><br><span class="line">  <span class="keyword">char</span> v17; <span class="comment">// [rsp+2Ch] [rbp-6Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v18; <span class="comment">// [rsp+30h] [rbp-68h]</span></span><br><span class="line">  <span class="keyword">char</span> v19; <span class="comment">// [rsp+34h] [rbp-64h]</span></span><br><span class="line">  <span class="keyword">char</span> v20; <span class="comment">// [rsp+38h] [rbp-60h]</span></span><br><span class="line">  <span class="keyword">char</span> v21; <span class="comment">// [rsp+3Ch] [rbp-5Ch]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v22; <span class="comment">// [rsp+70h] [rbp-28h]</span></span><br><span class="line"></span><br><span class="line">  v22 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v2 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( a2 == <span class="number">16</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v3 = xor(a1);</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;s, <span class="string">"\\x%02x"</span>, LOBYTE(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v7, <span class="string">"\\x%02x"</span>, BYTE1(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v8, <span class="string">"\\x%02x"</span>, BYTE2(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v9, <span class="string">"\\x%02x"</span>, BYTE3(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v10, <span class="string">"\\x%02x"</span>, BYTE4(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v11, <span class="string">"\\x%02x"</span>, BYTE5(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v12, <span class="string">"\\x%02x"</span>, BYTE6(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v13, <span class="string">"\\x%02x"</span>, HIBYTE(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v14, <span class="string">"\\x%02x"</span>, LOBYTE(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v15, <span class="string">"\\x%02x"</span>, BYTE1(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v16, <span class="string">"\\x%02x"</span>, BYTE2(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v17, <span class="string">"\\x%02x"</span>, BYTE3(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v18, <span class="string">"\\x%02x"</span>, BYTE4(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v19, <span class="string">"\\x%02x"</span>, BYTE5(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v20, <span class="string">"\\x%02x"</span>, BYTE6(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v21, <span class="string">"\\x%02x"</span>, HIBYTE(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    __android_log_print(<span class="number">4L</span>L, (__int64)<span class="string">"hiddendata"</span>, (__int64)<span class="string">"%s"</span>, (__int64)&amp;s, v4);</span><br><span class="line">    v2 = <span class="built_in">memcmp</span>(final, v3, <span class="number">0x10</span>uLL) == <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">free</span>(v3);</span><br><span class="line">  &#125;</span><br><span class="line">  result = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="keyword">if</span> ( result == v22 )</span><br><span class="line">    result = (<span class="keyword">unsigned</span> <span class="keyword">int</span>)v2;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__m128 *__<span class="function">fastcall <span class="title">xor</span><span class="params">(__m128 *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  __m128 *result; <span class="comment">// rax</span></span><br><span class="line"></span><br><span class="line">  result = (__m128 *)<span class="built_in">malloc</span>(<span class="number">0x10</span>uLL);</span><br><span class="line">  *result = _mm_xor_ps((__m128)*after, *a1);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将<code>after</code>与<code>a1</code>（即输入的字符串）进行异或，再与<code>final</code>进行比较。</p>
+<p>其中<code>keys</code>、<code>ori</code>、<code>final</code>都能在内存中dump出来。最后写出解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ori = [<span class="number">0x41</span>, <span class="number">0xFF</span>, <span class="number">0xF3</span>, <span class="number">0xDB</span>, <span class="number">0x06</span>, <span class="number">0xB3</span>, <span class="number">0x69</span>, <span class="number">0xC2</span>, <span class="number">0x90</span>, <span class="number">0xA3</span>, <span class="number">0x21</span>, <span class="number">0x8F</span>, <span class="number">0x7B</span>, <span class="number">0x6D</span>, <span class="number">0x32</span>, <span class="number">0x8C</span>]</span><br><span class="line">keys = [<span class="number">0x56</span>, <span class="number">0xFC</span>, <span class="number">0xD8</span>, <span class="number">0x66</span>]</span><br><span class="line">final = [<span class="number">0x64</span>, <span class="number">0x32</span>, <span class="number">0x4A</span>, <span class="number">0xCD</span>, <span class="number">0x34</span>, <span class="number">0xE6</span>, <span class="number">0x5D</span>, <span class="number">0x82</span>, <span class="number">0xB6</span>, <span class="number">0x53</span>, <span class="number">0x0B</span>, <span class="number">0x39</span>, <span class="number">0xC8</span>, <span class="number">0xE7</span>, <span class="number">0x21</span>, <span class="number">0x71</span>]</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">    tmp = keys[i % <span class="number">4</span>] ^ ((ori[i] &gt;&gt; i % <span class="number">4</span>) &amp; <span class="number">0xFF</span> | (ori[i] &lt;&lt; i / <span class="number">4</span>) &amp; <span class="number">0xFF</span>)</span><br><span class="line">    ch = chr(tmp ^ final[i])</span><br><span class="line">    flag += ch</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<h1 id="simplecheck-apk"><a href="#simplecheck-apk" class="headerlink" title="simplecheck.apk"></a>simplecheck.apk</h1><p>拖进jadx，<code>MainActivity</code>中看到加密过程中调用了<code>a</code>类中的<code>a()</code>函数，直接打开看函数结构：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.a.simplecheck;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">a</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] a = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>, <span class="number">146527998</span>, <span class="number">205327308</span>, <span class="number">94243885</span>, <span class="number">138810487</span>, <span class="number">408218567</span>, <span class="number">77866117</span>, <span class="number">71548549</span>, <span class="number">563255818</span>, <span class="number">559010506</span>, <span class="number">449018203</span>, <span class="number">576200653</span>, <span class="number">307283021</span>, <span class="number">467607947</span>, <span class="number">314806739</span>, <span class="number">341420795</span>, <span class="number">341420795</span>, <span class="number">469998524</span>, <span class="number">417733494</span>, <span class="number">342206934</span>, <span class="number">392460324</span>, <span class="number">382290309</span>, <span class="number">185532945</span>, <span class="number">364788505</span>, <span class="number">210058699</span>, <span class="number">198137551</span>, <span class="number">360748557</span>, <span class="number">440064477</span>, <span class="number">319861317</span>, <span class="number">676258995</span>, <span class="number">389214123</span>, <span class="number">829768461</span>, <span class="number">534844356</span>, <span class="number">427514172</span>, <span class="number">864054312</span>&#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] b = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">13710</span>, <span class="number">46393</span>, <span class="number">49151</span>, <span class="number">36900</span>, <span class="number">59564</span>, <span class="number">35883</span>, <span class="number">3517</span>, <span class="number">52957</span>, <span class="number">1509</span>, <span class="number">61207</span>, <span class="number">63274</span>, <span class="number">27694</span>, <span class="number">20932</span>, <span class="number">37997</span>, <span class="number">22069</span>, <span class="number">8438</span>, <span class="number">33995</span>, <span class="number">53298</span>, <span class="number">16908</span>, <span class="number">30902</span>, <span class="number">64602</span>, <span class="number">64028</span>, <span class="number">29629</span>, <span class="number">26537</span>, <span class="number">12026</span>, <span class="number">31610</span>, <span class="number">48639</span>, <span class="number">19968</span>, <span class="number">45654</span>, <span class="number">51972</span>, <span class="number">64956</span>, <span class="number">45293</span>, <span class="number">64752</span>, <span class="number">37108</span>&#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] c = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">38129</span>, <span class="number">57355</span>, <span class="number">22538</span>, <span class="number">47767</span>, <span class="number">8940</span>, <span class="number">4975</span>, <span class="number">27050</span>, <span class="number">56102</span>, <span class="number">21796</span>, <span class="number">41174</span>, <span class="number">63445</span>, <span class="number">53454</span>, <span class="number">28762</span>, <span class="number">59215</span>, <span class="number">16407</span>, <span class="number">64340</span>, <span class="number">37644</span>, <span class="number">59896</span>, <span class="number">41276</span>, <span class="number">25896</span>, <span class="number">27501</span>, <span class="number">38944</span>, <span class="number">37039</span>, <span class="number">38213</span>, <span class="number">61842</span>, <span class="number">43497</span>, <span class="number">9221</span>, <span class="number">9879</span>, <span class="number">14436</span>, <span class="number">60468</span>, <span class="number">19926</span>, <span class="number">47198</span>, <span class="number">8406</span>, <span class="number">64666</span>&#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] d = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>, -<span class="number">341994984</span>, -<span class="number">370404060</span>, -<span class="number">257581614</span>, -<span class="number">494024809</span>, -<span class="number">135267265</span>, <span class="number">54930974</span>, -<span class="number">155841406</span>, <span class="number">540422378</span>, -<span class="number">107286502</span>, -<span class="number">128056922</span>, <span class="number">265261633</span>, <span class="number">275964257</span>, <span class="number">119059597</span>, <span class="number">202392013</span>, <span class="number">283676377</span>, <span class="number">126284124</span>, -<span class="number">68971076</span>, <span class="number">261217574</span>, <span class="number">197555158</span>, -<span class="number">12893337</span>, -<span class="number">10293675</span>, <span class="number">93868075</span>, <span class="number">121661845</span>, <span class="number">167461231</span>, <span class="number">123220255</span>, <span class="number">221507</span>, <span class="number">258914772</span>, <span class="number">180963987</span>, <span class="number">107841171</span>, <span class="number">41609001</span>, <span class="number">276531381</span>, <span class="number">169983906</span>, <span class="number">276158562</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">a</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (str.length() != b.length) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] iArr = <span class="keyword">new</span> <span class="keyword">int</span>[a.length];</span><br><span class="line">        iArr[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">byte</span> b : str.getBytes()) &#123;</span><br><span class="line">            iArr[i] = b;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i2 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i2 &lt; c.length) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[i2] != (((b[i2] * iArr[i2]) * iArr[i2]) + (c[i2] * iArr[i2])) + d[i2] || a[i2 + <span class="number">1</span>] != (((b[i2] * iArr[i2 + <span class="number">1</span>]) * iArr[i2 + <span class="number">1</span>]) + (c[i2] * iArr[i2 + <span class="number">1</span>])) + d[i2]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            i2++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后只需要根据程序逻辑，写出爆破脚本即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">0</span>, <span class="number">146527998</span>, <span class="number">205327308</span>, <span class="number">94243885</span>, <span class="number">138810487</span>, <span class="number">408218567</span>, <span class="number">77866117</span>, <span class="number">71548549</span>, <span class="number">563255818</span>, <span class="number">559010506</span>, <span class="number">449018203</span>, <span class="number">576200653</span>, <span class="number">307283021</span>, <span class="number">467607947</span>, <span class="number">314806739</span>, <span class="number">341420795</span>, <span class="number">341420795</span>, <span class="number">469998524</span>, <span class="number">417733494</span>, <span class="number">342206934</span>, <span class="number">392460324</span>, <span class="number">382290309</span>, <span class="number">185532945</span>, <span class="number">364788505</span>, <span class="number">210058699</span>, <span class="number">198137551</span>, <span class="number">360748557</span>, <span class="number">440064477</span>, <span class="number">319861317</span>, <span class="number">676258995</span>, <span class="number">389214123</span>, <span class="number">829768461</span>, <span class="number">534844356</span>, <span class="number">427514172</span>, <span class="number">864054312</span>]</span><br><span class="line">b = [<span class="number">13710</span>, <span class="number">46393</span>, <span class="number">49151</span>, <span class="number">36900</span>, <span class="number">59564</span>, <span class="number">35883</span>, <span class="number">3517</span>, <span class="number">52957</span>, <span class="number">1509</span>, <span class="number">61207</span>, <span class="number">63274</span>, <span class="number">27694</span>, <span class="number">20932</span>, <span class="number">37997</span>, <span class="number">22069</span>, <span class="number">8438</span>, <span class="number">33995</span>, <span class="number">53298</span>, <span class="number">16908</span>, <span class="number">30902</span>, <span class="number">64602</span>, <span class="number">64028</span>, <span class="number">29629</span>, <span class="number">26537</span>, <span class="number">12026</span>, <span class="number">31610</span>, <span class="number">48639</span>, <span class="number">19968</span>, <span class="number">45654</span>, <span class="number">51972</span>, <span class="number">64956</span>, <span class="number">45293</span>, <span class="number">64752</span>, <span class="number">37108</span>]</span><br><span class="line">c = [<span class="number">38129</span>, <span class="number">57355</span>, <span class="number">22538</span>, <span class="number">47767</span>, <span class="number">8940</span>, <span class="number">4975</span>, <span class="number">27050</span>, <span class="number">56102</span>, <span class="number">21796</span>, <span class="number">41174</span>, <span class="number">63445</span>, <span class="number">53454</span>, <span class="number">28762</span>, <span class="number">59215</span>, <span class="number">16407</span>, <span class="number">64340</span>, <span class="number">37644</span>, <span class="number">59896</span>, <span class="number">41276</span>, <span class="number">25896</span>, <span class="number">27501</span>, <span class="number">38944</span>, <span class="number">37039</span>, <span class="number">38213</span>, <span class="number">61842</span>, <span class="number">43497</span>, <span class="number">9221</span>, <span class="number">9879</span>, <span class="number">14436</span>, <span class="number">60468</span>, <span class="number">19926</span>, <span class="number">47198</span>, <span class="number">8406</span>, <span class="number">64666</span>]</span><br><span class="line">d = [<span class="number">0</span>, <span class="number">-341994984</span>, <span class="number">-370404060</span>, <span class="number">-257581614</span>, <span class="number">-494024809</span>, <span class="number">-135267265</span>, <span class="number">54930974</span>, <span class="number">-155841406</span>, <span class="number">540422378</span>, <span class="number">-107286502</span>, <span class="number">-128056922</span>, <span class="number">265261633</span>, <span class="number">275964257</span>, <span class="number">119059597</span>, <span class="number">202392013</span>, <span class="number">283676377</span>, <span class="number">126284124</span>, <span class="number">-68971076</span>, <span class="number">261217574</span>, <span class="number">197555158</span>, <span class="number">-12893337</span>, <span class="number">-10293675</span>, <span class="number">93868075</span>, <span class="number">121661845</span>, <span class="number">167461231</span>, <span class="number">123220255</span>, <span class="number">221507</span>, <span class="number">258914772</span>, <span class="number">180963987</span>, <span class="number">107841171</span>, <span class="number">41609001</span>, <span class="number">276531381</span>, <span class="number">169983906</span>, <span class="number">276158562</span>]</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">34</span>):</span><br><span class="line">    <span class="keyword">for</span> ch <span class="keyword">in</span> range(<span class="number">32</span>, <span class="number">127</span>):</span><br><span class="line">        <span class="keyword">if</span> a[i] == b[i] * ch * ch + c[i] * ch + d[i] <span class="keyword">and</span> a[i] == b[i - <span class="number">1</span>] * ch * ch + c[i - <span class="number">1</span>] * ch + d[i - <span class="number">1</span>]:</span><br><span class="line">            flag += chr(ch)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/05/XMan-PWN（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XMan PWN（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/03/XMan-RE（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XMan RE（二）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相关工具在命令行的使用"><span class="nav-number">1.</span> <span class="nav-text">相关工具在命令行的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apktool"><span class="nav-number">1.1.</span> <span class="nav-text">apktool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smali-baksmali"><span class="nav-number">1.2.</span> <span class="nav-text">smali/baksmali</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dex2jar"><span class="nav-number">1.3.</span> <span class="nav-text">dex2jar</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-crackme-apk"><span class="nav-number">2.</span> <span class="nav-text">com.j.crackme.apk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-hiddendata-apk"><span class="nav-number">3.</span> <span class="nav-text">com.j.hiddendata.apk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#simplecheck-apk"><span class="nav-number">4.</span> <span class="nav-text">simplecheck.apk</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

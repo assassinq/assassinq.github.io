@@ -191,6 +191,122 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-XMan-PWN（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/05/XMan-PWN（一）/">XMan PWN（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/05/XMan-PWN（一）/" class="article-date">
+	  <time datetime="2018-08-05T03:33:27.000Z" itemprop="datePublished">2018-08-05</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+<h1 id="kernel-space"><a href="#kernel-space" class="headerlink" title="kernel space"></a>kernel space</h1><h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><ul>
+<li>32: stack</li>
+<li>64: rdi, rsi, rdx, rcx, r8, r9, stack</li>
+</ul>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><ul>
+<li>32: eax - syscall, ebx, ecx, edx</li>
+<li>64: rax - syscall, rdi, rsi, rdx, rcx, r8, r9</li>
+</ul>
+<p>IO ==&gt; sleep/rawinput<br>cyclic pattern(cyclic(), cyclic_find())<br>fmtstr_payload</p>
+<h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><p>%mX控制输出字符数量<br>%n写入</p>
+<p>%d - 十进制 - 输出十进制整数<br>%s - 字符串 - 从内存中读取字符串<br>%x - 十六进制 - 输出十六进制数<br>%c - 字符 - 输出字符<br>%p - 指针 - 指针地址<br>%n - 到目前为止所写的字符数</p>
+<h1 id="栈溢出漏洞"><a href="#栈溢出漏洞" class="headerlink" title="栈溢出漏洞"></a>栈溢出漏洞</h1><p>ret2shellcode</p>
+<p>ROP/JOP/COP</p>
+<h2 id="ROPgadget"><a href="#ROPgadget" class="headerlink" title="ROPgadget"></a>ROPgadget</h2><ul>
+<li>ret2syscall, ret2libc, ret2csu, ret2reg -&gt; various gadget</li>
+<li>ret2vdso, ret2vsyscall -&gt; special gadget(mapping)</li>
+<li>ret2csu -&gt; (–depth 20)</li>
+</ul>
+<h1 id="dl-resolve"><a href="#dl-resolve" class="headerlink" title="dl-resolve"></a>dl-resolve</h1><h2 id="PLT-amp-GOT"><a href="#PLT-amp-GOT" class="headerlink" title="PLT &amp; GOT"></a>PLT &amp; GOT</h2><p>PLT(Global Offset Table): push index; call GOT; jmp PLT[0]<br>GOT(Procedure Link Table): </p>
+<h1 id="SROP"><a href="#SROP" class="headerlink" title="SROP"></a>SROP</h1><p>signal: …</p>
+<h1 id="tricks"><a href="#tricks" class="headerlink" title="tricks"></a>tricks</h1><p>stack pivot</p>
+<p>tls</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-Android（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/04/XMan-Android（一）/">XMan Android（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/04/XMan-Android（一）/" class="article-date">
+	  <time datetime="2018-08-04T05:34:56.000Z" itemprop="datePublished">2018-08-04</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>jr大佬带我学android，从入门到放弃。</p>
+        <!-- jr大佬带我学android，从入门到放弃。
+
+相关工具在命令行的使用apktool解包apk文件：
+1java -jar apktool_2.3.0.jar d *.apk -o [output file]
+打包apk文件：
+1java -jar apktool_2.3.0.jar b [output file]
+smali/baksmalidex文件转换成smali文件：
+1java -......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/04/XMan-Android（一）/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-XMan-RE（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -219,11 +335,11 @@
         <p>A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。</p>
         <!-- A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。
 
-hide拿到文件先file一下，是64位的ELF文件。然后strings一下，发现有upx壳。
+hide_1拿到文件先file一下，是64位的ELF文件。然后strings一下，发现有upx壳。
 用upx -d不能脱，改用dd直接把内存dump下来。
 
 然后可以拖进ida开始逆。先是找到了一个藏假flag的函数，逻辑明显的错误的。
-1234567891011121314151617181920212223242526272......  -->
+12345678910111213141516171819202122232425262......  -->
         <p class="article-more-link">
           <a href="/2018/08/03/XMan-RE（二）/#more">Read More</a>
         </p>
@@ -271,8 +387,17 @@ hide拿到文件先file一下，是64位的ELF文件。然后strings一下，发
         <p>XMan正式学习的第一天，冠成大佬带我们入门逆向。</p>
         <!-- XMan正式学习的第一天，冠成大佬带我们入门逆向。
 
-re0_0拖进ida，找到main函数。judge函数不能反编译，需要先通过脚本解密。
-123456judge = 0x600B00for i in range(182):    addr = 0x600B00 + i    byte = get_bytes(addr, 1)    byte = ord(byte) ^ 0x0C    p......  -->
+国际比赛: DEFCON CTF, C3CTF, HITCON CTF, TCTF, BKP CTF, Plaid CTF, WCTF, RECTF国内比赛: XCTF, HCTF, LCTF, 强网杯
+打CTF得到什么
+安全基础能力
+代码/文档的快速阅读
+逆向工程
+脆弱点的挖掘和利用
+面向安全的开发
+算法能力
+沟通和社交
+
+ToolsD......  -->
         <p class="article-more-link">
           <a href="/2018/08/02/XMan-RE（一）/#more">Read More</a>
         </p>
@@ -596,155 +721,11 @@ Site Crawler在中间输入url地址如http://192.168.44.128/dvwa/，点击最�
 <!-- Table of Contents -->
 
   
-    <article id="post-BIN集训（六）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/11/BIN集训（六）/">BIN集训（六）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/11/BIN集训（六）/" class="article-date">
-	  <time datetime="2018-07-11T00:50:39.000Z" itemprop="datePublished">2018-07-11</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Shellcode’s Magic&amp;Basic ROP.</p>
-        <!-- Shellcode’s Magic&amp;Basic ROP.
-
-shellcode是一段用于利用软件漏洞而执行的代码，以其经常让攻击者获得shell而得名。shellcode常常使用机器语言编写。
-系统调用（int 0x80）
-
-
-NAME
-EAX
-EBX
-ECX
-EDX
-
-
-
-
-sys_exit
-1
-int
-0
-0
-
-
-sys_read
-3
-unsigned int
-char *
-si......  -->
-        <p class="article-more-link">
-          <a href="/2018/07/11/BIN集训（六）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-WEB集训（五）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/WEB集训（五）/">WEB集训（五）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/10/WEB集训（五）/" class="article-date">
-	  <time datetime="2018-07-10T09:10:35.000Z" itemprop="datePublished">2018-07-10</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>PHP伪协议和文件包含。</p>
-        <!-- PHP伪协议和文件包含。
-
-PHP伪协议不是指网络上的TCP/IP协议，而是操作系统提供支持的一种协议，类似标准协议HTTP、FTP。自定义协议叫做伪协议。
-伪协议格式：zzz://xxxxxx。
-PHP伪协议总和
-
-
-形式
-作用
-
-
-
-
-file://
-访问本地文件系统
-
-
-http://
-访问 HTTP(s) 网址
-
-
-ftp://
-访问 FTP(s) URLs
-
-
-php://
-访问各......  -->
-        <p class="article-more-link">
-          <a href="/2018/07/10/WEB集训（五）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
