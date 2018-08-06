@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ck2r20sgcolu0l6k713lqce7a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ck2r7r1e11o9q5o17391im9itaa.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ck2t6f2m1fhp1p6ptpnfj11qlja.png-j.jpg">
-<meta property="og:updated_time" content="2018-08-05T15:07:12.111Z">
+<meta property="og:updated_time" content="2018-08-06T14:17:25.510Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan Android（一）">
 <meta name="twitter:description" content="jr大佬带我学android。">
@@ -199,6 +199,102 @@
       
         <p>jr大佬带我学android。</p>
 <a id="more"></a>
+<h1 id="Android生态圈"><a href="#Android生态圈" class="headerlink" title="Android生态圈"></a>Android生态圈</h1><ul>
+<li>由Google领导开发，基于Linux内核的开源操作系统</li>
+<li>碎片化问题严重</li>
+<li>应用市场管理不严格</li>
+<li>厂商安全补丁推送不及时，覆盖率低</li>
+<li>开放、分享、可定制化程度高</li>
+</ul>
+<h1 id="Android整体架构"><a href="#Android整体架构" class="headerlink" title="Android整体架构"></a>Android整体架构</h1><p><img src="" alt="Android整体架构"></p>
+<h2 id="应用程序层"><a href="#应用程序层" class="headerlink" title="应用程序层"></a>应用程序层</h2><ul>
+<li>Android应用程序以Java为开发语言</li>
+<li>支持C/C++</li>
+</ul>
+<h2 id="Framework层"><a href="#Framework层" class="headerlink" title="Framework层"></a>Framework层</h2><ul>
+<li>为应用程序开发提供API</li>
+<li>大部分使用Java编写</li>
+<li>例如：Resource Manage、Location Manager、Telephony Manager</li>
+</ul>
+<h2 id="Android-Runtime"><a href="#Android-Runtime" class="headerlink" title="Android Runtime"></a>Android Runtime</h2><ul>
+<li>提供了Java编程语言核心库的大多数功能</li>
+<li>应用程序都对应独立的虚拟机</li>
+</ul>
+<h2 id="系统运行库"><a href="#系统运行库" class="headerlink" title="系统运行库"></a>系统运行库</h2><ul>
+<li>C/C++库，为开发者提供服务</li>
+<li>例如：SQLite、Webkit</li>
+</ul>
+<h2 id="硬件抽象层"><a href="#硬件抽象层" class="headerlink" title="硬件抽象层"></a>硬件抽象层</h2><ul>
+<li>把Android framework与Linux kernel隔开</li>
+<li>Linux Kernel遵循GPL协议</li>
+<li>驱动分为user space和kernel space</li>
+</ul>
+<h2 id="Linux-Kernel"><a href="#Linux-Kernel" class="headerlink" title="Linux Kernel"></a>Linux Kernel</h2><ul>
+<li>硬件驱动、网络、文件系统、进程管理</li>
+<li>对kernel进行了许多其他修改</li>
+</ul>
+<h1 id="Android安全模型"><a href="#Android安全模型" class="headerlink" title="Android安全模型"></a>Android安全模型</h1><h2 id="基于Linux的用户隔离"><a href="#基于Linux的用户隔离" class="headerlink" title="基于Linux的用户隔离"></a>基于Linux的用户隔离</h2><ul>
+<li>Linux：用户被分配自己的UID，程序可以以指定UID运行</li>
+<li>Android：每个应用程序都有UID，UID被用于区分应用程序</li>
+<li>应用有自己的数据存放目录</li>
+<li>存在共享UID的特殊情况（资源共享）</li>
+</ul>
+<h2 id="应用权限"><a href="#应用权限" class="headerlink" title="应用权限"></a>应用权限</h2><ul>
+<li>细粒度控制（网络、硬件、敏感数据）</li>
+<li>应用通过Manifest.xml申请权限</li>
+<li>权限检查可以由内核进行，也可以由Android系统执行</li>
+</ul>
+<h2 id="代码签名"><a href="#代码签名" class="headerlink" title="代码签名"></a>代码签名</h2><ul>
+<li>APK必须有开发者的签名</li>
+</ul>
+<h2 id="SELinux"><a href="#SELinux" class="headerlink" title="SELinux"></a>SELinux</h2><ul>
+<li>Security Enhancements for Android</li>
+<li>强制访问控制（MAC）</li>
+<li>核心系统守护进程和用户应用隔离到不同domain</li>
+</ul>
+<h2 id="系统更新（刷机）"><a href="#系统更新（刷机）" class="headerlink" title="系统更新（刷机）"></a>系统更新（刷机）</h2><ul>
+<li>解锁、BootLoader、Recovery</li>
+<li>recovery是一个单独小型system，可以访问所有设备分区</li>
+<li>通常只允许签名验证通过的刷写</li>
+<li>解锁：允许替换recovery和系统镜像（将会清除所有用户数据）</li>
+</ul>
+<h1 id="APK文件结构"><a href="#APK文件结构" class="headerlink" title="APK文件结构"></a>APK文件结构</h1><p>本质上是一个zip压缩包：</p>
+<ul>
+<li>Manifest.xml：对应用的整体描述和定义</li>
+<li>META-INF：保存签名信息</li>
+<li>classes.dex：Java代码编译后生成的可执行文件</li>
+<li>res目录：存放可编译资源文件</li>
+<li>assets目录：存放原生资源文件</li>
+<li>lib目录：存放C/C++代码编译后的so文件</li>
+</ul>
+<h2 id="dex文件"><a href="#dex文件" class="headerlink" title="dex文件"></a>dex文件</h2><ul>
+<li>Android可执行文件</li>
+<li>Java代码编译而来</li>
+<li>包含Dalvik指令集</li>
+</ul>
+<h2 id="smalii代码"><a href="#smalii代码" class="headerlink" title="smalii代码"></a>smalii代码</h2><p>由字节码反汇编得到的可阅读代码。每一个smali文件代表一个类。</p>
+<ul>
+<li>.class &lt;权限&gt;[修饰]&lt;类名&gt;</li>
+<li>.super &lt;父类名&gt;</li>
+<li>.source &lt;源文件名&gt;</li>
+<li>.field 字段定义</li>
+<li>.method 方法定义</li>
+</ul>
+<h1 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h1><ul>
+<li>Java和Native沟通的桥梁</li>
+<li>注册：静态注册和动态注册</li>
+<li>JNI_OnLoad：加载so文件时执行</li>
+</ul>
+<h1 id="加壳技术"><a href="#加壳技术" class="headerlink" title="加壳技术"></a>加壳技术</h1><ul>
+<li>反编译代价低 =&gt; 利用动态代码加载技术 =&gt; 隐藏原本的dex文件</li>
+<li>动态加载过程隐蔽，且复杂度高</li>
+<li>增加完整性检查，反调试措施</li>
+</ul>
+<p>Android提供的动态加载方法：</p>
+<ul>
+<li>DexClassLoader：apk/jar/dex，可以从SD卡加载</li>
+<li>PathClassLoader：只能加载已安装到系统中（/data/app）的apk文件</li>
+</ul>
 <h1 id="相关工具在命令行的使用"><a href="#相关工具在命令行的使用" class="headerlink" title="相关工具在命令行的使用"></a>相关工具在命令行的使用</h1><h2 id="apktool"><a href="#apktool" class="headerlink" title="apktool"></a>apktool</h2><p>解包<code>apk</code>文件：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool_2.3.0.jar d *.apk -o [output file]</span><br></pre></td></tr></table></figure>
 <p>打包<code>apk</code>文件：</p>
@@ -337,7 +433,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相关工具在命令行的使用"><span class="nav-number">1.</span> <span class="nav-text">相关工具在命令行的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apktool"><span class="nav-number">1.1.</span> <span class="nav-text">apktool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smali-baksmali"><span class="nav-number">1.2.</span> <span class="nav-text">smali/baksmali</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dex2jar"><span class="nav-number">1.3.</span> <span class="nav-text">dex2jar</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-crackme-apk"><span class="nav-number">2.</span> <span class="nav-text">com.j.crackme.apk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-hiddendata-apk"><span class="nav-number">3.</span> <span class="nav-text">com.j.hiddendata.apk</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI-string操作函数"><span class="nav-number">3.1.</span> <span class="nav-text">JNI string操作函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#simplecheck-apk"><span class="nav-number">4.</span> <span class="nav-text">simplecheck.apk</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android生态圈"><span class="nav-number">1.</span> <span class="nav-text">Android生态圈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android整体架构"><span class="nav-number">2.</span> <span class="nav-text">Android整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用程序层"><span class="nav-number">2.1.</span> <span class="nav-text">应用程序层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Framework层"><span class="nav-number">2.2.</span> <span class="nav-text">Framework层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Runtime"><span class="nav-number">2.3.</span> <span class="nav-text">Android Runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统运行库"><span class="nav-number">2.4.</span> <span class="nav-text">系统运行库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件抽象层"><span class="nav-number">2.5.</span> <span class="nav-text">硬件抽象层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-Kernel"><span class="nav-number">2.6.</span> <span class="nav-text">Linux Kernel</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android安全模型"><span class="nav-number">3.</span> <span class="nav-text">Android安全模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于Linux的用户隔离"><span class="nav-number">3.1.</span> <span class="nav-text">基于Linux的用户隔离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用权限"><span class="nav-number">3.2.</span> <span class="nav-text">应用权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码签名"><span class="nav-number">3.3.</span> <span class="nav-text">代码签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELinux"><span class="nav-number">3.4.</span> <span class="nav-text">SELinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统更新（刷机）"><span class="nav-number">3.5.</span> <span class="nav-text">系统更新（刷机）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#APK文件结构"><span class="nav-number">4.</span> <span class="nav-text">APK文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dex文件"><span class="nav-number">4.1.</span> <span class="nav-text">dex文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smalii代码"><span class="nav-number">4.2.</span> <span class="nav-text">smalii代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JNI"><span class="nav-number">5.</span> <span class="nav-text">JNI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加壳技术"><span class="nav-number">6.</span> <span class="nav-text">加壳技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关工具在命令行的使用"><span class="nav-number">7.</span> <span class="nav-text">相关工具在命令行的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apktool"><span class="nav-number">7.1.</span> <span class="nav-text">apktool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smali-baksmali"><span class="nav-number">7.2.</span> <span class="nav-text">smali/baksmali</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dex2jar"><span class="nav-number">7.3.</span> <span class="nav-text">dex2jar</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-crackme-apk"><span class="nav-number">8.</span> <span class="nav-text">com.j.crackme.apk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-hiddendata-apk"><span class="nav-number">9.</span> <span class="nav-text">com.j.hiddendata.apk</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI-string操作函数"><span class="nav-number">9.1.</span> <span class="nav-text">JNI string操作函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#simplecheck-apk"><span class="nav-number">10.</span> <span class="nav-text">simplecheck.apk</span></a></li></ol>
     
     </div>
   </aside>

@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="丁佬tql，我完全pwn不起来。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-05T15:21:52.274Z">
+<meta property="og:updated_time" content="2018-08-06T14:26:39.638Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan PWN（一）">
 <meta name="twitter:description" content="丁佬tql，我完全pwn不起来。">
@@ -195,33 +195,94 @@
       
         <p>丁佬tql，我完全pwn不起来。</p>
 <a id="more"></a>
+<p>因为自己基础不太好，跟着ctf wiki学习一些基础的知识作为补充。</p>
 <h1 id="kernel-space"><a href="#kernel-space" class="headerlink" title="kernel space"></a>kernel space</h1><h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><ul>
-<li>32: stack</li>
-<li>64: rdi, rsi, rdx, rcx, r8, r9, stack</li>
+<li>x86: stack</li>
+<li>x64: rdi, rsi, rdx, rcx, r8, r9, stack</li>
 </ul>
 <h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><ul>
-<li>32: eax - syscall, ebx, ecx, edx</li>
-<li>64: rax - syscall, rdi, rsi, rdx, rcx, r8, r9</li>
+<li>x86: eax - syscall =&gt; ebx, ecx, edx</li>
+<li>x64: rax - syscall =&gt; rdi, rsi, rdx, rcx, r8, r9</li>
 </ul>
-<p>IO ==&gt; sleep/rawinput<br>cyclic pattern(cyclic(), cyclic_find())<br>fmtstr_payload</p>
-<h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><ul>
-<li>%d - 十进制 - 输出十进制整数</li>
-<li>%s - 字符串 - 从内存中读取字符串</li>
-<li>%x - 十六进制 - 输出十六进制数</li>
-<li>%c - 字符 - 输出字符</li>
-<li>%p - 指针 - 指针地址</li>
-<li>%n - 到目前为止所写的字符数</li>
+<h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><p>格式化字符串函数可以接受可变数量的参数，并将<strong>第一个参数作为格式化字符串，根据其来解析之后的参数</strong>。通俗来说，格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式。几乎所有的C/C++程序都会利用格式化字符串函数来<strong>输出信息，调试程序，或者处理字符串</strong>。一般来说，格式化字符串在利用的时候主要分为三个部分</p>
+<ul>
+<li>格式化字符串函数</li>
+<li>格式化字符串</li>
+<li>后续参数，<strong>可选</strong></li>
 </ul>
-<h1 id="栈溢出漏洞"><a href="#栈溢出漏洞" class="headerlink" title="栈溢出漏洞"></a>栈溢出漏洞</h1><p>ret2shellcode</p>
-<p>ROP/JOP/COP</p>
+<ul>
+<li><code>%d</code> - 十进制 - 输出十进制整数</li>
+<li><code>%s</code> - 字符串 - 从内存中读取字符串</li>
+<li><code>%x</code> - 十六进制 - 输出十六进制数</li>
+<li><code>%c</code> - 字符 - 输出字符</li>
+<li><code>%p</code> - 指针 - 指针地址</li>
+<li><code>%n</code> - 到目前为止所写的字符数</li>
+</ul>
+<h1 id="栈溢出漏洞"><a href="#栈溢出漏洞" class="headerlink" title="栈溢出漏洞"></a>栈溢出漏洞</h1><p>栈溢出指的是程序向栈中某个变量中写入的字节数超过了这个变量本身所申请的字节数，因而导致与其相邻的栈中的变量的值被改变。这种问题是一种特定的缓冲区溢出漏，类似的还有堆溢出，bss 段溢出等溢出方式。栈溢出漏洞轻则可以使程序崩溃，重则可以使攻击者控制程序执行流程。此外，我们也不难发现，发生栈溢出的基本前提是：</p>
+<ul>
+<li>程序必须向栈上写入数据。</li>
+<li>写入的数据大小没有被良好地控制。</li>
+</ul>
+<p>32位与64位程序的区别：</p>
+<ul>
+<li>x86：<strong>函数参数在函数返回地址</strong>的上方</li>
+<li>x64：System V AMD64 ABI (Linux、FreeBSD、macOS 等采用)中前六个整型或指针参数依次保存在<strong>RDI</strong>、 <strong>RSI</strong>、<strong>RDX</strong>、<strong>RCX</strong>、<strong>R8</strong>和<strong>R9寄存器</strong>中，如果还有更多的参数的话才会保存在栈上；内存地址不能大于 0x00007FFFFFFFFFFF，<strong>6个字节长度</strong>，否则会抛出异常。</li>
+</ul>
+<h2 id="寻找危险函数"><a href="#寻找危险函数" class="headerlink" title="寻找危险函数"></a>寻找危险函数</h2><p>通过寻找危险函数，我们快速确定程序是否可能有栈溢出，以及有的话，栈溢出的位置在哪里。常见的危险函数如下</p>
+<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><ul>
+<li>gets，直接读取一行，忽略’\x00’</li>
+<li>scanf</li>
+<li>vscanf</li>
+</ul>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><ul>
+<li>sprintf</li>
+</ul>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><ul>
+<li>strcpy，字符串复制，遇到’\x00’停止</li>
+<li>strcat，字符串拼接，遇到’\x00’停止</li>
+<li>bcopy</li>
+</ul>
+<h2 id="确定填充长度"><a href="#确定填充长度" class="headerlink" title="确定填充长度"></a>确定填充长度</h2><p>这一部分主要是计算<strong>我们所要操作的地址与我们所要覆盖的地址的距离</strong>。常见的操作方法就是打开IDA，根据其给定的地址计算偏移。一般变量会有以下几种索引模式</p>
+<ul>
+<li>相对于栈基地址的的索引，可以直接通过查看EBP相对偏移获得</li>
+<li>相对应栈顶指针的索引，一般需要进行调试，之后还是会转换到第一种类型。</li>
+<li>直接地址索引，就相当于直接给定了地址。</li>
+</ul>
+<p>一般来说，我们会有如下的覆盖需求：</p>
+<ul>
+<li><strong>覆盖函数返回地址</strong>，这时候就是直接看EBP即可。</li>
+<li><strong>覆盖栈上某个变量的内容</strong>，这时候就需要更加精细的计算了。</li>
+<li><strong>覆盖bss段某个变量的内容</strong>。</li>
+<li>根据现实执行情况，覆盖特定的变量或地址的内容。</li>
+</ul>
+<p>之所以我们想要覆盖某个地址，是因为我们想通过覆盖地址的方法来<strong>直接或者间接地控制程序执行流程</strong>。</p>
+<h2 id="基本ROP"><a href="#基本ROP" class="headerlink" title="基本ROP"></a>基本ROP</h2><p>随着NX保护的开启，以往直接向栈或者堆上直接注入代码的方式难以继续发挥效果。攻击者们也提出来相应的方法来绕过保护，目前主要的是ROP(Return Oriented Programming)，其主要思想是在栈缓冲区溢出的基础上，利用程序中已有的小片段(gadgets)来改变某些寄存器或者变量的值，从而控制程序的执行流程。所谓gadgets就是以ret结尾的指令序列，通过这些指令序列，我们可以修改某些地址的内容，方便控制程序的执行流程。</p>
+<p>之所以称之为ROP，是因为核心在于利用了指令集中的ret指令，改变了指令流的执行顺序。ROP攻击一般得满足如下条件：</p>
+<ul>
+<li>程序存在溢出，并且可以控制返回地址。</li>
+<li>可以找到满足条件的gadgets以及相应gadgets的地址。</li>
+</ul>
+<p>如果gadgets每次的地址是不固定的，那我们就需要想办法动态获取对应的地址了。</p>
+<h3 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h3><p>ret2text即控制程序执行程序本身已有的的代码(.text)。其实，这种攻击方法是一种笼统的描述。我们控制执行程序已有的代码的时候也可以控制程序执行好几段不相邻的程序已有的代码(也就是gadgets)，这就是我们所要说的ROP。</p>
+<p>这时，我们需要知道对应返回的代码的位置。当然程序也可能会开启某些保护，我们需要想办法去绕过这些保护。</p>
+<h3 id="ret2shellcode"><a href="#ret2shellcode" class="headerlink" title="ret2shellcode"></a>ret2shellcode</h3><p>ret2shellcode，即控制程序执行 shellcode代码。shellcode指的是用于完成某个功能的汇编代码，常见的功能主要是获取目标系统的shell。<strong>一般来说，shellcode需要我们自己填充。这其实是另外一种典型的利用方法，即此时我们需要自己去填充一些可执行的代码</strong>。</p>
+<p>在栈溢出的基础上，要想执行shellcode，需要对应的binary在运行时，shellcode所在的区域具有可执行权限。</p>
+<h3 id="ret2syscall"><a href="#ret2syscall" class="headerlink" title="ret2syscall"></a>ret2syscall</h3><p>ret2syscall，即控制程序执行系统调用，获取 shell。</p>
+<h3 id="ret2libc"><a href="#ret2libc" class="headerlink" title="ret2libc"></a>ret2libc</h3><p>ret2libc 即控制函数的执行 libc 中的函数，通常是返回至某个函数的 plt 处或者函数的具体位置(即函数对应的 got表项的内容)。一般情况下，我们会选择执行 system(“/bin/sh”)，故而此时我们需要知道 system 函数的地址。</p>
+<p>ELSE：JOP(Jump Oriented Programming)/COP(Call Oriented Programming)</p>
 <h2 id="ROPgadget"><a href="#ROPgadget" class="headerlink" title="ROPgadget"></a>ROPgadget</h2><ul>
 <li>ret2syscall, ret2libc, ret2csu, ret2reg -&gt; various gadget</li>
 <li>ret2vdso, ret2vsyscall -&gt; special gadget(mapping)</li>
 <li>ret2csu -&gt; (–depth 20)</li>
 </ul>
-<h1 id="dl-resolve"><a href="#dl-resolve" class="headerlink" title="dl-resolve"></a>dl-resolve</h1><h2 id="PLT-amp-GOT"><a href="#PLT-amp-GOT" class="headerlink" title="PLT &amp; GOT"></a>PLT &amp; GOT</h2><p>PLT(Global Offset Table): push index; call GOT; jmp PLT[0]<br>GOT(Procedure Link Table): jmp PLT[0]</p>
-<h1 id="SROP"><a href="#SROP" class="headerlink" title="SROP"></a>SROP</h1><p>signal: …</p>
-<h1 id="tricks"><a href="#tricks" class="headerlink" title="tricks"></a>tricks</h1><p>stack pivot</p>
+<h2 id="dl-resolve"><a href="#dl-resolve" class="headerlink" title="dl-resolve"></a>dl-resolve</h2><p>ret2dlresolve：没有libc地址，需要调用外部函数，控制了已知地址内容。</p>
+<h3 id="PLT-amp-GOT"><a href="#PLT-amp-GOT" class="headerlink" title="PLT &amp; GOT"></a>PLT &amp; GOT</h3><ul>
+<li>PLT(Global Offset Table): push index; call GOT; jmp PLT[0]</li>
+<li>GOT(Procedure Link Table): jmp PLT[0]</li>
+</ul>
+<h2 id="SROP（Sigreturn-ROP）"><a href="#SROP（Sigreturn-ROP）" class="headerlink" title="SROP（Sigreturn ROP）"></a>SROP（Sigreturn ROP）</h2><p>signal: …</p>
+<p>Control ax &amp; sp</p>
+<h2 id="tricks"><a href="#tricks" class="headerlink" title="tricks"></a>tricks</h2><p>stack pivot</p>
 <p>tls</p>
 
       
@@ -276,6 +337,15 @@ var a = new Donate({
     
 <nav id="article-nav">
   
+    <a href="/2018/08/06/XMan-PWN（二）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XMan PWN（二）
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/08/04/XMan-Android（一）/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
@@ -293,7 +363,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#kernel-space"><span class="nav-number">1.</span> <span class="nav-text">kernel space</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#调用约定"><span class="nav-number">1.1.</span> <span class="nav-text">调用约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用"><span class="nav-number">1.2.</span> <span class="nav-text">系统调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#格式化字符串漏洞"><span class="nav-number">2.</span> <span class="nav-text">格式化字符串漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈溢出漏洞"><span class="nav-number">3.</span> <span class="nav-text">栈溢出漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ROPgadget"><span class="nav-number">3.1.</span> <span class="nav-text">ROPgadget</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dl-resolve"><span class="nav-number">4.</span> <span class="nav-text">dl-resolve</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLT-amp-GOT"><span class="nav-number">4.1.</span> <span class="nav-text">PLT &amp; GOT</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SROP"><span class="nav-number">5.</span> <span class="nav-text">SROP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tricks"><span class="nav-number">6.</span> <span class="nav-text">tricks</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#kernel-space"><span class="nav-number">1.</span> <span class="nav-text">kernel space</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#调用约定"><span class="nav-number">1.1.</span> <span class="nav-text">调用约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用"><span class="nav-number">1.2.</span> <span class="nav-text">系统调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#格式化字符串漏洞"><span class="nav-number">2.</span> <span class="nav-text">格式化字符串漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈溢出漏洞"><span class="nav-number">3.</span> <span class="nav-text">栈溢出漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找危险函数"><span class="nav-number">3.1.</span> <span class="nav-text">寻找危险函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入"><span class="nav-number">3.1.1.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-number">3.1.2.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串"><span class="nav-number">3.1.3.</span> <span class="nav-text">字符串</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#确定填充长度"><span class="nav-number">3.2.</span> <span class="nav-text">确定填充长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本ROP"><span class="nav-number">3.3.</span> <span class="nav-text">基本ROP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2text"><span class="nav-number">3.3.1.</span> <span class="nav-text">ret2text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2shellcode"><span class="nav-number">3.3.2.</span> <span class="nav-text">ret2shellcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2syscall"><span class="nav-number">3.3.3.</span> <span class="nav-text">ret2syscall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc"><span class="nav-number">3.3.4.</span> <span class="nav-text">ret2libc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROPgadget"><span class="nav-number">3.4.</span> <span class="nav-text">ROPgadget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dl-resolve"><span class="nav-number">3.5.</span> <span class="nav-text">dl-resolve</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PLT-amp-GOT"><span class="nav-number">3.5.1.</span> <span class="nav-text">PLT &amp; GOT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SROP（Sigreturn-ROP）"><span class="nav-number">3.6.</span> <span class="nav-text">SROP（Sigreturn ROP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tricks"><span class="nav-number">3.7.</span> <span class="nav-text">tricks</span></a></li></ol></li></ol>
     
     </div>
   </aside>
