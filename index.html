@@ -191,6 +191,55 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-XMan-PWN（三）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/07/XMan-PWN（三）/">XMan PWN（三）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/07/XMan-PWN（三）/" class="article-date">
+	  <time datetime="2018-08-07T00:55:00.000Z" itemprop="datePublished">2018-08-07</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>lowkey师傅教_IO_FILE利用。</p>
+        <!-- lowkey师傅教_IO_FILE利用。
+
+还是要好好看glibc源码，这里最重要的是/libio/libio.h。
+WHAT is _IO_FILE123456789101112131415161718192021222324252627282930313233343536373839404142struct _IO_FILE &#123;  int _flags;		/* High-or......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/07/XMan-PWN（三）/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-XMan-PWN（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -216,10 +265,10 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>小姐姐讲的很好，是我太菜了。</p>
-        <!-- 小姐姐讲的很好，是我太菜了。
+        <p>toxic小姐姐讲的很好，是我太菜了。</p>
+        <!-- toxic小姐姐讲的很好，是我太菜了。
 
-堆这一块需要对glibc源码中malloc.c有一定的熟悉。
+堆这一块需要对glibc源码中/malloc/malloc.c有一定的熟悉。
 linux堆管理基础
 一块内存
 几种数据结构
@@ -233,10 +282,10 @@ heap allocator管理堆的分配和回收
 减少系统调用次数
 提高效率
 
+
 ptmalloc2 - glibc主要结构：chunk、bin、arena
 
-bins管理空闲堆块
-arena记录分配......  -->
+bins管理......  -->
         <p class="article-more-link">
           <a href="/2018/08/06/XMan-PWN（二）/#more">Read More</a>
         </p>
@@ -285,13 +334,13 @@ arena记录分配......  -->
         <!-- 丁佬tql，我完全pwn不起来。
 
 因为自己基础不太好，跟着ctf wiki学习一些基础的知识作为补充。
-kernel space调用约定
+调用约定
 x86: stack
 x64: rdi, rsi, rdx, rcx, r8, r9, stack
 
 系统调用
 x86: eax - syscall =&gt; ebx, ecx, edx
-x64: rax - syscall =&gt; rdi, rs......  -->
+x64: rax - syscall =&gt; rdi, rsi, rdx, rcx,......  -->
         <p class="article-more-link">
           <a href="/2018/08/05/XMan-PWN（一）/#more">Read More</a>
         </p>
@@ -678,55 +727,6 @@ MISCpicture通过stegsolve判断出存在最低位隐写。使用lsb工具解出
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-BIN集训（七）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/13/BIN集训（七）/">BIN集训（七）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/13/BIN集训（七）/" class="article-date">
-	  <time datetime="2018-07-13T01:13:49.000Z" itemprop="datePublished">2018-07-13</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Base64和RC4算法在RE中的应用。</p>
-        <!-- Base64和RC4算法在RE中的应用。
-
-Base64Base64是一种基于64个可打印字符来表示二进制数据的表示方法。
-由来为什么会有Base64编码呢？因为有些网络传送渠道并不支持所有的字节，例如传统的邮件只支持可见字符的传送，像ASCII码的控制字符就 不能通过邮件传送。这样用途就受到了很大的限制，比如图片二进制流的每个字节不可能全部是可见字符，所以就传送不了。最好的方法就是在不改变......  -->
-        <p class="article-more-link">
-          <a href="/2018/07/13/BIN集训（七）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
 
     </footer>
   </div>

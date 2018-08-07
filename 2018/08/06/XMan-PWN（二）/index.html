@@ -11,18 +11,20 @@
   
   
   
-  <meta name="description" content="小姐姐讲的很好，是我太菜了。">
+  <meta name="description" content="toxic小姐姐讲的很好，是我太菜了。">
 <meta name="keywords" content="ctf,pwn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XMan PWN（二）">
 <meta property="og:url" content="http://AssassinQ.com/2018/08/06/XMan-PWN（二）/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="小姐姐讲的很好，是我太菜了。">
+<meta property="og:description" content="toxic小姐姐讲的很好，是我太菜了。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-06T15:55:56.993Z">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ckaa367d1arr1k2ca85go5n14a.png-j.jpg">
+<meta property="og:updated_time" content="2018-08-07T16:42:45.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan PWN（二）">
-<meta name="twitter:description" content="小姐姐讲的很好，是我太菜了。">
+<meta name="twitter:description" content="toxic小姐姐讲的很好，是我太菜了。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ckaa367d1arr1k2ca85go5n14a.png-j.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -193,9 +195,9 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>小姐姐讲的很好，是我太菜了。</p>
+        <p>toxic小姐姐讲的很好，是我太菜了。</p>
 <a id="more"></a>
-<p>堆这一块需要对glibc源码中<code>malloc.c</code>有一定的熟悉。</p>
+<p>堆这一块需要对glibc源码中<code>/malloc/malloc.c</code>有一定的熟悉。</p>
 <h1 id="linux堆管理基础"><a href="#linux堆管理基础" class="headerlink" title="linux堆管理基础"></a>linux堆管理基础</h1><ul>
 <li>一块内存</li>
 <li>几种数据结构</li>
@@ -209,6 +211,7 @@
 <li>减少系统调用次数</li>
 <li>提高效率</li>
 </ul>
+<p><img src="http://t1.aixinxi.net/o_1ckaa367d1arr1k2ca85go5n14a.png-j.jpg" alt="Heap Allocator"></p>
 <h2 id="ptmalloc2-glibc"><a href="#ptmalloc2-glibc" class="headerlink" title="ptmalloc2 - glibc"></a>ptmalloc2 - glibc</h2><p>主要结构：chunk、bin、arena</p>
 <ul>
 <li>bins管理空闲堆块</li>
@@ -279,8 +282,68 @@
 <li>*next：指向下一个arena，构成一个循环单向列表</li>
 <li>*next_free：指向idle arena，便于线程快速匹配</li>
 </ul>
-<h1 id="what-glibc-do-when-malloc"><a href="#what-glibc-do-when-malloc" class="headerlink" title="what glibc do when malloc"></a>what glibc do when malloc</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1. 计算真正的堆块大小（用户申请 + 堆头 =&gt; 对齐）</span><br><span class="line">2. 是否在fast bin范围内</span><br><span class="line">   是 =&gt; 检查对应的bin是否有chunk</span><br><span class="line">        是 =&gt; 从bin中取下chunk返回给程序，完成</span><br><span class="line">3. 是否在small bin范围内</span><br><span class="line">    是 =&gt; 检查对应的bin是否有chunk</span><br><span class="line">        是 =&gt; 从bin中取下chunk返回给程序，完成</span><br><span class="line">4. unsorted bin里是否有chunk</span><br><span class="line">    有 =&gt; 从尾部取出第一个chunk，大小是否满足分配需求</span><br><span class="line">        是 =&gt; 剩余大小是否大于MINSIZE</span><br><span class="line">            是 =&gt; 切分块，返回给用户，把剩余的块放入unsorted bin，完成</span><br><span class="line">        否 =&gt; 从unsorted bin中取下该块并返回，完成</span><br><span class="line">    无 =&gt; 把这个块放到对应的small/large bins，遍历下一块</span><br><span class="line">5. 是否在large bin范围内</span><br><span class="line">    是 =&gt; 检查对应的bin是否有chunk</span><br><span class="line">        有 =&gt; 找到满足需求的最小的chunk，切分块并返回，把剩余的块放入unsorted bin，完成</span><br><span class="line">6. 再次浏览所有的small/large bins来找到best-fit的chunk</span><br><span class="line">7. 使用top chunk</span><br><span class="line">8. 系统调用扩大堆空间</span><br></pre></td></tr></table></figure>
-<h1 id="what-glibc-do-when-free"><a href="#what-glibc-do-when-free" class="headerlink" title="what glibc do when free"></a>what glibc do when free</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1. free的chunk大小是否属于fast bin</span><br><span class="line">    是 =&gt; 直接链入对应的fast bin中，不改变下一堆块的prev inuse标志位</span><br><span class="line">2. 是否通过mmapped分配</span><br><span class="line">    是 =&gt; 用munmap回收</span><br><span class="line">3. 前一个相邻的chunk是否空闲</span><br><span class="line">    是 =&gt; 和前一个堆块合并</span><br><span class="line">4. 后一个相邻chunk是否是top chunk</span><br><span class="line">    是 =&gt; 和top chunk合并</span><br><span class="line">5. 后一个相邻的chunk是否空闲</span><br><span class="line">    是 =&gt; 和后一个块合并</span><br><span class="line">6. 链入unsorted bin</span><br></pre></td></tr></table></figure>
+<h1 id="what-glibc-do-when-malloc"><a href="#what-glibc-do-when-malloc" class="headerlink" title="what glibc do when malloc"></a>what glibc do when malloc</h1><ul>
+<li>计算真正的堆块大小（用户申请 + 堆头 =&gt; 对齐）</li>
+<li>是否在fast bin范围内<ul>
+<li>是 =&gt; 检查对应的bin是否有chunk<ul>
+<li>是 =&gt; 从bin中取下chunk返回给程序，完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>是否在small bin范围内<ul>
+<li>是 =&gt; 检查对应的bin是否有chunk<ul>
+<li>是 =&gt; 从bin中取下chunk返回给程序，完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>unsorted bin里是否有chunk<ul>
+<li>有 =&gt; 从尾部取出第一个chunk，大小是否满足分配需求<ul>
+<li>是 =&gt; 剩余大小是否大于MINSIZE<ul>
+<li>是 =&gt; 切分块，返回给用户，把剩余的块放入unsorted bin，完成</li>
+</ul>
+</li>
+<li>否 =&gt; 从unsorted bin中取下该块并返回，完成</li>
+</ul>
+</li>
+<li>无 =&gt; 把这个块放到对应的small/large bins，遍历下一块</li>
+</ul>
+</li>
+<li>是否在large bin范围内<ul>
+<li>是 =&gt; 检查对应的bin是否有chunk<ul>
+<li>有 =&gt; 找到满足需求的最小的chunk，切分块并返回，把剩余的块放入unsorted bin，完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>再次浏览所有的small/large bins来找到best-fit的chunk</li>
+<li>使用top chunk</li>
+<li>系统调用扩大堆空间</li>
+</ul>
+<h1 id="what-glibc-do-when-free"><a href="#what-glibc-do-when-free" class="headerlink" title="what glibc do when free"></a>what glibc do when free</h1><ul>
+<li>free的chunk大小是否属于fast bin<ul>
+<li>是 =&gt; 直接链入对应的fast bin中，不改变下一堆块的prev inuse标志位</li>
+</ul>
+</li>
+<li>是否通过mmapped分配<ul>
+<li>是 =&gt; 用munmap回收</li>
+</ul>
+</li>
+<li>前一个相邻的chunk是否空闲<ul>
+<li>是 =&gt; 和前一个堆块合并</li>
+</ul>
+</li>
+<li>后一个相邻chunk是否是top chunk<ul>
+<li>是 =&gt; 和top chunk合并</li>
+</ul>
+</li>
+<li>后一个相邻的chunk是否空闲<ul>
+<li>是 =&gt; 和后一个块合并</li>
+</ul>
+</li>
+<li>链入unsorted bin</li>
+</ul>
 <h1 id="常见堆漏洞"><a href="#常见堆漏洞" class="headerlink" title="常见堆漏洞"></a>常见堆漏洞</h1><h2 id="chunk-overflow"><a href="#chunk-overflow" class="headerlink" title="chunk overflow"></a>chunk overflow</h2><ul>
 <li>修改下一个堆块的size、标志位、fd/bk指针等</li>
 <li>修改下一个堆块的用户数据、eg指针等</li>
@@ -443,6 +506,15 @@ var a = new Donate({
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/08/07/XMan-PWN（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XMan PWN（三）
+        
+      </div>
+    </a>
   
   
     <a href="/2018/08/05/XMan-PWN（一）/" id="article-nav-older" class="article-nav-link-wrap">
