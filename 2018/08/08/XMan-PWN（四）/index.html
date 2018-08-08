@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>xman pwn（四） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn" />
+  
+  
+  
+  
+  <meta name="description" content="NONICK师傅神仙上课，win下的pwn是真的难。">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMan PWN（四）">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/08/XMan-PWN（四）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="NONICK师傅神仙上课，win下的pwn是真的难。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ckciic2vp7cj9sfmpr0h96sa.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ckcikr231ujl127ae1dvor1qhua.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ckcildsk1v9ig7jsgk11csttea.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ckciqrnu1eqd19pgoaruk4nma.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ckcj1hc1h1cum01ar81f8ld2a.png-j.jpg">
+<meta property="og:image" content="http://t1.aixinxi.net/o_1ckck6d9ifr18g99rb1h2qfka.png-j.jpg">
+<meta property="og:updated_time" content="2018-08-08T11:21:19.121Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XMan PWN（四）">
+<meta name="twitter:description" content="NONICK师傅神仙上课，win下的pwn是真的难。">
+<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ckciic2vp7cj9sfmpr0h96sa.png-j.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-XMan-PWN（四）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      XMan PWN（四）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/08/XMan-PWN（四）/" class="article-date">
+	  <time datetime="2018-08-08T06:17:21.000Z" itemprop="datePublished">2018-08-08</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>NONICK师傅神仙上课，win下的pwn是真的难。</p>
+<a id="more"></a>
+<h1 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h1><h2 id="Some-Tools"><a href="#Some-Tools" class="headerlink" title="Some Tools"></a>Some Tools</h2><ul>
+<li>IDA Pro</li>
+<li>X64 DBG</li>
+<li>WinDBG</li>
+<li>Mona</li>
+</ul>
+<h2 id="PE-Format"><a href="#PE-Format" class="headerlink" title="PE Format"></a>PE Format</h2><blockquote>
+<ul>
+<li>PE Header</li>
+<li>IAT（Import Address Table）</li>
+<li>EAT（Export Address Table）</li>
+<li>Section Table</li>
+</ul>
+</blockquote>
+<p><img src="http://t1.aixinxi.net/o_1ckciic2vp7cj9sfmpr0h96sa.png-j.jpg" alt="PE Format"></p>
+<h2 id="PE-Memory-Layout"><a href="#PE-Memory-Layout" class="headerlink" title="PE Memory Layout"></a>PE Memory Layout</h2><p><img src="http://t1.aixinxi.net/o_1ckcikr231ujl127ae1dvor1qhua.png-j.jpg" alt="Layout"></p>
+<p><img src="http://t1.aixinxi.net/o_1ckcildsk1v9ig7jsgk11csttea.png-j.jpg" alt="Memory"></p>
+<h2 id="Basic-DLLS"><a href="#Basic-DLLS" class="headerlink" title="Basic DLLS"></a>Basic DLLS</h2><ul>
+<li>NTDLL.DLL</li>
+<li>Kernel32.dll</li>
+<li>User32.dll</li>
+<li>Msvcrtxxx.dll</li>
+</ul>
+<h1 id="Common-vulnerability"><a href="#Common-vulnerability" class="headerlink" title="Common vulnerability"></a>Common vulnerability</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">GetInput</span><span class="params">(<span class="keyword">char</span> *out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *p = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">0x20</span>);</span><br><span class="line">    DWORD readed = <span class="number">0</span>;</span><br><span class="line">    HANDLE hin = GetStdHandle(STD_INPUT_HANDLE);</span><br><span class="line">    <span class="comment">// Heap overflow</span></span><br><span class="line">    ReadFile(hin, p, <span class="number">0x200</span>, &amp;readed, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// Stack overflow</span></span><br><span class="line">    <span class="built_in">memcpy</span>(out, p, readed);</span><br><span class="line">    <span class="comment">// Generate an exception</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Stack-Overflow"><a href="#Stack-Overflow" class="headerlink" title="Stack Overflow"></a>Stack Overflow</h2><p><img src="http://t1.aixinxi.net/o_1ckciqrnu1eqd19pgoaruk4nma.png-j.jpg" alt="Stack layout"></p>
+<h3 id="SEH"><a href="#SEH" class="headerlink" title="SEH"></a>SEH</h3><p>Only in x86, it sucks in x64.</p>
+<p><a href="https://www.52pojie.cn/thread-630505-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-630505-1-1.html</a></p>
+<h2 id="Heap-Overflow"><a href="#Heap-Overflow" class="headerlink" title="Heap Overflow"></a>Heap Overflow</h2><p><img src="http://t1.aixinxi.net/o_1ckcj1hc1h1cum01ar81f8ld2a.png-j.jpg" alt="Heap structure"></p>
+<p>Mitigation:</p>
+<ul>
+<li>Encoded function pointer, block header, subsegment header.</li>
+<li>Low fragment heap(LFH), randomize all heap allocation, enabled by default.</li>
+<li>Guard pages.</li>
+</ul>
+<h2 id="Other-vulnerabilities"><a href="#Other-vulnerabilities" class="headerlink" title="Other vulnerabilities"></a>Other vulnerabilities</h2><h3 id="LFH-Bypass"><a href="#LFH-Bypass" class="headerlink" title="LFH Bypass"></a>LFH Bypass</h3><blockquote>
+<ul>
+<li>Alloc within 18 times</li>
+<li>Alloc size &gt; 16k</li>
+<li>Heap spray</li>
+<li>Low fragment heap</li>
+</ul>
+</blockquote>
+<h3 id="Use-After-Free-in-a-nutshell"><a href="#Use-After-Free-in-a-nutshell" class="headerlink" title="Use-After-Free in a nutshell"></a>Use-After-Free in a nutshell</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(cn)</span><br><span class="line">        cn-&gt;hi(); <span class="comment">// use-after-free</span></span><br><span class="line">    <span class="keyword">switch</span>(menu())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            cn = <span class="keyword">new</span> CName(tmpname);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(cn)</span><br><span class="line">                <span class="keyword">delete</span> cn; <span class="comment">// double free</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">char</span> *comment = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">72</span>];</span><br><span class="line">            <span class="built_in">cin</span>.getline(comment, <span class="number">72</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            ExitProcess(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Crash-After-Use"><a href="#Crash-After-Use" class="headerlink" title="Crash-After-Use"></a>Crash-After-Use</h3><p>pwn the vtable</p>
+<h1 id="Mitigation-amp-Bypass"><a href="#Mitigation-amp-Bypass" class="headerlink" title="Mitigation &amp; Bypass"></a>Mitigation &amp; Bypass</h1><h2 id="ASLR-amp-DEP"><a href="#ASLR-amp-DEP" class="headerlink" title="ASLR &amp; DEP"></a>ASLR &amp; DEP</h2><ul>
+<li>ASLR</li>
+<li>Software DEP</li>
+<li>Hardware DEp</li>
+</ul>
+<h2 id="SafeSEH-amp-SEHOP"><a href="#SafeSEH-amp-SEHOP" class="headerlink" title="SafeSEH &amp; SEHOP"></a>SafeSEH &amp; SEHOP</h2><ul>
+<li>SEHOP</li>
+<li>Bypass method 1: Somehow leak the pointer at stack</li>
+<li>Bypass method 2: If program doesn’t use ASLR, just copy the stack address</li>
+</ul>
+<p><img src="http://t1.aixinxi.net/o_1ckck6d9ifr18g99rb1h2qfka.png-j.jpg" alt="GS &amp; SafeSEH &amp; DEP &amp; SEHOP -- Bypass table"></p>
+<h2 id="CFG"><a href="#CFG" class="headerlink" title="CFG"></a>CFG</h2><ul>
+<li>ntdll - NtContinue</li>
+<li>Exploit non-CFG module</li>
+<li>Overwrite Guard CF Check Function Pointer</li>
+</ul>
+<h1 id="Real-vulnerability"><a href="#Real-vulnerability" class="headerlink" title="Real vulnerability"></a>Real vulnerability</h1><p>CVE-2017-11882</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/07/XMan-PWN（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XMan PWN（三）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Basics"><span class="nav-number">1.</span> <span class="nav-text">Basics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Some-Tools"><span class="nav-number">1.1.</span> <span class="nav-text">Some Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PE-Format"><span class="nav-number">1.2.</span> <span class="nav-text">PE Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PE-Memory-Layout"><span class="nav-number">1.3.</span> <span class="nav-text">PE Memory Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-DLLS"><span class="nav-number">1.4.</span> <span class="nav-text">Basic DLLS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Common-vulnerability"><span class="nav-number">2.</span> <span class="nav-text">Common vulnerability</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Stack-Overflow"><span class="nav-number">2.1.</span> <span class="nav-text">Stack Overflow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SEH"><span class="nav-number">2.1.1.</span> <span class="nav-text">SEH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heap-Overflow"><span class="nav-number">2.2.</span> <span class="nav-text">Heap Overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-vulnerabilities"><span class="nav-number">2.3.</span> <span class="nav-text">Other vulnerabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LFH-Bypass"><span class="nav-number">2.3.1.</span> <span class="nav-text">LFH Bypass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-After-Free-in-a-nutshell"><span class="nav-number">2.3.2.</span> <span class="nav-text">Use-After-Free in a nutshell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Crash-After-Use"><span class="nav-number">2.3.3.</span> <span class="nav-text">Crash-After-Use</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mitigation-amp-Bypass"><span class="nav-number">3.</span> <span class="nav-text">Mitigation &amp; Bypass</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASLR-amp-DEP"><span class="nav-number">3.1.</span> <span class="nav-text">ASLR &amp; DEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SafeSEH-amp-SEHOP"><span class="nav-number">3.2.</span> <span class="nav-text">SafeSEH &amp; SEHOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CFG"><span class="nav-number">3.3.</span> <span class="nav-text">CFG</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Real-vulnerability"><span class="nav-number">4.</span> <span class="nav-text">Real vulnerability</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
