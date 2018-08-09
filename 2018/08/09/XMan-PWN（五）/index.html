@@ -3,22 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>tag: ctf | AssassinQ</title>
+  <title>xman pwn（五） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="ctfpwn" />
   
   
   
-  <meta name="description" content="ZJGSU-IS-17">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AssassinQ">
-<meta property="og:url" content="http://AssassinQ.com/tags/ctf/page/2/index.html">
+  
+  <meta name="description" content="swing大佬教漏洞挖掘（Vulnerability Discovering）。">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMan PWN（五）">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/09/XMan-PWN（五）/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="ZJGSU-IS-17">
+<meta property="og:description" content="swing大佬教漏洞挖掘（Vulnerability Discovering）。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-09T11:00:53.777Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AssassinQ">
-<meta name="twitter:description" content="ZJGSU-IS-17">
+<meta name="twitter:title" content="XMan PWN（五）">
+<meta name="twitter:description" content="swing大佬教漏洞挖掘（Vulnerability Discovering）。">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -57,8 +61,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css" >
-  
   
   
     <link rel="stylesheet" href="/css/vdonate.css" >
@@ -68,7 +70,7 @@
 
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -91,7 +93,7 @@
             
               <a class="brand" style="
                  margin-top: 0px;"  
-                 >
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
               </a>
             
@@ -160,238 +162,127 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;">
-  
-  
-  
+          <section id="main" style="float:none;"><article id="post-XMan-PWN（五）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2018" class="archive-year">2018</a></h1>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/13/BIN集训（七）/" class="archive-article-date">
-	  <time datetime="2018-07-13T01:13:49.000Z" itemprop="datePublished">2018-07-13</time>
-	</a>
-
-      
+      <header class="article-header">
+        
   
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/13/BIN集训（七）/">BIN集训（七）</a>
+    <h1 class="thumb" class="article-title" itemprop="name">
+      XMan PWN（五）
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+    <div class="article-meta">
       
-	<a href="/2018/07/12/WEB集训（六）/" class="archive-article-date">
-	  <time datetime="2018-07-12T02:43:19.000Z" itemprop="datePublished">2018-07-12</time>
+	<a href="/2018/08/09/XMan-PWN（五）/" class="article-date">
+	  <time datetime="2018-08-09T01:08:59.000Z" itemprop="datePublished">2018-08-09</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/12/WEB集训（六）/">WEB集训（六）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
       
-	<a href="/2018/07/11/BIN集训（六）/" class="archive-article-date">
-	  <time datetime="2018-07-11T00:50:39.000Z" itemprop="datePublished">2018-07-11</time>
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
 	</a>
 
+    </div>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/11/BIN集训（六）/">BIN集训（六）</a>
-    </h1>
-  
+        <p>swing大佬教漏洞挖掘（Vulnerability Discovering）。</p>
+<a id="more"></a>
+<h1 id="Data-Flow-Analysis"><a href="#Data-Flow-Analysis" class="headerlink" title="Data-Flow Analysis"></a>Data-Flow Analysis</h1><p>数据流分析指的是一组用来获取有关数据如何沿着程序执行路径流动的相关信息的技术。</p>
+<p>数据流分析的目的是提供一个过程（或一大段程序）如何操纵器数据的全局信息。</p>
+<h2 id="根据对程序路径的分析精度分类"><a href="#根据对程序路径的分析精度分类" class="headerlink" title="根据对程序路径的分析精度分类"></a>根据对程序路径的分析精度分类</h2><ul>
+<li>流不敏感分析（flow insensitive）：不考虑语句的先后顺序，按照程序语句的物理位置从上往下顺序分析每一语句</li>
+<li>流敏感分析（flow sensitive）：考虑程序语句可能的执行顺序，通常需要利用程序的控制流图（CFG）</li>
+<li>路径敏感分析（path sensitive）：不仅考虑语句的先后顺序，还对程序执行路径条件加以判断，以确定分析使用的语句序列是否对应着一条可实际运行的程序执行路径</li>
+</ul>
+<h2 id="根据分析路径的深度分类"><a href="#根据分析路径的深度分类" class="headerlink" title="根据分析路径的深度分类"></a>根据分析路径的深度分类</h2><ul>
+<li>过程内分析（intraprocedure analysis）：指针对程序中函数内的代码</li>
+<li>过程间分析（inter-procedure analysis）：考虑函数之间的数据流，即需要跟踪分析目标数据在函数之间的传递过程</li>
+</ul>
+<h2 id="漏洞审计"><a href="#漏洞审计" class="headerlink" title="漏洞审计"></a>漏洞审计</h2><p>由于一些程序漏洞的特征可以表现为特定程序变量在特定的程序点上的性质、状态或取值不满足程序安全的规定，因此数据流分析可以直接用于检测这些漏洞</p>
+<h2 id="漏洞分析规则"><a href="#漏洞分析规则" class="headerlink" title="漏洞分析规则"></a>漏洞分析规则</h2><p>程序漏洞通常和程序中变量的状态或者变量的取值相关。状态自动机可以描述和程序变量状态相关的漏洞分析规则，自动机的状态和变量相应的状态对应。和变量取值相关的检测规则通常包含和程序语句或者指令相关的对变量取值的记录规则以及在特定情况下变量取值需要满足的约束条件。</p>
+<h1 id="Symbolic-Execution"><a href="#Symbolic-Execution" class="headerlink" title="Symbolic Execution"></a>Symbolic Execution</h1><p>A system walks through all possible paths of a program.</p>
+<h1 id="Angr"><a href="#Angr" class="headerlink" title="Angr"></a>Angr</h1><h1 id="Pin"><a href="#Pin" class="headerlink" title="Pin"></a>Pin</h1><h1 id="Fuzzing"><a href="#Fuzzing" class="headerlink" title="Fuzzing"></a>Fuzzing</h1><h1 id="etc"><a href="#etc" class="headerlink" title="etc"></a>etc</h1>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
 
-    </header>
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/08/XMan-PWN（四）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XMan PWN（四）</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
     
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Flow-Analysis"><span class="nav-number">1.</span> <span class="nav-text">Data-Flow Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#根据对程序路径的分析精度分类"><span class="nav-number">1.1.</span> <span class="nav-text">根据对程序路径的分析精度分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据分析路径的深度分类"><span class="nav-number">1.2.</span> <span class="nav-text">根据分析路径的深度分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞审计"><span class="nav-number">1.3.</span> <span class="nav-text">漏洞审计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞分析规则"><span class="nav-number">1.4.</span> <span class="nav-text">漏洞分析规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Symbolic-Execution"><span class="nav-number">2.</span> <span class="nav-text">Symbolic Execution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Angr"><span class="nav-number">3.</span> <span class="nav-text">Angr</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pin"><span class="nav-number">4.</span> <span class="nav-text">Pin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fuzzing"><span class="nav-number">5.</span> <span class="nav-text">Fuzzing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#etc"><span class="nav-number">6.</span> <span class="nav-text">etc</span></a></li></ol>
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/10/WEB集训（五）/" class="archive-article-date">
-	  <time datetime="2018-07-10T09:10:35.000Z" itemprop="datePublished">2018-07-10</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/10/WEB集训（五）/">WEB集训（五）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/09/BIN集训（五）/" class="archive-article-date">
-	  <time datetime="2018-07-09T14:18:17.000Z" itemprop="datePublished">2018-07-09</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/09/BIN集训（五）/">BIN集训（五）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/08/WEB集训（四）/" class="archive-article-date">
-	  <time datetime="2018-07-08T01:08:01.000Z" itemprop="datePublished">2018-07-08</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/08/WEB集训（四）/">WEB集训（四）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/07/BIN集训（四）/" class="archive-article-date">
-	  <time datetime="2018-07-07T05:23:05.000Z" itemprop="datePublished">2018-07-07</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/07/BIN集训（四）/">BIN集训（四）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/06/WEB集训（三）/" class="archive-article-date">
-	  <time datetime="2018-07-06T01:04:22.000Z" itemprop="datePublished">2018-07-06</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/06/WEB集训（三）/">WEB集训（三）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/05/BIN集训（三）/" class="archive-article-date">
-	  <time datetime="2018-07-05T00:59:32.000Z" itemprop="datePublished">2018-07-05</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/05/BIN集训（三）/">BIN集训（三）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/07/04/WEB集训（二）/" class="archive-article-date">
-	  <time datetime="2018-07-04T05:50:22.000Z" itemprop="datePublished">2018-07-04</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/07/04/WEB集训（二）/">WEB集训（二）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/tags/ctf/">&laquo; Prev</a><a class="page-number" href="/tags/ctf/">1</a><span class="page-number current">2</span><a class="page-number" href="/tags/ctf/page/3/">3</a><a class="extend next" rel="next" href="/tags/ctf/page/3/">Next &raquo;</a>
-  </nav>
-
+    </div>
+  </aside>
 </section>
         
       </div>
@@ -488,6 +379,8 @@
 
 
 
+  <script src="/js/dialog.js"></script>
+
 
 
 
@@ -571,6 +464,8 @@
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
   <!-- 页面点击小红心 -->
   <script type="text/javascript" src="/js/love.js"></script>
