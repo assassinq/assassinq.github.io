@@ -6,13 +6,13 @@
   <title>xman re（二） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="ctfre" />
+  <meta name="keywords" content="rectf" />
   
   
   
   
   <meta name="description" content="A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。">
-<meta name="keywords" content="ctf,re">
+<meta name="keywords" content="re,ctf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XMan RE（二）">
 <meta property="og:url" content="http://AssassinQ.com/2018/08/03/XMan-RE（二）/index.html">
@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ckff9v0u1h3t122h16qn1d4j7dqa.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ckff62pkesg1ddj1be4js61qg4a.png-j.jpg">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1ckfdj6d08cvksh1r1p5s09tla.png-j.jpg">
-<meta property="og:updated_time" content="2018-08-09T13:51:45.920Z">
+<meta property="og:updated_time" content="2018-08-09T14:53:04.273Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan RE（二）">
 <meta name="twitter:description" content="A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。">
@@ -264,16 +264,15 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;⎕UCS 13+&#123;+/⍵/⌽2*⍳⍴⍵&#125;¨,/33 8⍴(8×⍴⍵)⍴7⌽⍉(-⌊(⍴&apos;f0xtr0t&apos;)÷2)⌽⍉11 24⍴∊&#123;a≠8↑(0,a←(8⍴2)⊤⍵)&#125;¨⌽⎕UCS ⍵&#125;</span><br></pre></td></tr></table></figure>
 <p>下面做一些分解：</p>
 <ul>
-<li style="list-style: none"><input type="checkbox" checked> func1: {⍵(~⍵)/‘success’ ‘fail’}   // judge</li>
-<li style="list-style: none"><input type="checkbox" checked> func2: {+/⍵/⌽2*⍳⍴⍵}   // bin_arr mul 2</li>
-<li><p>[x] func3: {a≠8↑(0,a←(8⍴2)⊤⍵)} 127 ==&gt; 0 1 1 1 1 1 1 1    // f(x) = x ^ (x &gt;&gt; 1)<br>  // 2⊥0 1 1 1 1 1 1 1 ==&gt; 127</p>
-</li>
-<li><p>[x] part1: ‘abc’{ {⍵(~⍵)/‘success’ ‘fail’}⊃(+/⍺=⍵)=⍴⍺}’abc’ ==&gt; ‘success’</p>
-</li>
-<li style="list-style: none"><input type="checkbox" checked> part2: ⎕UCS   // turn to ascii</li>
-<li style="list-style: none"><input type="checkbox" checked> part3: (-⌊(⍴’f0xtr0t’)÷2) ==&gt; -3  // -(len(‘f0xtr0t’) / 2)</li>
-<li style="list-style: none"><input type="checkbox" checked> part4: 11 24⍴∊{part3} &amp; 33 8⍴ // turn into a axb matrix</li>
-<li style="list-style: none"><input type="checkbox" checked> part5: ⌽⍉ // matrix transposition</li>
+<li style="list-style: none"><input type="checkbox" checked> func1: <code>{⍵(~⍵)/&#39;success&#39; &#39;fail&#39;}   // judge</code></li>
+<li style="list-style: none"><input type="checkbox" checked> func2: <code>{+/⍵/⌽2*⍳⍴⍵}   // bin_arr mul 2</code></li>
+<li style="list-style: none"><input type="checkbox" checked> func3: <code>{a≠8↑(0,a←(8⍴2)⊤⍵)} 127 ==&gt; 0 1 1 1 1 1 1 1    // f(x) = x ^ (x &gt;&gt; 1)
+  // 2⊥0 1 1 1 1 1 1 1 ==&gt; 127</code></li>
+<li style="list-style: none"><input type="checkbox" checked> part1: <code>&#39;abc&#39;{ {⍵(~⍵)/&#39;success&#39; &#39;fail&#39;}⊃(+/⍺=⍵)=⍴⍺}&#39;abc&#39; ==&gt; &#39;success&#39;</code></li>
+<li style="list-style: none"><input type="checkbox" checked> part2: <code>⎕UCS   // turn to ascii</code></li>
+<li style="list-style: none"><input type="checkbox" checked> part3: <code>(-⌊(⍴&#39;f0xtr0t&#39;)÷2) ==&gt; -3  // -(len(&#39;f0xtr0t&#39;) / 2)</code></li>
+<li style="list-style: none"><input type="checkbox" checked> part4: <code>11 24⍴∊{part3} &amp; 33 8⍴ // turn into a axb matrix</code></li>
+<li style="list-style: none"><input type="checkbox" checked> part5: <code>⌽⍉ // matrix transposition</code></li>
 </ul>
 <p>加密的步骤：</p>
 <ol>
@@ -291,12 +290,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;⌽⎕UCS(&#123;2⊥a≠8↑(0,a←(8⍴2)⊤⍵)&#125; ⍣ 7)¨ 2⊥¨,/33 8⍴(8×⍴⍵)⍴⍉3⌽⍉¯7⌽11 24⍴∊&#123;(8⍴2)⊤⍵&#125;¨ ¯13+⎕UCS ⍵&#125; &apos;BIE°?½&gt;IL½E.!!&lt;E!:E84¥¸²E23Å8»968&apos;</span><br></pre></td></tr></table></figure>
 <p>分解部分：</p>
 <ul>
-<li style="list-style: none"><input type="checkbox" checked> func1: {2⊥a≠8↑(0,a←(8⍴2)⊤⍵)}  // reverse f(x) = x ^ (x &gt;&gt; 1) &lt;== fun1 ^ (N - 1) = func1 ^ (-1)</li>
-<li><p>[x] func2: {(8⍴2)⊤⍵}  // decimal to bits</p>
+<li style="list-style: none"><input type="checkbox" checked> func1: <code>{2⊥a≠8↑(0,a←(8⍴2)⊤⍵)}  // reverse f(x) = x ^ (x &gt;&gt; 1) &lt;== fun1 ^ (N - 1) = func1 ^ (-1)</code></li>
+<li><p>[x] func2: <code>{(8⍴2)⊤⍵}  // decimal to bits</code></p>
 </li>
-<li><p>[x] part1: ⌽  // reverse</p>
+<li><p>[x] part1: <code>⌽  // reverse</code></p>
 </li>
-<li style="list-style: none"><input type="checkbox" checked> part2: {}⍣7   // for 7 times</li>
+<li style="list-style: none"><input type="checkbox" checked> part2: <code>{}⍣7   // for 7 times</code></li>
 </ul>
 <p>逆向的过程：</p>
 <ol>
