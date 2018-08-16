@@ -6,20 +6,20 @@
   <title>xman sdr（一） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="sdr" />
+  <meta name="keywords" content="sdrhardware" />
   
   
   
   
   <meta name="description" content="关于软件无线电和硬件安全入门。">
-<meta name="keywords" content="sdr">
+<meta name="keywords" content="sdr,hardware">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XMan SDR（一）">
 <meta property="og:url" content="http://AssassinQ.com/2018/08/15/XMan-SDR（一）/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="关于软件无线电和硬件安全入门。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-15T10:57:07.705Z">
+<meta property="og:updated_time" content="2018-08-16T11:13:54.478Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan SDR（一）">
 <meta name="twitter:description" content="关于软件无线电和硬件安全入门。">
@@ -197,18 +197,29 @@
 <a id="more"></a>
 <h1 id="SDR入门"><a href="#SDR入门" class="headerlink" title="SDR入门"></a>SDR入门</h1><p>软件无线电（Software Defined Radio，SDR）是一种实现无线通信的新概念和体制。其中已在硬件被典型地实现的组件（例如混频器，滤波器，放大器，调制器 / 解调器，检测器等），也可以通过软件手段的个人计算机上或代替实施嵌入式系统。一开始应用在军事领域，在21世纪初，由于众多公司的努力，使得它已从军事领域转向民用领域，成为经济的、应用广泛的、全球通信的第三代移动通信系统的战略基础</p>
 <p>无线电只能在特定频率发送。</p>
-<h2 id="TOOLS"><a href="#TOOLS" class="headerlink" title="TOOLS"></a>TOOLS</h2><h3 id="RTL2832U"><a href="#RTL2832U" class="headerlink" title="RTL2832U"></a>RTL2832U</h3><ul>
-<li>高性能</li>
-<li>低成本</li>
+<h2 id="TOOLS"><a href="#TOOLS" class="headerlink" title="TOOLS"></a>TOOLS</h2><ul>
+<li>RTL2832U（电视棒）：高性能、低成本</li>
+<li>HackRF</li>
+<li>BladeRF</li>
+<li>USRP</li>
 </ul>
-<h4 id="频率"><a href="#频率" class="headerlink" title="频率"></a>频率</h4><p>频率，是单位时间内完成周期性变化的次数，是描述周期运动频繁程度的量，常用符号f或ν表示，单位为秒分之一，符号为s -1。 为了纪念德国物理学家赫兹的贡献，人们把频率的单位命名为赫兹，简称“赫”，符号为Hz。 每个物体都有由它本身性质决定的与振幅无关的频率，叫做固有频率。</p>
-<p>赫兹是个很小的的单位，通常在前面加上k、M、G。</p>
-<h4 id="采样-amp-带宽"><a href="#采样-amp-带宽" class="headerlink" title="采样 &amp; 带宽"></a>采样 &amp; 带宽</h4><h4 id="调制-amp-解调"><a href="#调制-amp-解调" class="headerlink" title="调制 &amp; 解调"></a>调制 &amp; 解调</h4><h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><ul>
-<li></li>
-<li></li>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><ul>
+<li>民航通信通话解码</li>
+<li>ADS-B信号伪造</li>
 <li>逆向分析无线遥控信号</li>
+<li>信号重放</li>
+<li>信号监听、干扰、爆破</li>
+<li>GSM短信嗅探</li>
+<li>基站通信（伪基站）</li>
+<li>气象卫星通信</li>
+<li>Wifi破解<ul>
+<li>Wep加密</li>
+<li>Pin码破解</li>
+<li>Wpa</li>
+<li>Wifi万能钥匙</li>
 </ul>
-<h3 id="VGA"><a href="#VGA" class="headerlink" title="VGA"></a>VGA</h3><h3 id="HackRF"><a href="#HackRF" class="headerlink" title="HackRF"></a>HackRF</h3><h3 id="BladeRF"><a href="#BladeRF" class="headerlink" title="BladeRF"></a>BladeRF</h3><h3 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h3><h2 id="Attack"><a href="#Attack" class="headerlink" title="Attack"></a>Attack</h2><h3 id="SCA"><a href="#SCA" class="headerlink" title="SCA"></a>SCA</h3><p>### </p>
+</li>
+</ul>
 <h1 id="The-way-to-be-a-hardware-hacker"><a href="#The-way-to-be-a-hardware-hacker" class="headerlink" title="The way to be a hardware hacker"></a>The way to be a hardware hacker</h1><h2 id="电路"><a href="#电路" class="headerlink" title="电路"></a>电路</h2><h2 id="计算机底层"><a href="#计算机底层" class="headerlink" title="计算机底层"></a>计算机底层</h2><h3 id="MOS管"><a href="#MOS管" class="headerlink" title="MOS管"></a>MOS管</h3><ul>
 <li>NMOS</li>
 <li>CMOS：反相器 ==&gt; 非门<ul>
@@ -293,13 +304,22 @@ var a = new Donate({
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sdr/">sdr</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hardware/">hardware</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sdr/">sdr</a></li></ul>
 
     </footer>
   </div>
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/08/16/XMan-Android（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XMan Android（三）
+        
+      </div>
+    </a>
   
   
     <a href="/2018/08/13/XMan-Android（二）/" id="article-nav-older" class="article-nav-link-wrap">
@@ -318,7 +338,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SDR入门"><span class="nav-number">1.</span> <span class="nav-text">SDR入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TOOLS"><span class="nav-number">1.1.</span> <span class="nav-text">TOOLS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RTL2832U"><span class="nav-number">1.1.1.</span> <span class="nav-text">RTL2832U</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#频率"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">频率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#采样-amp-带宽"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">采样 &amp; 带宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调制-amp-解调"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">调制 &amp; 解调</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#案例"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VGA"><span class="nav-number">1.1.2.</span> <span class="nav-text">VGA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HackRF"><span class="nav-number">1.1.3.</span> <span class="nav-text">HackRF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BladeRF"><span class="nav-number">1.1.4.</span> <span class="nav-text">BladeRF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPS"><span class="nav-number">1.1.5.</span> <span class="nav-text">GPS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attack"><span class="nav-number">1.2.</span> <span class="nav-text">Attack</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SCA"><span class="nav-number">1.2.1.</span> <span class="nav-text">SCA</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-way-to-be-a-hardware-hacker"><span class="nav-number">2.</span> <span class="nav-text">The way to be a hardware hacker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#电路"><span class="nav-number">2.1.</span> <span class="nav-text">电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机底层"><span class="nav-number">2.2.</span> <span class="nav-text">计算机底层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MOS管"><span class="nav-number">2.2.1.</span> <span class="nav-text">MOS管</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通信协议"><span class="nav-number">2.3.</span> <span class="nav-text">通信协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通用异步收发器（UART）"><span class="nav-number">2.3.1.</span> <span class="nav-text">通用异步收发器（UART）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SPI"><span class="nav-number">2.3.2.</span> <span class="nav-text">SPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差分协议"><span class="nav-number">2.3.3.</span> <span class="nav-text">差分协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无系统简单程序设计"><span class="nav-number">2.4.</span> <span class="nav-text">无系统简单程序设计</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SDR入门"><span class="nav-number">1.</span> <span class="nav-text">SDR入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TOOLS"><span class="nav-number">1.1.</span> <span class="nav-text">TOOLS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例"><span class="nav-number">1.2.</span> <span class="nav-text">案例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-way-to-be-a-hardware-hacker"><span class="nav-number">2.</span> <span class="nav-text">The way to be a hardware hacker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#电路"><span class="nav-number">2.1.</span> <span class="nav-text">电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机底层"><span class="nav-number">2.2.</span> <span class="nav-text">计算机底层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MOS管"><span class="nav-number">2.2.1.</span> <span class="nav-text">MOS管</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通信协议"><span class="nav-number">2.3.</span> <span class="nav-text">通信协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通用异步收发器（UART）"><span class="nav-number">2.3.1.</span> <span class="nav-text">通用异步收发器（UART）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SPI"><span class="nav-number">2.3.2.</span> <span class="nav-text">SPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差分协议"><span class="nav-number">2.3.3.</span> <span class="nav-text">差分协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无系统简单程序设计"><span class="nav-number">2.4.</span> <span class="nav-text">无系统简单程序设计</span></a></li></ol></li></ol>
     
     </div>
   </aside>

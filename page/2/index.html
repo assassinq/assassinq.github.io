@@ -191,6 +191,58 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-XMan-RE（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/03/XMan-RE（二）/">XMan RE（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/03/XMan-RE（二）/" class="article-date">
+	  <time datetime="2018-08-03T02:31:27.000Z" itemprop="datePublished">2018-08-03</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。</p>
+        <!-- A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。
+
+hide_1拿到文件先file一下，是64位的ELF文件。然后strings一下，发现有upx壳。
+用upx -d不能脱，改用dd直接把内存dump下来。
+
+然后可以拖进ida开始逆。先是找到了一个藏假flag的函数，逻辑明显的错误的。
+12345678910111213141516171819202122232425262......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/03/XMan-RE（二）/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-XMan-RE（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -688,56 +740,6 @@ php://
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-BIN集训（五）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/09/BIN集训（五）/">BIN集训（五）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/09/BIN集训（五）/" class="article-date">
-	  <time datetime="2018-07-09T14:18:17.000Z" itemprop="datePublished">2018-07-09</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>掌握一些逆向分析的基本知识并实践。</p>
-        <!-- 掌握一些逆向分析的基本知识并实践。
-
-启动函数在编写程序时，如果写的是控制台应用程序，就少不了main函数；如果编写的是Win32应用程序，相应的就是WinMain函数。
-但是Windows程序执行并不是从WinMain开始的，二十线执行启动函数相关代码。这段代码由编译器生成，启动代码完成初始化进程，再调用WinMain函数。
-以Visual C++为例，所有的C/C++启动函数的作用基本都......  -->
-        <p class="article-more-link">
-          <a href="/2018/07/09/BIN集训（五）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
 
     </footer>
   </div>
