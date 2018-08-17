@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>xman android（三） | AssassinQ</title>
+  <title>xman sdr（二） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="android" />
+  <meta name="keywords" content="is" />
   
   
   
   
-  <meta name="description" content="挖洞挖不动。">
-<meta name="keywords" content="android">
+  <meta name="description" content="了解无线攻击。">
+<meta name="keywords" content="is">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XMan Android（三）">
-<meta property="og:url" content="http://AssassinQ.com/2018/08/16/XMan-Android（三）/index.html">
+<meta property="og:title" content="XMan SDR（二）">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/17/XMan-ELSE（二）/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="挖洞挖不动。">
+<meta property="og:description" content="了解无线攻击。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-16T12:34:54.090Z">
+<meta property="og:updated_time" content="2018-08-17T08:40:16.618Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XMan Android（三）">
-<meta name="twitter:description" content="挖洞挖不动。">
+<meta name="twitter:title" content="XMan SDR（二）">
+<meta name="twitter:description" content="了解无线攻击。">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -162,7 +162,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-XMan-Android（三）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-XMan-ELSE（二）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -170,7 +170,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      XMan Android（三）
+      XMan SDR（二）
     </h1>
   
 
@@ -178,8 +178,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/08/16/XMan-Android（三）/" class="article-date">
-	  <time datetime="2018-08-16T08:58:20.000Z" itemprop="datePublished">2018-08-16</time>
+	<a href="/2018/08/17/XMan-ELSE（二）/" class="article-date">
+	  <time datetime="2018-08-17T08:37:16.000Z" itemprop="datePublished">2018-08-17</time>
 	</a>
 
       
@@ -193,152 +193,32 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>挖洞挖不动。</p>
+        <p>了解无线攻击。</p>
 <a id="more"></a>
-<h1 id="Android底层安全框架及攻击缓释技术"><a href="#Android底层安全框架及攻击缓释技术" class="headerlink" title="Android底层安全框架及攻击缓释技术"></a>Android底层安全框架及攻击缓释技术</h1><ul>
-<li>自主访问限制<ul>
-<li>基于uid/gid</li>
-<li>容易被突破</li>
+<h1 id="常见无线攻击威胁"><a href="#常见无线攻击威胁" class="headerlink" title="常见无线攻击威胁"></a>常见无线攻击威胁</h1><h2 id="老旧的攻击"><a href="#老旧的攻击" class="headerlink" title="老旧的攻击"></a>老旧的攻击</h2><p>WPA/WPA2-PSK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br><span class="line"></span><br><span class="line">airodump-ng start wlan0</span><br><span class="line"></span><br><span class="line">airodump-ng check kill </span><br><span class="line"></span><br><span class="line">wlan0mon airodump-ng</span><br><span class="line"></span><br><span class="line">airodump-ng --bssid [mac addr] -c 11 -w xmantest wlan1mon</span><br><span class="line"></span><br><span class="line">airodump-ng [filename] -w [dic file]</span><br></pre></td></tr></table></figure>
+<h2 id="Fake-AP攻击"><a href="#Fake-AP攻击" class="headerlink" title="Fake AP攻击"></a>Fake AP攻击</h2><h2 id="Wifi-DOS攻击"><a href="#Wifi-DOS攻击" class="headerlink" title="Wifi-DOS攻击"></a>Wifi-DOS攻击</h2><p>Deauth Flood：由于未加密的管理帧，允许接受第三方的解除关联帧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iwconfig wlan1mon channel 11</span><br><span class="line"></span><br><span class="line">airoplay -0 10000 -a [mac addr] -c [] wlan1mon</span><br></pre></td></tr></table></figure>
+<h1 id="无线攻防的进阶"><a href="#无线攻防的进阶" class="headerlink" title="无线攻防的进阶"></a>无线攻防的进阶</h1><h2 id="ProbeRequest"><a href="#ProbeRequest" class="headerlink" title="ProbeRequest"></a>ProbeRequest</h2><ul>
+<li>暴露位置信息&amp;定位</li>
+<li>SSID钓鱼</li>
 </ul>
-</li>
-<li>强制访问限制<ul>
-<li>SELinux</li>
-<li>攻破非常困难</li>
-<li>极大降低攻击后危害</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wlan.fc.type_subtype==4</span><br></pre></td></tr></table></figure>
+<h2 id="WPA-Radius企业无线攻防"><a href="#WPA-Radius企业无线攻防" class="headerlink" title="WPA-Radius企业无线攻防"></a>WPA-Radius企业无线攻防</h2><ul>
+<li>EAP-TTLS&amp;&amp;PEAP<br>— EAP-MD5</li>
 </ul>
-</li>
-<li>验证启动模式（Verified Boot）<ul>
-<li>通过硬件密钥，逐步验证整个系统</li>
-<li>一旦出厂之后，不可修改</li>
-<li>修改之后系统无法启动</li>
-<li>6.0开始支持，7.0后更加严格</li>
-</ul>
-</li>
-<li>代码签名和平台密钥<ul>
-<li>无法刷入任何非签名镜像</li>
-<li>System级别的签名验证</li>
-</ul>
-</li>
-</ul>
-<h1 id="Root相关基础知识"><a href="#Root相关基础知识" class="headerlink" title="Root相关基础知识"></a>Root相关基础知识</h1><ul>
-<li>名词解释<ul>
-<li>Root？rwx之外的权限s位</li>
-<li>Bootloader</li>
-<li>Recovery</li>
-<li>Baseband</li>
-<li>Android</li>
-</ul>
-</li>
-<li>Root类型<ul>
-<li>永久Root</li>
-<li>临时Root</li>
-<li>取消Root</li>
-</ul>
-</li>
-<li>Root方式<ul>
-<li>直接从Recovery刷入su和deamon-su</li>
-<li>使用Bootloader替换Recovery后，刷入su/deamon-su</li>
-<li>使用内核漏洞Exploit获取Root</li>
-</ul>
-</li>
-</ul>
-<h1 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h1><ul>
-<li>调试<ul>
-<li>IDA Pro</li>
-<li>gdb</li>
-<li>Android Studio</li>
-</ul>
-</li>
-<li>HOOK<ul>
-<li>Xposed</li>
-<li>Frida</li>
-<li>Magisk</li>
-</ul>
-</li>
-<li>Canary、DEP、ASLR<ul>
-<li>HeapSpray</li>
-<li>信息泄漏漏洞</li>
-<li>ROP</li>
-</ul>
-</li>
-</ul>
-<h1 id="原声代码库及其攻击面"><a href="#原声代码库及其攻击面" class="headerlink" title="原声代码库及其攻击面"></a>原声代码库及其攻击面</h1><ul>
-<li>本地文件处理原声库<ul>
-<li>音频、视频处理</li>
-<li>文档、字符、字体处理</li>
-<li>可执行程序处理（APP安装过程）</li>
-<li>其他文件处理（压缩文件，证书文件等）</li>
-</ul>
-</li>
-<li>具有远程攻击面的原生库（Brower，WIFI，BASEBAND，BT，NFC）<ul>
-<li>浏览器攻击面（DOM，JS）——chromium</li>
-<li>网络数据处理（802.11包格式处理，其他网络控制数据包）——wpa_supplicant</li>
-<li>基带处理（短信，电话）——radio.img</li>
-<li>蓝牙（蓝牙数据包处理）——/system/bt</li>
-</ul>
-</li>
-<li>进程间通信及其他提权相关库（BINDER等）<ul>
-<li>System Services</li>
-<li>adb shell service list</li>
-</ul>
-</li>
-</ul>
-<h1 id="内核攻击面"><a href="#内核攻击面" class="headerlink" title="内核攻击面"></a>内核攻击面</h1><h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><ul>
-<li>系统调用有多少<ul>
-<li>ARM：256（android 8.0）263（android 7.x）258（android 6.x）</li>
-<li>ARM64：224（android 8.0）221（android 7.x）217（android 6.x）</li>
-</ul>
-</li>
-<li>系统调用可以做什么<ul>
-<li>理论上的所有操作，libc只是为了易用性的封装</li>
-<li>理论上的所有权限，一般是设备上的最高权限</li>
-</ul>
-</li>
-<li>如何攻击<ul>
-<li>通过系统调用本身触发内核问题</li>
-<li>通过系统调用让内核处理数据时发生问题</li>
-</ul>
-</li>
-<li>常见攻击场景<ul>
-<li>发送网络数据时触发问题，导致ROOT提权</li>
-<li>越权写文件（dirtycow）</li>
-</ul>
-</li>
-</ul>
-<h2 id="驱动、固件"><a href="#驱动、固件" class="headerlink" title="驱动、固件"></a>驱动、固件</h2><ul>
-<li>驱动固件有多少<ul>
-<li>/dev中有228项（Android 6.0 Nexus 5）</li>
-</ul>
-</li>
-<li>驱动固件负责什么<ul>
-<li>适配特定硬件的软件</li>
-<li>驱动程序会创建一些借口，允许用户从用户空间访问，以便控制硬件</li>
-</ul>
-</li>
-<li>如何攻击<ul>
-<li>让驱动固件处理数据时发生问题</li>
-<li>虽然还是使用IOCTL系统调用，但是负责处理的不是原生内核</li>
-</ul>
-</li>
-<li>常见攻击场景<ul>
-<li>网络驱动处理数据时触发问题</li>
-<li>声卡系统驱动、显示系统驱动</li>
-</ul>
-</li>
-</ul>
-<h1 id="内核攻击和缓释相关技术"><a href="#内核攻击和缓释相关技术" class="headerlink" title="内核攻击和缓释相关技术"></a>内核攻击和缓释相关技术</h1><ul>
-<li>SELinux</li>
-<li>KASLR</li>
-<li>PXN、PAN</li>
-<li>kptr_restrict</li>
-<li>Page permission mitigation</li>
-<li>RKP</li>
-<li>DFI</li>
-</ul>
-<h1 id="Android常用Fuzz方法"><a href="#Android常用Fuzz方法" class="headerlink" title="Android常用Fuzz方法"></a>Android常用Fuzz方法</h1><ul>
-<li>AFL：American Fuzzy Lop</li>
-<li>Syzkaller：系统调用Fuzzer</li>
-</ul>
+<h1 id="针对无线设备的漏洞挖掘"><a href="#针对无线设备的漏洞挖掘" class="headerlink" title="针对无线设备的漏洞挖掘"></a>针对无线设备的漏洞挖掘</h1><h2 id="攻击802-11客户端"><a href="#攻击802-11客户端" class="headerlink" title="攻击802.11客户端"></a>攻击802.11客户端</h2><p>Fuzzing（模糊测试）是一种识别软件设计缺陷和安全漏洞的方法。</p>
+<p>通过向目标发送畸形数据，试图使目标崩溃。</p>
+<p>802.11-Fuzzing =&gt; 构造长度&gt;32 &amp;&amp; &lt;= 255byte SSID IE的payload</p>
+<h2 id="wifi-positioning-Spoof"><a href="#wifi-positioning-Spoof" class="headerlink" title="wifi positioning Spoof"></a>wifi positioning Spoof</h2><p>WiFi定位原理：</p>
+<ol>
+<li>每一个无线AP都有一个全球唯一的MAC地址，并且一般来说无线AP在一段时间内是不会移动的。</li>
+<li>设备在开启Wi-Fi的情况下，即可扫描并收集周围的AP信号，无论是否加密，是否已连接，甚至信号强度不足以显示在无线信号列表中，都可以获取到AP广播出来的MAC地址。</li>
+<li>设备将这些能够标示AP的数据发送到位置服务器，服务器检索出每一个AP的地理位置，并结合每个信号的强弱程度，计算出设备的地理位置并返回到用户设备。</li>
+<li>位置服务商要不断更新、补充自己的数据库，以保证数据的准确性，毕竟无线AP不像基站塔那样基本100%不会移动。</li>
+</ol>
+<h1 id="无限攻击的识别与防御策略"><a href="#无限攻击的识别与防御策略" class="headerlink" title="无限攻击的识别与防御策略"></a>无限攻击的识别与防御策略</h1><h2 id="Identify-DOS-Attack"><a href="#Identify-DOS-Attack" class="headerlink" title="Identify DOS Attack"></a>Identify DOS Attack</h2><p>DOS攻击有很多种，Authentiction Flood、De-Authentcation Flood、Association Flood、Beacon Flood等。</p>
+<h2 id="Identify-Fake-AP"><a href="#Identify-Fake-AP" class="headerlink" title="Identify Fake AP"></a>Identify Fake AP</h2><p>黑客先建立一个与你同SSID的热点，运用DOS Attack将合法Client强制断掉AP，当Client再次执行关联请求时，已经被劫持到Fake AP上，进行劫持，密码窃取等行为。</p>
 
       
     </div>
@@ -384,7 +264,7 @@ var a = new Donate({
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/is/">is</a></li></ul>
 
     </footer>
   </div>
@@ -392,19 +272,10 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2018/08/17/XMan-ELSE（二）/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          XMan SDR（二）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/08/15/XMan-ELSE（一）/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/16/XMan-Android（三）/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">XMan SDR（一）</div>
+      <div class="article-nav-title">XMan Android（三）</div>
     </a>
   
 </nav>
@@ -418,7 +289,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android底层安全框架及攻击缓释技术"><span class="nav-number">1.</span> <span class="nav-text">Android底层安全框架及攻击缓释技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Root相关基础知识"><span class="nav-number">2.</span> <span class="nav-text">Root相关基础知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用工具"><span class="nav-number">3.</span> <span class="nav-text">常用工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原声代码库及其攻击面"><span class="nav-number">4.</span> <span class="nav-text">原声代码库及其攻击面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核攻击面"><span class="nav-number">5.</span> <span class="nav-text">内核攻击面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用"><span class="nav-number">5.1.</span> <span class="nav-text">系统调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#驱动、固件"><span class="nav-number">5.2.</span> <span class="nav-text">驱动、固件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核攻击和缓释相关技术"><span class="nav-number">6.</span> <span class="nav-text">内核攻击和缓释相关技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android常用Fuzz方法"><span class="nav-number">7.</span> <span class="nav-text">Android常用Fuzz方法</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见无线攻击威胁"><span class="nav-number">1.</span> <span class="nav-text">常见无线攻击威胁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#老旧的攻击"><span class="nav-number">1.1.</span> <span class="nav-text">老旧的攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fake-AP攻击"><span class="nav-number">1.2.</span> <span class="nav-text">Fake AP攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wifi-DOS攻击"><span class="nav-number">1.3.</span> <span class="nav-text">Wifi-DOS攻击</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无线攻防的进阶"><span class="nav-number">2.</span> <span class="nav-text">无线攻防的进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ProbeRequest"><span class="nav-number">2.1.</span> <span class="nav-text">ProbeRequest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WPA-Radius企业无线攻防"><span class="nav-number">2.2.</span> <span class="nav-text">WPA-Radius企业无线攻防</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#针对无线设备的漏洞挖掘"><span class="nav-number">3.</span> <span class="nav-text">针对无线设备的漏洞挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击802-11客户端"><span class="nav-number">3.1.</span> <span class="nav-text">攻击802.11客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wifi-positioning-Spoof"><span class="nav-number">3.2.</span> <span class="nav-text">wifi positioning Spoof</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无限攻击的识别与防御策略"><span class="nav-number">4.</span> <span class="nav-text">无限攻击的识别与防御策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Identify-DOS-Attack"><span class="nav-number">4.1.</span> <span class="nav-text">Identify DOS Attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Identify-Fake-AP"><span class="nav-number">4.2.</span> <span class="nav-text">Identify Fake AP</span></a></li></ol></li></ol>
     
     </div>
   </aside>
