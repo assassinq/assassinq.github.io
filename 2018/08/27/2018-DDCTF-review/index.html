@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>2018 ddctf review | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctf" />
+  
+  
+  
+  
+  <meta name="description" content="慢慢复现几个月前的DDCTF。">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018 DDCTF review">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/27/2018-DDCTF-review/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="慢慢复现几个月前的DDCTF。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://t1.aixinxi.net/o_1cja4pe9g1cg7asd1ghs1ls11pmha.png-j.jpg">
+<meta property="og:image" content="https://t1.aixinxi.net/o_1cja4tu4e94511e1agfevc47ka.png-j.jpg">
+<meta property="og:image" content="https://t1.aixinxi.net/o_1cja5a5qevv01sj91mfi1ml8l3ia.png-j.jpg">
+<meta property="og:image" content="https://t1.aixinxi.net/o_1cja5dj5vv9h17aj46q1c8a2ima.png-j.jpg">
+<meta property="og:updated_time" content="2018-08-27T14:48:47.584Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2018 DDCTF review">
+<meta name="twitter:description" content="慢慢复现几个月前的DDCTF。">
+<meta name="twitter:image" content="https://t1.aixinxi.net/o_1cja4pe9g1cg7asd1ghs1ls11pmha.png-j.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2018-DDCTF-review" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      2018 DDCTF review
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/27/2018-DDCTF-review/" class="article-date">
+	  <time datetime="2018-08-27T06:32:26.000Z" itemprop="datePublished">2018-08-27</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>慢慢复现几个月前的DDCTF。</p>
+<a id="more"></a>
+<h1 id="RE"><a href="#RE" class="headerlink" title="RE"></a>RE</h1><h2 id="Baby-MIPS"><a href="#Baby-MIPS" class="headerlink" title="Baby MIPS"></a>Baby MIPS</h2><h2 id="黑盒破解"><a href="#黑盒破解" class="headerlink" title="黑盒破解"></a>黑盒破解</h2><h2 id="被隐藏的真实"><a href="#被隐藏的真实" class="headerlink" title="被隐藏的真实"></a>被隐藏的真实</h2><h2 id="探寻逝去的Atlantis文明"><a href="#探寻逝去的Atlantis文明" class="headerlink" title="探寻逝去的Atlantis文明"></a>探寻逝去的Atlantis文明</h2><h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="签到题"><a href="#签到题" class="headerlink" title="签到题"></a>签到题</h2><p>下载的文件中提示flag在公告中。</p>
+<h2 id="╯°□°）╯︵-┻━┻"><a href="#╯°□°）╯︵-┻━┻" class="headerlink" title="(╯°□°）╯︵ ┻━┻"></a>(╯°□°）╯︵ ┻━┻</h2><p>脑洞题吧，把字符串每两个一组，为一个十六进制数字，每个数字减去128后转回字符得到flag。</p>
+<p>脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">enc = <span class="string">'d4e8e1f4a0f7e1f3a0e6e1f3f4a1a0d4e8e5a0e6ece1e7a0e9f3baa0c4c4c3d4c6fbb9e1e6b3e3b9e4b3b7b7e2b6b1e4b2b6b9e2b1b1b3b3b7e6b3b3b0e3b9b3b5e6fd'</span></span><br><span class="line">l1 = []</span><br><span class="line">length = int(len(enc) / <span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">    l1.append(int(enc[<span class="number">2</span> * i] + enc[<span class="number">2</span> * i + <span class="number">1</span>], <span class="number">16</span>))</span><br><span class="line">print(l1)</span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> l1:</span><br><span class="line">    tmp = num - <span class="number">128</span></span><br><span class="line">    ch = chr(tmp)</span><br><span class="line">    print(ch, end=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="第四扩展FS"><a href="#第四扩展FS" class="headerlink" title="第四扩展FS"></a>第四扩展FS</h2><p>在kali中<code>binwalk windows.jpg</code>发现存在txt文件，再通过<code>foremost windows.jpg</code>提取出一个压缩包。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> ⚡ root@kali ~ cd Desktop          </span><br><span class="line"> ⚡ root@kali ~/Desktop ls</span><br><span class="line">windows.jpg  Xman-RSA</span><br><span class="line"> ⚡ root@kali ~/Desktop binwalk windows.jpg </span><br><span class="line"></span><br><span class="line">DECIMAL       HEXADECIMAL     DESCRIPTION</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">0             0x0             JPEG image data, JFIF standard 1.01</span><br><span class="line">30            0x1E            TIFF image data, big-endian, offset of first image directory: 8</span><br><span class="line">21440         0x53C0          Unix path: /www.w3.org/1999/02/22-rdf-syntax-ns#"/&gt;&lt;/x:xmpmeta&gt;</span><br><span class="line">7236510       0x6E6B9E        Zip archive data, encrypted at least v2.0 to extract, compressed size: 18186, uncompressed size: 30500, name: file.txt</span><br><span class="line">7254788       0x6EB304        End of Zip archive</span><br><span class="line"></span><br><span class="line"> ⚡ root@kali ~/Desktop foremost windows.jpg </span><br><span class="line">Processing: windows.jpg</span><br><span class="line">|foundat=file.txt�W����𠜈0������H�p,l�r0</span><br><span class="line">*|</span><br></pre></td></tr></table></figure>
+<p>压缩包有密码。在windows下查看<code>windows.jpg</code>的属性，在备注中提示<code>Pactera</code>，作为密码拿到<code>file.txt</code>。</p>
+<p><img src="" alt="备注中的密码"></p>
+<p>文本中是一串无序的字符。根据提示<code>日常违规审计中频次有时候非常重要</code>，尝试用脚本对各个字符的频次进行统计，然后排序得到flag。</p>
+<p>脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> operator</span><br><span class="line">f1 = open(<span class="string">'file.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">txt = f1.read()</span><br><span class="line">dic1 = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> txt:</span><br><span class="line">    <span class="keyword">if</span> ch <span class="keyword">in</span> dic1.keys():</span><br><span class="line">        dic1[ch] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        dic1[ch] = <span class="number">1</span></span><br><span class="line">print(dic1)</span><br><span class="line"><span class="comment"># dic2 = sorted(dic1.items(), key=lambda x: x[1], reverse=True)</span></span><br><span class="line">dic2 = sorted(dic1.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="keyword">True</span>)</span><br><span class="line">print(dic2)</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> tp <span class="keyword">in</span> dic2:</span><br><span class="line">    flag += tp[<span class="number">0</span>]</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+<h2 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h2><p>流量分析题，wireshark是真的不怎么会用。先把文件拖入wireshark，发现只有IMF文件可以导出。导出之后在其中一份邮件中找到了不一样的东西。</p>
+<p><img src="https://t1.aixinxi.net/o_1cja4pe9g1cg7asd1ghs1ls11pmha.png-j.jpg" alt="导出所有的IMF文件"></p>
+<p><img src="https://t1.aixinxi.net/o_1cja4tu4e94511e1agfevc47ka.png-j.jpg" alt="在其中一份中找到的内容"></p>
+<p>通过图像识别提取出文字，并且仔细看一下数字<code>0</code>和大写字母<code>O</code>，数字<code>1</code>和小写字母<code>l</code>是否有弄错。然后将其填充入私钥中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIICXAIBAAKBgQDCm6vZmclJrVH1AAyGuCuSSZ8O+mIQiOUQCvN0HYbj8153JfSQLsJIhbRYS7+zZ1oXvPemWQDv/u/tzegt58q4ciNmcVnq1uKiygc6QOtvT7oiSTyOvMX/q5iE2iClYUIHZEKX3BjjNDxrYvLQzPyGD1EY2DZIO6T45FNKYC2VDwIDAQABAoGAbtWUKUkx37lLfRq7B5sqjZVKdpBZe4tL0jg6cX5Djd3Uhk1inR9UXVNw4/y4QGfzYqOn8+Cq7QSoBysHOeXSiPztW2cL09ktPgSlfTQyN6ELNGuiUOYnaTWYZpp/QbRcZ/eHBulVQLlk5M6RVs9BLI9X08RAl7EcwumiRfWas6kCQQDvqC0dxl2wIjwNczILcoWLig2c2u71Nev9DrWjWHU8eHDuzCJWvOUAHIrkexddWEK2VHd+F13GBCOQZCM4prBjAkEAz+ENahsEjBE4+7H1HdIaw0+goe/45d6A2ewO/lYH6dDZTAzTW9z9kzV8uz+Mmo5163/JtvwYQcKF39DJGGtqZQJBAKa18XR16fQ9TFL64EQwTQ+tYBzN+04eTWQCmH3haeQ/0Cd9XyHBUveJ42Be8/jeDcIx7dGLxZKajHbEAfBFnAsCQGq1AnbJ4Z6opJCGu+UP2c8SC8m0bhZJDelPRC8IKE28eB6SotgP61ZqaVmQ+HLJ1/wH/5pfc3AmEyRdfyx6zwUCQCAH4SLJv/kprRz1a1gx8FR5tj4NeHEFFNEgq1gmiwmH2STT5qZWzQFz8NRe+/otNOHBR2Xk4e8IS+ehIJ3TvyE=</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+<p>可以看到有ssl，将私钥导入：</p>
+<p><img src="https://t1.aixinxi.net/o_1cja5a5qevv01sj91mfi1ml8l3ia.png-j.jpg" alt="找到ssl"></p>
+<p><img src="https://t1.aixinxi.net/o_1cja5dj5vv9h17aj46q1c8a2ima.png-j.jpg" alt="导入sslkey"></p>
+<p>再打开wireshark时，可以看到<code>http</code>了。追踪http流，找到flag。</p>
+<h2 id="安全通信"><a href="#安全通信" class="headerlink" title="安全通信"></a>安全通信</h2><h2 id="complex-stego"><a href="#complex-stego" class="headerlink" title="complex stego"></a>complex stego</h2><h2 id="keepassx"><a href="#keepassx" class="headerlink" title="keepassx"></a>keepassx</h2><h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="数据库的秘密"><a href="#数据库的秘密" class="headerlink" title="数据库的秘密"></a>数据库的秘密</h2><h2 id="专属链接"><a href="#专属链接" class="headerlink" title="专属链接"></a>专属链接</h2><h2 id="注入的奥妙"><a href="#注入的奥妙" class="headerlink" title="注入的奥妙"></a>注入的奥妙</h2><h2 id="mini-blockchain"><a href="#mini-blockchain" class="headerlink" title="mini blockchain"></a>mini blockchain</h2><h2 id="我的博客"><a href="#我的博客" class="headerlink" title="我的博客"></a>我的博客</h2><h2 id="喝杯Java冷静一下"><a href="#喝杯Java冷静一下" class="headerlink" title="喝杯Java冷静一下"></a>喝杯Java冷静一下</h2><h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="同学，蓝屏了解一下"><a href="#同学，蓝屏了解一下" class="headerlink" title="同学，蓝屏了解一下"></a>同学，蓝屏了解一下</h2><h2 id="该死的堆头修复"><a href="#该死的堆头修复" class="headerlink" title="该死的堆头修复"></a>该死的堆头修复</h2><h1 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h1><h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h2><h2 id="Hello-Baby-Dex"><a href="#Hello-Baby-Dex" class="headerlink" title="Hello Baby Dex"></a>Hello Baby Dex</h2><h2 id="Diffie-Hellman"><a href="#Diffie-Hellman" class="headerlink" title="Diffie-Hellman"></a>Diffie-Hellman</h2><h2 id="ECC"><a href="#ECC" class="headerlink" title="ECC"></a>ECC</h2>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/27/安恒杯八月月赛-review/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          安恒杯八月月赛 review
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/17/XMan-ELSE（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XMan ELSE（二）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RE"><span class="nav-number">1.</span> <span class="nav-text">RE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Baby-MIPS"><span class="nav-number">1.1.</span> <span class="nav-text">Baby MIPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#黑盒破解"><span class="nav-number">1.2.</span> <span class="nav-text">黑盒破解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#被隐藏的真实"><span class="nav-number">1.3.</span> <span class="nav-text">被隐藏的真实</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#探寻逝去的Atlantis文明"><span class="nav-number">1.4.</span> <span class="nav-text">探寻逝去的Atlantis文明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC"><span class="nav-number">2.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#签到题"><span class="nav-number">2.1.</span> <span class="nav-text">签到题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#╯°□°）╯︵-┻━┻"><span class="nav-number">2.2.</span> <span class="nav-text">(╯°□°）╯︵ ┻━┻</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四扩展FS"><span class="nav-number">2.3.</span> <span class="nav-text">第四扩展FS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流量分析"><span class="nav-number">2.4.</span> <span class="nav-text">流量分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全通信"><span class="nav-number">2.5.</span> <span class="nav-text">安全通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#complex-stego"><span class="nav-number">2.6.</span> <span class="nav-text">complex stego</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepassx"><span class="nav-number">2.7.</span> <span class="nav-text">keepassx</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WEB"><span class="nav-number">3.</span> <span class="nav-text">WEB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的秘密"><span class="nav-number">3.1.</span> <span class="nav-text">数据库的秘密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专属链接"><span class="nav-number">3.2.</span> <span class="nav-text">专属链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注入的奥妙"><span class="nav-number">3.3.</span> <span class="nav-text">注入的奥妙</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mini-blockchain"><span class="nav-number">3.4.</span> <span class="nav-text">mini blockchain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我的博客"><span class="nav-number">3.5.</span> <span class="nav-text">我的博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#喝杯Java冷静一下"><span class="nav-number">3.6.</span> <span class="nav-text">喝杯Java冷静一下</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN"><span class="nav-number">4.</span> <span class="nav-text">PWN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#同学，蓝屏了解一下"><span class="nav-number">4.1.</span> <span class="nav-text">同学，蓝屏了解一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#该死的堆头修复"><span class="nav-number">4.2.</span> <span class="nav-text">该死的堆头修复</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android"><span class="nav-number">5.</span> <span class="nav-text">Android</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA"><span class="nav-number">5.1.</span> <span class="nav-text">RSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-Baby-Dex"><span class="nav-number">5.2.</span> <span class="nav-text">Hello Baby Dex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Diffie-Hellman"><span class="nav-number">5.3.</span> <span class="nav-text">Diffie-Hellman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ECC"><span class="nav-number">5.4.</span> <span class="nav-text">ECC</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

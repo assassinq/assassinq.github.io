@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>安恒杯八月月赛 review | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctf" />
+  
+  
+  
+  
+  <meta name="description" content="放暑假玩了几天，慢慢整理这几次比赛。">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安恒杯八月月赛 review">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/27/安恒杯八月月赛-review/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="放暑假玩了几天，慢慢整理这几次比赛。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-28T10:43:00.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安恒杯八月月赛 review">
+<meta name="twitter:description" content="放暑假玩了几天，慢慢整理这几次比赛。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/links">links</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-安恒杯八月月赛-review" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      安恒杯八月月赛 review
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/27/安恒杯八月月赛-review/" class="article-date">
+	  <time datetime="2018-08-27T14:34:15.000Z" itemprop="datePublished">2018-08-27</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>放暑假玩了几天，慢慢整理这几次比赛。</p>
+<a id="more"></a>
+<h1 id="RE-Dig-The-Way"><a href="#RE-Dig-The-Way" class="headerlink" title="RE-Dig The Way"></a>RE-Dig The Way</h1><p>题目里直接给了一个idb文件，用ida打开分析。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v3; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">char</span> flag; <span class="comment">// [esp+11h] [ebp-3Fh]</span></span><br><span class="line">  <span class="keyword">int</span> a[<span class="number">0</span>]; <span class="comment">// [esp+28h] [ebp-28h]</span></span><br><span class="line">  <span class="keyword">int</span> a[<span class="number">2</span>]; <span class="comment">// [esp+30h] [ebp-20h]</span></span><br><span class="line">  <span class="keyword">int</span> a[<span class="number">4</span>]; <span class="comment">// [esp+38h] [ebp-18h]</span></span><br><span class="line">  <span class="keyword">int</span> a[<span class="number">5</span>]; <span class="comment">// [esp+3Ch] [ebp-14h]</span></span><br><span class="line">  <span class="function"><span class="keyword">signed</span> <span class="title">int</span> <span class="params">(__cdecl *_func0)</span><span class="params">(<span class="keyword">char</span> *, <span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>; <span class="comment">// [esp+40h] [ebp-10h]</span></span><br><span class="line">  <span class="keyword">int</span> (__cdecl *_func1)(<span class="keyword">char</span> *, <span class="keyword">int</span>, <span class="keyword">int</span>); <span class="comment">// [esp+44h] [ebp-Ch]</span></span><br><span class="line">  <span class="keyword">int</span> (__cdecl *_func2)(<span class="keyword">char</span> *, <span class="keyword">int</span>, <span class="keyword">int</span>); <span class="comment">// [esp+48h] [ebp-8h]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [esp+4Ch] [ebp-4h]</span></span><br><span class="line"></span><br><span class="line">  __main();</span><br><span class="line">  _func0 = swap;                                <span class="comment">// swap pos</span></span><br><span class="line">  _func1 = trans1;                              <span class="comment">// |x + y| - |x| - |y| + 2</span></span><br><span class="line">  _func2 = trans2;                              <span class="comment">// |x| + |y| - |x + y| + 2</span></span><br><span class="line">  v3 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    *(<span class="keyword">int</span> *)((<span class="keyword">char</span> *)&amp;a[<span class="number">0</span>] + v3) = <span class="number">0</span>;           <span class="comment">// init array</span></span><br><span class="line">    v3 += <span class="number">4</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v3 &lt; <span class="number">24</span> );</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"input flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;flag);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strcmp</span>(&amp;flag, <span class="string">"flag&#123;"</span>) &lt; <span class="number">0</span> )             <span class="comment">// 1.flag head</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( check(&amp;flag) )                           <span class="comment">// 2.flag all-misc</span></span><br><span class="line">  &#123;</span><br><span class="line">    a[<span class="number">5</span>] = getValue(&amp;flag);</span><br><span class="line">    <span class="keyword">if</span> ( a[<span class="number">5</span>] &gt; <span class="number">0</span> )                             <span class="comment">// make sure only one solution</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">2</span>; ++i )</span><br><span class="line">      &#123;</span><br><span class="line">        v5 = (*(&amp;_func0 + i))((<span class="keyword">char</span> *)&amp;a[<span class="number">0</span>], <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line">        *(&amp;a[<span class="number">0</span>] + i) = v5;</span><br><span class="line">        a[<span class="number">5</span>] = -a[<span class="number">4</span>];</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> ( a[<span class="number">2</span>] )                               <span class="comment">// 3.flag key-point</span></span><br><span class="line">      &#123;</span><br><span class="line">        result = <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"Congratulations"</span>);</span><br><span class="line">        system(<span class="string">"PAUSE"</span>);</span><br><span class="line">        result = <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"check your flag!"</span>);</span><br><span class="line">    result = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一开始对输入字符串匹配了<code>flag{</code>，之后有多个函数进行的转换。可以看出最重要的有三个函数：</p>
+<ol>
+<li><code>check()</code></li>
+<li><code>getValue()</code></li>
+<li><code>_func2</code></li>
+</ol>
+<p>下面就逐一分析。</p>
+<h2 id="check"><a href="#check" class="headerlink" title="check()"></a>check()</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> __<span class="function">cdecl <span class="title">check</span><span class="params">(_BYTE *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">char</span>)a1[<span class="number">7</span>] + (<span class="keyword">char</span>)a1[<span class="number">6</span>] != (<span class="keyword">char</span>)a1[<span class="number">8</span>] )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">char</span>)a1[<span class="number">10</span>] + (<span class="keyword">char</span>)a1[<span class="number">9</span>] != (<span class="keyword">char</span>)a1[<span class="number">11</span>] )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">char</span>)a1[<span class="number">13</span>] + (<span class="keyword">char</span>)a1[<span class="number">12</span>] != (<span class="keyword">char</span>)a1[<span class="number">14</span>] )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">char</span>)a1[<span class="number">16</span>] + (<span class="keyword">char</span>)a1[<span class="number">15</span>] != (<span class="keyword">char</span>)a1[<span class="number">17</span>] )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">char</span>)a1[<span class="number">19</span>] + (<span class="keyword">char</span>)a1[<span class="number">18</span>] == (<span class="keyword">char</span>)a1[<span class="number">20</span>] )</span><br><span class="line">    <span class="keyword">return</span> (a1[<span class="number">8</span>] ^ (<span class="keyword">unsigned</span> __int8)(a1[<span class="number">11</span>] ^ a1[<span class="number">14</span>] ^ a1[<span class="number">17</span>] ^ a1[<span class="number">21</span>])) == a1[<span class="number">5</span>];</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过这个函数大概可以得到几个字符得到的方式，显然这里用z3是很难求解的。</p>
+<h2 id="getValue"><a href="#getValue" class="headerlink" title="getValue()"></a>getValue()</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">getValue</span><span class="params">(<span class="keyword">char</span> *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [esp+8h] [ebp-8h]</span></span><br><span class="line">  <span class="keyword">int</span> v3; <span class="comment">// [esp+Ch] [ebp-4h]</span></span><br><span class="line"></span><br><span class="line">  v3 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">6</span>; i &lt;= <span class="number">19</span>; i += <span class="number">3</span> )</span><br><span class="line">    v3 = <span class="number">100</span> * v3 + <span class="number">10</span> * (a1[i] - <span class="number">48</span>) + a1[i + <span class="number">1</span>] - <span class="number">48</span>;</span><br><span class="line">  <span class="keyword">return</span> v3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从第六位开始，每次取三位，每三位取前两位组成数字v3并返回。</p>
+<h2 id="func2"><a href="#func2" class="headerlink" title="_func2"></a>_func2</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">trans2</span><span class="params">(<span class="keyword">char</span> *a1, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">abs</span>(*(_DWORD *)&amp;a1[<span class="number">4</span> * j])</span><br><span class="line">       - <span class="built_in">abs</span>(*(_DWORD *)&amp;a1[<span class="number">4</span> * j] + *(_DWORD *)&amp;a1[<span class="number">4</span> * i])</span><br><span class="line">       + <span class="built_in">abs</span>(*(_DWORD *)&amp;a1[<span class="number">4</span> * i])</span><br><span class="line">       + <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简化为<code>|x| + |y| - |x + y| + 2</code>，根据main函数中的逻辑，该值应该为0。但又因为<code>|x| + |y| &gt;= |x + y|</code>，故<code>|x| + |y| - |x + y| + 2 &gt; 0</code>，无法使之为0。</p>
+<p>下面开始对程序逆向分析：</p>
+<ol>
+<li>由于第三个函数很难得到0，可以想到溢出方面，使返回值为<code>0x100000000</code>。x与y的值又因为互为相反数，可以求出<code>|x|</code>和<code>|y|</code>的值，而y在内存中的表示即为x的补码。得到x为2147483647，y为2147483649。</li>
+<li>通过x的值和getValue函数倒推出一部分flag：<code>flag{x21x47x48x36x47</code>（x为未知部分）。</li>
+<li>根据check函数，写个脚本跑出大部分flag：<code>flag{x21c47k48l36i47k</code>。</li>
+<li>最后还有一部分由于不知道第21位flag，猜测应该是<code>}</code>了，通过check函数异或后得到：<code>flag{p21c47k48l36i47k}</code></li>
+</ol>
+<h1 id="MISC-暴力破解"><a href="#MISC-暴力破解" class="headerlink" title="MISC-暴力破解"></a>MISC-暴力破解</h1><p>8位的数字暴力破解得到zip密码。</p>
+<p><img src="" alt="得到密码"></p>
+<p>由于是盲水印，用工具BlindWaterMark，命令为<code>python bwm.py 1.png 2.png flag.png</code>，最后得到flag。</p>
+<h1 id="PWN-note"><a href="#PWN-note" class="headerlink" title="PWN-note"></a>PWN-note</h1><p>初步判断题目应该是和堆相关，打开idb文件。</p>
+<h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><p>相对系统地学习了一下wireshark的使用和流量分析。</p>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><ul>
+<li>过滤IP：<ul>
+<li><code>ip.src eq x.x.x.x or ip.dst eq x.x.x.x</code></li>
+<li><code>ip.addr eq x.x.x.x</code></li>
+</ul>
+</li>
+<li>过滤端口：<ul>
+<li><code>tcp.port eq 80 or udp.port eq 80</code></li>
+</ul>
+</li>
+<li>过滤MAC<ul>
+<li><code>eth.dst == A0:00:00:04:C5:84</code></li>
+</ul>
+</li>
+<li>http模式过滤：<ul>
+<li><code>http.request.method == &quot;GET&quot;</code></li>
+<li><code>http.request.method == &quot;POST&quot;</code></li>
+<li><code>http.request.uri == &quot;/img/logo-edu.gif&quot;</code></li>
+<li><code>http contains &quot;GET&quot;</code></li>
+<li><code>http contains &quot;HTTP/1.&quot;</code></li>
+<li><code>http.request.method == &quot;GET&quot; &amp;&amp; http contains &quot;User-Agent:&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="webone-pcap"><a href="#webone-pcap" class="headerlink" title="webone.pcap"></a>webone.pcap</h2><p>协议分级发现大部分为http，重点关注对话的80端口，基本可以确定黑客的地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!(tcp.analysis.flags) &amp;&amp; ip.src==192.168.94.59 &amp;&amp; http</span><br></pre></td></tr></table></figure>
+<p>在筛选后的流量包中搜索题目答案。</p>
+<h3 id="给出黑客使用的扫描器"><a href="#给出黑客使用的扫描器" class="headerlink" title="给出黑客使用的扫描器"></a>给出黑客使用的扫描器</h3><p>在第23条记录中发现了awvs：</p>
+<p><img src="" alt="awvs"></p>
+<h3 id="得到黑客扫描到的登陆后台是-相对路径即可-admin-login-php"><a href="#得到黑客扫描到的登陆后台是-相对路径即可-admin-login-php" class="headerlink" title="得到黑客扫描到的登陆后台是(相对路径即可) /admin/login.php"></a>得到黑客扫描到的登陆后台是(相对路径即可) /admin/login.php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!(http.request.line == &quot;Acunetix-Aspect-Queries: filelist;aspectalerts\x0d\x0a&quot;) &amp;&amp; http.request.method == &quot;POST&quot;</span><br></pre></td></tr></table></figure>
+<p>得知黑客使用了awvs后再次筛选可以找到登录后台：</p>
+<p><img src="" alt=""></p>
+<h3 id="得到黑客使用了什么账号密码登陆了web后台-形式-username-password"><a href="#得到黑客使用了什么账号密码登陆了web后台-形式-username-password" class="headerlink" title="得到黑客使用了什么账号密码登陆了web后台(形式:username/password)"></a>得到黑客使用了什么账号密码登陆了web后台(形式:username/password)</h3><h3 id="得到黑客上传的webshell文件名是什么，内容是什么-提交webshell内容的base编码"><a href="#得到黑客上传的webshell文件名是什么，内容是什么-提交webshell内容的base编码" class="headerlink" title="得到黑客上传的webshell文件名是什么，内容是什么,提交webshell内容的base编码"></a>得到黑客上传的webshell文件名是什么，内容是什么,提交webshell内容的base编码</h3><h3 id="黑客在robots-txt中找到的flag是什么"><a href="#黑客在robots-txt中找到的flag是什么" class="headerlink" title="黑客在robots.txt中找到的flag是什么"></a>黑客在robots.txt中找到的flag是什么</h3><h3 id="黑客找到的数据库密码是多少"><a href="#黑客找到的数据库密码是多少" class="headerlink" title="黑客找到的数据库密码是多少"></a>黑客找到的数据库密码是多少</h3><h2 id="webtwo-pcap"><a href="#webtwo-pcap" class="headerlink" title="webtwo.pcap"></a>webtwo.pcap</h2><h3 id="黑客在数据库中找到的hash-code是什么"><a href="#黑客在数据库中找到的hash-code是什么" class="headerlink" title="黑客在数据库中找到的hash_code是什么"></a>黑客在数据库中找到的hash_code是什么</h3><h3 id="黑客破解了账号ijnu-test-com得到的密码是什么"><a href="#黑客破解了账号ijnu-test-com得到的密码是什么" class="headerlink" title="黑客破解了账号ijnu@test.com得到的密码是什么"></a>黑客破解了账号<a href="mailto:ijnu@test.com" target="_blank" rel="noopener">ijnu@test.com</a>得到的密码是什么</h3><h3 id="被黑客攻击的web服务器，网卡配置是是什么，提交网卡内网ip"><a href="#被黑客攻击的web服务器，网卡配置是是什么，提交网卡内网ip" class="headerlink" title="被黑客攻击的web服务器，网卡配置是是什么，提交网卡内网ip"></a>被黑客攻击的web服务器，网卡配置是是什么，提交网卡内网ip</h3><h2 id="mailtwo-pcap-amp-amp-mailtwo1-pcap"><a href="#mailtwo-pcap-amp-amp-mailtwo1-pcap" class="headerlink" title="mailtwo.pcap &amp;&amp; mailtwo1.pcap"></a>mailtwo.pcap &amp;&amp; mailtwo1.pcap</h2><h3 id="黑客使用了什么账号登陆了mail系统（形式-username-password）"><a href="#黑客使用了什么账号登陆了mail系统（形式-username-password）" class="headerlink" title="黑客使用了什么账号登陆了mail系统（形式: username/password）"></a>黑客使用了什么账号登陆了mail系统（形式: username/password）</h3><h2 id="vpnone-pcap-amp-amp-vpntwo-pcap"><a href="#vpnone-pcap-amp-amp-vpntwo-pcap" class="headerlink" title="vpnone.pcap &amp;&amp; vpntwo.pcap"></a>vpnone.pcap &amp;&amp; vpntwo.pcap</h2><h3 id="黑客获得的vpn-ip是多少"><a href="#黑客获得的vpn-ip是多少" class="headerlink" title="黑客获得的vpn,ip是多少"></a>黑客获得的vpn,ip是多少</h3>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/27/2018-DDCTF-review/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018 DDCTF review</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RE-Dig-The-Way"><span class="nav-number">1.</span> <span class="nav-text">RE-Dig The Way</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#check"><span class="nav-number">1.1.</span> <span class="nav-text">check()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getValue"><span class="nav-number">1.2.</span> <span class="nav-text">getValue()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#func2"><span class="nav-number">1.3.</span> <span class="nav-text">_func2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC-暴力破解"><span class="nav-number">2.</span> <span class="nav-text">MISC-暴力破解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN-note"><span class="nav-number">3.</span> <span class="nav-text">PWN-note</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流量分析"><span class="nav-number">4.</span> <span class="nav-text">流量分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置知识"><span class="nav-number">4.1.</span> <span class="nav-text">前置知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webone-pcap"><span class="nav-number">4.2.</span> <span class="nav-text">webone.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#给出黑客使用的扫描器"><span class="nav-number">4.2.1.</span> <span class="nav-text">给出黑客使用的扫描器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#得到黑客扫描到的登陆后台是-相对路径即可-admin-login-php"><span class="nav-number">4.2.2.</span> <span class="nav-text">得到黑客扫描到的登陆后台是(相对路径即可) /admin/login.php</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#得到黑客使用了什么账号密码登陆了web后台-形式-username-password"><span class="nav-number">4.2.3.</span> <span class="nav-text">得到黑客使用了什么账号密码登陆了web后台(形式:username/password)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#得到黑客上传的webshell文件名是什么，内容是什么-提交webshell内容的base编码"><span class="nav-number">4.2.4.</span> <span class="nav-text">得到黑客上传的webshell文件名是什么，内容是什么,提交webshell内容的base编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客在robots-txt中找到的flag是什么"><span class="nav-number">4.2.5.</span> <span class="nav-text">黑客在robots.txt中找到的flag是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客找到的数据库密码是多少"><span class="nav-number">4.2.6.</span> <span class="nav-text">黑客找到的数据库密码是多少</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webtwo-pcap"><span class="nav-number">4.3.</span> <span class="nav-text">webtwo.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客在数据库中找到的hash-code是什么"><span class="nav-number">4.3.1.</span> <span class="nav-text">黑客在数据库中找到的hash_code是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客破解了账号ijnu-test-com得到的密码是什么"><span class="nav-number">4.3.2.</span> <span class="nav-text">黑客破解了账号ijnu@test.com得到的密码是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被黑客攻击的web服务器，网卡配置是是什么，提交网卡内网ip"><span class="nav-number">4.3.3.</span> <span class="nav-text">被黑客攻击的web服务器，网卡配置是是什么，提交网卡内网ip</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mailtwo-pcap-amp-amp-mailtwo1-pcap"><span class="nav-number">4.4.</span> <span class="nav-text">mailtwo.pcap &amp;&amp; mailtwo1.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客使用了什么账号登陆了mail系统（形式-username-password）"><span class="nav-number">4.4.1.</span> <span class="nav-text">黑客使用了什么账号登陆了mail系统（形式: username/password）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vpnone-pcap-amp-amp-vpntwo-pcap"><span class="nav-number">4.5.</span> <span class="nav-text">vpnone.pcap &amp;&amp; vpntwo.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客获得的vpn-ip是多少"><span class="nav-number">4.5.1.</span> <span class="nav-text">黑客获得的vpn,ip是多少</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/links" class="mobile-nav-link">Links</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
