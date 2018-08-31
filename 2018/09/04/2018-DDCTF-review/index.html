@@ -6,16 +6,16 @@
   <title>2018 ddctf review | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="ctf" />
+  <meta name="keywords" content="ctfreview" />
   
   
   
   
   <meta name="description" content="慢慢复现几个月前的DDCTF。">
-<meta name="keywords" content="ctf">
+<meta name="keywords" content="ctf,review">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2018 DDCTF review">
-<meta property="og:url" content="http://AssassinQ.com/2018/08/27/2018-DDCTF-review/index.html">
+<meta property="og:url" content="http://AssassinQ.com/2018/09/04/2018-DDCTF-review/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="慢慢复现几个月前的DDCTF。">
 <meta property="og:locale" content="default">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://t1.aixinxi.net/o_1cja4tu4e94511e1agfevc47ka.png-j.jpg">
 <meta property="og:image" content="https://t1.aixinxi.net/o_1cja5a5qevv01sj91mfi1ml8l3ia.png-j.jpg">
 <meta property="og:image" content="https://t1.aixinxi.net/o_1cja5dj5vv9h17aj46q1c8a2ima.png-j.jpg">
-<meta property="og:updated_time" content="2018-08-27T14:48:47.584Z">
+<meta property="og:updated_time" content="2018-08-31T08:13:33.745Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018 DDCTF review">
 <meta name="twitter:description" content="慢慢复现几个月前的DDCTF。">
@@ -181,8 +181,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/08/27/2018-DDCTF-review/" class="article-date">
-	  <time datetime="2018-08-27T06:32:26.000Z" itemprop="datePublished">2018-08-27</time>
+	<a href="/2018/09/04/2018-DDCTF-review/" class="article-date">
+	  <time datetime="2018-09-04T06:32:26.000Z" itemprop="datePublished">2018-09-04</time>
 	</a>
 
       
@@ -205,7 +205,6 @@
 <h2 id="第四扩展FS"><a href="#第四扩展FS" class="headerlink" title="第四扩展FS"></a>第四扩展FS</h2><p>在kali中<code>binwalk windows.jpg</code>发现存在txt文件，再通过<code>foremost windows.jpg</code>提取出一个压缩包。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> ⚡ root@kali ~ cd Desktop          </span><br><span class="line"> ⚡ root@kali ~/Desktop ls</span><br><span class="line">windows.jpg  Xman-RSA</span><br><span class="line"> ⚡ root@kali ~/Desktop binwalk windows.jpg </span><br><span class="line"></span><br><span class="line">DECIMAL       HEXADECIMAL     DESCRIPTION</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">0             0x0             JPEG image data, JFIF standard 1.01</span><br><span class="line">30            0x1E            TIFF image data, big-endian, offset of first image directory: 8</span><br><span class="line">21440         0x53C0          Unix path: /www.w3.org/1999/02/22-rdf-syntax-ns#"/&gt;&lt;/x:xmpmeta&gt;</span><br><span class="line">7236510       0x6E6B9E        Zip archive data, encrypted at least v2.0 to extract, compressed size: 18186, uncompressed size: 30500, name: file.txt</span><br><span class="line">7254788       0x6EB304        End of Zip archive</span><br><span class="line"></span><br><span class="line"> ⚡ root@kali ~/Desktop foremost windows.jpg </span><br><span class="line">Processing: windows.jpg</span><br><span class="line">|foundat=file.txt�W����𠜈0������H�p,l�r0</span><br><span class="line">*|</span><br></pre></td></tr></table></figure>
 <p>压缩包有密码。在windows下查看<code>windows.jpg</code>的属性，在备注中提示<code>Pactera</code>，作为密码拿到<code>file.txt</code>。</p>
-<p><img src="" alt="备注中的密码"></p>
 <p>文本中是一串无序的字符。根据提示<code>日常违规审计中频次有时候非常重要</code>，尝试用脚本对各个字符的频次进行统计，然后排序得到flag。</p>
 <p>脚本如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> operator</span><br><span class="line">f1 = open(<span class="string">'file.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">txt = f1.read()</span><br><span class="line">dic1 = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> txt:</span><br><span class="line">    <span class="keyword">if</span> ch <span class="keyword">in</span> dic1.keys():</span><br><span class="line">        dic1[ch] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        dic1[ch] = <span class="number">1</span></span><br><span class="line">print(dic1)</span><br><span class="line"><span class="comment"># dic2 = sorted(dic1.items(), key=lambda x: x[1], reverse=True)</span></span><br><span class="line">dic2 = sorted(dic1.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="keyword">True</span>)</span><br><span class="line">print(dic2)</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> tp <span class="keyword">in</span> dic2:</span><br><span class="line">    flag += tp[<span class="number">0</span>]</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
@@ -263,7 +262,7 @@ var a = new Donate({
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
 
     </footer>
   </div>
@@ -271,19 +270,10 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2018/08/27/安恒杯八月月赛-review/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          安恒杯八月月赛 review
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/08/17/XMan-ELSE（二）/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/31/2018-安恒杯八月月赛-review/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">XMan ELSE（二）</div>
+      <div class="article-nav-title">2018 安恒杯八月月赛 review</div>
     </a>
   
 </nav>
