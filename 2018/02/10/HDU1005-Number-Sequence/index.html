@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>解决更新git项目出现fatal | AssassinQ</title>
+  <title>hdu1005 number sequence | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="solutiongit" />
+  <meta name="keywords" content="acmhdu" />
   
   
   
   
-  <meta name="description" content="1error: fatal: unable to access &amp;apos;...&amp;apos; error1407742E...">
-<meta name="keywords" content="solution,git">
+  <meta name="description" content="Problem DescriptionA number sequence is defined as follows: f(1) = 1, f(2) = 1, f(n) = (A  f(n - 1) + B  f(n - 2)) mod 7. Given A, B, and n, you are to calculate the value of f(n).">
+<meta name="keywords" content="acm,hdu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决更新git项目出现fatal">
-<meta property="og:url" content="http://AssassinQ.com/2018/02/25/解决更新git项目出现fatal/index.html">
+<meta property="og:title" content="HDU1005 Number Sequence">
+<meta property="og:url" content="http://AssassinQ.com/2018/02/10/HDU1005-Number-Sequence/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="1error: fatal: unable to access &amp;apos;...&amp;apos; error1407742E...">
+<meta property="og:description" content="Problem DescriptionA number sequence is defined as follows: f(1) = 1, f(2) = 1, f(n) = (A  f(n - 1) + B  f(n - 2)) mod 7. Given A, B, and n, you are to calculate the value of f(n).">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-18T09:12:44.131Z">
+<meta property="og:updated_time" content="2018-09-01T02:32:02.631Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决更新git项目出现fatal">
-<meta name="twitter:description" content="1error: fatal: unable to access &amp;apos;...&amp;apos; error1407742E...">
+<meta name="twitter:title" content="HDU1005 Number Sequence">
+<meta name="twitter:description" content="Problem DescriptionA number sequence is defined as follows: f(1) = 1, f(2) = 1, f(n) = (A  f(n - 1) + B  f(n - 2)) mod 7. Given A, B, and n, you are to calculate the value of f(n).">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -160,7 +160,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-解决更新git项目出现fatal" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-HDU1005-Number-Sequence" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -168,7 +168,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      解决更新git项目出现fatal
+      HDU1005 Number Sequence
     </h1>
   
 
@@ -176,8 +176,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/02/25/解决更新git项目出现fatal/" class="article-date">
-	  <time datetime="2018-02-25T08:59:28.000Z" itemprop="datePublished">2018-02-25</time>
+	<a href="/2018/02/10/HDU1005-Number-Sequence/" class="article-date">
+	  <time datetime="2018-02-10T02:05:09.000Z" itemprop="datePublished">2018-02-10</time>
 	</a>
 
       
@@ -191,13 +191,16 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: fatal: unable to access &apos;...&apos; error1407742E...</span><br></pre></td></tr></table></figure>
+        <h1 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h1><p>A number sequence is defined as follows:</p>
+<p>f(1) = 1, f(2) = 1, f(n) = (A <em> f(n - 1) + B </em> f(n - 2)) mod 7.</p>
+<p>Given A, B, and n, you are to calculate the value of f(n).</p>
 <a id="more"></a>
-<p>更新git项目的时候发现出错了，可惜没把图片截下来。具体出现的错误如上述。</p>
-<p>看了<a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">官网</a>之后，在自己的文章里找过有没有出现错误，还在_config.yml配置里发了好久的呆，一直没找到为什么会出错。</p>
-<p>后来在百度里搜到了这个：<a href="http://blog.csdn.net/red_sheeps/article/details/79353964" target="_blank" rel="noopener">http://blog.csdn.net/red_sheeps/article/details/79353964</a></p>
-<p>原来只是我的git需要更新一下啊。果然更新过后就能成功了，顺便表示一下对新版本的喜爱。</p>
-
+<h1 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h1><p>The input consists of multiple test cases. Each test case contains 3 integers A, B and n on a single line (1 &lt;= A, B &lt;= 1000, 1 &lt;= n &lt;= 100,000,000). Three zeros signal the end of input and this test case is not to be processed.</p>
+<h1 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h1><p>For each test case, print the value of f(n) on a single line.</p>
+<h1 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h1><p>1 1 3<br>1 2 10<br>0 0 0</p>
+<h1 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h1><p>2<br>5</p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><p>被7模共有7种情况，两个数的话共有49种情况。根据鸽巢原理（抽屉原理）至少经过49轮，两个数可以再次满足一开始的条件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.cpp</span></span><br><span class="line"><span class="comment">//  C Project</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by 欠费 on 2018/2/10.</span></span><br><span class="line"><span class="comment">//  Copyright © 2018年 AssassinQ. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num[<span class="number">50</span>];</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>, n = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(~<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>, &amp;a, &amp;b, &amp;n))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a == <span class="number">0</span> &amp;&amp; b == <span class="number">0</span> &amp;&amp; n == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        num[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        num[<span class="number">1</span>] = num[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> min = n &lt; <span class="number">50</span> ? n : <span class="number">50</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= min; i++)</span><br><span class="line">            num[i] = (a * num[i - <span class="number">1</span>] + b * num[i - <span class="number">2</span>]) % <span class="number">7</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, num[n % <span class="number">49</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
@@ -242,7 +245,7 @@ var a = new Donate({
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/acm/">acm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hdu/">hdu</a></li></ul>
 
     </footer>
   </div>
@@ -250,19 +253,19 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/02/25/解决更新git项目出现fatal/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          解决复制文件时对于目标文件系统文件过大
+          解决更新git项目出现fatal
         
       </div>
     </a>
   
   
-    <a href="/2018/02/10/HDU1005-Number-Sequence/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/12/08/HDU1002-A-B-Problem-II/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">HDU1005 Number Sequence</div>
+      <div class="article-nav-title">HDU1002 A + B Problem II</div>
     </a>
   
 </nav>
@@ -276,7 +279,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Problem-Description"><span class="nav-number">1.</span> <span class="nav-text">Problem Description</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Input"><span class="nav-number">2.</span> <span class="nav-text">Input</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Output"><span class="nav-number">3.</span> <span class="nav-text">Output</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sample-Input"><span class="nav-number">4.</span> <span class="nav-text">Sample Input</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sample-Output"><span class="nav-number">5.</span> <span class="nav-text">Sample Output</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">6.</span> <span class="nav-text">Code</span></a></li></ol>
     
     </div>
   </aside>
