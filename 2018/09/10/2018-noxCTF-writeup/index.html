@@ -11,19 +11,19 @@
   
   
   
-  <meta name="description" content="记录两道简单题。">
+  <meta name="description" content="记录几道简单题。">
 <meta name="keywords" content="ctf,wp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2018 noxCTF writeup">
 <meta property="og:url" content="http://AssassinQ.com/2018/09/10/2018-noxCTF-writeup/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="记录两道简单题。">
+<meta property="og:description" content="记录几道简单题。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://assassinq.com/pics/">
-<meta property="og:updated_time" content="2018-09-16T08:56:09.487Z">
+<meta property="og:updated_time" content="2018-09-16T08:58:57.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018 noxCTF writeup">
-<meta name="twitter:description" content="记录两道简单题。">
+<meta name="twitter:description" content="记录几道简单题。">
 <meta name="twitter:image" content="http://assassinq.com/pics/">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
@@ -193,7 +193,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>记录两道简单题。</p>
+        <p>记录几道简单题。</p>
 <a id="more"></a>
 <h1 id="RE-GuessTheString"><a href="#RE-GuessTheString" class="headerlink" title="RE-GuessTheString"></a>RE-GuessTheString</h1><p>把每个check分辨出来，然后逐一分析，先判断字符串长度：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">_BOOL8 __<span class="function">fastcall <span class="title">check1</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">strlen</span>(a1) == <span class="number">11</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
