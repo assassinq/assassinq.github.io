@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>二进制分析框架angr学习 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfbin" />
+  
+  
+  
+  
+  <meta name="description" content="学习angr，又是不停地挖坑填坑。">
+<meta name="keywords" content="ctf,bin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二进制分析框架angr学习">
+<meta property="og:url" content="http://AssassinQ.com/2018/09/18/二进制分析框架angr学习/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="学习angr，又是不停地挖坑填坑。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-18T14:30:15.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二进制分析框架angr学习">
+<meta name="twitter:description" content="学习angr，又是不停地挖坑填坑。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-二进制分析框架angr学习" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      二进制分析框架angr学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/18/二进制分析框架angr学习/" class="article-date">
+	  <time datetime="2018-09-18T08:23:14.000Z" itemprop="datePublished">2018-09-18</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学习angr，又是不停地挖坑填坑。</p>
+<a id="more"></a>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>angr是新一代二进制文件分析框架，旨在解决下列问题：<ul>
+<li>载入二进制文件到分析程序中；</li>
+<li>将二进制文件翻译成中间表示；</li>
+<li>执行真正的分析，可能是：<ul>
+<li>一部分或全程序的静态分析；</li>
+<li>一种程序状态空间的符号搜索；</li>
+</ul>
+</li>
+<li>以上方法的部分结合使用。</li>
+</ul>
+</li>
+<li>二进制的载入：CLE</li>
+<li>中间表示：VEX（使angr实现跨底层结构分析二进制文件）</li>
+<li>求解程序引擎：约束求解和其它计算需求由angr子模块Claripy提供</li>
+<li>程序状态集：angr提供仿真机器状态的接口。理解这是成功使用angr的必要。</li>
+<li>程序路径：程序可以由执行过程可能经过的路径进行分析。angr显示了路径执行过程中的信息。</li>
+<li>语义表示：angr一个强大的特性展示基本块及其在程序状态中的影响。angr可以说明基本块的作用，该功能由SimuVEX子模块实现。</li>
+<li>符号执行：angr提供符号执行引擎。及该引擎的接口，以及如何使用。</li>
+<li>全程序分析：以上所有组件结合起来进行复杂的，全程序的分析。</li>
+</ul>
+<h1 id="常用模块"><a href="#常用模块" class="headerlink" title="常用模块"></a>常用模块</h1><h2 id="Surveyors"><a href="#Surveyors" class="headerlink" title="Surveyors"></a>Surveyors</h2><h2 id="Path-group"><a href="#Path-group" class="headerlink" title="Path group"></a>Path group</h2><h2 id="Symbolic-args"><a href="#Symbolic-args" class="headerlink" title="Symbolic args"></a>Symbolic args</h2><h2 id="Symbolic-input"><a href="#Symbolic-input" class="headerlink" title="Symbolic input"></a>Symbolic input</h2><h2 id="Breakpoint"><a href="#Breakpoint" class="headerlink" title="Breakpoint"></a>Breakpoint</h2><h2 id="Hook"><a href="#Hook" class="headerlink" title="Hook"></a>Hook</h2><h1 id="常用函数或方法"><a href="#常用函数或方法" class="headerlink" title="常用函数或方法"></a>常用函数或方法</h1><h2 id="函数-Project"><a href="#函数-Project" class="headerlink" title="函数-Project"></a>函数-Project</h2><p>angr脚本中必用的一个函数，用来载入一个二进制文件。一般的形式：<code>p = angr.Project(&#39;./vul&#39;, load_options={&#39;auto_load_libs&#39;: False})</code>。相关参数：</p>
+<ul>
+<li>thing：要分析的执行路径</li>
+<li>default_analysis_mode=None：预设的分析模式</li>
+<li>ignore_functions=None：选择跳过分析的函数名</li>
+<li>use_sim_procedures=True：是否使用已经预先建立好的模拟程序</li>
+<li>exclude_sim_procedures_func=None：排除不要的模拟程序</li>
+<li>exclude_sim_procedures_list=()：以元组的形式排除不要的模拟程序</li>
+<li>arch=None：设定执行的结构</li>
+<li>simos=None：自定模拟系统的类别</li>
+<li>load_options=None：CLE loader的参数名字</li>
+<li>translation_cache=False：翻译基本区块时进行快取</li>
+<li>support_selfmodifying_code=False：是否支援修改自我程式</li>
+</ul>
+<h2 id="方法-path-group"><a href="#方法-path-group" class="headerlink" title="方法-path_group"></a>方法-path_group</h2><p>相关方法：</p>
+<ul>
+<li>explore：大致设定找路径时的stash，将参数送至step</li>
+<li>step：让每条路径都走一步</li>
+<li>_one_step：定义每一步做什么</li>
+<li>_one_path_step：检查路径是否出错</li>
+<li>_record_step_results：记录并重新归类路径</li>
+</ul>
+<p>相关参数：</p>
+<ul>
+<li>project：即载入的二进制文件</li>
+<li>active_paths=None：设置初始状态</li>
+<li>stashes=None：种类有——<code>&#39;active&#39;</code>、<code>&#39;stashed&#39;</code>、<code>&#39;pruned&#39;</code>、<code>&#39;unsat&#39;</code>、<code>&#39;errored&#39;</code>、<code>&#39;deadended&#39;</code>、<code>&#39;unconstrained&#39;</code></li>
+<li>hierarchy=None：记录路径的前后节点</li>
+<li>veritesting=None：符号执行卡住时，可以用这个跑完</li>
+<li>veritesting_options=None：<code>veritesting</code>的参数设置</li>
+<li>immutable=None：是否备份路径</li>
+<li>resilience=None：是否忽略异常</li>
+<li>save_unconstrained=None：是否记录并保留不受限制的路径（寻找缓冲区溢出的漏洞）</li>
+<li>save_unsat=None：是否记录并保留不符合的路径</li>
+<li>strong_path_mapping=None：<code>PathHierarchy()</code>函数中的参数，使用<code>weakref.WeakValueDictionary()</code>或<code>{}</code></li>
+<li>threads=None：是否使用多线程</li>
+</ul>
+<p>explore相关参数：</p>
+<ul>
+<li>stash=None：指定stash的种类</li>
+<li>n=None：选择让符号执行执行几回合</li>
+<li>find=None：想找到的指令地址</li>
+<li>avoid=None：想避免遇到的指令地址</li>
+<li>num_find=None：要找到的目标路径</li>
+<li>found_stash=None：选择找到目标路径后存放的stash</li>
+<li>avoid_stash=None：选择找到规避路径后存放的stash</li>
+</ul>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://blog.csdn.net/u013115415/article/details/53114238" target="_blank" rel="noopener">https://blog.csdn.net/u013115415/article/details/53114238</a><br><a href="http://ysc21.github.io/blog/2016-01-27-angr-script.html" target="_blank" rel="noopener">http://ysc21.github.io/blog/2016-01-27-angr-script.html</a><br><a href="http://ysc21.github.io/blog/2016-01-31-param-project.html" target="_blank" rel="noopener">http://ysc21.github.io/blog/2016-01-31-param-project.html</a><br><a href="http://ysc21.github.io/blog/2016-02-06-doc-path-group.html" target="_blank" rel="noopener">http://ysc21.github.io/blog/2016-02-06-doc-path-group.html</a><br><a href="http://ysc21.github.io/blog/2016-02-20-param-path-group.html" target="_blank" rel="noopener">http://ysc21.github.io/blog/2016-02-20-param-path-group.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bin/">bin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/12/2018-网鼎杯-review/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018 网鼎杯 review</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用模块"><span class="nav-number">2.</span> <span class="nav-text">常用模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Surveyors"><span class="nav-number">2.1.</span> <span class="nav-text">Surveyors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Path-group"><span class="nav-number">2.2.</span> <span class="nav-text">Path group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbolic-args"><span class="nav-number">2.3.</span> <span class="nav-text">Symbolic args</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbolic-input"><span class="nav-number">2.4.</span> <span class="nav-text">Symbolic input</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Breakpoint"><span class="nav-number">2.5.</span> <span class="nav-text">Breakpoint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hook"><span class="nav-number">2.6.</span> <span class="nav-text">Hook</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用函数或方法"><span class="nav-number">3.</span> <span class="nav-text">常用函数或方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数-Project"><span class="nav-number">3.1.</span> <span class="nav-text">函数-Project</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法-path-group"><span class="nav-number">3.2.</span> <span class="nav-text">方法-path_group</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">4.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
