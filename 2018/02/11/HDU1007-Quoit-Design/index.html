@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>hdu1005 number sequence | AssassinQ</title>
+  <title>hdu1007 quoit design | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="acmhdu" />
@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="Problem DescriptionA number sequence is defined as follows: f(1) = 1, f(2) = 1, f(n) = (A  f(n - 1) + B  f(n - 2)) mod 7. Given A, B, and n, you are to calculate the value of f(n).">
+  <meta name="description" content="Problem DescriptionHave you ever played quoit in a playground? Quoit is a game in which flat rings are pitched at some toys, with all the toys encircled awarded.In the field of Cyberground, the positi">
 <meta name="keywords" content="acm,hdu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HDU1005 Number Sequence">
-<meta property="og:url" content="http://AssassinQ.com/2018/02/10/HDU1005-Number-Sequence/index.html">
+<meta property="og:title" content="HDU1007 Quoit Design">
+<meta property="og:url" content="http://AssassinQ.com/2018/02/11/HDU1007-Quoit-Design/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="Problem DescriptionA number sequence is defined as follows: f(1) = 1, f(2) = 1, f(n) = (A  f(n - 1) + B  f(n - 2)) mod 7. Given A, B, and n, you are to calculate the value of f(n).">
+<meta property="og:description" content="Problem DescriptionHave you ever played quoit in a playground? Quoit is a game in which flat rings are pitched at some toys, with all the toys encircled awarded.In the field of Cyberground, the positi">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-01T02:32:02.631Z">
+<meta property="og:updated_time" content="2018-10-05T12:26:51.093Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HDU1005 Number Sequence">
-<meta name="twitter:description" content="Problem DescriptionA number sequence is defined as follows: f(1) = 1, f(2) = 1, f(n) = (A  f(n - 1) + B  f(n - 2)) mod 7. Given A, B, and n, you are to calculate the value of f(n).">
+<meta name="twitter:title" content="HDU1007 Quoit Design">
+<meta name="twitter:description" content="Problem DescriptionHave you ever played quoit in a playground? Quoit is a game in which flat rings are pitched at some toys, with all the toys encircled awarded.In the field of Cyberground, the positi">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -160,7 +160,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-HDU1005-Number-Sequence" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-HDU1007-Quoit-Design" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -168,7 +168,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      HDU1005 Number Sequence
+      HDU1007 Quoit Design
     </h1>
   
 
@@ -176,8 +176,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/02/10/HDU1005-Number-Sequence/" class="article-date">
-	  <time datetime="2018-02-10T02:05:09.000Z" itemprop="datePublished">2018-02-10</time>
+	<a href="/2018/02/11/HDU1007-Quoit-Design/" class="article-date">
+	  <time datetime="2018-02-11T12:24:14.000Z" itemprop="datePublished">2018-02-11</time>
 	</a>
 
       
@@ -191,16 +191,14 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h1><p>A number sequence is defined as follows:</p>
-<p>f(1) = 1, f(2) = 1, f(n) = (A <em> f(n - 1) + B </em> f(n - 2)) mod 7.</p>
-<p>Given A, B, and n, you are to calculate the value of f(n).</p>
+        <h1 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h1><p>Have you ever played quoit in a playground? Quoit is a game in which flat rings are pitched at some toys, with all the toys encircled awarded.<br>In the field of Cyberground, the position of each toy is fixed, and the ring is carefully designed so it can only encircle one toy at a time. On the other hand, to make the game look more attractive, the ring is designed to have the largest radius. Given a configuration of the field, you are supposed to find the radius of such a ring.</p>
 <a id="more"></a>
-<h1 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h1><p>The input consists of multiple test cases. Each test case contains 3 integers A, B and n on a single line (1 &lt;= A, B &lt;= 1000, 1 &lt;= n &lt;= 100,000,000). Three zeros signal the end of input and this test case is not to be processed.</p>
-<h1 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h1><p>For each test case, print the value of f(n) on a single line.</p>
-<h1 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h1><p>1 1 3<br>1 2 10<br>0 0 0</p>
-<h1 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h1><p>2<br>5</p>
-<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><p>被7模共有7种情况，两个数的话共有49种情况。根据鸽巢原理（抽屉原理）至少经过49轮，两个数可以再次满足一开始的条件。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.cpp</span></span><br><span class="line"><span class="comment">//  C Project</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by 欠费 on 2018/2/10.</span></span><br><span class="line"><span class="comment">//  Copyright © 2018年 AssassinQ. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num[<span class="number">50</span>];</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>, n = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(~<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>, &amp;a, &amp;b, &amp;n))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a == <span class="number">0</span> &amp;&amp; b == <span class="number">0</span> &amp;&amp; n == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        num[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        num[<span class="number">1</span>] = num[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> min = n &lt; <span class="number">50</span> ? n : <span class="number">50</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= min; i++)</span><br><span class="line">            num[i] = (a * num[i - <span class="number">1</span>] + b * num[i - <span class="number">2</span>]) % <span class="number">7</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, num[n % <span class="number">49</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Assume that all the toys are points on a plane. A point is encircled by the ring if the distance between the point and the center of the ring is strictly less than the radius of the ring. If two toys are placed at the same point, the radius of the ring is considered to be 0.</p>
+<h1 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h1><p>The input consists of several test cases. For each case, the first line contains an integer N (2 &lt;= N &lt;= 100,000), the total number of toys in the field. Then N lines follow, each contains a pair of (x, y) which are the coordinates of a toy. The input is terminated by N = 0.</p>
+<h1 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h1><p>For each test case, print in one line the radius of the ring required by the Cyberground manager, accurate up to 2 decimal places. </p>
+<h1 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h1><p>2<br>0 0<br>1 1<br>2<br>1 1<br>1 1<br>3<br>-1.5 0<br>0 0<br>0 1.5<br>0</p>
+<h1 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h1><p>0.71<br>0.00<br>0.75</p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.cpp</span></span><br><span class="line"><span class="comment">//  C Project</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by 欠费 on 2018/2/11.</span></span><br><span class="line"><span class="comment">//  Copyright © 2018年 AssassinQ. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> t[<span class="number">1000000</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">double</span> x;</span><br><span class="line">    <span class="keyword">double</span> y;</span><br><span class="line">&#125;p[<span class="number">1000000</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmpx</span><span class="params">(node a, node b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.x &lt; b.x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmpy</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> p[a].y &lt; p[b].y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">dis</span><span class="params">(node a, node b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sqrt</span>(<span class="built_in">pow</span>(a.x - b.x, <span class="number">2</span>) + <span class="built_in">pow</span>(a.y - b.y, <span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a + <span class="number">1</span> == b)</span><br><span class="line">        <span class="keyword">return</span> dis(p[a], p[b]);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(a + <span class="number">2</span> == b)</span><br><span class="line">        <span class="keyword">return</span> min(dis(p[a], p[b]), min(dis(p[a], p[a + <span class="number">1</span>]), dis(p[a + <span class="number">1</span>], p[b])));</span><br><span class="line">    <span class="keyword">int</span> mind = (a + b) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">double</span> ans = min(find(a, mind), find(mind, b));</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = a; i &lt;= b; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>((p[i].x &gt;= (p[mind].x - ans)) &amp;&amp; (p[i].x &lt;= (p[mind].x + ans)))</span><br><span class="line">            t[cnt++] = i;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(t, t + cnt, cmpy);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cnt; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; cnt; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>((p[t[j]].y - p[t[i]].y) &gt;= ans)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            ans = min(ans, dis(p[t[i]], p[t[j]]));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(~<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%lf%lf"</span>, &amp;p[i].x, &amp;p[i].y);</span><br><span class="line">        sort(p, p + n, cmpx);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%.2lf\n"</span>, find(<span class="number">0</span>, n - <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
@@ -253,19 +251,19 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2018/02/11/HDU1007-Quoit-Design/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/02/25/解决更新git项目出现fatal/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          HDU1007 Quoit Design
+          解决更新git项目出现fatal
         
       </div>
     </a>
   
   
-    <a href="/2017/12/08/HDU1002-A-B-Problem-II/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/02/10/HDU1005-Number-Sequence/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">HDU1002 A + B Problem II</div>
+      <div class="article-nav-title">HDU1005 Number Sequence</div>
     </a>
   
 </nav>
