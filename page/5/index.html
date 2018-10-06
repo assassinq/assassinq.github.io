@@ -419,10 +419,11 @@ WEB奇淫技巧第一关，md5碰撞。
 
 简单的登录题格式：flag:{xxx}解题链接
 id中进行输入，发现=、#、union、like等被过滤。
-打开burpsuite抓包，发现服务器会返回iv和cipher两个值。/Users/qianfei/MyBlog/source/images/简单的登录题.jpg
+打开burpsuite抓包，发现服务器会返回iv和cipher两个值。
 
 iv随机生成的16位值，再经过base64转码
-cipherid序列化、预设的SEC......  -->
+cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes-128-cbc加密得到cipher值.
+然......  -->
         <p class="article-more-link">
           <a href="/2018/05/01/实验吧之WEB-二/#more">Read More</a>
         </p>
@@ -675,7 +676,7 @@ md5碰撞？源码：
 <!-- Table of Contents -->
 
   
-    <article id="post-实验吧之WEB"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-实验吧之WEB-一"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -683,7 +684,7 @@ md5碰撞？源码：
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/03/20/实验吧之WEB/">实验吧之WEB</a>
+      <a class="article-title" href="/2018/03/20/实验吧之WEB-一/">实验吧之WEB（一）</a>
     </h1>
   
 
@@ -691,7 +692,7 @@ md5碰撞？源码：
     
     <div class="article-meta">
       
-	<a href="/2018/03/20/实验吧之WEB/" class="article-date">
+	<a href="/2018/03/20/实验吧之WEB-一/" class="article-date">
 	  <time datetime="2018-03-20T09:00:59.000Z" itemprop="datePublished">2018-03-20</time>
 	</a>
 
@@ -708,7 +709,7 @@ md5碰撞？源码：
 如果函数md5()中可选的参数raw_output被设置为TRUE，它的作用是将经过md5加密后的hex转换成字符串。
 ffifdyop经过md5加密后为276f722736c95d99e921722cf9ed621c，而它对应字符编码刚好是’or’6&lt;tra......  -->
         <p class="article-more-link">
-          <a href="/2018/03/20/实验吧之WEB/#more">Read More</a>
+          <a href="/2018/03/20/实验吧之WEB-一/#more">Read More</a>
         </p>
       
     </div>

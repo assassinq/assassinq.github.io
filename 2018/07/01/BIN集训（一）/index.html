@@ -19,17 +19,17 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="有幸上到潘大佬的课，赶紧做笔记。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chaslf651b2r1rr915a9tgo3s4a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chasp4e6el54101c4k1gidaha.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chast69qtmc1gpq12nu15co1ahba.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chat2o1s11pu1puvrus1kh812apa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chat3i6f1lm72951du015t9n2ra.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chav8ft91efi1c0918c91g4c97ia.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-07T05:25:58.789Z">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/一/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/一/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/一/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/一/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/一/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/一/6.png">
+<meta property="og:updated_time" content="2018-10-06T08:11:57.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（一）">
 <meta name="twitter:description" content="有幸上到潘大佬的课，赶紧做笔记。">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1chaslf651b2r1rr915a9tgo3s4a.png-j.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/BIN集训/一/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -663,7 +663,7 @@
 </tbody>
 </table>
 <h1 id="第一次调试（helloworld-exe）"><a href="#第一次调试（helloworld-exe）" class="headerlink" title="第一次调试（helloworld.exe）"></a>第一次调试（helloworld.exe）</h1><p>关于PE文件的EntryPoint。打开CFF，将PE文件拖入：</p>
-<p><img src="http://t1.aixinxi.net/o_1chaslf651b2r1rr915a9tgo3s4a.png-j.jpg" alt="拖入CFF后的PE文件"></p>
+<p><img src="/pics/BIN集训/一/1.png" alt="拖入CFF后的PE文件"></p>
 <p>其中，ImageBase和AddressOfEntryPoint指向的地址即为EntryPoint</p>
 <h2 id="找到main函数"><a href="#找到main函数" class="headerlink" title="找到main函数"></a>找到main函数</h2><ul>
 <li>代码执行：通过F7单步步入，一步一步执行到弹框跳出时，进入main函数</li>
@@ -672,11 +672,11 @@
 <li>API检索法：通过运行程序可以判断文件句柄是MessageBox，在模块中找到后依次设置断点，运行程序，在主函数断电处停下</li>
 <li>特征法：根据C语言的反汇编特征进行判断</li>
 </ul>
-<h2 id="修改内容"><a href="#修改内容" class="headerlink" title="修改内容"></a>修改内容</h2><p><img src="http://t1.aixinxi.net/o_1chasp4e6el54101c4k1gidaha.png-j.jpg" alt="找到main函数之后定位到其地址"></p>
-<p><img src="http://t1.aixinxi.net/o_1chast69qtmc1gpq12nu15co1ahba.png-j.jpg" alt="修改弹窗信息后保存"></p>
-<p><img src="http://t1.aixinxi.net/o_1chat2o1s11pu1puvrus1kh812apa.png-j.jpg" alt="修改成功后的弹窗"></p>
-<p><img src="http://t1.aixinxi.net/o_1chat3i6f1lm72951du015t9n2ra.png-j.jpg" alt="直接修改汇编语言"></p>
-<h1 id="Fact-exe"><a href="#Fact-exe" class="headerlink" title="Fact.exe"></a>Fact.exe</h1><p><img src="http://t1.aixinxi.net/o_1chav8ft91efi1c0918c91g4c97ia.png-j.jpg" alt="问题在这里"></p>
+<h2 id="修改内容"><a href="#修改内容" class="headerlink" title="修改内容"></a>修改内容</h2><p><img src="/pics/BIN集训/一/2.png" alt="找到main函数之后定位到其地址"></p>
+<p><img src="/pics/BIN集训/一/3.png" alt="修改弹窗信息后保存"></p>
+<p><img src="/pics/BIN集训/一/4.png" alt="修改成功后的弹窗"></p>
+<p><img src="/pics/BIN集训/一/5.png" alt="直接修改汇编语言"></p>
+<h1 id="Fact-exe"><a href="#Fact-exe" class="headerlink" title="Fact.exe"></a>Fact.exe</h1><p><img src="/pics/BIN集训/一/6.png" alt="问题在这里"></p>
 <p>jge表示大于或等于时跳转。当输入数字n时，EDX存放值n，ECX中的值初始化为1，[local.3]中的值也为1，每次循环时，ECX中的值自加一，[local.3]的值为自身再乘上ECX中的值。当ECX等于EDX时跳出循环，而不再进行下一次乘法，最后[local.3]中的值为(n-1)!，故应该将jge修改为jg即可</p>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://www.cnblogs.com/qq78292959/archive/2012/07/20/2600865.html" target="_blank" rel="noopener">https://www.cnblogs.com/qq78292959/archive/2012/07/20/2600865.html</a><br><a href="https://blog.csdn.net/qq_34717555/article/details/77727176" target="_blank" rel="noopener">https://blog.csdn.net/qq_34717555/article/details/77727176</a><br><a href="https://blog.csdn.net/hanchaoman/article/details/9187093" target="_blank" rel="noopener">https://blog.csdn.net/hanchaoman/article/details/9187093</a></p>
 

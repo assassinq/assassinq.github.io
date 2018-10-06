@@ -19,20 +19,20 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="今天学长带我们反推汇编语言到简单的C语言分支结构语句。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chk9uqdb17kjmcmhtqk971o0aa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chkdckph4edfpklr3qqrps4a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chkjaam4148218gpg9n47n1cpfa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chkjdf9n1j1l8g4oah1u93mrca.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chkkarf812pj69k1a3913sd1f0sa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chkkpqn717h619b9fbf1fqkmvka.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chklk23k1lma176jn3ofi11vspa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chkll9921u60ahqbct1prdca7a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chklll3n14l8efg1g6e1pf3mo6a.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-06T10:07:00.926Z">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/三/9.png">
+<meta property="og:updated_time" content="2018-10-06T08:46:07.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（三）">
 <meta name="twitter:description" content="今天学长带我们反推汇编语言到简单的C语言分支结构语句。">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1chk9uqdb17kjmcmhtqk971o0aa.png-j.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/BIN集训/三/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -221,16 +221,16 @@
 <p>输入1后的汇编代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">    0x107c94ef0 &lt;+0&gt;:   pushq  %rbp</span><br><span class="line">    0x107c94ef1 &lt;+1&gt;:   movq   %rsp, %rbp</span><br><span class="line">    0x107c94ef4 &lt;+4&gt;:   subq   $0x20, %rsp</span><br><span class="line">    0x107c94ef8 &lt;+8&gt;:   movl   $0x0, -0x4(%rbp)</span><br><span class="line">    0x107c94eff &lt;+15&gt;:  callq  0x107c94f80               ; symbol stub for: rand</span><br><span class="line">    0x107c94f04 &lt;+20&gt;:  movl   %eax, -0x8(%rbp)</span><br><span class="line">-&gt;  0x107c94f07 &lt;+23&gt;:  movl   -0x8(%rbp), %eax</span><br><span class="line">    0x107c94f0a &lt;+26&gt;:  movl   %eax, %ecx</span><br><span class="line">    0x107c94f0c &lt;+28&gt;:  subl   $0x1, %ecx</span><br><span class="line">    0x107c94f0f &lt;+31&gt;:  movl   %eax, -0xc(%rbp)</span><br><span class="line">    0x107c94f12 &lt;+34&gt;:  movl   %ecx, -0x10(%rbp)</span><br><span class="line">    0x107c94f15 &lt;+37&gt;:  je     0x107c94f34               ; &lt;+68&gt; at main.cpp</span><br><span class="line">    0x107c94f1b &lt;+43&gt;:  jmp    0x107c94f20               ; &lt;+48&gt; at main.cpp</span><br><span class="line">    0x107c94f20 &lt;+48&gt;:  movl   -0xc(%rbp), %eax</span><br><span class="line">    0x107c94f23 &lt;+51&gt;:  subl   $0x2, %eax</span><br><span class="line">    0x107c94f26 &lt;+54&gt;:  movl   %eax, -0x14(%rbp)</span><br><span class="line">    0x107c94f29 &lt;+57&gt;:  je     0x107c94f4a               ; &lt;+90&gt; at main.cpp</span><br><span class="line">    0x107c94f2f &lt;+63&gt;:  jmp    0x107c94f60               ; &lt;+112&gt; at main.cpp</span><br><span class="line">    0x107c94f34 &lt;+68&gt;:  leaq   0x71(%rip), %rdi          ; &quot;&apos;1&apos;&quot;</span><br><span class="line">    0x107c94f3b &lt;+75&gt;:  movb   $0x0, %al</span><br><span class="line">    0x107c94f3d &lt;+77&gt;:  callq  0x107c94f7a               ; symbol stub for: printf</span><br><span class="line">    0x107c94f42 &lt;+82&gt;:  movl   %eax, -0x18(%rbp)</span><br><span class="line">    0x107c94f45 &lt;+85&gt;:  jmp    0x107c94f71               ; &lt;+129&gt; at main.cpp</span><br><span class="line">    0x107c94f4a &lt;+90&gt;:  leaq   0x5d(%rip), %rdi          ; &quot;&apos;2&apos;&quot;</span><br><span class="line">    0x107c94f51 &lt;+97&gt;:  movb   $0x0, %al</span><br><span class="line">    0x107c94f53 &lt;+99&gt;:  callq  0x107c94f7a               ; symbol stub for: printf</span><br><span class="line">    0x107c94f58 &lt;+104&gt;: movl   %eax, -0x1c(%rbp)</span><br><span class="line">    0x107c94f5b &lt;+107&gt;: jmp    0x107c94f71               ; &lt;+129&gt; at main.cpp</span><br><span class="line">    0x107c94f60 &lt;+112&gt;: leaq   0x49(%rip), %rdi          ; &quot;No&quot;</span><br><span class="line">    0x107c94f67 &lt;+119&gt;: movb   $0x0, %al</span><br><span class="line">    0x107c94f69 &lt;+121&gt;: callq  0x107c94f7a               ; symbol stub for: printf</span><br><span class="line">    0x107c94f6e &lt;+126&gt;: movl   %eax, -0x20(%rbp)</span><br><span class="line">    0x107c94f71 &lt;+129&gt;: xorl   %eax, %eax</span><br><span class="line">    0x107c94f73 &lt;+131&gt;: addq   $0x20, %rsp</span><br><span class="line">    0x107c94f77 &lt;+135&gt;: popq   %rbp</span><br><span class="line">    0x107c94f78 &lt;+136&gt;: retq</span><br></pre></td></tr></table></figure>
 <h1 id="Homework-exe"><a href="#Homework-exe" class="headerlink" title="Homework.exe"></a>Homework.exe</h1><p>将程序拖进OD后，找到main函数。</p>
-<p><img src="http://t1.aixinxi.net/o_1chk9uqdb17kjmcmhtqk971o0aa.png-j.jpg" alt="直接能看到了被加密的字符串"></p>
-<p>阅读汇编程序，推测源程序的代码</p>
-<p><img src="http://t1.aixinxi.net/o_1chkdckph4edfpklr3qqrps4a.png-j.jpg" alt="main函数的开头"></p>
+<p><img src="/pics/BIN集训/三/1.png" alt="直接能看到了被加密的字符串"></p>
+<p>阅读汇编程序，推测源程序的代码。</p>
+<p><img src="/pics/BIN集训/三/2.png" alt="main函数的开头"></p>
 <p>这里可以看到puts函数输出一段字符串：“please input the flag”，然后有一个scanf来接收输入的字符串。</p>
-<p><img src="http://t1.aixinxi.net/o_1chkjaam4148218gpg9n47n1cpfa.png-j.jpg" alt="strlen比较字符串长度"></p>
-<p><img src="http://t1.aixinxi.net/o_1chkjdf9n1j1l8g4oah1u93mrca.png-j.jpg" alt="关键代码段和strcmp比较字符串"></p>
+<p><img src="/pics/BIN集训/三/3.png" alt="strlen比较字符串长度"></p>
+<p><img src="/pics/BIN集训/三/4.png" alt="关键代码段和strcmp比较字符串"></p>
 <p>关键代码段处：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MOV [local.5],0x0</span><br><span class="line">JMP short homework.00401452</span><br><span class="line">MOV ECX,[local.5]</span><br><span class="line">MOV EAX,[local.5]</span><br><span class="line">MOV DL,byte ptr ss:[EBP+EAX-0x98]</span><br><span class="line">MOV EAX,[local.5]</span><br><span class="line">XOR EAX,EDX</span><br><span class="line">MOV byte ptr ss:[EBP+ECX-0x98],AL</span><br><span class="line">INC [local.5]</span><br><span class="line">CMP [local.5],0x1A</span><br><span class="line">JLE short homework.00401436</span><br></pre></td></tr></table></figure>
 <p>这里的[local.5]可以理解为一个变量，EAX中存放的是变量[local.5]的值，EDX中存放的是输入的字符串中的一个字符。设[local.5]的值为i，每次取出字符串中第i个字符，将该字符与i进行异或，结果存入字符串的第i个。</p>
-<p><img src="http://t1.aixinxi.net/o_1chkkarf812pj69k1a3913sd1f0sa.png-j.jpg" alt="最后经过操作后等于被加密字符串就会Congratulations"></p>
+<p><img src="/pics/BIN集训/三/5.png" alt="最后经过操作后等于被加密字符串就会Congratulations"></p>
 <p>容易知道需要求出解密算法才能获得正确的字符串</p>
 <p>因为异或运算可以通过二次运算重新得到</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n%d\n%d\n"</span>, a, a ^ <span class="number">100</span>, a ^ <span class="number">100</span> ^ <span class="number">100</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -239,15 +239,15 @@
 <p>拿到flag：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Today`s homework is so easy</span><br></pre></td></tr></table></figure>
 <h1 id="Easy-CrackMe-exe"><a href="#Easy-CrackMe-exe" class="headerlink" title="Easy_CrackMe.exe"></a>Easy_CrackMe.exe</h1><p>拿到程序后，先进行简单的测试</p>
-<p><img src="http://t1.aixinxi.net/o_1chkkpqn717h619b9fbf1fqkmvka.png-j.jpg" alt="发现可以用字符串检索main函数"></p>
+<p><img src="/pics/BIN集训/三/6.png" alt="发现可以用字符串检索main函数"></p>
 <p>可以判断出输入的字符串应该有一个函数接收，即GetDigItemTextA。找到之后，慢慢往下读</p>
-<p><img src="http://t1.aixinxi.net/o_1chklk23k1lma176jn3ofi11vspa.png-j.jpg" alt="这里可以看到flag的一部分"></p>
+<p><img src="/pics/BIN集训/三/7.png" alt="这里可以看到flag的一部分"></p>
 <p>“byte ptr ss:[esp+0x5]”表示的是输入字符串的某一位置的字符。这里需要与字母a（a的ASCII码为97，即0x61）进行比较，可以说明flag中含有E。</p>
 <p>下面的“push Easy_Cra.00406078”后有注释“5y”，那么flag中应有这一片段</p>
-<p><img src="http://t1.aixinxi.net/o_1chkll9921u60ahqbct1prdca7a.png-j.jpg" alt="这里将R3versing存入esi进行比较"></p>
+<p><img src="/pics/BIN集训/三/8.png" alt="这里将R3versing存入esi进行比较"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">MOV ESI,Easy_Cra.0040606C</span><br><span class="line">LEA EAX,dword ptr SS:[ESP+0x10]</span><br><span class="line">MOV DL,byte ptr DS:[EAX]</span><br><span class="line">MOV BL,byte ptr DS:[ESI]</span><br><span class="line">MOV CL,DL</span><br><span class="line">CMP DL,BL</span><br><span class="line">JNZ short Easy_Cra.00401102</span><br><span class="line">TEST CL,CL</span><br><span class="line">JE short Easy_Cra.004010FE</span><br><span class="line">MOV DL,byte ptr DS:[EAX+0x1]</span><br><span class="line">MOV BL,byte ptr DS:[ESI+0x1]</span><br><span class="line">MOV CL,DL</span><br><span class="line">CMP DL,BL</span><br><span class="line">JNZ short Easy_Cra.00401102</span><br><span class="line">ADD EAX,0x2</span><br><span class="line">ADD ESI,0x2</span><br><span class="line">TEST CL,CL</span><br><span class="line">JNZ short Easy_Cra.004010DA</span><br></pre></td></tr></table></figure>
 <p>这里先将“R3versing”字符串存入ESI中，然后EAX取输入字符串的一部分。每次取两个字符串分别比较，比完后再向后移两位。那么可以判断“R3versing”也应该是flag的一部分</p>
-<p><img src="http://t1.aixinxi.net/o_1chklll3n14l8efg1g6e1pf3mo6a.png-j.jpg" alt="找到输出congratulation的部分"></p>
+<p><img src="/pics/BIN集训/三/9.png" alt="找到输出congratulation的部分"></p>
 <p>最后发现进行了最后一次比较，在“byte ptr ss:[esp+0x4]”处，显然在字符串的最前面。该处应为字母E（E的ASCII码为69，即0x45）</p>
 <p>最后可以得出flag应为以上几个部分按顺序拼接后的结果</p>
 <h1 id="WindowsAPI函数"><a href="#WindowsAPI函数" class="headerlink" title="WindowsAPI函数"></a>WindowsAPI函数</h1><p>最后把这几天遇到的比较多的函数做一个记录</p>

