@@ -19,17 +19,17 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="NONICK师傅神仙上课，win下的pwn是真的难。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckciic2vp7cj9sfmpr0h96sa.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckcikr231ujl127ae1dvor1qhua.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckcildsk1v9ig7jsgk11csttea.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckciqrnu1eqd19pgoaruk4nma.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckcj1hc1h1cum01ar81f8ld2a.png-j.jpg">
-<meta property="og:image" content="http://t1.aixinxi.net/o_1ckck6d9ifr18g99rb1h2qfka.png-j.jpg">
-<meta property="og:updated_time" content="2018-08-08T11:21:19.121Z">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/四/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/四/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/四/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/四/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/四/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/四/6.png">
+<meta property="og:updated_time" content="2018-10-07T13:04:21.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan PWN（四）">
 <meta name="twitter:description" content="NONICK师傅神仙上课，win下的pwn是真的难。">
-<meta name="twitter:image" content="http://t1.aixinxi.net/o_1ckciic2vp7cj9sfmpr0h96sa.png-j.jpg">
+<meta name="twitter:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/四/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -214,9 +214,9 @@
 <li>Section Table</li>
 </ul>
 </blockquote>
-<p><img src="http://t1.aixinxi.net/o_1ckciic2vp7cj9sfmpr0h96sa.png-j.jpg" alt="PE Format"></p>
-<h2 id="PE-Memory-Layout"><a href="#PE-Memory-Layout" class="headerlink" title="PE Memory Layout"></a>PE Memory Layout</h2><p><img src="http://t1.aixinxi.net/o_1ckcikr231ujl127ae1dvor1qhua.png-j.jpg" alt="Layout"></p>
-<p><img src="http://t1.aixinxi.net/o_1ckcildsk1v9ig7jsgk11csttea.png-j.jpg" alt="Memory"></p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/四/1.png" alt="PE Format"></p>
+<h2 id="PE-Memory-Layout"><a href="#PE-Memory-Layout" class="headerlink" title="PE Memory Layout"></a>PE Memory Layout</h2><p><img src="/pics/第三届XMAN夏令营/PWN/四/2.png" alt="Layout"></p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/四/3.png" alt="Memory"></p>
 <h2 id="Basic-DLLS"><a href="#Basic-DLLS" class="headerlink" title="Basic DLLS"></a>Basic DLLS</h2><ul>
 <li>NTDLL.DLL</li>
 <li>Kernel32.dll</li>
@@ -224,10 +224,10 @@
 <li>Msvcrtxxx.dll</li>
 </ul>
 <h1 id="Common-vulnerability"><a href="#Common-vulnerability" class="headerlink" title="Common vulnerability"></a>Common vulnerability</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">GetInput</span><span class="params">(<span class="keyword">char</span> *out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *p = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">0x20</span>);</span><br><span class="line">    DWORD readed = <span class="number">0</span>;</span><br><span class="line">    HANDLE hin = GetStdHandle(STD_INPUT_HANDLE);</span><br><span class="line">    <span class="comment">// Heap overflow</span></span><br><span class="line">    ReadFile(hin, p, <span class="number">0x200</span>, &amp;readed, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// Stack overflow</span></span><br><span class="line">    <span class="built_in">memcpy</span>(out, p, readed);</span><br><span class="line">    <span class="comment">// Generate an exception</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Stack-Overflow"><a href="#Stack-Overflow" class="headerlink" title="Stack Overflow"></a>Stack Overflow</h2><p><img src="http://t1.aixinxi.net/o_1ckciqrnu1eqd19pgoaruk4nma.png-j.jpg" alt="Stack layout"></p>
+<h2 id="Stack-Overflow"><a href="#Stack-Overflow" class="headerlink" title="Stack Overflow"></a>Stack Overflow</h2><p><img src="/pics/第三届XMAN夏令营/PWN/四/4.png" alt="Stack layout"></p>
 <h3 id="SEH"><a href="#SEH" class="headerlink" title="SEH"></a>SEH</h3><p>Only in x86, it sucks in x64.</p>
 <p><a href="https://www.52pojie.cn/thread-630505-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-630505-1-1.html</a></p>
-<h2 id="Heap-Overflow"><a href="#Heap-Overflow" class="headerlink" title="Heap Overflow"></a>Heap Overflow</h2><p><img src="http://t1.aixinxi.net/o_1ckcj1hc1h1cum01ar81f8ld2a.png-j.jpg" alt="Heap structure"></p>
+<h2 id="Heap-Overflow"><a href="#Heap-Overflow" class="headerlink" title="Heap Overflow"></a>Heap Overflow</h2><p><img src="/pics/第三届XMAN夏令营/PWN/四/5.png" alt="Heap structure"></p>
 <p>Mitigation:</p>
 <ul>
 <li>Encoded function pointer, block header, subsegment header.</li>
@@ -254,7 +254,7 @@
 <li>Bypass method 1: Somehow leak the pointer at stack</li>
 <li>Bypass method 2: If program doesn’t use ASLR, just copy the stack address</li>
 </ul>
-<p><img src="http://t1.aixinxi.net/o_1ckck6d9ifr18g99rb1h2qfka.png-j.jpg" alt="GS &amp; SafeSEH &amp; DEP &amp; SEHOP -- Bypass table"></p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/四/6.png" alt="GS &amp; SafeSEH &amp; DEP &amp; SEHOP -- Bypass table"></p>
 <h2 id="CFG"><a href="#CFG" class="headerlink" title="CFG"></a>CFG</h2><ul>
 <li>ntdll - NtContinue</li>
 <li>Exploit non-CFG module</li>

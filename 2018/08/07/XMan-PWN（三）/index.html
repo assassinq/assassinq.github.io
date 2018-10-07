@@ -19,10 +19,12 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="lowkey师傅教_IO_FILE利用。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-11T10:16:22.948Z">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/三/1.png">
+<meta property="og:updated_time" content="2018-10-07T12:58:31.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan PWN（三）">
 <meta name="twitter:description" content="lowkey师傅教_IO_FILE利用。">
+<meta name="twitter:image" content="http://assassinq.com/pics/第三届XMAN夏令营/PWN/三/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -206,7 +208,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="struct-IO-FILE-chain"><a href="#struct-IO-FILE-chain" class="headerlink" title="struct _IO_FILE *_chain"></a>struct _IO_FILE *_chain</h2><p><img src="" alt="*_chain"></p>
+<h2 id="struct-IO-FILE-chain"><a href="#struct-IO-FILE-chain" class="headerlink" title="struct _IO_FILE *_chain"></a>struct _IO_FILE *_chain</h2><p><img src="/pics/第三届XMAN夏令营/PWN/三/1.png" alt="*_chain"></p>
 <h2 id="IO-FILE-plus-structures"><a href="#IO-FILE-plus-structures" class="headerlink" title="_IO_FILE_plus structures"></a>_IO_FILE_plus structures</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE_plus</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  FILE file;</span><br><span class="line">  <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IO_jump_t</span> *<span class="title">vtable</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>vtable is a _IO_jump_t pointer, some std I/O functions will use these pointers.</p>
 <ul>
