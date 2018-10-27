@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>c语言实现md5加密算法 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ccrypto" />
+  
+  
+  
+  
+  <meta name="description" content="简单了解一下md5的加密过程。">
+<meta name="keywords" content="c,crypto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言实现md5加密算法">
+<meta property="og:url" content="http://AssassinQ.com/2018/10/24/C语言实现md5加密算法/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="简单了解一下md5的加密过程。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-24T07:57:08.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言实现md5加密算法">
+<meta name="twitter:description" content="简单了解一下md5的加密过程。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-C语言实现md5加密算法" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      C语言实现md5加密算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/10/24/C语言实现md5加密算法/" class="article-date">
+	  <time datetime="2018-10-24T01:37:43.000Z" itemprop="datePublished">2018-10-24</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>简单了解一下md5的加密过程。</p>
+<a id="more"></a>
+<p>MD5消息摘要算法（英语：MD5 Message-Digest Algorithm），一种被广泛使用的密码散列函数，可以产生出一个128位（16字节）的散列值（hash value），用于确保信息传输完整一致。MD5由美国密码学家罗纳德·李维斯特（Ronald Linn Rivest）设计，于1992年公开，用以取代MD4算法。这套算法的程序在RFC 1321中被加以规范。</p>
+<p>MD5算法具有以下特点：</p>
+<ol>
+<li>压缩性：任意长度的数据，算出的MD5值长度都是固定的。</li>
+<li>容易计算：从原数据计算出MD5值很容易。</li>
+<li>抗修改性：对原数据进行任何改动，哪怕只修改1个字节，所得到的MD5值都有很大区别。</li>
+<li>强抗碰撞：已知原数据和其MD5值，想找到一个具有相同MD5值的数据（即伪造数据）是非常困难的。</li>
+</ol>
+<p>MD5的作用是让大容量信息在用数字签名软件签署私人密钥前被”压缩”成一种保密的格式（就是把一个任意长度的字节串变换成一定长的十六进制数字串）。除了MD5以外，其中比较有名的还有sha-1、RIPEMD以及Haval等。</p>
+<h1 id="加密原理"><a href="#加密原理" class="headerlink" title="加密原理"></a>加密原理</h1><p>MD5以512位分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分组组成，将这四个32位分组级联后将生成一个128位散列值。</p>
+<p>在MD5算法中，首先需要对信息进行填充，使其字节长度对512求余数的结果等于448。因此，信息的字节长度（Bits Length）将被扩展至<code>N*512+448</code>，即<code>N*64+56</code>个字节（Bytes），<code>N</code>为一个正整数。填充的方法如下，在信息的后面填充一个1和无数个0，直到满足上面的条件时才停止用0对信息的填充。然后再在这个结果后面附加一个以64位二进制表示的填充前的信息长度。经过这两步的处理，现在的信息字节长度=<code>N*512+448+64=(N+1)*512</code>，即长度恰好是512的整数倍数。这样做的原因是为满足后面处理中对信息长度的要求。MD5中有四个32位被称作链接变量（Chaining Variable）的整数参数，他们分别为：<code>A=0x01234567</code>，<code>B=0x89abcdef</code>，<code>C=0xfedcba98</code>，<code>D=0x76543210</code>。当设置好这四个链接变量后，就开始进入算法的四轮循环运算，循环的次数是信息中512位信息分组的数目。</p>
+<p>将上面四个链接变量复制到另外四个变量中：A到a，B到b，C到c，D到d。主循环有四轮（MD4只有三轮），每轮循环都很相似。第一轮进行16次操作。每次操作对a、b、c和d中的其中三个作一次非线性函数运算，然后将所得结果加上第四个变量（文本中的一个子分组和一个常数）。</p>
+<p>再将所得结果向右环移一个不定的数，并加上a、b、c或d中之一。最后用该结果取代a、b、c或d中之一。</p>
+<p>如果X、Y和Z的对应位是独立和均匀的，那么结果的每一位也应是独立和均匀的。F是一个逐位运算的函数。即，如果X，那么Y，否则Z。函数H是逐位奇偶操作符。所有这些完成之后，将A，B，C，D分别加上a，b，c，d。然后用下一分组数据继续运行算法，最后的输出是A，B，C和D的级联。最后得到的A，B，C，D就是输出结果，A是低位，D为高位，DCBA组成128位输出结果。</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="md5-h"><a href="#md5-h" class="headerlink" title="md5.h"></a>md5.h</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> MD5_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MD5_H</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> count[<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> state[<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> buffer[<span class="number">64</span>];   </span><br><span class="line">&#125;MD5_CTX;</span><br><span class="line"> </span><br><span class="line">                         </span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> F(x,y,z) ((x &amp; y) | (~x &amp; z))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> G(x,y,z) ((x &amp; z) | (y &amp; ~z))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H(x,y,z) (x^y^z)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> I(x,y,z) (y ^ (x | ~z))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROTATE_LEFT(x,n) ((x <span class="meta-string">&lt;&lt; n) | (x &gt;&gt; (32-n)))</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FF(a,b,c,d,x,s,ac) \</span></span><br><span class="line">          &#123; \</span><br><span class="line">          a += F(b,c,d) + x + ac; \</span><br><span class="line">          a = ROTATE_LEFT(a,s); \</span><br><span class="line">          a += b; \</span><br><span class="line">          &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GG(a,b,c,d,x,s,ac) \</span></span><br><span class="line">          &#123; \</span><br><span class="line">          a += G(b,c,d) + x + ac; \</span><br><span class="line">          a = ROTATE_LEFT(a,s); \</span><br><span class="line">          a += b; \</span><br><span class="line">          &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HH(a,b,c,d,x,s,ac) \</span></span><br><span class="line">          &#123; \</span><br><span class="line">          a += H(b,c,d) + x + ac; \</span><br><span class="line">          a = ROTATE_LEFT(a,s); \</span><br><span class="line">          a += b; \</span><br><span class="line">          &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> II(a,b,c,d,x,s,ac) \</span></span><br><span class="line">          &#123; \</span><br><span class="line">          a += I(b,c,d) + x + ac; \</span><br><span class="line">          a = ROTATE_LEFT(a,s); \</span><br><span class="line">          a += b; \</span><br><span class="line">          &#125;                                            </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Init</span><span class="params">(MD5_CTX *context)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Update</span><span class="params">(MD5_CTX *context,<span class="keyword">unsigned</span> <span class="keyword">char</span> *input,<span class="keyword">unsigned</span> <span class="keyword">int</span> inputlen)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Final</span><span class="params">(MD5_CTX *context,<span class="keyword">unsigned</span> <span class="keyword">char</span> digest[<span class="number">16</span>])</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Transform</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> state[<span class="number">4</span>],<span class="keyword">unsigned</span> <span class="keyword">char</span> block[<span class="number">64</span>])</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Encode</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *output,<span class="keyword">unsigned</span> <span class="keyword">int</span> *input,<span class="keyword">unsigned</span> <span class="keyword">int</span> len)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Decode</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> *output,<span class="keyword">unsigned</span> <span class="keyword">char</span> *input,<span class="keyword">unsigned</span> <span class="keyword">int</span> len)</span></span>;</span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="md5-c"><a href="#md5-c" class="headerlink" title="md5.c"></a>md5.c</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"md5.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> PADDING[]=&#123;<span class="number">0x80</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">                         <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">                         <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">                         <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">                         </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Init</span><span class="params">(MD5_CTX *context)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     context-&gt;count[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">     context-&gt;count[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">     context-&gt;state[<span class="number">0</span>] = <span class="number">0x67452301</span>;</span><br><span class="line">     context-&gt;state[<span class="number">1</span>] = <span class="number">0xEFCDAB89</span>;</span><br><span class="line">     context-&gt;state[<span class="number">2</span>] = <span class="number">0x98BADCFE</span>;</span><br><span class="line">     context-&gt;state[<span class="number">3</span>] = <span class="number">0x10325476</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Update</span><span class="params">(MD5_CTX *context,<span class="keyword">unsigned</span> <span class="keyword">char</span> *input,<span class="keyword">unsigned</span> <span class="keyword">int</span> inputlen)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>,index = <span class="number">0</span>,partlen = <span class="number">0</span>;</span><br><span class="line">    index = (context-&gt;count[<span class="number">0</span>] &gt;&gt; <span class="number">3</span>) &amp; <span class="number">0x3F</span>;</span><br><span class="line">    partlen = <span class="number">64</span> - index;</span><br><span class="line">    context-&gt;count[<span class="number">0</span>] += inputlen &lt;&lt; <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">if</span>(context-&gt;count[<span class="number">0</span>] &lt; (inputlen &lt;&lt; <span class="number">3</span>))</span><br><span class="line">       context-&gt;count[<span class="number">1</span>]++;</span><br><span class="line">    context-&gt;count[<span class="number">1</span>] += inputlen &gt;&gt; <span class="number">29</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(inputlen &gt;= partlen)</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="built_in">memcpy</span>(&amp;context-&gt;buffer[index],input,partlen);</span><br><span class="line">       MD5Transform(context-&gt;state,context-&gt;buffer);</span><br><span class="line">       <span class="keyword">for</span>(i = partlen;i+<span class="number">64</span> &lt;= inputlen;i+=<span class="number">64</span>)</span><br><span class="line">           MD5Transform(context-&gt;state,&amp;input[i]);</span><br><span class="line">       index = <span class="number">0</span>;        </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">memcpy</span>(&amp;context-&gt;buffer[index],&amp;input[i],inputlen-i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Final</span><span class="params">(MD5_CTX *context,<span class="keyword">unsigned</span> <span class="keyword">char</span> digest[<span class="number">16</span>])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> index = <span class="number">0</span>,padlen = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> bits[<span class="number">8</span>];</span><br><span class="line">    index = (context-&gt;count[<span class="number">0</span>] &gt;&gt; <span class="number">3</span>) &amp; <span class="number">0x3F</span>;</span><br><span class="line">    padlen = (index &lt; <span class="number">56</span>)?(<span class="number">56</span>-index):(<span class="number">120</span>-index);</span><br><span class="line">    MD5Encode(bits,context-&gt;count,<span class="number">8</span>);</span><br><span class="line">    MD5Update(context,PADDING,padlen);</span><br><span class="line">    MD5Update(context,bits,<span class="number">8</span>);</span><br><span class="line">    MD5Encode(digest,context-&gt;state,<span class="number">16</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Encode</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *output,<span class="keyword">unsigned</span> <span class="keyword">int</span> *input,<span class="keyword">unsigned</span> <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>,j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(j &lt; len)</span><br><span class="line">    &#123;</span><br><span class="line">         output[j] = input[i] &amp; <span class="number">0xFF</span>;  </span><br><span class="line">         output[j+<span class="number">1</span>] = (input[i] &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">         output[j+<span class="number">2</span>] = (input[i] &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">         output[j+<span class="number">3</span>] = (input[i] &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">         i++;</span><br><span class="line">         j+=<span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Decode</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> *output,<span class="keyword">unsigned</span> <span class="keyword">char</span> *input,<span class="keyword">unsigned</span> <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>,j = <span class="number">0</span>;</span><br><span class="line">     <span class="keyword">while</span>(j &lt; len)</span><br><span class="line">     &#123;</span><br><span class="line">           output[i] = (input[j]) |</span><br><span class="line">                       (input[j+<span class="number">1</span>] &lt;&lt; <span class="number">8</span>) |</span><br><span class="line">                       (input[j+<span class="number">2</span>] &lt;&lt; <span class="number">16</span>) |</span><br><span class="line">                       (input[j+<span class="number">3</span>] &lt;&lt; <span class="number">24</span>);</span><br><span class="line">           i++;</span><br><span class="line">           j+=<span class="number">4</span>; </span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MD5Transform</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> state[<span class="number">4</span>],<span class="keyword">unsigned</span> <span class="keyword">char</span> block[<span class="number">64</span>])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">int</span> a = state[<span class="number">0</span>];</span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">int</span> b = state[<span class="number">1</span>];</span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">int</span> c = state[<span class="number">2</span>];</span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">int</span> d = state[<span class="number">3</span>];</span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">int</span> x[<span class="number">64</span>];</span><br><span class="line">     MD5Decode(x,block,<span class="number">64</span>);</span><br><span class="line">     FF(a, b, c, d, x[ <span class="number">0</span>], <span class="number">7</span>, <span class="number">0xd76aa478</span>); <span class="comment">/* 1 */</span></span><br><span class="line"> FF(d, a, b, c, x[ <span class="number">1</span>], <span class="number">12</span>, <span class="number">0xe8c7b756</span>); <span class="comment">/* 2 */</span></span><br><span class="line"> FF(c, d, a, b, x[ <span class="number">2</span>], <span class="number">17</span>, <span class="number">0x242070db</span>); <span class="comment">/* 3 */</span></span><br><span class="line"> FF(b, c, d, a, x[ <span class="number">3</span>], <span class="number">22</span>, <span class="number">0xc1bdceee</span>); <span class="comment">/* 4 */</span></span><br><span class="line"> FF(a, b, c, d, x[ <span class="number">4</span>], <span class="number">7</span>, <span class="number">0xf57c0faf</span>); <span class="comment">/* 5 */</span></span><br><span class="line"> FF(d, a, b, c, x[ <span class="number">5</span>], <span class="number">12</span>, <span class="number">0x4787c62a</span>); <span class="comment">/* 6 */</span></span><br><span class="line"> FF(c, d, a, b, x[ <span class="number">6</span>], <span class="number">17</span>, <span class="number">0xa8304613</span>); <span class="comment">/* 7 */</span></span><br><span class="line"> FF(b, c, d, a, x[ <span class="number">7</span>], <span class="number">22</span>, <span class="number">0xfd469501</span>); <span class="comment">/* 8 */</span></span><br><span class="line"> FF(a, b, c, d, x[ <span class="number">8</span>], <span class="number">7</span>, <span class="number">0x698098d8</span>); <span class="comment">/* 9 */</span></span><br><span class="line"> FF(d, a, b, c, x[ <span class="number">9</span>], <span class="number">12</span>, <span class="number">0x8b44f7af</span>); <span class="comment">/* 10 */</span></span><br><span class="line"> FF(c, d, a, b, x[<span class="number">10</span>], <span class="number">17</span>, <span class="number">0xffff5bb1</span>); <span class="comment">/* 11 */</span></span><br><span class="line"> FF(b, c, d, a, x[<span class="number">11</span>], <span class="number">22</span>, <span class="number">0x895cd7be</span>); <span class="comment">/* 12 */</span></span><br><span class="line"> FF(a, b, c, d, x[<span class="number">12</span>], <span class="number">7</span>, <span class="number">0x6b901122</span>); <span class="comment">/* 13 */</span></span><br><span class="line"> FF(d, a, b, c, x[<span class="number">13</span>], <span class="number">12</span>, <span class="number">0xfd987193</span>); <span class="comment">/* 14 */</span></span><br><span class="line"> FF(c, d, a, b, x[<span class="number">14</span>], <span class="number">17</span>, <span class="number">0xa679438e</span>); <span class="comment">/* 15 */</span></span><br><span class="line"> FF(b, c, d, a, x[<span class="number">15</span>], <span class="number">22</span>, <span class="number">0x49b40821</span>); <span class="comment">/* 16 */</span></span><br><span class="line"> </span><br><span class="line"> <span class="comment">/* Round 2 */</span></span><br><span class="line"> GG(a, b, c, d, x[ <span class="number">1</span>], <span class="number">5</span>, <span class="number">0xf61e2562</span>); <span class="comment">/* 17 */</span></span><br><span class="line"> GG(d, a, b, c, x[ <span class="number">6</span>], <span class="number">9</span>, <span class="number">0xc040b340</span>); <span class="comment">/* 18 */</span></span><br><span class="line"> GG(c, d, a, b, x[<span class="number">11</span>], <span class="number">14</span>, <span class="number">0x265e5a51</span>); <span class="comment">/* 19 */</span></span><br><span class="line"> GG(b, c, d, a, x[ <span class="number">0</span>], <span class="number">20</span>, <span class="number">0xe9b6c7aa</span>); <span class="comment">/* 20 */</span></span><br><span class="line"> GG(a, b, c, d, x[ <span class="number">5</span>], <span class="number">5</span>, <span class="number">0xd62f105d</span>); <span class="comment">/* 21 */</span></span><br><span class="line"> GG(d, a, b, c, x[<span class="number">10</span>], <span class="number">9</span>,  <span class="number">0x2441453</span>); <span class="comment">/* 22 */</span></span><br><span class="line"> GG(c, d, a, b, x[<span class="number">15</span>], <span class="number">14</span>, <span class="number">0xd8a1e681</span>); <span class="comment">/* 23 */</span></span><br><span class="line"> GG(b, c, d, a, x[ <span class="number">4</span>], <span class="number">20</span>, <span class="number">0xe7d3fbc8</span>); <span class="comment">/* 24 */</span></span><br><span class="line"> GG(a, b, c, d, x[ <span class="number">9</span>], <span class="number">5</span>, <span class="number">0x21e1cde6</span>); <span class="comment">/* 25 */</span></span><br><span class="line"> GG(d, a, b, c, x[<span class="number">14</span>], <span class="number">9</span>, <span class="number">0xc33707d6</span>); <span class="comment">/* 26 */</span></span><br><span class="line"> GG(c, d, a, b, x[ <span class="number">3</span>], <span class="number">14</span>, <span class="number">0xf4d50d87</span>); <span class="comment">/* 27 */</span></span><br><span class="line"> GG(b, c, d, a, x[ <span class="number">8</span>], <span class="number">20</span>, <span class="number">0x455a14ed</span>); <span class="comment">/* 28 */</span></span><br><span class="line"> GG(a, b, c, d, x[<span class="number">13</span>], <span class="number">5</span>, <span class="number">0xa9e3e905</span>); <span class="comment">/* 29 */</span></span><br><span class="line"> GG(d, a, b, c, x[ <span class="number">2</span>], <span class="number">9</span>, <span class="number">0xfcefa3f8</span>); <span class="comment">/* 30 */</span></span><br><span class="line"> GG(c, d, a, b, x[ <span class="number">7</span>], <span class="number">14</span>, <span class="number">0x676f02d9</span>); <span class="comment">/* 31 */</span></span><br><span class="line"> GG(b, c, d, a, x[<span class="number">12</span>], <span class="number">20</span>, <span class="number">0x8d2a4c8a</span>); <span class="comment">/* 32 */</span></span><br><span class="line"> </span><br><span class="line"> <span class="comment">/* Round 3 */</span></span><br><span class="line"> HH(a, b, c, d, x[ <span class="number">5</span>], <span class="number">4</span>, <span class="number">0xfffa3942</span>); <span class="comment">/* 33 */</span></span><br><span class="line"> HH(d, a, b, c, x[ <span class="number">8</span>], <span class="number">11</span>, <span class="number">0x8771f681</span>); <span class="comment">/* 34 */</span></span><br><span class="line"> HH(c, d, a, b, x[<span class="number">11</span>], <span class="number">16</span>, <span class="number">0x6d9d6122</span>); <span class="comment">/* 35 */</span></span><br><span class="line"> HH(b, c, d, a, x[<span class="number">14</span>], <span class="number">23</span>, <span class="number">0xfde5380c</span>); <span class="comment">/* 36 */</span></span><br><span class="line"> HH(a, b, c, d, x[ <span class="number">1</span>], <span class="number">4</span>, <span class="number">0xa4beea44</span>); <span class="comment">/* 37 */</span></span><br><span class="line"> HH(d, a, b, c, x[ <span class="number">4</span>], <span class="number">11</span>, <span class="number">0x4bdecfa9</span>); <span class="comment">/* 38 */</span></span><br><span class="line"> HH(c, d, a, b, x[ <span class="number">7</span>], <span class="number">16</span>, <span class="number">0xf6bb4b60</span>); <span class="comment">/* 39 */</span></span><br><span class="line"> HH(b, c, d, a, x[<span class="number">10</span>], <span class="number">23</span>, <span class="number">0xbebfbc70</span>); <span class="comment">/* 40 */</span></span><br><span class="line"> HH(a, b, c, d, x[<span class="number">13</span>], <span class="number">4</span>, <span class="number">0x289b7ec6</span>); <span class="comment">/* 41 */</span></span><br><span class="line"> HH(d, a, b, c, x[ <span class="number">0</span>], <span class="number">11</span>, <span class="number">0xeaa127fa</span>); <span class="comment">/* 42 */</span></span><br><span class="line"> HH(c, d, a, b, x[ <span class="number">3</span>], <span class="number">16</span>, <span class="number">0xd4ef3085</span>); <span class="comment">/* 43 */</span></span><br><span class="line"> HH(b, c, d, a, x[ <span class="number">6</span>], <span class="number">23</span>,  <span class="number">0x4881d05</span>); <span class="comment">/* 44 */</span></span><br><span class="line"> HH(a, b, c, d, x[ <span class="number">9</span>], <span class="number">4</span>, <span class="number">0xd9d4d039</span>); <span class="comment">/* 45 */</span></span><br><span class="line"> HH(d, a, b, c, x[<span class="number">12</span>], <span class="number">11</span>, <span class="number">0xe6db99e5</span>); <span class="comment">/* 46 */</span></span><br><span class="line"> HH(c, d, a, b, x[<span class="number">15</span>], <span class="number">16</span>, <span class="number">0x1fa27cf8</span>); <span class="comment">/* 47 */</span></span><br><span class="line"> HH(b, c, d, a, x[ <span class="number">2</span>], <span class="number">23</span>, <span class="number">0xc4ac5665</span>); <span class="comment">/* 48 */</span></span><br><span class="line"> </span><br><span class="line"> <span class="comment">/* Round 4 */</span></span><br><span class="line"> II(a, b, c, d, x[ <span class="number">0</span>], <span class="number">6</span>, <span class="number">0xf4292244</span>); <span class="comment">/* 49 */</span></span><br><span class="line"> II(d, a, b, c, x[ <span class="number">7</span>], <span class="number">10</span>, <span class="number">0x432aff97</span>); <span class="comment">/* 50 */</span></span><br><span class="line"> II(c, d, a, b, x[<span class="number">14</span>], <span class="number">15</span>, <span class="number">0xab9423a7</span>); <span class="comment">/* 51 */</span></span><br><span class="line"> II(b, c, d, a, x[ <span class="number">5</span>], <span class="number">21</span>, <span class="number">0xfc93a039</span>); <span class="comment">/* 52 */</span></span><br><span class="line"> II(a, b, c, d, x[<span class="number">12</span>], <span class="number">6</span>, <span class="number">0x655b59c3</span>); <span class="comment">/* 53 */</span></span><br><span class="line"> II(d, a, b, c, x[ <span class="number">3</span>], <span class="number">10</span>, <span class="number">0x8f0ccc92</span>); <span class="comment">/* 54 */</span></span><br><span class="line"> II(c, d, a, b, x[<span class="number">10</span>], <span class="number">15</span>, <span class="number">0xffeff47d</span>); <span class="comment">/* 55 */</span></span><br><span class="line"> II(b, c, d, a, x[ <span class="number">1</span>], <span class="number">21</span>, <span class="number">0x85845dd1</span>); <span class="comment">/* 56 */</span></span><br><span class="line"> II(a, b, c, d, x[ <span class="number">8</span>], <span class="number">6</span>, <span class="number">0x6fa87e4f</span>); <span class="comment">/* 57 */</span></span><br><span class="line"> II(d, a, b, c, x[<span class="number">15</span>], <span class="number">10</span>, <span class="number">0xfe2ce6e0</span>); <span class="comment">/* 58 */</span></span><br><span class="line"> II(c, d, a, b, x[ <span class="number">6</span>], <span class="number">15</span>, <span class="number">0xa3014314</span>); <span class="comment">/* 59 */</span></span><br><span class="line"> II(b, c, d, a, x[<span class="number">13</span>], <span class="number">21</span>, <span class="number">0x4e0811a1</span>); <span class="comment">/* 60 */</span></span><br><span class="line"> II(a, b, c, d, x[ <span class="number">4</span>], <span class="number">6</span>, <span class="number">0xf7537e82</span>); <span class="comment">/* 61 */</span></span><br><span class="line"> II(d, a, b, c, x[<span class="number">11</span>], <span class="number">10</span>, <span class="number">0xbd3af235</span>); <span class="comment">/* 62 */</span></span><br><span class="line"> II(c, d, a, b, x[ <span class="number">2</span>], <span class="number">15</span>, <span class="number">0x2ad7d2bb</span>); <span class="comment">/* 63 */</span></span><br><span class="line"> II(b, c, d, a, x[ <span class="number">9</span>], <span class="number">21</span>, <span class="number">0xeb86d391</span>); <span class="comment">/* 64 */</span></span><br><span class="line">     state[<span class="number">0</span>] += a;</span><br><span class="line">     state[<span class="number">1</span>] += b;</span><br><span class="line">     state[<span class="number">2</span>] += c;</span><br><span class="line">     state[<span class="number">3</span>] += d;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"md5.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> MD5_CTX md5;</span><br><span class="line"> MD5Init(&amp;md5);         </span><br><span class="line"> <span class="keyword">int</span> i;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> encrypt[] =<span class="string">"admin"</span>;<span class="comment">//21232f297a57a5a743894a0e4a801fc3</span></span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">char</span> decrypt[<span class="number">16</span>];    </span><br><span class="line"> MD5Update(&amp;md5,encrypt,<span class="built_in">strlen</span>((<span class="keyword">char</span> *)encrypt));</span><br><span class="line"> MD5Final(&amp;md5,decrypt);        </span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"加密前:%s\n加密后:"</span>,encrypt);</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">16</span>;i++)</span><br><span class="line"> &#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%02x"</span>,decrypt[i]);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> getchar();</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="http://witmax.cn/c-md5-code.html" target="_blank" rel="noopener">http://witmax.cn/c-md5-code.html</a><br><a href="https://blog.csdn.net/qiulongtianshi/article/details/9526475" target="_blank" rel="noopener">https://blog.csdn.net/qiulongtianshi/article/details/9526475</a><br><a href="http://blog.51cto.com/pengge666/1892023" target="_blank" rel="noopener">http://blog.51cto.com/pengge666/1892023</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/25/几个简单的服务器的搭建/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          几个简单的服务器的搭建
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/16/2018-护网杯-review/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018 护网杯 review</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#加密原理"><span class="nav-number">1.</span> <span class="nav-text">加密原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-number">2.</span> <span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#md5-h"><span class="nav-number">2.1.</span> <span class="nav-text">md5.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#md5-c"><span class="nav-number">2.2.</span> <span class="nav-text">md5.c</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试代码"><span class="nav-number">3.</span> <span class="nav-text">测试代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">4.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
