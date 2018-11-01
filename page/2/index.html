@@ -189,75 +189,6 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-XMan-Android（三）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/16/XMan-Android（三）/">XMan Android（三）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/16/XMan-Android（三）/" class="article-date">
-	  <time datetime="2018-08-16T08:58:20.000Z" itemprop="datePublished">2018-08-16</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>挖洞挖不动。</p>
-        <!-- 挖洞挖不动。
-
-Android底层安全框架及攻击缓释技术
-自主访问限制
-基于uid/gid
-容易被突破
-
-
-强制访问限制
-SELinux
-攻破非常困难
-极大降低攻击后危害
-
-
-验证启动模式（Verified Boot）
-通过硬件密钥，逐步验证整个系统
-一旦出厂之后，不可修改
-修改之后系统无法启动
-6.0开始支持，7.0后更加严格
-
-
-代码签名和平台密钥
-无法刷入任何非签名镜像
-System级......  -->
-        <p class="article-more-link">
-          <a href="/2018/08/16/XMan-Android（三）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
     <article id="post-XMan-ELSE（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -773,6 +704,58 @@ Framework层
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-RE（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/03/XMan-RE（二）/">XMan RE（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/03/XMan-RE（二）/" class="article-date">
+	  <time datetime="2018-08-03T02:31:27.000Z" itemprop="datePublished">2018-08-03</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。</p>
+        <!-- A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。
+
+hide_1拿到文件先file一下，是64位的ELF文件。然后strings一下，发现有upx壳。
+用upx -d不能脱，改用dd直接把内存dump下来。
+
+然后可以拖进ida开始逆。先是找到了一个藏假flag的函数，逻辑明显的错误的。
+12345678910111213141516171819202122232425262......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/03/XMan-RE（二）/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
 
     </footer>
   </div>
