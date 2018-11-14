@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>闭关学习 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctf" />
+  
+  
+  
+  
+  <meta name="description" content="(´･_･`)">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闭关学习">
+<meta property="og:url" content="http://AssassinQ.com/10007/06/07/闭关学习/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="(´･_･`)">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-14T09:31:25.896Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="闭关学习">
+<meta name="twitter:description" content="(´･_･`)">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-闭关学习" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      闭关学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/10007/06/07/闭关学习/" class="article-date">
+	  <time datetime="+010007-06-07T15:59:59.000Z" itemprop="datePublished">10007-06-07</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>(´･_･`)</p>
+<a id="more"></a>
+<p>《吾爱破解培训第一课：破解基础知识之介绍常见工具和壳的特征》 讲师：Hmily，链接：<a href="http://www.52pojie.cn/thread-378612-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-378612-1-1.html</a><br>《吾爱破解培训第二课：实战去广告、弹窗及主页锁定》 讲师：Kido，链接：<a href="http://www.52pojie.cn/thread-384195-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-384195-1-1.html</a><br>《吾爱破解培训第三课：改头换面之修改版权和资源》 讲师：Kido，链接：<a href="http://www.52pojie.cn/thread-389996-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-389996-1-1.html</a><br>《吾爱破解培训第四课：击破程序最坚固的堡垒–实战去程序自校验》 讲师：小生我怕怕，链接：<a href="http://www.52pojie.cn/thread-392395-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-392395-1-1.html</a><br>《吾爱破解培训第五课：反击作者的挑衅–实战解除程序重启验证》 讲师：我是用户，链接：<a href="http://www.52pojie.cn/thread-396068-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-396068-1-1.html</a><br>《吾爱破解培训第六课：潜伏在程序身边的黑影–实战给程序补丁》 讲师：我是用户，链接：<a href="http://www.52pojie.cn/thread-405758-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-405758-1-1.html</a><br>《吾爱破解培训第七课：手把手教你从实例看如何攻破常见的网络验证》 讲师：珈蓝夜雨，链接：<a href="http://www.52pojie.cn/thread-408475-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-408475-1-1.html</a><br>《吾爱破解培训第八课：短兵相接–深入浅出探讨脱壳细节（上）》 讲师：L4Nce，链接：<a href="http://www.52pojie.cn/thread-411104-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-411104-1-1.html</a><br>《吾爱破解培训第九课：短兵相接–深入浅出探讨脱壳细节（下）》 讲师：L4Nce，链接：<a href="http://www.52pojie.cn/thread-411104-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-411104-1-1.html</a><br>《吾爱破解培训第十课：探寻逆向新航标—x64平台脱壳与破解实战》 讲师：Kido，链接：<a href="http://www.52pojie.cn/thread-422192-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-422192-1-1.html</a></p>
+<p>工欲善其事必先利其器，下面是破解需要用到的工具<br>OllyDbg(OD)：<a href="http://www.52pojie.cn/thread-350397-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-350397-1-1.html</a><br>PEID：<a href="http://www.52pojie.cn/thread-170387-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-170387-1-1.html</a><br>Exeinfo PE：<a href="http://www.52pojie.cn/thread-169779-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-169779-1-1.html</a><br>樱花补丁制作工具：<a href="http://www.52pojie.cn/thread-62307-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-62307-1-1.html</a><br>内存补丁生成器：<a href="http://www.52pojie.cn/thread-162411-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-162411-1-1.html</a><br>注册机生成器：<a href="http://www.52pojie.cn/thread-159470-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-159470-1-1.html</a><br>IDA Pro v6.5：<a href="http://www.52pojie.cn/thread-284145-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-284145-1-1.html</a><br>破解工具包：<a href="http://www.52pojie.cn/thread-190698-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-190698-1-1.html</a><br>吾爱云盘【最牛逼的在线工具包】：<a href="http://down.52pojie.cn/Tools/" target="_blank" rel="noopener">http://down.52pojie.cn/Tools/</a></p>
+<p>NO.1<br>Hmily 【初学者教程】破解基础知识之认识壳与程序的特征。<br>新手一看教程就在说程序破解应该先脱壳，那到底程序有没有加壳？加了什么壳？看看大H的文章你就懂了！<br><a href="http://www.52pojie.cn/thread-234739-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-234739-1-1.html</a></p>
+<p>NO.2<br>ximo 脱壳教程(24集全)<br><a href="http://pan.baidu.com/s/1cebVOU" target="_blank" rel="noopener">http://pan.baidu.com/s/1cebVOU</a> 密码: fxia<br><a href="http://down.52pojie.cn/吾爱破解视频教程/ximo脱壳基础.7z" target="_blank" rel="noopener">http://down.52pojie.cn/吾爱破解视频教程/ximo脱壳基础.7z</a><br>来自吾爱破解论坛LCG组织成员也是VMP脱壳插件作者ximo做的脱壳教程，堪称经典，入门脱壳必学！<br>压缩包为7Z格式，7Z官方网站</p>
+<p>NO.3<br>小生我怕怕 脱壳练习系列附带对应文章的动画视频教程，方便学习交流脱壳知识。<br>教程对应动画视频：<a href="http://www.52pojie.cn/thread-11642-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11642-1-1.html</a></p>
+<p>吾爱专题脱壳练习一—-压缩壳练习之一:<a href="http://www.52pojie.cn/thread-10496-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-10496-1-1.html</a><br>吾爱专题脱壳练习二—-压缩壳练习之二:<a href="http://www.52pojie.cn/thread-10607-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-10607-1-1.html</a><br>吾爱专题脱壳练习三—-压缩壳练习之三:<a href="http://www.52pojie.cn/thread-10688-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-10688-1-1.html</a><br>吾爱破解脱壳练习四——简单加密壳:<a href="http://www.52pojie.cn/thread-10850-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-10850-1-1.html</a><br>吾爱专题脱壳练习五—-upx壳:<a href="http://www.52pojie.cn/thread-10990-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-10990-1-1.html</a><br>吾爱专题脱壳练习六—-TElock V0.99 :<a href="http://www.52pojie.cn/thread-11112-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11112-1-1.html</a><br>吾爱专题脱壳练习七—-ORiEN:<a href="http://www.52pojie.cn/thread-11244-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11244-1-1.html</a><br>吾爱专题脱壳练习八—-MoleBox V2.6.5:<a href="http://www.52pojie.cn/thread-11306-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11306-1-1.html</a><br>吾爱专题脱壳练习九—-CRYPToCRACk’s PE Protector:<a href="http://www.52pojie.cn/thread-11446-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11446-1-1.html</a><br>吾爱专题脱壳练习十—-PESpin 1.32：<a href="http://www.52pojie.cn/thread-11585-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11585-1-1.html</a><br>吾爱专题脱壳练习十一—-VB自效验的处理:<a href="http://www.52pojie.cn/thread-11747-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11747-1-1.html</a><br>吾爱专题脱壳练习十二—-delphi自效验的处理:<a href="http://www.52pojie.cn/thread-11883-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-11883-1-1.html</a><br>吾爱专题脱壳练习十三—-GHF Protector V1.0:<a href="http://www.52pojie.cn/thread-12011-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12011-1-1.html</a><br>吾爱专题脱壳练习十四—-Armadillo 6.04：<a href="http://www.52pojie.cn/thread-12135-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12135-1-1.html</a><br>吾爱专题脱壳练习十五—-ACProtector系列保护：<a href="http://www.52pojie.cn/thread-12279-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12279-1-1.html</a><br>吾爱专题脱壳练习十六—-ACProtector系列保护：<a href="http://www.52pojie.cn/thread-12362-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12362-1-1.html</a><br>吾爱专题脱壳练习十七—-PEBundle 2.0b5 - 3.0x：<a href="http://www.52pojie.cn/thread-12498-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12498-1-1.html</a><br>吾爱专题脱壳练习十八—-Armadillo 4.40：<a href="http://www.52pojie.cn/thread-12620-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12620-1-1.html</a><br>吾爱专题脱壳练习十九—-PUNiSHER 1.5：<a href="http://www.52pojie.cn/thread-12822-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12822-1-1.html</a><br>吾爱专题脱壳练习二十—-未知壳一：<a href="http://www.52pojie.cn/thread-12936-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-12936-1-1.html</a><br>吾爱专题脱壳练习二十一—-未知壳二：<a href="http://www.52pojie.cn/thread-13494-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-13494-1-1.html</a><br>吾爱专题脱壳练习二十二—-未知壳三：<a href="http://www.52pojie.cn/thread-13770-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-13770-1-1.html</a></p>
+<p>NO.4<br>我是用户 破解实战(10集全)<br>破解实战演练教程<br>第一战:<a href="http://www.52pojie.cn/thread-197281-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-197281-1-1.html</a><br>第二战:<a href="http://www.52pojie.cn/thread-197598-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-197598-1-1.html</a><br>第三战:<a href="http://www.52pojie.cn/thread-197957-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-197957-1-1.html</a><br>第四战:<a href="http://www.52pojie.cn/thread-198203-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-198203-1-1.html</a><br>第五战:<a href="http://www.52pojie.cn/thread-198365-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-198365-1-1.html</a><br>第六战:<a href="http://www.52pojie.cn/thread-198930-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-198930-1-1.html</a><br>第七战:<a href="http://www.52pojie.cn/thread-199459-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-199459-1-1.html</a><br>第八战:<a href="http://www.52pojie.cn/thread-199834-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-199834-1-1.html</a><br>第九战:<a href="http://www.52pojie.cn/thread-200655-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-200655-1-1.html</a><br>第十战:<a href="http://www.52pojie.cn/thread-200798-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-200798-1-1.html</a></p>
+<p>NO.5<br>Blue .NET系列教程(4集全)<br>图文教程分析.net程序！<br>第一课 <a href="http://www.52pojie.cn/thread-248348-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-248348-1-1.html</a><br>第二课 <a href="http://www.52pojie.cn/thread-249034-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-249034-1-1.html</a><br>第三课 <a href="http://www.52pojie.cn/thread-250626-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-250626-1-1.html</a><br>第四课 <a href="http://www.52pojie.cn/thread-250633-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-250633-1-1.html</a> </p>
+<p>NO.6<br>去软件弹窗系列教程(共两集)<br>第一课 <a href="http://www.52pojie.cn/thread-316180-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-316180-1-1.html</a><br>第二课 <a href="http://www.52pojie.cn/thread-323346-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-323346-1-1.html</a></p>
+<p>NO.7<br>R4ndom破解教程全文翻译(共七集)<br>第一课 <a href="http://www.52pojie.cn/thread-344925-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-344925-1-1.html</a><br>第二课 <a href="http://www.52pojie.cn/thread-345839-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-345839-1-1.html</a><br>第三课 <a href="http://www.52pojie.cn/thread-346455-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-346455-1-1.html</a><br>第四课 <a href="http://www.52pojie.cn/thread-350727-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-350727-1-1.html</a><br>第五课 <a href="http://www.52pojie.cn/thread-352818-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-352818-1-1.html</a><br>第六课 <a href="http://www.52pojie.cn/thread-354029-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-354029-1-1.html</a><br>第七课 <a href="http://www.52pojie.cn/thread-355207-1-1.html" target="_blank" rel="noopener">http://www.52pojie.cn/thread-355207-1-1.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/16/2018-护网杯-review/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018-护网杯-review</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav">None</ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
