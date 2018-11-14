@@ -189,7 +189,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-XMan-PWN（五）"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-C语言实现rc4加密解密算法"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -197,7 +197,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/09/XMan-PWN（五）/">XMan PWN（五）</a>
+      <a class="article-title" href="/2018/05/13/C语言实现rc4加密解密算法/">C语言实现rc4加密解密算法</a>
     </h1>
   
 
@@ -205,8 +205,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/08/09/XMan-PWN（五）/" class="article-date">
-	  <time datetime="2018-08-09T01:08:59.000Z" itemprop="datePublished">2018-08-09</time>
+	<a href="/2018/05/13/C语言实现rc4加密解密算法/" class="article-date">
+	  <time datetime="2018-05-13T02:47:11.000Z" itemprop="datePublished">2018-05-13</time>
 	</a>
 
       
@@ -214,15 +214,12 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>swing大佬教漏洞挖掘（Vulnerability Discovering）。</p>
-        <!-- swing大佬教漏洞挖掘（Vulnerability Discovering）。
+        <p>RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。</p>
+        <!-- RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。
 
-Data-Flow Analysis数据流分析指的是一组用来获取有关数据如何沿着程序执行路径流动的相关信息的技术。
-数据流分析的目的是提供一个过程（或一大段程序）如何操纵器数据的全局信息。
-根据对程序路径的分析精度分类
-流不敏感分析（flow insensitive）：不考虑语句的先后顺序，按照程序语句的物理......  -->
+RC4算法的特点是算法简单，运行速度快，而且密钥长度是可变的，可变范围为1-256字节(8-2048比特)，在如今技术支持的前提下，当密钥长度为128比特时，用暴力法搜索密钥已经不太可......  -->
         <p class="article-more-link">
-          <a href="/2018/08/09/XMan-PWN（五）/#more">Read More</a>
+          <a href="/2018/05/13/C语言实现rc4加密解密算法/#more">Read More</a>
         </p>
       
     </div>
@@ -230,7 +227,7 @@ Data-Flow Analysis数据流分析指的是一组用来获取有关数据如何�
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
 
     </footer>
   </div>
@@ -240,7 +237,7 @@ Data-Flow Analysis数据流分析指的是一组用来获取有关数据如何�
 <!-- Table of Contents -->
 
   
-    <article id="post-XMan-PWN（四）"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-C语言实现base64解密加密算法"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -248,7 +245,7 @@ Data-Flow Analysis数据流分析指的是一组用来获取有关数据如何�
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/08/XMan-PWN（四）/">XMan PWN（四）</a>
+      <a class="article-title" href="/2018/05/12/C语言实现base64解密加密算法/">C语言实现base64解密加密算法</a>
     </h1>
   
 
@@ -256,8 +253,8 @@ Data-Flow Analysis数据流分析指的是一组用来获取有关数据如何�
     
     <div class="article-meta">
       
-	<a href="/2018/08/08/XMan-PWN（四）/" class="article-date">
-	  <time datetime="2018-08-08T06:17:21.000Z" itemprop="datePublished">2018-08-08</time>
+	<a href="/2018/05/12/C语言实现base64解密加密算法/" class="article-date">
+	  <time datetime="2018-05-12T03:49:45.000Z" itemprop="datePublished">2018-05-12</time>
 	</a>
 
       
@@ -265,30 +262,13 @@ Data-Flow Analysis数据流分析指的是一组用来获取有关数据如何�
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>NONICK师傅神仙上课，win下的pwn是真的难。</p>
-        <!-- NONICK师傅神仙上课，win下的pwn是真的难。
+        <p>Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。</p>
+        <!-- Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。
 
-BasicsSome Tools
-IDA Pro
-X64 DBG
-WinDBG
-Mona
-
-PE Format
-
-PE Header
-IAT（Import Address Table）
-EAT（Export Address Table）
-Section Table
-
-
-
-PE Memory Layout
-
-Basic DLLS
-NTDL......  -->
+Base64实际上是一种基于64个可打印字符来表示二进制数据的表示方法。
+经过Base64转换之后的数据大小变大了，为原数据的4/3大小。但是方便了传输，比如由于base64的编码中没有&lt;&gt;等特殊字符，可以不用转义扫描，直接放在XM......  -->
         <p class="article-more-link">
-          <a href="/2018/08/08/XMan-PWN（四）/#more">Read More</a>
+          <a href="/2018/05/12/C语言实现base64解密加密算法/#more">Read More</a>
         </p>
       
     </div>
@@ -296,7 +276,7 @@ NTDL......  -->
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
 
     </footer>
   </div>
@@ -306,7 +286,7 @@ NTDL......  -->
 <!-- Table of Contents -->
 
   
-    <article id="post-XMan-PWN（三）"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-2018-ZJGSCTF-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -314,7 +294,7 @@ NTDL......  -->
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/07/XMan-PWN（三）/">XMan PWN（三）</a>
+      <a class="article-title" href="/2018/05/07/2018-ZJGSCTF-writeup/">2018-ZJGSCTF-writeup</a>
     </h1>
   
 
@@ -322,8 +302,8 @@ NTDL......  -->
     
     <div class="article-meta">
       
-	<a href="/2018/08/07/XMan-PWN（三）/" class="article-date">
-	  <time datetime="2018-08-07T00:55:00.000Z" itemprop="datePublished">2018-08-07</time>
+	<a href="/2018/05/07/2018-ZJGSCTF-writeup/" class="article-date">
+	  <time datetime="2018-05-07T04:06:41.000Z" itemprop="datePublished">2018-05-07</time>
 	</a>
 
       
@@ -331,406 +311,17 @@ NTDL......  -->
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>lowkey师傅教_IO_FILE利用。</p>
-        <!-- lowkey师傅教_IO_FILE利用。
+        <p>第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。</p>
+        <!-- 第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。
 
-还是要好好看glibc源码，这里最重要的是/libio/libio.h。
-WHAT is _IO_FILE123456789101112131415161718192021222324252627282930313233343536373839404142struct _IO_FILE &#123;  int _flags;		/* High-or......  -->
+WEB奇淫技巧第一关，md5碰撞。
+第二关，数组绕过。
+第三关，%00截断。
+第四关，PHP伪协议data:text/plain,&lt;?php phpinfo()?&gt;。（附上大佬博客）
+送分的点击flag in here后，跳转到另一个网站，提示为非法源无法访问。
+想到X-Forwar......  -->
         <p class="article-more-link">
-          <a href="/2018/08/07/XMan-PWN（三）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-PWN（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/06/XMan-PWN（二）/">XMan PWN（二）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/06/XMan-PWN（二）/" class="article-date">
-	  <time datetime="2018-08-06T02:53:04.000Z" itemprop="datePublished">2018-08-06</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>toxic小姐姐讲的很好，是我太菜了。</p>
-        <!-- toxic小姐姐讲的很好，是我太菜了。
-
-堆这一块需要对glibc源码中/malloc/malloc.c有一定的熟悉。
-linux堆管理基础
-一块内存
-几种数据结构
-一些安全机制
-动态分配和回收
-提高利用率
-减少碎片化
-
-heap allocator管理堆的分配和回收
-
-减少系统调用次数
-提高效率
-
-
-ptmalloc2 - glibc主要结构：chunk、bin、arena
-
-bins管理......  -->
-        <p class="article-more-link">
-          <a href="/2018/08/06/XMan-PWN（二）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-PWN（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/05/XMan-PWN（一）/">XMan PWN（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/05/XMan-PWN（一）/" class="article-date">
-	  <time datetime="2018-08-05T03:33:27.000Z" itemprop="datePublished">2018-08-05</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>丁佬tql，我完全pwn不起来。</p>
-        <!-- 丁佬tql，我完全pwn不起来。
-
-因为自己基础不太好，跟着ctf wiki学习一些基础的知识作为补充。
-调用约定
-x86: stack
-x64: rdi, rsi, rdx, rcx, r8, r9, stack
-
-系统调用
-x86: eax - syscall =&gt; ebx, ecx, edx
-x64: rax - syscall =&gt; rdi, rsi, rdx, rcx,......  -->
-        <p class="article-more-link">
-          <a href="/2018/08/05/XMan-PWN（一）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-Android（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/04/XMan-Android（一）/">XMan Android（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/04/XMan-Android（一）/" class="article-date">
-	  <time datetime="2018-08-04T05:34:56.000Z" itemprop="datePublished">2018-08-04</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>jr大佬带我学android。</p>
-        <!-- jr大佬带我学android。
-
-Android生态圈
-由Google领导开发，基于Linux内核的开源操作系统
-碎片化问题严重
-应用市场管理不严格
-厂商安全补丁推送不及时，覆盖率低
-开放、分享、可定制化程度高
-
-Android整体架构
-应用程序层
-Android应用程序以Java为开发语言
-支持C/C++
-
-Framework层
-为应用程序开发提供API
-大部分使用Java编写
-例如：R......  -->
-        <p class="article-more-link">
-          <a href="/2018/08/04/XMan-Android（一）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-RE（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/03/XMan-RE（二）/">XMan RE（二）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/03/XMan-RE（二）/" class="article-date">
-	  <time datetime="2018-08-03T02:31:27.000Z" itemprop="datePublished">2018-08-03</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。</p>
-        <!-- A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。
-
-hide_1拿到文件先file一下，是64位的ELF文件。然后strings一下，发现有upx壳。
-用upx -d不能脱，改用dd直接把内存dump下来。
-
-然后可以拖进ida开始逆。先是找到了一个藏假flag的函数，逻辑明显的错误的。
-12345678910111213141516171819202122232425262......  -->
-        <p class="article-more-link">
-          <a href="/2018/08/03/XMan-RE（二）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-RE（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/02/XMan-RE（一）/">XMan RE（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/02/XMan-RE（一）/" class="article-date">
-	  <time datetime="2018-08-02T06:24:12.000Z" itemprop="datePublished">2018-08-02</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>XMan正式学习的第一天，冠成大佬带我们入门逆向。</p>
-        <!-- XMan正式学习的第一天，冠成大佬带我们入门逆向。
-
-国际比赛: DEFCON CTF, C3CTF, HITCON CTF, TCTF, BKP CTF, Plaid CTF, WCTF, RECTF国内比赛: XCTF, HCTF, LCTF, 强网杯
-打CTF得到什么
-安全基础能力
-代码/文档的快速阅读
-逆向工程
-脆弱点的挖掘和利用
-面向安全的开发
-算法能力
-沟通和社交
-
-ToolsD......  -->
-        <p class="article-more-link">
-          <a href="/2018/08/02/XMan-RE（一）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-解决Mac下sublime-text中文出现乱码"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/26/解决Mac下sublime-text中文出现乱码/">解决Mac下sublime text中文出现乱码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/26/解决Mac下sublime-text中文出现乱码/" class="article-date">
-	  <time datetime="2018-07-26T11:04:36.000Z" itemprop="datePublished">2018-07-26</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用了这么久mac，竟然第一次发现sublime不能解码中文字体。</p>
-        <!-- 用了这么久mac，竟然第一次发现sublime不能解码中文字体。
-
-
-1、打开控制台打开sublime，control+~打开控制台。
-2、下载package control如果是sublime text 2，输入：
-1import urllib2,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef9......  -->
-        <p class="article-more-link">
-          <a href="/2018/07/26/解决Mac下sublime-text中文出现乱码/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-2018-QCTF-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/21/2018-QCTF-writeup/">2018-QCTF-writeup</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/21/2018-QCTF-writeup/" class="article-date">
-	  <time datetime="2018-07-21T11:56:59.000Z" itemprop="datePublished">2018-07-21</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>其实大部分是看着大佬wp的复现。感觉自己实力还是欠缺很多。</p>
-        <!-- 其实大部分是看着大佬wp的复现。感觉自己实力还是欠缺很多。
-
-MISCpicture通过stegsolve判断出存在最低位隐写。使用lsb工具解出密文，为一段加密函数：
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606......  -->
-        <p class="article-more-link">
-          <a href="/2018/07/21/2018-QCTF-writeup/#more">Read More</a>
+          <a href="/2018/05/07/2018-ZJGSCTF-writeup/#more">Read More</a>
         </p>
       
     </div>
@@ -748,11 +339,331 @@ MISCpicture通过stegsolve判断出存在最低位隐写。使用lsb工具解出
 <!-- Table of Contents -->
 
   
+    <article id="post-实验吧-WEB-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/05/01/实验吧-WEB-writeup/">实验吧-WEB-writeup</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/05/01/实验吧-WEB-writeup/" class="article-date">
+	  <time datetime="2018-05-01T04:42:46.000Z" itemprop="datePublished">2018-05-01</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>应该是实验吧最难的几道web吧。</p>
+        <!-- 应该是实验吧最难的几道web吧。
+
+简单的登录题格式：flag:{xxx}解题链接
+id中进行输入，发现=、#、union、like等被过滤。
+打开burpsuite抓包，发现服务器会返回iv和cipher两个值。
+
+iv随机生成的16位值，再经过base64转码
+cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes-128-cbc加密得到cipher值.
+然......  -->
+        <p class="article-more-link">
+          <a href="/2018/05/01/实验吧-WEB-writeup/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-Mac下利用hexo和github搭建博客"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/04/17/Mac下利用hexo和github搭建博客/">Mac下利用hexo和github搭建博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/04/17/Mac下利用hexo和github搭建博客/" class="article-date">
+	  <time datetime="2018-04-17T12:50:09.000Z" itemprop="datePublished">2018-04-17</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。</p>
+        <!-- 把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。
+
+安装流程：
+1.hexo是基于nodejs的，需安装nodejs，安装nodejs最好选择homebrew
+2.首先查看电脑是否安装ruby，因为homebrew安装依赖ruby
+3.安装顺序：homebrew-&gt;nodejs-&gt;hexo
+安装homebrew1ruby -e &quo......  -->
+        <p class="article-more-link">
+          <a href="/2018/04/17/Mac下利用hexo和github搭建博客/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-解决linux安装过程中DHCP安装失败"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/03/10/解决linux安装过程中DHCP安装失败/">解决linux安装过程中DHCP安装失败</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/03/10/解决linux安装过程中DHCP安装失败/" class="article-date">
+	  <time datetime="2018-03-10T09:00:46.000Z" itemprop="datePublished">2018-03-10</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vmware虚拟机安装kali-linux过程中出现dhcp安装失败的情况。</p>
+        <!-- vmware虚拟机安装kali-linux过程中出现dhcp安装失败的情况。
+
+
+1.修改网络配置在shell中输入
+1leafpad /etc/network/interfaces
+此时只有两行：
+12auto loiface lo inet loopback
+需增加下面的内容：
+12345auto eth0iface eth0 inet dhcpauto eth1auto wlan0if......  -->
+        <p class="article-more-link">
+          <a href="/2018/03/10/解决linux安装过程中DHCP安装失败/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-解决复制文件时对于目标文件系统文件过大"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/">解决复制文件时对于目标文件系统文件过大</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/" class="article-date">
+	  <time datetime="2018-02-26T09:00:34.000Z" itemprop="datePublished">2018-02-26</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天在复制一个文件到U盘的时候，突然弹出了‘对于目标文件系统过大’的对话框，一个4G多的文件就这样不能够被复制到目标目录下了。</p>
+        <!-- 今天在复制一个文件到U盘的时候，突然弹出了‘对于目标文件系统过大’的对话框，一个4G多的文件就这样不能够被复制到目标目录下了。
+
+其实这是目标硬盘的格式不正确的原因，我这个U盘格式是FAT32，应该将其修改成NTFS格式就可以了。
+修改方法：在cmd中输入convert M:/fs:ntfs，其中‘M’是所在的磁盘，按回车键。
+
+格式转换完成，再次复制文件，即可成功！
+...  -->
+        <p class="article-more-link">
+          <a href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-网络安全实验室-基础关-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/11/19/网络安全实验室-基础关-writeup/">网络安全实验室-基础关-writeup</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/11/19/网络安全实验室-基础关-writeup/" class="article-date">
+	  <time datetime="2017-11-19T12:51:38.000Z" itemprop="datePublished">2017-11-19</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第一次写wp，主要是一些web题。</p>
+        <!-- 第一次写wp，主要是一些web题。
+
+第一题key在哪里？分值: 100过关地址
+
+第二题再加密一次你就得到key啦~分值: 150加密之后的数据为xrlvf23xfqwsxsqf
+
+第三题猜猜这是经过了多少次加密？分值: 200加密后的字符串为:
+Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTVjAxV2JETlhhMUpUVmpBeFYy......  -->
+        <p class="article-more-link">
+          <a href="/2017/11/19/网络安全实验室-基础关-writeup/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-Windows下利用hexo和github搭建博客"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/11/18/Windows下利用hexo和github搭建博客/">Windows下利用hexo和github搭建博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/11/18/Windows下利用hexo和github搭建博客/" class="article-date">
+	  <time datetime="2017-11-18T14:12:54.000Z" itemprop="datePublished">2017-11-18</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录下在windows下搭建博客的步骤。</p>
+        <!-- 记录下在windows下搭建博客的步骤。
+
+下载安装gitgit下载地址
+下载安装node.jsnode.js下载地址
+github账号注册和新建仓库仓库名必须为“账户名.github.io”，勾选“Initialize this repository with a README”
+安装hexo通过命令行输入
+1npm install hexo -g
+注：-g是指全局安装hexo。
+再输入
+......  -->
+        <p class="article-more-link">
+          <a href="/2017/11/18/Windows下利用hexo和github搭建博客/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
 </section>
