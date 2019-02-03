@@ -189,7 +189,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-Apache-Rewrite（路由重写）"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-2018-noxCTF-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -197,7 +197,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/05/16/Apache-Rewrite（路由重写）/">Apache Rewrite（路由重写）</a>
+      <a class="article-title" href="/2018/09/10/2018-noxCTF-writeup/">2018-noxCTF-writeup</a>
     </h1>
   
 
@@ -205,8 +205,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/05/16/Apache-Rewrite（路由重写）/" class="article-date">
-	  <time datetime="2018-05-16T05:36:06.000Z" itemprop="datePublished">2018-05-16</time>
+	<a href="/2018/09/10/2018-noxCTF-writeup/" class="article-date">
+	  <time datetime="2018-09-10T10:01:51.000Z" itemprop="datePublished">2018-09-10</time>
 	</a>
 
       
@@ -214,164 +214,15 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Apache Rewrite能够实现URL的跳转和隐藏真实地址。它基于Perl语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。</p>
-        <!-- Apache Rewrite能够实现URL的跳转和隐藏真实地址。它基于Perl语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。
+        <p>记录几道简单题。</p>
+        <!-- 记录几道简单题。
 
-理解Apache Rewrite的三个核心RewriteEngine这个是rewrite功能的总开关，用来开启是否启动url rewrite。
-1RewriteEngine on
-RewriteCondRewriteCond就是一个过滤......  -->
+RE-GuessTheString把每个check分辨出来，然后逐一分析，先判断字符串长度：
+1234_BOOL8 __fastcall check1(const char *a1)&#123;  return strlen(a1) == 11;&#125;
+判断每个字符是否都大于32：
+12345678910__int64 __fastcall check2(_BYTE......  -->
         <p class="article-more-link">
-          <a href="/2018/05/16/Apache-Rewrite（路由重写）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/">note</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-C语言实现rc4加密解密算法"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/05/13/C语言实现rc4加密解密算法/">C语言实现rc4加密解密算法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/05/13/C语言实现rc4加密解密算法/" class="article-date">
-	  <time datetime="2018-05-13T02:47:11.000Z" itemprop="datePublished">2018-05-13</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。</p>
-        <!-- RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。
-
-RC4算法的特点是算法简单，运行速度快，而且密钥长度是可变的，可变范围为1-256字节(8-2048比特)，在如今技术支持的前提下，当密钥长度为128比特时，用暴力法搜索密钥已经不太可......  -->
-        <p class="article-more-link">
-          <a href="/2018/05/13/C语言实现rc4加密解密算法/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-C语言实现base64解密加密算法"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/05/12/C语言实现base64解密加密算法/">C语言实现base64解密加密算法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/05/12/C语言实现base64解密加密算法/" class="article-date">
-	  <time datetime="2018-05-12T03:49:45.000Z" itemprop="datePublished">2018-05-12</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。</p>
-        <!-- Base64编码是将任何类型的数据转换成ASCII码的可见字符，然后接收端再反向解码，得到原始的数据。最早的的Base是用于发送Email内容的。
-
-Base64实际上是一种基于64个可打印字符来表示二进制数据的表示方法。
-经过Base64转换之后的数据大小变大了，为原数据的4/3大小。但是方便了传输，比如由于base64的编码中没有&lt;&gt;等特殊字符，可以不用转义扫描，直接放在XM......  -->
-        <p class="article-more-link">
-          <a href="/2018/05/12/C语言实现base64解密加密算法/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-2018-ZJGSCTF-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/05/07/2018-ZJGSCTF-writeup/">2018-ZJGSCTF-writeup</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/05/07/2018-ZJGSCTF-writeup/" class="article-date">
-	  <time datetime="2018-05-07T04:06:41.000Z" itemprop="datePublished">2018-05-07</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。</p>
-        <!-- 第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。
-
-WEB奇淫技巧第一关，md5碰撞。
-第二关，数组绕过。
-第三关，%00截断。
-第四关，PHP伪协议data:text/plain,&lt;?php phpinfo()?&gt;。（附上大佬博客）
-送分的点击flag in here后，跳转到另一个网站，提示为非法源无法访问。
-想到X-Forwar......  -->
-        <p class="article-more-link">
-          <a href="/2018/05/07/2018-ZJGSCTF-writeup/#more">Read More</a>
+          <a href="/2018/09/10/2018-noxCTF-writeup/#more">Read More</a>
         </p>
       
     </div>
@@ -389,7 +240,7 @@ WEB奇淫技巧第一关，md5碰撞。
 <!-- Table of Contents -->
 
   
-    <article id="post-实验吧-WEB-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-利用VPS搭建Shadowsocks科学上网"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -397,7 +248,7 @@ WEB奇淫技巧第一关，md5碰撞。
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/05/01/实验吧-WEB-writeup/">实验吧-WEB-writeup</a>
+      <a class="article-title" href="/2018/09/08/利用VPS搭建Shadowsocks科学上网/">利用VPS搭建Shadowsocks科学上网</a>
     </h1>
   
 
@@ -405,8 +256,8 @@ WEB奇淫技巧第一关，md5碰撞。
     
     <div class="article-meta">
       
-	<a href="/2018/05/01/实验吧-WEB-writeup/" class="article-date">
-	  <time datetime="2018-05-01T04:42:46.000Z" itemprop="datePublished">2018-05-01</time>
+	<a href="/2018/09/08/利用VPS搭建Shadowsocks科学上网/" class="article-date">
+	  <time datetime="2018-09-08T03:37:55.000Z" itemprop="datePublished">2018-09-08</time>
 	</a>
 
       
@@ -414,18 +265,19 @@ WEB奇淫技巧第一关，md5碰撞。
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>应该是实验吧最难的几道web吧。</p>
-        <!-- 应该是实验吧最难的几道web吧。
+        <p>记录一下自己搭小飞机的过程。</p>
+        <!-- 记录一下自己搭小飞机的过程。
 
-简单的登录题格式：flag:{xxx}解题链接
-id中进行输入，发现=、#、union、like等被过滤。
-打开burpsuite抓包，发现服务器会返回iv和cipher两个值。
+第一步-租服务器先放一些国外的一些VPS提供商：vultr、linode、搬瓦工。我是在vultr上租的服务器。
+首先注册账号，进入个人界面后，在Billing页面使用Alipay充值。
 
-iv随机生成的16位值，再经过base64转码
-cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes-128-cbc加密得到cipher值.
-然......  -->
+去Servers页面，选择服务器的地点，我选了Los Angeles。
+
+然后选择os，我的话选了CentOS。
+
+然后Size我是选了$3.5/mo，因为最便宜的$2......  -->
         <p class="article-more-link">
-          <a href="/2018/05/01/实验吧-WEB-writeup/#more">Read More</a>
+          <a href="/2018/09/08/利用VPS搭建Shadowsocks科学上网/#more">Read More</a>
         </p>
       
     </div>
@@ -433,7 +285,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/">note</a></li></ul>
 
     </footer>
   </div>
@@ -443,7 +295,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
 <!-- Table of Contents -->
 
   
-    <article id="post-Mac下利用hexo和github搭建博客"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-【未完成】2018-安恒杯八月月赛-review"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -451,7 +303,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/17/Mac下利用hexo和github搭建博客/">Mac下利用hexo和github搭建博客</a>
+      <a class="article-title" href="/2018/08/31/【未完成】2018-安恒杯八月月赛-review/">2018-安恒杯八月月赛-review</a>
     </h1>
   
 
@@ -459,8 +311,8 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     
     <div class="article-meta">
       
-	<a href="/2018/04/17/Mac下利用hexo和github搭建博客/" class="article-date">
-	  <time datetime="2018-04-17T12:50:09.000Z" itemprop="datePublished">2018-04-17</time>
+	<a href="/2018/08/31/【未完成】2018-安恒杯八月月赛-review/" class="article-date">
+	  <time datetime="2018-08-31T14:34:15.000Z" itemprop="datePublished">2018-08-31</time>
 	</a>
 
       
@@ -468,16 +320,13 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。</p>
-        <!-- 把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。
+        <p>放暑假玩了几天，慢慢整理这几次比赛。</p>
+        <!-- 放暑假玩了几天，慢慢整理这几次比赛。
 
-安装流程：
-1.hexo是基于nodejs的，需安装nodejs，安装nodejs最好选择homebrew
-2.首先查看电脑是否安装ruby，因为homebrew安装依赖ruby
-3.安装顺序：homebrew-&gt;nodejs-&gt;hexo
-安装homebrew1ruby -e &quo......  -->
+CRYPTO-爬坡道提示明显是希尔加密，了解一下希尔加密写一下脚本或者在线解密。
+123456789101112131415161718192021from numpy import *flag = ''mat_key = mat([[3, 1], [2, 1]])enc = 'mttpjbpexfdzcegtdzeanutg'# pla = 'the......  -->
         <p class="article-more-link">
-          <a href="/2018/04/17/Mac下利用hexo和github搭建博客/#more">Read More</a>
+          <a href="/2018/08/31/【未完成】2018-安恒杯八月月赛-review/#more">Read More</a>
         </p>
       
     </div>
@@ -485,7 +334,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
 
     </footer>
   </div>
@@ -495,7 +344,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
 <!-- Table of Contents -->
 
   
-    <article id="post-解决linux安装过程中DHCP安装失败"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-XMan-ELSE（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -503,7 +352,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/03/10/解决linux安装过程中DHCP安装失败/">解决linux安装过程中DHCP安装失败</a>
+      <a class="article-title" href="/2018/08/17/XMan-ELSE（二）/">XMan ELSE（二）</a>
     </h1>
   
 
@@ -511,8 +360,8 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     
     <div class="article-meta">
       
-	<a href="/2018/03/10/解决linux安装过程中DHCP安装失败/" class="article-date">
-	  <time datetime="2018-03-10T09:00:46.000Z" itemprop="datePublished">2018-03-10</time>
+	<a href="/2018/08/17/XMan-ELSE（二）/" class="article-date">
+	  <time datetime="2018-08-17T08:37:16.000Z" itemprop="datePublished">2018-08-17</time>
 	</a>
 
       
@@ -520,18 +369,13 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>vmware虚拟机安装kali-linux过程中出现dhcp安装失败的情况。</p>
-        <!-- vmware虚拟机安装kali-linux过程中出现dhcp安装失败的情况。
+        <p>了解无线攻击。</p>
+        <!-- 了解无线攻击。
 
-
-1.修改网络配置在shell中输入
-1leafpad /etc/network/interfaces
-此时只有两行：
-12auto loiface lo inet loopback
-需增加下面的内容：
-12345auto eth0iface eth0 inet dhcpauto eth1auto wlan0if......  -->
+常见无线攻击威胁老旧的攻击WPA/WPA2-PSK
+1234567891011iwconfigairodump-ng start wlan0airodump-ng check kill wlan0mon airodump-ngairodump-ng --bssid [mac addr] -c 11 -w xmantest wlan1monairodump-ng [filen......  -->
         <p class="article-more-link">
-          <a href="/2018/03/10/解决linux安装过程中DHCP安装失败/#more">Read More</a>
+          <a href="/2018/08/17/XMan-ELSE（二）/#more">Read More</a>
         </p>
       
     </div>
@@ -539,7 +383,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/is/">is</a></li></ul>
 
     </footer>
   </div>
@@ -549,7 +393,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
 <!-- Table of Contents -->
 
   
-    <article id="post-解决复制文件时对于目标文件系统文件过大"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-XMan-Android（三）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -557,7 +401,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/">解决复制文件时对于目标文件系统文件过大</a>
+      <a class="article-title" href="/2018/08/16/XMan-Android（三）/">XMan Android（三）</a>
     </h1>
   
 
@@ -565,8 +409,8 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     
     <div class="article-meta">
       
-	<a href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/" class="article-date">
-	  <time datetime="2018-02-26T09:00:34.000Z" itemprop="datePublished">2018-02-26</time>
+	<a href="/2018/08/16/XMan-Android（三）/" class="article-date">
+	  <time datetime="2018-08-16T08:58:20.000Z" itemprop="datePublished">2018-08-16</time>
 	</a>
 
       
@@ -574,16 +418,33 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天在复制一个文件到U盘的时候，突然弹出了‘对于目标文件系统过大’的对话框，一个4G多的文件就这样不能够被复制到目标目录下了。</p>
-        <!-- 今天在复制一个文件到U盘的时候，突然弹出了‘对于目标文件系统过大’的对话框，一个4G多的文件就这样不能够被复制到目标目录下了。
+        <p>挖洞挖不动。</p>
+        <!-- 挖洞挖不动。
 
-其实这是目标硬盘的格式不正确的原因，我这个U盘格式是FAT32，应该将其修改成NTFS格式就可以了。
-修改方法：在cmd中输入convert M:/fs:ntfs，其中‘M’是所在的磁盘，按回车键。
+Android底层安全框架及攻击缓释技术
+自主访问限制
+基于uid/gid
+容易被突破
 
-格式转换完成，再次复制文件，即可成功！
-...  -->
+
+强制访问限制
+SELinux
+攻破非常困难
+极大降低攻击后危害
+
+
+验证启动模式（Verified Boot）
+通过硬件密钥，逐步验证整个系统
+一旦出厂之后，不可修改
+修改之后系统无法启动
+6.0开始支持，7.0后更加严格
+
+
+代码签名和平台密钥
+无法刷入任何非签名镜像
+System级......  -->
         <p class="article-more-link">
-          <a href="/2018/02/26/解决复制文件时对于目标文件系统文件过大/#more">Read More</a>
+          <a href="/2018/08/16/XMan-Android（三）/#more">Read More</a>
         </p>
       
     </div>
@@ -591,7 +452,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
 
     </footer>
   </div>
@@ -601,7 +462,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
 <!-- Table of Contents -->
 
   
-    <article id="post-网络安全实验室-基础关-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-XMan-ELSE（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -609,7 +470,7 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2017/11/19/网络安全实验室-基础关-writeup/">网络安全实验室-基础关-writeup</a>
+      <a class="article-title" href="/2018/08/15/XMan-ELSE（一）/">XMan ELSE（一）</a>
     </h1>
   
 
@@ -617,8 +478,8 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     
     <div class="article-meta">
       
-	<a href="/2017/11/19/网络安全实验室-基础关-writeup/" class="article-date">
-	  <time datetime="2017-11-19T12:51:38.000Z" itemprop="datePublished">2017-11-19</time>
+	<a href="/2018/08/15/XMan-ELSE（一）/" class="article-date">
+	  <time datetime="2018-08-15T01:23:36.000Z" itemprop="datePublished">2018-08-15</time>
 	</a>
 
       
@@ -626,17 +487,12 @@ cipherid序列化、预设的SECRET_KEY、上面得到的iv值，三者经过aes
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>第一次写wp，主要是一些web题。</p>
-        <!-- 第一次写wp，主要是一些web题。
+        <p>关于软件无线电和硬件安全入门。</p>
+        <!-- 关于软件无线电和硬件安全入门。
 
-第一题key在哪里？分值: 100过关地址
-
-第二题再加密一次你就得到key啦~分值: 150加密之后的数据为xrlvf23xfqwsxsqf
-
-第三题猜猜这是经过了多少次加密？分值: 200加密后的字符串为:
-Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTVjAxV2JETlhhMUpUVmpBeFYy......  -->
+SDR入门软件无线电（Software Defined Radio，SDR）是一种实现无线通信的新概念和体制。其中已在硬件被典型地实现的组件（例如混频器，滤波器，放大器，调制器 / 解调器，检测器等），也可以通过软件手段的个人计算机上或代替实施嵌入式系统。一开始应用在军事领域，在21世纪初，由于众多公司的努力，使得它已从军事领域转向民用领域，成为经济的、应用......  -->
         <p class="article-more-link">
-          <a href="/2017/11/19/网络安全实验室-基础关-writeup/#more">Read More</a>
+          <a href="/2018/08/15/XMan-ELSE（一）/#more">Read More</a>
         </p>
       
     </div>
@@ -644,7 +500,7 @@ Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTVjAxV2JETlhhMUpUVmpBeFYy......  
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/is/">is</a></li></ul>
 
     </footer>
   </div>
@@ -654,7 +510,7 @@ Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTVjAxV2JETlhhMUpUVmpBeFYy......  
 <!-- Table of Contents -->
 
   
-    <article id="post-Windows下利用hexo和github搭建博客"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-XMan-Android（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -662,7 +518,7 @@ Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTVjAxV2JETlhhMUpUVmpBeFYy......  
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2017/11/18/Windows下利用hexo和github搭建博客/">Windows下利用hexo和github搭建博客</a>
+      <a class="article-title" href="/2018/08/13/XMan-Android（二）/">XMan Android（二）</a>
     </h1>
   
 
@@ -670,8 +526,8 @@ Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTVjAxV2JETlhhMUpUVmpBeFYy......  
     
     <div class="article-meta">
       
-	<a href="/2017/11/18/Windows下利用hexo和github搭建博客/" class="article-date">
-	  <time datetime="2017-11-18T14:12:54.000Z" itemprop="datePublished">2017-11-18</time>
+	<a href="/2018/08/13/XMan-Android（二）/" class="article-date">
+	  <time datetime="2018-08-13T13:17:34.000Z" itemprop="datePublished">2018-08-13</time>
 	</a>
 
       
@@ -679,19 +535,36 @@ Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTVjAxV2JETlhhMUpUVmpBeFYy......  
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>记录下在windows下搭建博客的步骤。</p>
-        <!-- 记录下在windows下搭建博客的步骤。
+        <p>关于Android方面的漏洞挖掘。</p>
+        <!-- 关于Android方面的漏洞挖掘。
 
-下载安装gitgit下载地址
-下载安装node.jsnode.js下载地址
-github账号注册和新建仓库仓库名必须为“账户名.github.io”，勾选“Initialize this repository with a README”
-安装hexo通过命令行输入
-1npm install hexo -g
-注：-g是指全局安装hexo。
-再输入
-......  -->
+Android应用层安全模型文件存储
+内部存储
+保存应用的私有文件，随应用卸载而删除
+应用的私有缓存数据
+
+
+外部存储
+全局范围内可读写，需要申请EXTERNAL_STORAGE权限
+
+
+外置存储
+可移除Sdcard
+
+
+私有存储
+公共存储
+
+使用内部存储
+内部存储写文件
+读文件
+缓存文件
+
+外部存储
+获取权限
+使用getExternalStorageS......  -->
         <p class="article-more-link">
-          <a href="/2017/11/18/Windows下利用hexo和github搭建博客/#more">Read More</a>
+          <a href="/2018/08/13/XMan-Android（二）/#more">Read More</a>
         </p>
       
     </div>
@@ -699,7 +572,179 @@ github账号注册和新建仓库仓库名必须为“账户名.github.io”，�
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-【未完成】2018-XMan个人排位赛-review"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/11/【未完成】2018-XMan个人排位赛-review/">2018-XMan个人排位赛-review</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/11/【未完成】2018-XMan个人排位赛-review/" class="article-date">
+	  <time datetime="2018-08-11T12:18:08.000Z" itemprop="datePublished">2018-08-11</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>唉pwn还是没有入门。</p>
+        <!-- 唉pwn还是没有入门。
+
+MISCFILE用DiskGenius恢复磁盘：
+
+XMAN通行证不同的网站解密结果竟然不一样。最后发现这个网站还行。
+1a2FuYmJyZ2doamx7emJfX19ffXZ0bGFsbg==
+第一眼就知道先是base64：
+1kanbbrgghjl&#123;zb____&#125;vtlaln
+栅栏7栏加密：
+1kzna&#123;blnl_abj_lbh_t......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/11/【未完成】2018-XMan个人排位赛-review/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-PWN（五）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/09/XMan-PWN（五）/">XMan PWN（五）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/09/XMan-PWN（五）/" class="article-date">
+	  <time datetime="2018-08-09T01:08:59.000Z" itemprop="datePublished">2018-08-09</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>swing大佬教漏洞挖掘（Vulnerability Discovering）。</p>
+        <!-- swing大佬教漏洞挖掘（Vulnerability Discovering）。
+
+Data-Flow Analysis数据流分析指的是一组用来获取有关数据如何沿着程序执行路径流动的相关信息的技术。
+数据流分析的目的是提供一个过程（或一大段程序）如何操纵器数据的全局信息。
+根据对程序路径的分析精度分类
+流不敏感分析（flow insensitive）：不考虑语句的先后顺序，按照程序语句的物理......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/09/XMan-PWN（五）/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-PWN（四）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/08/XMan-PWN（四）/">XMan PWN（四）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/08/XMan-PWN（四）/" class="article-date">
+	  <time datetime="2018-08-08T06:17:21.000Z" itemprop="datePublished">2018-08-08</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>NONICK师傅神仙上课，win下的pwn是真的难。</p>
+        <!-- NONICK师傅神仙上课，win下的pwn是真的难。
+
+BasicsSome Tools
+IDA Pro
+X64 DBG
+WinDBG
+Mona
+
+PE Format
+
+PE Header
+IAT（Import Address Table）
+EAT（Export Address Table）
+Section Table
+
+
+
+PE Memory Layout
+
+Basic DLLS
+NTDL......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/08/XMan-PWN（四）/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
 
     </footer>
   </div>
@@ -713,7 +758,7 @@ github账号注册和新建仓库仓库名必须为“账户名.github.io”，�
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -728,7 +773,7 @@ github账号注册和新建仓库仓库名必须为“账户名.github.io”，�
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2017 - 2018 AssassinQ All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -880,7 +925,7 @@ github账号注册和新建仓库仓库名必须为“账户名.github.io”，�
             AssassinQ
           </div>
           <div class="panel-body">
-            Copyright © 2018 Q14NF3111 All Rights Reserved.
+            Copyright © 2019 Q14NF3111 All Rights Reserved.
           </div>
         </div>
       </div>

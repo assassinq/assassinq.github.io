@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>逆向入门（一） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfre" />
+  
+  
+  
+  
+  <meta name="description" content="基础汇编知识以及OD的使用。">
+<meta name="keywords" content="ctf,re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向入门（一）">
+<meta property="og:url" content="http://AssassinQ.com/2018/07/01/逆向入门（一）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="基础汇编知识以及OD的使用。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/RE/一/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/RE/一/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/RE/一/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/RE/一/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/RE/一/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/BIN集训/RE/一/6.png">
+<meta property="og:updated_time" content="2019-02-03T09:40:54.973Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="逆向入门（一）">
+<meta name="twitter:description" content="基础汇编知识以及OD的使用。">
+<meta name="twitter:image" content="http://assassinq.com/pics/BIN集训/RE/一/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-逆向入门（一）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      逆向入门（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/01/逆向入门（一）/" class="article-date">
+	  <time datetime="2018-07-01T05:26:43.000Z" itemprop="datePublished">2018-07-01</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>基础汇编知识以及OD的使用。</p>
+<a id="more"></a>
+<h1 id="数值表示"><a href="#数值表示" class="headerlink" title="数值表示"></a>数值表示</h1><p>二进制-b（binary）、十进制-d（decimalism）、十六进制-h（hexadecimal）</p>
+<p>字长：</p>
+<blockquote>
+<ul>
+<li>bit：位</li>
+<li>byte：字节–1byte=8bit</li>
+<li>word：字–1word=2byte=16bit</li>
+<li>dword：双字–1dword=2word=4byte=32bit</li>
+<li>qword：四字–1qword=2dword=4word=8byte=64bit</li>
+</ul>
+</blockquote>
+<h1 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h1><blockquote>
+<ul>
+<li>EAX：累加器（accumulator），是加法乘法指令的缺省寄存器。还可以用来存储函数返回值</li>
+<li>ECX：重复REP和LOOP指令的计数器（counter）</li>
+<li><strong>EDX</strong>：用于存放整数除法产生的余数</li>
+<li>EBX：在内存寻址时用来存放基地址（base）</li>
+<li>ESP：当前线程的栈顶指针，压入栈的数据越多，ESP越小，每入栈一次减小4字节</li>
+<li>EBP：当前线程的栈底指针</li>
+<li>ESI/EDI：源/目标索引寄存器，字符串操作中，DS:ESI指向源串，ES:EDI指向目标串。</li>
+<li>EIP：存放下一个CPU指令的内存地址，执行完后读取下一指令</li>
+</ul>
+</blockquote>
+<h1 id="标志寄存器"><a href="#标志寄存器" class="headerlink" title="标志寄存器"></a>标志寄存器</h1><blockquote>
+<ul>
+<li>CF：进位标志（可检查无符号操作是否溢出）</li>
+<li>OF：零标志</li>
+<li>SF：符号标志</li>
+<li>PF：溢出标志（补码溢出）</li>
+</ul>
+</blockquote>
+<h1 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h1><blockquote>
+<ul>
+<li>立即数寻址：MOV EAX, 123H</li>
+<li>寄存器寻址：MOV EAX, EBX（EBX中存放操作数）</li>
+<li>直接寻址：MOV EAX, [12345678H]（操作数以[]为地址）</li>
+<li>寄存器间接寻址：MOV EAX, [EBX]（操作数的地址为EBX中存储的值）</li>
+</ul>
+</blockquote>
+<h1 id="基本汇编指令"><a href="#基本汇编指令" class="headerlink" title="基本汇编指令"></a>基本汇编指令</h1><h2 id="数据传输"><a href="#数据传输" class="headerlink" title="数据传输"></a>数据传输</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">MOV</td>
+<td style="text-align:center">赋值</td>
+</tr>
+<tr>
+<td style="text-align:center">PUSH</td>
+<td style="text-align:center">入栈</td>
+</tr>
+<tr>
+<td style="text-align:center">POP</td>
+<td style="text-align:center">出栈</td>
+</tr>
+<tr>
+<td style="text-align:center">LEA</td>
+<td style="text-align:center">取地址</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>MOVSX</strong></td>
+<td style="text-align:center">符号传送</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>PUSHAD</strong></td>
+<td style="text-align:center">将所有32位通用寄存器压入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>POPAD</strong></td>
+<td style="text-align:center">将所有32位通用寄存器取出栈</td>
+</tr>
+</tbody>
+</table>
+<h2 id="算术运算"><a href="#算术运算" class="headerlink" title="算术运算"></a><strong>算术运算</strong></h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:center">加法</td>
+</tr>
+<tr>
+<td style="text-align:center">INC</td>
+<td style="text-align:center">自加</td>
+</tr>
+<tr>
+<td style="text-align:center">SUB</td>
+<td style="text-align:center">减法</td>
+</tr>
+<tr>
+<td style="text-align:center">DEC</td>
+<td style="text-align:center">自减</td>
+</tr>
+<tr>
+<td style="text-align:center">CMP</td>
+<td style="text-align:center">比较</td>
+</tr>
+<tr>
+<td style="text-align:center">MUL</td>
+<td style="text-align:center">乘法</td>
+</tr>
+<tr>
+<td style="text-align:center">DIV</td>
+<td style="text-align:center">除法</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>IDIV</strong></td>
+<td style="text-align:center">符号整除</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>IMUL</strong></td>
+<td style="text-align:center">符号乘法</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>NEG</strong></td>
+<td style="text-align:center">求补</td>
+</tr>
+</tbody>
+</table>
+<h2 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">AND</td>
+<td style="text-align:center">与运算</td>
+</tr>
+<tr>
+<td style="text-align:center">OR</td>
+<td style="text-align:center">或运算</td>
+</tr>
+<tr>
+<td style="text-align:center">NOT</td>
+<td style="text-align:center">非运算</td>
+</tr>
+<tr>
+<td style="text-align:center">XOR</td>
+<td style="text-align:center">异或运算</td>
+</tr>
+<tr>
+<td style="text-align:center">TEST</td>
+<td style="text-align:center">与运算（只对标志位修改，对操作数没有影响）</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>SHL</strong></td>
+<td style="text-align:center">逻辑左移</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>SAL</strong></td>
+<td style="text-align:center">算术左移</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>SHR</strong></td>
+<td style="text-align:center">逻辑右移</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>SAR</strong></td>
+<td style="text-align:center">算术右移</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>ROL</strong></td>
+<td style="text-align:center">循环左移</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>ROR</strong></td>
+<td style="text-align:center">循环右移</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>RCL</strong></td>
+<td style="text-align:center">进位循环左移</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>RCR</strong></td>
+<td style="text-align:center">进位循环右移</td>
+</tr>
+</tbody>
+</table>
+<h2 id="转移指令"><a href="#转移指令" class="headerlink" title="转移指令"></a>转移指令</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">JMP</td>
+<td style="text-align:center">跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JA</td>
+<td style="text-align:center">大于时跳转（&gt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNA</td>
+<td style="text-align:center">不大于时跳转（&lt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JAE</td>
+<td style="text-align:center">大于等于时跳转（&gt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JB</td>
+<td style="text-align:center">小于时跳转（&lt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNB</td>
+<td style="text-align:center">不小于时跳转（&gt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JBE</td>
+<td style="text-align:center">小于等于时跳转（&lt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JE</td>
+<td style="text-align:center">相等时跳转（==）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNE</td>
+<td style="text-align:center">不等于时跳转（!=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNBE</td>
+<td style="text-align:center">不小于等于时跳转（&gt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JG</td>
+<td style="text-align:center">大于时跳转（有符号）（&gt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNG</td>
+<td style="text-align:center">不大于时跳转（有符号）（&lt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JGE</td>
+<td style="text-align:center">大于等于时跳转（有符号）（&gt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JL</td>
+<td style="text-align:center">小于时跳转（有符号）（&lt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNL</td>
+<td style="text-align:center">不小于时跳转（有符号）（&gt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JLE</td>
+<td style="text-align:center">小于等于时跳转（有符号）（&lt;=）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNGE</td>
+<td style="text-align:center">不大于等于时跳转（有符号）（&lt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JNLE</td>
+<td style="text-align:center">不小于等于时跳转（有符号）（&gt;）</td>
+</tr>
+<tr>
+<td style="text-align:center">JZ</td>
+<td style="text-align:center">ZF为0时跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JNZ</td>
+<td style="text-align:center">ZF不为0时跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JS</td>
+<td style="text-align:center">有符号时跳转</td>
+</tr>
+<tr>
+<td style="text-align:center">JNS</td>
+<td style="text-align:center">无符号时跳转</td>
+</tr>
+</tbody>
+</table>
+<p>JGE：Jump if Greater or Equal</p>
+<h2 id="循环指令"><a href="#循环指令" class="headerlink" title="循环指令"></a>循环指令</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">LOOP</td>
+<td style="text-align:center">循环（改变ECX的值）</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>JCXZ</strong></td>
+<td style="text-align:center">循环（不改变ECX的值）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="串指令"><a href="#串指令" class="headerlink" title="串指令"></a>串指令</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>MOVS[B/W/D]</strong></td>
+<td style="text-align:center">传送字节串/字串/双字串</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>CMPS[B/W/D]</strong></td>
+<td style="text-align:center">比较字节串/字串/双字串</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>SCAS[B/W/D]</strong></td>
+<td style="text-align:center">扫描字节串/字串/双字串</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>LODS[B/W/D]</strong></td>
+<td style="text-align:center">加载源变址字节串/字串/双字串</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>STOS[B/W/D]</strong></td>
+<td style="text-align:center">保存字节串/字串/双字串</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>REP</strong></td>
+<td style="text-align:center">重复</td>
+</tr>
+</tbody>
+</table>
+<h2 id="其他指令"><a href="#其他指令" class="headerlink" title="其他指令"></a>其他指令</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">INT</td>
+<td style="text-align:center">终止程序</td>
+</tr>
+<tr>
+<td style="text-align:center">CALL</td>
+<td style="text-align:center">调用函数</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>RET</strong></td>
+<td style="text-align:center">过程返回</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>NOP</strong></td>
+<td style="text-align:center">空</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>CLD</strong></td>
+<td style="text-align:center">方向清零</td>
+</tr>
+</tbody>
+</table>
+<h1 id="OD初探"><a href="#OD初探" class="headerlink" title="OD初探"></a>OD初探</h1><p>静态调试与动态调试：<br>静态调试就是在不执行程序的情况下，人工地对源代码的语法和逻辑分析；动态调试则是在编译、链接、运行的整个过程中，观察如寄存器内容、函数执行情况等状态来分析调试</p>
+<blockquote>
+<ul>
+<li>L(og):日志信息</li>
+<li>E(xecute modules):模块信息</li>
+<li>M(emory map):内存映射信息</li>
+<li>T(hreads):线程信息</li>
+<li>W(indows):窗口信息</li>
+<li>H(andles):句柄信息</li>
+<li>C:当前线程上下文</li>
+<li>K:调用链信息</li>
+<li>……</li>
+</ul>
+</blockquote>
+<h1 id="OD调试快捷键"><a href="#OD调试快捷键" class="headerlink" title="OD调试快捷键"></a>OD调试快捷键</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ctrl+g</td>
+<td style="text-align:center">跳转到指定位置</td>
+</tr>
+<tr>
+<td style="text-align:center">ctrl+e</td>
+<td style="text-align:center">编辑指定区域</td>
+</tr>
+<tr>
+<td style="text-align:center">space</td>
+<td style="text-align:center">编辑汇编代码</td>
+</tr>
+<tr>
+<td style="text-align:center">f4</td>
+<td style="text-align:center">执行到光标位置处</td>
+</tr>
+<tr>
+<td style="text-align:center">f2</td>
+<td style="text-align:center">断点（Int3）</td>
+</tr>
+<tr>
+<td style="text-align:center">;</td>
+<td style="text-align:center">添加注释</td>
+</tr>
+<tr>
+<td style="text-align:center">:</td>
+<td style="text-align:center">添加标签名</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">返回到正在运行的地方</td>
+</tr>
+<tr>
+<td style="text-align:center">-(+)</td>
+<td style="text-align:center">返回到上（下）一个光标处</td>
+</tr>
+<tr>
+<td style="text-align:center">enter</td>
+<td style="text-align:center">跟随跳转/跟入调用内部</td>
+</tr>
+<tr>
+<td style="text-align:center">f3</td>
+<td style="text-align:center">打开一个新的可执行程序</td>
+</tr>
+<tr>
+<td style="text-align:center">ctrl+f2</td>
+<td style="text-align:center">重新运行当前调试的程序</td>
+</tr>
+<tr>
+<td style="text-align:center">f9</td>
+<td style="text-align:center">运行选定的程序进行调试</td>
+</tr>
+<tr>
+<td style="text-align:center">f12</td>
+<td style="text-align:center">暂时停止被调试程序的执行</td>
+</tr>
+<tr>
+<td style="text-align:center">f7</td>
+<td style="text-align:center">单步进入被调试程序的call中</td>
+</tr>
+<tr>
+<td style="text-align:center">f8</td>
+<td style="text-align:center">步过被调试程序的call</td>
+</tr>
+<tr>
+<td style="text-align:center">ctrl+f9</td>
+<td style="text-align:center">执行直到返回</td>
+</tr>
+</tbody>
+</table>
+<h1 id="第一次调试（helloworld-exe）"><a href="#第一次调试（helloworld-exe）" class="headerlink" title="第一次调试（helloworld.exe）"></a>第一次调试（helloworld.exe）</h1><p>关于PE文件的EntryPoint。打开CFF，将PE文件拖入：</p>
+<p><img src="/pics/BIN集训/RE/一/1.png" alt="拖入CFF后的PE文件"></p>
+<p>其中，ImageBase和AddressOfEntryPoint指向的地址即为EntryPoint</p>
+<h2 id="找到main函数"><a href="#找到main函数" class="headerlink" title="找到main函数"></a>找到main函数</h2><ul>
+<li>代码执行：通过F7单步步入，一步一步执行到弹框跳出时，进入main函数</li>
+<li>层层推进：通过F8单步步过，快速跳过每个函数，跳出弹框后，进入main函数</li>
+<li>字符串检索：根据弹框上方的字符串，右键智能搜索查找，找到后直接进入main函数</li>
+<li>API检索法：通过运行程序可以判断文件句柄是MessageBox，在模块中找到后依次设置断点，运行程序，在主函数断电处停下</li>
+<li>特征法：根据C语言的反汇编特征进行判断</li>
+</ul>
+<h2 id="修改内容"><a href="#修改内容" class="headerlink" title="修改内容"></a>修改内容</h2><p><img src="/pics/BIN集训/RE/一/2.png" alt="找到main函数之后定位到其地址"></p>
+<p><img src="/pics/BIN集训/RE/一/3.png" alt="修改弹窗信息后保存"></p>
+<p><img src="/pics/BIN集训/RE/一/4.png" alt="修改成功后的弹窗"></p>
+<p><img src="/pics/BIN集训/RE/一/5.png" alt="直接修改汇编语言"></p>
+<h1 id="Fact-exe"><a href="#Fact-exe" class="headerlink" title="Fact.exe"></a>Fact.exe</h1><p><img src="/pics/BIN集训/RE/一/6.png" alt="问题在这里"></p>
+<p>jge表示大于或等于时跳转。当输入数字n时，EDX存放值n，ECX中的值初始化为1，[local.3]中的值也为1，每次循环时，ECX中的值自加一，[local.3]的值为自身再乘上ECX中的值。当ECX等于EDX时跳出循环，而不再进行下一次乘法，最后[local.3]中的值为(n-1)!，故应该将jge修改为jg即可</p>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://www.cnblogs.com/qq78292959/archive/2012/07/20/2600865.html" target="_blank" rel="noopener">https://www.cnblogs.com/qq78292959/archive/2012/07/20/2600865.html</a><br><a href="https://blog.csdn.net/qq_34717555/article/details/77727176" target="_blank" rel="noopener">https://blog.csdn.net/qq_34717555/article/details/77727176</a><br><a href="https://blog.csdn.net/hanchaoman/article/details/9187093" target="_blank" rel="noopener">https://blog.csdn.net/hanchaoman/article/details/9187093</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/02/WEB入门（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          WEB入门（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/19/Unix-Linux下实现Windows中conio-h头文件部分函数/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Unix/Linux下实现Windows中conio.h头文件部分函数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数值表示"><span class="nav-number">1.</span> <span class="nav-text">数值表示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通用寄存器"><span class="nav-number">2.</span> <span class="nav-text">通用寄存器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标志寄存器"><span class="nav-number">3.</span> <span class="nav-text">标志寄存器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#寄存器寻址"><span class="nav-number">4.</span> <span class="nav-text">寄存器寻址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本汇编指令"><span class="nav-number">5.</span> <span class="nav-text">基本汇编指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据传输"><span class="nav-number">5.1.</span> <span class="nav-text">数据传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算术运算"><span class="nav-number">5.2.</span> <span class="nav-text">算术运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑运算"><span class="nav-number">5.3.</span> <span class="nav-text">逻辑运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转移指令"><span class="nav-number">5.4.</span> <span class="nav-text">转移指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环指令"><span class="nav-number">5.5.</span> <span class="nav-text">循环指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串指令"><span class="nav-number">5.6.</span> <span class="nav-text">串指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他指令"><span class="nav-number">5.7.</span> <span class="nav-text">其他指令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OD初探"><span class="nav-number">6.</span> <span class="nav-text">OD初探</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OD调试快捷键"><span class="nav-number">7.</span> <span class="nav-text">OD调试快捷键</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第一次调试（helloworld-exe）"><span class="nav-number">8.</span> <span class="nav-text">第一次调试（helloworld.exe）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#找到main函数"><span class="nav-number">8.1.</span> <span class="nav-text">找到main函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改内容"><span class="nav-number">8.2.</span> <span class="nav-text">修改内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fact-exe"><span class="nav-number">9.</span> <span class="nav-text">Fact.exe</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">10.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>xman android（一） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfandroid" />
+  
+  
+  
+  
+  <meta name="description" content="jr大佬带我学android。">
+<meta name="keywords" content="ctf,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMan Android（一）">
+<meta property="og:url" content="http://AssassinQ.com/2018/08/04/XMan-Android（一）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="jr大佬带我学android。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/ANDROID/1.jpg">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/ANDROID/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/ANDROID/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/第三届XMAN夏令营/ANDROID/4.png">
+<meta property="og:updated_time" content="2018-10-07T09:46:22.524Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XMan Android（一）">
+<meta name="twitter:description" content="jr大佬带我学android。">
+<meta name="twitter:image" content="http://assassinq.com/pics/第三届XMAN夏令营/ANDROID/1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-XMan-Android（一）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      XMan Android（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/04/XMan-Android（一）/" class="article-date">
+	  <time datetime="2018-08-04T05:34:56.000Z" itemprop="datePublished">2018-08-04</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>jr大佬带我学android。</p>
+<a id="more"></a>
+<h1 id="Android生态圈"><a href="#Android生态圈" class="headerlink" title="Android生态圈"></a>Android生态圈</h1><ul>
+<li>由Google领导开发，基于Linux内核的开源操作系统</li>
+<li>碎片化问题严重</li>
+<li>应用市场管理不严格</li>
+<li>厂商安全补丁推送不及时，覆盖率低</li>
+<li>开放、分享、可定制化程度高</li>
+</ul>
+<h1 id="Android整体架构"><a href="#Android整体架构" class="headerlink" title="Android整体架构"></a>Android整体架构</h1><p><img src="/pics/第三届XMAN夏令营/ANDROID/1.jpg" alt="Android整体架构"></p>
+<h2 id="应用程序层"><a href="#应用程序层" class="headerlink" title="应用程序层"></a>应用程序层</h2><ul>
+<li>Android应用程序以Java为开发语言</li>
+<li>支持C/C++</li>
+</ul>
+<h2 id="Framework层"><a href="#Framework层" class="headerlink" title="Framework层"></a>Framework层</h2><ul>
+<li>为应用程序开发提供API</li>
+<li>大部分使用Java编写</li>
+<li>例如：Resource Manage、Location Manager、Telephony Manager</li>
+</ul>
+<h2 id="Android-Runtime"><a href="#Android-Runtime" class="headerlink" title="Android Runtime"></a>Android Runtime</h2><ul>
+<li>提供了Java编程语言核心库的大多数功能</li>
+<li>应用程序都对应独立的虚拟机</li>
+</ul>
+<h2 id="系统运行库"><a href="#系统运行库" class="headerlink" title="系统运行库"></a>系统运行库</h2><ul>
+<li>C/C++库，为开发者提供服务</li>
+<li>例如：SQLite、Webkit</li>
+</ul>
+<h2 id="硬件抽象层"><a href="#硬件抽象层" class="headerlink" title="硬件抽象层"></a>硬件抽象层</h2><ul>
+<li>把Android framework与Linux kernel隔开</li>
+<li>Linux Kernel遵循GPL协议</li>
+<li>驱动分为user space和kernel space</li>
+</ul>
+<h2 id="Linux-Kernel"><a href="#Linux-Kernel" class="headerlink" title="Linux Kernel"></a>Linux Kernel</h2><ul>
+<li>硬件驱动、网络、文件系统、进程管理</li>
+<li>对kernel进行了许多其他修改</li>
+</ul>
+<h1 id="Android安全模型"><a href="#Android安全模型" class="headerlink" title="Android安全模型"></a>Android安全模型</h1><h2 id="基于Linux的用户隔离"><a href="#基于Linux的用户隔离" class="headerlink" title="基于Linux的用户隔离"></a>基于Linux的用户隔离</h2><ul>
+<li>Linux：用户被分配自己的UID，程序可以以指定UID运行</li>
+<li>Android：每个应用程序都有UID，UID被用于区分应用程序</li>
+<li>应用有自己的数据存放目录</li>
+<li>存在共享UID的特殊情况（资源共享）</li>
+</ul>
+<h2 id="应用权限"><a href="#应用权限" class="headerlink" title="应用权限"></a>应用权限</h2><ul>
+<li>细粒度控制（网络、硬件、敏感数据）</li>
+<li>应用通过Manifest.xml申请权限</li>
+<li>权限检查可以由内核进行，也可以由Android系统执行</li>
+</ul>
+<h2 id="代码签名"><a href="#代码签名" class="headerlink" title="代码签名"></a>代码签名</h2><ul>
+<li>APK必须有开发者的签名</li>
+</ul>
+<h2 id="SELinux"><a href="#SELinux" class="headerlink" title="SELinux"></a>SELinux</h2><ul>
+<li>Security Enhancements for Android</li>
+<li>强制访问控制（MAC）</li>
+<li>核心系统守护进程和用户应用隔离到不同domain</li>
+</ul>
+<h2 id="系统更新（刷机）"><a href="#系统更新（刷机）" class="headerlink" title="系统更新（刷机）"></a>系统更新（刷机）</h2><ul>
+<li>解锁、BootLoader、Recovery</li>
+<li>recovery是一个单独小型system，可以访问所有设备分区</li>
+<li>通常只允许签名验证通过的刷写</li>
+<li>解锁：允许替换recovery和系统镜像（将会清除所有用户数据）</li>
+</ul>
+<h1 id="APK文件结构"><a href="#APK文件结构" class="headerlink" title="APK文件结构"></a>APK文件结构</h1><p>本质上是一个zip压缩包：</p>
+<ul>
+<li>Manifest.xml：对应用的整体描述和定义</li>
+<li>META-INF：保存签名信息</li>
+<li>classes.dex：Java代码编译后生成的可执行文件</li>
+<li>res目录：存放可编译资源文件</li>
+<li>assets目录：存放原生资源文件</li>
+<li>lib目录：存放C/C++代码编译后的so文件</li>
+</ul>
+<h2 id="dex文件"><a href="#dex文件" class="headerlink" title="dex文件"></a>dex文件</h2><ul>
+<li>Android可执行文件</li>
+<li>Java代码编译而来</li>
+<li>包含Dalvik指令集</li>
+</ul>
+<h2 id="smalii代码"><a href="#smalii代码" class="headerlink" title="smalii代码"></a>smalii代码</h2><p>由字节码反汇编得到的可阅读代码。每一个smali文件代表一个类。</p>
+<ul>
+<li>.class &lt;权限&gt;[修饰]&lt;类名&gt;</li>
+<li>.super &lt;父类名&gt;</li>
+<li>.source &lt;源文件名&gt;</li>
+<li>.field 字段定义</li>
+<li>.method 方法定义</li>
+</ul>
+<h1 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h1><ul>
+<li>Java和Native沟通的桥梁</li>
+<li>注册：静态注册和动态注册</li>
+<li>JNI_OnLoad：加载so文件时执行</li>
+</ul>
+<h1 id="加壳技术"><a href="#加壳技术" class="headerlink" title="加壳技术"></a>加壳技术</h1><ul>
+<li>反编译代价低 =&gt; 利用动态代码加载技术 =&gt; 隐藏原本的dex文件</li>
+<li>动态加载过程隐蔽，且复杂度高</li>
+<li>增加完整性检查，反调试措施</li>
+</ul>
+<p>Android提供的动态加载方法：</p>
+<ul>
+<li>DexClassLoader：apk/jar/dex，可以从SD卡加载</li>
+<li>PathClassLoader：只能加载已安装到系统中（/data/app）的apk文件</li>
+</ul>
+<h1 id="相关工具在命令行的使用"><a href="#相关工具在命令行的使用" class="headerlink" title="相关工具在命令行的使用"></a>相关工具在命令行的使用</h1><h2 id="apktool"><a href="#apktool" class="headerlink" title="apktool"></a>apktool</h2><p>解包<code>apk</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool_2.3.0.jar d *.apk -o [output file]</span><br></pre></td></tr></table></figure>
+<p>打包<code>apk</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool_2.3.0.jar b [output file]</span><br></pre></td></tr></table></figure>
+<h2 id="smali-baksmali"><a href="#smali-baksmali" class="headerlink" title="smali/baksmali"></a>smali/baksmali</h2><p><code>dex</code>文件转换成<code>smali</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar baksmali-2.1.3.jar -o [output file] *.dex</span><br></pre></td></tr></table></figure>
+<p><code>smali</code>文件转换成<code>dex</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar smali-2.1.3.jar -o *.dex [smali file]</span><br></pre></td></tr></table></figure>
+<h2 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar"></a>dex2jar</h2><p>反编译<code>apk</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d2j-dex2jar.bat classes.dex</span><br></pre></td></tr></table></figure>
+<h1 id="com-j-crackme-apk"><a href="#com-j-crackme-apk" class="headerlink" title="com.j.crackme.apk"></a>com.j.crackme.apk</h1><p>拖进jadx，在<code>MainActivity</code>中看出逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle bundle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(bundle);</span><br><span class="line">        setContentView((<span class="keyword">int</span>) R.layout.activity_main);</span><br><span class="line">        ((Button) findViewById(R.id.button)).setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                MainActivity.<span class="keyword">this</span>.a();</span><br><span class="line">                EditText editText = (EditText) MainActivity.<span class="keyword">this</span>.findViewById(R.id.edit_text);</span><br><span class="line">                String obj = editText.getText().toString();</span><br><span class="line">                <span class="keyword">if</span> (MainActivity.<span class="keyword">this</span>.clazz != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> (Base64.encodeToString(((IMyClass) MainActivity.<span class="keyword">this</span>.clazz.newInstance()).check(obj), <span class="number">0</span>).equals(<span class="string">"+sfQ39PX3eGOzOGNyt/Kj90=\n"</span>)) &#123;</span><br><span class="line">                            Toast.makeText(MainActivity.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"Good job"</span>, <span class="number">0</span>).show();</span><br><span class="line">                            editText.setText(String.format(<span class="string">"flag&#123;%s&#125;"</span>, <span class="keyword">new</span> Object[]&#123;obj&#125;));</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            Toast.makeText(MainActivity.<span class="keyword">this</span>.getApplicationContext(), <span class="string">"Why you say so"</span>, <span class="number">0</span>).show();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (View view2) &#123;</span><br><span class="line">                        view2.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.clazz == <span class="keyword">null</span> &amp;&amp; c()) &#123;</span><br><span class="line">            StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            stringBuilder.append(getApplicationInfo().dataDir);</span><br><span class="line">            stringBuilder.append(File.separator);</span><br><span class="line">            stringBuilder.append(<span class="string">"files"</span>);</span><br><span class="line">            stringBuilder.append(File.separator);</span><br><span class="line">            stringBuilder.append(<span class="string">"plugin.jar"</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.clazz = <span class="keyword">new</span> DexClassLoader(<span class="keyword">new</span> File(stringBuilder.toString()).getAbsolutePath(), getApplicationInfo().dataDir, <span class="keyword">null</span>, getClassLoader()).loadClass(<span class="string">"com.j.base.MyClass"</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">c</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">byte</span>[] d = d(getAssets().open(<span class="string">"plugin"</span>));</span><br><span class="line">            <span class="keyword">if</span> (d == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; d.length; i++) &#123;</span><br><span class="line">                d[i] = (<span class="keyword">byte</span>) (d[i] ^ <span class="number">239</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            BufferedOutputStream bufferedOutputStream = <span class="keyword">new</span> BufferedOutputStream(openFileOutput(<span class="string">"plugin.jar"</span>, <span class="number">0</span>));</span><br><span class="line">            bufferedOutputStream.write(d);</span><br><span class="line">            bufferedOutputStream.flush();</span><br><span class="line">            bufferedOutputStream.close();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] d(InputStream inputStream) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ByteArrayOutputStream byteArrayOutputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            <span class="keyword">byte</span>[] bArr = <span class="keyword">new</span> <span class="keyword">byte</span>[AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT];</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> read = inputStream.read(bArr);</span><br><span class="line">                <span class="keyword">if</span> (read != -<span class="number">1</span>) &#123;</span><br><span class="line">                    byteArrayOutputStream.write(bArr, <span class="number">0</span>, read);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    byteArrayOutputStream.flush();</span><br><span class="line">                    byteArrayOutputStream.close();</span><br><span class="line">                    inputStream.close();</span><br><span class="line">                    <span class="keyword">return</span> byteArrayOutputStream.toByteArray();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InputStream inputStream2) &#123;</span><br><span class="line">            inputStream2.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>onClick</code>中先调用了<code>a()</code>，然后在<code>a()</code>中调用了<code>c()</code>。<code>c()</code>中打开了目录下的一个<code>plugin</code>文件，对其逐字节和数字<code>239</code>进行异或，生成一个<code>plugin.jar</code>，然后调用其中的<code>check()</code>函数。<code>d()</code>则用来检测读取文件是否正常。根据<code>check()</code>对输入字符串加密后，再经过Base64加密的值与<code>+sfQ39PX3eGOzOGNyt/Kj90=\n</code>相等即正确。</p>
+<p>根据<code>c()</code>，写出输出<code>plugin.jar</code>的脚本：</p>
+<p><img src="/pics/第三届XMAN夏令营/ANDROID/2.png" alt="脚本"></p>
+<p>然后将jar文件拖入jadx，得到<code>check()</code>的逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> <span class="keyword">implements</span> <span class="title">IMyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] check(String input) &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = input.getBytes();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bytes.length; i++) &#123;</span><br><span class="line">            bytes[i] = (<span class="keyword">byte</span>) (bytes[i] ^ <span class="number">190</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bytes;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后脚本得到flag：</p>
+<p><img src="/pics/第三届XMAN夏令营/ANDROID/3.png" alt="payload"></p>
+<h1 id="com-j-hiddendata-apk"><a href="#com-j-hiddendata-apk" class="headerlink" title="com.j.hiddendata.apk"></a>com.j.hiddendata.apk</h1><p>拿进jadx，在<code>MainActivity</code>中找到加密函数<code>check()</code>，但是加密函数存在于native层。可以在解压后的lib目录下将<code>.so</code>文件拖入ida：</p>
+<p><img src="/pics/第三届XMAN夏令营/ANDROID/4.png" alt="真正的加密函数不在这里"></p>
+<p>在<code>JNI_OnLoad</code>中找到加密函数，理清函数的逻辑：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">key_func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _BYTE *data; <span class="comment">// r14</span></span><br><span class="line">  __int64 index; <span class="comment">// rdi</span></span><br><span class="line">  <span class="keyword">char</span> *v2; <span class="comment">// rbx</span></span><br><span class="line">  <span class="keyword">void</span> *result; <span class="comment">// rax</span></span><br><span class="line"></span><br><span class="line">  data = <span class="built_in">malloc</span>(<span class="number">0x10</span>uLL);</span><br><span class="line">  index = <span class="number">0L</span>L;</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v2 = ori;</span><br><span class="line">    data[index] = keys[(<span class="keyword">signed</span> <span class="keyword">int</span>)index % <span class="number">4</span>] ^ (((<span class="keyword">unsigned</span> <span class="keyword">int</span>)(<span class="keyword">unsigned</span> __int8)ori[index] &gt;&gt; (<span class="keyword">signed</span> <span class="keyword">int</span>)index % <span class="number">4</span>) | (ori[index] &lt;&lt; (<span class="keyword">signed</span> <span class="keyword">int</span>)index / <span class="number">4</span>));</span><br><span class="line">    <span class="keyword">if</span> ( index == <span class="number">15</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> ( ++index == <span class="number">16</span> )</span><br><span class="line">      <span class="keyword">goto</span> LABEL_6;</span><br><span class="line">  &#125;</span><br><span class="line">  __android_log_print(</span><br><span class="line">    <span class="number">4L</span>L,</span><br><span class="line">    (__int64)<span class="string">"hidden"</span>,</span><br><span class="line">    (__int64)<span class="string">"%d %d %d"</span>,</span><br><span class="line">    (<span class="keyword">unsigned</span> __int8)(v2[<span class="number">15</span>] &gt;&gt; <span class="number">3</span>),</span><br><span class="line">    (<span class="keyword">unsigned</span> __int8)(<span class="number">8</span> * v2[<span class="number">15</span>]));</span><br><span class="line">LABEL_6:</span><br><span class="line">  result = &amp;after;</span><br><span class="line">  after = data;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段是关键函数，这里将<code>ori</code>和<code>keys</code>进行一系列移位和异或运算，并将结果赋值给<code>after</code>。</p>
+<p>下面对输入的字符串进行比较：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> __int64 __<span class="function">fastcall <span class="title">str_cmp</span><span class="params">(__m128 *a1, <span class="keyword">int</span> a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  _BOOL4 v2; <span class="comment">// ebp</span></span><br><span class="line">  __m128 *v3; <span class="comment">// rbx</span></span><br><span class="line">  __int64 v4; <span class="comment">// r8</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [rsp+0h] [rbp-98h]</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// [rsp+4h] [rbp-94h]</span></span><br><span class="line">  <span class="keyword">char</span> v8; <span class="comment">// [rsp+8h] [rbp-90h]</span></span><br><span class="line">  <span class="keyword">char</span> v9; <span class="comment">// [rsp+Ch] [rbp-8Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v10; <span class="comment">// [rsp+10h] [rbp-88h]</span></span><br><span class="line">  <span class="keyword">char</span> v11; <span class="comment">// [rsp+14h] [rbp-84h]</span></span><br><span class="line">  <span class="keyword">char</span> v12; <span class="comment">// [rsp+18h] [rbp-80h]</span></span><br><span class="line">  <span class="keyword">char</span> v13; <span class="comment">// [rsp+1Ch] [rbp-7Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v14; <span class="comment">// [rsp+20h] [rbp-78h]</span></span><br><span class="line">  <span class="keyword">char</span> v15; <span class="comment">// [rsp+24h] [rbp-74h]</span></span><br><span class="line">  <span class="keyword">char</span> v16; <span class="comment">// [rsp+28h] [rbp-70h]</span></span><br><span class="line">  <span class="keyword">char</span> v17; <span class="comment">// [rsp+2Ch] [rbp-6Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v18; <span class="comment">// [rsp+30h] [rbp-68h]</span></span><br><span class="line">  <span class="keyword">char</span> v19; <span class="comment">// [rsp+34h] [rbp-64h]</span></span><br><span class="line">  <span class="keyword">char</span> v20; <span class="comment">// [rsp+38h] [rbp-60h]</span></span><br><span class="line">  <span class="keyword">char</span> v21; <span class="comment">// [rsp+3Ch] [rbp-5Ch]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v22; <span class="comment">// [rsp+70h] [rbp-28h]</span></span><br><span class="line"></span><br><span class="line">  v22 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v2 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( a2 == <span class="number">16</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v3 = xor(a1);</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;s, <span class="string">"\\x%02x"</span>, LOBYTE(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v7, <span class="string">"\\x%02x"</span>, BYTE1(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v8, <span class="string">"\\x%02x"</span>, BYTE2(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v9, <span class="string">"\\x%02x"</span>, BYTE3(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v10, <span class="string">"\\x%02x"</span>, BYTE4(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v11, <span class="string">"\\x%02x"</span>, BYTE5(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v12, <span class="string">"\\x%02x"</span>, BYTE6(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v13, <span class="string">"\\x%02x"</span>, HIBYTE(v3-&gt;m128_u64[<span class="number">0</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v14, <span class="string">"\\x%02x"</span>, LOBYTE(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v15, <span class="string">"\\x%02x"</span>, BYTE1(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v16, <span class="string">"\\x%02x"</span>, BYTE2(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v17, <span class="string">"\\x%02x"</span>, BYTE3(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v18, <span class="string">"\\x%02x"</span>, BYTE4(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v19, <span class="string">"\\x%02x"</span>, BYTE5(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v20, <span class="string">"\\x%02x"</span>, BYTE6(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    <span class="built_in">sprintf</span>(&amp;v21, <span class="string">"\\x%02x"</span>, HIBYTE(v3-&gt;m128_u64[<span class="number">1</span>]));</span><br><span class="line">    __android_log_print(<span class="number">4L</span>L, (__int64)<span class="string">"hiddendata"</span>, (__int64)<span class="string">"%s"</span>, (__int64)&amp;s, v4);</span><br><span class="line">    v2 = <span class="built_in">memcmp</span>(final, v3, <span class="number">0x10</span>uLL) == <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">free</span>(v3);</span><br><span class="line">  &#125;</span><br><span class="line">  result = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="keyword">if</span> ( result == v22 )</span><br><span class="line">    result = (<span class="keyword">unsigned</span> <span class="keyword">int</span>)v2;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__m128 *__<span class="function">fastcall <span class="title">xor</span><span class="params">(__m128 *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  __m128 *result; <span class="comment">// rax</span></span><br><span class="line"></span><br><span class="line">  result = (__m128 *)<span class="built_in">malloc</span>(<span class="number">0x10</span>uLL);</span><br><span class="line">  *result = _mm_xor_ps((__m128)*after, *a1);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将<code>after</code>与<code>a1</code>（即输入的字符串）进行异或，再与<code>final</code>进行比较。</p>
+<p>其中<code>keys</code>、<code>ori</code>、<code>final</code>都能在内存中dump出来。最后写出解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ori = [<span class="number">0x41</span>, <span class="number">0xFF</span>, <span class="number">0xF3</span>, <span class="number">0xDB</span>, <span class="number">0x06</span>, <span class="number">0xB3</span>, <span class="number">0x69</span>, <span class="number">0xC2</span>, <span class="number">0x90</span>, <span class="number">0xA3</span>, <span class="number">0x21</span>, <span class="number">0x8F</span>, <span class="number">0x7B</span>, <span class="number">0x6D</span>, <span class="number">0x32</span>, <span class="number">0x8C</span>]</span><br><span class="line">keys = [<span class="number">0x56</span>, <span class="number">0xFC</span>, <span class="number">0xD8</span>, <span class="number">0x66</span>]</span><br><span class="line">final = [<span class="number">0x64</span>, <span class="number">0x32</span>, <span class="number">0x4A</span>, <span class="number">0xCD</span>, <span class="number">0x34</span>, <span class="number">0xE6</span>, <span class="number">0x5D</span>, <span class="number">0x82</span>, <span class="number">0xB6</span>, <span class="number">0x53</span>, <span class="number">0x0B</span>, <span class="number">0x39</span>, <span class="number">0xC8</span>, <span class="number">0xE7</span>, <span class="number">0x21</span>, <span class="number">0x71</span>]</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">    tmp = keys[i % <span class="number">4</span>] ^ ((ori[i] &gt;&gt; i % <span class="number">4</span>) &amp; <span class="number">0xFF</span> | (ori[i] &lt;&lt; i / <span class="number">4</span>) &amp; <span class="number">0xFF</span>)</span><br><span class="line">    ch = chr(tmp ^ final[i])</span><br><span class="line">    flag += ch</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<h2 id="JNI-string操作函数"><a href="#JNI-string操作函数" class="headerlink" title="JNI string操作函数"></a>JNI string操作函数</h2><ul>
+<li style="list-style: none"><input type="checkbox" checked> <code>jsize GetStringUTFLength(JNIEnv *env, jstring string);</code></li>
+</ul>
+<p>以字节为单位返回字符串的<code>UTF-8</code>长度。</p>
+<p>参数：</p>
+<ul>
+<li>env：JNI接口指针。</li>
+<li>string：Java字符串对象。</li>
+</ul>
+<p>返回值：返回字符串的<code>UTF-8</code>长度。</p>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> <code>const char * GetStringUTFChars(JNIEnv *env, jstring string,jboolean *isCopy);</code></li>
+</ul>
+<p>返回指向字符串的<code>UTF-8</code>字符数组的指针。该数组在被<code>ReleaseStringUTFChars()</code>释放前将一直有效。</p>
+<p>如果<code>isCopy</code>不是NULL，<code>*isCopy</code>在复制完成后即被设为JNI_TRUE。如果未复制，则设为JNI_FALSE。</p>
+<p>参数：</p>
+<ul>
+<li>env：JNI 接口指针。</li>
+<li>string：Java 字符串对象。</li>
+<li>isCopy：指向布尔值的指针。</li>
+</ul>
+<p>返回值：指向<code>UTF-8</code>字符串的指针。如果操作失败，则为NULL。</p>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> <code>mm_xor_si128(__m128i a , __m128i b )</code></li>
+</ul>
+<p>返回一个_m128i的寄存器i，将寄存器a和寄存器b对应的位进行按位异或运算。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/05/XMan-PWN（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XMan PWN（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/03/XMan-RE（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XMan RE（二）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android生态圈"><span class="nav-number">1.</span> <span class="nav-text">Android生态圈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android整体架构"><span class="nav-number">2.</span> <span class="nav-text">Android整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用程序层"><span class="nav-number">2.1.</span> <span class="nav-text">应用程序层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Framework层"><span class="nav-number">2.2.</span> <span class="nav-text">Framework层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Runtime"><span class="nav-number">2.3.</span> <span class="nav-text">Android Runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统运行库"><span class="nav-number">2.4.</span> <span class="nav-text">系统运行库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件抽象层"><span class="nav-number">2.5.</span> <span class="nav-text">硬件抽象层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-Kernel"><span class="nav-number">2.6.</span> <span class="nav-text">Linux Kernel</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android安全模型"><span class="nav-number">3.</span> <span class="nav-text">Android安全模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于Linux的用户隔离"><span class="nav-number">3.1.</span> <span class="nav-text">基于Linux的用户隔离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用权限"><span class="nav-number">3.2.</span> <span class="nav-text">应用权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码签名"><span class="nav-number">3.3.</span> <span class="nav-text">代码签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELinux"><span class="nav-number">3.4.</span> <span class="nav-text">SELinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统更新（刷机）"><span class="nav-number">3.5.</span> <span class="nav-text">系统更新（刷机）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#APK文件结构"><span class="nav-number">4.</span> <span class="nav-text">APK文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dex文件"><span class="nav-number">4.1.</span> <span class="nav-text">dex文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smalii代码"><span class="nav-number">4.2.</span> <span class="nav-text">smalii代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JNI"><span class="nav-number">5.</span> <span class="nav-text">JNI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加壳技术"><span class="nav-number">6.</span> <span class="nav-text">加壳技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关工具在命令行的使用"><span class="nav-number">7.</span> <span class="nav-text">相关工具在命令行的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apktool"><span class="nav-number">7.1.</span> <span class="nav-text">apktool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smali-baksmali"><span class="nav-number">7.2.</span> <span class="nav-text">smali/baksmali</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dex2jar"><span class="nav-number">7.3.</span> <span class="nav-text">dex2jar</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-crackme-apk"><span class="nav-number">8.</span> <span class="nav-text">com.j.crackme.apk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#com-j-hiddendata-apk"><span class="nav-number">9.</span> <span class="nav-text">com.j.hiddendata.apk</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI-string操作函数"><span class="nav-number">9.1.</span> <span class="nav-text">JNI string操作函数</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

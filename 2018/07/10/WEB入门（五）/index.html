@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>web入门（五） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfweb" />
+  
+  
+  
+  
+  <meta name="description" content="PHP伪协议和文件包含。">
+<meta name="keywords" content="ctf,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB入门（五）">
+<meta property="og:url" content="http://AssassinQ.com/2018/07/10/WEB入门（五）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="PHP伪协议和文件包含。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/9.png">
+<meta property="og:image" content="http://assassinq.com/pics/WEB集训/五/10.png">
+<meta property="og:updated_time" content="2019-02-03T09:43:50.509Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WEB入门（五）">
+<meta name="twitter:description" content="PHP伪协议和文件包含。">
+<meta name="twitter:image" content="http://assassinq.com/pics/WEB集训/五/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-WEB入门（五）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      WEB入门（五）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/10/WEB入门（五）/" class="article-date">
+	  <time datetime="2018-07-10T09:10:35.000Z" itemprop="datePublished">2018-07-10</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>PHP伪协议和文件包含。</p>
+<a id="more"></a>
+<h1 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h1><p>不是指网络上的<strong>TCP/IP协议</strong>，而是操作系统提供支持的一种协议，类似标准协议HTTP、FTP。自定义协议叫做伪协议。</p>
+<p>伪协议格式：<code>zzz://xxxxxx</code>。</p>
+<h2 id="PHP伪协议总和"><a href="#PHP伪协议总和" class="headerlink" title="PHP伪协议总和"></a>PHP伪协议总和</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">形式</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">file://</td>
+<td style="text-align:center">访问本地文件系统</td>
+</tr>
+<tr>
+<td style="text-align:center">http://</td>
+<td style="text-align:center">访问 HTTP(s) 网址</td>
+</tr>
+<tr>
+<td style="text-align:center">ftp://</td>
+<td style="text-align:center">访问 FTP(s) URLs</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>php://</strong></td>
+<td style="text-align:center"><strong>访问各个输入/输出（I/Ostreams）</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>zlib://</strong></td>
+<td style="text-align:center"><strong>压缩流</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>data://</strong></td>
+<td style="text-align:center"><strong>数据（RFC 2397）</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">glob://</td>
+<td style="text-align:center">查找匹配的文件路径模式</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>phar://</strong></td>
+<td style="text-align:center"><strong>PHP 归档</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">ssh2://</td>
+<td style="text-align:center">Secure Shell 2</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>rar://</strong></td>
+<td style="text-align:center"><strong>RAR</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">ogg://</td>
+<td style="text-align:center">音频流</td>
+</tr>
+<tr>
+<td style="text-align:center">expect://</td>
+<td style="text-align:center">处理交互式的流</td>
+</tr>
+</tbody>
+</table>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
+<li>allow_url_fopen：能否远程文件包含</li>
+<li>allow_url_include：能否使用伪协议</li>
+</ul>
+<h1 id="PHP伪协议应用"><a href="#PHP伪协议应用" class="headerlink" title="PHP伪协议应用"></a>PHP伪协议应用</h1><h2 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a><code>php://filter</code></h2><p>形式：<code>?file=php://filter/convert.base64-encode/resource=xxx.php</code></p>
+<p><code>php://filter</code>是一种元封装器，设计用于“数据流打开”时的“筛选过滤”应用，对本地磁盘文件进行读写。简单来讲就是可以在执行代码前将代码换个方式读取出来，只是读取，不需要开启<code>allow_url_include</code>。</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a><a href="http://4.chinalover.sinaapp.com/web7/index.php" target="_blank" rel="noopener">应用</a></h3><p>点击跳转页面后，通过伪协议读取源码：</p>
+<p><img src="/pics/WEB集训/五/1.png" alt="base64加密后的源码"></p>
+<p>源码解密后得到flag：</p>
+<p><img src="/pics/WEB集训/五/2.png" alt="源码中的flag"></p>
+<h2 id="变量覆盖漏洞（extract-）"><a href="#变量覆盖漏洞（extract-）" class="headerlink" title="变量覆盖漏洞（extract()）"></a>变量覆盖漏洞（<code>extract()</code>）</h2><p><code>int extract(array &amp;$var_array, int $extract_type = EXTR_OVERWRITE, string $prefix = null)</code></p>
+<p><code>extract()</code>函数从数组中将变量导入到当前的符号表。该函数使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。</p>
+<p>第二个参数<code>type</code>用于指定当某个变量已经存在，而数组中又有同名元素时，<code>extract()</code>函数如何对待这样的冲突。该函数返回成功导入到符号表中的变量数目。</p>
+<p><code>extract(array,extract_rules,prefix)</code></p>
+<p>extract_rules的默认值为EXTR_OVERWRITE，表示如果有冲突，则覆盖已有的变量。</p>
+<h3 id="应用（lianxi-input1）"><a href="#应用（lianxi-input1）" class="headerlink" title="应用（lianxi-input1）"></a>应用（lianxi-input1）</h3><p>源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">'xxxxx'</span>;     </span><br><span class="line">extract($_GET);     </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($shiyan)</span><br><span class="line">&#123;   </span><br><span class="line">    $content=trim($flag);</span><br><span class="line">    <span class="keyword">if</span>($shiyan==$content)</span><br><span class="line">       <span class="keyword">echo</span><span class="string">'flag&#123;......&#125;'</span>;     </span><br><span class="line">    <span class="keyword">else</span>       </span><br><span class="line">       <span class="keyword">echo</span><span class="string">'Oh.no'</span>;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>通过<code>extract()</code>变量覆盖，构造payload<code>?shiyan=1&amp;flag=1</code>得到flag。</p>
+<p><img src="/pics/WEB集训/五/3.png" alt="得到flag"></p>
+<h2 id="file-get-contents"><a href="#file-get-contents" class="headerlink" title="file_get_contents()"></a><code>file_get_contents()</code></h2><p><code>file_get_contents()</code>函数把整个文件读入一个字符串中。</p>
+<h3 id="应用（lianxi-data）"><a href="#应用（lianxi-data）" class="headerlink" title="应用（lianxi-data）"></a>应用（lianxi-data）</h3><p>源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$user=$_GET[<span class="string">'user'</span>];</span><br><span class="line"><span class="comment">#echo $user;</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($user)&amp;&amp;(file_get_contents($user,<span class="string">'r'</span>)===<span class="string">'the user is admin'</span>))</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"flag&#123;xxxxxxxxxxxxx&#125;"</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"you are not admin ! "</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>分别通过GET和POST两种方式获得flag：</p>
+<p><img src="/pics/WEB集训/五/4.png" alt="GET"></p>
+<p><img src="/pics/WEB集训/五/5.png" alt="POST"></p>
+<h2 id="应用四"><a href="#应用四" class="headerlink" title="应用四"></a><a href="http://level3.tasteless.eu/index.php" target="_blank" rel="noopener">应用四</a></h2><p>先根据提示查看php.ini配置情况</p>
+<p><img src="/pics/WEB集训/五/6.png" alt="发现allow_url_include是开启的"></p>
+<p>发现可以通过伪协议来执行代码，先获得根路径：</p>
+<p><img src="/pics/WEB集训/五/7.png" alt="获得根路径"></p>
+<p>再通过<code>scandir()</code>函数来扫根路径就能找到flag路径，直接访问就得到flag。</p>
+<p><img src="/pics/WEB集训/五/8.png" alt="得到flag路径"></p>
+<h2 id="eval-闭合漏洞"><a href="#eval-闭合漏洞" class="headerlink" title="eval()闭合漏洞"></a><code>eval()</code>闭合漏洞</h2><p><code>eval()</code>函数可以执行函数内部字符串所构成的指令。通过闭合前后的括号可以达到执行其他命令的效果。</p>
+<h3 id="应用（lianxi-excute）"><a href="#应用（lianxi-excute）" class="headerlink" title="应用（lianxi-excute）"></a>应用（lianxi-excute）</h3><p>源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span> <span class="string">"flag.php"</span>;</span><br><span class="line">    $a = @$_REQUEST[<span class="string">'hello'</span>];</span><br><span class="line">    <span class="keyword">eval</span>( <span class="string">"var_dump($a);"</span>);</span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>构造payload：<code>);print_r(file(&quot;./flag.php&quot;)</code></p>
+<p>即<code>eval(&quot;var_dump();print_r(file(&quot;./flag.php&quot;));&quot;);</code></p>
+<p><img src="/pics/WEB集训/五/9.png" alt="得到flag"></p>
+<h2 id="应用六"><a href="#应用六" class="headerlink" title="应用六"></a>应用六</h2><p>源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span> </span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_REQUEST[<span class="string">'path'</span>]))&#123;</span><br><span class="line">        <span class="keyword">include</span>($_REQUEST[<span class="string">'path'</span>]);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">include</span>(<span class="string">'phpinfo.php'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>先通过伪协议扫描当前目录：<code>&lt;?php print_r(scandir(&quot;.&quot;)); ?&gt;</code></p>
+<p><img src="/pics/WEB集训/五/10.png" alt="返回一个有flag.php的数组"></p>
+<p>直接访问flag.php得到flag。</p>
+<h2 id="phar"><a href="#phar" class="headerlink" title="phar://"></a><code>phar://</code></h2><p><code>phar://</code>是数据流包装器，自PHP5.3.0起开始有效，也是php的一个函数，功能是解压还原。</p>
+<h3 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h3><p>在php文件中写入<code>&lt;?php phpinfo(); ?&gt;</code>，将文件压缩后修改后缀名为<code>jpg</code>。</p>
+<p>上传文件后构造payload：<code>http://127.0.0.1/lianxi/phar1/include.php?file=phar://upload/11.jpg/11</code>。</p>
+<h1 id="PHP文件包含漏洞"><a href="#PHP文件包含漏洞" class="headerlink" title="PHP文件包含漏洞"></a>PHP文件包含漏洞</h1><p>在通过<strong>函数包含文件</strong>时，由于没有对包含的文件名进行有效的<strong>过滤处理</strong>，被攻击者利用从而导致了包含了<strong>Web根目录以外的文件</strong>进来，就会导致文件信息的的泄漏甚至注入了恶意代码</p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
+<li>远程文件包含（RFI）：<code>?file=http://file/text.txt</code></li>
+<li>本地文件包含（LFI）：<code>?file=../text.txt</code></li>
+</ul>
+<h2 id="PHP文件包含的几个函数"><a href="#PHP文件包含的几个函数" class="headerlink" title="PHP文件包含的几个函数"></a>PHP文件包含的几个函数</h2><ul>
+<li>include()：只有代码执行到该函数时才会包含文件进来，发生错误时只给出一个警告并继续向下执行。</li>
+<li>include_once()：和<code>include()</code>功能相同，区别在于当重复调用同一文件时，程序至调用一次。</li>
+<li>require()：只要程序执行就包含文件进来，发生错误时会输出错误结果并终止运行。</li>
+<li>require_once()：和<code>require()</code>功能相同，区别在于当重复调用同一文件时，程序只调用一次。</li>
+</ul>
+<h2 id="00截断（在PHP5-3-4之前有效）"><a href="#00截断（在PHP5-3-4之前有效）" class="headerlink" title="%00截断（在PHP5.3.4之前有效）"></a><code>%00</code>截断（在PHP5.3.4之前有效）</h2><p>在<code>$_GET[&quot;filename&quot;]</code>中常见</p>
+<p>形式：<code>filename=test.php%00.txt</code></p>
+<p>主要利用：<br>上传时路径必须为</p>
+<ul>
+<li>上传路径必须为txt、png等结尾时</li>
+<li>文件下载时，绕过白名单检查</li>
+<li>文件包含时，截断后面限制（主要是文件包含时）</li>
+</ul>
+<p>PS：PHP配置中<code>magic_quotes_gpc=Off</code>，即没有对数据进行转义解析。</p>
+<h2 id="从根目录搜寻"><a href="#从根目录搜寻" class="headerlink" title="从根目录搜寻"></a>从根目录搜寻</h2><p><code>/../../../../../../www/dvwa/php.ini</code></p>
+<p>前面必须加<code>/</code>，表示从根目录开始。</p>
+<h2 id="双写重构造"><a href="#双写重构造" class="headerlink" title="双写重构造"></a>双写重构造</h2><p><code>str_replace(array(&quot;../&quot;,&quot;..\&quot;),&quot;&quot;,$file);</code></p>
+<p>payload：<code>?page=/..././..././www/dvwa/php.ini</code></p>
+<h2 id="file包含"><a href="#file包含" class="headerlink" title="file包含"></a>file包含</h2><p><code>file://</code>协议（本地包含文件）：将绝对路径下的文件包含进来。</p>
+<p>漏洞利用：</p>
+<ol>
+<li>上传一个内容为<strong>php</strong>的文件</li>
+<li>利用<strong>file</strong>协议取<strong>包含</strong>上传文件（需要知道上传文件的绝对路径）</li>
+<li>实现<strong>任意命令执行</strong></li>
+</ol>
+<h1 id="PHP相关函数整理"><a href="#PHP相关函数整理" class="headerlink" title="PHP相关函数整理"></a>PHP相关函数整理</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">extract()</td>
+<td style="text-align:center">从数组中将变量导入到当前的符号表。该函数使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。</td>
+</tr>
+<tr>
+<td style="text-align:center">isset()</td>
+<td style="text-align:center">检测变量是否设置，并且不是 NULL。</td>
+</tr>
+<tr>
+<td style="text-align:center">trim()</td>
+<td style="text-align:center">移除字符串两侧的空白字符或其他预定义字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">file_get_contents()</td>
+<td style="text-align:center">用于将文件的内容读入到一个字符串中的首选方法。如果操作系统支持，还会使用内存映射技术来增强性能。</td>
+</tr>
+<tr>
+<td style="text-align:center">print_r()</td>
+<td style="text-align:center">显示关于一个变量的易于理解的信息。如果给出的是 string、integer 或 float，将打印变量值本身。如果给出的是 array，将会按照一定格式显示键和元素。object 与数组类似。</td>
+</tr>
+<tr>
+<td style="text-align:center">scandir()</td>
+<td style="text-align:center">返回指定目录中的文件和目录的数组。</td>
+</tr>
+<tr>
+<td style="text-align:center">phpinfo()</td>
+<td style="text-align:center">输出 PHP 当前状态的大量信息，包含了 PHP 编译选项、启用的扩展、PHP 版本、服务器信息和环境变量（如果编译为一个模块的话）、PHP环境变量、操作系统版本信息、path 变量、配置选项的本地值和主值、HTTP 头和PHP授权信息(License)。</td>
+</tr>
+<tr>
+<td style="text-align:center">eval()</td>
+<td style="text-align:center">把字符串按照 PHP 代码来计算。该字符串必须是合法的 PHP 代码，且必须以分号结尾。如果没有在代码字符串中调用 return 语句，则返回 NULL。如果代码中存在解析错误，则 eval() 函数返回 false。</td>
+</tr>
+<tr>
+<td style="text-align:center">var_dump()</td>
+<td style="text-align:center">显示关于一个或多个表达式的结构信息，包括表达式的类型与值。数组将递归展开值，通过缩进显示其结构。</td>
+</tr>
+<tr>
+<td style="text-align:center">include()</td>
+<td style="text-align:center">获取指定文件中存在的所有文本/代码/标记，并复制到使用 include 语句的文件中。</td>
+</tr>
+<tr>
+<td style="text-align:center">show_source()</td>
+<td style="text-align:center">对文件进行语法高亮显示。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="http://vinc.top/2016/09/28/%E3%80%90%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E3%80%91%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">http://vinc.top/2016/09/28/%E3%80%90%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E3%80%91%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</a><br><a href="https://lightless.me/archives/include-file-from-zip-or-phar.html" target="_blank" rel="noopener">https://lightless.me/archives/include-file-from-zip-or-phar.html</a><br><a href="https://blog.csdn.net/Ni9htMar3/article/details/69812306?locationNum=2&amp;fps=1" target="_blank" rel="noopener">https://blog.csdn.net/Ni9htMar3/article/details/69812306?locationNum=2&amp;fps=1</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/11/PWN入门（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          PWN入门（三）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/08/WEB入门（四）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">WEB入门（四）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP伪协议"><span class="nav-number">1.</span> <span class="nav-text">PHP伪协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP伪协议总和"><span class="nav-number">1.1.</span> <span class="nav-text">PHP伪协议总和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">1.2.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP伪协议应用"><span class="nav-number">2.</span> <span class="nav-text">PHP伪协议应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php-filter"><span class="nav-number">2.1.</span> <span class="nav-text">php://filter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">2.1.1.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量覆盖漏洞（extract-）"><span class="nav-number">2.2.</span> <span class="nav-text">变量覆盖漏洞（extract()）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用（lianxi-input1）"><span class="nav-number">2.2.1.</span> <span class="nav-text">应用（lianxi-input1）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file-get-contents"><span class="nav-number">2.3.</span> <span class="nav-text">file_get_contents()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用（lianxi-data）"><span class="nav-number">2.3.1.</span> <span class="nav-text">应用（lianxi-data）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用四"><span class="nav-number">2.4.</span> <span class="nav-text">应用四</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eval-闭合漏洞"><span class="nav-number">2.5.</span> <span class="nav-text">eval()闭合漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用（lianxi-excute）"><span class="nav-number">2.5.1.</span> <span class="nav-text">应用（lianxi-excute）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用六"><span class="nav-number">2.6.</span> <span class="nav-text">应用六</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#phar"><span class="nav-number">2.7.</span> <span class="nav-text">phar://</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用-1"><span class="nav-number">2.7.1.</span> <span class="nav-text">应用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP文件包含漏洞"><span class="nav-number">3.</span> <span class="nav-text">PHP文件包含漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类"><span class="nav-number">3.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP文件包含的几个函数"><span class="nav-number">3.2.</span> <span class="nav-text">PHP文件包含的几个函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#00截断（在PHP5-3-4之前有效）"><span class="nav-number">3.3.</span> <span class="nav-text">%00截断（在PHP5.3.4之前有效）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从根目录搜寻"><span class="nav-number">3.4.</span> <span class="nav-text">从根目录搜寻</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双写重构造"><span class="nav-number">3.5.</span> <span class="nav-text">双写重构造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file包含"><span class="nav-number">3.6.</span> <span class="nav-text">file包含</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP相关函数整理"><span class="nav-number">4.</span> <span class="nav-text">PHP相关函数整理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

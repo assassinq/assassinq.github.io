@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>绕过tls（thread local storage）和smc（self modifying code）保护 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="re" />
+  
+  
+  
+  
+  <meta name="description" content="main函数前有什么？">
+<meta name="keywords" content="re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护">
+<meta property="og:url" content="http://AssassinQ.com/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="main函数前有什么？">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://assassinq.com/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/3.png">
+<meta property="og:updated_time" content="2019-02-02T13:46:58.829Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护">
+<meta name="twitter:description" content="main函数前有什么？">
+<meta name="twitter:image" content="http://assassinq.com/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/" class="article-date">
+	  <time datetime="2018-12-08T04:37:41.000Z" itemprop="datePublished">2018-12-08</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>main函数前有什么？</p>
+<a id="more"></a>
+<h1 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h1><h2 id="什么是TLS"><a href="#什么是TLS" class="headerlink" title="什么是TLS"></a>什么是TLS</h2><p>TLS（Thread Local Storage）回调函数是每当创建/终止进程的线程时会自动调用执行的函数。创建的主线程也会自动调用回调函数，且其调用执行先于EP（Entry Point）代码。功能就是把PE文件的TEXT段进行加密，隐藏他的静态代码段特性，在运行的时候抢在main函数执行之前把代码段直接在内存里面解密（不然就崩溃了），从而达到静态代码隐藏功能。</p>
+<h2 id="编写TLS"><a href="#编写TLS" class="headerlink" title="编写TLS"></a>编写TLS</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;winnt.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tlhelp32.h&gt;</span></span></span><br><span class="line"><span class="comment">//使用tls 回调函数</span></span><br><span class="line"><span class="comment">//使用TLS 的宏</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(linker, <span class="meta-string">"/INCLUDE:__tls_used"</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lookupprocess</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	PROCESSENTRY32 pe32;</span><br><span class="line">	pe32.dwSize = <span class="keyword">sizeof</span>(pe32);</span><br><span class="line">	HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="number">0</span>); <span class="comment">// 在快照中包含系统中所有的进程</span></span><br><span class="line">	BOOL bMore = Process32First(hProcessSnap, &amp;pe32); <span class="comment">// 获得第一个进程的句柄</span></span><br><span class="line">	<span class="keyword">while</span> (bMore) &#123;</span><br><span class="line">		_wcslwr_s(pe32.szExeFile, wcslen(pe32.szExeFile)+<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (!wcscmp(pe32.szExeFile, <span class="string">L"ollyice.exe"</span>)) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"///////WARNING///////\n"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="keyword">if</span> (!wcscmp(pe32.szExeFile, <span class="string">L"ollydbg.exe"</span>)) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"///////\nWARNING\n///////\n"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!wcscmp(pe32.szExeFile, <span class="string">L"peid.exe"</span>)) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"///////\nWARNING\n///////\n"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!wcscmp(pe32.szExeFile, <span class="string">L"ida.exe"</span>)) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"///////\nWARNING\n///////\n"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!wcscmp(pe32.szExeFile, <span class="string">L"idaq.exe"</span>)) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"///////\nWARNING\n///////\n"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		bMore = Process32Next(hProcessSnap, &amp;pe32); <span class="comment">// 获取下一个进程的句柄</span></span><br><span class="line">	&#125;</span><br><span class="line">	CloseHandle(hProcessSnap);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Debugger</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">	__asm &#123;</span><br><span class="line">		mov eax, dword ptr fs:[<span class="number">30</span>h]<span class="comment">//TEB偏移30H处</span></span><br><span class="line">		movzx eax, byte ptr ds:[eax + <span class="number">2</span>h]<span class="comment">//取PEB中BeingDebug，若为1则被调试</span></span><br><span class="line">		mov result, eax</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (result) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"///////\nWARNING\n///////\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> NTAPI <span class="title">tls_callback</span><span class="params">(PVOID h, DWORD reason, PVOID pv)</span> </span>&#123;</span><br><span class="line">	lookupprocess();</span><br><span class="line">	Debugger();</span><br><span class="line">	MessageBox(<span class="literal">NULL</span>, <span class="string">L"Not_Main_this_is_tls!"</span>, <span class="string">L"tls"</span>, MB_OK);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> data_seg(<span class="meta-string">".CRT$XLB"</span>)</span></span><br><span class="line">PIMAGE_TLS_CALLBACK p_thread_callback[] = &#123; tls_callback, <span class="number">0</span> &#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> data_seg()</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	MessageBox(<span class="literal">NULL</span>, <span class="string">L"Main!"</span>, <span class="string">L"ESE"</span>, MB_OK);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="调试TLS"><a href="#调试TLS" class="headerlink" title="调试TLS"></a>调试TLS</h2><p>把有TLS保护的程序拖进ida分析，会看到main函数其实是空的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在start（也就是entry point）处下断点调试：</p>
+<p><img src="/pics/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/1.png" alt="设下断点"></p>
+<p>发现程序依然执行了，说明程序在entry point之前运行了。</p>
+<p><img src="/pics/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/2.png" alt="程序运行"></p>
+<p>同时可以查看entry point list（Ctrl+E），发现ida也已经反编译出了一个叫做<code>TlsCallback_0()</code>的函数：</p>
+<p><img src="/pics/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/3.png" alt="entry point list"></p>
+<p>查看一下该函数的反汇编代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> __<span class="function">stdcall <span class="title">TlsCallback_0</span><span class="params">(<span class="keyword">int</span> a1, <span class="keyword">int</span> a2, <span class="keyword">int</span> a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ( a2 == <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    MessageBoxA(<span class="number">0</span>, Text, Caption, <span class="number">0</span>);</span><br><span class="line">    ExitProcess(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这也是许多未知程序在逆向时，更建议在虚拟环境下运行的原因。</p>
+<h2 id="手动去除TLS"><a href="#手动去除TLS" class="headerlink" title="手动去除TLS"></a>手动去除TLS</h2><p>TlsCallback函数的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> VOID</span><br><span class="line">(NTAPI *PIMAGE_TLS_CALLBACK) (</span><br><span class="line">    PVOID DllHandle,     <span class="comment">// 模块句柄，即加载地址</span></span><br><span class="line">    DWORD Reason,        </span><br><span class="line">    PVOID Reserved</span><br><span class="line">    );</span><br><span class="line">其中reason有以下几种：(winNT.h)</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_PROCESS_ATTACH   1  <span class="comment">// 进程启动</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_THREAD_ATTACH    2  <span class="comment">// 线程启动</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_THREAD_DETACH    3  <span class="comment">// 线程退出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_PROCESS_DETACH   0  <span class="comment">// 进程退出</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="SMC"><a href="#SMC" class="headerlink" title="SMC"></a>SMC</h1><h2 id="什么是SMC"><a href="#什么是SMC" class="headerlink" title="什么是SMC"></a>什么是SMC</h2><p>SMC（Self Modifying Code）是一种将可执行文件中的代码或数据进行加密，防止别人使用逆向工程工具（比如一些常见的反汇编工具）对程序进行静态分析的方法，只有程序运行时才对代码和数据进行解密，从而正常运行程序和访问数据。计算机病毒通常也会采用SMC技术动态修改内存中的可执行代码来达到变形或对代码加密的目的，从而躲过杀毒软件的查杀或者迷惑反病毒工作者对代码进行分析。现在，很多加密软件（或者称为“壳”程序）为了防止Cracker（破解者）跟踪自己的代码，也采用了动态代码修改技术对自身代码进行保护。要精准的定位某个函数非常麻烦，所以我们就要以区块为加密的基础单位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">encrypt_func</span><span class="params">(<span class="keyword">char</span> *start_addr, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        *(start + i) ^= <span class="number">0x88</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编写SMC"><a href="#编写SMC" class="headerlink" title="编写SMC"></a>编写SMC</h2><p>因为定位一个具体的函数很繁琐，所以我们选择直接定位一个节表。把敏感的代码放入节表中，然后在需要的时候进行解密，这就是SMC动态加密技术的精髓。将下面这行代码放在开始程序的开始（也就是include下面），主要是让text节区可以执行、读、写和分享：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(linker, <span class="meta-string">"/SECTION:.text,ERWS"</span>)</span></span><br></pre></td></tr></table></figure>
+<p>以下代码可以编译生成可执行文件，但是无法运行，因为<code>ck()</code>函数的地址已经被打乱。这时候就利用OD进行修改，载入生成的程序，当程序运行<code>enccrpt_func()</code>函数完成时，<code>ck()</code>就已经完成加密，然后将程序dump下来，这时就可以运行。若拿一开始的程序去静态看，是完全看不懂的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(linker, <span class="meta-string">"/SECTION:.text,ERWS"</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">encrypt_func</span><span class="params">(<span class="keyword">char</span> *start_addr, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123; <span class="comment">//这里对地址进行简单的加密&gt;</span></span><br><span class="line">		*(start + i) ^= <span class="number">0x88</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//需要保护的函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ck</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"this is a test of smc"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//加密数据结束的地址</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">end</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> *lp_s = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> *lp_e = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">	lp_s = (<span class="keyword">char</span> *)ck;  <span class="comment">//获取需要加密函数的起始地址</span></span><br><span class="line">	lp_e = (<span class="keyword">char</span> *)end;  <span class="comment">//获取需要加密函数的结束地址</span></span><br><span class="line">	len = lp_e - lp_s;</span><br><span class="line">	enc(lp_s, len);      <span class="comment">//smc加密函数</span></span><br><span class="line">	ck();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解密SMC"><a href="#解密SMC" class="headerlink" title="解密SMC"></a>解密SMC</h2><ol>
+<li>找到smc的加密函数，当运行完成smc解密函数时,将程序dump下来。</li>
+<li>smc对程序动态完全没有用，可以用OD来调试程序，找到受保护代码。</li>
+</ol>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="http://www.hexblog.com/?p=9" target="_blank" rel="noopener">http://www.hexblog.com/?p=9</a><br><a href="http://www.voidcn.com/article/p-etaovjqz-bao.html" target="_blank" rel="noopener">http://www.voidcn.com/article/p-etaovjqz-bao.html</a><br><a href="http://www.uml.org.cn/c++/200710313.asp" target="_blank" rel="noopener">http://www.uml.org.cn/c++/200710313.asp</a><br><a href="https://esebanana.github.io/2018/04/08/re_10_tls_smc/" target="_blank" rel="noopener">https://esebanana.github.io/2018/04/08/re_10_tls_smc/</a><br><a href="http://www.voidcn.com/article/p-etaovjqz-bao.html" target="_blank" rel="noopener">http://www.voidcn.com/article/p-etaovjqz-bao.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/12/08/2018-信息安全铁人三项赛总决赛-数据赛-writeup/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2018-信息安全铁人三项赛总决赛-数据赛-writeup
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/04/C语言实现Base32和Base16解密加密算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C语言实现Base32和Base16解密加密算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS"><span class="nav-number">1.</span> <span class="nav-text">TLS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是TLS"><span class="nav-number">1.1.</span> <span class="nav-text">什么是TLS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写TLS"><span class="nav-number">1.2.</span> <span class="nav-text">编写TLS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试TLS"><span class="nav-number">1.3.</span> <span class="nav-text">调试TLS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手动去除TLS"><span class="nav-number">1.4.</span> <span class="nav-text">手动去除TLS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SMC"><span class="nav-number">2.</span> <span class="nav-text">SMC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是SMC"><span class="nav-number">2.1.</span> <span class="nav-text">什么是SMC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写SMC"><span class="nav-number">2.2.</span> <span class="nav-text">编写SMC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密SMC"><span class="nav-number">2.3.</span> <span class="nav-text">解密SMC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">3.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
