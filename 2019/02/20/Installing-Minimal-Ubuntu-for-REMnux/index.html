@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>installing minimal ubuntu for remnux | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="translation" />
+  
+  
+  
+  
+  <meta name="description" content="因为google drive上下载REMnux的ova实在是太慢了，在官方文档上看到了可以用ubuntu来弄。这里记录一下安装Ubuntu 14.04 64-bit minimal ISO的过程。搬运自这里。">
+<meta name="keywords" content="translation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Installing Minimal Ubuntu for REMnux">
+<meta property="og:url" content="http://AssassinQ.com/2019/02/20/Installing-Minimal-Ubuntu-for-REMnux/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="因为google drive上下载REMnux的ova实在是太慢了，在官方文档上看到了可以用ubuntu来弄。这里记录一下安装Ubuntu 14.04 64-bit minimal ISO的过程。搬运自这里。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/9.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/10.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/11.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/12.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/13.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/14.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/15.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/16.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/17.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/18.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/19.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/20.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/21.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/22.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/23.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/24.png">
+<meta property="og:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/25.png">
+<meta property="og:updated_time" content="2019-02-20T14:21:28.790Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Installing Minimal Ubuntu for REMnux">
+<meta name="twitter:description" content="因为google drive上下载REMnux的ova实在是太慢了，在官方文档上看到了可以用ubuntu来弄。这里记录一下安装Ubuntu 14.04 64-bit minimal ISO的过程。搬运自这里。">
+<meta name="twitter:image" content="http://assassinq.com/pics/Installing-Minimal-Ubuntu-for-REMnux/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Installing-Minimal-Ubuntu-for-REMnux" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Installing Minimal Ubuntu for REMnux
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/20/Installing-Minimal-Ubuntu-for-REMnux/" class="article-date">
+	  <time datetime="2019-02-20T14:10:38.000Z" itemprop="datePublished">2019-02-20</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>因为google drive上下载REMnux的ova实在是太慢了，在<a href="https://remnux.org/docs/distro/get/#install-remnux-on-an-existing-system" target="_blank" rel="noopener">官方文档</a>上看到了可以用ubuntu来弄。这里记录一下安装<code>Ubuntu 14.04 64-bit minimal ISO</code>的过程。搬运自<a href="https://plus.google.com/photos/+REMnuxOrg/albums/6156978999037787521?authkey=CP2Zs4P-tZWcmQE" target="_blank" rel="noopener">这里</a>。</p>
+<a id="more"></a>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/1.png" alt="If you&#39;re preparing to install REMnux using its installation script, use Ubuntu 14.04 64-bit minimal ISO as the starting point."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/2.png" alt="Select your preferred language for the installation. This example uses English."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/3.png" alt="Select the location for your desired time zone and locale. This example uses United States."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/4.png" alt="Auto-detecting the keyboard sometimes doesn&#39;t work well. We recommend manually specifying the desired keyboard layout."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/5.png" alt="Select the country of origin for your keyboard. This example uses English (US)."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/6.png" alt="Select your keyboard layout. This example uses English (US)."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/7.png" alt="You can pick any hostname you wish. We suggest using &quot;remnux&quot;."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/8.png" alt="Select the your country. This example uses United States."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/9.png" alt="Select the desired Ubuntu server. Accepting the default usually works well."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/10.png" alt="If accessing the Internet at your location requires going through a proxy server, specify that server now. Otherwise, simply click Continue."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/11.png" alt="Assign a full name for the primary user account you&#39;ll use on REMnux. We suggest specifying the name REMnux User."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/12.png" alt="Select the username for the account you&#39;ll be using on REMnux. We recommend picking the name &quot;remnux&quot;."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/13.png" alt="Select the desired password. The default REMnux installation uses the word &quot;malware&quot; as the password."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/14.png" alt=""></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/15.png" alt="The expected use of REMnux in a controlled analysis lab typically accommodates weak passwords, such as &quot;malware&quot;. However, if you&#39;re concerned about password complexity, select a stronger password."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/16.png" alt="The typical use of REMnux typically doesn&#39;t benefit from having the user&#39;s home directory encrypted. We suggest selecting No when asked whether to encrypt it."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/17.png" alt="Confirm your time zone. This example uses America/New_York."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/18.png" alt="Select &quot;Guided - use entire disk&quot;."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/19.png" alt="Select the desired partition. If you&#39;re installing Ubuntu on a system other than VMware, the name of your partition might be different from the one shown in your example. Your disk size might differ, too."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/20.png" alt="Select Yes when asked whether to write the changes to disks."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/21.png" alt="The typical use of REMnux typically doesn&#39;t benefit from automatic updated. Instead, REMnux users are encouraged to update their system by using the update-remnux command. Therefore, we recommend selecting &quot;No automatic updates&quot;."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/22.png" alt="Select &quot;Basic Ubuntu server.&quot; This helps keep the system lightweight. The REMnux installer will add the necessary packages later."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/23.png" alt="Select Yes when asked whether to install the boot loader to the master boot record."></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/24.png" alt=""></p>
+<p><img src="/pics/Installing-Minimal-Ubuntu-for-REMnux/25.png" alt="Press Continue to reboot the system. After it starts up again, log in using the username and password you&#39;ve established during the Ubuntu installation process, then follow REMnux installation instructions at https://remnux.org/docs/distro/get."></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/translation/">translation</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2099/12/31/闭关学习/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          闭关学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/18/Radare2之旅-PART1：Simple crackme/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Radare2之旅-PART1：Simple crackme</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav">None</ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>

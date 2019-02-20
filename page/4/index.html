@@ -189,6 +189,58 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-XMan-RE（二）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/03/XMan-RE（二）/">XMan RE（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/03/XMan-RE（二）/" class="article-date">
+	  <time datetime="2018-08-03T02:31:27.000Z" itemprop="datePublished">2018-08-03</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。</p>
+        <!-- A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。
+
+hide_1拿到文件先file一下，是64位的ELF文件。然后strings一下，发现有upx壳。
+用upx -d不能脱，改用dd直接把内存dump下来。
+
+然后可以拖进ida开始逆。先是找到了一个藏假flag的函数，逻辑明显的错误的。
+12345678910111213141516171819202122232425262......  -->
+        <p class="article-more-link">
+          <a href="/2018/08/03/XMan-RE（二）/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-XMan-RE（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -715,57 +767,6 @@ ASCII码
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-PWN入门（一）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/03/PWN入门（一）/">PWN入门（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/03/PWN入门（一）/" class="article-date">
-	  <time datetime="2018-07-03T02:32:36.000Z" itemprop="datePublished">2018-07-03</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>学好二进制必须先打好基础。</p>
-        <!-- 学好二进制必须先打好基础。
-
-了解了电脑中的程序如何运行，以及栈在程序运行时是如何变化的。
-程序运行基本原理CPU访问快慢的速度依次为：寄存器-&gt;缓存-&gt;内存-&gt;硬盘。
-硬盘用于永久存储所有的数据。当程序运行时，程序内容会被放进内存中，占用内存的空间。缓存和寄存器则相对速度更快，作为数据和CPU之间连接的桥梁。
-寄存器CPU内部用来存放数据的一些小型存储区域，用来暂时存放参......  -->
-        <p class="article-more-link">
-          <a href="/2018/07/03/PWN入门（一）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
 
     </footer>
   </div>
