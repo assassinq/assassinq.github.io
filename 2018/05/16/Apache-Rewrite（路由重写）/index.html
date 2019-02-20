@@ -6,20 +6,20 @@
   <title>apache rewrite（路由重写） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="webnote" />
+  <meta name="keywords" content="noteweb" />
   
   
   
   
   <meta name="description" content="Apache Rewrite能够实现URL的跳转和隐藏真实地址。它基于Perl语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。">
-<meta name="keywords" content="web,note">
+<meta name="keywords" content="note,web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Apache Rewrite（路由重写）">
 <meta property="og:url" content="http://AssassinQ.com/2018/05/16/Apache-Rewrite（路由重写）/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="Apache Rewrite能够实现URL的跳转和隐藏真实地址。它基于Perl语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-01T05:25:46.107Z">
+<meta property="og:updated_time" content="2019-02-03T10:23:57.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Apache Rewrite（路由重写）">
 <meta name="twitter:description" content="Apache Rewrite能够实现URL的跳转和隐藏真实地址。它基于Perl语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。">
@@ -197,31 +197,33 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br></pre></td></tr></table></figure>
 <h2 id="RewriteCond"><a href="#RewriteCond" class="headerlink" title="RewriteCond"></a>RewriteCond</h2><p>RewriteCond就是一个过滤条件，简单来说，当URL满足RewriteCond配置的条件的情况，就会执行RewriteCond下面紧邻的RewriteRule语句。</p>
 <p>RewriteCond 和 RewriteRule 是上下对应的关系。可以有1个或者好几个RewriteCond来匹配一个RewriteRule。</p>
-<p>RewriteCond %{待测试项目} 正则表达式条件。</p>
+<p><code>RewriteCond %{待测试项目} 正则表达式条件</code>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond  %&#123;HTTP_USER_AGENT&#125;  ^Mozilla//5/.0.*</span><br><span class="line">RewriteRule  index.php            index.m.php</span><br></pre></td></tr></table></figure>
-<p>如果设置上面的匹配规则，到来的http请求中的HTTP_USER_AGENT匹配【^Mozilla//5/.0.*】正则表达式的话，则执行下面的RewriteRule，也就是说访问路径会跳转到 index.m.php这个文件。</p>
+<p>如果设置上面的匹配规则，到来的http请求中的<code>HTTP_USER_AGENT</code>匹配<code>^Mozilla//5/.0.*</code>正则表达式的话，则执行下面的RewriteRule，也就是说访问路径会跳转到<code>index.m.php</code>这个文件。</p>
 <h2 id="RewriteRule"><a href="#RewriteRule" class="headerlink" title="RewriteRule"></a>RewriteRule</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule Pattern Substitution [flags]</span><br></pre></td></tr></table></figure>
 <p>Pattern是一个正则匹配。Substitution是匹配的替换 [flags]是一些参数限制。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule ^room/video/(\d+)\.html web/index\.php?c=room&amp;a=video&amp;r=$1 [QSA,NC,L]</span><br></pre></td></tr></table></figure>
-<p>意思是 以 room开头的 room/video/123.html 这样子，变成 web/index.php?c=room&amp;a=video&amp;r=123。</p>
+<p>意思是 以 room开头的<code>room/video/123.html</code>这样子，变成<code>web/index.php?c=room&amp;a=video&amp;r=123</code>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule \.(jpg|gif) http://image.baidu.com/ [R,NC,L]</span><br></pre></td></tr></table></figure>
-<p>意思是以为是访问.jpg或者gif的文件，都会调整到 <a href="http://image.baidu.com。" target="_blank" rel="noopener">http://image.baidu.com。</a></p>
+<p>意思是以为是访问.jpg或者gif的文件，都会调整到<code>http://image.baidu.com</code>。</p>
 <h1 id="重写规则的作用范围"><a href="#重写规则的作用范围" class="headerlink" title="重写规则的作用范围"></a>重写规则的作用范围</h1><p>1) 可以使用在Apache主配置文件httpd.conf中。</p>
 <p>2) 可以使用在httpd.conf里定义的虚拟主机配置中。</p>
 <p>3) 可以使用在基本目录的跨越配置文件.htaccess中。</p>
 <p>这三种方式，都需要在写规则前，用“RewriteEngine on”指令来打开rewrite功能。</p>
-<h1 id="Apache-Rewrite规则修正符"><a href="#Apache-Rewrite规则修正符" class="headerlink" title="Apache Rewrite规则修正符"></a>Apache Rewrite规则修正符</h1><p>1) R<a href="force redirect">=code</a> 强制外部重定向<br>强制在替代字符串加上<a href="http://thishost[:thisport]/前缀重定向到外部的URL。如果code不指定，将用缺省的302" target="_blank" rel="noopener">http://thishost[:thisport]/前缀重定向到外部的URL。如果code不指定，将用缺省的302</a> HTTP状态码。</p>
-<p>2) F(force URL to be forbidden)禁用URL,返回403HTTP状态码。</p>
-<p>3) G(force URL to be gone) 强制URL为GONE，返回410HTTP状态码。</p>
-<p>4) P(force proxy) 强制使用代理转发。</p>
-<p>5) L(last rule) 表明当前规则是最后一条规则，停止分析以后规则的重写。</p>
-<p>6) N(next round) 重新从第一条规则开始运行重写过程。</p>
-<p>7) C(chained with next rule) 与下一条规则关联<br>如果规则匹配则正常处理，该标志无效，如果不匹配，那么下面所有关联的规则都跳过。</p>
-<p>8) T=MIME-type(force MIME type) 强制MIME类型。</p>
-<p>9) NS (used only if no internal sub-request) 只用于不是内部子请求。</p>
-<p>10) NC(no case) 不区分大小写。</p>
-<p>11) QSA(query string append) 追加请求字符串。</p>
-<p>12) NE(no URI escaping of output) 不在输出转义特殊字符。</p>
+<h1 id="Apache-Rewrite规则修正符"><a href="#Apache-Rewrite规则修正符" class="headerlink" title="Apache Rewrite规则修正符"></a>Apache Rewrite规则修正符</h1><p>1) R<a href="force redirect">=code</a> 强制外部重定向</p>
+<p>强制在替代字符串加上<code>http://thishost[:thisport]/</code>前缀重定向到外部的URL。如果code不指定，将用缺省的302 HTTP状态码。</p>
+<p>1) F(force URL to be forbidden)禁用URL,返回403HTTP状态码。</p>
+<p>2) G(force URL to be gone) 强制URL为GONE，返回410HTTP状态码。</p>
+<p>3) P(force proxy) 强制使用代理转发。</p>
+<p>4) L(last rule) 表明当前规则是最后一条规则，停止分析以后规则的重写。</p>
+<p>5) N(next round) 重新从第一条规则开始运行重写过程。</p>
+<p>6) C(chained with next rule) 与下一条规则关联</p>
+<p>如果规则匹配则正常处理，该标志无效，如果不匹配，那么下面所有关联的规则都跳过。</p>
+<p>1) T=MIME-type(force MIME type) 强制MIME类型。</p>
+<p>2) NS (used only if no internal sub-request) 只用于不是内部子请求。</p>
+<p>3)  NC(no case) 不区分大小写。</p>
+<p>4)  QSA(query string append) 追加请求字符串。</p>
+<p>5)  NE(no URI escaping of output) 不在输出转义特殊字符。</p>
 <p>例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule /foo/(.*) /bar?arg=P1%3d$1 [R,NE] #将能正确的将/foo/zoo转换成/bar?arg=P1=zoo</span><br></pre></td></tr></table></figure>
 <p>13) PT(pass through to next handler) 传递给下一个处理。</p>
@@ -247,14 +249,14 @@
 <p>注：’AllowOverride’的参数设置为’ALL’，表示整台服务器上都支持URL规则重写。</p>
 <p>对于不同的网址，需要在APACHE中增加如下内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Directory “E:/Apache Group/Apache2/htdocs/leapsoul”&gt;</span><br><span class="line">/*引号里代表你的web存放目录*/</span><br><span class="line">/*如果是Linux，只要你定位到你网站目录即可*/</span><br><span class="line">Options FollowSymLinks</span><br><span class="line">AllowOverride None</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
-<p>Apache 服务器要读每个网站下目录下的.htaccess文件。如果没有这个文件，或者这个文档没有定义任何关于URL重写的规则就不会有任何效果。</p>
-<p>只要启用mod_rewrite，然后简单的通过一个 .htaccess 文件再加上一些简单的规则就可以移除URL中的 index.php 了。</p>
+<p>Apache 服务器要读每个网站下目录下的<code>.htaccess</code>文件。如果没有这个文件，或者这个文档没有定义任何关于URL重写的规则就不会有任何效果。</p>
+<p>只要启用mod_rewrite，然后简单的通过一个<code>.htaccess</code>文件再加上一些简单的规则就可以移除URL中的 index.php 了。</p>
 <h2 id="针对整个apache服务器的配置"><a href="#针对整个apache服务器的配置" class="headerlink" title="针对整个apache服务器的配置"></a>针对整个apache服务器的配置</h2><p>在网站配置下加入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteRule index.html index.php</span><br><span class="line">RewriteRule (d+).html$ info.php?id=$1</span><br></pre></td></tr></table></figure>
 <p>即通过index.html访问就是index.php；通过1.html访问就是info.php?id=1。</p>
 <h2 id="针对apache服务器下的某一目录的配置"><a href="#针对apache服务器下的某一目录的配置" class="headerlink" title="针对apache服务器下的某一目录的配置"></a>针对apache服务器下的某一目录的配置</h2><p>在.htaccess文件中加入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f#这里将除了实际文件以为的所有其他请求都指向下行代码给出的脚本，这里是index.php</span><br><span class="line">RewriteRule .* index.php</span><br></pre></td></tr></table></figure>
-<p>在Windows资源管理器里面不允许你建立’.htaccess’这样只有扩展名的文件。所以你必须先将文件保存为其他名字，例如 app.htaccess。然后进入cmd，输入’ren a.htaccess .htaccess’命令来对文件改名。或者新建一个记事本，另存为’.htaccess’即可。</p>
+<p>在Windows资源管理器里面不允许你建立<code>.htaccess</code>这样只有扩展名的文件。所以你必须先将文件保存为其他名字，例如<code>app.htaccess</code>。然后进入cmd，输入<code>ren a.htaccess .htaccess</code>命令来对文件改名。或者新建一个记事本，另存为<code>.htaccess</code>即可。</p>
 <h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><h2 id="如果文件不存在重定向到404页面"><a href="#如果文件不存在重定向到404页面" class="headerlink" title="如果文件不存在重定向到404页面"></a>如果文件不存在重定向到404页面</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">RewriteRule .? /404.php [L]</span><br></pre></td></tr></table></figure>
 <p>这里-f匹配的是存在的文件名，-d匹配的存在的路径名。这段代码在进行404重定向之前，会判断你的文件名以及路径名是否存在【请注意这里】。你还可以在404页面上加一个?url=$1参数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule ^/?(.*)$ /404.php?url=$1 [L]</span><br></pre></td></tr></table></figure>

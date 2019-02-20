@@ -237,6 +237,254 @@
 <!-- Table of Contents -->
 
   
+    <article id="post-Radare2之旅-PART1：Simple crackme"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/02/18/Radare2之旅-PART1：Simple crackme/">Radare2之旅-PART1：Simple crackme</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/18/Radare2之旅-PART1：Simple crackme/" class="article-date">
+	  <time datetime="2019-02-18T04:17:27.000Z" itemprop="datePublished">2019-02-18</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>翻译自<a href="https://www.megabeets.net/a-journey-into-radare-2-part-1/" target="_blank" rel="noopener">megabeets</a>。</p>
+        <!-- 翻译自megabeets。
+
+序言过去一年里的CTF比赛中，不论是逆向工程（RE）还是漏洞挖掘（PWN），我一直在用radare2。我发现radare2对于很多CTF的题目来说都很有用，极大地缩短了我的做题时间。遗憾的是熟悉radare2的人太少了。可能大家都习惯了使用IDA Pro、OllyDBG还有gdb，或者没有听说过它。不管怎么样，我都认为radare2应该成为你工具箱中的一部分。
+......  -->
+        <p class="article-more-link">
+          <a href="/2019/02/18/Radare2之旅-PART1：Simple crackme/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/translation/">translation</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-【未完成】绕过ELF的安全防护机制Canary"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/02/15/【未完成】绕过ELF的安全防护机制Canary/">绕过ELF的安全防护机制Canary</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/15/【未完成】绕过ELF的安全防护机制Canary/" class="article-date">
+	  <time datetime="2019-02-15T08:21:43.000Z" itemprop="datePublished">2019-02-15</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>入门canary。</p>
+        <!-- 入门canary。
+
+何为Canary由于stack overflow而引发的攻击非常普遍也非常古老，相应地一种叫做Canary的技术很早就出现在glibc里，直到现在也作为系统安全的第一道防线存在。Canary的意思是金丝雀，来源于英国矿井工人用来探查井下气体是否有毒的金丝雀笼子。工人们每次下井都会带上一只金丝雀如果井下的气体有毒，金丝雀由于对毒性敏感就会停止鸣叫甚至死亡，从而使工人们得到......  -->
+        <p class="article-more-link">
+          <a href="/2019/02/15/【未完成】绕过ELF的安全防护机制Canary/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-为Windows系统鼠标右键添加软件和图标"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/02/15/为Windows系统鼠标右键添加软件和图标/">为Windows系统鼠标右键添加软件和图标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/15/为Windows系统鼠标右键添加软件和图标/" class="article-date">
+	  <time datetime="2019-02-15T03:00:27.000Z" itemprop="datePublished">2019-02-15</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Windows下不想要总是先打开软件，再把文件拖进去。那就可以修改一下右键菜单。</p>
+        <!-- Windows下不想要总是先打开软件，再把文件拖进去。那就可以修改一下右键菜单。
+
+修改文件右键菜单查壳还有调试的时候总是把文件拖来拖去实在太麻烦了，不如修改一下，直接右键就能开始分析。下面就记录一下修改文件右键菜单的过程：
+首先打开注册表：
+
+依次进入计算机\HKEY_CLASSES_ROOT\*\shell，在shell项下新建一个项，这里以PEID为例。然后在新建好的PEID项下，新建......  -->
+        <p class="article-more-link">
+          <a href="/2019/02/15/为Windows系统鼠标右键添加软件和图标/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-中级ROP-ret2-libc-csu-init-writeup"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/02/12/中级ROP-ret2-libc-csu-init-writeup/">中级ROP-ret2__libc_csu_init-writeup</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/12/中级ROP-ret2-libc-csu-init-writeup/" class="article-date">
+	  <time datetime="2019-02-12T10:02:50.000Z" itemprop="datePublished">2019-02-12</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用蒸米的一步一步学ROP之linux_x64篇中的level5来研究一下64位的ROP。</p>
+        <!-- 用蒸米的一步一步学ROP之linux_x64篇中的level5来研究一下64位的ROP。
+
+64位的程序中，函数所调用的参数并不是全部在栈上，前六个参数分别位于rdi、rsi、rdx、rcx、r8和r9，其余参数则在栈上。同时，可以使用的内存地址不能大于0x00007fffffffffff，否则会抛出异常。所以64位的程序需要通过rop或者libc中的函数来设置参数。
+分析程序程序给出的源码......  -->
+        <p class="article-more-link">
+          <a href="/2019/02/12/中级ROP-ret2-libc-csu-init-writeup/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-【未完成】2019-吾爱破解解题领红包活动"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/02/10/【未完成】2019-吾爱破解解题领红包活动/">2019-吾爱破解解题领红包活动</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/10/【未完成】2019-吾爱破解解题领红包活动/" class="article-date">
+	  <time datetime="2019-02-10T12:33:03.000Z" itemprop="datePublished">2019-02-10</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>只做出了简单题，难的题目待复现。</p>
+        <!-- 只做出了简单题，难的题目待复现。
+
+【春节】解题领红包之一扫码关注即可。
+
+【春节】解题领红包之二查壳是upx，ESP定律法找到OEP脱壳。然后放进ida里：
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647HWND main_func()&#123;  HWND res......  -->
+        <p class="article-more-link">
+          <a href="/2019/02/10/【未完成】2019-吾爱破解解题领红包活动/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-【未完成】2019-FireShell-review"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -439,256 +687,11 @@ smallorange...  -->
 <!-- Table of Contents -->
 
   
-    <article id="post-绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/">绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/" class="article-date">
-	  <time datetime="2018-12-08T04:37:41.000Z" itemprop="datePublished">2018-12-08</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>main函数前有什么？</p>
-        <!-- main函数前有什么？
-
-TLS什么是TLSTLS（Thread Local Storage）回调函数是每当创建/终止进程的线程时会自动调用执行的函数。创建的主线程也会自动调用回调函数，且其调用执行先于EP（Entry Point）代码。功能就是把PE文件的TEXT段进行加密，隐藏他的静态代码段特性，在运行的时候抢在main函数执行之前把代码段直接在内存里面解密（不然就崩溃了），从而达到静态......  -->
-        <p class="article-more-link">
-          <a href="/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-C语言实现Base32和Base16解密加密算法"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/12/04/C语言实现Base32和Base16解密加密算法/">C语言实现Base32和Base16解密加密算法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/12/04/C语言实现Base32和Base16解密加密算法/" class="article-date">
-	  <time datetime="2018-12-04T14:04:09.000Z" itemprop="datePublished">2018-12-04</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>承接之前<a href="https://qianfei11.github.io/2018/05/12/C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0base64%E8%A7%A3%E5%AF%86%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">Base64的文章</a>，实现了一下Base32和Base16，原理是一样的。</p>
-        <!-- 承接之前Base64的文章，实现了一下Base32和Base16，原理是一样的。
-
-Base32加解密实现123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767......  -->
-        <p class="article-more-link">
-          <a href="/2018/12/04/C语言实现Base32和Base16解密加密算法/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-如何手脱简单压缩壳"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/11/29/如何手脱简单压缩壳/">如何手脱简单压缩壳</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/11/29/如何手脱简单压缩壳/" class="article-date">
-	  <time datetime="2018-11-29T09:04:10.000Z" itemprop="datePublished">2018-11-29</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记录一下脱一些简单压缩壳的过程。</p>
-        <!-- 记录一下脱一些简单压缩壳的过程。
-
-相关压缩壳简介压缩壳，主要目的起对软件的压缩，保护强度不大。
-
-UPX（the Ultimate Packer for eXecutables）是一个免费且开源的可执行程序文件加壳器，支持许多不同操作系统下的可执行文件格式。
-ASPack是一种可压缩32位WindowsEXE文件与DLL文件的压缩工具，能将大多数EXE文件及DLL文件平均压缩百分之三十到四......  -->
-        <p class="article-more-link">
-          <a href="/2018/11/29/如何手脱简单压缩壳/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-2018-护网杯-review"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/10/16/2018-护网杯-review/">2018-护网杯-review</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/10/16/2018-护网杯-review/" class="article-date">
-	  <time datetime="2018-10-16T10:18:29.000Z" itemprop="datePublished">2018-10-16</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看着大佬们的wp复现一波。</p>
-        <!-- 看着大佬们的wp复现一波。
-
-迟到的签到题充分证明了自己是个签到题选手。
-12345678910import base64enc = ''enc = base64.b64decode(enc)# test = 'flag&#123;'# for i in range(len(test)):#     print chr(ord(test) ^ ord(enc)),flag = ''for i......  -->
-        <p class="article-more-link">
-          <a href="/2018/10/16/2018-护网杯-review/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-2018-网鼎杯-review"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/09/12/2018-网鼎杯-review/">2018-网鼎杯-review</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/09/12/2018-网鼎杯-review/" class="article-date">
-	  <time datetime="2018-09-12T13:00:45.000Z" itemprop="datePublished">2018-09-12</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现阶段主要一直在做逆向，看了好几道逆向的wp复现一下。</p>
-        <!-- 现阶段主要一直在做逆向，看了好几道逆向的wp复现一下。
-
-REbeijing简单的异或，直接取原来的数据：
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364#include &lt;stdio.h&gt;......  -->
-        <p class="article-more-link">
-          <a href="/2018/09/12/2018-网鼎杯-review/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>

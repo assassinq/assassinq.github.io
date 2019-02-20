@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>脱壳指南 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="re" />
+  
+  
+  
+  
+  <meta name="description" content="记录一下脱一些简单壳的过程（主要是找OEP）。">
+<meta name="keywords" content="re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脱壳指南">
+<meta property="og:url" content="http://AssassinQ.com/2018/11/29/【未完成】脱壳指南/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="记录一下脱一些简单壳的过程（主要是找OEP）。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/1.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/2.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/3.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/4.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/5.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/6.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/7.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/8.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/9.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/10.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/11.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/26.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/12.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/13.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/14.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/15.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/16.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/17.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/18.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/19.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/20.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/21.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/22.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/23.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/24.png">
+<meta property="og:image" content="http://assassinq.com/pics/脱壳指南/25.png">
+<meta property="og:updated_time" content="2019-02-18T09:09:41.427Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="脱壳指南">
+<meta name="twitter:description" content="记录一下脱一些简单壳的过程（主要是找OEP）。">
+<meta name="twitter:image" content="http://assassinq.com/pics/脱壳指南/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-【未完成】脱壳指南" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      脱壳指南
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/11/29/【未完成】脱壳指南/" class="article-date">
+	  <time datetime="2018-11-29T09:04:10.000Z" itemprop="datePublished">2018-11-29</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录一下脱一些简单壳的过程（主要是找OEP）。</p>
+<a id="more"></a>
+<h1 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h1><ul>
+<li>调试工具：<code>Ollydbg</code></li>
+<li>查壳工具：<code>ExeInfo</code>/<code>PEID</code></li>
+<li>脱壳工具：<code>LordPE</code>、<code>ImportRE</code></li>
+</ul>
+<p>OD快捷键：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>f7</code></td>
+<td style="text-align:center">单步步入</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f8</code></td>
+<td style="text-align:center">单步步过</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f4</code></td>
+<td style="text-align:center">运行到选定位置</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f2</code></td>
+<td style="text-align:center">设置断点</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+f2</code></td>
+<td style="text-align:center">重新开始</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f9</code></td>
+<td style="text-align:center">运行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>shift+f9</code></td>
+<td style="text-align:center">忽略异常运行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>alt+f9</code></td>
+<td style="text-align:center">执行到用户代码</td>
+</tr>
+</tbody>
+</table>
+<h1 id="脱壳"><a href="#脱壳" class="headerlink" title="脱壳"></a>脱壳</h1><h2 id="LordPE"><a href="#LordPE" class="headerlink" title="LordPE"></a>LordPE</h2><p>LordPE用来将程序dump出来：</p>
+<ol>
+<li>找到程序右键，<code>修正镜像大小</code>；</li>
+<li><code>完整转存</code>。</li>
+</ol>
+<p><img src="/pics/脱壳指南/1.png" alt="LordPE步骤"></p>
+<h2 id="ImportREC"><a href="#ImportREC" class="headerlink" title="ImportREC"></a>ImportREC</h2><p>ImportREC用来修改OEP和一些IAT：</p>
+<ol>
+<li>找到程序，输入找到的<code>OEP</code>的值；</li>
+<li>点击<code>IAT自动搜索</code>；</li>
+<li><code>获取导入表</code>；</li>
+<li><code>显示无效的</code>，如果有无效的表清除即可；</li>
+<li><code>修正转储</code>。</li>
+</ol>
+<p><img src="/pics/脱壳指南/2.png" alt="ImportREC步骤"></p>
+<p>了解了脱壳的方法后，我们需要做的就是找到OEP。</p>
+<h1 id="压缩壳"><a href="#压缩壳" class="headerlink" title="压缩壳"></a>压缩壳</h1><p>压缩壳的特点是减小软件体积大小，主要目的起对软件的压缩，加密保护不是重点。例如：UPX、ASPack等等。</p>
+<ul>
+<li><code>UPX</code>（the Ultimate Packer for eXecutables）是一个免费且开源的可执行程序文件加壳器，支持许多不同操作系统下的可执行文件格式。</li>
+<li><code>ASPack</code>是一种可压缩32位Windows<code>EXE</code>文件与<code>DLL</code>文件的压缩工具，能将大多数EXE文件及DLL文件平均压缩百分之三十到四十的压缩率。</li>
+<li><code>kkrunchy</code>是一个<code>64K Demo</code>专用的压缩工具，压缩率非常高。</li>
+<li><code>NSPack</code>是一款支持<code>EXE</code>/<code>DLL</code>/<code>OCX</code>/<code>SCR</code>等类型的文件进行压缩。可以兼容64位操作系统。</li>
+<li><code>PECompact</code>是一款能压缩可执行文件（后缀为<code>EXE</code>）的压缩加壳工具，压缩率极高，压缩后的程序无需解压即可直接运行，通过压缩代码、数据、相关资源使压缩能达到100%。</li>
+</ul>
+<h2 id="单步执行法"><a href="#单步执行法" class="headerlink" title="单步执行法"></a>单步执行法</h2><p>以UPX为例。单步执行法，通过单步执行一步一步，找到OEP（程序入口点）。如果遇到向下的跳转则默认跳转：</p>
+<p><img src="/pics/脱壳指南/3.png" alt="向下跳转f7实现"></p>
+<p>遇到向上的跳转则直接执行到下一条语句，即f4：</p>
+<p><img src="/pics/脱壳指南/4.png" alt="向上跳转"></p>
+<p><img src="/pics/脱壳指南/5.png" alt="f4到下一条语句"></p>
+<p>最后执行到<code>popad</code>处会有一个大范围的<code>jmp</code>，即转到OEP。</p>
+<h2 id="ESP定律法"><a href="#ESP定律法" class="headerlink" title="ESP定律法"></a>ESP定律法</h2><p>以UPX为例。利用压缩前后ESP不变的定律。在指令<code>pushad</code>时单步一下，会发现寄存器中只有<code>ESP</code>发生变化：</p>
+<p><img src="/pics/脱壳指南/6.png" alt="只有ESP的值发生改变"></p>
+<p>然后右键ESP的值，跟随数据窗口：</p>
+<p><img src="/pics/脱壳指南/7.png" alt="跟随数据窗口"></p>
+<p>再在数据窗口中硬件访问，设下断点：</p>
+<p><img src="/pics/脱壳指南/8.png" alt="设置硬件断点"></p>
+<p>同样也可以通过<code>dd xxxxxxxx</code>或者<code>hr xxxxxxxx</code>设下硬件断点，在下方command处输入：</p>
+<p><img src="/pics/脱壳指南/9.png" alt="dd命令"></p>
+<p><img src="/pics/脱壳指南/10.png" alt="hr命令"></p>
+<p>然后f9继续执行到<code>popad</code>后，删去硬件断点：</p>
+<p><img src="/pics/脱壳指南/11.png" alt="删除硬件断点"></p>
+<p>f7到达OEP。</p>
+<h2 id="特殊的ESP定律法"><a href="#特殊的ESP定律法" class="headerlink" title="特殊的ESP定律法"></a>特殊的ESP定律法</h2><p>以FSG2.0为例。不遵循ESP不变的定律，FSG2.0专用的方法。单步走到<code>popad</code>的下一条指令，观察堆栈窗口从上往下数第四个地址的值即为OEP的地址。右键在反汇编窗口跟随：</p>
+<p><img src="/pics/脱壳指南/26.png" alt="第四个值在反汇编窗口跟随"></p>
+<p>下硬件断点后f9运行，到达OEP。</p>
+<h2 id="二次内存镜像法"><a href="#二次内存镜像法" class="headerlink" title="二次内存镜像法"></a>二次内存镜像法</h2><p>以UPX为例。进入内存段中，先找到程序段的第一个<code>.rsrc</code>，并设下断点后执行：</p>
+<p><img src="/pics/脱壳指南/12.png" alt="程序段第一个.rsrc"></p>
+<p>再在内存段中的<code>0x00401000</code>处设下断点，再执行</p>
+<p><img src="/pics/脱壳指南/13.png" alt="0x00401000处"></p>
+<p>然后按照单步执行法往下走就能看到<code>popad</code>还有jmp：</p>
+<p><img src="/pics/脱壳指南/14.png" alt="看到popad"></p>
+<h2 id="一步直达法"><a href="#一步直达法" class="headerlink" title="一步直达法"></a>一步直达法</h2><p>以UPX为例。在遇到指令<code>pushad</code>后，通过经验可以判断必存在<code>popad</code>，直接搜索指令找到OEP：</p>
+<p><img src="/pics/脱壳指南/15.png" alt="搜索指令"></p>
+<p><img src="/pics/脱壳指南/16.png" alt="不需要选整个块"></p>
+<h2 id="模拟跟踪法"><a href="#模拟跟踪法" class="headerlink" title="模拟跟踪法"></a>模拟跟踪法</h2><p>以ASPack为例。先进入内存中，找到SFX：</p>
+<p><img src="/pics/脱壳指南/17.png" alt="找到SFX"></p>
+<p>在命令框输入<code>tc eip&lt;xxxxxxxx</code>：</p>
+<p><img src="/pics/脱壳指南/18.png" alt="输入tc命令"></p>
+<p>会看到OD左上角变成了跟踪：</p>
+<p><img src="/pics/脱壳指南/19.png" alt="左上角变成了跟踪"></p>
+<p>等待一段时间就会跳转到OEP。</p>
+<h2 id="SFX模拟跟踪法"><a href="#SFX模拟跟踪法" class="headerlink" title="SFX模拟跟踪法"></a>SFX模拟跟踪法</h2><p>以ASPack为例。进入<code>选项-&gt;调试设置</code>（<code>Alt+O</code>）：</p>
+<p><img src="/pics/脱壳指南/20.png" alt="调试设置"></p>
+<p>一般情况选择块方式跟踪或者字节方式，这里选择前者：</p>
+<p><img src="/pics/脱壳指南/21.png" alt="选择块方式跟踪"></p>
+<p>确定后，重新载入（<code>Ctrl+f2</code>），直接跳到了OEP。</p>
+<h2 id="最后一次异常法"><a href="#最后一次异常法" class="headerlink" title="最后一次异常法"></a>最后一次异常法</h2><p>以PECompact为例。先在调试选项中忽略所有异常：</p>
+<p><img src="" alt=""></p>
+<p>重新载入后，执行m次shift+f9，直到程序跑飞。然后重新载入程序，执行m-1次shift+f9。在堆栈窗口中找到<code>SE句柄</code>，然后ctrl+g转到SE句柄：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">0045DE74    B8 F9CB45F0     mov eax,0xF045CBF9</span><br><span class="line">0045DE79    8D88 9E120010   lea ecx,dword ptr ds:[eax+0x1000129E]</span><br><span class="line">0045DE7F    8941 01         mov dword ptr ds:[ecx+0x1],eax</span><br><span class="line">0045DE82    8B5424 04       mov edx,dword ptr ss:[esp+0x4]</span><br><span class="line">0045DE86    8B52 0C         mov edx,dword ptr ds:[edx+0xC]</span><br><span class="line">0045DE89    C602 E9         mov byte ptr ds:[edx],0xE9</span><br><span class="line">0045DE8C    83C2 05         add edx,0x5</span><br><span class="line">0045DE8F    2BCA            sub ecx,edx                              ; ntdll_1.7720353D</span><br><span class="line">0045DE91    894A FC         mov dword ptr ds:[edx-0x4],ecx           ; qqspirit.0045DE74</span><br><span class="line">0045DE94    33C0            xor eax,eax</span><br><span class="line">0045DE96    C3              retn</span><br><span class="line">0045DE97    B8 78563412     mov eax,0x12345678                       ; 下断点</span><br></pre></td></tr></table></figure>
+<p>随后执行到断点处，单步跟到OEP。</p>
+<h1 id="加密壳"><a href="#加密壳" class="headerlink" title="加密壳"></a>加密壳</h1><p>加密壳主要就是针对软件的加密保护，也有一些人用加密壳来做一些木马的免杀，导致一些杀软件查到该壳就误报病毒。加密壳的种类有很多，如果手工脱和修复，即使对高手来脱，也需要费很大力气。</p>
+<h1 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h1><p>有时候脱完壳却不能运行程序，需要修复IAT。首先载入OD，在OEP往下找<code>call</code>：</p>
+<p><img src="/pics/脱壳指南/22.png" alt="找到call"></p>
+<p>找到后在命令框处输入<code>d xxxxxx</code>：</p>
+<p><img src="/pics/脱壳指南/23.png" alt="数据窗口中跟随"></p>
+<p>在数据窗口中，往上查找，直到数据为0，记录下IAT地址；往下也同样：</p>
+<p><img src="/pics/脱壳指南/24.png" alt="查找首尾地址"></p>
+<p>在<code>ImportREC</code>中修改OEP后，不采取自动获取的方式，手动输入IAT起始地址和大小，偷懒的办法是大小直接输1000：</p>
+<p><img src="/pics/脱壳指南/25.png" alt="ImportREC修改"></p>
+<p>然后清除掉无效的，转储一下得到完整程序。</p>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://www.cnblogs.com/hongyuyingxiao/p/9630173.html" target="_blank" rel="noopener">https://www.cnblogs.com/hongyuyingxiao/p/9630173.html</a><br><a href="https://findream.github.io/2018/07/15/%E5%B8%B8%E8%A7%81%E5%A3%B3%E7%9A%84%E8%84%B1%E5%A3%B3%E6%80%9D%E8%B7%AF/" target="_blank" rel="noopener">https://findream.github.io/2018/07/15/%E5%B8%B8%E8%A7%81%E5%A3%B3%E7%9A%84%E8%84%B1%E5%A3%B3%E6%80%9D%E8%B7%AF/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '我 可爱 打钱', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
+  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/12/04/C语言实现Base32和Base16解密加密算法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C语言实现Base32和Base16解密加密算法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/16/2018-护网杯-review/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018-护网杯-review</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用工具"><span class="nav-number">1.</span> <span class="nav-text">使用工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脱壳"><span class="nav-number">2.</span> <span class="nav-text">脱壳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LordPE"><span class="nav-number">2.1.</span> <span class="nav-text">LordPE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImportREC"><span class="nav-number">2.2.</span> <span class="nav-text">ImportREC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#压缩壳"><span class="nav-number">3.</span> <span class="nav-text">压缩壳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单步执行法"><span class="nav-number">3.1.</span> <span class="nav-text">单步执行法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESP定律法"><span class="nav-number">3.2.</span> <span class="nav-text">ESP定律法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊的ESP定律法"><span class="nav-number">3.3.</span> <span class="nav-text">特殊的ESP定律法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二次内存镜像法"><span class="nav-number">3.4.</span> <span class="nav-text">二次内存镜像法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一步直达法"><span class="nav-number">3.5.</span> <span class="nav-text">一步直达法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟跟踪法"><span class="nav-number">3.6.</span> <span class="nav-text">模拟跟踪法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SFX模拟跟踪法"><span class="nav-number">3.7.</span> <span class="nav-text">SFX模拟跟踪法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后一次异常法"><span class="nav-number">3.8.</span> <span class="nav-text">最后一次异常法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加密壳"><span class="nav-number">4.</span> <span class="nav-text">加密壳</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修复"><span class="nav-number">5.</span> <span class="nav-text">修复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">6.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            AssassinQ
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Q14NF3111 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+</body>
+</html>
