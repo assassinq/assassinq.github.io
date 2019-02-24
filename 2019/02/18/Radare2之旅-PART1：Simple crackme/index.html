@@ -15,7 +15,7 @@
 <meta name="keywords" content="translation,re">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Radare2之旅-Part1：Simple crackme">
-<meta property="og:url" content="http://AssassinQ.com/2019/02/18/Radare2之旅-Part1：Simple crackme/index.html">
+<meta property="og:url" content="https://qianfei11.github.io/2019/02/18/Radare2之旅-Part1：Simple crackme/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="翻译自Megabeets。">
 <meta property="og:locale" content="default">
@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://www.megabeets.net/uploads/visualGraph_1.png">
 <meta property="og:image" content="https://www.megabeets.net/uploads/visualGraph_beet1.png">
 <meta property="og:image" content="https://www.megabeets.net/uploads/visualGraph_beet2.png">
-<meta property="og:updated_time" content="2019-02-23T03:19:00.888Z">
+<meta property="og:updated_time" content="2019-02-24T13:20:19.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Radare2之旅-Part1：Simple crackme">
 <meta name="twitter:description" content="翻译自Megabeets。">
@@ -66,9 +66,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -211,7 +233,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">[0x08048370]&gt;</span> s?</span><br><span class="line">|Usage: s  # Seek commands</span><br><span class="line">| s                 Print current address</span><br><span class="line">| s addr            Seek to address</span><br><span class="line">| s-                Undo seek</span><br><span class="line">| s- n              Seek n bytes backward</span><br><span class="line">| s–                Seek blocksize bytes backward</span><br><span class="line">| s+                Redo seek</span><br><span class="line">| s+ n              Seek n bytes forward</span><br><span class="line">| s++               Seek blocksize bytes forward</span><br><span class="line">| s[j*=]            List undo seek history (JSON, =list, *r2)</span><br><span class="line">| s/ DATA           Search for next occurrence of ‘DATA’</span><br><span class="line">| s/x 9091          Search for next occurrence of \x90\x91</span><br><span class="line">| s.hexoff          Seek honoring a base from core-&gt;offset</span><br><span class="line">| sa [[+-]a] [asz]  Seek asz (or bsize) aligned to addr</span><br><span class="line">| sb                Seek aligned to bb start</span><br><span class="line">| sC[?] string      Seek to comment matching given string</span><br><span class="line">| sf                Seek to next function (f-&gt;addr+f-&gt;size)</span><br><span class="line">| sf function       Seek to address of specified function</span><br><span class="line">| sg/sG             Seek begin (sg) or end (sG) of section or file</span><br><span class="line">| sl[?] [+-]line    Seek to line</span><br><span class="line">| sn/sp             Seek next/prev scr.nkey</span><br><span class="line">| so [N]            Seek to N next opcode(s)</span><br><span class="line">| sr pc             Seek to register</span><br></pre></td></tr></table></figure>
 <p><code>seek</code>命令是接收一个地址或是一个数学表达式作为参数。这个表达式可以是数学运算、标志或者内存访问操作。我们可以执行<code>s main</code>来定位到main函数。让我们先通过<code>afl</code>命令（Analyze Functions List）来查看<code>radare2</code>为我们列出了哪些函数。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">[0x08048370]&gt;</span> afl</span><br><span class="line">0x080482ec    3 35           sym._init</span><br><span class="line">0x08048320    1 6            sym.imp.strcmp</span><br><span class="line">0x08048330    1 6            sym.imp.strcpy</span><br><span class="line">0x08048340    1 6            sym.imp.puts</span><br><span class="line">0x08048350    1 6            sym.imp.__libc_start_main</span><br><span class="line">0x08048360    1 6            sub.__gmon_start___252_360</span><br><span class="line">0x08048370    1 33           entry0</span><br><span class="line">0x080483a0    1 4            sym.__x86.get_pc_thunk.bx</span><br><span class="line">0x080483b0    4 43           sym.deregister_tm_clones</span><br><span class="line">0x080483e0    4 53           sym.register_tm_clones</span><br><span class="line">0x08048420    3 30           sym.__do_global_dtors_aux</span><br><span class="line">0x08048440    4 43   -&gt; 40   sym.frame_dummy</span><br><span class="line">0x0804846b   19 282          sym.rot13</span><br><span class="line">0x08048585    1 112          sym.beet</span><br><span class="line">0x080485f5    5 127          main</span><br><span class="line">0x08048680    4 93           sym.__libc_csu_init</span><br><span class="line">0x080486e0    1 2            sym.__libc_csu_fini</span><br><span class="line">0x080486e4    1 20           sym._fini</span><br></pre></td></tr></table></figure>
-<p>太棒了！这些导入函数正是我们之前所看到的，包括入口点、libc、main函数和两个引人注意的函数分别叫做<code>sym.beet</code>和<code>sym.rot13</code>。</p>
+<p>这些导入函数正是我们之前所看到的，包括入口点、libc、main函数和两个引人注意的函数分别叫做<code>sym.beet</code>和<code>sym.rot13</code>。</p>
 <h1 id="反汇编"><a href="#反汇编" class="headerlink" title="反汇编"></a>反汇编</h1><h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h2><p>是时候去看看汇编代码了。首先我们用<code>s main</code>来定位到main函数，然后用<code>pdf</code>命令（Print Disassemble Function）来反汇编。注意地址是怎么准确地变成main函数的地址的。</p>
 <blockquote>
 <ul>
@@ -249,14 +271,14 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:&gt; ahi s @@=0x080485a3 0x080485ad 0x080485b7</span><br></pre></td></tr></table></figure>
 <p><code>ahi s</code>用来将将具体地址转换成字符串（试试<code>ahi?</code>）。<code>@@</code>是一个迭代器（试试<code>@@</code>），然后这些地址则是<code>sym.beet</code>函数中没被<code>radare2</code>识别成字符串的部分。执行完这条命令后，图形视图会自动刷新（如果没有自动刷新，执行<code>r</code>）成这样：</p>
 <p><img src="https://www.megabeets.net/uploads/visualGraph_beet2.png" alt></p>
-<p>太棒了！看起来没被识别出来的字符串是<code>Megabeets</code>（根据<a href="https://en.wikipedia.org/wiki/Endianness" target="_blank" rel="noopener">字节序</a>反向压栈得到）。</p>
+<p>看起来没被识别出来的字符串是<code>Megabeets</code>（根据<a href="https://en.wikipedia.org/wiki/Endianness" target="_blank" rel="noopener">字节序</a>反向压栈得到）。</p>
 <p>该程序通过<code>strcmp</code>将经过rot13处理后的<code>Megabeets</code>与我们输入的参数进行比较。幸运的是我们不需要辛苦地分析rot13的具体算法，因为<code>r2</code>框架中的<code>rahash2</code>工具已经包含了rot13加密。</p>
 <p><code>rahash2</code>通过不同的算法计算文件或是字符串的校验值。</p>
 <p>使用<code>man rahash2</code>查看更多的用法。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:&gt; !rahash2 -E rot -S s:13 -s ‘Megabeets\n’</span><br><span class="line">Zrtnorrgf</span><br></pre></td></tr></table></figure>
 <p><code>rahash2</code>执行了<code>rot13(“Megabeets”)</code>后得到了字符串<code>Zrtnorrgf</code>。输入<code>!</code>可以在<code>r2</code>的shell下执行系统命令。我们假设<code>Zrtnorrgf</code>就是要和我们的输入进行比较的字符串。让我们在调试模式下打开程序，使用<code>ood</code>（试试<code>ood?</code>）并将<code>Zrtnorrgf</code>作为参数，看看我们会得到什么。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">[0xf7749be9]&gt;</span> ood?</span><br><span class="line">| ood [args]    reopen in debugger mode (with args)</span><br><span class="line"><span class="meta">[0xf7749be9]&gt;</span> ood Zrtnorrgf</span><br><span class="line">Wait event received by different pid 7415</span><br><span class="line">Wait event received by different pid 7444</span><br><span class="line">Process with PID 7575 started…</span><br><span class="line">File dbg:///home/remnux/Desktop/tutorials/megabeets_0x1 Zrtnorrgf reopened in read-write mode</span><br><span class="line">= attach 7575 7575</span><br><span class="line">Assuming filepath /home/remnux/Desktop/tutorials/megabeets_0x1</span><br><span class="line"><span class="meta">[0xf7749be9]&gt;</span> dc</span><br><span class="line">Selecting and continuing: 7575.:: Megabeets ::.</span><br><span class="line">Think you can make it?</span><br><span class="line">Success!PTRACE_EVENT_EXIT pid=7575, status=0x0</span><br></pre></td></tr></table></figure>
-<p>喔呼！我们收到了成功的提示，破解了这个Crackme。在成功破解之后，我们终于可以说这个程序就是将我们输入的第一个参数与<code>rot13(“Megabeets”)</code>进行了比较，也就是<code>Zrtnorrgf</code>。</p>
+<p>我们收到了成功的提示，破解了这个Crackme。在成功破解之后，我们终于可以说这个程序就是将我们输入的第一个参数与<code>rot13(“Megabeets”)</code>进行了比较，也就是<code>Zrtnorrgf</code>。</p>
 <p>你可以在<a href="https://github.com/ITAYC0HEN/A-journey-into-Radare2/blob/master/Part%201%20-%20Simple%20crackme/megabeets_0x1.c" target="_blank" rel="noopener">这里</a>查看Crackme的完整源码。</p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><code>Radare2</code>之旅第一部分就告一段落了。我们只接触了<code>radare2</code>的表皮，仅仅了解了它最最基础的一些功能。在下一部分中，我们将会学习更多的关于<code>radare2</code>的功能，包括脚本处理、恶意软件分析和漏洞利用。我知道对于很多人来说一开始是很难的，不管是能否感受到<code>radare2</code>的强大之处，亦或是将你的以前的习惯放到一边而熟悉使用<code>radare2</code>。不管你是一个逆向工程师、一个CTF比赛选手或者只是一个安全爱好者，我敢保证将<code>radare2</code>收入你的工具箱绝对一个是明智的选择。</p>
 
@@ -378,6 +400,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

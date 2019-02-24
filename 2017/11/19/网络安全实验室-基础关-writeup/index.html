@@ -15,27 +15,27 @@
 <meta name="keywords" content="ctf,wp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络安全实验室-基础关-writeup">
-<meta property="og:url" content="http://AssassinQ.com/2017/11/19/网络安全实验室-基础关-writeup/index.html">
+<meta property="og:url" content="https://qianfei11.github.io/2017/11/19/网络安全实验室-基础关-writeup/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="第一次写wp，主要是一些web题。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/1.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/2.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/4.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/5.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/6.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/7.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/8.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/9.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/10.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/11.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/12-1.jpg">
-<meta property="og:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/12-2.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/1.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/2.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/4.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/5.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/6.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/7.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/8.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/9.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/10.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/11.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/12-1.jpg">
+<meta property="og:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/12-2.jpg">
 <meta property="og:updated_time" content="2018-11-11T05:05:11.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络安全实验室-基础关-writeup">
 <meta name="twitter:description" content="第一次写wp，主要是一些web题。">
-<meta name="twitter:image" content="http://assassinq.com/pics/网络安全实验室-基础关-writeup/1.jpg">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/网络安全实验室-基础关-writeup/1.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -72,9 +72,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -301,6 +323,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
