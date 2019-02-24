@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>radare2之旅-part1：simple crackme | AssassinQ</title>
+  <title>Radare2之旅-Part1：Simple crackme | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="translationre" />
+  <meta name="keywords" content="translationre">
   
   
   
   
-  <meta name="description" content="翻译自megabeets。">
+  <meta name="description" content="翻译自Megabeets。">
 <meta name="keywords" content="translation,re">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Radare2之旅-PART1：Simple crackme">
-<meta property="og:url" content="http://AssassinQ.com/2019/02/18/Radare2之旅-PART1：Simple crackme/index.html">
+<meta property="og:title" content="Radare2之旅-Part1：Simple crackme">
+<meta property="og:url" content="http://AssassinQ.com/2019/02/18/Radare2之旅-Part1：Simple crackme/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="翻译自megabeets。">
+<meta property="og:description" content="翻译自Megabeets。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.megabeets.net/uploads/r2_part1_1.png">
 <meta property="og:image" content="https://www.megabeets.net/uploads/r2_learning_curve.png">
@@ -25,19 +25,15 @@
 <meta property="og:image" content="https://www.megabeets.net/uploads/visualGraph_1.png">
 <meta property="og:image" content="https://www.megabeets.net/uploads/visualGraph_beet1.png">
 <meta property="og:image" content="https://www.megabeets.net/uploads/visualGraph_beet2.png">
-<meta property="og:updated_time" content="2019-02-20T01:58:03.958Z">
+<meta property="og:updated_time" content="2019-02-23T03:19:00.888Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Radare2之旅-PART1：Simple crackme">
-<meta name="twitter:description" content="翻译自megabeets。">
+<meta name="twitter:title" content="Radare2之旅-Part1：Simple crackme">
+<meta name="twitter:description" content="翻译自Megabeets。">
 <meta name="twitter:image" content="https://www.megabeets.net/uploads/r2_part1_1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
-
-  
-
-  <link rel="icon" href="/css/images/mylogo.jpg">
-  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  <link rel="icon" href="/css/images/favicon.ico">
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
@@ -49,133 +45,81 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
   <link rel="stylesheet" href="/css/style.css">
 
   <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css" >
-
-  
-    <link rel="stylesheet" href="/css/dialog.css">
-  
-
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css" >
-  
-
-  
-  
-  
-    <link rel="stylesheet" href="/css/vdonate.css" >
-  
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
 
 </head>
-
+</html>
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
-  <div id="container">
-    <div id="wrap">
-      
-        <header>
 
-    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-inner">
+
+<header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
           
-          <div class="container"> 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
             
-              <a class="brand" style="
-                 margin-top: 0px;"  
-                href="#" data-toggle="modal" data-target="#myModal" >
-                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
-              </a>
-            
-            
-            <div class="navbar-collapse collapse">
-              <ul class="hnav navbar-nav">
-                
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/about">About</a> </li>
-                
-                  <li><div id="search-form-wrap">
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div></li>
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
             </div>
-          </div>
-                
-      </div>
-    </div>
+          </nav>
 
+      </div>
+  </div>
 </header>
 
 
-
-      
+  <div id="container">
+    <div id="wrap">
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Radare2之旅-PART1：Simple crackme" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
+          <section id="main" style="float:none;"><article id="post-Radare2之旅-Part1：Simple crackme" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" class="article-title" itemprop="name">
-      Radare2之旅-PART1：Simple crackme
+    <h1 class="thumb" itemprop="name">
+      Radare2之旅-Part1：Simple crackme
     </h1>
   
 
@@ -183,22 +127,20 @@
     
     <div class="article-meta">
       
-	<a href="/2019/02/18/Radare2之旅-PART1：Simple crackme/" class="article-date">
-	  <time datetime="2019-02-18T04:17:27.000Z" itemprop="datePublished">2019-02-18</time>
+	<a href="/2019/02/18/Radare2之旅-Part1：Simple crackme/" class="article-date">
+	  <time datetime="2019-02-18T04:17:27.000Z" itemprop="datePublished">February 18, 2019</time>
 	</a>
 
+       
       
-      
-	<a class="article-views">
 	<span id="busuanzi_container_page_pv">
-		PV:<span id="busuanzi_value_page_pv"></span>
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
 	</span>
-	</a>
 
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>翻译自<a href="https://www.megabeets.net/a-journey-into-radare-2-part-1/" target="_blank" rel="noopener">megabeets</a>。</p>
+        <p>翻译自<a href="https://www.megabeets.net/a-journey-into-radare-2-part-1/" target="_blank" rel="noopener">Megabeets</a>。</p>
 <a id="more"></a>
 <h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h1><p>过去一年里的CTF比赛中，不论是逆向工程（RE）还是漏洞挖掘（PWN），我一直在用<code>radare2</code>。我发现<code>radare2</code>对于很多CTF的题目来说都很有用，极大地缩短了我的做题时间。遗憾的是熟悉radare2的人太少了。可能大家都习惯了使用<code>IDA Pro</code>、<code>OllyDBG</code>还有<code>gdb</code>，或者没有听说过它。不管怎么样，我都认为<code>radare2</code>应该成为你工具箱中的一部分。</p>
 <p>因为我真的特别喜欢这个项目，而且我希望能有越来越多的人开始熟悉它、使用它，能对项目做出一些贡献。我计划写一系列的文章以及使用<code>r2</code>的例子。因为那些文章都涉及<code>radare2</code>的特点和功能，我会解释的更加详细。</p>
@@ -231,7 +173,7 @@
 </li>
 </ul>
 </blockquote>
-<p>我们执行<code>rabin2</code>并使用参数<code>-I</code>输出二进制信息，例如操作系统、语言、字节序、框架以及保护技术（比如<code>Canary</code>、<code>NX</code>）等等。</p>
+<p>我们执行<code>rabin2</code>并使用参数<code>-I</code>输出二进制信息，例如操作系统、语言、字节序、框架以及保护技术（比如<code>Canary</code>、<code>PIC</code>、<code>NX</code>）等等。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> rabin2 -I megabeets_0x1</span><br><span class="line">havecode true</span><br><span class="line">pic      false</span><br><span class="line">canary   false</span><br><span class="line">nx       false</span><br><span class="line">crypto   false</span><br><span class="line">va       true</span><br><span class="line">intrp    /lib/ld-linux.so.2</span><br><span class="line">bintype  elf</span><br><span class="line">class    ELF32</span><br><span class="line">lang     c</span><br><span class="line">arch     x86</span><br><span class="line">bits     32</span><br><span class="line">machine  Intel 80386</span><br><span class="line">os       linux</span><br><span class="line">minopsz  1</span><br><span class="line">maxopsz  16</span><br><span class="line">pcalign  0</span><br><span class="line">subsys   linux</span><br><span class="line">endian   little</span><br><span class="line">stripped false</span><br><span class="line">static   false</span><br><span class="line">linenum  true</span><br><span class="line">lsyms    true</span><br><span class="line">relocs   true</span><br><span class="line">rpath    NONE</span><br><span class="line">binsz    6220</span><br></pre></td></tr></table></figure>
 <p>你可以清楚地看到，这是一个32位elf文件，没有符号表并且是动态链接。它没有任何漏洞利用技术——下一篇文章我们讲学习使用<code>radare2</code>来对漏洞进行利用。<br>让我们跑一下程序，看看它做了什么。</p>
 <blockquote>
@@ -280,7 +222,7 @@
 <p>看过汇编代码后，我们可以写出一段简单的伪代码：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (argc &gt; <span class="number">1</span> &amp;&amp; beet(argv[<span class="number">1</span>]) == <span class="literal">true</span>) </span><br><span class="line"><span class="meta"># i.e - <span class="meta-keyword">if</span> any argument passed to the program AND the result of beet, given the passed argument, is true</span></span><br><span class="line"><span class="meta"># argc is the number of arguments passed to the program</span></span><br><span class="line"><span class="meta"># argc will be at least 1 becuase the first argument is the program name</span></span><br><span class="line"><span class="meta"># argv is the array of parameters passed to the program</span></span><br><span class="line">&#123;</span><br><span class="line">    print <span class="string">"success"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123; </span><br><span class="line">     print <span class="string">"fail"</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
 <h2 id="可视化模式和图形模式"><a href="#可视化模式和图形模式" class="headerlink" title="可视化模式和图形模式"></a>可视化模式和图形模式</h2><p><code>radare2</code>有着一个非常强大、效率极高的可视化模式。可视化模式对用户非常友好并且将使用<code>r2</code>的逆向过程带到了一个新的高度。按下<code>V</code>键开启可视化模式。按下<code>p</code>/<code>P</code>键用来切换模式。在屏幕的最上方可以看到你输入的命令。这里按<code>p</code>可以切换回原来的反汇编模式。</p>
-<p><img src="https://www.megabeets.net/uploads/visualMode_1.png" alt=""></p>
+<p><img src="https://www.megabeets.net/uploads/visualMode_1.png" alt></p>
 <h3 id="可视化模式基本命令"><a href="#可视化模式基本命令" class="headerlink" title="可视化模式基本命令"></a>可视化模式基本命令</h3><h4 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h4><p>你可以通过<code>k</code>向上移动，通过<code>j</code>向下移动。回车键可以<code>jmp</code>或者<code>call</code>到目标地址。同时在每个<code>jmp</code>或<code>call</code>右侧注释的方括号中有数字，直接按相应的数字可跳转到对应地址。</p>
 <h4 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h4><p>正如之前命令行下的<code>radare2</code>，按下<code>?</code>可以为你展现帮助窗口，你可以学习可视化模式下的各个命令。</p>
 <h4 id="交叉引用"><a href="#交叉引用" class="headerlink" title="交叉引用"></a>交叉引用</h4><p>用<code>x</code>/<code>X</code>分别来列出当前函数的引用和调用的情况。按下对应数字来跳转。</p>
@@ -289,7 +231,7 @@
 <h4 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h4><p><code>m&lt;key&gt;</code>可以用来标记特定的偏移地址。<code>&#39;&lt;key&gt;</code>来跳到指定地址。</p>
 <h4 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h4><p>按下<code>q</code>键返回到<code>r2</code>的shell。</p>
 <h3 id="可视化图形模式"><a href="#可视化图形模式" class="headerlink" title="可视化图形模式"></a>可视化图形模式</h3><p>和其他的一些反汇编器一样，<code>radare2</code>也有图形视图。你可以输入<code>VV</code>从shell进入图形视图，通过<code>k</code>/<code>j</code>/<code>h</code>/<code>l</code>向上/下/左/右移动，按<code>g</code>键跳转到目标函数（例如<code>gd</code>）。</p>
-<p><img src="https://www.megabeets.net/uploads/visualGraph_1.png" alt=""></p>
+<p><img src="https://www.megabeets.net/uploads/visualGraph_1.png" alt></p>
 <p>按<code>?</code>来列出所有的命令，其中<code>R</code>命令值得一学。</p>
 <h2 id="反汇编beet函数"><a href="#反汇编beet函数" class="headerlink" title="反汇编beet函数"></a>反汇编<code>beet</code>函数</h2><p>接下来回到反汇编函数上，看看<code>beet</code>函数。正如我们之前所看到的，我们的程序检查了<code>beet</code>的返回结果，也就是我们输入的参数。我们可以通过一些方式输出<code>beet</code>的返回值，这里列出几种：</p>
 <ol>
@@ -299,14 +241,14 @@
 <li>可视化图形界面下在main函数中使用<code>gd</code>（<code>d</code>是<code>call</code>边上的字母）</li>
 </ol>
 <p>这是<code>beet</code>函数在图形视图下的样子：</p>
-<p><img src="https://www.megabeets.net/uploads/visualGraph_beet1.png" alt=""></p>
+<p><img src="https://www.megabeets.net/uploads/visualGraph_beet1.png" alt></p>
 <p>我们可以看到输入的参数被复制给了一个缓冲空间。缓存区的位置在<code>ebp - local_88h</code>。<code>local_88h</code>其实是0x88，也就是十进制的136。在可视化模式下，我们可以用<code>:</code>执行<code>r2</code>的命令<code>? 0x88</code>查看。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:&gt; ? 0x88</span><br><span class="line">136 0x88 0210 136 0000:0088 136 “\x88” 10001000 136.0 136.000000f 136.000000</span><br></pre></td></tr></table></figure>
 <p>由于4个字节保存了前一个栈帧的ebp值，接下来的4个字节则是返回地址，因此在栈上的缓冲区大小为128个字节，总共为136个字节。</p>
 <p>在缓冲区之后是我们输入的参数，它和函数<code>sym.rot13</code>的结果进行比较。<a href="https://en.wikipedia.org/wiki/ROT13" target="_blank" rel="noopener">Rot-13</a>是一个著名的置换加密，经常在CTF以及Crackme中使用。这个函数接收了9个十六进制数，看起来<code>radare2</code>没有把它们识别成一个字符串。我们可以在其地址上执行<code>ahi s</code>。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:&gt; ahi s @@=0x080485a3 0x080485ad 0x080485b7</span><br></pre></td></tr></table></figure>
 <p><code>ahi s</code>用来将将具体地址转换成字符串（试试<code>ahi?</code>）。<code>@@</code>是一个迭代器（试试<code>@@</code>），然后这些地址则是<code>sym.beet</code>函数中没被<code>radare2</code>识别成字符串的部分。执行完这条命令后，图形视图会自动刷新（如果没有自动刷新，执行<code>r</code>）成这样：</p>
-<p><img src="https://www.megabeets.net/uploads/visualGraph_beet2.png" alt=""></p>
+<p><img src="https://www.megabeets.net/uploads/visualGraph_beet2.png" alt></p>
 <p>太棒了！看起来没被识别出来的字符串是<code>Megabeets</code>（根据<a href="https://en.wikipedia.org/wiki/Endianness" target="_blank" rel="noopener">字节序</a>反向压栈得到）。</p>
 <p>该程序通过<code>strcmp</code>将经过rot13处理后的<code>Megabeets</code>与我们输入的参数进行比较。幸运的是我们不需要辛苦地分析rot13的具体算法，因为<code>r2</code>框架中的<code>rahash2</code>工具已经包含了rot13加密。</p>
 <p><code>rahash2</code>通过不同的算法计算文件或是字符串的校验值。</p>
@@ -320,21 +262,12 @@
 
       
     </div>
-    <footer class="article-footer">
+    <footer class="entry-meta entry-footer">
       
-        <div id="donation_div"></div>
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/translation/">translation</a></li></ul>
 
-<script src="/js/vdonate.js"></script>
-<script>
-var a = new Donate({
-  title: '我 可爱 打钱', // 可选参数，打赏标题
-  btnText: 'Donate', // 可选参数，打赏按钮文字
-  el: document.getElementById('donation_div'),
-  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
-  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
-});
-</script>
-      
       
         
 	<div id="comment">
@@ -361,10 +294,8 @@ var a = new Donate({
 
 
       
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/translation/">translation</a></li></ul>
-
     </footer>
+    <hr class="entry-footer-hr">
   </div>
   
     
@@ -392,53 +323,18 @@ var a = new Donate({
 
 <!-- Table of Contents -->
 
-  <aside id="toc-sidebar">
+  <aside id="sidebar">
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#radare2"><span class="nav-number">2.</span> <span class="nav-text">radare2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取radare2"><span class="nav-number">3.</span> <span class="nav-text">获取radare2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">3.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新"><span class="nav-number">3.2.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载"><span class="nav-number">3.3.</span> <span class="nav-text">卸载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始学习"><span class="nav-number">4.</span> <span class="nav-text">开始学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行参数"><span class="nav-number">4.1.</span> <span class="nav-text">命令行参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制信息"><span class="nav-number">4.2.</span> <span class="nav-text">二进制信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">4.3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标志"><span class="nav-number">4.4.</span> <span class="nav-text">标志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">4.5.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定位"><span class="nav-number">4.6.</span> <span class="nav-text">定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反汇编"><span class="nav-number">5.</span> <span class="nav-text">反汇编</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#main函数"><span class="nav-number">5.1.</span> <span class="nav-text">main函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化模式和图形模式"><span class="nav-number">5.2.</span> <span class="nav-text">可视化模式和图形模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可视化模式基本命令"><span class="nav-number">5.2.1.</span> <span class="nav-text">可视化模式基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#移动"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">移动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#帮助"><span class="nav-number">5.2.1.2.</span> <span class="nav-text">帮助</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉引用"><span class="nav-number">5.2.1.3.</span> <span class="nav-text">交叉引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#radare2命令"><span class="nav-number">5.2.1.4.</span> <span class="nav-text">radare2命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注释"><span class="nav-number">5.2.1.5.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标记"><span class="nav-number">5.2.1.6.</span> <span class="nav-text">标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#退出"><span class="nav-number">5.2.1.7.</span> <span class="nav-text">退出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可视化图形模式"><span class="nav-number">5.2.2.</span> <span class="nav-text">可视化图形模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反汇编beet函数"><span class="nav-number">5.3.</span> <span class="nav-text">反汇编beet函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#radare2"><span class="nav-number">2.</span> <span class="nav-text">radare2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取radare2"><span class="nav-number">3.</span> <span class="nav-text">获取radare2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">3.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新"><span class="nav-number">3.2.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载"><span class="nav-number">3.3.</span> <span class="nav-text">卸载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始学习"><span class="nav-number">4.</span> <span class="nav-text">开始学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行参数"><span class="nav-number">4.1.</span> <span class="nav-text">命令行参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制信息"><span class="nav-number">4.2.</span> <span class="nav-text">二进制信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">4.3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标志"><span class="nav-number">4.4.</span> <span class="nav-text">标志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">4.5.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定位"><span class="nav-number">4.6.</span> <span class="nav-text">定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反汇编"><span class="nav-number">5.</span> <span class="nav-text">反汇编</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#main函数"><span class="nav-number">5.1.</span> <span class="nav-text">main函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化模式和图形模式"><span class="nav-number">5.2.</span> <span class="nav-text">可视化模式和图形模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可视化模式基本命令"><span class="nav-number">5.2.1.</span> <span class="nav-text">可视化模式基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#移动"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">移动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#帮助"><span class="nav-number">5.2.1.2.</span> <span class="nav-text">帮助</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉引用"><span class="nav-number">5.2.1.3.</span> <span class="nav-text">交叉引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#radare2命令"><span class="nav-number">5.2.1.4.</span> <span class="nav-text">radare2命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注释"><span class="nav-number">5.2.1.5.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标记"><span class="nav-number">5.2.1.6.</span> <span class="nav-text">标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#退出"><span class="nav-number">5.2.1.7.</span> <span class="nav-text">退出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可视化图形模式"><span class="nav-number">5.2.2.</span> <span class="nav-text">可视化图形模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反汇编beet函数"><span class="nav-number">5.3.</span> <span class="nav-text">反汇编beet函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol>
     
     </div>
   </aside>
 </section>
         
       </div>
-      
-      <footer id="footer">
-  
 
-  <div class="container">
-      	<div class="row">
-	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
-	      
-	      
-    		<p class="busuanzi_uv">
-				UV : <span id="busuanzi_value_site_uv"></span> |  
-				PV : <span id="busuanzi_value_site_pv"></span>
-		    </p>
-  		   
-		</div>
-
-		
-  </div>
-</footer>
-
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-    var allheader = document.getElementById("allheader");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
-    if (allheader != null) {
-      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    } else {
-      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    }
-</script>
     </div>
     <!-- <nav id="mobile-nav">
   
@@ -451,7 +347,44 @@ var a = new Donate({
     <a href="/about" class="mobile-nav-link">About</a>
   
 </nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
     
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
 
 <!-- mathjax config similar to math.stackexchange -->
 
@@ -489,12 +422,9 @@ var a = new Donate({
   <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/scripts.js"></script>
-
-
-
-
-  <script src="/js/dialog.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
 
 
 
@@ -502,8 +432,7 @@ var a = new Donate({
 
 
 
-
-	<div style="display: none;">
+  <div style="display: none;">
     <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
   </div>
 
@@ -519,70 +448,7 @@ var a = new Donate({
 
   </div>
 
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="myModalLabel">设置</h2>
-      </div>
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-
-
-      <div class="modal-body">
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
-              正文字号大小
-            </a>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            您已调整页面字体大小
-          </div>
-        </div>
-      
-
-
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
-              夜间护眼模式
-            </a>
-        </div>
-          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-          <div class="panel-body">
-            夜间模式已经开启，再次单击按钮即可关闭 
-          </div>
-        </div>
-
-        <div>
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-        </div>
-         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-          <div class="panel-body">
-            AssassinQ
-          </div>
-          <div class="panel-body">
-            Copyright © 2019 Q14NF3111 All Rights Reserved.
-          </div>
-        </div>
-      </div>
-
-
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <div class="modal-footer">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-  
   <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
-  
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/js/love.js"></script>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
 </body>
 </html>

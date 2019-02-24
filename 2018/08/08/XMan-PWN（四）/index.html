@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>xman pwn（四） | AssassinQ</title>
+  <title>XMan PWN（四） | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="ctfpwn" />
+  <meta name="keywords" content="ctfpwn">
   
   
   
@@ -33,11 +33,7 @@
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
-
-  
-
-  <link rel="icon" href="/css/images/mylogo.jpg">
-  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  <link rel="icon" href="/css/images/favicon.ico">
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
@@ -49,132 +45,80 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
   <link rel="stylesheet" href="/css/style.css">
 
   <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css" >
-
-  
-    <link rel="stylesheet" href="/css/dialog.css">
-  
-
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css" >
-  
-
-  
-  
-  
-    <link rel="stylesheet" href="/css/vdonate.css" >
-  
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
 
 </head>
-
+</html>
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
-  <div id="container">
-    <div id="wrap">
-      
-        <header>
 
-    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-inner">
+
+<header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
           
-          <div class="container"> 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
             
-              <a class="brand" style="
-                 margin-top: 0px;"  
-                href="#" data-toggle="modal" data-target="#myModal" >
-                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
-              </a>
-            
-            
-            <div class="navbar-collapse collapse">
-              <ul class="hnav navbar-nav">
-                
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/about">About</a> </li>
-                
-                  <li><div id="search-form-wrap">
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div></li>
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
             </div>
-          </div>
-                
-      </div>
-    </div>
+          </nav>
 
+      </div>
+  </div>
 </header>
 
 
-
-      
+  <div id="container">
+    <div id="wrap">
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-XMan-PWN（四）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
+          <section id="main" style="float:none;"><article id="post-XMan-PWN（四）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" class="article-title" itemprop="name">
+    <h1 class="thumb" itemprop="name">
       XMan PWN（四）
     </h1>
   
@@ -184,16 +128,14 @@
     <div class="article-meta">
       
 	<a href="/2018/08/08/XMan-PWN（四）/" class="article-date">
-	  <time datetime="2018-08-08T06:17:21.000Z" itemprop="datePublished">2018-08-08</time>
+	  <time datetime="2018-08-08T06:17:21.000Z" itemprop="datePublished">August 8, 2018</time>
 	</a>
 
+       
       
-      
-	<a class="article-views">
 	<span id="busuanzi_container_page_pv">
-		PV:<span id="busuanzi_value_page_pv"></span>
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
 	</span>
-	</a>
 
     </div>
     <div class="article-entry" itemprop="articleBody">
@@ -264,21 +206,12 @@
 
       
     </div>
-    <footer class="article-footer">
+    <footer class="entry-meta entry-footer">
       
-        <div id="donation_div"></div>
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
 
-<script src="/js/vdonate.js"></script>
-<script>
-var a = new Donate({
-  title: '我 可爱 打钱', // 可选参数，打赏标题
-  btnText: 'Donate', // 可选参数，打赏按钮文字
-  el: document.getElementById('donation_div'),
-  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
-  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
-});
-</script>
-      
       
         
 	<div id="comment">
@@ -305,10 +238,8 @@ var a = new Donate({
 
 
       
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
     </footer>
+    <hr class="entry-footer-hr">
   </div>
   
     
@@ -336,53 +267,18 @@ var a = new Donate({
 
 <!-- Table of Contents -->
 
-  <aside id="toc-sidebar">
+  <aside id="sidebar">
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Basics"><span class="nav-number">1.</span> <span class="nav-text">Basics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Some-Tools"><span class="nav-number">1.1.</span> <span class="nav-text">Some Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PE-Format"><span class="nav-number">1.2.</span> <span class="nav-text">PE Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PE-Memory-Layout"><span class="nav-number">1.3.</span> <span class="nav-text">PE Memory Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-DLLS"><span class="nav-number">1.4.</span> <span class="nav-text">Basic DLLS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Common-vulnerability"><span class="nav-number">2.</span> <span class="nav-text">Common vulnerability</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Stack-Overflow"><span class="nav-number">2.1.</span> <span class="nav-text">Stack Overflow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SEH"><span class="nav-number">2.1.1.</span> <span class="nav-text">SEH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heap-Overflow"><span class="nav-number">2.2.</span> <span class="nav-text">Heap Overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-vulnerabilities"><span class="nav-number">2.3.</span> <span class="nav-text">Other vulnerabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LFH-Bypass"><span class="nav-number">2.3.1.</span> <span class="nav-text">LFH Bypass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-After-Free-in-a-nutshell"><span class="nav-number">2.3.2.</span> <span class="nav-text">Use-After-Free in a nutshell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Crash-After-Use"><span class="nav-number">2.3.3.</span> <span class="nav-text">Crash-After-Use</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mitigation-amp-Bypass"><span class="nav-number">3.</span> <span class="nav-text">Mitigation &amp; Bypass</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASLR-amp-DEP"><span class="nav-number">3.1.</span> <span class="nav-text">ASLR &amp; DEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SafeSEH-amp-SEHOP"><span class="nav-number">3.2.</span> <span class="nav-text">SafeSEH &amp; SEHOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CFG"><span class="nav-number">3.3.</span> <span class="nav-text">CFG</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Real-vulnerability"><span class="nav-number">4.</span> <span class="nav-text">Real vulnerability</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Basics"><span class="nav-number">1.</span> <span class="nav-text">Basics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Some-Tools"><span class="nav-number">1.1.</span> <span class="nav-text">Some Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PE-Format"><span class="nav-number">1.2.</span> <span class="nav-text">PE Format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PE-Memory-Layout"><span class="nav-number">1.3.</span> <span class="nav-text">PE Memory Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-DLLS"><span class="nav-number">1.4.</span> <span class="nav-text">Basic DLLS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Common-vulnerability"><span class="nav-number">2.</span> <span class="nav-text">Common vulnerability</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Stack-Overflow"><span class="nav-number">2.1.</span> <span class="nav-text">Stack Overflow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SEH"><span class="nav-number">2.1.1.</span> <span class="nav-text">SEH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heap-Overflow"><span class="nav-number">2.2.</span> <span class="nav-text">Heap Overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-vulnerabilities"><span class="nav-number">2.3.</span> <span class="nav-text">Other vulnerabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LFH-Bypass"><span class="nav-number">2.3.1.</span> <span class="nav-text">LFH Bypass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-After-Free-in-a-nutshell"><span class="nav-number">2.3.2.</span> <span class="nav-text">Use-After-Free in a nutshell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Crash-After-Use"><span class="nav-number">2.3.3.</span> <span class="nav-text">Crash-After-Use</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mitigation-amp-Bypass"><span class="nav-number">3.</span> <span class="nav-text">Mitigation &amp; Bypass</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASLR-amp-DEP"><span class="nav-number">3.1.</span> <span class="nav-text">ASLR &amp; DEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SafeSEH-amp-SEHOP"><span class="nav-number">3.2.</span> <span class="nav-text">SafeSEH &amp; SEHOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CFG"><span class="nav-number">3.3.</span> <span class="nav-text">CFG</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Real-vulnerability"><span class="nav-number">4.</span> <span class="nav-text">Real vulnerability</span></a></li></ol>
     
     </div>
   </aside>
 </section>
         
       </div>
-      
-      <footer id="footer">
-  
 
-  <div class="container">
-      	<div class="row">
-	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
-	      
-	      
-    		<p class="busuanzi_uv">
-				UV : <span id="busuanzi_value_site_uv"></span> |  
-				PV : <span id="busuanzi_value_site_pv"></span>
-		    </p>
-  		   
-		</div>
-
-		
-  </div>
-</footer>
-
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-    var allheader = document.getElementById("allheader");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
-    if (allheader != null) {
-      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    } else {
-      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    }
-</script>
     </div>
     <!-- <nav id="mobile-nav">
   
@@ -395,7 +291,44 @@ var a = new Donate({
     <a href="/about" class="mobile-nav-link">About</a>
   
 </nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
     
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
 
 <!-- mathjax config similar to math.stackexchange -->
 
@@ -433,12 +366,9 @@ var a = new Donate({
   <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/scripts.js"></script>
-
-
-
-
-  <script src="/js/dialog.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
 
 
 
@@ -446,8 +376,7 @@ var a = new Donate({
 
 
 
-
-	<div style="display: none;">
+  <div style="display: none;">
     <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
   </div>
 
@@ -463,70 +392,7 @@ var a = new Donate({
 
   </div>
 
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="myModalLabel">设置</h2>
-      </div>
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-
-
-      <div class="modal-body">
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
-              正文字号大小
-            </a>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            您已调整页面字体大小
-          </div>
-        </div>
-      
-
-
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
-              夜间护眼模式
-            </a>
-        </div>
-          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-          <div class="panel-body">
-            夜间模式已经开启，再次单击按钮即可关闭 
-          </div>
-        </div>
-
-        <div>
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-        </div>
-         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-          <div class="panel-body">
-            AssassinQ
-          </div>
-          <div class="panel-body">
-            Copyright © 2019 Q14NF3111 All Rights Reserved.
-          </div>
-        </div>
-      </div>
-
-
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <div class="modal-footer">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-  
   <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
-  
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/js/love.js"></script>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
 </body>
 </html>

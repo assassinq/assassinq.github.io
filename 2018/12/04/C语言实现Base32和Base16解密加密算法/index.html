@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>c语言实现base32和base16解密加密算法 | AssassinQ</title>
+  <title>C语言实现Base32和Base16解密加密算法 | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="cryptoc" />
+  <meta name="keywords" content="cryptoc">
   
   
   
@@ -26,11 +26,7 @@
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
-
-  
-
-  <link rel="icon" href="/css/images/mylogo.jpg">
-  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  <link rel="icon" href="/css/images/favicon.ico">
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
@@ -42,132 +38,80 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
   <link rel="stylesheet" href="/css/style.css">
 
   <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css" >
-
-  
-    <link rel="stylesheet" href="/css/dialog.css">
-  
-
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css" >
-  
-
-  
-  
-  
-    <link rel="stylesheet" href="/css/vdonate.css" >
-  
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
 
 </head>
-
+</html>
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
-  <div id="container">
-    <div id="wrap">
-      
-        <header>
 
-    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-inner">
+
+<header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
           
-          <div class="container"> 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
             
-              <a class="brand" style="
-                 margin-top: 0px;"  
-                href="#" data-toggle="modal" data-target="#myModal" >
-                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
-              </a>
-            
-            
-            <div class="navbar-collapse collapse">
-              <ul class="hnav navbar-nav">
-                
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/about">About</a> </li>
-                
-                  <li><div id="search-form-wrap">
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div></li>
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
             </div>
-          </div>
-                
-      </div>
-    </div>
+          </nav>
 
+      </div>
+  </div>
 </header>
 
 
-
-      
+  <div id="container">
+    <div id="wrap">
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-C语言实现Base32和Base16解密加密算法" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
+          <section id="main" style="float:none;"><article id="post-C语言实现Base32和Base16解密加密算法" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" class="article-title" itemprop="name">
+    <h1 class="thumb" itemprop="name">
       C语言实现Base32和Base16解密加密算法
     </h1>
   
@@ -177,16 +121,14 @@
     <div class="article-meta">
       
 	<a href="/2018/12/04/C语言实现Base32和Base16解密加密算法/" class="article-date">
-	  <time datetime="2018-12-04T14:04:09.000Z" itemprop="datePublished">2018-12-04</time>
+	  <time datetime="2018-12-04T14:04:09.000Z" itemprop="datePublished">December 4, 2018</time>
 	</a>
 
+       
       
-      
-	<a class="article-views">
 	<span id="busuanzi_container_page_pv">
-		PV:<span id="busuanzi_value_page_pv"></span>
+	  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
 	</span>
-	</a>
 
     </div>
     <div class="article-entry" itemprop="articleBody">
@@ -199,21 +141,12 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *base16payload = <span class="string">"0123456789ABCDEF="</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find_pos</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">15</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(c == base16payload[i]) &#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> *<span class="title">base16_encode</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s, <span class="keyword">const</span> <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> sign = len % <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> res_len = len * <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *res = (<span class="keyword">unsigned</span> <span class="keyword">char</span> *)<span class="built_in">malloc</span>(res_len + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">memset</span>(res, <span class="number">0</span>, res_len + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>, j = <span class="number">0</span>; i &lt; len; i += <span class="number">4</span>, j += <span class="number">8</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(i + <span class="number">4</span> &gt;= len) &#123;</span><br><span class="line">            res[j] = (s[i] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">            <span class="keyword">if</span>(sign == <span class="number">1</span>) &#123;</span><br><span class="line">                res[j + <span class="number">1</span>] = s[i] &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">2</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">3</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">4</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">5</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">6</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">7</span>] = <span class="number">0x10</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(sign == <span class="number">2</span>) &#123;</span><br><span class="line">                res[j + <span class="number">1</span>] = s[i] &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">2</span>] = (s[i + <span class="number">1</span>] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">3</span>] = s[i + <span class="number">1</span>] &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">4</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">5</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">6</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">7</span>] = <span class="number">0x10</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(sign == <span class="number">3</span>) &#123;</span><br><span class="line">                res[j + <span class="number">1</span>] = s[i] &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">2</span>] = (s[i + <span class="number">1</span>] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">3</span>] = s[i + <span class="number">1</span>] &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">4</span>] = (s[i + <span class="number">2</span>] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">5</span>] = s[i + <span class="number">2</span>] &amp; <span class="number">0x0F</span>;</span><br><span class="line">                res[j + <span class="number">6</span>] = <span class="number">0x10</span>;</span><br><span class="line">                res[j + <span class="number">7</span>] = <span class="number">0x10</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res[j] = (s[i] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">        res[j + <span class="number">1</span>] = s[i] &amp; <span class="number">0x0F</span>;</span><br><span class="line">        res[j + <span class="number">2</span>] = (s[i + <span class="number">1</span>] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">        res[j + <span class="number">3</span>] = s[i + <span class="number">1</span>] &amp; <span class="number">0x0F</span>;</span><br><span class="line">        res[j + <span class="number">4</span>] = (s[i + <span class="number">2</span>] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">        res[j + <span class="number">5</span>] = s[i + <span class="number">2</span>] &amp; <span class="number">0x0F</span>;</span><br><span class="line">        res[j + <span class="number">6</span>] = (s[i + <span class="number">3</span>] &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x0F</span>;</span><br><span class="line">        res[j + <span class="number">7</span>] = s[i + <span class="number">3</span>] &amp; <span class="number">0x0F</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; res_len; j++) &#123;</span><br><span class="line">        res[j] = base16payload[res[j]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span> *<span class="title">base16_decode</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s, <span class="keyword">const</span> <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> res_len = len / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *res = (<span class="keyword">unsigned</span> <span class="keyword">char</span> *)<span class="built_in">malloc</span>(res_len + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">memset</span>(res, <span class="number">0</span>, res_len + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> count = len / <span class="number">8</span>;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> s_index = i * <span class="number">8</span>;</span><br><span class="line">        <span class="keyword">int</span> res_index = i * <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">int</span> buffer[<span class="number">8</span>];</span><br><span class="line">        <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">8</span>; j++) &#123;</span><br><span class="line">            buffer[j] = find_pos(s[s_index + j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> sign;</span><br><span class="line">        <span class="keyword">if</span>(i == count - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">8</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(buffer[j] == <span class="number">0x10</span>) &#123;</span><br><span class="line">                    sign++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res[res_index] = ((buffer[<span class="number">0</span>] &amp; <span class="number">0x0F</span>) &lt;&lt; <span class="number">4</span>) | (buffer[<span class="number">1</span>] &amp; <span class="number">0x0F</span>);</span><br><span class="line">        <span class="keyword">if</span>(sign == <span class="number">3</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res[res_index + <span class="number">1</span>] = ((buffer[<span class="number">2</span>] &amp; <span class="number">0x0F</span>) &lt;&lt; <span class="number">4</span>) | (buffer[<span class="number">3</span>] &amp; <span class="number">0x0F</span>);</span><br><span class="line">        <span class="keyword">if</span>(sign == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res[res_index + <span class="number">2</span>] = ((buffer[<span class="number">4</span>] &amp; <span class="number">0x0F</span>) &lt;&lt; <span class="number">4</span>) | (buffer[<span class="number">5</span>] &amp; <span class="number">0x0F</span>);</span><br><span class="line">        <span class="keyword">if</span>(sign == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res[res_index + <span class="number">3</span>] = ((buffer[<span class="number">6</span>] &amp; <span class="number">0x0F</span>) &lt;&lt; <span class="number">4</span>) | (buffer[<span class="number">7</span>] &amp; <span class="number">0x0F</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> s1[MAX];</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>, s1);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *s2 = base16_encode((<span class="keyword">const</span> <span class="keyword">char</span> *)s1, <span class="built_in">strlen</span>((<span class="keyword">const</span> <span class="keyword">char</span> *)s1));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, s2);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *s3 = base16_decode((<span class="keyword">const</span> <span class="keyword">char</span> *)s2, <span class="built_in">strlen</span>((<span class="keyword">const</span> <span class="keyword">char</span> *)s2));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, s3);</span><br><span class="line">    <span class="built_in">free</span>(s2);</span><br><span class="line">    <span class="built_in">free</span>(s3);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
-    <footer class="article-footer">
+    <footer class="entry-meta entry-footer">
       
-        <div id="donation_div"></div>
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
 
-<script src="/js/vdonate.js"></script>
-<script>
-var a = new Donate({
-  title: '我 可爱 打钱', // 可选参数，打赏标题
-  btnText: 'Donate', // 可选参数，打赏按钮文字
-  el: document.getElementById('donation_div'),
-  wechatImage: 'http://t1.aixinxi.net/o_1c7bjknhco0c17af10n6ml016l5a.jpg-j.jpg',
-  alipayImage: 'http://t1.aixinxi.net/o_1c7bjgpua1knr1ncl18f9g18c5ba.jpg-j.jpg'
-});
-</script>
-      
       
         
 	<div id="comment">
@@ -240,10 +173,8 @@ var a = new Donate({
 
 
       
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
-
     </footer>
+    <hr class="entry-footer-hr">
   </div>
   
     
@@ -271,53 +202,18 @@ var a = new Donate({
 
 <!-- Table of Contents -->
 
-  <aside id="toc-sidebar">
+  <aside id="sidebar">
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Base32加解密实现"><span class="nav-number">1.</span> <span class="nav-text">Base32加解密实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Base16加解密实现"><span class="nav-number">2.</span> <span class="nav-text">Base16加解密实现</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Base32加解密实现"><span class="nav-number">1.</span> <span class="nav-text">Base32加解密实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Base16加解密实现"><span class="nav-number">2.</span> <span class="nav-text">Base16加解密实现</span></a></li></ol>
     
     </div>
   </aside>
 </section>
         
       </div>
-      
-      <footer id="footer">
-  
 
-  <div class="container">
-      	<div class="row">
-	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2017 - 2019 AssassinQ All Rights Reserved.</p>
-	      
-	      
-    		<p class="busuanzi_uv">
-				UV : <span id="busuanzi_value_site_uv"></span> |  
-				PV : <span id="busuanzi_value_site_pv"></span>
-		    </p>
-  		   
-		</div>
-
-		
-  </div>
-</footer>
-
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-    var allheader = document.getElementById("allheader");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
-    if (allheader != null) {
-      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    } else {
-      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    }
-</script>
     </div>
     <!-- <nav id="mobile-nav">
   
@@ -330,7 +226,44 @@ var a = new Donate({
     <a href="/about" class="mobile-nav-link">About</a>
   
 </nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+            <span id="busuanzi_container_site_uv">
+              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </span>
+          
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
     
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
 
 <!-- mathjax config similar to math.stackexchange -->
 
@@ -368,12 +301,9 @@ var a = new Donate({
   <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/scripts.js"></script>
-
-
-
-
-  <script src="/js/dialog.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
 
 
 
@@ -381,8 +311,7 @@ var a = new Donate({
 
 
 
-
-	<div style="display: none;">
+  <div style="display: none;">
     <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
   </div>
 
@@ -398,70 +327,7 @@ var a = new Donate({
 
   </div>
 
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="myModalLabel">设置</h2>
-      </div>
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-
-
-      <div class="modal-body">
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
-              正文字号大小
-            </a>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            您已调整页面字体大小
-          </div>
-        </div>
-      
-
-
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
-              夜间护眼模式
-            </a>
-        </div>
-          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-          <div class="panel-body">
-            夜间模式已经开启，再次单击按钮即可关闭 
-          </div>
-        </div>
-
-        <div>
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-        </div>
-         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-          <div class="panel-body">
-            AssassinQ
-          </div>
-          <div class="panel-body">
-            Copyright © 2019 Q14NF3111 All Rights Reserved.
-          </div>
-        </div>
-      </div>
-
-
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <div class="modal-footer">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-  
   <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
-  
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/js/love.js"></script>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
 </body>
 </html>
