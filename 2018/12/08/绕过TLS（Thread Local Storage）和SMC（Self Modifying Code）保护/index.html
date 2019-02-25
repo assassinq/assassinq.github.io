@@ -15,18 +15,18 @@
 <meta name="keywords" content="re">
 <meta property="og:type" content="article">
 <meta property="og:title" content="绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护">
-<meta property="og:url" content="https://qianfei11.github.io/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/index.html">
+<meta property="og:url" content="https://assassinq.github.io/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="main函数前有什么？">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://qianfei11.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/1.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/2.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/3.png">
+<meta property="og:image" content="https://assassinq.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/1.png">
+<meta property="og:image" content="https://assassinq.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/2.png">
+<meta property="og:image" content="https://assassinq.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/3.png">
 <meta property="og:updated_time" content="2019-02-03T10:26:10.704Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护">
 <meta name="twitter:description" content="main函数前有什么？">
-<meta name="twitter:image" content="https://qianfei11.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/1.png">
+<meta name="twitter:image" content="https://assassinq.github.io/pics/绕过TLS（Thread%20Local%20Storage）和SMC（Self%20Modifying%20Code）保护/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -63,31 +63,9 @@
 
 
   
-  
-  <div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
 
 
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+<header id="allheader" class="site-header" role="banner">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -176,7 +154,7 @@
 <p>这也是许多未知程序在逆向时，更建议在虚拟环境下运行的原因。</p>
 <h2 id="手动去除TLS"><a href="#手动去除TLS" class="headerlink" title="手动去除TLS"></a>手动去除TLS</h2><p>TlsCallback函数的定义：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> VOID</span><br><span class="line">(NTAPI *PIMAGE_TLS_CALLBACK) (</span><br><span class="line">    PVOID DllHandle,     <span class="comment">// 模块句柄，即加载地址</span></span><br><span class="line">    DWORD Reason,        </span><br><span class="line">    PVOID Reserved</span><br><span class="line">    );</span><br><span class="line">其中reason有以下几种：(winNT.h)</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_PROCESS_ATTACH   1  <span class="comment">// 进程启动</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_THREAD_ATTACH    2  <span class="comment">// 线程启动</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_THREAD_DETACH    3  <span class="comment">// 线程退出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL_PROCESS_DETACH   0  <span class="comment">// 进程退出</span></span></span><br></pre></td></tr></table></figure>
-<p>可以参照之前写过的一片writeup：<a href="https://qianfei11.github.io/2018/05/07/2018-ZJGSCTF-writeup/#New-driver">https://qianfei11.github.io/2018/05/07/2018-ZJGSCTF-writeup/#New-driver</a></p>
+<p>可以参照之前写过的一片writeup：<a href="https://qianfei11.github.io/2018/05/07/2018-ZJGSCTF-writeup/#New-driver" target="_blank" rel="noopener">https://qianfei11.github.io/2018/05/07/2018-ZJGSCTF-writeup/#New-driver</a></p>
 <h1 id="SMC"><a href="#SMC" class="headerlink" title="SMC"></a>SMC</h1><h2 id="什么是SMC"><a href="#什么是SMC" class="headerlink" title="什么是SMC"></a>什么是SMC</h2><p>SMC（Self Modifying Code）是一种将可执行文件中的代码或数据进行加密，防止别人使用逆向工程工具（比如一些常见的反汇编工具）对程序进行静态分析的方法，只有程序运行时才对代码和数据进行解密，从而正常运行程序和访问数据。计算机病毒通常也会采用SMC技术动态修改内存中的可执行代码来达到变形或对代码加密的目的，从而躲过杀毒软件的查杀或者迷惑反病毒工作者对代码进行分析。现在，很多加密软件（或者称为“壳”程序）为了防止Cracker（破解者）跟踪自己的代码，也采用了动态代码修改技术对自身代码进行保护。要精准的定位某个函数非常麻烦，所以我们就要以区块为加密的基础单位。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">encrypt_func</span><span class="params">(<span class="keyword">char</span> *start_addr, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        *(start + i) ^= <span class="number">0x88</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="编写SMC"><a href="#编写SMC" class="headerlink" title="编写SMC"></a>编写SMC</h2><p>因为定位一个具体的函数很繁琐，所以我们选择直接定位一个节表。把敏感的代码放入节表中，然后在需要的时候进行解密，这就是SMC动态加密技术的精髓。将下面这行代码放在开始程序的开始（也就是include下面），主要是让text节区可以执行、读、写和分享：</p>
@@ -307,9 +285,6 @@
 
 
     <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
