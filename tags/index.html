@@ -56,9 +56,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -120,6 +142,8 @@
             
                 <a href="#wp" title="wp" rel="6">wp</a>
             
+                <a href="#translation" title="translation" rel="3">translation</a>
+            
                 <a href="#hexo" title="hexo" rel="2">hexo</a>
             
                 <a href="#github" title="github" rel="2">github</a>
@@ -132,8 +156,6 @@
             
                 <a href="#pwn" title="pwn" rel="11">pwn</a>
             
-                <a href="#translation" title="translation" rel="3">translation</a>
-            
                 <a href="#web" title="web" rel="6">web</a>
             
                 <a href="#windows" title="windows" rel="1">windows</a>
@@ -142,13 +164,13 @@
             
                 <a href="#is" title="is" rel="2">is</a>
             
-                <a href="#solution" title="solution" rel="3">solution</a>
-            
-                <a href="#note" title="note" rel="2">note</a>
-            
                 <a href="#re" title="re" rel="9">re</a>
             
+                <a href="#solution" title="solution" rel="3">solution</a>
+            
                 <a href="#review" title="review" rel="7">review</a>
+            
+                <a href="#note" title="note" rel="2">note</a>
             
                 <a href="#linux" title="linux" rel="1">linux</a>
             
@@ -2454,11 +2476,6 @@
       <div class="site-info">
 	      &copy; 2019 AssassinQ All Rights Reserved.
         
-            <span id="busuanzi_container_site_uv">
-              本站访客数<span id="busuanzi_value_site_uv"></span>人次  
-              本站总访问量<span id="busuanzi_value_site_pv"></span>次
-            </span>
-          
       </div>
       <div class="site-credit">
         Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
@@ -2478,6 +2495,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
@@ -2538,10 +2558,17 @@
 
 
 
-	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-	</script>
 
 
+	<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?{{ theme.baidu_analytics }}";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
