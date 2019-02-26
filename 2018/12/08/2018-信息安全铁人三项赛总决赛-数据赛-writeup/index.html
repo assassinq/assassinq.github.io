@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>2018-信息安全铁人三项赛总决赛-数据赛-writeup | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfwp">
+  
+  
+  
+  
+  <meta name="description" content="第一次参加铁三，这次总决赛中的数据赛不再是之前的看数据包，而是直接给了一台web服务器溯源。">
+<meta name="keywords" content="ctf,wp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018-信息安全铁人三项赛总决赛-数据赛-writeup">
+<meta property="og:url" content="https://qianfei11.github.io/2018/12/08/2018-信息安全铁人三项赛总决赛-数据赛-writeup/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="第一次参加铁三，这次总决赛中的数据赛不再是之前的看数据包，而是直接给了一台web服务器溯源。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/2.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/3.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/4.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/5.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/6.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/7.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/8.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/9.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/10.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/11.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/12.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/13.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/14.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/15.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/16.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/17.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/18.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/19.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/20.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/21.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/22.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/23.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/24.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/25.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/26.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/27.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/28.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/29.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/30.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/31.png">
+<meta property="og:updated_time" content="2018-12-09T07:15:18.819Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2018-信息安全铁人三项赛总决赛-数据赛-writeup">
+<meta name="twitter:description" content="第一次参加铁三，这次总决赛中的数据赛不再是之前的看数据包，而是直接给了一台web服务器溯源。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2018-信息安全铁人三项赛总决赛-数据赛-writeup" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      2018-信息安全铁人三项赛总决赛-数据赛-writeup
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/12/08/2018-信息安全铁人三项赛总决赛-数据赛-writeup/" class="article-date">
+	  <time datetime="2018-12-08T11:44:17.000Z" itemprop="datePublished">December 8, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第一次参加铁三，这次总决赛中的数据赛不再是之前的看数据包，而是直接给了一台web服务器溯源。</p>
+<a id="more"></a>
+<h1 id="经验总结"><a href="#经验总结" class="headerlink" title="经验总结"></a>经验总结</h1><p>第一次接触，全队也就自己一个人在做，挖了坑也填了坑，记录一下。</p>
+<ol>
+<li>服务器给的是命令行界面，不用想着变成图形界面来操作。因为我<code>init 5</code>变成图形界面后发现完全没法操作…后来为了变回去我误以为是<code>init 0</code>，直接把服务器关了…后来只能让让主办方帮忙重启一下，差点被扣分…</li>
+<li>刚开始的时候我主要目标是在每个用户的家目录以及web服务的根目录下查看是否有一些隐藏文件，还是可以收集到一些重要信息的。</li>
+<li>然后在数据库的目录下也可以发现一些信息。</li>
+<li>之后慢慢发现最重要其实是web服务下的一些log文件，记录了黑客对服务器攻击的主要过程。</li>
+<li>后来我还发现在每个用户家目录下的<code>.bash_history</code>也是很有用的，可以看到黑客提权后干的事情。</li>
+<li>查看文件的话，建议用<code>less -mN filename</code>，因为纯命令行的界面不能滚屏，用<code>less</code>就会方便很多。</li>
+<li>刚登上服务器建议<code>lastlog</code>一下，看看除了root用户之外其他用户最后一次是什么时候登陆的。</li>
+<li>其他命令的话，常用<code>grep</code>肯定是没错的…</li>
+</ol>
+<p>然后比赛的时候也找了两篇关于服务器溯源的文章，记录一下：</p>
+<ul>
+<li><a href="https://www.freebuf.com/articles/web/138867.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/138867.html</a></li>
+<li><a href="https://www.freebuf.com/articles/rookie/179638.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/rookie/179638.html</a></li>
+</ul>
+<p>比赛的时候因为我们队排名在后来不是很靠前，然后我信息的收集也不是很到位，第一题怕做错会扣分，万一我们连三等奖都拿不到了，就没敢做。比赛结束后才知道每个队伍都会获奖…</p>
+<h1 id="溯源过程记录"><a href="#溯源过程记录" class="headerlink" title="溯源过程记录"></a>溯源过程记录</h1><p>题目差不多是这样：黑客在内网中拿到了两台肉鸡，然后通过这两台肉鸡对一台服务器进行了攻击，我们则需要对这台服务器溯源取证分析，并且找到黑客留下的后门。</p>
+<p>刚拿到服务器，先在在root的家目录下查看了一下隐藏文件，没想到一下子就有收获：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/1.png" alt="数据库的账号和密码"></p>
+<p>在这里一下子就拿到了数据库的账号和密码。</p>
+<p>然后尝试登陆一下数据库，发现有一个<code>seacms</code>的数据库，然后进去之后发现一些重要的信息：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/2.png" alt="admin和hacker的账号密码和ip"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/3.png" alt="能判断出这是一个海洋cms的站"></p>
+<p>看完数据库，我就去查了一下关于海洋cms的洞：</p>
+<ul>
+<li><a href="https://www.freebuf.com/vuls/150042.html" target="_blank" rel="noopener">https://www.freebuf.com/vuls/150042.html</a></li>
+<li><a href="https://www.jianshu.com/p/ebf156afda49" target="_blank" rel="noopener">https://www.jianshu.com/p/ebf156afda49</a></li>
+</ul>
+<p>大概知道了是在web根目录下的<code>search.php</code>中存在漏洞，然后通过分析黑客可能用来攻击的<a href="https://github.com/SparkHex/seacms-getshell-poc" target="_blank" rel="noopener">脚本</a>，大概知道了攻击过程。</p>
+<p>我这里还把<code>search.php</code>记录下来了：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/4.png" alt="search.php第1部分"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/5.png" alt="search.php第2部分"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/6.png" alt="search.php第3部分"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/7.png" alt="search.php第4部分"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/8.png" alt="search.php第5部分"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/9.png" alt="search.php第6部分"></p>
+<p>在web目录下还看到了一个<code>360safe</code>，就截了张图：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/10.png" alt="360safe目录"></p>
+<p>然后我看了一下每个用户家目录下的<code>.bash_history</code>，正常的用户<code>simple</code>以及黑客创建的<code>hacker</code>都没啥，主要是root的<code>.bash_history</code>：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/11.png" alt="关闭了防火墙"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/12.png" alt="装了安全狗"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/13.png" alt="备份了一份passwd"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/14.png" alt="passwd备份文件"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/15.png" alt="被修改过的passwd"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/16.png" alt="一串奇怪的Xshell"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/17.png" alt="删掉了web目录下uploads中某个文件夹中的内容"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/18.png" alt="这里应该是起了海洋cms的服务"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/19.png" alt="切换到hacker用户，然后备份了一个bash改了还权限"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/20.png" alt="一堆对log文件还有其他文件的操作"></p>
+<p>大概收集了这些，也能推断出黑客拿到权限后新建了一个叫hacker的用户，然后黑客的操作是从什么时候开始的也无法判断。再<code>grep</code>一下：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/21.png" alt="和hacker相关的一些操作"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/22.png" alt="发现root查看过一些log文件"></p>
+<p>下一步我就开始看日志，通过对<code>.bash_history</code>的阅读，判断主要是在<code>/var/log/httpd</code>下和<code>/var/www/html/logs</code>下的log文件：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/23.png" alt="主要在access_log中"></p>
+<p>然后就开始对log文件一行一行看下来：</p>
+<p>基本看到几个ip：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/24.png" alt="192.168.12.173"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/25.png" alt="192.168.12.156"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/26.png" alt="192.168.31.119"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/27.png" alt="192.168.12.125"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/28.png" alt="192.168.31.73"></p>
+<p>在后面一点的时候会看到<code>192.168.12.173</code>，通过GET的url很容易判断出在用脚本打网站：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/29.png" alt="看到seacms的poc提权脚本"></p>
+<p>最后看到可以黑客在放后门<code>eval($_POST[cmd])</code>：</p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/30.png" alt="判断是黑客用192.168.31.119登上了admin"></p>
+<p><img src="/pics/2018-信息安全铁人三项赛总决赛-数据赛-writeup/31.png" alt="后门"></p>
+<p>大概的分析就是这样，中间也踩了很多坑。我最后的判断是：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">IDENTITY</th>
+<th style="text-align:center">OPERATING SYSTEM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">192.168.31.119</td>
+<td style="text-align:center">admin</td>
+<td style="text-align:center">windows</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.12.129</td>
+<td style="text-align:center">victim</td>
+<td style="text-align:center">windows</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.12.173</td>
+<td style="text-align:center">bot</td>
+<td style="text-align:center">windows</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.12.156</td>
+<td style="text-align:center">bot</td>
+<td style="text-align:center">windows</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.12.125</td>
+<td style="text-align:center">bot</td>
+<td style="text-align:center">android</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.31.73</td>
+<td style="text-align:center">bot</td>
+<td style="text-align:center">android</td>
+</tr>
+</tbody>
+</table>
+<p>感觉自己整体分析下来应该方向是没错的，可能因为自己没学过计网，对一些网络的协议和请求方式没有了解很透彻，导致比赛的时候第一题问两台肉鸡的ip就判断错了，然后就没敢做下去…</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/25/【未完成】2018-安恒杯十二月月赛-writeup/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2018-安恒杯十二月月赛-writeup
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#经验总结"><span class="nav-number">1.</span> <span class="nav-text">经验总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#溯源过程记录"><span class="nav-number">2.</span> <span class="nav-text">溯源过程记录</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

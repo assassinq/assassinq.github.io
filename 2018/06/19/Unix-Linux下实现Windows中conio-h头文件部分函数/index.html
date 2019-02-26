@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Unix/Linux下实现Windows中conio.h头文件部分函数 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="clinux">
+  
+  
+  
+  
+  <meta name="description" content="最近在写数据结构大作业，因为在写五子棋的时候不知道怎么实现通过键盘来实现移动和下子，了解到了windows下的conio.h头文件。但是由于我用的是unix系统，需要自己来实现。">
+<meta name="keywords" content="c,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unix&#x2F;Linux下实现Windows中conio.h头文件部分函数">
+<meta property="og:url" content="https://qianfei11.github.io/2018/06/19/Unix-Linux下实现Windows中conio-h头文件部分函数/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="最近在写数据结构大作业，因为在写五子棋的时候不知道怎么实现通过键盘来实现移动和下子，了解到了windows下的conio.h头文件。但是由于我用的是unix系统，需要自己来实现。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-19T14:09:32.051Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unix&#x2F;Linux下实现Windows中conio.h头文件部分函数">
+<meta name="twitter:description" content="最近在写数据结构大作业，因为在写五子棋的时候不知道怎么实现通过键盘来实现移动和下子，了解到了windows下的conio.h头文件。但是由于我用的是unix系统，需要自己来实现。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Unix-Linux下实现Windows中conio-h头文件部分函数" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Unix/Linux下实现Windows中conio.h头文件部分函数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/06/19/Unix-Linux下实现Windows中conio-h头文件部分函数/" class="article-date">
+	  <time datetime="2018-06-19T13:38:18.000Z" itemprop="datePublished">June 19, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在写数据结构大作业，因为在写五子棋的时候不知道怎么实现通过键盘来实现移动和下子，了解到了windows下的conio.h头文件。但是由于我用的是unix系统，需要自己来实现。</p>
+<a id="more"></a>
+<p>主要实现getch()和kbhit()两个函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;termios.h&gt;     //Linux专用头文件，用于实现getch()、kbhit()</span><br><span class="line">#include &lt;unistd.h&gt;      //定义了大量针对系统调用的封装的接口   提供对 POSIX 操作系统 API 的访问功能</span><br><span class="line">#include &lt;fcntl.h&gt;       //定义了很多宏和函数原型   对文件的打开、数据写入、数据读取、关闭文件的操作</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int getch()             //输入不需要回车键便返回</span><br><span class="line">&#123;</span><br><span class="line">    struct termios tm, tm_old;</span><br><span class="line">    if(tcgetattr(STDIN_FILENO, &amp;tm) &lt; 0)      //STDIN_FILENO是终端文件描述符，是一个打开文件句柄</span><br><span class="line">        return -1;</span><br><span class="line">    tm_old = tm;</span><br><span class="line">    cfmakeraw(&amp;tm);     //设置串口属性   将终端设置成原始模式，此时终端是不可回显的</span><br><span class="line">    if(tcsetattr(STDIN_FILENO, TCSANOW, &amp;tm) &lt; 0)       //更改终端设置</span><br><span class="line">        return -1;</span><br><span class="line">    int ch = getchar();</span><br><span class="line">    if(tcsetattr(STDIN_FILENO, TCSANOW, &amp;tm_old) &lt; 0)      //恢复终端原始设置</span><br><span class="line">        return -1;</span><br><span class="line">    return ch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int kbhit()        //检测键盘是否有输入</span><br><span class="line">&#123;</span><br><span class="line">    struct termios oldt, newt;    //控制终端状态的数据结构</span><br><span class="line">    int ch;</span><br><span class="line">    int oldf;</span><br><span class="line">    tcgetattr(STDIN_FILENO, &amp;oldt);  //得到当前终端的状态</span><br><span class="line">    newt = oldt;</span><br><span class="line">    //设置新的终端属性：ICANON和ECHO取反，表示关闭输入行编辑模式，即能够直接读入字符</span><br><span class="line">    newt.c_lflag &amp;= ~(ICANON | ECHO); //ICANON：如果在输入中看到&apos;\n&apos;或者&apos;EOF&apos;，会返回缓冲区内容 //ECHO：控制回显</span><br><span class="line">    tcsetattr(STDIN_FILENO, TCSANOW, &amp;newt); //TSCSANOW：告诉函数立即改变终端的STDIN_FILENO的属性值</span><br><span class="line">    oldf = fcntl(STDIN_FILENO, F_GETFL, 0); //获取flags，即open函数的第二个参数</span><br><span class="line">    //fcntl()的返回值与命令有关。如果出错，所有命令都返回－1，如果成功则返回某个其他值</span><br><span class="line">    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK); //增加一个flags，把文件设置成非阻塞  //F_SETFL设置文件状态标记</span><br><span class="line">    ch = getchar();</span><br><span class="line">    tcsetattr(STDIN_FILENO, TCSANOW, &amp;oldt); //恢复终端设置</span><br><span class="line">    fcntl(STDIN_FILENO, F_SETFL, oldf);</span><br><span class="line">    if(ch != EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        ungetc(ch, stdin); //把字符退回到输入流</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="getch"><a href="#getch" class="headerlink" title="getch()"></a>getch()</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int getch()             //输入不需要回车键便返回</span><br><span class="line">&#123;</span><br><span class="line">    struct termios tm, tm_old;</span><br><span class="line">    if(tcgetattr(STDIN_FILENO, &amp;tm) &lt; 0)      //STDIN_FILENO是终端文件描述符，是一个打开文件句柄</span><br><span class="line">        return -1;</span><br><span class="line">    tm_old = tm;</span><br><span class="line">    cfmakeraw(&amp;tm);     //设置串口属性   将终端设置成原始模式，此时终端是不可回显的</span><br><span class="line">    if(tcsetattr(STDIN_FILENO, TCSANOW, &amp;tm) &lt; 0)       //更改终端设置</span><br><span class="line">        return -1;</span><br><span class="line">    int ch = getchar();</span><br><span class="line">    if(tcsetattr(STDIN_FILENO, TCSANOW, &amp;tm_old) &lt; 0)      //恢复终端原始设置</span><br><span class="line">        return -1;</span><br><span class="line">    return ch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="termios结构体"><a href="#termios结构体" class="headerlink" title="termios结构体"></a>termios结构体</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct termios&#123;</span><br><span class="line">    tcflag_t c_iflag; /* Input modes */</span><br><span class="line">    tcflag_t c_oflag; /* Output modes */</span><br><span class="line">    tcflag_t c_cflag; /* Control modes */</span><br><span class="line">    tcflag_t c_lflag; /* Local modes */</span><br><span class="line">    cc_t c_cc[NCCS]; /* Control characters */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>格字段的选项如下：</p>
+<h3 id="c-iflag"><a href="#c-iflag" class="headerlink" title="c_iflag"></a>c_iflag</h3><table>
+<thead>
+<tr>
+<th>键值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BRKINT</td>
+<td>接到BREAK时产生SIGINT；</td>
+</tr>
+<tr>
+<td>ICRNL</td>
+<td>将输入的CR转换为NL；</td>
+</tr>
+<tr>
+<td>IGNBRK</td>
+<td>忽略BREAK条件；</td>
+</tr>
+<tr>
+<td>IGNCR</td>
+<td>忽略CR；</td>
+</tr>
+<tr>
+<td>IGNPAR</td>
+<td>忽略奇偶错字符；</td>
+</tr>
+<tr>
+<td>IMAXBEL</td>
+<td>在输入队列空时振铃；</td>
+</tr>
+<tr>
+<td>INLCR</td>
+<td>将输入的NL转换为CR；</td>
+</tr>
+<tr>
+<td>INPCK</td>
+<td>打开输入奇偶校验；</td>
+</tr>
+<tr>
+<td>ISTRIP</td>
+<td>剥除输入字符的第8位；</td>
+</tr>
+<tr>
+<td>IUCLC</td>
+<td>将输入的大写字符转换成小写字符(仅SVR4)；</td>
+</tr>
+<tr>
+<td>IXANY</td>
+<td>使任一字符都重新起动输出；</td>
+</tr>
+<tr>
+<td>IXOFF</td>
+<td>使起动/停止输入控制流起作用；</td>
+</tr>
+<tr>
+<td>IXON</td>
+<td>使起动/停止输出控制流起作用；</td>
+</tr>
+<tr>
+<td>PARMRK</td>
+<td>标记奇偶错；</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-oflag"><a href="#c-oflag" class="headerlink" title="c_oflag"></a>c_oflag</h3><table>
+<thead>
+<tr>
+<th>键值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BSDLY</td>
+<td>退格延迟屏蔽(仅SVR4)；</td>
+</tr>
+<tr>
+<td>CRDLY</td>
+<td>CR延迟屏蔽(仅SVR4)；</td>
+</tr>
+<tr>
+<td>FFDLY</td>
+<td>换页延迟屏蔽(仅SVR4)；</td>
+</tr>
+<tr>
+<td>NLDLY</td>
+<td>NL延迟屏蔽(仅SVR4)；</td>
+</tr>
+<tr>
+<td>OCRNL</td>
+<td>将输出的CR转换为NL(仅SVR4)；</td>
+</tr>
+<tr>
+<td>OFDEL</td>
+<td>填充符为DEL，否则为NUL(仅SVR4)；</td>
+</tr>
+<tr>
+<td>OFILL</td>
+<td>对于延迟使用填充符(仅SVR4)；</td>
+</tr>
+<tr>
+<td>OLCUC</td>
+<td>将输出的小写字符转换为大写字符(仅SVR4)；</td>
+</tr>
+<tr>
+<td>ONLCR</td>
+<td>将NL转换为CR-NL；</td>
+</tr>
+<tr>
+<td>ONLRET</td>
+<td>NL执行CR功能(仅SVR4)；</td>
+</tr>
+<tr>
+<td>ONOCR</td>
+<td>在0列不输出CR(仅SVR4)；</td>
+</tr>
+<tr>
+<td>ONOEOT</td>
+<td>在输出中删除EOT字符(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>OPOST</td>
+<td>执行输出处理；</td>
+</tr>
+<tr>
+<td>OXTABS</td>
+<td>将制表符扩充为空格(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>TABDLY</td>
+<td>水平制表符延迟屏蔽(仅SVR4)；</td>
+</tr>
+<tr>
+<td>VTDLY</td>
+<td>垂直制表符延迟屏蔽(仅SVR4)；</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-cflag"><a href="#c-cflag" class="headerlink" title="c_cflag"></a>c_cflag</h3><table>
+<thead>
+<tr>
+<th>键值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCTS_OFLOW</td>
+<td>输出的CTS流控制(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>CIGNORE</td>
+<td>忽略控制标志(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>CLOCAL</td>
+<td>忽略解制解调器状态行；</td>
+</tr>
+<tr>
+<td>CREAD</td>
+<td>启用接收装置；</td>
+</tr>
+<tr>
+<td>CRTS_IFLOW</td>
+<td>输入的RTS流控制(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>CSIZE</td>
+<td>字符大小屏蔽；</td>
+</tr>
+<tr>
+<td>CSTOPB</td>
+<td>送两个停止位，否则为1位；</td>
+</tr>
+<tr>
+<td>HUPCL</td>
+<td>最后关闭时断开；</td>
+</tr>
+<tr>
+<td>MDMBUF</td>
+<td>经载波的流控输出(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>PARENB</td>
+<td>进行奇偶校；</td>
+</tr>
+<tr>
+<td>PARODD</td>
+<td>奇校，否则为偶校；</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-lflag"><a href="#c-lflag" class="headerlink" title="c_lflag"></a>c_lflag</h3><table>
+<thead>
+<tr>
+<th>键值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALTWERASE</td>
+<td>使用替换WERASE算法(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>ECHO</td>
+<td>进行回送；</td>
+</tr>
+<tr>
+<td>ECHOCTL</td>
+<td>回送控制字符为^(char)；</td>
+</tr>
+<tr>
+<td>ECHOE</td>
+<td>可见擦除符；</td>
+</tr>
+<tr>
+<td>ECHOK</td>
+<td>回送kill符；</td>
+</tr>
+<tr>
+<td>ECHOKE</td>
+<td>kill的可见擦除；</td>
+</tr>
+<tr>
+<td>ECHONL</td>
+<td>回送NL；</td>
+</tr>
+<tr>
+<td>ECHOPRT</td>
+<td>硬拷贝的可见擦除方式；</td>
+</tr>
+<tr>
+<td>FLUSHO</td>
+<td>刷清输出；</td>
+</tr>
+<tr>
+<td>ICANON</td>
+<td>规范输入；</td>
+</tr>
+<tr>
+<td>IEXTEN</td>
+<td>使扩充的输入字符处理起作用；</td>
+</tr>
+<tr>
+<td>ISIG</td>
+<td>使终端产生的信号起作用；</td>
+</tr>
+<tr>
+<td>NOFLSH</td>
+<td>在中断或退出键后不刷清；</td>
+</tr>
+<tr>
+<td>NOKERNINFO</td>
+<td>STATUS不使内核输出(仅4.3+BSD)；</td>
+</tr>
+<tr>
+<td>PENDIN</td>
+<td>重新打印；</td>
+</tr>
+<tr>
+<td>TOSTOP</td>
+<td>对于后台输出发送SIGTTOU；</td>
+</tr>
+<tr>
+<td>XCASE</td>
+<td>规范大/小写表示(仅SVR4)；</td>
+</tr>
+</tbody>
+</table>
+<p>各标志的含义如下：</p>
+<table>
+<thead>
+<tr>
+<th>标志</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALTWERASE</td>
+<td>(c_lflag, 4.3+BSD)此标志设置时，若输入了WERASE字符，则使用一个替换的字擦除算法。它不是向后移动到前一个白空字符为止，而是向后移动到第一个非字母、数字符为止。</td>
+</tr>
+<tr>
+<td>BRKINT</td>
+<td>(c_iflag, POSIX.1)若此标志设置，而IGNBRK未设置，则在接到BREAK时，输入、输出队列被刷清，并产生一个SIGINT信号。如果此终端设备是一个控制终端，则将此信号送给前台进程组各进程。如果IGNBRK和BRKINT都没有设置，但是设置了PARMRK，则BREAK被读作为三个字节序列/377，/0和/0，如果PARMRK也没有设置，则BREAK被读作为单个字符/0。</td>
+</tr>
+<tr>
+<td>BSDLY</td>
+<td>(c_oflag, SVR4)退格延迟屏蔽，此屏蔽的值是BS0或BS1。</td>
+</tr>
+<tr>
+<td>CCTS_OFLOW</td>
+<td>(c_cflag, 4.3+BSD)输出的CTS流控制。</td>
+</tr>
+<tr>
+<td>CIGNORE</td>
+<td>(c_cflag, 4.3+BSD)忽略控制标志。</td>
+</tr>
+<tr>
+<td>CLOCAL</td>
+<td>(c_cflag, POSIX.1)如若设置，则忽略调制解调器状态线。这通常意味着该设备是本地连接的。若此标志未设置，则打开一个终端设备常常会阻塞到调制解调器回应。</td>
+</tr>
+<tr>
+<td>CRDLY</td>
+<td>(c_oflag, SVR4)回车延迟屏蔽。此屏蔽的值是CR0、CR1、CR2和CR3。</td>
+</tr>
+<tr>
+<td>CREAD</td>
+<td>(c_cflag, POSIX.1)如若设置，则接收装置被启用，可以接收字符。</td>
+</tr>
+<tr>
+<td>CRTS_IFLOW</td>
+<td>(c_cflag, 4.3+BSD)输入的RTS流控制。</td>
+</tr>
+<tr>
+<td>CSIZE</td>
+<td>(c_cflag, POSIX.1)此字段是一个屏蔽标志，它指明发送和接收的每个字节的位数。此长度不包括可能有的奇偶校验位。由此屏蔽定义的字段值是CS5、CS6、CS7和CS8，分别表示每个字节包含5、6、7和8位。</td>
+</tr>
+<tr>
+<td>CSTOPB</td>
+<td>(c_cflag, POSIX.1)如若设置，则使用两位作为停止位，否则只使用一位作为停止位。</td>
+</tr>
+<tr>
+<td>ECHO</td>
+<td>(c_lflag, POSIX.1)如若设置，则将输入字符回送到终端设备。在规范方式和非规范方式下都可以回送字符。</td>
+</tr>
+<tr>
+<td>ECHOCTL</td>
+<td>(c_lflag, SVR4和4.3+BSD)如若设置并且ECHO也设置，则除ASCII TAB、ASCII NL、START和STOP字符外，其他ASCII控制符(ASCII字符集中的0～037)都被回送为^X，其中，X是相应控制字符代码值加0100所构成的字符。这就意味着ASCII Ctrl-A字符(01)被回送为^A。ASCII DELETE字符(0177)则回送为^?。如若此标志未设置，则ASCII控制字符按其原样回送。如同ECHO标志，在规范方式和非规范方式下此标志对控制字符回送都起作用。应当了解的是，某些系统回送EOF字符产生的作用有所不同，其原因是EOF的典型值是Ctrl-D，而这是ASCII EOT字符，它可能使某些终端挂断。</td>
+</tr>
+<tr>
+<td>ECHOE</td>
+<td>(c_lflag, POSIX.1)如若设置并且ICANON也设置，则ERASE字符从显示中擦除当前行中的最后一个字符。这通常是在终端驱动程序中写三个字符序列：退格，空格，退格实现的。如若支持WERASE字符，则ECHOE用一个或若干个上述三字符序列擦除前一个字。如若支持ECHOPRT标志，则在这里所说明的ECHOE动作假定ECHOPRT标志没有设置。</td>
+</tr>
+<tr>
+<td>ECHOK</td>
+<td>(c_lflag, POSIX.1)如若设置并且ICANON也设置，则KILL字符从显示中擦除当前行，或者输出NL字符(用以强调已擦除整个行)。如若支持ECHOKE标志，则这里的说明假定ECHOKE标志没有设置。</td>
+</tr>
+<tr>
+<td>ECHOKE</td>
+<td>(c_lflag, SVR4和4.3+BSD)如若设置并且ICANON也设置，则回送KILL字符的方式是擦去行中的每一个字符。擦除每个字符的方法则由ECHOE和ECHOPRT标志选择。</td>
+</tr>
+<tr>
+<td>ECHONL</td>
+<td>(c_lflag, POSIX.1)如若设置并且ICANON也设置，即使没有设置ECHO也回送NL字符。</td>
+</tr>
+<tr>
+<td>ECHOPRT</td>
+<td>(c_lflag, SVR4和4.3+BSD)如若设置并且ICANON和ECHO也都设置，则ERASE字符(以及WERASE字符，若受到支持)使所有正被擦除的字符按它们被擦除的方式打印。在硬拷贝终端上这常常是有用的，这样可以确切地看到哪些字符正被擦去。</td>
+</tr>
+<tr>
+<td>FFDLY</td>
+<td>(c_oflag, SVR4)换页延迟屏蔽。此屏蔽标志值是FF0或FF1。</td>
+</tr>
+<tr>
+<td>FLUSHO</td>
+<td>(c_lflag, SVR4和4.3+BSD)如若设置，则刷清输出。当键入DISCARD字符时设置此标志，当键入另一个DISCARD字符时，此标志被清除。设置或清除此终端标志也可设置或清除此条件。</td>
+</tr>
+<tr>
+<td>HUPCL</td>
+<td>(c_cflag, POSIX.1)如若设置，则当最后一个进程关闭此设备时，调制解调器控制线降至低电平(也就是调制解调器的连接断开)。</td>
+</tr>
+<tr>
+<td>ICANON</td>
+<td>(c_lflag, POSIX.1)如若设置，则按规范方式工作。这使下列字符起作用：EOF、EOL、EOL2、ERASE、KILL、REPRINT、STATUS和WERASE。输入字符被装配成行。如果不以规范方式工作，则读请求直接从输入队列取字符。在至少接到MIN个字节或已超过TIME值之前，read将不返回。</td>
+</tr>
+<tr>
+<td>ICRNL</td>
+<td>(c_iflag, POSIX.1)如若设置并且IGNCR未设置，即将接收到的CR字符转换成一个NL字符。</td>
+</tr>
+<tr>
+<td>IEXTEN</td>
+<td>(c_lflag, POSIX.1)如若设置，则识别并处理扩充的、实现定义的特殊字符。</td>
+</tr>
+<tr>
+<td>IGNBRK</td>
+<td>(c_iflag, POSIX.1)在设置时，忽略输入中的BREAK条件。关于BREAK条件是产生信号还是被读作为数据，请见BRKINT。</td>
+</tr>
+<tr>
+<td>IGNCR</td>
+<td>(c_iflag, POSIX.1)如若设置，忽略接收到的CR字符。若此标志未设置，而设置了ICRNL标志则将接收到的CR字符转换成一个NL字符。</td>
+</tr>
+<tr>
+<td>IGNPAR</td>
+<td>(c_iflag, POSIX.1)在设置时，忽略带有结构错误(非BREAK)或奇偶错的输入字节。</td>
+</tr>
+<tr>
+<td>IMAXBEL</td>
+<td>(c_iflag, SVR4和4.3+BSD)当输入队列满时响铃。</td>
+</tr>
+<tr>
+<td>INLCR</td>
+<td>(c_iflag, POSIX.1)如若设置，则接收到的NL字符转换成CR字符。</td>
+</tr>
+<tr>
+<td>INPCK</td>
+<td>(c_iflag, POSIX.1)当设置时，使输入奇偶校验起作用。如若未设置INPCK，则使输入奇偶校验不起作用。奇偶“产生和检测”和“输入奇偶性检验”是不同的两件事。奇偶位的产生和检测是由PARENB标志控制的。设置该标志后使串行界面的设备驱动程序对输出字符产生奇偶位，对输入字符则验证其奇偶性。标志PARODD决定该奇偶性应当是奇还是偶。如果一个其奇偶性为错的字符已经来到，则检查INPCK标志的状态。若此标志已设置，则检查IGNPAR标志(以决定是否应忽略带奇偶错的输入字节)，若不应忽略此输入字节，则检查PARMRK标志以决定向读进程应传送那种字符。</td>
+</tr>
+<tr>
+<td>ISIG</td>
+<td>(c_lflag, POSIX.1)如若设置，则判别输入字符是否是要产生终端信号的特殊字符(INTR，QUIT，SUSP和DSUSP)，若是，则产生相应信号。</td>
+</tr>
+<tr>
+<td>ISTRIP</td>
+<td>(c_iflag, POSIX.1)当设置时，有效输入字节被剥离为7位。当此标志未设置时，则保留全部8位。</td>
+</tr>
+<tr>
+<td>IUCLC</td>
+<td>(c_iflag, SVR4)将输入的大写字符映射为小写字符。</td>
+</tr>
+<tr>
+<td>IXANY</td>
+<td>(c_iflag, SVR4和4.3+BSD)使任一字符都能重新起动输出。</td>
+</tr>
+<tr>
+<td>IXOFF</td>
+<td>(c_iflag, POSIX.1)如若设置，则使起动-停止输入控制起作用。当终端驱动程序发现输入队列将要填满时，输出一个STOP字符。此字符应当由发送数据的设备识别，并使该设备暂停。此后，当已对输入队列中的字符进行了处理后，该终端驱动程序将输出一个START字符，使该设备恢复发送数据。</td>
+</tr>
+<tr>
+<td>IXON</td>
+<td>(c_iflag, POSIX.1)如若设置，则使起动-停止输出控制起作用。当终端驱动程序接收到一个STOP字符时，输出暂停。在输出暂停时，下一个START字符恢复输出。如若未设置此标志，则START和STOP字符由进程读作为一般字符。</td>
+</tr>
+<tr>
+<td>MDMBUF</td>
+<td>(c_cflag, 4.3+BSD)按照调制解调器的载波标志进行输出流控制。</td>
+</tr>
+<tr>
+<td>NLDLY</td>
+<td>(c_oflag, SVR4)新行延迟屏蔽。此屏蔽的值是NL0和NL1。</td>
+</tr>
+<tr>
+<td>NOFLSH</td>
+<td>(c_lflag, POSIX.1)按系统默认，当终端驱动程序产生SIGINT和SIGQUIT信号时，输入、出队列都被刷新。另外，当它产生SIGSUSP信号时，输入队列被刷新。如若设置了NOFLSH标志，则在这些信号产生时，不对输入、出队列进行刷新。</td>
+</tr>
+<tr>
+<td>NOKERNINFO</td>
+<td>(c_lflag, 4.3+BSD)当设置时，此标志阻止STATUS字符使前台进程组的状态信息显示在终端上。但是不论本标志是否设置，STATUS字符使SIGINFO信号送至前台进程组中的所有进程。</td>
+</tr>
+<tr>
+<td>OCRNL</td>
+<td>(c_oflag, SVR4)如若设置，将输出的CR字符映照为NL。</td>
+</tr>
+<tr>
+<td>OFDEL</td>
+<td>(c_oflag, SVR4)如若设置，则输出填充字符是ASCII DEL，否则它是ASCII NUL，见OFILL标志。</td>
+</tr>
+<tr>
+<td>OFILL</td>
+<td>(c_oflag, SVR4)如若设置，则为实现延迟，发送填充字符(ASCII DEL或ASCII NUL，见OFDEL标志)，而不使用时间延迟。见6个延迟屏蔽：BSDLY，CRDLY，FFDLY，NLDLY，TABDLY以及VTDLY。</td>
+</tr>
+<tr>
+<td>OLCUC</td>
+<td>(c_oflag, SVR4)如若设置，将小写字符映射为大写。</td>
+</tr>
+<tr>
+<td>ONLCR</td>
+<td>(c_oflag, SVR4和4.3+BSD)如若设置，将输出的NL字符映照为CR-NL。</td>
+</tr>
+<tr>
+<td>ONLRET</td>
+<td>(c_oflag, SVR4)如若设置，则输出的NL字符将执行回车功能。</td>
+</tr>
+<tr>
+<td>ONOCR</td>
+<td>(c_oflag, SVR4)如若设置，则在0列不输出CR。</td>
+</tr>
+<tr>
+<td>ONOEOT</td>
+<td>(c_oflag, 4.3+BSD)如若设置，则在输出中删除EOT字符(^D)。在将Ctrl-D解释为挂断的终端上这可能是需要的。</td>
+</tr>
+<tr>
+<td>OPOST</td>
+<td>(c_oflag, POSIX.1)如若设置，则进行实现定义的输出处理。</td>
+</tr>
+<tr>
+<td>OXTABS</td>
+<td>(c_oflag, 4.3+BSD)如若设置，制表符在输出中被扩展为空格。这与将水平制表延迟(TABDLY)设置为XTABS或TAB3产生同样效果。</td>
+</tr>
+<tr>
+<td>PARENB</td>
+<td>(c_cflag, POSIX.1)如若设置，则对输出字符产生奇偶位，对输入字符则执行奇偶性检验。若PARODD已设置，则奇偶校验是奇校验，否则是偶校验。也见INPCK、IGNPAR和PARMRK标志部分。</td>
+</tr>
+<tr>
+<td>PARMRK</td>
+<td>(c_iflag, POSIX.1)，当设置时，并且IGNPAR未设置，则结构性错(非BREAK)和奇偶错的字节由进程读作为三个字符序列/377, /0和X，其中X是接收到的具有错误的字节。如若ISTRIP未设置，则一个有效的/377被传送给进程时为/377，/377。如若IGNPAR和PARMRK都未设置，则结构性错和奇偶错的字节都被读作为一个字符/0。</td>
+</tr>
+<tr>
+<td>PARODD</td>
+<td>(c_cflag, POSIX.1)如若设置，则输出和输入字符的奇偶性都是奇，否则为偶。注意，PARENB标志控制奇偶性的产生和检测。</td>
+</tr>
+<tr>
+<td>PENDIN</td>
+<td>(c_lflag, SVR4和4.3+BSD)如若设置，则在下一个字符输入时，尚未读的任何输入都由系统重新打印。这一动作与键入REPRINT字符时的作用相类似。</td>
+</tr>
+<tr>
+<td>TABDLY</td>
+<td>(c_oflag, SVR4)水平制表延迟屏蔽。此屏蔽的值是TAB0、TAB1、TAB2或TAB3。XTABS的值等于TAB3。此值使系统将制表符扩展成空格。系统假定制表符所扩展的空格数到屏幕上最近一个8的倍数处为止。不能更改此假定。</td>
+</tr>
+<tr>
+<td>TOSTOP</td>
+<td>(c_lflag, POSIX.1)如若设置，并且该实现支持作业控制，则将信号SIGTTOU送到试图与控制终端的一个后台进程的进程组。按默认，此信号暂停该进程组中所有进程。如果写控制终端的进程忽略或阻塞此信号，则终端驱动程序不产生此信号。</td>
+</tr>
+<tr>
+<td>VTDLY</td>
+<td>(c_oflag, SVR4)垂直制表延迟屏蔽。此屏蔽的值是VT0或VT1。</td>
+</tr>
+<tr>
+<td>XCASE</td>
+<td>(c_lflag, SVR4)如若设置，并且ICANON也设置，则认为终端是大写终端，所以输入都变换为小写。为了输入一个大写字符，在其前加一个/。与之类似，输出一个大写字符也在其前加一个/(这一标志已经过时，现在几乎所有终端都支持大、小写字符)。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cfmakeraw"><a href="#cfmakeraw" class="headerlink" title="cfmakeraw()"></a>cfmakeraw()</h2><p>cfmakeraw sets the terminal attributes as follows:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">termios_p-&gt;c_iflag &amp;= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON);</span><br><span class="line">termios_p-&gt;c_oflag &amp;= ~OPOST;</span><br><span class="line">termios_p-&gt;c_lflag &amp;= ~(ECHO|ECHONL|ICANON|ISIG|IEXTEN);</span><br><span class="line">termios_p-&gt;c_cflag &amp;= ~(CSIZE|PARENB);</span><br><span class="line">termios_p-&gt;c_cflag |= CS8;</span><br></pre></td></tr></table></figure></p>
+<p>就是将终端设置为原始模式，该模式下所有的输入数据以字节为单位被处理。在原始模式下，终端是不可回显的，而且所有特定的终端输入/输出模式不可用。</p>
+<h2 id="POSIX终端接口"><a href="#POSIX终端接口" class="headerlink" title="POSIX终端接口"></a>POSIX终端接口</h2><p>很多系统都支持POSIX终端（串口）接口。程序可以利用这个接口来改变终端的参数，比如，波特率，字符大小等等。要使用这个端口的话，你必须将头文件包含到你的程序中。这个头文件中定义了终端控制结构体和POSIX控制函数。</p>
+<p>与串口操作相关的最重要的两个POSIX函数可能就是tcgetattr()和tcsetattr()。顾名思义，这两个函数分别用来取得设设置终端的属性。</p>
+<p>1、linux中的串口设备文件存放于/dev目录下，其中 串口一，串口二对应设备名依次为 “/dev/ttyS0”、“/dev/ttyS1”。在linux下操作串口与操作文件相同。</p>
+<p>2、在使用串口之前必须设置相关配置，包括：波特率、 数据位、校验位、停止位等。串口设置由termios结构体实现。 </p>
+<p>常用的串口控制函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Tcgetattr 取属性(termios 结构)</span><br><span class="line">Tcsetattr 设置属性(termios 结构)</span><br><span class="line">cfgetispeed 得到输入速度</span><br><span class="line">Cfgetospeed 得到输出速度</span><br><span class="line">Cfsetispeed 设置输入速度</span><br><span class="line">Cfsetospeed 设置输出速度</span><br></pre></td></tr></table></figure>
+<p>3、串口的配置</p>
+<p>(1)保存原先串口配置使用tcgetattr(fd,&amp; oldtio)函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">struct termiosnewtio,oldtio;</span><br><span class="line">tcgetattr(fd,&amp; oldtio);</span><br></pre></td></tr></table></figure>
+<p>(2)激活选项有CLOCAL和CREAD,用于本地连接和接收使能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newtio.c_cflag|=CLOCAL|CREAD;</span><br></pre></td></tr></table></figure>
+<p>(3)设置波特率，使用函数cfsetispeed、cfsetospeed</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cfsetispeed(&amp;newtio,B115200);</span><br><span class="line">cfsetospeed(&amp;newtio,B115200);</span><br></pre></td></tr></table></figure>
+<p>(4)设置数据位，需使用掩码设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">newtio.c_cflag&amp;=~CSIZE;</span><br><span class="line">newtio.c_cflag|=CS8;</span><br></pre></td></tr></table></figure>
+<p>(5)设置奇偶校验位，使用c_cflag和c_iflag。</p>
+<p>设置奇校验：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">newtio.c_cflag|=PARENB; </span><br><span class="line">newtio.c_cflag|=PARODD;</span><br><span class="line">newtio.c_iflag|=(INPCK|ISTRIP);</span><br></pre></td></tr></table></figure>
+<p>设置偶校验：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">newtio.c_iflag|=(INPCK|ISIRIP);</span><br><span class="line">newtio.c_cflag|=PARENB;</span><br><span class="line">newtio.c_cflag&amp;=~PARODD;</span><br></pre></td></tr></table></figure>
+<p>(6)设置停止位，通过激活c_cflag中的CSTOPB实现。若停止位为1，则清除CSTOPB，若停止位为 2，则激活CSTOPB。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newtio.c_cflag&amp;=~CSTOPB;</span><br></pre></td></tr></table></figure>
+<p>(7)设置最少字符和等待时间，对于接收字符和等待时间没有特别要求时，可设为0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">newtio.c_cc[VTIME]=0;</span><br><span class="line">newtio.c_cc[VMIN]=0;</span><br></pre></td></tr></table></figure>
+<p>(8)处理要写入的引用对象<br>tcflush函数刷清（抛弃）输入缓存（终端驱动程序已接收到，但用户程序尚未读）或输出缓存（用户程序<br>已经写，但尚未发送）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int tcflush(int filedes,int queue)</span><br></pre></td></tr></table></figure>
+<p>queue数应当是下列三个常数之一：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TCIFLUSH 刷清输入队列。</span><br><span class="line">TCOFLUSH刷清输出队列。</span><br><span class="line">TCIOFLUSH刷清输入、输出队列。</span><br></pre></td></tr></table></figure>
+<p>如：tcflush(fd,TCIFLUSH);</p>
+<p>(9)激活配置。在完成配置后，需激活配置使其生效。使用tsettattr()函数。原型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int tcgetattr(int filedes,struct termios *termptr);</span><br><span class="line">int tcsetattr(int filedes,int opt,const struct termios* termptr);</span><br></pre></td></tr></table></figure>
+<p>tcsetattr的参数opt使我们可以指定在什么时候新的终端属性才起作用。opt可以指定为下列常数中的一个：</p>
+<p>TCSANOW更改立即发生。</p>
+<p>TCSADRAIN发送了所有输出后更改才发生。若更改输出参数则应使用此选择项。 </p>
+<p>4 、在配置完串口的相关属性后，就可对串口进行打开,读写操作了。其使用方式与文件操作一样，区别在于串口是一个终端设备.</p>
+<p>(1)打开串口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fd=open(&quot;/dev/ttyS0&quot;,O_RDWR|O_NOCTTY |O_NDELAY);</span><br><span class="line">Open函数中除普通参数外,另有两个参数O_NOCTTY和O_NDELAY.</span><br><span class="line">O_NOCTTY:通知linux系统,这个程序不会成为这个端口的控制终端。</span><br><span class="line">O_NDELAY:通知linux系统不关心DCD信号线所处的状态(端口的另一端是否激活或者停止）。</span><br></pre></td></tr></table></figure>
+<p>(2)恢复串口的状态为阻塞状态,用于等待串口数据的读入。用fcntl函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcntl(fd,F_SETFL,0）;</span><br></pre></td></tr></table></figure>
+<p>(3)接着,测试打开的文件描述府是否引用一个终端设备,以进一步确认串口是否正确打开.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">isatty(STDIN_FILENO);</span><br></pre></td></tr></table></figure>
+<p>(4)串口的读写与普通文件一样,使用read,write函数.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">read(fd,buf,8);</span><br><span class="line">write(fd,buf,8);</span><br></pre></td></tr></table></figure>
+<h1 id="kbhit"><a href="#kbhit" class="headerlink" title="kbhit()"></a>kbhit()</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">int kbhit()        //检测键盘是否有输入</span><br><span class="line">&#123;</span><br><span class="line">    struct termios oldt, newt;    //控制终端状态的数据结构</span><br><span class="line">    int ch;</span><br><span class="line">    int oldf;</span><br><span class="line">    tcgetattr(STDIN_FILENO, &amp;oldt);  //得到当前终端的状态</span><br><span class="line">    newt = oldt;</span><br><span class="line">    //设置新的终端属性：ICANON和ECHO取反，表示关闭输入行编辑模式，即能够直接读入字符</span><br><span class="line">    newt.c_lflag &amp;= ~(ICANON | ECHO); //ICANON：如果在输入中看到&apos;\n&apos;或者&apos;EOF&apos;，会返回缓冲区内容 //ECHO：控制回显</span><br><span class="line">    tcsetattr(STDIN_FILENO, TCSANOW, &amp;newt); //TSCSANOW：告诉函数立即改变终端的STDIN_FILENO的属性值</span><br><span class="line">    oldf = fcntl(STDIN_FILENO, F_GETFL, 0); //获取flags，即open函数的第二个参数</span><br><span class="line">    //fcntl()的返回值与命令有关。如果出错，所有命令都返回－1，如果成功则返回某个其他值</span><br><span class="line">    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK); //增加一个flags，把文件设置成非阻塞  //F_SETFL设置文件状态标记</span><br><span class="line">    ch = getchar();</span><br><span class="line">    tcsetattr(STDIN_FILENO, TCSANOW, &amp;oldt); //恢复终端设置</span><br><span class="line">    fcntl(STDIN_FILENO, F_SETFL, oldf);</span><br><span class="line">    if(ch != EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        ungetc(ch, stdin); //把字符退回到输入流</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="fcntl"><a href="#fcntl" class="headerlink" title="fcntl()"></a>fcntl()</h2><p>1、获取文件的flags，即open函数的第二个参数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flags = fcntl(fd,F_GETFL,0);</span><br></pre></td></tr></table></figure>
+<p>2、设置文件的flags:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcntl(fd,F_SETFL,flags);</span><br></pre></td></tr></table></figure>
+<p>3、增加文件的某个flags，比如文件是阻塞的，想设置成非阻塞:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">flags = fcntl(fd,F_GETFL,0);</span><br><span class="line"></span><br><span class="line">flags |= O_NONBLOCK;</span><br><span class="line"></span><br><span class="line">fcntl(fd,F_SETFL,flags);</span><br></pre></td></tr></table></figure>
+<p>4、取消文件的某个flags，比如文件是非阻塞的，想设置成为阻塞:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">flags = fcntl(fd,F_GETFL,0);</span><br><span class="line"></span><br><span class="line">flags &amp;= ~O_NONBLOCK;</span><br><span class="line"></span><br><span class="line">fcntl(fd,F_SETFL,flags);</span><br></pre></td></tr></table></figure>
+<p>参考网站：<br><a href="https://blog.csdn.net/g1036583997/article/details/41277949" target="_blank" rel="noopener">https://blog.csdn.net/g1036583997/article/details/41277949</a><br><a href="https://www.cnblogs.com/dartagnan/archive/2013/04/25/3042417.html" target="_blank" rel="noopener">https://www.cnblogs.com/dartagnan/archive/2013/04/25/3042417.html</a><br><a href="https://blog.csdn.net/DiegoTJ/article/details/5454917" target="_blank" rel="noopener">https://blog.csdn.net/DiegoTJ/article/details/5454917</a><br><a href="https://gezhenzhen.wikispaces.com/Linux%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86" target="_blank" rel="noopener">https://gezhenzhen.wikispaces.com/Linux%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86</a><br><a href="http://www.codexiu.cn/linux/blog/21923/" target="_blank" rel="noopener">http://www.codexiu.cn/linux/blog/21923/</a><br><a href="https://blog.csdn.net/liangxiaozhang/article/details/8202965" target="_blank" rel="noopener">https://blog.csdn.net/liangxiaozhang/article/details/8202965</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/01/逆向入门（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          逆向入门（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/16/Apache-Rewrite（路由重写）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Apache Rewrite（路由重写）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#getch"><span class="nav-number">1.</span> <span class="nav-text">getch()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#termios结构体"><span class="nav-number">1.1.</span> <span class="nav-text">termios结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#c-iflag"><span class="nav-number">1.1.1.</span> <span class="nav-text">c_iflag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-oflag"><span class="nav-number">1.1.2.</span> <span class="nav-text">c_oflag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-cflag"><span class="nav-number">1.1.3.</span> <span class="nav-text">c_cflag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-lflag"><span class="nav-number">1.1.4.</span> <span class="nav-text">c_lflag</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cfmakeraw"><span class="nav-number">1.2.</span> <span class="nav-text">cfmakeraw()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POSIX终端接口"><span class="nav-number">1.3.</span> <span class="nav-text">POSIX终端接口</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#kbhit"><span class="nav-number">2.</span> <span class="nav-text">kbhit()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fcntl"><span class="nav-number">2.1.</span> <span class="nav-text">fcntl()</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

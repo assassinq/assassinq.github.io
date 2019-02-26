@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>XMan PWN（二） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn">
+  
+  
+  
+  
+  <meta name="description" content="toxic小姐姐讲的很好，是我太菜了。">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMan PWN（二）">
+<meta property="og:url" content="https://qianfei11.github.io/2018/08/06/XMan-PWN（二）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="toxic小姐姐讲的很好，是我太菜了。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/2.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/3.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/4.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/5.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/6.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/7.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/8.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/9.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/10.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/11.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/12.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/13.png">
+<meta property="og:updated_time" content="2018-10-07T13:02:48.557Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XMan PWN（二）">
+<meta name="twitter:description" content="toxic小姐姐讲的很好，是我太菜了。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/第三届XMAN夏令营/PWN/二/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-XMan-PWN（二）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      XMan PWN（二）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/06/XMan-PWN（二）/" class="article-date">
+	  <time datetime="2018-08-06T02:53:04.000Z" itemprop="datePublished">August 6, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>toxic小姐姐讲的很好，是我太菜了。</p>
+<a id="more"></a>
+<p>堆这一块需要对glibc源码中<code>/malloc/malloc.c</code>有一定的熟悉。</p>
+<h1 id="linux堆管理基础"><a href="#linux堆管理基础" class="headerlink" title="linux堆管理基础"></a>linux堆管理基础</h1><ul>
+<li>一块内存</li>
+<li>几种数据结构</li>
+<li>一些安全机制</li>
+<li>动态分配和回收</li>
+<li>提高利用率</li>
+<li>减少碎片化</li>
+</ul>
+<h2 id="heap-allocator"><a href="#heap-allocator" class="headerlink" title="heap allocator"></a>heap allocator</h2><p>管理堆的分配和回收</p>
+<ul>
+<li>减少系统调用次数</li>
+<li>提高效率</li>
+</ul>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/1.png" alt="Heap Allocator"></p>
+<h2 id="ptmalloc2-glibc"><a href="#ptmalloc2-glibc" class="headerlink" title="ptmalloc2 - glibc"></a>ptmalloc2 - glibc</h2><p>主要结构：chunk、bin、arena</p>
+<ul>
+<li>bins管理空闲堆块</li>
+<li>arena记录分配信息</li>
+</ul>
+<h2 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h2><ul>
+<li>heap基本组成是chunk</li>
+<li>Allocated chunk/Free chunk</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  INTERNAL_SIZE_T      mchunk_prev_size;  <span class="comment">/* Size of previous chunk (if free).  */</span></span><br><span class="line">  INTERNAL_SIZE_T      mchunk_size;       <span class="comment">/* Size in bytes, including overhead. */</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd</span>;</span>         <span class="comment">/* double links -- used only if free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Only used for large blocks: pointer to next larger size.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd_nextsize</span>;</span> <span class="comment">/* double links -- used only if free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk_nextsize</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="allocated-chunk"><a href="#allocated-chunk" class="headerlink" title="allocated chunk"></a>allocated chunk</h3><p>chunk size：包含了堆头部</p>
+<p>由于对齐问题，size低3位恒为0，用作标识位：</p>
+<ul>
+<li>N：1/0，当前chunk是否为thread arena</li>
+<li>M：1/0，是否mmaped分配</li>
+<li>P：1/0，前一个chunk是否使用中</li>
+</ul>
+<p>prev_size：前一个相邻块大小</p>
+<ul>
+<li>前一个块free时有意义</li>
+<li>前一个块allocated时可以空间复用为数据空间</li>
+</ul>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/2.png" alt="Allocated Chunk"></p>
+<h3 id="free-chunk"><a href="#free-chunk" class="headerlink" title="free chunk"></a>free chunk</h3><ul>
+<li>fd：指向freelist中的下一个块</li>
+<li><p>bk：指向freelist中的上一个块</p>
+</li>
+<li><p>fd_nextsize：指向freelist中的下一个large chunk</p>
+</li>
+<li>bk_nextsize：指向freelist中的上一个large chunk</li>
+</ul>
+<p>PS：fd_nextsize和bk_nextsize只能在large bin chunk中使用。</p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/3.png" alt="Free Chunk"></p>
+<h3 id="top-chunk"><a href="#top-chunk" class="headerlink" title="top chunk"></a>top chunk</h3><p>第一个malloc完成时，top chunk就存在了。</p>
+<p>之后如果所有的bins都不能满足分配需求，则从top chunk中切出一块返回，剩下的块则为新的top chunk。</p>
+<h2 id="bins"><a href="#bins" class="headerlink" title="bins"></a>bins</h2><p>用来管理空间块 - 链表结构</p>
+<p>不同大小的free chunk属于不同的bin。</p>
+<ul>
+<li>fast bins</li>
+<li>unsorted bin</li>
+<li>small bins</li>
+<li>large bins</li>
+</ul>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/4.png" alt="Bins"></p>
+<h3 id="fast-bins"><a href="#fast-bins" class="headerlink" title="fast bins"></a>fast bins</h3><p>管理free fast bin chunk - 单链表结构 - FILO</p>
+<p>总共有10个bins，每个bin中chunk大小一样，范围：0x20～0x80（64bit），0x10递增。</p>
+<p>仍被标记为pre inuse位，不会进行合并。</p>
+<p>实际上最后3个并不使用。</p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/5.png" alt="Fast bin"></p>
+<h3 id="unsorted-bin"><a href="#unsorted-bin" class="headerlink" title="unsorted bin"></a>unsorted bin</h3><p>管理unsorted chunk - 双向循环链表 - FIFO</p>
+<p>只有一个bin，bin中chunk大小不一样</p>
+<p>除fast chunk之外的chunk被free时都会先放进unsorted bin，类似于缓存</p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/6.png" alt="Unsorted bin"></p>
+<h3 id="small-bin"><a href="#small-bin" class="headerlink" title="small bin"></a>small bin</h3><p>管理small chunk - 双向循环链表 - FIFO</p>
+<p>共62个bins，每个bin中chunk大小一样，范围：0x20～0x400（64bit），0x10递增。</p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/7.png" alt="Small bin"></p>
+<h3 id="large-bin"><a href="#large-bin" class="headerlink" title="large bin"></a>large bin</h3><p>管理large chunk - 双向循环链表 - FIFO</p>
+<p>共63个bins，同一个bin中的chunk大小可以不一样，但在某个范围内（大于0x400（64bit）），按照从大到小排列。</p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/8.png" alt="Large bin"></p>
+<h2 id="arena"><a href="#arena" class="headerlink" title="arena"></a>arena</h2><p>用于管理bins</p>
+<p>main_arena：由主线程创建<br>thread_arena：由其他线程创建</p>
+<p>arena数量有限：</p>
+<ul>
+<li>x86：2 * cores + 1</li>
+<li>x64：8 * cores + 1</li>
+</ul>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/9.png" alt="Arena"></p>
+<p>对应的数据结构 - malloc_state</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">malloc_state</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="comment">/* Serialize access.  */</span></span><br><span class="line">  __libc_lock_define (, mutex);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Flags (formerly in max_fast).  */</span></span><br><span class="line">  <span class="keyword">int</span> flags;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Set if the fastbin chunks contain recently inserted free blocks.  */</span></span><br><span class="line">  <span class="comment">/* Note this is a bool but not all targets support atomics on booleans.  */</span></span><br><span class="line">  <span class="keyword">int</span> have_fastchunks;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Fastbins */</span></span><br><span class="line">  mfastbinptr fastbinsY[NFASTBINS];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Base of the topmost chunk -- not otherwise kept in a bin */</span></span><br><span class="line">  mchunkptr top;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The remainder from the most recent split of a small request */</span></span><br><span class="line">  mchunkptr last_remainder;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Normal bins packed as described above */</span></span><br><span class="line">  mchunkptr bins[NBINS * <span class="number">2</span> - <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Bitmap of bins */</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> binmap[BINMAPSIZE];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Linked list */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_state</span> *<span class="title">next</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Linked list for free arenas.  Access to this field is serialized</span></span><br><span class="line"><span class="comment">     by free_list_lock in arena.c.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_state</span> *<span class="title">next_free</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Number of threads attached to this arena.  0 if the arena is on</span></span><br><span class="line"><span class="comment">     the free list.  Access to this field is serialized by</span></span><br><span class="line"><span class="comment">     free_list_lock in arena.c.  */</span></span><br><span class="line">  INTERNAL_SIZE_T attached_threads;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Memory allocated from the system in this arena.  */</span></span><br><span class="line">  INTERNAL_SIZE_T system_mem;</span><br><span class="line">  INTERNAL_SIZE_T max_system_mem;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>mutex：用于多线程支持</li>
+<li>flagd：用于标识该arena的性质</li>
+<li>fastbinsY[NFASTBINS]：fastbin指针数组</li>
+<li>top：指向top chunk的指针</li>
+<li>Bins[NBINS * 2 - 2]：bins数组指针</li>
+<li>*next：指向下一个arena，构成一个循环单向列表</li>
+<li>*next_free：指向idle arena，便于线程快速匹配</li>
+</ul>
+<h1 id="what-glibc-do-when-malloc"><a href="#what-glibc-do-when-malloc" class="headerlink" title="what glibc do when malloc"></a>what glibc do when malloc</h1><ul>
+<li>计算真正的堆块大小（用户申请 + 堆头 =&gt; 对齐）</li>
+<li>是否在fast bin范围内<ul>
+<li>是 =&gt; 检查对应的bin是否有chunk<ul>
+<li>是 =&gt; 从bin中取下chunk返回给程序，完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>是否在small bin范围内<ul>
+<li>是 =&gt; 检查对应的bin是否有chunk<ul>
+<li>是 =&gt; 从bin中取下chunk返回给程序，完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>unsorted bin里是否有chunk<ul>
+<li>有 =&gt; 从尾部取出第一个chunk，大小是否满足分配需求<ul>
+<li>是 =&gt; 剩余大小是否大于MINSIZE<ul>
+<li>是 =&gt; 切分块，返回给用户，把剩余的块放入unsorted bin，完成</li>
+</ul>
+</li>
+<li>否 =&gt; 从unsorted bin中取下该块并返回，完成</li>
+</ul>
+</li>
+<li>无 =&gt; 把这个块放到对应的small/large bins，遍历下一块</li>
+</ul>
+</li>
+<li>是否在large bin范围内<ul>
+<li>是 =&gt; 检查对应的bin是否有chunk<ul>
+<li>有 =&gt; 找到满足需求的最小的chunk，切分块并返回，把剩余的块放入unsorted bin，完成</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>再次浏览所有的small/large bins来找到best-fit的chunk</li>
+<li>使用top chunk</li>
+<li>系统调用扩大堆空间</li>
+</ul>
+<h1 id="what-glibc-do-when-free"><a href="#what-glibc-do-when-free" class="headerlink" title="what glibc do when free"></a>what glibc do when free</h1><ul>
+<li>free的chunk大小是否属于fast bin<ul>
+<li>是 =&gt; 直接链入对应的fast bin中，不改变下一堆块的prev inuse标志位</li>
+</ul>
+</li>
+<li>是否通过mmapped分配<ul>
+<li>是 =&gt; 用munmap回收</li>
+</ul>
+</li>
+<li>前一个相邻的chunk是否空闲<ul>
+<li>是 =&gt; 和前一个堆块合并</li>
+</ul>
+</li>
+<li>后一个相邻chunk是否是top chunk<ul>
+<li>是 =&gt; 和top chunk合并</li>
+</ul>
+</li>
+<li>后一个相邻的chunk是否空闲<ul>
+<li>是 =&gt; 和后一个块合并</li>
+</ul>
+</li>
+<li>链入unsorted bin</li>
+</ul>
+<h1 id="常见堆漏洞"><a href="#常见堆漏洞" class="headerlink" title="常见堆漏洞"></a>常见堆漏洞</h1><h2 id="chunk-overflow"><a href="#chunk-overflow" class="headerlink" title="chunk overflow"></a>chunk overflow</h2><ul>
+<li>修改下一个堆块的size、标志位、fd/bk指针等</li>
+<li>修改下一个堆块的用户数据、eg指针等</li>
+</ul>
+<h2 id="use-after-free"><a href="#use-after-free" class="headerlink" title="use after free"></a>use after free</h2><p>一个内存快被释放后再次使用。</p>
+<ul>
+<li>释放后指针没有被置为NULL</li>
+<li>内存数据没有被清理</li>
+</ul>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/10.png" alt="Use after free"></p>
+<h2 id="double-free"><a href="#double-free" class="headerlink" title="double free"></a>double free</h2><ul>
+<li>UAF（use after free）的一个特例</li>
+<li>把已经free过的块再free一次</li>
+</ul>
+<p>需要绕过glibc中对于double free的检查：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (SINGLE_THREAD_P)</span><br><span class="line">      &#123;</span><br><span class="line">	<span class="comment">/* Check that the top of the bin is not the record we are going to</span></span><br><span class="line"><span class="comment">	   add (i.e., double free).  */</span></span><br><span class="line">	<span class="keyword">if</span> (__builtin_expect (old == p, <span class="number">0</span>))</span><br><span class="line">	  malloc_printerr (<span class="string">"double free or corruption (fasttop)"</span>);</span><br><span class="line">	p-&gt;fd = old;</span><br><span class="line">	*fb = p;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="keyword">do</span></span><br><span class="line">	&#123;</span><br><span class="line">	  <span class="comment">/* Check that the top of the bin is not the record we are going to</span></span><br><span class="line"><span class="comment">	     add (i.e., double free).  */</span></span><br><span class="line">	  <span class="keyword">if</span> (__builtin_expect (old == p, <span class="number">0</span>))</span><br><span class="line">	    malloc_printerr (<span class="string">"double free or corruption (fasttop)"</span>);</span><br><span class="line">	  p-&gt;fd = old2 = old;</span><br><span class="line">	&#125;</span><br><span class="line">      <span class="keyword">while</span> ((old = catomic_compare_and_exchange_val_rel (fb, p, old2))</span><br><span class="line">	     != old2);</span><br></pre></td></tr></table></figure>
+<h2 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h2><p>free chunk的时候堆块前向、后向合并，将使用unlink。</p>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/11.png" alt="Unlink"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Take a chunk off a bin list */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> unlink(AV, P, BK, FD) &#123;                                            \</span></span><br><span class="line">    <span class="keyword">if</span> (__builtin_expect (chunksize(P) != prev_size (next_chunk(P)), <span class="number">0</span>))      \</span><br><span class="line">      malloc_printerr (<span class="string">"corrupted size vs. prev_size"</span>);			      \</span><br><span class="line">    FD = P-&gt;fd;								      \</span><br><span class="line">    BK = P-&gt;bk;								      \</span><br><span class="line">    <span class="keyword">if</span> (__builtin_expect (FD-&gt;bk != P || BK-&gt;fd != P, <span class="number">0</span>))		      \</span><br><span class="line">      malloc_printerr (<span class="string">"corrupted double-linked list"</span>);			      \</span><br><span class="line">    <span class="keyword">else</span> &#123;								      \</span><br><span class="line">        FD-&gt;bk = BK;							      \</span><br><span class="line">        BK-&gt;fd = FD;							      \</span><br><span class="line">        <span class="keyword">if</span> (!in_smallbin_range (chunksize_nomask (P))			      \</span><br><span class="line">            &amp;&amp; __builtin_expect (P-&gt;fd_nextsize != <span class="literal">NULL</span>, <span class="number">0</span>)) &#123;		      \</span><br><span class="line">	    <span class="keyword">if</span> (__builtin_expect (P-&gt;fd_nextsize-&gt;bk_nextsize != P, <span class="number">0</span>)	      \</span><br><span class="line">		|| __builtin_expect (P-&gt;bk_nextsize-&gt;fd_nextsize != P, <span class="number">0</span>))    \</span><br><span class="line">	      malloc_printerr (<span class="string">"corrupted double-linked list (not small)"</span>);   \</span><br><span class="line">            <span class="keyword">if</span> (FD-&gt;fd_nextsize == <span class="literal">NULL</span>) &#123;				      \</span><br><span class="line">                <span class="keyword">if</span> (P-&gt;fd_nextsize == P)				      \</span><br><span class="line">                  FD-&gt;fd_nextsize = FD-&gt;bk_nextsize = FD;		      \</span><br><span class="line">                <span class="keyword">else</span> &#123;							      \</span><br><span class="line">                    FD-&gt;fd_nextsize = P-&gt;fd_nextsize;			      \</span><br><span class="line">                    FD-&gt;bk_nextsize = P-&gt;bk_nextsize;			      \</span><br><span class="line">                    P-&gt;fd_nextsize-&gt;bk_nextsize = FD;			      \</span><br><span class="line">                    P-&gt;bk_nextsize-&gt;fd_nextsize = FD;			      \</span><br><span class="line">                  &#125;							      \</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;							      \</span><br><span class="line">                P-&gt;fd_nextsize-&gt;bk_nextsize = P-&gt;bk_nextsize;		      \</span><br><span class="line">                P-&gt;bk_nextsize-&gt;fd_nextsize = P-&gt;fd_nextsize;		      \</span><br><span class="line">              &#125;								      \</span><br><span class="line">          &#125;								      \</span><br><span class="line">      &#125;									      \</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在对unlink也有检查：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">     If a small request, check regular bin.  Since these "smallbins"</span></span><br><span class="line"><span class="comment">     hold one size each, no searching within bins is necessary.</span></span><br><span class="line"><span class="comment">     (For a large request, we need to wait until unsorted chunks are</span></span><br><span class="line"><span class="comment">     processed to find best fit. But for small ones, fits are exact</span></span><br><span class="line"><span class="comment">     anyway, so we can check now, which is faster.)</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (in_smallbin_range (nb))</span><br><span class="line">    &#123;</span><br><span class="line">      idx = smallbin_index (nb);</span><br><span class="line">      bin = bin_at (av, idx);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> ((victim = last (bin)) != bin)</span><br><span class="line">        &#123;</span><br><span class="line">          bck = victim-&gt;bk;</span><br><span class="line">	  <span class="keyword">if</span> (__glibc_unlikely (bck-&gt;fd != victim))</span><br><span class="line">	    malloc_printerr (<span class="string">"malloc(): smallbin double linked list corrupted"</span>);</span><br><span class="line">          set_inuse_bit_at_offset (victim, nb);</span><br><span class="line">          bin-&gt;bk = bck;</span><br><span class="line">          bck-&gt;fd = bin;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (av != &amp;main_arena)</span><br><span class="line">	    set_non_main_arena (victim);</span><br><span class="line">          check_malloced_chunk (av, victim, nb);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> USE_TCACHE</span></span><br><span class="line">	  <span class="comment">/* While we're here, if we see other chunks of the same size,</span></span><br><span class="line"><span class="comment">	     stash them in the tcache.  */</span></span><br><span class="line">	  <span class="keyword">size_t</span> tc_idx = csize2tidx (nb);</span><br><span class="line">	  <span class="keyword">if</span> (tcache &amp;&amp; tc_idx &lt; mp_.tcache_bins)</span><br><span class="line">	    &#123;</span><br><span class="line">	      mchunkptr tc_victim;</span><br><span class="line"></span><br><span class="line">	      <span class="comment">/* While bin not empty and tcache not full, copy chunks over.  */</span></span><br><span class="line">	      <span class="keyword">while</span> (tcache-&gt;counts[tc_idx] &lt; mp_.tcache_count</span><br><span class="line">		     &amp;&amp; (tc_victim = last (bin)) != bin)</span><br><span class="line">		&#123;</span><br><span class="line">		  <span class="keyword">if</span> (tc_victim != <span class="number">0</span>)</span><br><span class="line">		    &#123;</span><br><span class="line">		      bck = tc_victim-&gt;bk;</span><br><span class="line">		      set_inuse_bit_at_offset (tc_victim, nb);</span><br><span class="line">		      <span class="keyword">if</span> (av != &amp;main_arena)</span><br><span class="line">			set_non_main_arena (tc_victim);</span><br><span class="line">		      bin-&gt;bk = bck;</span><br><span class="line">		      bck-&gt;fd = bin;</span><br><span class="line"></span><br><span class="line">		      tcache_put (tc_victim, tc_idx);</span><br><span class="line">	            &#125;</span><br><span class="line">		&#125;</span><br><span class="line">	    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">          <span class="keyword">void</span> *p = chunk2mem (victim);</span><br><span class="line">          alloc_perturb (p, bytes);</span><br><span class="line">          <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="off-by-one"><a href="#off-by-one" class="headerlink" title="off by one"></a>off by one</h2><p>只能溢出一个字节。</p>
+<ul>
+<li>改写下一个块的size</li>
+<li>改写下一个块的prev inuse位</li>
+</ul>
+<p>=&gt; unlink<br>=&gt; chunk overlap</p>
+<h1 id="CTF中堆的常见攻击手法"><a href="#CTF中堆的常见攻击手法" class="headerlink" title="CTF中堆的常见攻击手法"></a>CTF中堆的常见攻击手法</h1><h2 id="fast-bin-attack"><a href="#fast-bin-attack" class="headerlink" title="fast bin attack"></a>fast bin attack</h2><p>控制fd指针</p>
+<ul>
+<li>UAF：directly corrupted fd</li>
+<li>Double free：fast bin dup</li>
+</ul>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/12.png" alt="Fast bin attack"></p>
+<p>Size检查：链表中第一个chunk是否和要free的chunk相同</p>
+<p>利用misalignment伪造size =&gt; 0x7fXXXXXXXXXXX</p>
+<ul>
+<li>Overwrite GOT</li>
+<li>Overwrite main_arena（always top chunk ptr）</li>
+<li>Overwrite realloc_hook/malloc_hook/free_hook（but always infeasible）</li>
+</ul>
+<h2 id="unsorted-bin-attack"><a href="#unsorted-bin-attack" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h2><p>任意地址写固定值</p>
+<p>控制bk指针、bk = addr - 0x10（64bit）</p>
+<p>malloc一个大小正好的堆块 - 最终达到addr = main_arena + 0x58</p>
+<p>通常改写global_max_fast</p>
+<h2 id="small-bin-attack"><a href="#small-bin-attack" class="headerlink" title="small bin attack"></a>small bin attack</h2><ol>
+<li>伪造fake chunk，让其指针指向victim</li>
+<li>改写victim的bk为fake chunk</li>
+<li>把fake chunk放入对应的small bin中</li>
+<li>下次malloc可以分配到fake chunk处</li>
+</ol>
+<h2 id="large-bin-attack"><a href="#large-bin-attack" class="headerlink" title="large bin attack"></a>large bin attack</h2><p>出现在unsorted bin放入large bin的过程中</p>
+<ol>
+<li>把large chunk的bk_nextsize指针改写成addr_a</li>
+<li>通过malloc把一个比当前chunk（victim）小的块放入large bin中</li>
+<li>addr_a + 0x20将被改写成victim指针</li>
+</ol>
+<p><img src="/pics/第三届XMAN夏令营/PWN/二/13.png" alt="Large bin attack"></p>
+<h1 id="House-of-XXX"><a href="#House-of-XXX" class="headerlink" title="House of XXX"></a>House of XXX</h1><p>Include：</p>
+<ul>
+<li>House of Spirit</li>
+<li>House of Force</li>
+<li>House of Lore</li>
+<li>House of Einherjar</li>
+<li>House of Orange</li>
+<li>House of Roman</li>
+</ul>
+<h2 id="House-of-Spirit"><a href="#House-of-Spirit" class="headerlink" title="House of Spirit"></a>House of Spirit</h2><p>fast bin sttack</p>
+<ul>
+<li>fake a bin chunk</li>
+<li>改写fast bin chunk的fd指针，让其指向fake chunk</li>
+<li>malloc两次，可以分配到fake chunk</li>
+</ul>
+<h2 id="House-of-Force"><a href="#House-of-Force" class="headerlink" title="House of Force"></a>House of Force</h2><p>top chunk attack</p>
+<ul>
+<li>Overwrite top chunk’s size</li>
+<li>Malloc arbitrary size</li>
+<li>Can malloc twice</li>
+</ul>
+<h2 id="Lore"><a href="#Lore" class="headerlink" title="Lore"></a>Lore</h2><p>small bin sttack</p>
+<ul>
+<li>改写small bin chunk的bk指针，让其指向fake chunk</li>
+<li>需要满足bck-&gt;fd==victim的检查，也就是fake chunk的指针指向被改写的small bin chunk</li>
+</ul>
+<h2 id="Einherjar"><a href="#Einherjar" class="headerlink" title="Einherjar"></a>Einherjar</h2><p>off by one</p>
+<ul>
+<li>Fake chunk, fake pre_size</li>
+<li>Off by null clear next chunk’s pre_in_use bit</li>
+<li>Could free not fasts bins</li>
+</ul>
+<h2 id="Orange"><a href="#Orange" class="headerlink" title="Orange"></a>Orange</h2><ul>
+<li>伪造的size必须要对齐到内存页</li>
+<li>size要大于MINSIZE（0x10）</li>
+<li>size要小于之后申请的chunk size + MINSIZE</li>
+<li>size的prev inuse位必须为1</li>
+</ul>
+<h2 id="Roman"><a href="#Roman" class="headerlink" title="Roman"></a>Roman</h2><p>fast bin attack + unsorted bin attack</p>
+<ul>
+<li>没有泄漏</li>
+<li>Partial write to bypass ASLR</li>
+</ul>
+<h1 id="tricks"><a href="#tricks" class="headerlink" title="tricks"></a>tricks</h1><ul>
+<li>改got（atoi、free）</li>
+<li>free_hook改system</li>
+<li>malloc_hook改onegadget</li>
+<li>利用malloc_printerer实现one_gadget</li>
+<li>利用misalignment伪造size</li>
+<li>利用fast bin attack在main arena写size</li>
+<li>利用fast bin attack改写top chunk ptr</li>
+</ul>
+<h1 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h1><ul>
+<li>改写关键数据结构</li>
+<li>跳出heap范围</li>
+<li>构造overlap chunk</li>
+</ul>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/07/XMan-PWN（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XMan PWN（三）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/05/XMan-PWN（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">XMan PWN（一）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux堆管理基础"><span class="nav-number">1.</span> <span class="nav-text">linux堆管理基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#heap-allocator"><span class="nav-number">1.1.</span> <span class="nav-text">heap allocator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ptmalloc2-glibc"><span class="nav-number">1.2.</span> <span class="nav-text">ptmalloc2 - glibc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chunk"><span class="nav-number">1.3.</span> <span class="nav-text">chunk</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#allocated-chunk"><span class="nav-number">1.3.1.</span> <span class="nav-text">allocated chunk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#free-chunk"><span class="nav-number">1.3.2.</span> <span class="nav-text">free chunk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#top-chunk"><span class="nav-number">1.3.3.</span> <span class="nav-text">top chunk</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bins"><span class="nav-number">1.4.</span> <span class="nav-text">bins</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fast-bins"><span class="nav-number">1.4.1.</span> <span class="nav-text">fast bins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unsorted-bin"><span class="nav-number">1.4.2.</span> <span class="nav-text">unsorted bin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#small-bin"><span class="nav-number">1.4.3.</span> <span class="nav-text">small bin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#large-bin"><span class="nav-number">1.4.4.</span> <span class="nav-text">large bin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arena"><span class="nav-number">1.5.</span> <span class="nav-text">arena</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#what-glibc-do-when-malloc"><span class="nav-number">2.</span> <span class="nav-text">what glibc do when malloc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#what-glibc-do-when-free"><span class="nav-number">3.</span> <span class="nav-text">what glibc do when free</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见堆漏洞"><span class="nav-number">4.</span> <span class="nav-text">常见堆漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#chunk-overflow"><span class="nav-number">4.1.</span> <span class="nav-text">chunk overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-after-free"><span class="nav-number">4.2.</span> <span class="nav-text">use after free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#double-free"><span class="nav-number">4.3.</span> <span class="nav-text">double free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unlink"><span class="nav-number">4.4.</span> <span class="nav-text">unlink</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#off-by-one"><span class="nav-number">4.5.</span> <span class="nav-text">off by one</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CTF中堆的常见攻击手法"><span class="nav-number">5.</span> <span class="nav-text">CTF中堆的常见攻击手法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fast-bin-attack"><span class="nav-number">5.1.</span> <span class="nav-text">fast bin attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsorted-bin-attack"><span class="nav-number">5.2.</span> <span class="nav-text">unsorted bin attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#small-bin-attack"><span class="nav-number">5.3.</span> <span class="nav-text">small bin attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#large-bin-attack"><span class="nav-number">5.4.</span> <span class="nav-text">large bin attack</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#House-of-XXX"><span class="nav-number">6.</span> <span class="nav-text">House of XXX</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#House-of-Spirit"><span class="nav-number">6.1.</span> <span class="nav-text">House of Spirit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#House-of-Force"><span class="nav-number">6.2.</span> <span class="nav-text">House of Force</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lore"><span class="nav-number">6.3.</span> <span class="nav-text">Lore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Einherjar"><span class="nav-number">6.4.</span> <span class="nav-text">Einherjar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Orange"><span class="nav-number">6.5.</span> <span class="nav-text">Orange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Roman"><span class="nav-number">6.6.</span> <span class="nav-text">Roman</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tricks"><span class="nav-number">7.</span> <span class="nav-text">tricks</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#summary"><span class="nav-number">8.</span> <span class="nav-text">summary</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
