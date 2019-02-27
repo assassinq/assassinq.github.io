@@ -56,31 +56,9 @@
 
 
   
-  
-  <div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
 
 
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+<header id="allheader" class="site-header" role="banner">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -129,7 +107,7 @@
         <div class="archives-tags-wrap">
             
                 <blockquote>
-                <a href="/tags/android/" style="font-size: 17.5px;">android</a> <a href="/tags/c/" style="font-size: 19.25px;">c</a> <a href="/tags/crypto/" style="font-size: 17.5px;">crypto</a> <a href="/tags/ctf/" style="font-size: 28px;">ctf</a> <a href="/tags/github/" style="font-size: 15.75px;">github</a> <a href="/tags/hexo/" style="font-size: 15.75px;">hexo</a> <a href="/tags/is/" style="font-size: 15.75px;">is</a> <a href="/tags/linux/" style="font-size: 14px;">linux</a> <a href="/tags/mac/" style="font-size: 15.75px;">mac</a> <a href="/tags/note/" style="font-size: 15.75px;">note</a> <a href="/tags/pwn/" style="font-size: 26.25px;">pwn</a> <a href="/tags/re/" style="font-size: 24.5px;">re</a> <a href="/tags/review/" style="font-size: 22.75px;">review</a> <a href="/tags/solution/" style="font-size: 17.5px;">solution</a> <a href="/tags/translation/" style="font-size: 17.5px;">translation</a> <a href="/tags/web/" style="font-size: 21px;">web</a> <a href="/tags/windows/" style="font-size: 14px;">windows</a> <a href="/tags/wp/" style="font-size: 21px;">wp</a>
+                <a href="/tags/android/" style="font-size: 17.5px;">android</a> <a href="/tags/c/" style="font-size: 19.25px;">c</a> <a href="/tags/crypto/" style="font-size: 17.5px;">crypto</a> <a href="/tags/ctf/" style="font-size: 28px;">ctf</a> <a href="/tags/github/" style="font-size: 15.75px;">github</a> <a href="/tags/hexo/" style="font-size: 15.75px;">hexo</a> <a href="/tags/is/" style="font-size: 15.75px;">is</a> <a href="/tags/linux/" style="font-size: 14px;">linux</a> <a href="/tags/mac/" style="font-size: 15.75px;">mac</a> <a href="/tags/note/" style="font-size: 15.75px;">note</a> <a href="/tags/pwn/" style="font-size: 26.25px;">pwn</a> <a href="/tags/re/" style="font-size: 24.5px;">re</a> <a href="/tags/review/" style="font-size: 22.75px;">review</a> <a href="/tags/solution/" style="font-size: 17.5px;">solution</a> <a href="/tags/translation/" style="font-size: 17.5px;">translation</a> <a href="/tags/web/" style="font-size: 21px;">web</a> <a href="/tags/windows/" style="font-size: 14px;">windows</a> <a href="/tags/wp/" style="font-size: 22.75px;">wp</a>
                 </blockquote>
             
         </div>
@@ -140,11 +118,13 @@
             
                 <a href="#ctf" title="ctf" rel="32">ctf</a>
             
-                <a href="#wp" title="wp" rel="6">wp</a>
+                <a href="#wp" title="wp" rel="7">wp</a>
             
                 <a href="#crypto" title="crypto" rel="3">crypto</a>
             
                 <a href="#c" title="c" rel="4">c</a>
+            
+                <a href="#translation" title="translation" rel="3">translation</a>
             
                 <a href="#hexo" title="hexo" rel="2">hexo</a>
             
@@ -152,21 +132,19 @@
             
                 <a href="#mac" title="mac" rel="2">mac</a>
             
-                <a href="#translation" title="translation" rel="3">translation</a>
+                <a href="#web" title="web" rel="6">web</a>
             
                 <a href="#pwn" title="pwn" rel="11">pwn</a>
             
-                <a href="#web" title="web" rel="6">web</a>
+                <a href="#windows" title="windows" rel="1">windows</a>
             
                 <a href="#android" title="android" rel="3">android</a>
             
-                <a href="#windows" title="windows" rel="1">windows</a>
-            
                 <a href="#is" title="is" rel="2">is</a>
             
-                <a href="#re" title="re" rel="9">re</a>
-            
                 <a href="#solution" title="solution" rel="3">solution</a>
+            
+                <a href="#re" title="re" rel="9">re</a>
             
                 <a href="#note" title="note" rel="2">note</a>
             
@@ -1543,13 +1521,13 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2019/02/18/Radare2之旅-Part1：Simple crackme/" class="archive-article-date">
-		  <time datetime="2019-02-18T04:17:27.000Z" itemprop="datePublished">Feb 18, 2019</time>
+      <a href="/2019/02/21/2019-吾爱破解解题领红包活动-writeup/" class="archive-article-date">
+		  <time datetime="2019-02-21T12:33:03.000Z" itemprop="datePublished">Feb 21, 2019</time>
 	  </a>
       
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/Radare2之旅-Part1：Simple crackme/">Radare2之旅-Part1：Simple crackme</a>
+      <a class="archive-article-title" href="/2019/02/21/2019-吾爱破解解题领红包活动-writeup/">2019-吾爱破解解题领红包活动-writeup</a>
     </h1>
   
 
@@ -1562,13 +1540,13 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2019/02/10/2019-吾爱破解解题领红包活动/" class="archive-article-date">
-		  <time datetime="2019-02-10T12:33:03.000Z" itemprop="datePublished">Feb 10, 2019</time>
+      <a href="/2019/02/18/Radare2之旅-Part1：Simple crackme/" class="archive-article-date">
+		  <time datetime="2019-02-18T04:17:27.000Z" itemprop="datePublished">Feb 18, 2019</time>
 	  </a>
       
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/02/10/2019-吾爱破解解题领红包活动/">2019-吾爱破解解题领红包活动</a>
+      <a class="archive-article-title" href="/2019/02/18/Radare2之旅-Part1：Simple crackme/">Radare2之旅-Part1：Simple crackme</a>
     </h1>
   
 
@@ -2110,6 +2088,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2019/02/21/2019-吾爱破解解题领红包活动-writeup/" class="archive-article-date">
+		  <time datetime="2019-02-21T12:33:03.000Z" itemprop="datePublished">Feb 21, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/02/21/2019-吾爱破解解题领红包活动-writeup/">2019-吾爱破解解题领红包活动-writeup</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2019/01/25/【未完成】2018-安恒杯十二月月赛-writeup/" class="archive-article-date">
 		  <time datetime="2019-01-25T08:12:19.000Z" itemprop="datePublished">Jan 25, 2019</time>
 	  </a>
@@ -2385,6 +2382,18 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2019/02/21/2019-吾爱破解解题领红包活动-writeup/">2019-吾爱破解解题领红包活动-writeup</a></h6>
+              <span>February 21, 2019</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2019/02/20/Installing-Minimal-Ubuntu-for-REMnux/">Installing Minimal Ubuntu for REMnux</a></h6>
               <span>February 20, 2019</span>
             </div>
@@ -2415,18 +2424,6 @@
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/02/15/为Windows系统鼠标右键添加软件和图标/">为Windows系统鼠标右键添加软件和图标</a></h6>
-              <span>February 15, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -2436,7 +2433,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">32</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/is/">is</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/review/">review</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">6</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">32</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/is/">is</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/review/">review</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -2495,9 +2492,6 @@
 
 
     <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
