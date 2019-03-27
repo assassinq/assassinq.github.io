@@ -15,11 +15,11 @@
 <meta name="keywords" content="ctf,pwn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gets一把梭">
-<meta property="og:url" content="https://qianfei11.github.io/2019/03/19/Gets一把梭/index.html">
+<meta property="og:url" content="https://qianfei11.github.io/2019/03/07/Gets一把梭/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="如果程序只有一个gets()。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-23T03:03:47.460Z">
+<meta property="og:updated_time" content="2019-03-27T09:35:40.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gets一把梭">
 <meta name="twitter:description" content="如果程序只有一个gets()。">
@@ -59,9 +59,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -120,8 +142,8 @@
     
     <div class="article-meta">
       
-	<a href="/2019/03/19/Gets一把梭/" class="article-date">
-	  <time datetime="2019-03-19T04:50:23.000Z" itemprop="datePublished">March 19, 2019</time>
+	<a href="/2019/03/07/Gets一把梭/" class="article-date">
+	  <time datetime="2019-03-07T04:50:23.000Z" itemprop="datePublished">March 7, 2019</time>
 	</a>
 
        
@@ -200,19 +222,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2099/12/31/闭关学习/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/03/16/Got-Hijacking-and-Stack-Migration/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          闭关学习
+          Got Hijacking and Stack Migration
         
       </div>
     </a>
   
   
-    <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/03/06/解决VMware下Ubuntu的一些问题/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Buffer Overflow with gcc&gt;=4.9</div>
+      <div class="article-nav-title">解决VMware下Ubuntu的一些问题</div>
     </a>
   
 </nav>
@@ -272,6 +294,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

@@ -77,9 +77,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -156,7 +178,7 @@
 <p>顺便记录一下<code>__all__</code>在python中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The only solution is for the package author to provide an explicit index of the package. The import statement uses the following convention: if a package’s init.py code defines a list named all, it is taken to be the list of module names that should be imported when from package import * is encountered. It is up to the package author to keep this list up-to-date when a new version of the package is released. Package authors may also decide not to support it, if they don’t see a use for importing * from their package.</span><br></pre></td></tr></table></figure>
 <p>最后用<a href="https://github.com/liupengs/DES_Python/blob/master/des.py" target="_blank" rel="noopener">搜到的脚本</a>解密：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> python des_1.py </span><br><span class="line">DES 解密</span><br><span class="line"></span><br><span class="line">请输入密文（长度不限）:e3fab29a43a70ca72162a132df6ab532535278834e11e6706c61a1a7cefc402c8ecaf601d00eee72</span><br><span class="line">请输入密钥（长度不限）:mtqVwD4JNRjw3bkT9sQ0RYcZaKShU4sf</span><br><span class="line">QCTF&#123;eCy0AALMDH9rLoBnWnTigXpYPkgU0sU4&#125;</span><br><span class="line">按确定退出</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> python des_1.py </span></span><br><span class="line">DES 解密</span><br><span class="line"></span><br><span class="line">请输入密文（长度不限）:e3fab29a43a70ca72162a132df6ab532535278834e11e6706c61a1a7cefc402c8ecaf601d00eee72</span><br><span class="line">请输入密钥（长度不限）:mtqVwD4JNRjw3bkT9sQ0RYcZaKShU4sf</span><br><span class="line">QCTF&#123;eCy0AALMDH9rLoBnWnTigXpYPkgU0sU4&#125;</span><br><span class="line">按确定退出</span><br></pre></td></tr></table></figure>
 <h2 id="Noise"><a href="#Noise" class="headerlink" title="Noise"></a>Noise</h2><p>拿到一个<code>Noise.wav</code>，发现是<code>my little pony theme song</code>。尝试用<code>mp3stego</code>后无果。再反复听了很多次，发现有一些噪音夹杂在里面。</p>
 <p>看一下hint，个人认为这里最关键的是hint2，需要了解通过消除伴奏获得人声的原理。</p>
 <p><img src="/pics/2018-QCTF-writeup/1.png" alt="hint"></p>
@@ -374,6 +396,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

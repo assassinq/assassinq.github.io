@@ -56,9 +56,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -107,7 +129,7 @@
         <div class="archives-tags-wrap">
             
                 <blockquote>
-                <a href="/tags/android/" style="font-size: 17.5px;">android</a> <a href="/tags/c/" style="font-size: 19.25px;">c</a> <a href="/tags/crypto/" style="font-size: 17.5px;">crypto</a> <a href="/tags/ctf/" style="font-size: 28px;">ctf</a> <a href="/tags/github/" style="font-size: 15.75px;">github</a> <a href="/tags/hexo/" style="font-size: 15.75px;">hexo</a> <a href="/tags/is/" style="font-size: 15.75px;">is</a> <a href="/tags/linux/" style="font-size: 17.5px;">linux</a> <a href="/tags/mac/" style="font-size: 15.75px;">mac</a> <a href="/tags/note/" style="font-size: 17.5px;">note</a> <a href="/tags/pwn/" style="font-size: 26.25px;">pwn</a> <a href="/tags/re/" style="font-size: 24.5px;">re</a> <a href="/tags/repost/" style="font-size: 15.75px;">repost</a> <a href="/tags/review/" style="font-size: 22.75px;">review</a> <a href="/tags/solution/" style="font-size: 19.25px;">solution</a> <a href="/tags/translation/" style="font-size: 15.75px;">translation</a> <a href="/tags/web/" style="font-size: 21px;">web</a> <a href="/tags/windows/" style="font-size: 14px;">windows</a> <a href="/tags/wp/" style="font-size: 22.75px;">wp</a>
+                <a href="/tags/android/" style="font-size: 17.5px;">android</a> <a href="/tags/c/" style="font-size: 19.25px;">c</a> <a href="/tags/crypto/" style="font-size: 17.5px;">crypto</a> <a href="/tags/ctf/" style="font-size: 28px;">ctf</a> <a href="/tags/github/" style="font-size: 15.75px;">github</a> <a href="/tags/hexo/" style="font-size: 15.75px;">hexo</a> <a href="/tags/is/" style="font-size: 15.75px;">is</a> <a href="/tags/linux/" style="font-size: 17.5px;">linux</a> <a href="/tags/mac/" style="font-size: 15.75px;">mac</a> <a href="/tags/note/" style="font-size: 17.5px;">note</a> <a href="/tags/pwn/" style="font-size: 26.25px;">pwn</a> <a href="/tags/re/" style="font-size: 24.5px;">re</a> <a href="/tags/repost/" style="font-size: 15.75px;">repost</a> <a href="/tags/review/" style="font-size: 22.75px;">review</a> <a href="/tags/solution/" style="font-size: 19.25px;">solution</a> <a href="/tags/translation/" style="font-size: 15.75px;">translation</a> <a href="/tags/web/" style="font-size: 21px;">web</a> <a href="/tags/windows/" style="font-size: 14px;">windows</a> <a href="/tags/wp/" style="font-size: 24.5px;">wp</a>
                 </blockquote>
             
         </div>
@@ -116,13 +138,15 @@
         <!-- 
         <div id='tag_cloud' class="tags">
             
-                <a href="#ctf" title="ctf" rel="36">ctf</a>
+                <a href="#ctf" title="ctf" rel="37">ctf</a>
             
-                <a href="#wp" title="wp" rel="7">wp</a>
+                <a href="#wp" title="wp" rel="9">wp</a>
             
                 <a href="#crypto" title="crypto" rel="3">crypto</a>
             
                 <a href="#c" title="c" rel="4">c</a>
+            
+                <a href="#pwn" title="pwn" rel="15">pwn</a>
             
                 <a href="#hexo" title="hexo" rel="2">hexo</a>
             
@@ -130,11 +154,9 @@
             
                 <a href="#mac" title="mac" rel="2">mac</a>
             
-                <a href="#pwn" title="pwn" rel="15">pwn</a>
+                <a href="#linux" title="linux" rel="3">linux</a>
             
                 <a href="#web" title="web" rel="6">web</a>
-            
-                <a href="#linux" title="linux" rel="3">linux</a>
             
                 <a href="#windows" title="windows" rel="1">windows</a>
             
@@ -142,15 +164,15 @@
             
                 <a href="#is" title="is" rel="2">is</a>
             
-                <a href="#review" title="review" rel="7">review</a>
-            
-                <a href="#note" title="note" rel="3">note</a>
-            
-                <a href="#re" title="re" rel="8">re</a>
+                <a href="#re" title="re" rel="9">re</a>
             
                 <a href="#repost" title="repost" rel="2">repost</a>
             
                 <a href="#solution" title="solution" rel="4">solution</a>
+            
+                <a href="#note" title="note" rel="3">note</a>
+            
+                <a href="#review" title="review" rel="7">review</a>
             
                 <a href="#translation" title="translation" rel="2">translation</a>
             
@@ -387,25 +409,6 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2019/03/19/Gets一把梭/" class="archive-article-date">
-		  <time datetime="2019-03-19T04:50:23.000Z" itemprop="datePublished">Mar 19, 2019</time>
-	  </a>
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/03/19/Gets一把梭/">Gets一把梭</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-                    
-                
-                    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-
       <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" class="archive-article-date">
 		  <time datetime="2019-03-17T09:43:52.000Z" itemprop="datePublished">Mar 17, 2019</time>
 	  </a>
@@ -432,6 +435,25 @@
   
     <h1 class="thumb" itemprop="name">
       <a class="archive-article-title" href="/2019/03/16/Got-Hijacking-and-Stack-Migration/">Got Hijacking and Stack Migration</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2019/03/07/Gets一把梭/" class="archive-article-date">
+		  <time datetime="2019-03-07T04:50:23.000Z" itemprop="datePublished">Mar 07, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/03/07/Gets一把梭/">Gets一把梭</a>
     </h1>
   
 
@@ -520,13 +542,13 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2019/01/28/2019-Codegate-review/" class="archive-article-date">
+      <a href="/2019/01/28/2019-Codegate-Preliminary-review/" class="archive-article-date">
 		  <time datetime="2019-01-28T01:41:35.000Z" itemprop="datePublished">Jan 28, 2019</time>
 	  </a>
       
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/01/28/2019-Codegate-review/">2019-Codegate-review</a>
+      <a class="archive-article-title" href="/2019/01/28/2019-Codegate-Preliminary-review/">2019-Codegate-Preliminary-review</a>
     </h1>
   
 
@@ -565,6 +587,25 @@
   
     <h1 class="thumb" itemprop="name">
       <a class="archive-article-title" href="/2018/12/08/2018-信息安全铁人三项赛总决赛-数据赛-writeup/">2018-信息安全铁人三项赛总决赛-数据赛-writeup</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2018/11/22/南邮-逆向-writeup/" class="archive-article-date">
+		  <time datetime="2018-11-22T08:12:02.000Z" itemprop="datePublished">Nov 22, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/11/22/南邮-逆向-writeup/">南邮-逆向-writeup</a>
     </h1>
   
 
@@ -1400,25 +1441,6 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2019/03/19/Gets一把梭/" class="archive-article-date">
-		  <time datetime="2019-03-19T04:50:23.000Z" itemprop="datePublished">Mar 19, 2019</time>
-	  </a>
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/03/19/Gets一把梭/">Gets一把梭</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-                    
-                
-                    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-
       <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" class="archive-article-date">
 		  <time datetime="2019-03-17T09:43:52.000Z" itemprop="datePublished">Mar 17, 2019</time>
 	  </a>
@@ -1445,6 +1467,25 @@
   
     <h1 class="thumb" itemprop="name">
       <a class="archive-article-title" href="/2019/03/16/Got-Hijacking-and-Stack-Migration/">Got Hijacking and Stack Migration</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2019/03/07/Gets一把梭/" class="archive-article-date">
+		  <time datetime="2019-03-07T04:50:23.000Z" itemprop="datePublished">Mar 07, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/03/07/Gets一把梭/">Gets一把梭</a>
     </h1>
   
 
@@ -1789,6 +1830,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2018/11/22/南邮-逆向-writeup/" class="archive-article-date">
+		  <time datetime="2018-11-22T08:12:02.000Z" itemprop="datePublished">Nov 22, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/11/22/南邮-逆向-writeup/">南邮-逆向-writeup</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2018/08/03/XMan-RE（二）/" class="archive-article-date">
 		  <time datetime="2018-08-03T02:31:27.000Z" itemprop="datePublished">Aug 03, 2018</time>
 	  </a>
@@ -1921,13 +1981,13 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2019/01/28/2019-Codegate-review/" class="archive-article-date">
+      <a href="/2019/01/28/2019-Codegate-Preliminary-review/" class="archive-article-date">
 		  <time datetime="2019-01-28T01:41:35.000Z" itemprop="datePublished">Jan 28, 2019</time>
 	  </a>
       
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/01/28/2019-Codegate-review/">2019-Codegate-review</a>
+      <a class="archive-article-title" href="/2019/01/28/2019-Codegate-Preliminary-review/">2019-Codegate-Preliminary-review</a>
     </h1>
   
 
@@ -2327,6 +2387,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2019/03/25/【未完成】2019-Securinets-Quals-writeup/" class="archive-article-date">
+		  <time datetime="2019-03-25T00:45:10.000Z" itemprop="datePublished">Mar 25, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/03/25/【未完成】2019-Securinets-Quals-writeup/">2019-Securinets-Quals-writeup</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2019/02/21/2019-吾爱破解解题领红包活动-writeup/" class="archive-article-date">
 		  <time datetime="2019-02-21T12:33:03.000Z" itemprop="datePublished">Feb 21, 2019</time>
 	  </a>
@@ -2372,6 +2451,25 @@
   
     <h1 class="thumb" itemprop="name">
       <a class="archive-article-title" href="/2018/12/08/2018-信息安全铁人三项赛总决赛-数据赛-writeup/">2018-信息安全铁人三项赛总决赛-数据赛-writeup</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2018/11/22/南邮-逆向-writeup/" class="archive-article-date">
+		  <time datetime="2018-11-22T08:12:02.000Z" itemprop="datePublished">Nov 22, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/11/22/南邮-逆向-writeup/">南邮-逆向-writeup</a>
     </h1>
   
 
@@ -2609,8 +2707,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/03/19/Gets一把梭/">Gets一把梭</a></h6>
-              <span>March 19, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/03/25/【未完成】2019-Securinets-Quals-writeup/">2019-Securinets-Quals-writeup</a></h6>
+              <span>March 25, 2019</span>
             </div>
 
           </li>
@@ -2645,8 +2743,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/03/06/解决VMware下Ubuntu的一些问题/">解决VMware下Ubuntu的一些问题</a></h6>
-              <span>March 6, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/03/07/Gets一把梭/">Gets一把梭</a></h6>
+              <span>March 7, 2019</span>
             </div>
 
           </li>
@@ -2657,8 +2755,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/03/04/Ubuntu16-04下编译libc2-23/">Ubuntu16.04下编译libc2.23</a></h6>
-              <span>March 4, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/03/06/解决VMware下Ubuntu的一些问题/">解决VMware下Ubuntu的一些问题</a></h6>
+              <span>March 6, 2019</span>
             </div>
 
           </li>
@@ -2672,7 +2770,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">36</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/is/">is</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/review/">review</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">7</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">37</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/is/">is</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/review/">review</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -2683,7 +2781,7 @@
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2099/12/">December 2099</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2099/12/">December 2099</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -2731,6 +2829,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

