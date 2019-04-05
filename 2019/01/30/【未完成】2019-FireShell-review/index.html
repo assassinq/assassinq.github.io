@@ -3,31 +3,31 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>2019-FireShell-review | AssassinQ</title>
+  <title>2019-FireShell-writeup | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="ctfreview">
+  <meta name="keywords" content="ctfwp">
   
   
   
   
   <meta name="description" content="比赛没打，当作练习以及看着大佬的writeup复现了一下几道二进制。">
-<meta name="keywords" content="ctf,review">
+<meta name="keywords" content="ctf,wp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2019-FireShell-review">
+<meta property="og:title" content="2019-FireShell-writeup">
 <meta property="og:url" content="https://qianfei11.github.io/2019/01/30/【未完成】2019-FireShell-review/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="比赛没打，当作练习以及看着大佬的writeup复现了一下几道二进制。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-review/RE/Blackbox-0/1.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-review/RE/Blackbox-0/2.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-review/RE/Blackbox-1/1.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-review/RE/Blackbox-1/2.png">
-<meta property="og:updated_time" content="2019-02-01T12:08:18.439Z">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-writeup/RE/Blackbox-0/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-writeup/RE/Blackbox-0/2.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-writeup/RE/Blackbox-1/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2019-FireShell-writeup/RE/Blackbox-1/2.png">
+<meta property="og:updated_time" content="2019-03-31T09:50:39.388Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2019-FireShell-review">
+<meta name="twitter:title" content="2019-FireShell-writeup">
 <meta name="twitter:description" content="比赛没打，当作练习以及看着大佬的writeup复现了一下几道二进制。">
-<meta name="twitter:image" content="https://qianfei11.github.io/pics/2019-FireShell-review/RE/Blackbox-0/1.png">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/2019-FireShell-writeup/RE/Blackbox-0/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -64,31 +64,9 @@
 
 
   
-  
-  <div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
 
 
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+<header id="allheader" class="site-header" role="banner">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -139,7 +117,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      2019-FireShell-review
+      2019-FireShell-writeup
     </h1>
   
 
@@ -164,15 +142,15 @@
 <p>运行程序：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">This binary is a black box.</span><br><span class="line">This means that it was designed to be analyzed without looking it&apos;s inside contents</span><br><span class="line">You will solve the chalenge by letting the flag to be outputted in some way.</span><br><span class="line">You will need to figure out what this binary is doing by just examining it&apos;s behaviour in the environment.</span><br></pre></td></tr></table></figure>
 <p>是<code>.NET</code>程序，故使用<a href="https://github.com/0xd4d/dnSpy" target="_blank" rel="noopener">dnSpy</a>来调试。在单步时，发现<code>\u000F\u2009</code>第354行返回一个变量<code>text</code>。</p>
-<p><img src="/pics/2019-FireShell-review/RE/Blackbox-0/1.png" alt="可疑代码段"></p>
+<p><img src="/pics/2019-FireShell-writeup/RE/Blackbox-0/1.png" alt="可疑代码段"></p>
 <p>在这里设下断点，并多次继续后会得到一串base64，解密得到flag：</p>
-<p><img src="/pics/2019-FireShell-review/RE/Blackbox-0/2.png" alt="text值为base64串"></p>
+<p><img src="/pics/2019-FireShell-writeup/RE/Blackbox-0/2.png" alt="text值为base64串"></p>
 <h2 id="Blackbox-1"><a href="#Blackbox-1" class="headerlink" title="Blackbox-1"></a>Blackbox-1</h2><p>file一下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> file Blackbox-1.exe </span></span><br><span class="line">Blackbox-1.exe: PE32+ executable (console) x86-64 Mono/.Net assembly, for MS Windows</span><br></pre></td></tr></table></figure>
 <p>运行程序没有任何输出。同样因为是<code>.NET</code>程序，使用dnSpy调试。在<code>\u000F\u2009</code>第358行返回一个变量<code>text</code>：</p>
-<p><img src="/pics/2019-FireShell-review/RE/Blackbox-1/1.png" alt="可疑代码段"></p>
+<p><img src="/pics/2019-FireShell-writeup/RE/Blackbox-1/1.png" alt="可疑代码段"></p>
 <p>在此处设置断点并多次继续，<code>text</code>的值会变成flag：</p>
-<p><img src="/pics/2019-FireShell-review/RE/Blackbox-1/2.png" alt="得到flag"></p>
+<p><img src="/pics/2019-FireShell-writeup/RE/Blackbox-1/2.png" alt="得到flag"></p>
 <h2 id="babyvm"><a href="#babyvm" class="headerlink" title="babyvm"></a>babyvm</h2><p>一道简单虚拟机。运行一下出现<code>Program executed successfully!</code>。先拖进ida查看main函数：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">while</span> ( (_BYTE)end_sign )</span><br><span class="line">  &#123;</span><br><span class="line">    get_option();</span><br><span class="line">    vm_start();</span><br><span class="line">    ++j;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>第一个函数获取一个option，然后进入<code>vm_start()</code>执行指令：</p>
@@ -208,7 +186,7 @@
       
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
 
       
         
@@ -255,7 +233,7 @@
   
     <a href="/2019/01/28/2019-Codegate-Preliminary-review/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">2019-Codegate-Preliminary-review</div>
+      <div class="article-nav-title">2019-Codegate-Preliminary-writeup</div>
     </a>
   
 </nav>
@@ -315,9 +293,6 @@
 
 
     <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

