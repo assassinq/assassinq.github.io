@@ -15,7 +15,7 @@
 <meta name="keywords" content="ctf,wp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2018-安恒杯八月月赛-writeup">
-<meta property="og:url" content="https://qianfei11.github.io/2018/08/31/【未完成】2018-安恒杯八月月赛-review/index.html">
+<meta property="og:url" content="https://qianfei11.github.io/2018/08/31/【未完成】2018-安恒杯八月月赛-writeup/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="放暑假玩了几天，慢慢整理这几次比赛。">
 <meta property="og:locale" content="default">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://qianfei11.github.io/pics/2018-安恒杯八月月赛-writeup/流量分析/9.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/2018-安恒杯八月月赛-writeup/流量分析/10.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/2018-安恒杯八月月赛-writeup/流量分析/11.png">
-<meta property="og:updated_time" content="2019-03-31T09:50:44.791Z">
+<meta property="og:updated_time" content="2019-04-06T07:38:24.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018-安恒杯八月月赛-writeup">
 <meta name="twitter:description" content="放暑假玩了几天，慢慢整理这几次比赛。">
@@ -72,9 +72,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -117,7 +139,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-【未完成】2018-安恒杯八月月赛-review" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-【未完成】2018-安恒杯八月月赛-writeup" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -133,7 +155,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/08/31/【未完成】2018-安恒杯八月月赛-review/" class="article-date">
+	<a href="/2018/08/31/【未完成】2018-安恒杯八月月赛-writeup/" class="article-date">
 	  <time datetime="2018-08-31T14:34:15.000Z" itemprop="datePublished">August 31, 2018</time>
 	</a>
 
@@ -393,6 +415,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
