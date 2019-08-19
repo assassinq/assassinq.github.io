@@ -55,9 +55,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -113,6 +135,66 @@
           <h1><a href="/archives/2018" class="archive-year">2018</a></h1>
         </div>
         <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2018/11/22/南邮-逆向/" class="archive-article-date">
+		  <time datetime="2018-11-22T08:12:02.000Z" itemprop="datePublished">Nov 22, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/11/22/南邮-逆向/">南邮-逆向</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2018/11/06/合天网安实验室-逆向部分/" class="archive-article-date">
+		  <time datetime="2018-11-06T13:25:05.000Z" itemprop="datePublished">Nov 06, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/11/06/合天网安实验室-逆向部分/">合天网安实验室-逆向部分</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2018/10/16/2018-护网杯/" class="archive-article-date">
+		  <time datetime="2018-10-16T10:18:29.000Z" itemprop="datePublished">Oct 16, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/10/16/2018-护网杯/">2018-护网杯</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+  
+    
     
     <article class="archive-article archive-type-post">
   <div class="archive-article-inner">
@@ -198,13 +280,13 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2018/08/11/【未完成】2018-XMan个人排位赛/" class="archive-article-date">
+      <a href="/2018/08/11/2018-XMan个人排位赛/" class="archive-article-date">
 		  <time datetime="2018-08-11T12:18:08.000Z" itemprop="datePublished">Aug 11, 2018</time>
 	  </a>
       
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/08/11/【未完成】2018-XMan个人排位赛/">2018-XMan个人排位赛</a>
+      <a class="archive-article-title" href="/2018/08/11/2018-XMan个人排位赛/">2018-XMan个人排位赛</a>
     </h1>
   
 
@@ -238,43 +320,13 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
-      <a href="/2018/05/07/2018-ZJGSCTF/" class="archive-article-date">
+      <a href="/2018/05/07/2018-ZJGSUCTF/" class="archive-article-date">
 		  <time datetime="2018-05-07T04:06:41.000Z" itemprop="datePublished">May 07, 2018</time>
 	  </a>
       
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/05/07/2018-ZJGSCTF/">2018-ZJGSCTF</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2017" class="archive-year">2017</a></h1>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-
-      <a href="/2017/11/19/网络安全实验室-基础关/" class="archive-article-date">
-		  <time datetime="2017-11-19T12:51:38.000Z" itemprop="datePublished">Nov 19, 2017</time>
-	  </a>
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/11/19/网络安全实验室-基础关/">网络安全实验室-基础关</a>
+      <a class="archive-article-title" href="/2018/05/07/2018-ZJGSUCTF/">2018-ZJGSUCTF</a>
     </h1>
   
 
@@ -289,7 +341,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/tags/wp/">Prev</a><a class="page-number" href="/tags/wp/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/tags/wp/">Prev</a><a class="page-number" href="/tags/wp/">1</a><span class="page-number current">2</span><a class="page-number" href="/tags/wp/page/3/">3</a><a class="extend next" rel="next" href="/tags/wp/page/3/">Next</a>
   </nav>
 
 </section>
@@ -351,7 +403,7 @@
    			<li><a href="https://weibo.com/2431405175/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo" title="Weibo"><i class="fa fa-weibo" aria-hidden="true"></i></a></li> 
 
    		
-   			<li><a href="/" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> 
+   			<li><a href="https://twitter.com/assassinq_" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> 
 
    		
    			<li><a href="https://www.facebook.com/assassinquite" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li> 
@@ -406,8 +458,6 @@
         
           <li class="link"><a href="https://heyanlll.github.io">Zm1Yy2</a></li>
         
-          <li class="link"><a href="https://dx670.github.io">dx670</a></li>
-        
       </ul>
   </div>
 
@@ -427,8 +477,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2099/12/31/闭关学习/">闭关学习</a></h6>
-              <span>December 31, 2099</span>
+              <h6 style="margin: 0;"><a href="/2019/08/17/Pwnable-tw-seethefile/">Pwnable.tw seethefile</a></h6>
+              <span>August 17, 2019</span>
             </div>
 
           </li>
@@ -439,8 +489,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/05/01/2019-Starctf-blindpwn/">2019-Starctf-blindpwn</a></h6>
-              <span>May 1, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/12/初探跨站脚本攻击（Cross-Site-Scripting）/">初探跨站脚本攻击（Cross-Site Scripting）</a></h6>
+              <span>August 12, 2019</span>
             </div>
 
           </li>
@@ -451,8 +501,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/04/29/2019-Starctf-quicksort/">2019-Starctf-quicksort</a></h6>
-              <span>April 29, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/11/解决gef-missing问题/">解决gef missing问题</a></h6>
+              <span>August 11, 2019</span>
             </div>
 
           </li>
@@ -463,8 +513,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/04/15/Some-Linux-Category-Challenges/">Some Linux Category Challenges</a></h6>
-              <span>April 15, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/08/使用QEMU-gdb对Linux-Kernel进行调试/">使用QEMU+gdb对Linux Kernel进行调试</a></h6>
+              <span>August 8, 2019</span>
             </div>
 
           </li>
@@ -475,8 +525,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/03/31/2019-b00t2root-CTF/">2019-b00t2root-CTF</a></h6>
-              <span>March 31, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/06/A-trip-of-ret2dl-resolve/">A trip of ret2dl-resolve</a></h6>
+              <span>August 6, 2019</span>
             </div>
 
           </li>
@@ -487,8 +537,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/03/25/【未完成】2019-Securinets-CTF-Quals/">2019-Securinets-CTF-Quals</a></h6>
-              <span>March 25, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/04/渗透测试基础指南/">渗透测试基础指南</a></h6>
+              <span>August 4, 2019</span>
             </div>
 
           </li>
@@ -502,7 +552,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">39</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iot/">iot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">18</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cve/">cve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iot/">iot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">21</span></li></ul>
     </div>
   </div>
 
@@ -513,7 +563,7 @@
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2099/12/">December 2099</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1019/08/">August 1019</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -561,6 +611,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

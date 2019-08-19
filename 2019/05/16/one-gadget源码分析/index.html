@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>one_gadget源码分析 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctf">
+  
+  
+  
+  
+  <meta name="description" content="不清楚one_gadget具体原理是什么，打算看一下源码，做了一点草率的分析。">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="one_gadget源码分析">
+<meta property="og:url" content="https://qianfei11.github.io/2019/05/16/one-gadget源码分析/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="不清楚one_gadget具体原理是什么，打算看一下源码，做了一点草率的分析。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-09T03:40:07.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="one_gadget源码分析">
+<meta name="twitter:description" content="不清楚one_gadget具体原理是什么，打算看一下源码，做了一点草率的分析。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-one-gadget源码分析" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      one_gadget源码分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/05/16/one-gadget源码分析/" class="article-date">
+	  <time datetime="2019-05-16T01:44:57.000Z" itemprop="datePublished">May 16, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>不清楚<code>one_gadget</code>具体原理是什么，打算看一下源码，做了一点草率的分析。</p>
+<a id="more"></a>
+<h1 id="Structure"><a href="#Structure" class="headerlink" title="Structure"></a>Structure</h1><p>目录结构大概是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line">$ tree                      </span><br><span class="line">.</span><br><span class="line">├── Gemfile</span><br><span class="line">├── Gemfile.lock</span><br><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── README.tpl.md</span><br><span class="line">├── Rakefile</span><br><span class="line">├── appveyor.yml</span><br><span class="line">├── bin</span><br><span class="line">│   └── one_gadget</span><br><span class="line">├── builds_list</span><br><span class="line">├── examples</span><br><span class="line">│   ├── aarch64.png</span><br><span class="line">│   ├── from_build_id.png</span><br><span class="line">│   ├── i386.png</span><br><span class="line">│   ├── near.png</span><br><span class="line">│   ├── script.png</span><br><span class="line">│   └── x86_64.png</span><br><span class="line">├── lib</span><br><span class="line">│   ├── one_gadget</span><br><span class="line">│   │   ├── abi.rb</span><br><span class="line">│   │   ├── builds</span><br><span class="line">│   │   │   ├── libc-2.19-01e14462fc6097604edd54a2ee63664c65b2c12b.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.19-fe76e177d397e9bdccf270232cc7e3a06e84aeb1.rb</span><br><span class="line">│   │   │   ├── libc-2.20-024df4febc9c789a8eeb052385d5e780b98a379f.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.20-f53b8ad377a1988dcf6329bbdfa7b1201431656e.rb</span><br><span class="line">│   │   │   ├── libc-2.21-04f18629ef42b062ed0c8f60d5bfaa40a7d28ef7.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.21-fe668be19c2dadb3cef5e6eafb6796acabf0b8f1.rb</span><br><span class="line">│   │   │   ├── libc-2.21.90-d8785e62882096798b9a47645c401e2db0c3da87.rb</span><br><span class="line">│   │   │   ├── libc-2.21.90-ec2edee6fe6141b914f74b6d3541e986c1995420.rb</span><br><span class="line">│   │   │   ├── libc-2.22-056b23405739592e947a92cb210791fbfe9d9938.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.22-ff7fbdaaef014460825b4ef5848e86834aa3880c.rb</span><br><span class="line">│   │   │   ├── libc-2.23-012683a92d161c37d51d89711c4870ba30904c3d.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.23-ffb3662a7bc5e136fa8f464fc14ec23efb8d1817.rb</span><br><span class="line">│   │   │   ├── libc-2.23.90-203feaf8a7e40cef8a75568a406a22fdeda94f8b.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.23.90-f149edaf4dee34b38f831bf0914af2ecf0a1a317.rb</span><br><span class="line">│   │   │   ├── libc-2.24-024385baa7aaf9c62ae336e896bcf245dda0fc01.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.24-fe976940471b3f683eeebb268f095b7ff1c898c1.rb</span><br><span class="line">│   │   │   ├── libc-2.25-58c735bc7b19b0aeb395cce70cf63bd62ac75e4a.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.25-eae5038c2b9ae67d9eda345aa9fbe0a7185ab436.rb</span><br><span class="line">│   │   │   ├── libc-2.26-1c39b3b3faa2a2cbb0fa0b6845b29332562262d3.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.26-fb587bc4429e7d1b0de31a3b9ee8ae78ee797eb0.rb</span><br><span class="line">│   │   │   ├── libc-2.27-0e188ec5f09c187a7a92784d4b97aa251b15a93c.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   ├── libc-2.27-b417c0ba7cc5cf06d1d1bed6652cedb9253c60d0.rb</span><br><span class="line">│   │   │   ├── libc-2.28-44f5a3efb0e5733fa9d97e690cb36cd4c682bcdb.rb</span><br><span class="line">│   │   │   ├── ...</span><br><span class="line">│   │   │   └── libc-2.28-6ee9454b96efa9e343f9e8105f2fa4529265ea05.rb</span><br><span class="line">│   │   ├── cli.rb</span><br><span class="line">│   │   ├── emulators</span><br><span class="line">│   │   │   ├── aarch64.rb</span><br><span class="line">│   │   │   ├── amd64.rb</span><br><span class="line">│   │   │   ├── i386.rb</span><br><span class="line">│   │   │   ├── instruction.rb</span><br><span class="line">│   │   │   ├── lambda.rb</span><br><span class="line">│   │   │   ├── processor.rb</span><br><span class="line">│   │   │   └── x86.rb</span><br><span class="line">│   │   ├── error.rb</span><br><span class="line">│   │   ├── fetcher.rb</span><br><span class="line">│   │   ├── fetchers</span><br><span class="line">│   │   │   ├── aarch64.rb</span><br><span class="line">│   │   │   ├── amd64.rb</span><br><span class="line">│   │   │   ├── base.rb</span><br><span class="line">│   │   │   ├── i386.rb</span><br><span class="line">│   │   │   └── x86.rb</span><br><span class="line">│   │   ├── gadget.rb</span><br><span class="line">│   │   ├── helper.rb</span><br><span class="line">│   │   ├── logger.rb</span><br><span class="line">│   │   ├── one_gadget.rb</span><br><span class="line">│   │   ├── update.rb</span><br><span class="line">│   │   └── version.rb</span><br><span class="line">│   └── one_gadget.rb</span><br><span class="line">├── one_gadget.gemspec</span><br><span class="line">├── spec</span><br><span class="line">│   ├── bin_spec.rb</span><br><span class="line">│   ├── cli_spec.rb</span><br><span class="line">│   ├── data</span><br><span class="line">│   │   ├── aarch64-libc-2.23.so</span><br><span class="line">│   │   ├── aarch64-libc-2.24.so</span><br><span class="line">│   │   ├── aarch64-libc-2.27.so</span><br><span class="line">│   │   ├── filename$with+special&amp;keys</span><br><span class="line">│   │   ├── libc-2.19-cf699a15caae64f50311fc4655b86dc39a479789.so</span><br><span class="line">│   │   ├── libc-2.19-fd51b20e670e9a9f60dc3b06dc9761fb08c9358b.so</span><br><span class="line">│   │   ├── libc-2.23-60131540dadc6796cab33388349e6e4e68692053.so</span><br><span class="line">│   │   ├── libc-2.23-926eb99d49cab2e5622af38ab07395f5b32035e9.so</span><br><span class="line">│   │   ├── libc-2.24-8cba3297f538691eb1875be62986993c004f3f4d.so</span><br><span class="line">│   │   ├── libc-2.26-2104f3d4ad5cf68603afbe7ba1a17f5ac99c5988.so</span><br><span class="line">│   │   ├── libc-2.26-ddcc13122ddbfe5e5ef77d4ebe66d124ae5762c2.so</span><br><span class="line">│   │   ├── libc-2.26-f65648a832414f2144ce795d75b6045a1ec2e252.so</span><br><span class="line">│   │   ├── libc-2.27-63b3d43ad45e1b0f601848c65b067f9e9b40528b.so</span><br><span class="line">│   │   ├── libc-2.27-b417c0ba7cc5cf06d1d1bed6652cedb9253c60d0.so</span><br><span class="line">│   │   └── test_near_file.elf</span><br><span class="line">│   ├── emulators</span><br><span class="line">│   │   ├── aarch64_spec.rb</span><br><span class="line">│   │   ├── amd64_spec.rb</span><br><span class="line">│   │   ├── i386_spec.rb</span><br><span class="line">│   │   ├── instruction_spec.rb</span><br><span class="line">│   │   └── lambda_spec.rb</span><br><span class="line">│   ├── gadget_spec.rb</span><br><span class="line">│   ├── helper_spec.rb</span><br><span class="line">│   ├── one_gadget_aarch64_spec.rb</span><br><span class="line">│   ├── one_gadget_amd64_spec.rb</span><br><span class="line">│   ├── one_gadget_i386_spec.rb</span><br><span class="line">│   ├── spec_helper.rb</span><br><span class="line">│   └── update_spec.rb</span><br><span class="line">└── tasks</span><br><span class="line">    ├── builds</span><br><span class="line">    │   ├── generate.rake</span><br><span class="line">    │   └── list.rake</span><br><span class="line">    └── readme.rake</span><br><span class="line"></span><br><span class="line">12 directories, 787 files</span><br></pre></td></tr></table></figure>
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><p>以下的分析仅仅是我个人的想法，因为我也不了解ruby，只是单纯地推测代码的含义。如果有错误，欢迎大佬指正。接下来我逐个按照文件来进行分析：</p>
+<h2 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h2><p>存放了<code>one_gadget</code>可执行文件</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env ruby</span></span><br><span class="line"><span class="comment"># frozen_string_literal: true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require</span> <span class="string">'one_gadget/cli'</span></span><br><span class="line"></span><br><span class="line">exit OneGadget::CLI.work(ARGV.dup)</span><br></pre></td></tr></table></figure>
+<p>也可以看出<code>lib/one_gadget/cli.rb</code>中肯定调用了具体的算法</p>
+<h2 id="examples"><a href="#examples" class="headerlink" title="examples"></a>examples</h2><p>不同架构下<code>one_gadget</code>的执行效果图</p>
+<h2 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h2><p><code>lib</code>下分为一个<code>one_gadget</code>的文件夹和一个源文件<code>one_gadget.rb</code></p>
+<h3 id="one-gadget"><a href="#one-gadget" class="headerlink" title="one_gadget"></a>one_gadget</h3><p>这里应该就是<code>one_gadget</code>的源码，先看<code>lib/one_gadget/cli.rb</code>，其中定义了一个<code>work</code>函数，也就是二进制文件中调用的部分：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">    <span class="comment"># Main method of CLI.</span></span><br><span class="line">    <span class="comment"># <span class="doctag">@param</span> [Array&lt;String&gt;] argv</span></span><br><span class="line">    <span class="comment">#   Command line arguments.</span></span><br><span class="line">    <span class="comment"># <span class="doctag">@return</span> [Boolean]</span></span><br><span class="line">    <span class="comment">#   Whether the command execute successfully.</span></span><br><span class="line">    <span class="comment"># <span class="doctag">@example</span></span></span><br><span class="line">    <span class="comment">#   CLI.work(%w[--help])</span></span><br><span class="line">    <span class="comment">#   # usage message</span></span><br><span class="line">    <span class="comment">#   #=&gt; true</span></span><br><span class="line">    <span class="comment">#   CLI.work(%w[--version])</span></span><br><span class="line">    <span class="comment">#   # version message</span></span><br><span class="line">    <span class="comment">#   #=&gt; true</span></span><br><span class="line">    <span class="comment"># <span class="doctag">@example</span></span></span><br><span class="line">    <span class="comment">#   CLI.work([])</span></span><br><span class="line">    <span class="comment">#   # usage message</span></span><br><span class="line">    <span class="comment">#   #=&gt; false</span></span><br><span class="line">    <span class="comment"># <span class="doctag">@example</span></span></span><br><span class="line">    <span class="comment">#   CLI.work(%w[-b b417c0ba7cc5cf06d1d1bed6652cedb9253c60d0 -r])</span></span><br><span class="line">    <span class="comment">#   # 324293 324386 1090444</span></span><br><span class="line">    <span class="comment">#   #=&gt; true</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>看一下注释大概知道了就是解析输入的参数，然后再对不同的函数进行调用</p>
+<p><code>lib/one_gadget/helper.rb</code>中定义了对输入文件信息的一些判断和一些美化操作，以<code>architecture</code>函数为例，就是对使用的指令架构做了一个判断：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fetch the ELF archiecture of +file+.</span></span><br><span class="line"><span class="comment"># <span class="doctag">@param</span> [String] file The target ELF filename.</span></span><br><span class="line"><span class="comment"># <span class="doctag">@return</span> [Symbol]</span></span><br><span class="line"><span class="comment">#   Currently supports amd64, i386, arm, aarch64, and mips.</span></span><br><span class="line"><span class="comment"># <span class="doctag">@example</span></span></span><br><span class="line"><span class="comment">#   Helper.architecture('/bin/cat')</span></span><br><span class="line"><span class="comment">#   #=&gt; :amd64</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">architecture</span><span class="params">(file)</span></span></span><br><span class="line">  <span class="keyword">return</span> <span class="symbol">:invalid</span> <span class="keyword">unless</span> File.exist?(file)</span><br><span class="line"></span><br><span class="line">  f = File.open(file)</span><br><span class="line">  str = ELFTools::ELFFile.new(f).machine</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="string">'Advanced Micro Devices X86-64'</span> =&gt; <span class="symbol">:amd64</span>,</span><br><span class="line">    <span class="string">'Intel 80386'</span> =&gt; <span class="symbol">:i386</span>,</span><br><span class="line">    <span class="string">'ARM'</span> =&gt; <span class="symbol">:arm</span>,</span><br><span class="line">    <span class="string">'AArch64'</span> =&gt; <span class="symbol">:aarch64</span>,</span><br><span class="line">    <span class="string">'MIPS R3000'</span> =&gt; <span class="symbol">:mips</span></span><br><span class="line">  &#125;[str] <span class="params">||</span> <span class="symbol">:unknown</span></span><br><span class="line"><span class="keyword">rescue</span> ELFTools::ELFError <span class="comment"># not a valid ELF</span></span><br><span class="line">  <span class="symbol">:invalid</span></span><br><span class="line"><span class="keyword">ensure</span></span><br><span class="line">  f&amp;.close</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>接下来直接看看关键的函数<code>lib/one_gadget/one_gadget.rb</code>。这里面调用了找<code>one_gadget</code>的源文件<code>fetcher.rb</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">require</span> <span class="string">'one_gadget/fetcher'</span></span><br><span class="line">...</span><br><span class="line">    <span class="comment"># The man entry of gem +one_gadget+.</span></span><br><span class="line">    <span class="comment"># If want to find gadgets from file, it will search gadgets by its</span></span><br><span class="line">    <span class="comment"># build id first.</span></span><br><span class="line">...</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">gadgets</span><span class="params">(<span class="symbol">file:</span> <span class="literal">nil</span>, <span class="symbol">build_id:</span> <span class="literal">nil</span>, <span class="symbol">details:</span> <span class="literal">false</span>, <span class="symbol">force_file:</span> <span class="literal">false</span>, <span class="symbol">level:</span> <span class="number">0</span>)</span></span></span><br><span class="line">      ret = <span class="keyword">if</span> build_id</span><br><span class="line">              OneGadget::Fetcher.from_build_id(build_id) <span class="params">||</span> OneGadget::Logger.not_found(build_id)</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">              from_file(OneGadget::Helper.abspath(file), <span class="symbol">force:</span> force_file)</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">      ret = refine_gadgets(ret, level)</span><br><span class="line">      ret = ret.map(&amp;<span class="symbol">:offset</span>) <span class="keyword">unless</span> details</span><br><span class="line">      ret</span><br><span class="line">    <span class="keyword">rescue</span> OneGadget::Error::Error =&gt; e</span><br><span class="line">      OneGadget::Logger.error(<span class="string">"<span class="subst">#&#123;e.<span class="keyword">class</span>.name.split(<span class="string">'::'</span>).last&#125;</span>: <span class="subst">#&#123;e.message&#125;</span>"</span>)</span><br><span class="line">      []</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>可以看到注释里大概说了一下过程，这个函数就是<code>one_gadget</code>的“<code>main</code>”函数，会调用<code>fetcher.rb</code>中的函数，去<code>builds</code>文件夹里已经找到的<code>one_gadget</code>是否符合</p>
+<p>接下来看<code>lib/one_gadget/fetcher.rb</code>，各个架构下的情况分别调用了各自对应的文件</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">require</span> <span class="string">'one_gadget/fetchers/aarch64'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'one_gadget/fetchers/amd64'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'one_gadget/fetchers/i386'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'one_gadget/gadget'</span></span><br><span class="line">...</span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">from_build_id</span><span class="params">(build_id, <span class="symbol">remote:</span> <span class="literal">true</span>)</span></span></span><br><span class="line">        OneGadget::Helper.verify_build_id!(build_id)</span><br><span class="line">        OneGadget::Gadget.builds(build_id, <span class="symbol">remote:</span> remote)</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">...</span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">from_file</span><span class="params">(file)</span></span></span><br><span class="line">        arch = OneGadget::Helper.architecture(file)</span><br><span class="line">        klass = &#123;</span><br><span class="line">          <span class="symbol">aarch64:</span> OneGadget::Fetcher::AArch64,</span><br><span class="line">          <span class="symbol">amd64:</span> OneGadget::Fetcher::Amd64,</span><br><span class="line">          <span class="symbol">i386:</span> OneGadget::Fetcher::I386</span><br><span class="line">        &#125;[arch]</span><br><span class="line">        raise Error::UnsupportedArchitectureError, arch <span class="keyword">if</span> klass.<span class="literal">nil</span>?</span><br><span class="line"></span><br><span class="line">        trim_gadgets(klass.new(file).find)</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>然后是<code>lib/one_gadget/fetchers/base.rb</code>，每种架构下获取<code>one_gadget</code>的方法都以这个函数为基础</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">resolve</span><span class="params">(processor)</span></span></span><br><span class="line">        call = processor.registers[processor.pc].to_s</span><br><span class="line">        <span class="comment"># This costs cheaper, so check first.</span></span><br><span class="line">        <span class="comment"># check call execve / execl</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">unless</span> <span class="string">%w[execve execl]</span>.any? &#123; <span class="params">|n|</span> call.<span class="keyword">include</span>?(n) &#125;</span><br><span class="line">        <span class="comment"># check first argument contains /bin/sh</span></span><br><span class="line">        <span class="comment"># since the logic is different between amd64 and i386,</span></span><br><span class="line">        <span class="comment"># invoke str_bin_sh? for checking</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">unless</span> str_bin_sh?(processor.argument(<span class="number">0</span>).to_s)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> call.<span class="keyword">include</span>?(<span class="string">'execve'</span>)</span><br><span class="line">          resolve_execve(processor)</span><br><span class="line">        <span class="keyword">elsif</span> call.<span class="keyword">include</span>?(<span class="string">'execl'</span>)</span><br><span class="line">          resolve_execl(processor)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">resolve_execve</span><span class="params">(processor)</span></span></span><br><span class="line">        <span class="comment"># arg[1] == NULL || [arg[1]] == NULL</span></span><br><span class="line">        <span class="comment"># arg[2] == NULL || [arg[2]] == NULL || arg[2] == envp</span></span><br><span class="line">        arg1 = processor.argument(<span class="number">1</span>).to_s</span><br><span class="line">        arg2 = processor.argument(<span class="number">2</span>).to_s</span><br><span class="line">        cons = processor.constraints</span><br><span class="line">        cons &lt;&lt; check_execve_arg(processor, arg1)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span> <span class="keyword">unless</span> cons.all?</span><br><span class="line"></span><br><span class="line">        envp = <span class="string">'environ'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span> <span class="keyword">unless</span> check_envp(processor, arg2) <span class="keyword">do</span> <span class="params">|c|</span></span><br><span class="line">          cons &lt;&lt; c</span><br><span class="line">          envp = arg2</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">        &#123; <span class="symbol">constraints:</span> cons, <span class="symbol">effect:</span> <span class="string">%(execve("/bin/sh", <span class="subst">#&#123;arg1&#125;</span>, <span class="subst">#&#123;envp&#125;</span>)</span>) &#125;</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># arg[1] == NULL || [arg[1]] == NULL</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">check_execve_arg</span><span class="params">(processor, arg)</span></span></span><br><span class="line">        <span class="keyword">if</span> arg.start_with?(processor.sp) <span class="comment"># arg = sp+&lt;num&gt;</span></span><br><span class="line">          <span class="comment"># in this case, the only constraint is [sp+&lt;num&gt;] == NULL</span></span><br><span class="line">          num = Integer(arg[processor.sp.size..-<span class="number">1</span>])</span><br><span class="line">          slot = processor.stack[num].to_s</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">if</span> global_var?(slot)</span><br><span class="line"></span><br><span class="line">          <span class="string">"<span class="subst">#&#123;slot&#125;</span> == NULL"</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">          <span class="string">"[<span class="subst">#&#123;arg&#125;</span>] == NULL || <span class="subst">#&#123;arg&#125;</span> == NULL"</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">check_envp</span><span class="params">(processor, arg)</span></span></span><br><span class="line">        <span class="comment"># if str starts with [[ and is global var,</span></span><br><span class="line">        <span class="comment"># believe it is environ</span></span><br><span class="line">        <span class="comment"># if starts with [[ but not global, drop it.</span></span><br><span class="line">        <span class="keyword">return</span> global_var?(arg) <span class="keyword">if</span> arg.start_with?(<span class="string">'[['</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># normal</span></span><br><span class="line">        cons = check_execve_arg(processor, arg)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span> <span class="keyword">if</span> cons.<span class="literal">nil</span>?</span><br><span class="line"></span><br><span class="line">        <span class="keyword">yield</span> cons</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">...</span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">str_bin_sh?</span><span class="params">(_str)</span></span>; raise NotImplementedError</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>可以看到先是找到字符串<code>&quot;/bin/sh&quot;</code>，然后检查是否<code>call</code>了<code>execve</code>，最后再检查另外两个参数的情况，最后就能得到<code>one_gadget</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">λ one_gadget libc.so</span><br><span class="line">0x3c0cb execve(<span class="string">"/bin/sh"</span>, rsp+0x20, environ)</span><br><span class="line">constraints:</span><br><span class="line">  [rsp+0x20] == NULL</span><br><span class="line"></span><br><span class="line">0xcb795 execve(<span class="string">"/bin/sh"</span>, rsp+0x40, environ)</span><br><span class="line">constraints:</span><br><span class="line">  [rsp+0x40] == NULL</span><br><span class="line"></span><br><span class="line">0xcb79a execve(<span class="string">"/bin/sh"</span>, rsi, environ)</span><br><span class="line">constraints:</span><br><span class="line">  [rsi] == NULL || rsi == NULL</span><br></pre></td></tr></table></figure>
+<h2 id="spec"><a href="#spec" class="headerlink" title="spec"></a>spec</h2><p>这里放了一些常用libc的<code>one_gadget</code></p>
+<h2 id="tasks"><a href="#tasks" class="headerlink" title="tasks"></a>tasks</h2><p>应该是一些编译的选项设置</p>
+<h1 id="Complement"><a href="#Complement" class="headerlink" title="Complement"></a>Complement</h1><p>分析完之后再看看<a href="https://david942j.blogspot.com/2017/02/project-one-gadget-in-glibc.html" target="_blank" rel="noopener">作者david942j的介绍</a></p>
+<h2 id="64-Bit"><a href="#64-Bit" class="headerlink" title="64 Bit"></a>64 Bit</h2><p>这里首先以64位下的<code>libc-2.23.so</code>为例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">λ file /lib/x86_64-linux-gnu/libc-2.23.so </span><br><span class="line">/lib/x86_64-linux-gnu/libc-2.23.so: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/l, BuildID[sha1]=1ca54a6e0d76188105b12e49fe6b8019bf08803a, <span class="keyword">for</span> GNU/Linux 2.6.32, stripped</span><br></pre></td></tr></table></figure>
+<p>先看看能够找到的<code>one_gadget</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">λ one_gadget /lib/x86_64-linux-gnu/libc-2.23.so </span><br><span class="line">0x45216 execve(<span class="string">"/bin/sh"</span>, rsp+0x30, environ)</span><br><span class="line">constraints:</span><br><span class="line">  rax == NULL</span><br><span class="line"></span><br><span class="line">0x4526a execve(<span class="string">"/bin/sh"</span>, rsp+0x30, environ)</span><br><span class="line">constraints:</span><br><span class="line">  [rsp+0x30] == NULL</span><br><span class="line"></span><br><span class="line">0xf02a4 execve(<span class="string">"/bin/sh"</span>, rsp+0x50, environ)</span><br><span class="line">constraints:</span><br><span class="line">  [rsp+0x50] == NULL</span><br><span class="line"></span><br><span class="line">0xf1147 execve(<span class="string">"/bin/sh"</span>, rsp+0x70, environ)</span><br><span class="line">constraints:</span><br><span class="line">  [rsp+0x70] == NULL</span><br></pre></td></tr></table></figure>
+<p>以第二个<code>one_gadget</code>为例，看一下这部分反汇编的代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">λ objdump -d /lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">...</span><br><span class="line">   4526a:	48 8b 05 47 ec 37 00 	mov    rax,QWORD PTR [rip+0x37ec47]        <span class="comment"># 3c3eb8 &lt;_IO_file_jumps@@GLIBC_2.2.5+0x7d8&gt;</span></span><br><span class="line">   45271:	48 8d 3d df 7a 14 00 	lea    rdi,[rip+0x147adf]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   45278:	48 8d 74 24 30       	lea    rsi,[rsp+0x30]</span><br><span class="line">   4527d:	c7 05 19 12 38 00 00 	mov    DWORD PTR [rip+0x381219],0x0        <span class="comment"># 3c64a0 &lt;__abort_msg@@GLIBC_PRIVATE+0x8c0&gt;</span></span><br><span class="line">   45284:	00 00 00 </span><br><span class="line">   45287:	c7 05 13 12 38 00 00 	mov    DWORD PTR [rip+0x381213],0x0        <span class="comment"># 3c64a4 &lt;__abort_msg@@GLIBC_PRIVATE+0x8c4&gt;</span></span><br><span class="line">   4528e:	00 00 00 </span><br><span class="line">   45291:	48 8b 10             	mov    rdx,QWORD PTR [rax]</span><br><span class="line">   45294:	e8 d7 74 08 00       	call   cc770 &lt;execve@@GLIBC_2.2.5&gt;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>第<code>45271</code>行的汇编等价于<code>rdi = libc_base + 0x18cd57</code>，可以看到<code>libc_base + 0x18cd57</code>就是字符串<code>/bin/sh</code>的位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">λ strings -tx /lib/x86_64-linux-gnu/libc-2.23.so | grep <span class="string">"/bin/sh"</span></span><br><span class="line"> 18cd57 /bin/sh</span><br></pre></td></tr></table></figure>
+<p>再<code>grep</code>一下可以看到有很多类似的<code>gadgets</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">λ objdump -d /lib/x86_64-linux-gnu/libc-2.23.so | grep <span class="string">"18cd57"</span></span><br><span class="line">   45271:	48 8d 3d df 7a 14 00 	lea    rdi,[rip+0x147adf]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   6f5a6:	48 8d 3d aa d7 11 00 	lea    rdi,[rip+0x11d7aa]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   cce31:	48 8d 05 1f ff 0b 00 	lea    rax,[rip+0xbff1f]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   cd078:	48 8d 0d d8 <span class="built_in">fc</span> 0b 00 	lea    rcx,[rip+0xbfcd8]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   cd0f3:	48 8d 3d 5d <span class="built_in">fc</span> 0b 00 	lea    rdi,[rip+0xbfc5d]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   cd1c8:	48 8d 3d 88 fb 0b 00 	lea    rdi,[rip+0xbfb88]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f01b0:	48 8d 05 a0 cb 09 00 	lea    rax,[rip+0x9cba0]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f02b0:	48 8d 3d a0 ca 09 00 	lea    rdi,[rip+0x9caa0]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f02c4:	48 8d 05 8c ca 09 00 	lea    rax,[rip+0x9ca8c]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f0fcc:	48 8d 05 84 bd 09 00 	lea    rax,[rip+0x9bd84]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f10fc:	48 8d 05 54 bc 09 00 	lea    rax,[rip+0x9bc54]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f1153:	48 8d 3d fd bb 09 00 	lea    rdi,[rip+0x9bbfd]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f6276:	48 8d 3d da 6a 09 00 	lea    rdi,[rip+0x96ada]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f6643:	48 8d 05 0d 67 09 00 	lea    rax,[rip+0x9670d]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   f66f0:	48 8d 3d 60 66 09 00 	lea    rdi,[rip+0x96660]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br><span class="line">   ff8ae:	48 8d 05 a2 d4 08 00 	lea    rax,[rip+0x8d4a2]        <span class="comment"># 18cd57 &lt;_libc_intl_domainname@@GLIBC_2.2.5+0x197&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再回到上面的汇编片段，第<code>45278</code>行等价于<code>rsi = rsp + 0x30</code>，那么基本可以判断出上面这一部分的<code>gadget</code>等价于<code>execve(&quot;/bin/sh&quot;, rsp+0x30, environ);</code>，可以成功Get Shell</p>
+<p>那么64位下<code>one_gadget</code>的实现原理就可以总结成三步：</p>
+<ol>
+<li>找到有字符串<code>&quot;/bin/sh&quot;</code>的<code>gadgets</code></li>
+<li>筛选出附近有调用<code>execve</code>的<code>gadgets</code></li>
+<li>最后找出<code>gadget</code>中含有类似<code>lea rsi,[rsp+0x??]</code>的即为<code>one_gadget</code></li>
+</ol>
+<h2 id="32Bit"><a href="#32Bit" class="headerlink" title="32Bit"></a>32Bit</h2><p>接下来看看32位下的<code>libc-2.23.so</code>，找<code>one_gadget</code>的方法就不太一样了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">λ file /lib/i386-linux-gnu/libc-2.23.so  </span><br><span class="line">/lib/i386-linux-gnu/libc-2.23.so: ELF 32-bit LSB shared object, Intel 80386, version 1 (GNU/Linux), dynamically linked, interpreter /lib/ld-, BuildID[sha1]=2052ef79d1bb69a8f5c5340eee984f2659b75e39, <span class="keyword">for</span> GNU/Linux 2.6.32, stripped</span><br></pre></td></tr></table></figure>
+<p>可以找到很多<code>gadgets</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">λ one_gadget /lib/i386-linux-gnu/libc-2.23.so </span><br><span class="line">0x3ac5c execve(<span class="string">"/bin/sh"</span>, esp+0x28, environ)</span><br><span class="line">constraints:</span><br><span class="line">  esi is the GOT address of libc</span><br><span class="line">  [esp+0x28] == NULL</span><br><span class="line"></span><br><span class="line">0x3ac5e execve(<span class="string">"/bin/sh"</span>, esp+0x2c, environ)</span><br><span class="line">constraints:</span><br><span class="line">  esi is the GOT address of libc</span><br><span class="line">  [esp+0x2c] == NULL</span><br><span class="line"></span><br><span class="line">0x3ac62 execve(<span class="string">"/bin/sh"</span>, esp+0x30, environ)</span><br><span class="line">constraints:</span><br><span class="line">  esi is the GOT address of libc</span><br><span class="line">  [esp+0x30] == NULL</span><br><span class="line"></span><br><span class="line">0x3ac69 execve(<span class="string">"/bin/sh"</span>, esp+0x34, environ)</span><br><span class="line">constraints:</span><br><span class="line">  esi is the GOT address of libc</span><br><span class="line">  [esp+0x34] == NULL</span><br><span class="line"></span><br><span class="line">0x5fbc5 execl(<span class="string">"/bin/sh"</span>, eax)</span><br><span class="line">constraints:</span><br><span class="line">  esi is the GOT address of libc</span><br><span class="line">  eax == NULL</span><br><span class="line"></span><br><span class="line">0x5fbc6 execl(<span class="string">"/bin/sh"</span>, [esp])</span><br><span class="line">constraints:</span><br><span class="line">  esi is the GOT address of libc</span><br><span class="line">  [esp] == NULL</span><br></pre></td></tr></table></figure>
+<p>这里以第四个<code>one_gadget</code>为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">λ objdump -d /lib/i386-linux-gnu/libc-2.23.so</span><br><span class="line">...</span><br><span class="line">   3ac69:	8b 86 48 ff ff ff    	mov    eax,DWORD PTR [esi-0xb8]</span><br><span class="line">   3ac6f:	83 c4 0c             	add    esp,0xc</span><br><span class="line">   3ac72:	c7 86 20 16 00 00 00 	mov    DWORD PTR [esi+0x1620],0x0</span><br><span class="line">   3ac79:	00 00 00 </span><br><span class="line">   3ac7c:	c7 86 24 16 00 00 00 	mov    DWORD PTR [esi+0x1624],0x0</span><br><span class="line">   3ac83:	00 00 00 </span><br><span class="line">   3ac86:	ff 30                	push   DWORD PTR [eax]</span><br><span class="line">   3ac88:	8d 44 24 2c          	lea    eax,[esp+0x2c]</span><br><span class="line">   3ac8c:	50                   	push   eax</span><br><span class="line">   3ac8d:	8d 86 0b 9a fa ff    	lea    eax,[esi-0x565f5]</span><br><span class="line">   3ac93:	50                   	push   eax</span><br><span class="line">   3ac94:	e8 47 5b 07 00       	call   b07e0 &lt;execve@@GLIBC_2.0&gt;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>32位相较于64位有两个不同点：</p>
+<ol>
+<li>32位下通过<code>[&lt;reg&gt;-0x??]</code>（寄存器加立即数，即寄存器寻址方式）来访问只读数据</li>
+<li>32位下函数的传参通过栈来实现，而不是寄存器</li>
+</ol>
+<p>最后32位下的<code>one_gadget</code>通过一个简单的符号执行实现，最后找到的<code>one_gadget</code>类似<code>execve(&quot;/bin/sh&quot;, argv, environ);</code>的形式。</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/04/渗透测试基础指南/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          渗透测试基础指南
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/15/Tcache-Makes-Heap-Exploitation-Easy-Again/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tcache Makes Heap Exploitation Easy Again</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Structure"><span class="nav-number">1.</span> <span class="nav-text">Structure</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Analysis"><span class="nav-number">2.</span> <span class="nav-text">Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bin"><span class="nav-number">2.1.</span> <span class="nav-text">bin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#examples"><span class="nav-number">2.2.</span> <span class="nav-text">examples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lib"><span class="nav-number">2.3.</span> <span class="nav-text">lib</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#one-gadget"><span class="nav-number">2.3.1.</span> <span class="nav-text">one_gadget</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spec"><span class="nav-number">2.4.</span> <span class="nav-text">spec</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tasks"><span class="nav-number">2.5.</span> <span class="nav-text">tasks</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Complement"><span class="nav-number">3.</span> <span class="nav-text">Complement</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#64-Bit"><span class="nav-number">3.1.</span> <span class="nav-text">64 Bit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32Bit"><span class="nav-number">3.2.</span> <span class="nav-text">32Bit</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

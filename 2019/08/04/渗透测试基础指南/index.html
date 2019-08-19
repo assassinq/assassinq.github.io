@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>渗透测试基础指南 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="web">
+  
+  
+  
+  
+  <meta name="description" content="记录一下渗透测试的基础步骤。">
+<meta name="keywords" content="web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透测试基础指南">
+<meta property="og:url" content="https://qianfei11.github.io/2019/08/04/渗透测试基础指南/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="记录一下渗透测试的基础步骤。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-19T05:39:48.597Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="渗透测试基础指南">
+<meta name="twitter:description" content="记录一下渗透测试的基础步骤。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-渗透测试基础指南" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      渗透测试基础指南
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/08/04/渗透测试基础指南/" class="article-date">
+	  <time datetime="2019-08-04T08:17:53.000Z" itemprop="datePublished">August 4, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录一下渗透测试的基础步骤。</p>
+<a id="more"></a>
+<h1 id="Penetration-test"><a href="#Penetration-test" class="headerlink" title="Penetration test"></a>Penetration test</h1><p>渗透测试即利用我们所掌握的渗透知识，对网站进行一步一步的渗透，发现其中存在的漏洞和隐藏的风险，然后撰写一篇测试报告，提供给客户。客户根据我们撰写的测试报告，对网站进行漏洞修补，以防止黑客的入侵。</p>
+<p>渗透测试的前提是经过用户的授权，才可以对网站进行渗透。如果我们没有经过客户的授权而对一个网站进行渗透测试的话是违法的。2016年6月1日，我国颁布了<a href="https://baike.baidu.com/item/%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%B3%95" target="_blank" rel="noopener">《中华人民共和国网络安全法》</a>，对网络犯罪有了法律约束。</p>
+<p>渗透测试分为白盒测试和黑盒测试：</p>
+<ul>
+<li>白盒测试：在知道目标网站源码和其他一些信息的情况下对其进行渗透，有点类似于代码审计</li>
+<li>黑盒测试：只告诉我们这个网站的url，其他什么都不告诉，模拟黑客对网站的渗透</li>
+</ul>
+<p>接下来记录一下黑盒测试的几个步骤</p>
+<h2 id="Information-Gathering（信息收集）"><a href="#Information-Gathering（信息收集）" class="headerlink" title="Information Gathering（信息收集）"></a>Information Gathering（<a href="https://blog.csdn.net/qq_36119192/article/details/84027438" target="_blank" rel="noopener">信息收集</a>）</h2><ol>
+<li>主动信息收集：通过直接访问、扫描网站，这种流量将流经网站</li>
+<li>被动信息收集：利用第三方的服务对目标进行访问了解，比例：Google搜索、Shodan搜索等</li>
+</ol>
+<ul>
+<li>DNS域名信息的收集</li>
+<li>整站分析<ul>
+<li>服务器类型(Linux/Windows)</li>
+<li>网站容器(Apache/Nginx/Tomcat/IIS)</li>
+<li>脚本类型(php/jsp/asp/aspx)</li>
+<li>数据库类型(Mysql/Oracle/Accees/Mqlserver)</li>
+</ul>
+</li>
+<li>主机扫描(Nessus)</li>
+<li>端口扫描(nmap)</li>
+<li>网站敏感目录和文件</li>
+<li>旁站和C段扫描</li>
+<li>网站漏洞扫描</li>
+</ul>
+<h2 id="Vulnerability-Detection（漏洞探测）"><a href="#Vulnerability-Detection（漏洞探测）" class="headerlink" title="Vulnerability Detection（漏洞探测）"></a>Vulnerability Detection（漏洞探测）</h2><p>探测网站是否存在一些常见的Web漏洞：</p>
+<ol>
+<li>SQL注入</li>
+<li>XSS跨站脚本</li>
+<li>CSRF跨站请求伪造</li>
+<li>XXE漏洞</li>
+<li>SSRF服务端请求伪造漏洞</li>
+<li>文件包含漏洞</li>
+<li>文件上传漏洞</li>
+<li>文件解析漏洞</li>
+<li>远程代码执行漏洞</li>
+<li>CORS跨域资源共享漏洞</li>
+<li>越权访问漏洞</li>
+<li>目录浏览漏洞和任意文件读取/下载漏洞</li>
+<li>struts2漏洞</li>
+<li>JAVA反序列化漏洞</li>
+<li>…</li>
+</ol>
+<h2 id="Vulnerability-Exploitation（漏洞利用）"><a href="#Vulnerability-Exploitation（漏洞利用）" class="headerlink" title="Vulnerability Exploitation（漏洞利用）"></a>Vulnerability Exploitation（漏洞利用）</h2><p>当我们探测到了该网站存在漏洞之后，我们就要对该漏洞进行利用了。不同的漏洞有不同的利用工具，很多时候，通过一个漏洞我们很难拿到网站的webshell，我们往往需要结合几个漏洞来拿webshell。</p>
+<ol>
+<li>SQL注入：<a href="https://blog.csdn.net/qq_36119192/article/details/84479207" target="_blank" rel="noopener">Sqlmap</a></li>
+<li>XSS跨站脚本：<a href="https://blog.csdn.net/qq_36119192/article/details/82731839" target="_blank" rel="noopener">BeEF</a></li>
+<li>抓包改包工具：<a href="https://blog.csdn.net/qq_36119192/article/details/84310858" target="_blank" rel="noopener">Burpsuite</a>、<a href="https://blog.csdn.net/qq_36119192/article/details/82942574" target="_blank" rel="noopener">Fidder</a></li>
+<li>文件上传漏洞：<a href="https://blog.csdn.net/qq_36119192/article/details/84563791" target="_blank" rel="noopener">上传一句话木马，进而获得webshell</a></li>
+<li>提权：获得了webshell后，一般权限很低，所以需要提权，可以选择反弹一个MSF类型的shell提权，也可以使用其他提权（<a href="https://blog.csdn.net/qq_36119192/article/details/84887874" target="_blank" rel="noopener">Windows提权</a>、<a href="https://blog.csdn.net/qq_36119192/article/details/84872644" target="_blank" rel="noopener">Linux下用SUID提权</a>）</li>
+</ol>
+<h2 id="Intranet-forwarding（内网转发）"><a href="#Intranet-forwarding（内网转发）" class="headerlink" title="Intranet forwarding（内网转发）"></a>Intranet forwarding（<a href="https://blog.csdn.net/qq_36119192/article/details/84568266" target="_blank" rel="noopener">内网转发</a>）</h2><p>当我们获取到了网站的Webshell之后，如果我们是想获取该主机的有关信息，我们可以将该主机的webshell换成MSF的shell。直接生成一个木马，然后在菜刀中执行该木马，我们就能接收到一个MSF类型的shell。</p>
+<p>如果我们还想进一步的探测内网主机的信息的话，我们就需要进行内网转发。我们不能直接和内网的主机通信，所以就需要借助获取到的webshell网站的服务器和内网主机进行通信。</p>
+<h2 id="Intranet-Penetration（内网渗透）"><a href="#Intranet-Penetration（内网渗透）" class="headerlink" title="Intranet Penetration（内网渗透）"></a>Intranet Penetration（<a href="https://www.freebuf.com/company-information/172630.html" target="_blank" rel="noopener">内网渗透</a>）</h2><p>当能跟内网主机进行通信后，就可以开始进行内网渗透。可以先使用<a href="https://blog.csdn.net/qq_36119192/article/details/82079150" target="_blank" rel="noopener">nmap</a>对内网主机进行扫描，探测在线的主机，并且探测其使用的操作系统、开放的端口等信息。</p>
+<p>内网用户基本都是使用的windows系统，而且大多数是使用的windows7，在windows7中有很多漏洞，比如MS17_010这种漏洞，我们可以使用<a href="https://blog.csdn.net/qq_36119192/article/details/83215257" target="_blank" rel="noopener">Metasploit Framework</a>探测其windows系统是否存在这种漏洞，如果有这种漏洞，直接拿shell。</p>
+<p>企业内网大多数是一个域环境，所以我们只需要找到域控服务器，并拿下其权限，就可以登录其他所有用户的主机。</p>
+<p>当然，内网中也有可能存在供内网使用的内网服务器，我们可以进一步渗透拿下其权限。</p>
+<h2 id="Report-Writing（撰写渗透测试报告）"><a href="#Report-Writing（撰写渗透测试报告）" class="headerlink" title="Report Writing（撰写渗透测试报告）"></a>Report Writing（撰写渗透测试报告）</h2><p>完成渗透测试之后，需要对这次渗透测试撰写渗透测试报告。明确地写出哪里存在漏洞，以及漏洞修补的方法，以便于网站管理员根据渗透测试报告修补这些漏洞和风险，防止被黑客攻击。</p>
+<h1 id="Complement"><a href="#Complement" class="headerlink" title="Complement"></a>Complement</h1><h2 id="IP配置"><a href="#IP配置" class="headerlink" title="IP配置"></a>IP配置</h2><h3 id="直接在文件中配置"><a href="#直接在文件中配置" class="headerlink" title="直接在文件中配置"></a>直接在文件中配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/network/interfaces</span><br><span class="line"><span class="comment"># auto eth0 # 自动启用第一块网卡</span></span><br><span class="line"><span class="comment"># ifconf eth0 inet static</span></span><br><span class="line"><span class="comment"># address 192.168.1.2 # IP地址</span></span><br><span class="line"><span class="comment"># netmask 255.255.255.0 # 子网掩码</span></span><br><span class="line"><span class="comment"># gateway 192.168.1.1 # 网关</span></span><br></pre></td></tr></table></figure>
+<h3 id="命令行配置"><a href="#命令行配置" class="headerlink" title="命令行配置"></a>命令行配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig ens33 192.168.10.163 netmask 255.255.255.0 <span class="comment"># 设置IP和掩码</span></span><br><span class="line">sudo route add default gw 192.168.10.1 <span class="comment"># 设置网关</span></span><br><span class="line">sudo <span class="built_in">echo</span> <span class="string">"nameserver 192.168.10.1"</span> &gt;&gt; /etc/resolv.conf <span class="comment"># 设置DNS</span></span><br><span class="line">sudo /etc/init.d/networking restart <span class="comment"># 重启服务</span></span><br></pre></td></tr></table></figure>
+<h2 id="Common-Vulnerabilities"><a href="#Common-Vulnerabilities" class="headerlink" title="Common Vulnerabilities"></a>Common Vulnerabilities</h2><h3 id="输入输出验证不充分"><a href="#输入输出验证不充分" class="headerlink" title="输入输出验证不充分"></a>输入输出验证不充分</h3><ul>
+<li>输入输出验证</li>
+<li>SQL 注入</li>
+<li>跨站脚本攻击（XSS）</li>
+<li>跨站请求伪造（CSRF）</li>
+<li>文件上传常见问题</li>
+<li>文件下载漏洞</li>
+</ul>
+<h3 id="设计缺陷"><a href="#设计缺陷" class="headerlink" title="设计缺陷"></a>设计缺陷</h3><ul>
+<li>非授权对象引用</li>
+<li>纵向越权</li>
+<li>找回密码漏洞</li>
+</ul>
+<h3 id="环境缺陷"><a href="#环境缺陷" class="headerlink" title="环境缺陷"></a>环境缺陷</h3><ul>
+<li>解析漏洞<ul>
+<li>IIS 5.x/6.0解析漏洞</li>
+<li>IIS 7.0/IIS 7.5/ Nginx &lt;8.03畸形解析漏洞</li>
+<li>Nginx &lt;8.03 空字节代码执行漏洞</li>
+<li>Apache解析漏洞</li>
+<li>其他</li>
+</ul>
+</li>
+</ul>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://blog.csdn.net/qq_36119192/article/details/84674109" target="_blank" rel="noopener">https://blog.csdn.net/qq_36119192/article/details/84674109</a><br><a href="https://blog.csdn.net/wsclinux/article/details/73177091" target="_blank" rel="noopener">https://blog.csdn.net/wsclinux/article/details/73177091</a><br><a href="http://blog.nsfocus.net/common-vulnerability-verify/" target="_blank" rel="noopener">http://blog.nsfocus.net/common-vulnerability-verify/</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/06/A-trip-of-ret2dl-resolve/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          A trip of ret2dl-resolve
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/16/one-gadget源码分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">one_gadget源码分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Penetration-test"><span class="nav-number">1.</span> <span class="nav-text">Penetration test</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Information-Gathering（信息收集）"><span class="nav-number">1.1.</span> <span class="nav-text">Information Gathering（信息收集）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vulnerability-Detection（漏洞探测）"><span class="nav-number">1.2.</span> <span class="nav-text">Vulnerability Detection（漏洞探测）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vulnerability-Exploitation（漏洞利用）"><span class="nav-number">1.3.</span> <span class="nav-text">Vulnerability Exploitation（漏洞利用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intranet-forwarding（内网转发）"><span class="nav-number">1.4.</span> <span class="nav-text">Intranet forwarding（内网转发）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intranet-Penetration（内网渗透）"><span class="nav-number">1.5.</span> <span class="nav-text">Intranet Penetration（内网渗透）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Report-Writing（撰写渗透测试报告）"><span class="nav-number">1.6.</span> <span class="nav-text">Report Writing（撰写渗透测试报告）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Complement"><span class="nav-number">2.</span> <span class="nav-text">Complement</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP配置"><span class="nav-number">2.1.</span> <span class="nav-text">IP配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接在文件中配置"><span class="nav-number">2.1.1.</span> <span class="nav-text">直接在文件中配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行配置"><span class="nav-number">2.1.2.</span> <span class="nav-text">命令行配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Common-Vulnerabilities"><span class="nav-number">2.2.</span> <span class="nav-text">Common Vulnerabilities</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入输出验证不充分"><span class="nav-number">2.2.1.</span> <span class="nav-text">输入输出验证不充分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计缺陷"><span class="nav-number">2.2.2.</span> <span class="nav-text">设计缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境缺陷"><span class="nav-number">2.2.3.</span> <span class="nav-text">环境缺陷</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

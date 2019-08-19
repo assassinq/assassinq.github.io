@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>合天网安实验室-逆向部分 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfwpre">
+  
+  
+  
+  
+  <meta name="description" content="把合天网安实验室的逆向做了一遍。">
+<meta name="keywords" content="ctf,wp,re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="合天网安实验室-逆向部分">
+<meta property="og:url" content="https://qianfei11.github.io/2018/11/06/合天网安实验室-逆向部分/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="把合天网安实验室的逆向做了一遍。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T08:23:24.519Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="合天网安实验室-逆向部分">
+<meta name="twitter:description" content="把合天网安实验室的逆向做了一遍。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-合天网安实验室-逆向部分" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      合天网安实验室-逆向部分
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/11/06/合天网安实验室-逆向部分/" class="article-date">
+	  <time datetime="2018-11-06T13:25:05.000Z" itemprop="datePublished">November 6, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>把<a href="http://www.hetianlab.com/CTFrace.html" target="_blank" rel="noopener">合天网安实验室</a>的逆向做了一遍。</p>
+<a id="more"></a>
+<h1 id="逆向100"><a href="#逆向100" class="headerlink" title="逆向100"></a>逆向100</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>看你的咯，移动安全大神(逆向100, 已解决534)</p>
+<p>题目描述: dex2jar是我们的好朋友<br>相关附件: rev100.zip</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file rev100 </span><br><span class="line">rev100: Zip archive data, at least v2.0 to extract</span><br></pre></td></tr></table></figure>
+<p>可以判断出其实给的文件是个apk，根据提示用dex2jar可以做。我这里用jadx反编译：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> ctf.crackme;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.Menu;</span><br><span class="line"><span class="keyword">import</span> android.view.MenuItem;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlagActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_flag);</span><br><span class="line">        String flag = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">int</span>[] d = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">102</span>, <span class="number">108</span>, <span class="number">97</span>, <span class="number">103</span>, <span class="number">123</span>, <span class="number">119</span>, <span class="number">52</span>, <span class="number">110</span>, <span class="number">110</span>, <span class="number">52</span>, <span class="number">95</span>, <span class="number">106</span>, <span class="number">52</span>, <span class="number">114</span>, <span class="number">95</span>, <span class="number">109</span>, <span class="number">121</span>, <span class="number">95</span>, <span class="number">100</span>, <span class="number">51</span>, <span class="number">120</span>, <span class="number">125</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">22</span>; i++) &#123;</span><br><span class="line">            flag = flag.concat(String.valueOf((<span class="keyword">char</span>) d[i]));</span><br><span class="line">        &#125;</span><br><span class="line">        ((TextView) findViewById(R.id.flagText)).setText(flag);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">        getMenuInflater().inflate(R.menu.flag, menu);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (item.getItemId() == R.id.action_settings) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onOptionsItemSelected(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接把数组d的值转字符就完事了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line">enc = [<span class="number">102</span>, <span class="number">108</span>, <span class="number">97</span>, <span class="number">103</span>, <span class="number">123</span>, <span class="number">119</span>, <span class="number">52</span>, <span class="number">110</span>, <span class="number">110</span>, <span class="number">52</span>, <span class="number">95</span>, <span class="number">106</span>, <span class="number">52</span>, <span class="number">114</span>, <span class="number">95</span>, <span class="number">109</span>, <span class="number">121</span>, <span class="number">95</span>, <span class="number">100</span>, <span class="number">51</span>, <span class="number">120</span>, <span class="number">125</span>]</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc)):</span><br><span class="line">    flag += chr(enc[i])</span><br><span class="line"><span class="keyword">print</span> flag</span><br><span class="line"><span class="comment"># flag&#123;w4nn4_j4r_my_d3x&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="逆向200"><a href="#逆向200" class="headerlink" title="逆向200"></a>逆向200</h1><h2 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h2><p>做题累了玩个游戏吧(逆向200, 已解决309)</p>
+<p>题目描述: pwd1_pwd2<br>相关附件: rev200.exe</p>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file rev200.exe </span><br><span class="line">rev200.exe: PE32 executable (console) Intel 80386 (stripped to external PDB), <span class="keyword">for</span> MS Windows</span><br></pre></td></tr></table></figure>
+<p>程序加了tls，但对逆向没有什么影响。直接上OD调：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">00401B33  |.  83EC 08       sub esp,0x8</span><br><span class="line">00401B36  |.  A1 8CAD4000   mov eax,dword ptr ds:[0x40AD8C]          ; ||||</span><br><span class="line">00401B3B  |.  890424        mov dword ptr ss:[esp],eax               ; ||||</span><br><span class="line">00401B3E  |.  E8 4D5F0000   call &lt;jmp.&amp;msvcrt.puts&gt;                  ; |||\puts</span><br><span class="line">00401B43  |.  8D85 A9FEFFFF lea eax,dword ptr ss:[ebp-0x157]         ; |||</span><br><span class="line">00401B49  |.  894424 04     mov dword ptr ss:[esp+0x4],eax           ; |||</span><br><span class="line">00401B4D  |.  C70424 209040&gt;mov dword ptr ss:[esp],re200_no.00409020 ; |||ASCII &quot;%20s&quot;</span><br><span class="line">00401B54  |.  E8 2F5F0000   call &lt;jmp.&amp;msvcrt.scanf&gt;                 ; ||\scanf</span><br><span class="line">00401B59  |.  8D85 BDFEFFFF lea eax,dword ptr ss:[ebp-0x143]         ; ||</span><br><span class="line">00401B5F  |.  894424 04     mov dword ptr ss:[esp+0x4],eax           ; ||</span><br><span class="line">00401B63  |.  8D85 A9FEFFFF lea eax,dword ptr ss:[ebp-0x157]         ; ||</span><br><span class="line">00401B69  |.  890424        mov dword ptr ss:[esp],eax               ; ||</span><br><span class="line">00401B6C  |.  E8 275F0000   call &lt;jmp.&amp;msvcrt.strcmp&gt;                ; |\strcmp</span><br><span class="line">00401B71  |.  85C0          test eax,eax                             ; |</span><br><span class="line">00401B73  |.  75 18         jnz short re200_no.00401B8D              ; |</span><br><span class="line">00401B75  |.  C70424 269140&gt;mov dword ptr ss:[esp],re200_no.00409126 ; |ASCII &quot;You passed level1!&quot;</span><br><span class="line">00401B7C  |.  E8 0F5F0000   call &lt;jmp.&amp;msvcrt.puts&gt;                  ; \puts</span><br><span class="line">00401B81  |.  C70424 000000&gt;mov dword ptr ss:[esp],0x0</span><br><span class="line">00401B88  |.  E8 5DFAFFFF   call re200_no.004015EA</span><br><span class="line">00401B8D  |&gt;  B8 00000000   mov eax,0x0</span><br><span class="line">00401B92  |.  8D65 F8       lea esp,[local.2]</span><br><span class="line">00401B95  |.  59            pop ecx                                  ;  msvcrt.77558E62</span><br><span class="line">00401B96  |.  5B            pop ebx</span><br><span class="line">00401B97  |.  5D            pop ebp</span><br><span class="line">00401B98  |.  8D61 FC       lea esp,dword ptr ds:[ecx-0x4]</span><br><span class="line">00401B9B  \.  C3            retn</span><br></pre></td></tr></table></figure>
+<p>第一个check很容易找到passwd：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">堆栈地址=0028FD75, (ASCII &quot;r0b0RUlez!&quot;)</span><br><span class="line">eax=00000001</span><br></pre></td></tr></table></figure>
+<p>第二个check有个<code>int3</code>反调试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">004015EA  /$  55            push ebp</span><br><span class="line">004015EB  |.  89E5          mov ebp,esp</span><br><span class="line">004015ED  |.  83EC 18       sub esp,0x18</span><br><span class="line">004015F0  |.  837D 08 09    cmp [arg.1],0x9</span><br><span class="line">004015F4  |.  7F 11         jg short re200_no.00401607</span><br><span class="line">004015F6  |.  8345 08 01    add [arg.1],0x1</span><br><span class="line">004015FA  |.  8B45 08       mov eax,[arg.1]</span><br><span class="line">004015FD  |.  890424        mov dword ptr ss:[esp],eax               ;  re200_no.00401619</span><br><span class="line">00401600  |.  E8 E5FFFFFF   call re200_no.004015EA</span><br><span class="line">00401605  |.  EB 1E         jmp short re200_no.00401625</span><br><span class="line">00401607  |&gt;  A1 90AD4000   mov eax,dword ptr ds:[0x40AD90]          ; |</span><br><span class="line">0040160C  |.  890424        mov dword ptr ss:[esp],eax               ; |re200_no.00401619</span><br><span class="line">0040160F  |.  E8 7C640000   call &lt;jmp.&amp;msvcrt.puts&gt;                  ; \puts</span><br><span class="line">00401614  |.  E8 00000000   call re200_no.00401619</span><br><span class="line">00401619  |$  58            pop eax                                  ;  0028FDD5</span><br><span class="line">0040161A  |.  A3 A8AD4000   mov dword ptr ds:[0x40ADA8],eax          ;  re200_no.00401619</span><br><span class="line">0040161F  |.  CC            int3</span><br><span class="line">00401620  |.  B8 00000000   mov eax,0x0</span><br><span class="line">00401625  |&gt;  C9            leave</span><br><span class="line">00401626  \.  C3            retn</span><br></pre></td></tr></table></figure>
+<p>新增的<code>AddVectoredExceptionHandler</code>这个API将一个指向函数的指针作为参数，把这个函数的地址添加到已注册的异常处理程序链表中。那么这里的<code>int 3</code>异常会交给异常处理程序链表中第一个处理函数处理，假如调试器处理这个异常，我们就到不了那里了，所以OD的设置一定要忽略所以异常，让程序或系统自己处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">00401B0E  |.  83EC 04       sub esp,0x4</span><br><span class="line">00401B11  |.  895C24 04     mov dword ptr ss:[esp+0x4],ebx                        ; |</span><br><span class="line">00401B15  |.  890424        mov dword ptr ss:[esp],eax                            ; |re200_no.00401619</span><br><span class="line">00401B18  |.  A1 60B14000   mov eax,dword ptr ds:[&lt;&amp;KERNEL32.GetProcAddress&gt;]     ; |</span><br><span class="line">00401B1D  |.  FFD0          call eax                                              ; \GetProcAddress</span><br><span class="line">00401B1F  |.  83EC 08       sub esp,0x8</span><br><span class="line">00401B22  |.  C74424 04 7F1&gt;mov dword ptr ss:[esp+0x4],re200_no.0040157F</span><br><span class="line">00401B2A  |.  C70424 010000&gt;mov dword ptr ss:[esp],0x1</span><br><span class="line">00401B31  |.  FFD0          call eax                                              ;  re200_no.00401619</span><br><span class="line">00401B33  |.  83EC 08       sub esp,0x8</span><br><span class="line">00401B36  |.  A1 8CAD4000   mov eax,dword ptr ds:[0x40AD8C]                       ; ||||</span><br><span class="line">00401B3B  |.  890424        mov dword ptr ss:[esp],eax                            ; ||||re200_no.00401619</span><br><span class="line">00401B3E  |.  E8 4D5F0000   call &lt;jmp.&amp;msvcrt.puts&gt;                               ; |||\puts</span><br></pre></td></tr></table></figure>
+<p>找到<code>157F</code>处，删除分析后就能看到代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">0040157F    55              push ebp</span><br><span class="line">00401580    89E5            mov ebp,esp</span><br><span class="line">00401582    83EC 38         sub esp,0x38</span><br><span class="line">00401585    8B45 08         mov eax,dword ptr ss:[ebp+0x8]</span><br><span class="line">00401588    8B40 04         mov eax,dword ptr ds:[eax+0x4]           ; ntdll_12.77DF9D4C</span><br><span class="line">0040158B    8B80 B8000000   mov eax,dword ptr ds:[eax+0xB8]</span><br><span class="line">00401591    8945 F4         mov dword ptr ss:[ebp-0xC],eax</span><br><span class="line">00401594    8B45 F4         mov eax,dword ptr ss:[ebp-0xC]           ; re200_no.00409020</span><br><span class="line">00401597    8B15 A8AD4000   mov edx,dword ptr ds:[0x40ADA8]          ; re200_no.00401619</span><br><span class="line">0040159D    83C2 06         add edx,0x6</span><br><span class="line">004015A0    39D0            cmp eax,edx                              ; msvcrt._iob</span><br><span class="line">004015A2    75 38           jnz short re200_no.004015DC</span><br><span class="line">004015A4    8D45 E0         lea eax,dword ptr ss:[ebp-0x20]</span><br><span class="line">004015A7    894424 04       mov dword ptr ss:[esp+0x4],eax</span><br><span class="line">004015AB    C70424 20904000 mov dword ptr ss:[esp],re200_no.00409020 ; ASCII &quot;%20s&quot;</span><br><span class="line">004015B2    E8 D1640000     call &lt;jmp.&amp;msvcrt.scanf&gt;</span><br><span class="line">004015B7    A1 98AD4000     mov eax,dword ptr ds:[0x40AD98]</span><br><span class="line">004015BC    894424 04       mov dword ptr ss:[esp+0x4],eax</span><br><span class="line">004015C0    8D45 E0         lea eax,dword ptr ss:[ebp-0x20]</span><br><span class="line">004015C3    890424          mov dword ptr ss:[esp],eax</span><br><span class="line">004015C6    E8 7CFFFFFF     call re200_no.00401547</span><br></pre></td></tr></table></figure>
+<p>在<code>1547</code>处，可以看到是对内存中长度为8的一串数据与2进行了异或：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">00401547    55              push ebp</span><br><span class="line">00401548    89E5            mov ebp,esp</span><br><span class="line">0040154A    EB 22           jmp short re200_no.0040156E</span><br><span class="line">0040154C    8B45 08         mov eax,dword ptr ss:[ebp+0x8]</span><br><span class="line">0040154F    0FB610          movzx edx,byte ptr ds:[eax]</span><br><span class="line">00401552    8B45 0C         mov eax,dword ptr ss:[ebp+0xC]</span><br><span class="line">00401555    0FB600          movzx eax,byte ptr ds:[eax]</span><br><span class="line">00401558    83F0 02         xor eax,0x2</span><br><span class="line">0040155B    38C2            cmp dl,al</span><br><span class="line">0040155D    74 07           je short re200_no.00401566</span><br><span class="line">0040155F    B8 01000000     mov eax,0x1</span><br><span class="line">00401564    EB 17           jmp short re200_no.0040157D</span><br><span class="line">00401566    8345 08 01      add dword ptr ss:[ebp+0x8],0x1</span><br><span class="line">0040156A    8345 0C 01      add dword ptr ss:[ebp+0xC],0x1</span><br><span class="line">0040156E    8B45 0C         mov eax,dword ptr ss:[ebp+0xC]</span><br><span class="line">00401571    0FB600          movzx eax,byte ptr ds:[eax]</span><br><span class="line">00401574    3C 02           cmp al,0x2</span><br><span class="line">00401576  ^ 75 D4           jnz short re200_no.0040154C</span><br><span class="line">00401578    B8 00000000     mov eax,0x0</span><br><span class="line">0040157D    5D              pop ebp                                  ; re200_no.004015CB</span><br><span class="line">0040157E    C3              retn</span><br></pre></td></tr></table></figure>
+<p>在堆栈部分可以看到存储的地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0028F62C  /0028F66C</span><br><span class="line">0028F630  |004015CB  返回到 re200_no.004015CB 来自 re200_no.00401547</span><br><span class="line">0028F634  |0028F64C  输入字符串地址</span><br><span class="line">0028F638  |0028FDCC  用来比较的字符串的地址</span><br><span class="line">0028F63C  |00000000</span><br><span class="line">0028F640  |00000000</span><br><span class="line">0028F644  |00000000</span><br><span class="line">0028F648  |00000000</span><br></pre></td></tr></table></figure>
+<p>在数据窗口跟随得到数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0028FDCC  75 31 6E 6E 66 32 6C 67 02 50 6C 65 61 73 65 20  u1nnf2lgPlease</span><br><span class="line">0028FDDC  65 6E 74 65 72 20 74 68 65 20 73 65 63 6F 6E 64  enter the second</span><br></pre></td></tr></table></figure>
+<p>写个脚本逆出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line">enc = [<span class="number">0x75</span>, <span class="number">0x31</span>, <span class="number">0x6E</span>, <span class="number">0x6E</span>, <span class="number">0x66</span>, <span class="number">0x32</span>, <span class="number">0x6C</span>, <span class="number">0x67</span>, <span class="number">0x02</span>]</span><br><span class="line">res = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc)):</span><br><span class="line">    res += chr(enc[i] ^ <span class="number">0x02</span>)</span><br><span class="line"><span class="keyword">print</span> res</span><br><span class="line"><span class="comment"># w3lld0ne</span></span><br></pre></td></tr></table></figure>
+<h1 id="逆向300"><a href="#逆向300" class="headerlink" title="逆向300"></a>逆向300</h1><h2 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h2><p>ELF(逆向300, 已解决139)</p>
+<p>题目描述: 靠,我这儿也没有IDA啊<br>相关附件: rev300.zip</p>
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file rev300    </span><br><span class="line">rev300: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.24, BuildID[sha1]=a93ffe39302e19ef5184a1d86b720b11a7a97941, stripped</span><br></pre></td></tr></table></figure>
+<p>总共有两个check：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> a1, <span class="keyword">char</span> **a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ( a1 &gt; <span class="number">1</span> &amp;&amp; sub_8048414(a2[<span class="number">1</span>], <span class="number">0</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Access granted"</span>);</span><br><span class="line">    sub_8048538((<span class="keyword">int</span>)a2[<span class="number">1</span>]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Access denied"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一个是对程序参数的的一个比较，一个递归的函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">signed</span> <span class="keyword">int</span> __<span class="function">cdecl <span class="title">sub_8048414</span><span class="params">(_BYTE *a1, <span class="keyword">int</span> a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> result; <span class="comment">// eax</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">switch</span> ( a2 )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'i'</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_19;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'e'</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_19;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'n'</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_19;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'d'</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_19;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'a'</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_19;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'g'</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_19;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'s'</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_19;</span><br><span class="line">      result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">9</span>:</span><br><span class="line">      <span class="keyword">if</span> ( *a1 == <span class="string">'r'</span> )</span><br><span class="line">LABEL_19:</span><br><span class="line">        result = sub_8048414(a1 + <span class="number">1</span>, <span class="number">7</span> * (a2 + <span class="number">1</span>) % <span class="number">11</span>);</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        result = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      result = <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二个是把正确的输入和内存中的数据进行异或：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">sub_8048538</span><span class="params">(<span class="keyword">int</span> a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v2[<span class="number">33</span>]; <span class="comment">// [esp+18h] [ebp-A0h]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [esp+9Ch] [ebp-1Ch]</span></span><br><span class="line"></span><br><span class="line">  qmemcpy(v2, &amp;unk_8048760, <span class="keyword">sizeof</span>(v2));</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">32</span>; ++i )</span><br><span class="line">    <span class="built_in">putchar</span>(v2[i] ^ *(<span class="keyword">char</span> *)(a1 + i % <span class="number">8</span>));</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">putchar</span>(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line">enc = [<span class="number">0x0000000F</span>, <span class="number">0x0000001F</span>, <span class="number">0x00000004</span>, <span class="number">0x00000009</span>, <span class="number">0x0000001C</span>, <span class="number">0x00000012</span>, <span class="number">0x00000042</span>, <span class="number">0x00000009</span>, <span class="number">0x0000000C</span>, <span class="number">0x00000044</span>, <span class="number">0x0000000D</span>, <span class="number">0x00000007</span>, <span class="number">0x00000009</span>, <span class="number">0x00000006</span>, <span class="number">0x0000002D</span>, <span class="number">0x00000037</span>, <span class="number">0x00000059</span>, <span class="number">0x0000001E</span>, <span class="number">0x00000000</span>, <span class="number">0x00000059</span>, <span class="number">0x0000000F</span>, <span class="number">0x00000008</span>, <span class="number">0x0000001C</span>, <span class="number">0x00000023</span>, <span class="number">0x00000036</span>, <span class="number">0x00000007</span>, <span class="number">0x00000055</span>, <span class="number">0x00000002</span>, <span class="number">0x0000000C</span>, <span class="number">0x00000008</span>, <span class="number">0x00000041</span>, <span class="number">0x0000000A</span>, <span class="number">0x00000014</span>]</span><br><span class="line">key = <span class="string">''</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">8</span>):</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">        key += <span class="string">'i'</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">1</span>:</span><br><span class="line">        key += <span class="string">'e'</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">3</span>:</span><br><span class="line">        key += <span class="string">'n'</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">4</span>:</span><br><span class="line">        key += <span class="string">'d'</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">5</span>:</span><br><span class="line">        key += <span class="string">'a'</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">6</span>:</span><br><span class="line">        key += <span class="string">'g'</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">7</span>:</span><br><span class="line">        key += <span class="string">'s'</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">9</span>:</span><br><span class="line">        key += <span class="string">'r'</span></span><br><span class="line">    i = <span class="number">7</span> * (i + <span class="number">1</span>) % <span class="number">11</span></span><br><span class="line"><span class="keyword">print</span> key</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc)):</span><br><span class="line">    flag += chr(enc[i] ^ ord(key[i % <span class="number">8</span>]))</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<p>对参数的求解也可以用angr来完成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> angr</span><br><span class="line"><span class="keyword">import</span> claripy</span><br><span class="line">p = angr.Project(<span class="string">'./rev300'</span>)</span><br><span class="line">flag = claripy.BVS(<span class="string">'flag'</span>, <span class="number">50</span> * <span class="number">8</span>)</span><br><span class="line">state = p.factory.entry_state(args=[<span class="string">'./rev300'</span>, flag])</span><br><span class="line">sim = p.factory.simgr(state)</span><br><span class="line">sim.explore(find=<span class="number">0x080485E0</span>, avoid=<span class="number">0x080485FE</span>)</span><br><span class="line">print(sim.found[<span class="number">0</span>].solver.eval(flag, cast_to=bytes))</span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=530793" target="_blank" rel="noopener">https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=530793</a><br><a href="https://blog.csdn.net/xiangshangbashaonian/article/details/82953042" target="_blank" rel="noopener">https://blog.csdn.net/xiangshangbashaonian/article/details/82953042</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/11/22/南邮-逆向/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          南邮-逆向
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/16/2018-护网杯/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018-护网杯</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#逆向100"><span class="nav-number">1.</span> <span class="nav-text">逆向100</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Description"><span class="nav-number">1.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逆向200"><span class="nav-number">2.</span> <span class="nav-text">逆向200</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Description-1"><span class="nav-number">2.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-1"><span class="nav-number">2.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逆向300"><span class="nav-number">3.</span> <span class="nav-text">逆向300</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Description-2"><span class="nav-number">3.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-2"><span class="nav-number">3.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

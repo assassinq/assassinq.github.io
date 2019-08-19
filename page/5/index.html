@@ -55,9 +55,31 @@
 
 
   
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -102,7 +124,7 @@
         
           <section id="main">
   
-    <article id="post-【未完成】XMan-PWN（二）" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2018-安恒杯八月月赛" class="article article-type-post" itemscope itemprop="blogPost">
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -110,7 +132,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/06/【未完成】XMan-PWN（二）/">XMan PWN（二）</a>
+      <a class="article-title" href="/2018/08/31/2018-安恒杯八月月赛/">2018-安恒杯八月月赛</a>
     </h1>
   
 
@@ -118,8 +140,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/08/06/【未完成】XMan-PWN（二）/" class="article-date">
-	  <time datetime="2018-08-06T02:53:04.000Z" itemprop="datePublished">August 6, 2018</time>
+	<a href="/2018/08/31/2018-安恒杯八月月赛/" class="article-date">
+	  <time datetime="2018-08-31T14:34:15.000Z" itemprop="datePublished">August 31, 2018</time>
 	</a>
 
        
@@ -132,341 +154,11 @@
 
           
           <div class="entry-summary">
-          toxic小姐姐讲的很好，是我太菜了。
+          放暑假玩了几天，慢慢整理这几次比赛。
 
         
           <p class="article-more-link">
-            <a href="/2018/08/06/【未完成】XMan-PWN（二）/#more">Continue Reading →</a>
-          </p>
-        </div>
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-【未完成】XMan-PWN（一）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/05/【未完成】XMan-PWN（一）/">XMan PWN（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/05/【未完成】XMan-PWN（一）/" class="article-date">
-	  <time datetime="2018-08-05T03:33:27.000Z" itemprop="datePublished">August 5, 2018</time>
-	</a>
-
-       
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-
-          
-          <div class="entry-summary">
-          丁佬tql，我完全pwn不起来。
-
-        
-          <p class="article-more-link">
-            <a href="/2018/08/05/【未完成】XMan-PWN（一）/#more">Continue Reading →</a>
-          </p>
-        </div>
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-Android（一）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/04/XMan-Android（一）/">XMan Android（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/04/XMan-Android（一）/" class="article-date">
-	  <time datetime="2018-08-04T05:34:56.000Z" itemprop="datePublished">August 4, 2018</time>
-	</a>
-
-       
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-
-          
-          <div class="entry-summary">
-          jr大佬带我学android。
-
-        
-          <p class="article-more-link">
-            <a href="/2018/08/04/XMan-Android（一）/#more">Continue Reading →</a>
-          </p>
-        </div>
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-RE（二）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/03/XMan-RE（二）/">XMan RE（二）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/03/XMan-RE（二）/" class="article-date">
-	  <time datetime="2018-08-03T02:31:27.000Z" itemprop="datePublished">August 3, 2018</time>
-	</a>
-
-       
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-
-          
-          <div class="entry-summary">
-          A7um说这都是现在最简单的逆向，还给我们见识了一波非常规re。
-
-        
-          <p class="article-more-link">
-            <a href="/2018/08/03/XMan-RE（二）/#more">Continue Reading →</a>
-          </p>
-        </div>
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-XMan-RE（一）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/02/XMan-RE（一）/">XMan RE（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/02/XMan-RE（一）/" class="article-date">
-	  <time datetime="2018-08-02T06:24:12.000Z" itemprop="datePublished">August 2, 2018</time>
-	</a>
-
-       
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-
-          
-          <div class="entry-summary">
-          XMan正式学习的第一天，冠成大佬带我们入门逆向。
-
-        
-          <p class="article-more-link">
-            <a href="/2018/08/02/XMan-RE（一）/#more">Continue Reading →</a>
-          </p>
-        </div>
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-解决Mac下sublime-text中文出现乱码" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/26/解决Mac下sublime-text中文出现乱码/">解决Mac下sublime text中文出现乱码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/26/解决Mac下sublime-text中文出现乱码/" class="article-date">
-	  <time datetime="2018-07-26T11:04:36.000Z" itemprop="datePublished">July 26, 2018</time>
-	</a>
-
-       
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-
-          
-          <div class="entry-summary">
-          用了这么久mac，竟然第一次发现sublime不能解码中文字体。
-
-        
-          <p class="article-more-link">
-            <a href="/2018/07/26/解决Mac下sublime-text中文出现乱码/#more">Continue Reading →</a>
-          </p>
-        </div>
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/solution/">solution</a></li></ul>
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-2018-QCTF" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/21/2018-QCTF/">2018-QCTF</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/21/2018-QCTF/" class="article-date">
-	  <time datetime="2018-07-21T11:56:59.000Z" itemprop="datePublished">July 21, 2018</time>
-	</a>
-
-       
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-
-          
-          <div class="entry-summary">
-          其实大部分是看着大佬wp的复现。感觉自己实力还是欠缺很多。
-
-        
-          <p class="article-more-link">
-            <a href="/2018/07/21/2018-QCTF/#more">Continue Reading →</a>
+            <a href="/2018/08/31/2018-安恒杯八月月赛/#more">Continue Reading →</a>
           </p>
         </div>
       
@@ -487,7 +179,7 @@
 <!-- Table of Contents -->
 
   
-    <article id="post-PWN入门（三）" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2018-XMan结营赛" class="article article-type-post" itemscope itemprop="blogPost">
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -495,7 +187,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/11/PWN入门（三）/">PWN入门（三）</a>
+      <a class="article-title" href="/2018/08/22/2018-XMan结营赛/">2018-XMan结营赛</a>
     </h1>
   
 
@@ -503,8 +195,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/11/PWN入门（三）/" class="article-date">
-	  <time datetime="2018-07-11T00:50:39.000Z" itemprop="datePublished">July 11, 2018</time>
+	<a href="/2018/08/22/2018-XMan结营赛/" class="article-date">
+	  <time datetime="2018-08-22T09:39:54.000Z" itemprop="datePublished">August 22, 2018</time>
 	</a>
 
        
@@ -517,11 +209,341 @@
 
           
           <div class="entry-summary">
-          Shellcode’s Magic&amp;Basic ROP.
+          记录一下被虐的经历。
 
         
           <p class="article-more-link">
-            <a href="/2018/07/11/PWN入门（三）/#more">Continue Reading →</a>
+            <a href="/2018/08/22/2018-XMan结营赛/#more">Continue Reading →</a>
+          </p>
+        </div>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-IOT（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/17/XMan-IOT（二）/">XMan IOT（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/17/XMan-IOT（二）/" class="article-date">
+	  <time datetime="2018-08-17T08:37:16.000Z" itemprop="datePublished">August 17, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+
+          
+          <div class="entry-summary">
+          了解无线攻击。
+
+        
+          <p class="article-more-link">
+            <a href="/2018/08/17/XMan-IOT（二）/#more">Continue Reading →</a>
+          </p>
+        </div>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iot/">iot</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-Android（三）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/16/XMan-Android（三）/">XMan Android（三）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/16/XMan-Android（三）/" class="article-date">
+	  <time datetime="2018-08-16T08:58:20.000Z" itemprop="datePublished">August 16, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+
+          
+          <div class="entry-summary">
+          挖洞挖不动。
+
+        
+          <p class="article-more-link">
+            <a href="/2018/08/16/XMan-Android（三）/#more">Continue Reading →</a>
+          </p>
+        </div>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-IOT（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/15/XMan-IOT（一）/">XMan IOT（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/15/XMan-IOT（一）/" class="article-date">
+	  <time datetime="2018-08-15T01:23:36.000Z" itemprop="datePublished">August 15, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+
+          
+          <div class="entry-summary">
+          关于软件无线电和硬件安全入门。
+
+        
+          <p class="article-more-link">
+            <a href="/2018/08/15/XMan-IOT（一）/#more">Continue Reading →</a>
+          </p>
+        </div>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iot/">iot</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-Android（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/13/XMan-Android（二）/">XMan Android（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/13/XMan-Android（二）/" class="article-date">
+	  <time datetime="2018-08-13T13:17:34.000Z" itemprop="datePublished">August 13, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+
+          
+          <div class="entry-summary">
+          关于Android方面的漏洞挖掘。
+
+        
+          <p class="article-more-link">
+            <a href="/2018/08/13/XMan-Android（二）/#more">Continue Reading →</a>
+          </p>
+        </div>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-2018-XMan个人排位赛" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/11/2018-XMan个人排位赛/">2018-XMan个人排位赛</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/11/2018-XMan个人排位赛/" class="article-date">
+	  <time datetime="2018-08-11T12:18:08.000Z" itemprop="datePublished">August 11, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+
+          
+          <div class="entry-summary">
+          唉pwn还是没有入门。
+
+        
+          <p class="article-more-link">
+            <a href="/2018/08/11/2018-XMan个人排位赛/#more">Continue Reading →</a>
+          </p>
+        </div>
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-XMan-PWN（五）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/09/XMan-PWN（五）/">XMan PWN（五）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/09/XMan-PWN（五）/" class="article-date">
+	  <time datetime="2018-08-09T01:08:59.000Z" itemprop="datePublished">August 9, 2018</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+
+          
+          <div class="entry-summary">
+          swing大佬教漏洞挖掘（Vulnerability Discovering）。
+
+        
+          <p class="article-more-link">
+            <a href="/2018/08/09/XMan-PWN（五）/#more">Continue Reading →</a>
           </p>
         </div>
       
@@ -542,7 +564,7 @@
 <!-- Table of Contents -->
 
   
-    <article id="post-WEB入门（五）" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-XMan-PWN（四）" class="article article-type-post" itemscope itemprop="blogPost">
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -550,7 +572,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/WEB入门（五）/">WEB入门（五）</a>
+      <a class="article-title" href="/2018/08/08/XMan-PWN（四）/">XMan PWN（四）</a>
     </h1>
   
 
@@ -558,8 +580,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/10/WEB入门（五）/" class="article-date">
-	  <time datetime="2018-07-10T09:10:35.000Z" itemprop="datePublished">July 10, 2018</time>
+	<a href="/2018/08/08/XMan-PWN（四）/" class="article-date">
+	  <time datetime="2018-08-08T06:17:21.000Z" itemprop="datePublished">August 8, 2018</time>
 	</a>
 
        
@@ -572,11 +594,11 @@
 
           
           <div class="entry-summary">
-          PHP伪协议和文件包含。
+          NONICK师傅神仙上课，win下的pwn是真的难。
 
         
           <p class="article-more-link">
-            <a href="/2018/07/10/WEB入门（五）/#more">Continue Reading →</a>
+            <a href="/2018/08/08/XMan-PWN（四）/#more">Continue Reading →</a>
           </p>
         </div>
       
@@ -585,7 +607,7 @@
       
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
 
       
     </footer>
@@ -597,7 +619,7 @@
 <!-- Table of Contents -->
 
   
-    <article id="post-WEB入门（四）" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-XMan-PWN（三）" class="article article-type-post" itemscope itemprop="blogPost">
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
     
     
@@ -605,7 +627,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/08/WEB入门（四）/">WEB入门（四）</a>
+      <a class="article-title" href="/2018/08/07/XMan-PWN（三）/">XMan PWN（三）</a>
     </h1>
   
 
@@ -613,8 +635,8 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/08/WEB入门（四）/" class="article-date">
-	  <time datetime="2018-07-08T01:08:01.000Z" itemprop="datePublished">July 8, 2018</time>
+	<a href="/2018/08/07/XMan-PWN（三）/" class="article-date">
+	  <time datetime="2018-08-07T00:55:00.000Z" itemprop="datePublished">August 7, 2018</time>
 	</a>
 
        
@@ -627,11 +649,11 @@
 
           
           <div class="entry-summary">
-          涛哥带我学XSS。
+          lowkey师傅教_IO_FILE利用。
 
         
           <p class="article-more-link">
-            <a href="/2018/07/08/WEB入门（四）/#more">Continue Reading →</a>
+            <a href="/2018/08/07/XMan-PWN（三）/#more">Continue Reading →</a>
           </p>
         </div>
       
@@ -640,7 +662,7 @@
       
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
 
       
     </footer>
@@ -656,7 +678,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next</a>
+    <a class="extend prev" rel="prev" href="/page/4/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next</a>
   </nav>
 
 </section>
@@ -718,7 +740,7 @@
    			<li><a href="https://weibo.com/2431405175/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo" title="Weibo"><i class="fa fa-weibo" aria-hidden="true"></i></a></li> 
 
    		
-   			<li><a href="/" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> 
+   			<li><a href="https://twitter.com/assassinq_" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> 
 
    		
    			<li><a href="https://www.facebook.com/assassinquite" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li> 
@@ -773,8 +795,6 @@
         
           <li class="link"><a href="https://heyanlll.github.io">Zm1Yy2</a></li>
         
-          <li class="link"><a href="https://dx670.github.io">dx670</a></li>
-        
       </ul>
   </div>
 
@@ -794,8 +814,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2099/12/31/闭关学习/">闭关学习</a></h6>
-              <span>December 31, 2099</span>
+              <h6 style="margin: 0;"><a href="/2019/08/17/Pwnable-tw-seethefile/">Pwnable.tw seethefile</a></h6>
+              <span>August 17, 2019</span>
             </div>
 
           </li>
@@ -806,8 +826,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/05/01/2019-Starctf-blindpwn/">2019-Starctf-blindpwn</a></h6>
-              <span>May 1, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/12/初探跨站脚本攻击（Cross-Site-Scripting）/">初探跨站脚本攻击（Cross-Site Scripting）</a></h6>
+              <span>August 12, 2019</span>
             </div>
 
           </li>
@@ -818,8 +838,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/04/29/2019-Starctf-quicksort/">2019-Starctf-quicksort</a></h6>
-              <span>April 29, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/11/解决gef-missing问题/">解决gef missing问题</a></h6>
+              <span>August 11, 2019</span>
             </div>
 
           </li>
@@ -830,8 +850,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/04/15/Some-Linux-Category-Challenges/">Some Linux Category Challenges</a></h6>
-              <span>April 15, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/08/使用QEMU-gdb对Linux-Kernel进行调试/">使用QEMU+gdb对Linux Kernel进行调试</a></h6>
+              <span>August 8, 2019</span>
             </div>
 
           </li>
@@ -842,8 +862,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/03/31/2019-b00t2root-CTF/">2019-b00t2root-CTF</a></h6>
-              <span>March 31, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/06/A-trip-of-ret2dl-resolve/">A trip of ret2dl-resolve</a></h6>
+              <span>August 6, 2019</span>
             </div>
 
           </li>
@@ -854,8 +874,8 @@
               <div class="widget-entry-summary" style="margin: 0;">
             
 
-              <h6 style="margin: 0;"><a href="/2019/03/25/【未完成】2019-Securinets-CTF-Quals/">2019-Securinets-CTF-Quals</a></h6>
-              <span>March 25, 2019</span>
+              <h6 style="margin: 0;"><a href="/2019/08/04/渗透测试基础指南/">渗透测试基础指南</a></h6>
+              <span>August 4, 2019</span>
             </div>
 
           </li>
@@ -869,7 +889,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">39</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iot/">iot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">18</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cve/">cve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iot/">iot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">21</span></li></ul>
     </div>
   </div>
 
@@ -880,7 +900,7 @@
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2099/12/">December 2099</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1019/08/">August 1019</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -928,6 +948,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>
