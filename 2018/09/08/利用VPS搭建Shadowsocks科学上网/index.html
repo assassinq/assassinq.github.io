@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://qianfei11.github.io/pics/利用VPS搭建Shadowsocks科学上网/4.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/利用VPS搭建Shadowsocks科学上网/5.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/利用VPS搭建Shadowsocks科学上网/6.png">
-<meta property="og:updated_time" content="2018-09-24T10:35:13.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:53:53.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用VPS搭建Shadowsocks科学上网">
 <meta name="twitter:description" content="记录一下自己搭小飞机的过程。">
@@ -161,24 +161,24 @@
       
         <p>记录一下自己搭小飞机的过程。</p>
 <a id="more"></a>
-<h1 id="第一步-租服务器"><a href="#第一步-租服务器" class="headerlink" title="第一步-租服务器"></a>第一步-租服务器</h1><p>先放一些国外的一些VPS提供商：<a href="https://www.vultr.com/" target="_blank" rel="noopener">vultr</a>、<a href="https://www.linode.com/" target="_blank" rel="noopener">linode</a>、<a href="https://bwh1.net/" target="_blank" rel="noopener">搬瓦工</a>。我是在vultr上租的服务器。</p>
-<p>首先注册账号，进入个人界面后，在Billing页面使用Alipay充值。</p>
+<h1 id="第一步-租服务器"><a href="#第一步-租服务器" class="headerlink" title="第一步-租服务器"></a>第一步-租服务器</h1><p>先放一些国外的一些 VPS 提供商：<a href="https://www.vultr.com/" target="_blank" rel="noopener">vultr</a>、<a href="https://www.linode.com/" target="_blank" rel="noopener">linode</a>、<a href="https://bwh1.net/" target="_blank" rel="noopener">搬瓦工</a>。我是在 vultr 上租的服务器。</p>
+<p>首先注册账号，进入  个人界面后，在 Billing 页面使用 Alipay 充值。</p>
 <p><img src="/pics/利用VPS搭建Shadowsocks科学上网/1.png" alt="Alipay充值"></p>
-<p>去Servers页面，选择服务器的地点，我选了Los Angeles。</p>
+<p>去 Servers 页面， 选择服务器的地点，我选了 Los Angeles。</p>
 <p><img src="/pics/利用VPS搭建Shadowsocks科学上网/2.png" alt="选择地点"></p>
-<p>然后选择os，我的话选了CentOS。</p>
+<p>然后选择 os，我的话选了 CentOS。</p>
 <p><img src="/pics/利用VPS搭建Shadowsocks科学上网/3.png" alt="选择操作系统"></p>
-<p>然后Size我是选了$3.5/mo，因为最便宜的$2.5/mo只支持ipv6。</p>
+<p>然后 Size 我是选了$3.5/mo，因为最便宜的$2.5/mo 只支持 ipv6。</p>
 <p><img src="/pics/利用VPS搭建Shadowsocks科学上网/4.png" alt="选择服务器大小"></p>
-<p>然后点击Deploy Now，过一会儿就可以得到这台服务器的基本信息。</p>
-<h1 id="第二步-ssh远程连接"><a href="#第二步-ssh远程连接" class="headerlink" title="第二步-ssh远程连接"></a>第二步-ssh远程连接</h1><p>mac的话我是用的SSH Shell来连，如果是windows可以用Putty。</p>
-<p>按照给出的信息连一下就行了（端口22）。</p>
+<p>然后点击 Deploy Now，过一会儿就可以得到这台服务器的基本信息。</p>
+<h1 id="第二步-ssh-远程连接"><a href="#第二步-ssh-远程连接" class="headerlink" title="第二步-ssh 远程连接"></a>第二步-ssh 远程连接</h1><p>mac 的话我是用的 SSH Shell 来连，如果是 windows 可以用 Putty。</p>
+<p>按照给出的信息连一下就行了（ 端口 22）。</p>
 <p><img src="/pics/利用VPS搭建Shadowsocks科学上网/5.png" alt="ssh连接成功"></p>
-<h1 id="第三步-搭建"><a href="#第三步-搭建" class="headerlink" title="第三步-搭建"></a>第三步-搭建</h1><p>在服务器上运行一下命令：</p>
+<h1 id="第三步-搭建"><a href="#第三步-搭建" class="headerlink" title="第三步-搭建"></a>第三步-搭建</h1><p> 在服务器上运行一下命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line">chmod +x shadowsocks-all.sh</span><br><span class="line">./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log</span><br></pre></td></tr></table></figure>
-<p>然后按照提示选择脚本，我选了Shadowsocks-Go，之后也是无脑跟着指令一步一步进行，安装完成后就会得到：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Starting shadowsocks-go (via systemctl):  [  OK  ]</span><br><span class="line"></span><br><span class="line">Congratulations, Shadowsocks-Go server install completed!</span><br><span class="line"></span><br><span class="line">Your Server IP        :  xxx.xxx.xxx.xxx</span><br><span class="line">Your Server Port      :  xxxxx</span><br><span class="line">Your Password         :  xxxxxxxxxxx     </span><br><span class="line">Your Encryption Method:  xxxxxxxxxxx</span><br><span class="line"></span><br><span class="line">Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)</span><br><span class="line"> ss://YWVzLTI1Ni1jZmI6dGVkZHlzdW4uY29tQDE0OS4yNDguNC4yMjg6MTIyOTk=</span><br><span class="line">Your QR Code has been saved as a PNG file path:    </span><br><span class="line"> /root/shadowsocks_go_qr.png</span><br><span class="line"></span><br><span class="line">Welcome to visit: https://teddysun.com/486.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure>
-<h1 id="第四步-科学上网"><a href="#第四步-科学上网" class="headerlink" title="第四步-科学上网"></a>第四步-科学上网</h1><p>我把每个平台上的小飞机都放在<a href="https://github.com/qianfei11/Flight" target="_blank" rel="noopener">我的github上</a>了。只要将上面的信息填进去就能科学上网啦。</p>
+<p>然后按照提示选择脚本，我选了 Shadowsocks-Go，之后  也是无脑跟着指令一步一步进行，安装完成后就会得到 ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Starting shadowsocks-go (via systemctl):  [  OK  ]</span><br><span class="line"></span><br><span class="line">Congratulations, Shadowsocks-Go server install completed!</span><br><span class="line"></span><br><span class="line">Your Server IP        :  xxx.xxx.xxx.xxx</span><br><span class="line">Your Server Port      :  xxxxx</span><br><span class="line">Your Password         :  xxxxxxxxxxx</span><br><span class="line">Your Encryption Method:  xxxxxxxxxxx</span><br><span class="line"></span><br><span class="line">Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)</span><br><span class="line"> ss://YWVzLTI1Ni1jZmI6dGVkZHlzdW4uY29tQDE0OS4yNDguNC4yMjg6MTIyOTk=</span><br><span class="line">Your QR Code has been saved as a PNG file path:</span><br><span class="line"> /root/shadowsocks_go_qr.png</span><br><span class="line"></span><br><span class="line">Welcome to visit: https://teddysun.com/486.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure>
+<h1 id="第四步-科学上网"><a href="#第四步-科学上网" class="headerlink" title="第四步-科学上网"></a>第四步-科学上网</h1><p>我把  每个平台上的小飞机都放在<a href="https://github.com/qianfei11/Flight" target="_blank" rel="noopener">我的 github 上</a>了。 只要将上面的信息填进去就能科学上网啦。</p>
 <p><img src="/pics/利用VPS搭建Shadowsocks科学上网/6.png" alt="hello world"></p>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://www.diycode.cc/topics/738" target="_blank" rel="noopener">https://www.diycode.cc/topics/738</a></p>
 
@@ -249,7 +249,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一步-租服务器"><span class="nav-number">1.</span> <span class="nav-text">第一步-租服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二步-ssh远程连接"><span class="nav-number">2.</span> <span class="nav-text">第二步-ssh远程连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三步-搭建"><span class="nav-number">3.</span> <span class="nav-text">第三步-搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四步-科学上网"><span class="nav-number">4.</span> <span class="nav-text">第四步-科学上网</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一步-租服务器"><span class="nav-number">1.</span> <span class="nav-text">第一步-租服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二步-ssh-远程连接"><span class="nav-number">2.</span> <span class="nav-text">第二步-ssh 远程连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三步-搭建"><span class="nav-number">3.</span> <span class="nav-text">第三步-搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四步-科学上网"><span class="nav-number">4.</span> <span class="nav-text">第四步-科学上网</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
     
     </div>
   </aside>

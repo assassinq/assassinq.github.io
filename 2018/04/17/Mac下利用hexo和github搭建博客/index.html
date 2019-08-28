@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。">
+  <meta name="description" content="把双系统的 win10 删了，改用 mac。发现自己的博客忘记备份了，只好在 mac 上重新搭建一个。">
 <meta name="keywords" content="hexo,github,mac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac下利用hexo和github搭建博客">
 <meta property="og:url" content="https://qianfei11.github.io/2018/04/17/Mac下利用hexo和github搭建博客/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。">
+<meta property="og:description" content="把双系统的 win10 删了，改用 mac。发现自己的博客忘记备份了，只好在 mac 上重新搭建一个。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-26T09:59:57.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:52:51.110Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac下利用hexo和github搭建博客">
-<meta name="twitter:description" content="把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。">
+<meta name="twitter:description" content="把双系统的 win10 删了，改用 mac。发现自己的博客忘记备份了，只好在 mac 上重新搭建一个。">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -152,24 +152,24 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>把双系统的win10删了，改用mac。发现自己的博客忘记备份了，只好在mac上重新搭建一个。</p>
+        <p>把双系统的 win10 删了，改用 mac。发现自己的博客忘记备份了，只好在 mac 上重新搭建一个。</p>
 <a id="more"></a>
 <p>安装流程：</p>
-<p>1.hexo是基于nodejs的，需安装nodejs，安装nodejs最好选择homebrew</p>
-<p>2.首先查看电脑是否安装ruby，因为homebrew安装依赖ruby</p>
+<p>1.hexo 是基于 nodejs 的，需安装 nodejs，安装 nodejs 最好选择 homebrew</p>
+<p>2.首先查看电脑是否安装 ruby，因为 homebrew 安装依赖 ruby</p>
 <p>3.安装顺序：homebrew-&gt;nodejs-&gt;hexo</p>
-<h1 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
-<h1 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure>
-<h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo</span><br><span class="line"># 可以加上 --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<h1 id="安装-homebrew"><a href="#安装-homebrew" class="headerlink" title="安装 homebrew"></a>安装 homebrew</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="安装-nodejs"><a href="#安装-nodejs" class="headerlink" title="安装 nodejs"></a>安装 nodejs</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure>
+<h1 id="安装-hexo"><a href="#安装-hexo" class="headerlink" title="安装 hexo"></a>安装 hexo</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo</span><br><span class="line"># 可以加上 --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
 <h1 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir blog</span><br><span class="line">cd blog</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
 <h1 id="生成一套静态网页"><a href="#生成一套静态网页" class="headerlink" title="生成一套静态网页"></a>生成一套静态网页</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-<p>在localhost的4000端口上就能看到本地搭建的博客</p>
+<p>在 localhost 的 4000 端口上就能看到本地搭建的博客</p>
 <h1 id="撰写博客"><a href="#撰写博客" class="headerlink" title="撰写博客"></a>撰写博客</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post &quot;balabala&quot;</span><br></pre></td></tr></table></figure>
 <p>‘balabala’即为博文的名字。</p>
 <h1 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/xxx/xxx.github.io</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>直接在_config.yml中修改配置（xxx为github的name）</p>
-<h1 id="安装hexo-deployer-git"><a href="#安装hexo-deployer-git" class="headerlink" title="安装hexo-deployer-git"></a>安装hexo-deployer-git</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br><span class="line"># 可以加上 --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<h1 id="同步github"><a href="#同步github" class="headerlink" title="同步github"></a>同步github</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure>
+<p>直接在_config.yml 中修改配置（xxx 为 github 的 name）</p>
+<h1 id="安装-hexo-deployer-git"><a href="#安装-hexo-deployer-git" class="headerlink" title="安装 hexo-deployer-git"></a>安装 hexo-deployer-git</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br><span class="line"># 可以加上 --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<h1 id="同步-github"><a href="#同步-github" class="headerlink" title="同步 github"></a>同步 github</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure>
 <p>这样基础的搭建就完成啦！</p>
 
       
@@ -239,7 +239,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装homebrew"><span class="nav-number">1.</span> <span class="nav-text">安装homebrew</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装nodejs"><span class="nav-number">2.</span> <span class="nav-text">安装nodejs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装hexo"><span class="nav-number">3.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建文件夹"><span class="nav-number">4.</span> <span class="nav-text">创建文件夹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成一套静态网页"><span class="nav-number">5.</span> <span class="nav-text">生成一套静态网页</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#撰写博客"><span class="nav-number">6.</span> <span class="nav-text">撰写博客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改配置"><span class="nav-number">7.</span> <span class="nav-text">修改配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装hexo-deployer-git"><span class="nav-number">8.</span> <span class="nav-text">安装hexo-deployer-git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#同步github"><span class="nav-number">9.</span> <span class="nav-text">同步github</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-homebrew"><span class="nav-number">1.</span> <span class="nav-text">安装 homebrew</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-nodejs"><span class="nav-number">2.</span> <span class="nav-text">安装 nodejs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-hexo"><span class="nav-number">3.</span> <span class="nav-text">安装 hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建文件夹"><span class="nav-number">4.</span> <span class="nav-text">创建文件夹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成一套静态网页"><span class="nav-number">5.</span> <span class="nav-text">生成一套静态网页</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#撰写博客"><span class="nav-number">6.</span> <span class="nav-text">撰写博客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改配置"><span class="nav-number">7.</span> <span class="nav-text">修改配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-hexo-deployer-git"><span class="nav-number">8.</span> <span class="nav-text">安装 hexo-deployer-git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#同步-github"><span class="nav-number">9.</span> <span class="nav-text">同步 github</span></a></li></ol>
     
     </div>
   </aside>

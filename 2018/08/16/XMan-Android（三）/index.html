@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="挖洞挖不动。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-02T15:38:28.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:47:44.256Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan Android（三）">
 <meta name="twitter:description" content="挖洞挖不动。">
@@ -154,9 +154,9 @@
       
         <p>挖洞挖不动。</p>
 <a id="more"></a>
-<h1 id="Android底层安全框架及攻击缓释技术"><a href="#Android底层安全框架及攻击缓释技术" class="headerlink" title="Android底层安全框架及攻击缓释技术"></a>Android底层安全框架及攻击缓释技术</h1><ul>
+<h1 id="Android-底层安全框架及攻击缓释技术"><a href="#Android-底层安全框架及攻击缓释技术" class="headerlink" title="Android 底层安全框架及攻击缓释技术"></a>Android 底层安全框架及攻击缓释技术</h1><ul>
 <li>自主访问限制<ul>
-<li>基于uid/gid</li>
+<li>基于 uid/gid</li>
 <li>容易被突破</li>
 </ul>
 </li>
@@ -170,34 +170,34 @@
 <li>通过硬件密钥，逐步验证整个系统</li>
 <li>一旦出厂之后，不可修改</li>
 <li>修改之后系统无法启动</li>
-<li>6.0开始支持，7.0后更加严格</li>
+<li>6.0 开始支持，7.0 后更加严格</li>
 </ul>
 </li>
 <li>代码签名和平台密钥<ul>
 <li>无法刷入任何非签名镜像</li>
-<li>System级别的签名验证</li>
+<li>System 级别的签名验证</li>
 </ul>
 </li>
 </ul>
-<h1 id="Root相关基础知识"><a href="#Root相关基础知识" class="headerlink" title="Root相关基础知识"></a>Root相关基础知识</h1><ul>
+<h1 id="Root-相关基础知识"><a href="#Root-相关基础知识" class="headerlink" title="Root 相关基础知识"></a>Root 相关基础知识</h1><ul>
 <li>名词解释<ul>
-<li>Root？rwx之外的权限s位</li>
+<li>Root？rwx 之外的权限 s 位</li>
 <li>Bootloader</li>
 <li>Recovery</li>
 <li>Baseband</li>
 <li>Android</li>
 </ul>
 </li>
-<li>Root类型<ul>
-<li>永久Root</li>
-<li>临时Root</li>
-<li>取消Root</li>
+<li>Root 类型<ul>
+<li>永久 Root</li>
+<li>临时 Root</li>
+<li>取消 Root</li>
 </ul>
 </li>
-<li>Root方式<ul>
-<li>直接从Recovery刷入su和deamon-su</li>
-<li>使用Bootloader替换Recovery后，刷入su/deamon-su</li>
-<li>使用内核漏洞Exploit获取Root</li>
+<li>Root 方式<ul>
+<li>直接从 Recovery 刷入 su 和 deamon-su</li>
+<li>使用 Bootloader 替换 Recovery 后，刷入 su/deamon-su</li>
+<li>使用内核漏洞 Exploit 获取 Root</li>
 </ul>
 </li>
 </ul>
@@ -225,18 +225,18 @@
 <li>本地文件处理原声库<ul>
 <li>音频、视频处理</li>
 <li>文档、字符、字体处理</li>
-<li>可执行程序处理（APP安装过程）</li>
+<li>可执行程序处理（APP 安装过程）</li>
 <li>其他文件处理（压缩文件，证书文件等）</li>
 </ul>
 </li>
 <li>具有远程攻击面的原生库（Brower，WIFI，BASEBAND，BT，NFC）<ul>
 <li>浏览器攻击面（DOM，JS）——chromium</li>
-<li>网络数据处理（802.11包格式处理，其他网络控制数据包）——wpa_supplicant</li>
+<li>网络数据处理（802.11 包格式处理，其他网络控制数据包）——wpa_supplicant</li>
 <li>基带处理（短信，电话）——radio.img</li>
 <li>蓝牙（蓝牙数据包处理）——/system/bt</li>
 </ul>
 </li>
-<li>进程间通信及其他提权相关库（BINDER等）<ul>
+<li>进程间通信及其他提权相关库（BINDER 等）<ul>
 <li>System Services</li>
 <li>adb shell service list</li>
 </ul>
@@ -249,7 +249,7 @@
 </ul>
 </li>
 <li>系统调用可以做什么<ul>
-<li>理论上的所有操作，libc只是为了易用性的封装</li>
+<li>理论上的所有操作，libc 只是为了易用性的封装</li>
 <li>理论上的所有权限，一般是设备上的最高权限</li>
 </ul>
 </li>
@@ -259,14 +259,14 @@
 </ul>
 </li>
 <li>常见攻击场景<ul>
-<li>发送网络数据时触发问题，导致ROOT提权</li>
+<li>发送网络数据时触发问题，导致 ROOT 提权</li>
 <li>越权写文件（dirtycow）</li>
 </ul>
 </li>
 </ul>
 <h2 id="驱动、固件"><a href="#驱动、固件" class="headerlink" title="驱动、固件"></a>驱动、固件</h2><ul>
 <li>驱动固件有多少<ul>
-<li>/dev中有228项（Android 6.0 Nexus 5）</li>
+<li>/dev 中有 228 项（Android 6.0 Nexus 5）</li>
 </ul>
 </li>
 <li>驱动固件负责什么<ul>
@@ -276,7 +276,7 @@
 </li>
 <li>如何攻击<ul>
 <li>让驱动固件处理数据时发生问题</li>
-<li>虽然还是使用IOCTL系统调用，但是负责处理的不是原生内核</li>
+<li>虽然还是使用 IOCTL 系统调用，但是负责处理的不是原生内核</li>
 </ul>
 </li>
 <li>常见攻击场景<ul>
@@ -294,9 +294,9 @@
 <li>RKP</li>
 <li>DFI</li>
 </ul>
-<h1 id="Android常用Fuzz方法"><a href="#Android常用Fuzz方法" class="headerlink" title="Android常用Fuzz方法"></a>Android常用Fuzz方法</h1><ul>
+<h1 id="Android-常用-Fuzz-方法"><a href="#Android-常用-Fuzz-方法" class="headerlink" title="Android 常用 Fuzz 方法"></a>Android 常用 Fuzz 方法</h1><ul>
 <li>AFL：American Fuzzy Lop</li>
-<li>Syzkaller：系统调用Fuzzer</li>
+<li>Syzkaller：系统调用 Fuzzer</li>
 </ul>
 
       
@@ -366,7 +366,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android底层安全框架及攻击缓释技术"><span class="nav-number">1.</span> <span class="nav-text">Android底层安全框架及攻击缓释技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Root相关基础知识"><span class="nav-number">2.</span> <span class="nav-text">Root相关基础知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用工具"><span class="nav-number">3.</span> <span class="nav-text">常用工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原声代码库及其攻击面"><span class="nav-number">4.</span> <span class="nav-text">原声代码库及其攻击面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核攻击面"><span class="nav-number">5.</span> <span class="nav-text">内核攻击面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用"><span class="nav-number">5.1.</span> <span class="nav-text">系统调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#驱动、固件"><span class="nav-number">5.2.</span> <span class="nav-text">驱动、固件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核攻击和缓释相关技术"><span class="nav-number">6.</span> <span class="nav-text">内核攻击和缓释相关技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android常用Fuzz方法"><span class="nav-number">7.</span> <span class="nav-text">Android常用Fuzz方法</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-底层安全框架及攻击缓释技术"><span class="nav-number">1.</span> <span class="nav-text">Android 底层安全框架及攻击缓释技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Root-相关基础知识"><span class="nav-number">2.</span> <span class="nav-text">Root 相关基础知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用工具"><span class="nav-number">3.</span> <span class="nav-text">常用工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原声代码库及其攻击面"><span class="nav-number">4.</span> <span class="nav-text">原声代码库及其攻击面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核攻击面"><span class="nav-number">5.</span> <span class="nav-text">内核攻击面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用"><span class="nav-number">5.1.</span> <span class="nav-text">系统调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#驱动、固件"><span class="nav-number">5.2.</span> <span class="nav-text">驱动、固件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核攻击和缓释相关技术"><span class="nav-number">6.</span> <span class="nav-text">内核攻击和缓释相关技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-常用-Fuzz-方法"><span class="nav-number">7.</span> <span class="nav-text">Android 常用 Fuzz 方法</span></a></li></ol>
     
     </div>
   </aside>

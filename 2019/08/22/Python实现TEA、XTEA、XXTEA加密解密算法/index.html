@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Python实现TEA、XTEA、XXTEA加密解密算法 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="cryptopython">
+  
+  
+  
+  
+  <meta name="description" content="闲来无事，喝杯茶冷静一下。">
+<meta name="keywords" content="crypto,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python实现TEA、XTEA、XXTEA加密解密算法">
+<meta property="og:url" content="https://qianfei11.github.io/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="闲来无事，喝杯茶冷静一下。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Python实现TEA、XTEA、XXTEA加密解密算法/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Python实现TEA、XTEA、XXTEA加密解密算法/2.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Python实现TEA、XTEA、XXTEA加密解密算法/3.png">
+<meta property="og:updated_time" content="2019-08-26T05:51:20.717Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python实现TEA、XTEA、XXTEA加密解密算法">
+<meta name="twitter:description" content="闲来无事，喝杯茶冷静一下。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/Python实现TEA、XTEA、XXTEA加密解密算法/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Python实现TEA、XTEA、XXTEA加密解密算法" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Python实现TEA、XTEA、XXTEA加密解密算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/" class="article-date">
+	  <time datetime="2019-08-22T09:00:10.000Z" itemprop="datePublished">August 22, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>闲来无事，喝杯茶冷静一下。</p>
+<a id="more"></a>
+<h1 id="TEA"><a href="#TEA" class="headerlink" title="TEA"></a><a href="https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm" target="_blank" rel="noopener">TEA</a></h1><p>微型加密算法（<code>Tiny Encryption Algorithm</code>，<code>TEA</code>）是一种易于描述和执行的块密码，通常只需要很少的代码就可实现。<code>TEA</code>操作处理在两个<code>32</code>位无符号整型上（可能源于一个<code>64</code>位数据），并且使用一个<code>128</code>位的密钥。设计者是<code>Roger Needham</code>和<code>David Wheeler</code>。</p>
+<p>加密过程：</p>
+<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/1.png" alt="TEA算法详解"></p>
+<p>Python 实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	x = <span class="number">0</span></span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	k0 = k[<span class="number">0</span>]</span><br><span class="line">	k1 = k[<span class="number">1</span>]</span><br><span class="line">	k2 = k[<span class="number">2</span>]</span><br><span class="line">	k3 = k[<span class="number">3</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">		x += delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v0 += ((v1 &lt;&lt; <span class="number">4</span>) + k0) ^ (v1 + x) ^ ((v1 &gt;&gt; <span class="number">5</span>) + k1)</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v1 += ((v0 &lt;&lt; <span class="number">4</span>) + k2) ^ (v0 + x) ^ ((v0 &gt;&gt; <span class="number">5</span>) + k3)</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	x = <span class="number">0xC6EF3720</span></span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	k0 = k[<span class="number">0</span>]</span><br><span class="line">	k1 = k[<span class="number">1</span>]</span><br><span class="line">	k2 = k[<span class="number">2</span>]</span><br><span class="line">	k3 = k[<span class="number">3</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">		v1 -= ((v0 &lt;&lt; <span class="number">4</span>) + k2) ^ (v0 + x) ^ ((v0 &gt;&gt; <span class="number">5</span>) + k3)</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v0 -= ((v1 &lt;&lt; <span class="number">4</span>) + k0) ^ (v1 + x) ^ ((v1 &gt;&gt; <span class="number">5</span>) + k1)</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		x -= delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	plain = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">	key = [<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">	encrypted = encrypt(plain, key)</span><br><span class="line">	<span class="keyword">print</span> encrypted</span><br><span class="line">	decrypted = decrypt(encrypted, key)</span><br><span class="line">	<span class="keyword">print</span> decrypted</span><br></pre></td></tr></table></figure>
+<h1 id="XTEA"><a href="#XTEA" class="headerlink" title="XTEA"></a><a href="https://en.wikipedia.org/wiki/XTEA" target="_blank" rel="noopener">XTEA</a></h1><p><code>XTEA</code>是<code>TEA</code>的升级版，增加了更多的密钥表，移位和异或操作等等。</p>
+<p>加密过程：</p>
+<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/2.png" alt="XTEA算法详解"></p>
+<p>Python 实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(rounds, v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	x = <span class="number">0</span></span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">		v0 += (((v1 &lt;&lt; <span class="number">4</span>) ^ (v1 &gt;&gt; <span class="number">5</span>)) + v1) ^ (x + k[x &amp; <span class="number">3</span>])</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		x += delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v1 += (((v0 &lt;&lt; <span class="number">4</span>) ^ (v0 &gt;&gt; <span class="number">5</span>)) + v0) ^ (x + k[(x &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>])</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(rounds, v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	x = delta * rounds</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">		v1 -= (((v0 &lt;&lt; <span class="number">4</span>) ^ (v0 &gt;&gt; <span class="number">5</span>)) + v0) ^ (x + k[(x &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>])</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		x -= delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v0 -= (((v1 &lt;&lt; <span class="number">4</span>) ^ (v1 &gt;&gt; <span class="number">5</span>)) + v1) ^ (x + k[x &amp; <span class="number">3</span>])</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	plain = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">	key = [<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">	rounds = <span class="number">32</span></span><br><span class="line">	encrypted = encrypt(rounds, plain, key)</span><br><span class="line">	<span class="keyword">print</span> encrypted</span><br><span class="line">	decrypted = decrypt(rounds, encrypted, key)</span><br><span class="line">	<span class="keyword">print</span> decrypted</span><br></pre></td></tr></table></figure>
+<h1 id="XXTEA"><a href="#XXTEA" class="headerlink" title="XXTEA"></a><a href="https://en.wikipedia.org/wiki/XXTEA" target="_blank" rel="noopener">XXTEA</a></h1><p><code>XXTEA</code>，又称<code>Corrected Block TEA</code>，是<code>XTEA</code>的升级版。</p>
+<p>加密过程：</p>
+<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/3.png" alt="XXTEA算法详解"></p>
+<p>Python 实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shift</span><span class="params">(z, y, x, k, p, e)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> ((((z &gt;&gt; <span class="number">5</span>) ^ (y &lt;&lt; <span class="number">2</span>)) + ((y &gt;&gt; <span class="number">3</span>) ^ (z &lt;&lt; <span class="number">4</span>))) ^ ((x ^ y) + (k[(p &amp; <span class="number">3</span>) ^ e] ^ z)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xxtea</span><span class="params">(v, n, k)</span>:</span></span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	<span class="keyword">if</span> n &gt; <span class="number">1</span>:</span><br><span class="line">		rounds = <span class="number">6</span> + <span class="number">52</span> / n</span><br><span class="line">		x = <span class="number">0</span></span><br><span class="line">		z = v[n - <span class="number">1</span>]</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">			x += delta</span><br><span class="line">			x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">			e = (x &gt;&gt; <span class="number">2</span>) &amp; <span class="number">3</span></span><br><span class="line">			<span class="keyword">for</span> p <span class="keyword">in</span> range(n - <span class="number">1</span>):</span><br><span class="line">				y = v[p + <span class="number">1</span>]</span><br><span class="line">				v[p] += shift(z, y, x, k, p, e)</span><br><span class="line">				v[p] = v[p] &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">				z = v[p]</span><br><span class="line">			p += <span class="number">1</span></span><br><span class="line">			y = v[<span class="number">0</span>]</span><br><span class="line">			v[n - <span class="number">1</span>] += shift(z, y, x, k, p, e)</span><br><span class="line">			v[n - <span class="number">1</span>] = v[n - <span class="number">1</span>] &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">			z = v[n - <span class="number">1</span>]</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		n = -n</span><br><span class="line">		rounds = <span class="number">6</span> + <span class="number">52</span> / n</span><br><span class="line">		x = rounds * delta</span><br><span class="line">		y = v[<span class="number">0</span>]</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">			e = (x &gt;&gt; <span class="number">2</span>) &amp; <span class="number">3</span></span><br><span class="line">			<span class="keyword">for</span> p <span class="keyword">in</span> range(n - <span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>):</span><br><span class="line">				z = v[p - <span class="number">1</span>]</span><br><span class="line">				v[p] -= shift(z, y, x, k, p, e)</span><br><span class="line">				v[p] = v[p] &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">				y = v[p]</span><br><span class="line">			p -= <span class="number">1</span></span><br><span class="line">			z = v[n - <span class="number">1</span>]</span><br><span class="line">			v[<span class="number">0</span>] -= shift(z, y, x, k, p, e)</span><br><span class="line">			v[<span class="number">0</span>] = v[<span class="number">0</span>] &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">			y = v[<span class="number">0</span>]</span><br><span class="line">			x -= delta</span><br><span class="line">			x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	plain = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">	key = [<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">	n = <span class="number">2</span></span><br><span class="line">	encrypted = xxtea(plain, n, key)</span><br><span class="line">	<span class="keyword">print</span> encrypted</span><br><span class="line">	decrypted = xxtea(encrypted, -n, key)</span><br><span class="line">	<span class="keyword">print</span> decrypted</span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://blog.csdn.net/gsls200808/article/details/48243019" target="_blank" rel="noopener">https://blog.csdn.net/gsls200808/article/details/48243019</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/24/杭电CTF-题库-reverse/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          杭电CTF-题库-reverse
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/21/攻防世界-WEB-新手练习区/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">攻防世界-WEB-新手练习区</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TEA"><span class="nav-number">1.</span> <span class="nav-text">TEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XTEA"><span class="nav-number">2.</span> <span class="nav-text">XTEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XXTEA"><span class="nav-number">3.</span> <span class="nav-text">XXTEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

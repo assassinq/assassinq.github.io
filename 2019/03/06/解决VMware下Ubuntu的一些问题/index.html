@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="记录一些在虚拟机上的问题。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-18T08:31:52.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:54:03.285Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决VMware下Ubuntu的一些问题">
 <meta name="twitter:description" content="记录一些在虚拟机上的问题。">
@@ -157,13 +157,13 @@
 <h1 id="0x0-更新出错（Sub-process-returned-an-error-code）"><a href="#0x0-更新出错（Sub-process-returned-an-error-code）" class="headerlink" title="0x0 更新出错（Sub-process returned an error code）"></a>0x0 更新出错（Sub-process returned an error code）</h1><p>装了个优麒麟（Ubuntu Kylin），更新的时候居然报错了。</p>
 <p>在<code>sudo apt-get update</code>后出现：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Aborted (core dumped)</span><br><span class="line">Reading package lists... Done</span><br><span class="line">E: Problem executing scripts APT::Update::Post-Invoke-Success 'if /usr/bin/test -w /var/cache/app-info -a -e /usr/bin/appstreamcli; then appstreamcli refresh &gt; /dev/null; fi'</span><br><span class="line">E: Sub-process returned an error code</span><br></pre></td></tr></table></figure>
-<p>大概跟一个安装包<code>libappstream3</code>有关，remove掉就行了：</p>
+<p>大概跟一个安装包<code>libappstream3</code>有关，remove 掉就行了：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove libappstream3</span><br></pre></td></tr></table></figure>
 <h1 id="0x1-无法显示图形化界面"><a href="#0x1-无法显示图形化界面" class="headerlink" title="0x1 无法显示图形化界面"></a>0x1 无法显示图形化界面</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">**The system is running in low-graphics mode**</span><br><span class="line">Your screen, graphics cards, and input device settings could not be detected correctly. You will need to configure these yourself.</span><br></pre></td></tr></table></figure>
-<p>装一下vm桌面，再更新一下磁盘：</p>
+<p>装一下 vm 桌面，再更新一下磁盘：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install open-vm-tools</span><br><span class="line">sudo apt-get install open-vm-tools-desktop</span><br><span class="line">sudo reboot</span><br><span class="line">sudo apt-get dist-upgrade</span><br></pre></td></tr></table></figure>
 <h1 id="0x2-无法开机"><a href="#0x2-无法开机" class="headerlink" title="0x2 无法开机"></a>0x2 无法开机</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intel_rapl: no valid rapl domains found in package 0</span><br></pre></td></tr></table></figure>
-<p>在vmware的<code>.vmx</code>文件中添加<code>paevm = &quot;TRUE&quot;</code>。如果还不能解决，说明电脑的cpu不支持PAE。直接在文件<code>/etc/modprobe.d/blacklist.conf</code>中添加<code>blacklist intel_rapl</code>后重启。</p>
+<p>在 vmware 的<code>.vmx</code>文件中添加<code>paevm = &quot;TRUE&quot;</code>。如果还不能解决，说明电脑的 cpu 不支持 PAE。直接在文件<code>/etc/modprobe.d/blacklist.conf</code>中添加<code>blacklist intel_rapl</code>后重启。</p>
 <h1 id="0x3-开机显示异常"><a href="#0x3-开机显示异常" class="headerlink" title="0x3 开机显示异常"></a>0x3 开机显示异常</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">piix4_smbus ****host smbus controller not enabled</span><br></pre></td></tr></table></figure>
 <p>在文件<code>/etc/modprobe.d/blacklist.conf</code>中添加<code>blacklist piix4_smbus</code>后重启。</p>
 <h1 id="0x4-开启后跳出提示框（Could-not-apply-the-stored-configuration-for-monitors）"><a href="#0x4-开启后跳出提示框（Could-not-apply-the-stored-configuration-for-monitors）" class="headerlink" title="0x4 开启后跳出提示框（Could not apply the stored configuration for monitors）"></a>0x4 开启后跳出提示框（Could not apply the stored configuration for monitors）</h1><p>这个弹出窗口的意思是，不能应用当前显示器的设置，也就是显示器的设置有错误。在关机的时候，系统会保存上一次的设置，在<code>$HOME/.config</code>下生成一个<code>monitors.xml</code>的文件。只需要把这个文件删除即可：</p>

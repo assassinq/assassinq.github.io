@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="为了更好地调试堆，需要自己编译一个带symbol的libc。">
+  <meta name="description" content="为了更好地调试堆，需要自己编译一个带 symbol 的 libc。">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu16.04下编译libc2.23">
 <meta property="og:url" content="https://qianfei11.github.io/2019/03/04/Ubuntu16-04下编译libc2-23/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="为了更好地调试堆，需要自己编译一个带symbol的libc。">
+<meta property="og:description" content="为了更好地调试堆，需要自己编译一个带 symbol 的 libc。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-06T04:50:30.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:50:19.851Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16.04下编译libc2.23">
-<meta name="twitter:description" content="为了更好地调试堆，需要自己编译一个带symbol的libc。">
+<meta name="twitter:description" content="为了更好地调试堆，需要自己编译一个带 symbol 的 libc。">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
   
@@ -152,29 +152,29 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>为了更好地调试堆，需要自己编译一个带symbol的libc。</p>
+        <p>为了更好地调试堆，需要自己编译一个带 symbol 的 libc。</p>
 <a id="more"></a>
 <h1 id="环境和工具"><a href="#环境和工具" class="headerlink" title="环境和工具"></a>环境和工具</h1><ul>
 <li>Ubuntu16.04</li>
 <li>glibc-2.23.tar.gz</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">assassinq@ubuntu ~/glibc-2.23/build$ uname -a                                  </span><br><span class="line">Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>从ftp上把glibc下载下来，解压后新建一个build文件夹：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &amp;&amp; wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz \ </span><br><span class="line">tar -xvf glibc-2.23.tar.gz &amp;&amp; cd glibc-2.23 \ </span><br><span class="line">mkdir build &amp;&amp; cd build # mkdir build32 &amp;&amp; cd build32</span><br></pre></td></tr></table></figure>
-<h1 id="编译过程中的挖坑和填坑"><a href="#编译过程中的挖坑和填坑" class="headerlink" title="编译过程中的挖坑和填坑"></a>编译过程中的挖坑和填坑</h1><p>在build文件夹下configure，并且加上一些必要的参数使得编译时加上symbol，并且指定输出文件夹：（转自<a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">2016年winesap的社课</a>）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> x64</span></span><br><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \ </span><br><span class="line">CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \ </span><br><span class="line">../configure --prefix=/path/to/install</span><br><span class="line"><span class="meta">#</span><span class="bash"> x32</span></span><br><span class="line">CC="gcc -m32" CXX="g++ -m32" \ </span><br><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \ </span><br><span class="line">CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \ </span><br><span class="line">../configure --prefix=/path/to/install --host=i686-linux-gnu</span><br></pre></td></tr></table></figure>
-<p>如果没有任何意外的话就能直接<code>make &amp;&amp; make install</code>编译了。下面记录一下遇到的几个坑。（感谢<a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">n132大哥的博客</a>）</p>
-<h2 id="0x0-某些安装包缺失"><a href="#0x0-某些安装包缺失" class="headerlink" title="0x0 某些安装包缺失"></a>0x0 某些安装包缺失</h2><p>configure的时候提示有些安装包缺失，不能生成Makefile：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configure: error: </span><br><span class="line">*** These critical programs are missing or too old: gawk</span><br><span class="line">*** Check the INSTALL file for required versions.</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">assassinq@ubuntu ~/glibc-2.23/build$ uname -a</span><br><span class="line">Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>从 ftp 上把 glibc 下载下来，解压后新建一个 build 文件夹：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &amp;&amp; wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz \</span><br><span class="line">tar -xvf glibc-2.23.tar.gz &amp;&amp; cd glibc-2.23 \</span><br><span class="line">mkdir build &amp;&amp; cd build # mkdir build32 &amp;&amp; cd build32</span><br></pre></td></tr></table></figure>
+<h1 id="编译过程中的挖坑和填坑"><a href="#编译过程中的挖坑和填坑" class="headerlink" title="编译过程中的挖坑和填坑"></a>编译过程中的挖坑和填坑</h1><p>在 build 文件夹下 configure，并且加上一些必要的参数使得编译时加上 symbol，并且指定输出文件夹：（转自<a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">2016 年 winesap 的社课</a>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> x64</span></span><br><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">../configure --prefix=/path/to/install</span><br><span class="line"><span class="meta">#</span><span class="bash"> x32</span></span><br><span class="line">CC="gcc -m32" CXX="g++ -m32" \</span><br><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">../configure --prefix=/path/to/install --host=i686-linux-gnu</span><br></pre></td></tr></table></figure>
+<p>如果没有任何意外的话就能直接<code>make &amp;&amp; make install</code>编译了。下面记录一下遇到的几个坑。（感谢<a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">n132 大哥的博客</a>）</p>
+<h2 id="0x0-某些安装包缺失"><a href="#0x0-某些安装包缺失" class="headerlink" title="0x0 某些安装包缺失"></a>0x0 某些安装包缺失</h2><p>configure 的时候提示有些安装包缺失，不能生成 Makefile：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configure: error:</span><br><span class="line">*** These critical programs are missing or too old: gawk</span><br><span class="line">*** Check the INSTALL file for required versions.</span><br></pre></td></tr></table></figure>
 <p>根据提示安装一下即可：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install gawk</span><br></pre></td></tr></table></figure>
 <h2 id="0x1-警告提示"><a href="#0x1-警告提示" class="headerlink" title="0x1 警告提示"></a>0x1 警告提示</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">In file included from regex.c:67:0:</span><br><span class="line">regexec.c: In function ‘check_node_accept_bytes’:</span><br><span class="line">regexec.c:3856:29: error: ‘extra’ may be used uninitialized in this function [-Werror=maybe-uninitialized]</span><br><span class="line">        const unsigned char *coll_sym = extra + cset-&gt;coll_syms[i];</span><br><span class="line">                             ^</span><br><span class="line">cc1: all warnings being treated as errors</span><br><span class="line">../o-iterator.mk:9: recipe for target &apos;/home/assassinq/glibc-2.23/build/posix/regex.o&apos; failed</span><br><span class="line">make[2]: *** [/home/assassinq/glibc-2.23/build/posix/regex.o] Error 1</span><br><span class="line">make[2]: Leaving directory &apos;/home/assassinq/glibc-2.23/posix&apos;</span><br><span class="line">Makefile:214: recipe for target &apos;posix/subdir_lib&apos; failed</span><br><span class="line">make[1]: *** [posix/subdir_lib] Error 2</span><br><span class="line">make[1]: Leaving directory &apos;/home/assassinq/glibc-2.23&apos;</span><br><span class="line">Makefile:9: recipe for target &apos;all&apos; failed</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
-<p><code>cc1: all warnings being treated as errors</code>是因为设置了警告提示，这里可以回到之前configure的时候，<code>CFLAGS</code>新增加一个参数<code>-Wno-error</code>来去除警告：</p>
+<p><code>cc1: all warnings being treated as errors</code>是因为设置了警告提示，这里可以回到之前 configure 的时候，<code>CFLAGS</code>新增加一个参数<code>-Wno-error</code>来去除警告：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og -Wno-error"</span><br></pre></td></tr></table></figure>
 <h2 id="0x2-ld-so-conf缺失"><a href="#0x2-ld-so-conf缺失" class="headerlink" title="0x2 ld.so.conf缺失"></a>0x2 <code>ld.so.conf</code>缺失</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/home/assassinq/glibc-2.23/build/elf/ldconfig: Warning: ignoring configuration file that cannot be opened: /home/assassinq/glibc-2.23/64/etc/ld.so.conf: No such file or directory</span><br><span class="line">make[1]: Leaving directory &apos;/home/assassinq/glibc-2.23&apos;</span><br></pre></td></tr></table></figure>
-<p>这里只需要直接touch一个新文件即可：</p>
+<p>这里只需要直接 touch 一个新文件即可：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ../64/etc &amp;&amp; sudo touch ld.so.conf</span><br></pre></td></tr></table></figure>
-<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>记录一下调<code>_dl_runtime_resolve</code>的Makefile：</p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>记录一下调<code>_dl_runtime_resolve</code>的 Makefile：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">all: a</span><br><span class="line">a: a.c</span><br><span class="line">        gcc a.c -o a -Wl, -dynamic-linker /path/to/install/lib/ld-2.23.so -g</span><br></pre></td></tr></table></figure>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/</a><br><a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share</a></p>
 

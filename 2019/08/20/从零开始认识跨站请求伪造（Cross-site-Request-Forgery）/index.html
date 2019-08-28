@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>从零开始认识跨站请求伪造（Cross-site Request Forgery） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="web">
+  
+  
+  
+  
+  <meta name="description" content="常常听到 CSRF，但不怎么了解它具体的机制，简单记录一下。">
+<meta name="keywords" content="web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始认识跨站请求伪造（Cross-site Request Forgery）">
+<meta property="og:url" content="https://qianfei11.github.io/2019/08/20/从零开始认识跨站请求伪造（Cross-site-Request-Forgery）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="常常听到 CSRF，但不怎么了解它具体的机制，简单记录一下。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/从零开始认识跨站请求伪造/1.png">
+<meta property="og:updated_time" content="2019-08-26T05:46:11.368Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零开始认识跨站请求伪造（Cross-site Request Forgery）">
+<meta name="twitter:description" content="常常听到 CSRF，但不怎么了解它具体的机制，简单记录一下。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/从零开始认识跨站请求伪造/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-从零开始认识跨站请求伪造（Cross-site-Request-Forgery）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      从零开始认识跨站请求伪造（Cross-site Request Forgery）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/08/20/从零开始认识跨站请求伪造（Cross-site-Request-Forgery）/" class="article-date">
+	  <time datetime="2019-08-20T05:51:34.000Z" itemprop="datePublished">August 20, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>常常听到 CSRF，但不怎么了解它具体的机制，简单记录一下。</p>
+<a id="more"></a>
+<h1 id="What-is-CSRF"><a href="#What-is-CSRF" class="headerlink" title="What is CSRF"></a>What is CSRF</h1><p>CSRF（跨站请求伪造，<code>Cross-site Request Forgery</code>）也被称为<code>One-click Attack</code>或者<code>Session Riding</code>。简单的来说，就是<strong>攻击者利用受害者的身份，以受害者的名义发送恶意请求</strong>。</p>
+<p>CSRF 这种攻击方式在 2000 年被国外的安全人员提出，但在国内，直到 2006 年才开始被关注。2008 年，国内外的多个大型社区和交互网站分别爆出 CSRF 漏洞，如：纽约时报，Metafilter，YouTube，百度等等。而现在，互联网的许多站点仍对此毫无防备，以至于安全业界称 CSRF 为“沉睡的巨人”。</p>
+<p><img src="/pics/从零开始认识跨站请求伪造/1.png" alt="CSRF原理"></p>
+<p>首先比较一下 XSS 和 CSRF：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># XSS</span><br><span class="line">攻击者发现XSS漏洞——构造代码——发送给受害人——受害人打开——攻击者获取受害人的cookie——完成攻击</span><br><span class="line">XSS容易发现，因为攻击者需要登录后台完成攻击。管理员可以看日志发现攻击者</span><br><span class="line">XSS的目的是获取用户的身份信息，攻击者窃取到的是用户的身份（session/cookie）</span><br><span class="line"># CSRF</span><br><span class="line">攻击者发现CSRF漏洞——构造代码——发送给受害人——受害人打开——受害人执行代码——完成攻击</span><br><span class="line">CSRF的攻击一直是管理员自己实现的，攻击者只负责了构造代码</span><br><span class="line">CSRF是利用用户当前的身份去做一些未经过授权的操作</span><br></pre></td></tr></table></figure>
+<p>用一个小故事简单的介绍一下什么是 CSRF：</p>
+<ol>
+<li>我们先假设支付宝存在 CSRF 漏洞，受害者的支付宝账号是<code>alibaba</code>，攻击者的支付宝账号是<code>hacker</code></li>
+<li>然后我们通过网页请求的方式<code>http://zhifubao.com/withdraw?account=alibaba&amp;amount=10000&amp;for=alibaba2</code>可以把账号<code>alibaba</code>的 10000 元转到另外一个账号<code>alibaba2</code>上去。通常情况下，该请求发送到支付宝服务器后，服务器会先验证该请求是否来自一个合法的<code>session</code>并且该<code>session</code>的用户已经成功登陆</li>
+<li>攻击者在支付宝有账号<code>hacker</code>，并且他知道上文中的 URL 可以进行转账操作，于是他可以发送一个请求<code>http://zhifubao.com/withdraw?account=alibaba&amp;amount=10000&amp;for=hacker</code>到支付宝后台。但是这个请求是来自攻击者而不是来自<code>alibaba</code>，所以不能通过安全认证，因此该请求作废</li>
+<li>这时，攻击者<code>hacker</code>想到了用 CSRF 的方式，他自己做了个黄色网站，在网站中放了如下代码：<code>http://zhifubao.com/withdraw?account=alibaba&amp;amount=10000&amp;for=hacker</code>，并且通过黄色链接诱使受害者来访问他的网站。当受害者禁不住诱惑时就会点了进去，上述请求就会从受害者的浏览器发送到支付宝，而且这个请求会附带受害者的浏览器中的<code>cookie</code></li>
+<li>大多数情况下，该请求会失败，因为支付宝会要求受害者的认证信息，但是如果刚访问支付宝不久，还没有关闭支付宝页面，浏览器中的<code>cookie</code>仍然存有认证信息，这个请求就会得到响应，从受害者的账户中转 10000 元到<code>hacker</code>账户里，而受害者丝毫不知情，攻击者拿到钱后逍遥法外</li>
+</ol>
+<h1 id="How-to-Attack"><a href="#How-to-Attack" class="headerlink" title="How to Attack"></a>How to Attack</h1><p>CSRF 有两种攻击方式，一种是基于 GET 请求方式的利用，另一种是基于 POST 请求方式的利用。</p>
+<h2 id="Get-Method"><a href="#Get-Method" class="headerlink" title="Get Method"></a>Get Method</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&apos;https://www.xxx.com/bank.php?transferTo=hacker&apos; width=&apos;0&apos; height=&apos;0&apos; /&gt;</span><br><span class="line">&lt;a href=&apos;/test&apos;&gt;start&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Post-Method"><a href="#Post-Method" class="headerlink" title="Post Method"></a>Post Method</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe style=&quot;display:none&quot; name=&quot;csrf-frame&quot;&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;form method=&apos;POST&apos; action=&apos;https://www.xxx.com/bank.php&apos; target=&quot;csrf-frame&quot; id=&quot;csrf-form&quot;&gt;</span><br><span class="line">  &lt;input type=&apos;hidden&apos; name=&apos;id&apos; value=&apos;3&apos;&gt;</span><br><span class="line">  &lt;input type=&apos;submit&apos; value=&apos;submit&apos;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;script&gt;document.getElementById(&quot;csrf-form&quot;).submit()&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="How-to-Prevent"><a href="#How-to-Prevent" class="headerlink" title="How to Prevent"></a>How to Prevent</h1><p>防范 CSRF 攻击，其实本质就是要求网站能够识别出哪些请求是非正常用户主动发起的。这就要求我们在请求中嵌入一些额外的授权数据，让网站服务器能够区分出这些未授权的请求。</p>
+<h2 id="Synchronizer-token-pattern"><a href="#Synchronizer-token-pattern" class="headerlink" title="Synchronizer token pattern"></a>Synchronizer token pattern</h2><p>令牌同步模式（Synchronizer token pattern，简称 STP）是在用户请求的页面中的所有表单中嵌入一个 token，在服务端验证这个 token 的技术。token 可以是任意的内容，但是一定要保证无法被攻击者猜测到或者查询到。攻击者在请求中无法使用正确的 token，因此可以判断出未授权的请求</p>
+<h2 id="Cookie-to-Header-Token"><a href="#Cookie-to-Header-Token" class="headerlink" title="Cookie-to-Header Token"></a>Cookie-to-Header Token</h2><p>对于使用 Js 作为主要交互技术的网站，将 CSRF 的 token 写入到 cookie 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: CSRF-token=i8XNjC4b8KVok4uw5RftR38Wgp2BFwql; expires=Thu, 23-Jul-2015 10:25:33 GMT; Max-Age=31449600; Path=/</span><br></pre></td></tr></table></figure>
+<p>然后使用 javascript 读取 token 的值，在发送 http 请求的时候将其作为请求的 header</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X-CSRF-Token: i8XNjC4b8KVok4uw5RftR38Wgp2BFwql</span><br></pre></td></tr></table></figure>
+<p>最后服务器验证请求头中的 token 是否合法</p>
+<h2 id="验证码"><a href="#验证码" class="headerlink" title="验证码"></a>验证码</h2><p>使用验证码可以杜绝 CSRF 攻击，但是这种方式要求每个请求都输入一个验证码，显然没有哪个网站愿意使用这种粗暴的方式，用户体验太差，用户会疯掉的。</p>
+<h2 id="验证-HTTP-Referer-字段"><a href="#验证-HTTP-Referer-字段" class="headerlink" title="验证 HTTP Referer 字段"></a>验证 HTTP Referer 字段</h2><p>根据 HTTP 协议，在 HTTP 头部中有一个 Referer 字段，它记录了该 HTTP 请求所在的地址，表示 HTTP 请求从那个页面发出的。比如当访问<code>http://zhifubao.com/withdraw?account=lyq&amp;amount=10000&amp;for=xxx</code>，用户必须先登录支付宝网站，然后通过点击页面的的按钮来触发转账事件。此时，转账请求的 Referer 值就是转账页面所在的 URL，通常是以<code>zhifubao.com</code>域名开头的地址。如果攻击者要实行 CSRF 攻击，那么他只能在自己的站点构造请求，此时 Referer 的值就指向黑客自己的网站。因此要防御 CSRF 攻击，支付宝只需要对每一个转账请求验证其 Referer 值，如果是以<code>zhifubao.com</code>开头的域名，则是合法请求，相反，则是非法请求并拒绝。</p>
+<p>这种方法的好处就是简单易行，只需要在后台添加一个拦截器来检查 Referer 即可。然而这种办法并不是万无一失，Referer 的值是由浏览器提供的，一些低级的浏览器可以通过某种方式篡改 Referer 的值，这就给了攻击者可乘之机；而一些高级浏览器处于安全考虑，可以让用户设置发送 HTTP 请求时不再提供 Referer 值，这样当他们正常访问支付宝网站时，因为没有提供 Referer 值而被误认为 CERF 攻击，拒绝访问。实际应用中通常采用第二种方法来防御 CSRF 攻击。</p>
+<h2 id="尽量使用-POST，限制-GET"><a href="#尽量使用-POST，限制-GET" class="headerlink" title="尽量使用 POST，限制 GET"></a>尽量使用 POST，限制 GET</h2><p>GET 接口能够直接将请求地址暴露给攻击者，所以要防止 CSRF 一定最好不要用 GET。当然 POST 并不是万无一失，攻击者只需要构造一个 form 表单就可以，但需要在第三方页面做，这样就增加了暴露的可能性。</p>
+<h2 id="在-HTTP-头部添加自定义属性"><a href="#在-HTTP-头部添加自定义属性" class="headerlink" title="在 HTTP 头部添加自定义属性"></a>在 HTTP 头部添加自定义属性</h2><p>这种方法也是使用 token 并验证，但是它是把 token 放在 HTTP 请求头部中。通过使用 AJAX 我们可以在我们的请求头部中添加我们的自定义属性，但是这种方法要求我们将整个站的请求全部改成 AJAX，如果是新站还好，老站的话无疑是需要重写整个站点的，这是很不可取的。</p>
+<h1 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges"></a>Challenges</h1><ul>
+<li><a href="http://exp-blog.com/2019/01/13/pid-2927/" target="_blank" rel="noopener">RootMe 解题报告 [Web-Client : CSRF – 0 protection]</a></li>
+<li><a href="http://exp-blog.com/2019/01/13/pid-2933/" target="_blank" rel="noopener">RootMe 解题报告 [Web-Client : CSRF – token bypass]</a></li>
+</ul>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.freebuf.com/articles/web/55965.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/55965.html</a><br><a href="https://segmentfault.com/a/1190000008505616" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008505616</a><br><a href="https://www.jianshu.com/p/855395f9603b" target="_blank" rel="noopener">https://www.jianshu.com/p/855395f9603b</a><br><a href="https://juejin.im/post/5bc009996fb9a05d0a055192" target="_blank" rel="noopener">https://juejin.im/post/5bc009996fb9a05d0a055192</a><br><a href="https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a><br><a href="https://blog.techbridge.cc/2017/02/25/csrf-introduction/" target="_blank" rel="noopener">https://blog.techbridge.cc/2017/02/25/csrf-introduction/</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/21/攻防世界-WEB-新手练习区/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          攻防世界-WEB-新手练习区
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/17/Pwnable-tw-seethefile/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Pwnable.tw seethefile</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-CSRF"><span class="nav-number">1.</span> <span class="nav-text">What is CSRF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-to-Attack"><span class="nav-number">2.</span> <span class="nav-text">How to Attack</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Get-Method"><span class="nav-number">2.1.</span> <span class="nav-text">Get Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Post-Method"><span class="nav-number">2.2.</span> <span class="nav-text">Post Method</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-to-Prevent"><span class="nav-number">3.</span> <span class="nav-text">How to Prevent</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Synchronizer-token-pattern"><span class="nav-number">3.1.</span> <span class="nav-text">Synchronizer token pattern</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie-to-Header-Token"><span class="nav-number">3.2.</span> <span class="nav-text">Cookie-to-Header Token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证码"><span class="nav-number">3.3.</span> <span class="nav-text">验证码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证-HTTP-Referer-字段"><span class="nav-number">3.4.</span> <span class="nav-text">验证 HTTP Referer 字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尽量使用-POST，限制-GET"><span class="nav-number">3.5.</span> <span class="nav-text">尽量使用 POST，限制 GET</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-HTTP-头部添加自定义属性"><span class="nav-number">3.6.</span> <span class="nav-text">在 HTTP 头部添加自定义属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Challenges"><span class="nav-number">4.</span> <span class="nav-text">Challenges</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>

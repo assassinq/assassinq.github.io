@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="了解无线攻击。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-02T15:39:30.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:47:32.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMan IOT（二）">
 <meta name="twitter:description" content="了解无线攻击。">
@@ -155,29 +155,29 @@
         <p>了解无线攻击。</p>
 <a id="more"></a>
 <h1 id="常见无线攻击威胁"><a href="#常见无线攻击威胁" class="headerlink" title="常见无线攻击威胁"></a>常见无线攻击威胁</h1><h2 id="老旧的攻击"><a href="#老旧的攻击" class="headerlink" title="老旧的攻击"></a>老旧的攻击</h2><p>WPA/WPA2-PSK</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br><span class="line"></span><br><span class="line">airodump-ng start wlan0</span><br><span class="line"></span><br><span class="line">airodump-ng check kill </span><br><span class="line"></span><br><span class="line">wlan0mon airodump-ng</span><br><span class="line"></span><br><span class="line">airodump-ng --bssid [mac addr] -c 11 -w xmantest wlan1mon</span><br><span class="line"></span><br><span class="line">airodump-ng [filename] -w [dic file]</span><br></pre></td></tr></table></figure>
-<h2 id="Fake-AP攻击"><a href="#Fake-AP攻击" class="headerlink" title="Fake AP攻击"></a>Fake AP攻击</h2><h2 id="Wifi-DOS攻击"><a href="#Wifi-DOS攻击" class="headerlink" title="Wifi-DOS攻击"></a>Wifi-DOS攻击</h2><p>Deauth Flood：由于未加密的管理帧，允许接受第三方的解除关联帧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br><span class="line"></span><br><span class="line">airodump-ng start wlan0</span><br><span class="line"></span><br><span class="line">airodump-ng check kill</span><br><span class="line"></span><br><span class="line">wlan0mon airodump-ng</span><br><span class="line"></span><br><span class="line">airodump-ng --bssid [mac addr] -c 11 -w xmantest wlan1mon</span><br><span class="line"></span><br><span class="line">airodump-ng [filename] -w [dic file]</span><br></pre></td></tr></table></figure>
+<h2 id="Fake-AP-攻击"><a href="#Fake-AP-攻击" class="headerlink" title="Fake AP 攻击"></a>Fake AP 攻击</h2><h2 id="Wifi-DOS-攻击"><a href="#Wifi-DOS-攻击" class="headerlink" title="Wifi-DOS 攻击"></a>Wifi-DOS 攻击</h2><p>Deauth Flood：由于未加密的管理帧，允许接受第三方的解除关联帧。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iwconfig wlan1mon channel 11</span><br><span class="line"></span><br><span class="line">airoplay -0 10000 -a [mac addr] -c [] wlan1mon</span><br></pre></td></tr></table></figure>
 <h1 id="无线攻防的进阶"><a href="#无线攻防的进阶" class="headerlink" title="无线攻防的进阶"></a>无线攻防的进阶</h1><h2 id="ProbeRequest"><a href="#ProbeRequest" class="headerlink" title="ProbeRequest"></a>ProbeRequest</h2><ul>
 <li>暴露位置信息&amp;定位</li>
-<li>SSID钓鱼</li>
+<li>SSID 钓鱼</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wlan.fc.type_subtype==4</span><br></pre></td></tr></table></figure>
-<h2 id="WPA-Radius企业无线攻防"><a href="#WPA-Radius企业无线攻防" class="headerlink" title="WPA-Radius企业无线攻防"></a>WPA-Radius企业无线攻防</h2><ul>
+<h2 id="WPA-Radius-企业无线攻防"><a href="#WPA-Radius-企业无线攻防" class="headerlink" title="WPA-Radius 企业无线攻防"></a>WPA-Radius 企业无线攻防</h2><ul>
 <li>EAP-TTLS&amp;&amp;PEAP<br>— EAP-MD5</li>
 </ul>
-<h1 id="针对无线设备的漏洞挖掘"><a href="#针对无线设备的漏洞挖掘" class="headerlink" title="针对无线设备的漏洞挖掘"></a>针对无线设备的漏洞挖掘</h1><h2 id="攻击802-11客户端"><a href="#攻击802-11客户端" class="headerlink" title="攻击802.11客户端"></a>攻击802.11客户端</h2><p>Fuzzing（模糊测试）是一种识别软件设计缺陷和安全漏洞的方法。</p>
+<h1 id="针对无线设备的漏洞挖掘"><a href="#针对无线设备的漏洞挖掘" class="headerlink" title="针对无线设备的漏洞挖掘"></a>针对无线设备的漏洞挖掘</h1><h2 id="攻击-802-11-客户端"><a href="#攻击-802-11-客户端" class="headerlink" title="攻击 802.11 客户端"></a>攻击 802.11 客户端</h2><p>Fuzzing（模糊测试）是一种识别软件设计缺陷和安全漏洞的方法。</p>
 <p>通过向目标发送畸形数据，试图使目标崩溃。</p>
-<p>802.11-Fuzzing =&gt; 构造长度&gt;32 &amp;&amp; &lt;= 255byte SSID IE的payload</p>
-<h2 id="wifi-positioning-Spoof"><a href="#wifi-positioning-Spoof" class="headerlink" title="wifi positioning Spoof"></a>wifi positioning Spoof</h2><p>WiFi定位原理：</p>
+<p>802.11-Fuzzing =&gt; 构造长度&gt;32 &amp;&amp; &lt;= 255byte SSID IE 的 payload</p>
+<h2 id="wifi-positioning-Spoof"><a href="#wifi-positioning-Spoof" class="headerlink" title="wifi positioning Spoof"></a>wifi positioning Spoof</h2><p>WiFi 定位原理：</p>
 <ol>
-<li>每一个无线AP都有一个全球唯一的MAC地址，并且一般来说无线AP在一段时间内是不会移动的。</li>
-<li>设备在开启Wi-Fi的情况下，即可扫描并收集周围的AP信号，无论是否加密，是否已连接，甚至信号强度不足以显示在无线信号列表中，都可以获取到AP广播出来的MAC地址。</li>
-<li>设备将这些能够标示AP的数据发送到位置服务器，服务器检索出每一个AP的地理位置，并结合每个信号的强弱程度，计算出设备的地理位置并返回到用户设备。</li>
-<li>位置服务商要不断更新、补充自己的数据库，以保证数据的准确性，毕竟无线AP不像基站塔那样基本100%不会移动。</li>
+<li>每一个无线 AP 都有一个全球唯一的 MAC 地址，并且一般来说无线 AP 在一段时间内是不会移动的。</li>
+<li>设备在开启 Wi-Fi 的情况下，即可扫描并收集周围的 AP 信号，无论是否加密，是否已连接，甚至信号强度不足以显示在无线信号列表中，都可以获取到 AP 广播出来的 MAC 地址。</li>
+<li>设备将这些能够标示 AP 的数据发送到位置服务器，服务器检索出每一个 AP 的地理位置，并结合每个信号的强弱程度，计算出设备的地理位置并返回到用户设备。</li>
+<li>位置服务商要不断更新、补充自己的数据库，以保证数据的准确性，毕竟无线 AP 不像基站塔那样基本 100%不会移动。</li>
 </ol>
-<h1 id="无限攻击的识别与防御策略"><a href="#无限攻击的识别与防御策略" class="headerlink" title="无限攻击的识别与防御策略"></a>无限攻击的识别与防御策略</h1><h2 id="Identify-DOS-Attack"><a href="#Identify-DOS-Attack" class="headerlink" title="Identify DOS Attack"></a>Identify DOS Attack</h2><p>DOS攻击有很多种，Authentiction Flood、De-Authentcation Flood、Association Flood、Beacon Flood等。</p>
-<h2 id="Identify-Fake-AP"><a href="#Identify-Fake-AP" class="headerlink" title="Identify Fake AP"></a>Identify Fake AP</h2><p>黑客先建立一个与你同SSID的热点，运用DOS Attack将合法Client强制断掉AP，当Client再次执行关联请求时，已经被劫持到Fake AP上，进行劫持，密码窃取等行为。</p>
+<h1 id="无限攻击的识别与防御策略"><a href="#无限攻击的识别与防御策略" class="headerlink" title="无限攻击的识别与防御策略"></a>无限攻击的识别与防御策略</h1><h2 id="Identify-DOS-Attack"><a href="#Identify-DOS-Attack" class="headerlink" title="Identify DOS Attack"></a>Identify DOS Attack</h2><p>DOS 攻击有很多种，Authentiction Flood、De-Authentcation Flood、Association Flood、Beacon Flood 等。</p>
+<h2 id="Identify-Fake-AP"><a href="#Identify-Fake-AP" class="headerlink" title="Identify Fake AP"></a>Identify Fake AP</h2><p>黑客先建立一个与你同 SSID 的热点，运用 DOS Attack 将合法 Client 强制断掉 AP，当 Client 再次执行关联请求时，已经被劫持到 Fake AP 上，进行劫持，密码窃取等行为。</p>
 
       
     </div>
@@ -246,7 +246,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见无线攻击威胁"><span class="nav-number">1.</span> <span class="nav-text">常见无线攻击威胁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#老旧的攻击"><span class="nav-number">1.1.</span> <span class="nav-text">老旧的攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fake-AP攻击"><span class="nav-number">1.2.</span> <span class="nav-text">Fake AP攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wifi-DOS攻击"><span class="nav-number">1.3.</span> <span class="nav-text">Wifi-DOS攻击</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无线攻防的进阶"><span class="nav-number">2.</span> <span class="nav-text">无线攻防的进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ProbeRequest"><span class="nav-number">2.1.</span> <span class="nav-text">ProbeRequest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WPA-Radius企业无线攻防"><span class="nav-number">2.2.</span> <span class="nav-text">WPA-Radius企业无线攻防</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#针对无线设备的漏洞挖掘"><span class="nav-number">3.</span> <span class="nav-text">针对无线设备的漏洞挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击802-11客户端"><span class="nav-number">3.1.</span> <span class="nav-text">攻击802.11客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wifi-positioning-Spoof"><span class="nav-number">3.2.</span> <span class="nav-text">wifi positioning Spoof</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无限攻击的识别与防御策略"><span class="nav-number">4.</span> <span class="nav-text">无限攻击的识别与防御策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Identify-DOS-Attack"><span class="nav-number">4.1.</span> <span class="nav-text">Identify DOS Attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Identify-Fake-AP"><span class="nav-number">4.2.</span> <span class="nav-text">Identify Fake AP</span></a></li></ol></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见无线攻击威胁"><span class="nav-number">1.</span> <span class="nav-text">常见无线攻击威胁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#老旧的攻击"><span class="nav-number">1.1.</span> <span class="nav-text">老旧的攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fake-AP-攻击"><span class="nav-number">1.2.</span> <span class="nav-text">Fake AP 攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wifi-DOS-攻击"><span class="nav-number">1.3.</span> <span class="nav-text">Wifi-DOS 攻击</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无线攻防的进阶"><span class="nav-number">2.</span> <span class="nav-text">无线攻防的进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ProbeRequest"><span class="nav-number">2.1.</span> <span class="nav-text">ProbeRequest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WPA-Radius-企业无线攻防"><span class="nav-number">2.2.</span> <span class="nav-text">WPA-Radius 企业无线攻防</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#针对无线设备的漏洞挖掘"><span class="nav-number">3.</span> <span class="nav-text">针对无线设备的漏洞挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击-802-11-客户端"><span class="nav-number">3.1.</span> <span class="nav-text">攻击 802.11 客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wifi-positioning-Spoof"><span class="nav-number">3.2.</span> <span class="nav-text">wifi positioning Spoof</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无限攻击的识别与防御策略"><span class="nav-number">4.</span> <span class="nav-text">无限攻击的识别与防御策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Identify-DOS-Attack"><span class="nav-number">4.1.</span> <span class="nav-text">Identify DOS Attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Identify-Fake-AP"><span class="nav-number">4.2.</span> <span class="nav-text">Identify Fake AP</span></a></li></ol></li></ol>
     
     </div>
   </aside>

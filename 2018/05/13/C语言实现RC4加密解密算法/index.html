@@ -11,19 +11,19 @@
   
   
   
-  <meta name="description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
+  <meta name="description" content="RC4 于 1987 年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4 不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
 <meta name="keywords" content="crypto,c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言实现RC4加密解密算法">
 <meta property="og:url" content="https://qianfei11.github.io/2018/05/13/C语言实现RC4加密解密算法/index.html">
 <meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
+<meta property="og:description" content="RC4 于 1987 年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4 不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-j.jpg">
-<meta property="og:updated_time" content="2018-12-05T07:52:04.000Z">
+<meta property="og:updated_time" content="2019-08-26T05:53:30.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C语言实现RC4加密解密算法">
-<meta name="twitter:description" content="RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
+<meta name="twitter:description" content="RC4 于 1987 年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4 不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。">
 <meta name="twitter:image" content="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-j.jpg">
   
     <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
@@ -154,22 +154,22 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>RC4于1987年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。</p>
+        <p>RC4 于 1987 年提出，是一种对称加密算法，也就是说使用的密钥为单钥（或称为私钥）。RC4 不是对明文进行分组处理，而是字节流的方式依次加密明文中的每一个字节，解密的时候也是依次对密文中的每一个字节进行解密。</p>
 <a id="more"></a>
-<p>RC4算法的特点是算法简单，运行速度快，而且密钥长度是可变的，可变范围为1-256字节(8-2048比特)，在如今技术支持的前提下，当密钥长度为128比特时，用暴力法搜索密钥已经不太可行，所以可以预见RC4的密钥范围任然可以在今后相当长的时间里抵御暴力搜索密钥的攻击。实际上，如今也没有找到对于128bit密钥长度的RC4加密算法的有效攻击方法。</p>
-<p>RC4加密算法是一种对称加密算法。所谓对称加密算法，说得直白一点，就是加密与解密的过程一模一样。假设定义RC4的运算过程是rc4(key,data)，那么，密文=rc4(key,明文)，明文=rc4(key,密文)。所以，对一段数据迭代地做奇数次RC4运算，就得到密文，对这段数据迭代地做偶数次RC4运算，结果依旧是原来的那段数据。</p>
-<h1 id="rc4加密解密原理"><a href="#rc4加密解密原理" class="headerlink" title="rc4加密解密原理"></a>rc4加密解密原理</h1><p>先介绍算法中的几个关键变量：</p>
-<p>1、密钥流：RC4算法的关键是根据明文和密钥生成相应的密钥流，密钥流的长度和明文的长度是对应的，也就是说明文的长度是500字节，那么密钥流也是500字节。当然，加密生成的密文也是500字节，因为密文第i字节=明文第i字节^密钥流第i字节；</p>
-<p>2、状态向量S：长度为256，S[0],S[1]…..S[255]。每个单元都是一个字节，算法运行的任何时候，S都包括0-255的8比特数的排列组合，只不过值的位置发生了变换；</p>
-<p>3、临时向量T：长度也为256，每个单元也是一个字节。如果密钥的长度是256字节，就直接把密钥的值赋给T，否则，轮转地将密钥的每个字节赋给T；</p>
-<p>4、密钥K：长度为1-256字节，注意密钥的长度keylen与明文长度、密钥流的长度没有必然关系，通常密钥的长度趣味16字节（128比特）。</p>
+<p>RC4 算法的特点是算法简单，运行速度快，而且密钥长度是可变的，可变范围为 1-256 字节(8-2048 比特)，在如今技术支持的前提下，当密钥长度为 128 比特时，用暴力法搜索密钥已经不太可行，所以可以预见 RC4 的密钥范围任然可以在今后相当长的时间里抵御暴力搜索密钥的攻击。实际上，如今也没有找到对于 128bit 密钥长度的 RC4 加密算法的有效攻击方法。</p>
+<p>RC4 加密算法是一种对称加密算法。所谓对称加密算法，说得直白一点，就是加密与解密的过程一模一样。假设定义 RC4 的运算过程是 rc4(key,data)，那么，密文=rc4(key,明文)，明文=rc4(key,密文)。所以，对一段数据迭代地做奇数次 RC4 运算，就得到密文，对这段数据迭代地做偶数次 RC4 运算，结果依旧是原来的那段数据。</p>
+<h1 id="rc4-加密解密原理"><a href="#rc4-加密解密原理" class="headerlink" title="rc4 加密解密原理"></a>rc4 加密解密原理</h1><p>先介绍算法中的几个关键变量：</p>
+<p>1、密钥流：RC4 算法的关键是根据明文和密钥生成相应的密钥流，密钥流的长度和明文的长度是对应的，也就是说明文的长度是 500 字节，那么密钥流也是 500 字节。当然，加密生成的密文也是 500 字节，因为密文第 i 字节=明文第 i 字节^密钥流第 i 字节；</p>
+<p>2、状态向量 S：长度为 256，S[0],S[1]…..S[255]。每个单元都是一个字节，算法运行的任何时候，S 都包括 0-255 的 8 比特数的排列组合，只不过值的位置发生了变换；</p>
+<p>3、临时向量 T：长度也为 256，每个单元也是一个字节。如果密钥的长度是 256 字节，就直接把密钥的值赋给 T，否则，轮转地将密钥的每个字节赋给 T；</p>
+<p>4、密钥 K：长度为 1-256 字节，注意密钥的长度 keylen 与明文长度、密钥流的长度没有必然关系，通常密钥的长度趣味 16 字节（128 比特）。</p>
 <p><img src="http://t1.aixinxi.net/o_1cdbnmgd139c135h1ho1654traa.png-j.jpg" alt="算法流程图"></p>
-<h1 id="利用Key生成S盒——The-key-scheduling-algorithm-KSA"><a href="#利用Key生成S盒——The-key-scheduling-algorithm-KSA" class="headerlink" title="利用Key生成S盒——The key-scheduling algorithm (KSA)"></a>利用Key生成S盒——The key-scheduling algorithm (KSA)</h1><p>密钥调度算法用于初始化数组S盒中的置换。</p>
-<p>“keylength”被定义为密钥中的字节数，并且可以在1≤keylength≤256的范围内，通常在5和16之间，对应于40到128位的密钥长度。</p>
-<p>首先，数组“S”被初始化为i。然后以类似于PRGA的方式对S进行256次迭代处理，同时也以密钥的字节为单位进行混合。</p>
-<h1 id="利用S盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA"><a href="#利用S盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA" class="headerlink" title="利用S盒生成密钥流——The pseudo-random generation algorithm(PRGA)"></a>利用S盒生成密钥流——The pseudo-random generation algorithm(PRGA)</h1><p>对于需要的迭代次数，PRGA修改状态并输出一个字节的密钥流。</p>
-<p>在每次迭代中，PRGA递增i，将i指向的S的值与j相加，交换S[i]和S[j]的值，然后在S[i]+S[j]（模256）。</p>
-<p>每256个迭代，S的每个元素至少与另一个元素交换一次。</p>
+<h1 id="利用-Key-生成-S-盒——The-key-scheduling-algorithm-KSA"><a href="#利用-Key-生成-S-盒——The-key-scheduling-algorithm-KSA" class="headerlink" title="利用 Key 生成 S 盒——The key-scheduling algorithm (KSA)"></a>利用 Key 生成 S 盒——The key-scheduling algorithm (KSA)</h1><p>密钥调度算法用于初始化数组 S 盒中的置换。</p>
+<p>“keylength”被定义为密钥中的字节数，并且可以在 1≤keylength≤256 的范围内，通常在 5 和 16 之间，对应于 40 到 128 位的密钥长度。</p>
+<p>首先，数组“S”被初始化为 i。然后以类似于 PRGA 的方式对 S 进行 256 次迭代处理，同时也以密钥的字节为单位进行混合。</p>
+<h1 id="利用-S-盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA"><a href="#利用-S-盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA" class="headerlink" title="利用 S 盒生成密钥流——The pseudo-random generation algorithm(PRGA)"></a>利用 S 盒生成密钥流——The pseudo-random generation algorithm(PRGA)</h1><p>对于需要的迭代次数，PRGA 修改状态并输出一个字节的密钥流。</p>
+<p>在每次迭代中，PRGA 递增 i，将 i 指向的 S 的值与 j 相加，交换 S[i]和 S[j]的值，然后在 S[i]+S[j]（模 256）。</p>
+<p>每 256 个迭代，S 的每个元素至少与另一个元素交换一次。</p>
 <h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;cstdio&gt;</span><br><span class="line">#include&lt;cstdlib&gt;</span><br><span class="line">#include&lt;cstring&gt;</span><br><span class="line">#define MAX 256</span><br><span class="line"></span><br><span class="line">void rc4_init(unsigned char *sbox, unsigned char *key, unsigned long len)</span><br><span class="line">&#123;</span><br><span class="line">    int j = 0;</span><br><span class="line">    char t[MAX] = &#123;0&#125;;</span><br><span class="line">    unsigned char tmp = 0;</span><br><span class="line">    for(int i = 0; i &lt; MAX; i++)//初始化算法</span><br><span class="line">    &#123;</span><br><span class="line">        sbox[i] = i;</span><br><span class="line">        t[i] = key[i % len];</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i = 0; i &lt; MAX; i++)//伪随机子密码生成算法</span><br><span class="line">    &#123;</span><br><span class="line">        j = (j + sbox[i] + t[i]) % MAX;</span><br><span class="line">        tmp = sbox[i];</span><br><span class="line">        sbox[i] = sbox[j];</span><br><span class="line">        sbox[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">unsigned char rc4_crypto(unsigned char *sbox, unsigned char *data, unsigned long len)</span><br><span class="line">&#123;</span><br><span class="line">    int i = 0, j = 0;</span><br><span class="line">    unsigned char tmp = 0;</span><br><span class="line">    unsigned long k = 0;</span><br><span class="line">    for(k = 0; k &lt; len; k++)</span><br><span class="line">    &#123;</span><br><span class="line">        i = (i + 1) % MAX;</span><br><span class="line">        j = (j + sbox[i]) % MAX;</span><br><span class="line">        tmp = sbox[i];</span><br><span class="line">        sbox[i] = sbox[j];</span><br><span class="line">        sbox[j] = tmp;</span><br><span class="line">        int t = (sbox[i] + sbox[j]) % MAX;</span><br><span class="line">        data[k] ^= sbox[t];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char s1[MAX] = &#123;0&#125;, s2[MAX] = &#123;0&#125;;</span><br><span class="line">    char key[MAX] = &#123;0&#125;, data[2 * MAX] = &#123;0&#125;;</span><br><span class="line">    printf(&quot;Please input the key:\n&quot;);</span><br><span class="line">    scanf(&quot;%s&quot;, key);</span><br><span class="line">    printf(&quot;Please input the data:\n&quot;);</span><br><span class="line">    scanf(&quot;%s&quot;, data);</span><br><span class="line">    unsigned long len = strlen(data);</span><br><span class="line">    rc4_init(s1, (unsigned char *)key, strlen(key));</span><br><span class="line">    for(int i = 0; i &lt; MAX; i++)</span><br><span class="line">        s2[i] = s1[i];</span><br><span class="line">    rc4_crypto(s1, (unsigned char *)data, len);</span><br><span class="line">    printf(&quot;%s\n&quot;, data);</span><br><span class="line">    rc4_crypto(s2, (unsigned char *)data, len);</span><br><span class="line">    printf(&quot;%s\n&quot;, data);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>参考网站：<br><a href="https://blog.csdn.net/white_idiot/article/details/65937877" target="_blank" rel="noopener">https://blog.csdn.net/white_idiot/article/details/65937877</a><br><a href="https://blog.csdn.net/lc_910927/article/details/37599161" target="_blank" rel="noopener">https://blog.csdn.net/lc_910927/article/details/37599161</a><br><a href="https://www.cnblogs.com/zibility/p/5404478.html" target="_blank" rel="noopener">https://www.cnblogs.com/zibility/p/5404478.html</a></p>
 
@@ -226,7 +226,7 @@
   
     <a href="/2018/05/12/C语言实现Base64解密加密算法/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">C语言实现Base64解密加密算法</div>
+      <div class="article-nav-title">C语言实现Base64加密解密算法</div>
     </a>
   
 </nav>
@@ -240,7 +240,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rc4加密解密原理"><span class="nav-number">1.</span> <span class="nav-text">rc4加密解密原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用Key生成S盒——The-key-scheduling-algorithm-KSA"><span class="nav-number">2.</span> <span class="nav-text">利用Key生成S盒——The key-scheduling algorithm (KSA)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用S盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA"><span class="nav-number">3.</span> <span class="nav-text">利用S盒生成密钥流——The pseudo-random generation algorithm(PRGA)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">4.</span> <span class="nav-text">Code</span></a></li></ol>
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rc4-加密解密原理"><span class="nav-number">1.</span> <span class="nav-text">rc4 加密解密原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用-Key-生成-S-盒——The-key-scheduling-algorithm-KSA"><span class="nav-number">2.</span> <span class="nav-text">利用 Key 生成 S 盒——The key-scheduling algorithm (KSA)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用-S-盒生成密钥流——The-pseudo-random-generation-algorithm-PRGA"><span class="nav-number">3.</span> <span class="nav-text">利用 S 盒生成密钥流——The pseudo-random generation algorithm(PRGA)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">4.</span> <span class="nav-text">Code</span></a></li></ol>
     
     </div>
   </aside>
