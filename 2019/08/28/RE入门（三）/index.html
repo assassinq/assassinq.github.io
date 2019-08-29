@@ -30,8 +30,8 @@
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/RE/三/9.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/RE/三/10.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/RE/三/11.png">
-<meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/RE/三/12.jpg">
-<meta property="og:updated_time" content="2019-08-29T09:11:33.980Z">
+<meta property="og:image" content="https://qianfei11.github.io/pics/BIN集训/RE/三/12.jpeg">
+<meta property="og:updated_time" content="2019-08-29T09:30:51.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RE入门（三）">
 <meta name="twitter:description" content="摘自《逆向工程核心原理》中关于 Windows 操作系统的 PE（Portable Executable）文件格式的部分，其中也有关于进程、内存、DLL 等的内容，它们是 Windows 操作系统中最核心的部分。">
@@ -542,7 +542,7 @@
 </tbody>
 </table>
 <p>下图是 kernel32.dll 文件的 <code>IMAGE_EXPORT_DIRECTORY</code> 结构体与整个 EAT 结构。</p>
-<p><img src="/pics/BIN集训/RE/三/12.jpg" alt="EAT"></p>
+<p><img src="/pics/BIN集训/RE/三/12.jpeg" alt="EAT"></p>
 <p>从库中获得函数地址的 API 为 <code>GetProcAddress()</code> 函数。该 API 引用 EAT 来获取指定 API 的地址。<code>GetProcAddress()</code> API 拥有函数名称，以下为它获取函数地址的过程。</p>
 <ol>
 <li>利用 AddressOfNames 成员转到 “函数名称数组”。</li>
