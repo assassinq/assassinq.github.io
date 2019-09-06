@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T05:52:41.396Z">
+<meta property="og:updated_time" content="2019-09-06T03:35:52.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用QEMU+gdb对Linux Kernel进行调试">
 <meta name="twitter:description" content="最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。">
@@ -173,17 +173,17 @@
 <p><code>make menuconfig</code>中需要勾选的：</p>
 <ul>
 <li><code>KernelHacking</code><ul>
-<li>打开<code>Compile the kernel with debug info</code></li>
-<li>打开<code>Compile the kernel with frame pointers</code></li>
-<li>打开<code>KGDB:kernel debugging with remote gdb</code>，其下的全部都打开。</li>
+<li>选中<code>Compile the kernel with debug info</code></li>
+<li>选中<code>Compile the kernel with frame pointers</code></li>
+<li>选中<code>KGDB:kernel debugging with remote gdb</code></li>
 </ul>
 </li>
 <li><code>Processor type and features</code><ul>
-<li>关闭<code>Paravirtualized guest support</code></li>
+<li>取消<code>Paravirtualized guest support</code></li>
 </ul>
 </li>
 <li><code>KernelHacking</code><ul>
-<li>关闭<code>Write protect kernel read-only data structures</code>（否则不能用软件断点）</li>
+<li>取消<code>Write protect kernel read-only data structures</code></li>
 </ul>
 </li>
 </ul>
