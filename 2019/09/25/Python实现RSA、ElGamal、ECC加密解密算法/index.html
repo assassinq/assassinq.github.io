@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Python实现RSA、ElGamal、ECC加密解密算法 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="cryptopython">
+  
+  
+  
+  
+  <meta name="description" content="最常见的三种公钥密码的 Python 实现。">
+<meta name="keywords" content="crypto,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python实现RSA、ElGamal、ECC加密解密算法">
+<meta property="og:url" content="https://qianfei11.github.io/2019/09/25/Python实现RSA、ElGamal、ECC加密解密算法/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="最常见的三种公钥密码的 Python 实现。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-10-09T02:28:19.996Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python实现RSA、ElGamal、ECC加密解密算法">
+<meta name="twitter:description" content="最常见的三种公钥密码的 Python 实现。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css">
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Python实现RSA、ElGamal、ECC加密解密算法" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Python实现RSA、ElGamal、ECC加密解密算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/09/25/Python实现RSA、ElGamal、ECC加密解密算法/" class="article-date">
+	  <time datetime="2019-09-25T01:12:10.000Z" itemprop="datePublished">September 25, 2019</time>
+	</a>
+
+       
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最常见的三种公钥密码的 Python 实现。</p>
+<a id="more"></a>
+<h1 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a><a href="https://baike.baidu.com/item/RSA%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">RSA</a></h1><p>RSA 加密算法是一种非对称加密算法。在公开密钥加密和电子商业中 RSA 被广泛使用。RSA 是 1977 年由罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）一起提出的。当时他们三人都在麻省理工学院工作。RSA 就是他们三人姓氏开头字母拼在一起组成的。</p>
+<p>RSA 的安全性依赖于大数分解，但是否等同于大数分解一直未能得到理论上的证明，因为没有证明破解 RSA 就一定需要作大数分解。假设存在一种无须分解大数的算法，那它肯定可以修改成为大数分解算法。 RSA 的一些变种算法已被证明等价于大数分解。不管怎样，分解 n 是最显然的攻击方法。人们已能分解多个十进制位的大素数。因此，模数 n 必须选大一些，因具体适用情况而定。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#-*- encoding=utf-8 -*-</span></span><br><span class="line"><span class="comment"># === Author: assassinq</span></span><br><span class="line"><span class="comment"># === Date: 2019-09-21</span></span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成大素数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_prime</span><span class="params">(rs)</span>:</span></span><br><span class="line">    p = gmpy2.mpz_urandomb(rs, <span class="number">1024</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> gmpy2.is_prime(p):</span><br><span class="line">        p = p + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> p</span><br><span class="line"></span><br><span class="line"><span class="comment"># 产生密钥</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">keygen</span><span class="params">()</span>:</span></span><br><span class="line">    rs = gmpy2.random_state(int(time.time()))</span><br><span class="line">    p = get_prime(rs)</span><br><span class="line">    q = get_prime(rs)</span><br><span class="line">    n = p * q</span><br><span class="line">    e = <span class="number">0x10001</span></span><br><span class="line">    pk = [n, e]</span><br><span class="line">    d = gmpy2.invert(e, (p - <span class="number">1</span>) * (q - <span class="number">1</span>))</span><br><span class="line">    sk = d</span><br><span class="line">    <span class="keyword">return</span> pk, sk</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(m, pk)</span>:</span></span><br><span class="line">    n = pk[<span class="number">0</span>]</span><br><span class="line">    e = pk[<span class="number">1</span>]</span><br><span class="line">    m = libnum.s2n(m)</span><br><span class="line">    <span class="keyword">return</span> gmpy2.powmod(m, e, n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(c, pk, sk)</span>:</span></span><br><span class="line">    n = pk[<span class="number">0</span>]</span><br><span class="line">    d = sk</span><br><span class="line">    m = gmpy2.powmod(c, d, n)</span><br><span class="line">    <span class="keyword">return</span> libnum.n2s(m)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    pk, sk = keygen()</span><br><span class="line">    m = raw_input(<span class="string">'Please input your message:'</span>)</span><br><span class="line">    c = encrypt(m, pk)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'This is ciphertext:'</span>, c</span><br><span class="line">    res = decrypt(c, pk, sk)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'This is plaintext:'</span>, res</span><br></pre></td></tr></table></figure>
+<h1 id="ElGamal"><a href="#ElGamal" class="headerlink" title="ElGamal"></a><a href="https://baike.baidu.com/item/Elgamal" target="_blank" rel="noopener">ElGamal</a></h1><p>在密码学中，ElGamal 加密算法是一个基于迪菲-赫尔曼密钥交换的非对称加密算法。它在 1985 年由塔希尔·盖莫尔提出。GnuPG 和 PGP 等很多密码学系统中都应用到了 ElGamal 算法。<br>ElGamal 加密算法可以定义在任何循环群 G 上。它的安全性取决于循环群 G 上的离散对数难题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#-*- encoding=utf-8 -*-</span></span><br><span class="line"><span class="comment"># === Author: assassinq</span></span><br><span class="line"><span class="comment"># === Date: 2019-09-25</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成大素数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_prime</span><span class="params">(rs)</span>:</span></span><br><span class="line">    p = gmpy2.mpz_urandomb(rs, <span class="number">1024</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> gmpy2.is_prime(p):</span><br><span class="line">        p = p + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> p</span><br><span class="line"></span><br><span class="line"><span class="comment"># 产生密钥</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">keygen</span><span class="params">()</span>:</span></span><br><span class="line">    rs = gmpy2.random_state(int(time.time()))</span><br><span class="line">    p = get_prime(rs)</span><br><span class="line">    g = random.randrange(<span class="number">0</span>, p)</span><br><span class="line">    x = random.randrange(<span class="number">2</span>, p - <span class="number">1</span>)</span><br><span class="line">    y = gmpy2.powmod(g, x, p)</span><br><span class="line">    pk = [y, g, p]</span><br><span class="line">    sk = x</span><br><span class="line">    <span class="keyword">return</span> pk, sk</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span><span class="params">(plain, pk)</span>:</span></span><br><span class="line">    y = pk[<span class="number">0</span>]</span><br><span class="line">    g = pk[<span class="number">1</span>]</span><br><span class="line">    p = pk[<span class="number">2</span>]</span><br><span class="line">    r = random.randrange(<span class="number">2</span>, p - <span class="number">1</span>)</span><br><span class="line">    c = gmpy2.powmod(g, r, p)</span><br><span class="line">    y_r = gmpy2.powmod(y, r, p)</span><br><span class="line">    m = libnum.s2n(plain)</span><br><span class="line">    cdot = gmpy2.mul(y_r, m) % p</span><br><span class="line">    cipher = [c, cdot]</span><br><span class="line">    <span class="keyword">return</span> cipher</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解密函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span><span class="params">(cipher, pk, sk)</span>:</span></span><br><span class="line">    y = pk[<span class="number">0</span>]</span><br><span class="line">    g = pk[<span class="number">1</span>]</span><br><span class="line">    p = pk[<span class="number">2</span>]</span><br><span class="line">    x = sk</span><br><span class="line">    c = cipher[<span class="number">0</span>]</span><br><span class="line">    cdot = cipher[<span class="number">1</span>]</span><br><span class="line">    c_x = gmpy2.powmod(c, x, p)</span><br><span class="line">    c_x_ = gmpy2.invert(c_x, p)</span><br><span class="line">    m = gmpy2.mul(cdot, c_x_) % p</span><br><span class="line">    plaintext = libnum.n2s(m)</span><br><span class="line">    <span class="keyword">return</span> plaintext</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    pk, sk = keygen()</span><br><span class="line">    m = raw_input(<span class="string">'Please input your message: '</span>)</span><br><span class="line">    ciphertext = encode(m, pk)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'This is ciphertext:'</span>, ciphertext</span><br><span class="line">    plaintext = decode(ciphertext, pk, sk)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'This is plaintext:'</span>, plaintext</span><br></pre></td></tr></table></figure>
+<h1 id="ECC"><a href="#ECC" class="headerlink" title="ECC"></a><a href="https://baike.baidu.com/item/%E6%A4%AD%E5%9C%86%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">ECC</a></h1><p>椭圆曲线密码学（英语：Elliptic curve cryptography，缩写为 ECC），一种建立公开密钥加密的演算法，基于椭圆曲线数学。椭圆曲线在密码学中的使用是在 1985 年由 Neal Koblitz 和 Victor Miller 分别独立提出的。</p>
+<p>ECC 的主要优势是在某些情况下它比其他的方法使用更小的密钥——比如 RSA 加密算法——提供相当的或更高等级的安全。ECC 的另一个优势是可以定义群之间的双线性映射，基于 Weil 对或是 Tate 对；双线性映射已经在密码学中发现了大量的应用，例如基于身份的加密。不过一个缺点是加密和解密操作的实现比其他机制花费的时间长。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#-*- encoding=utf-8 -*-</span></span><br><span class="line"><span class="comment"># === Author: assassinq</span></span><br><span class="line"><span class="comment"># === Date: 2019-9-30</span></span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_param</span><span class="params">(x0, a, b, p)</span>:</span></span><br><span class="line">    y0 = <span class="number">-1</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; p:</span><br><span class="line">        <span class="comment">#print i, p</span></span><br><span class="line">        <span class="keyword">if</span> i ** <span class="number">2</span> % p == (x0 ** <span class="number">3</span> + a * x0 + b) % p:</span><br><span class="line">            y0 = i</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> y0 == <span class="number">-1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    x1 = x0</span><br><span class="line">    y1 = (-y0) % p</span><br><span class="line">    <span class="keyword">return</span> x0, y0, x1, y1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_x_y</span><span class="params">(E)</span>:</span></span><br><span class="line">    a = E[<span class="number">0</span>]</span><br><span class="line">    b = E[<span class="number">1</span>]</span><br><span class="line">    p = E[<span class="number">2</span>]</span><br><span class="line">    x_y = []</span><br><span class="line">    idx = <span class="number">0</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; p:</span><br><span class="line">        <span class="comment">#print i, p</span></span><br><span class="line">        val = get_param(i, a, b, p)</span><br><span class="line">        <span class="keyword">if</span> val != <span class="keyword">False</span>:</span><br><span class="line">            x0, y0, x1, y1 = val</span><br><span class="line">            x_y.append((x0, y0))</span><br><span class="line">            idx += <span class="number">1</span></span><br><span class="line">            x_y.append((x1, y1))</span><br><span class="line">            idx += <span class="number">1</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> x_y</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ecc_add</span><span class="params">(G1, G2, E)</span>:</span></span><br><span class="line">    a = E[<span class="number">0</span>]</span><br><span class="line">    p = E[<span class="number">2</span>]</span><br><span class="line">    x1 = G1[<span class="number">0</span>]</span><br><span class="line">    y1 = G1[<span class="number">1</span>]</span><br><span class="line">    x2 = G2[<span class="number">0</span>]</span><br><span class="line">    y2 = G2[<span class="number">1</span>]</span><br><span class="line">    sign = <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">if</span> x1 == x2 <span class="keyword">and</span> y1 == y2:</span><br><span class="line">        numerator = <span class="number">3</span> * (x1 ** <span class="number">2</span>) + a</span><br><span class="line">        denominator = <span class="number">2</span> * y1</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        numerator = y2 - y1</span><br><span class="line">        denominator = x2 - x1</span><br><span class="line">        <span class="keyword">if</span> numerator * denominator &lt; <span class="number">0</span>:</span><br><span class="line">            sign = <span class="keyword">False</span></span><br><span class="line">            numerator = abs(numerator)</span><br><span class="line">            denominator = abs(denominator)</span><br><span class="line">    divisor = gmpy2.gcd(numerator, denominator)</span><br><span class="line">    numerator /= divisor</span><br><span class="line">    denominator /= divisor</span><br><span class="line">    inverse_d = gmpy2.invert(denominator, p)</span><br><span class="line">    lmd = numerator * inverse_d</span><br><span class="line">    <span class="keyword">if</span> sign == <span class="keyword">False</span>:</span><br><span class="line">        lmd = -lmd</span><br><span class="line">    lmd = lmd % p</span><br><span class="line">    x3 = (lmd ** <span class="number">2</span> - x1 - x2) % p</span><br><span class="line">    y3 = (lmd * (x1 - x3) - y1) % p</span><br><span class="line">    <span class="keyword">return</span> (x3, y3)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_rank</span><span class="params">(G, E)</span>:</span></span><br><span class="line">    p = E[<span class="number">2</span>]</span><br><span class="line">    x0 = G[<span class="number">0</span>]</span><br><span class="line">    y0 = G[<span class="number">1</span>]</span><br><span class="line">    x1 = x0</span><br><span class="line">    y1 = (-y0) % p</span><br><span class="line">    tx = x0</span><br><span class="line">    ty = y0</span><br><span class="line">    n = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        n += <span class="number">1</span></span><br><span class="line">        (px, py) = ecc_add((tx, ty), (x0, y0), E)</span><br><span class="line">        <span class="keyword">if</span> px == x1 <span class="keyword">and</span> py == y1:</span><br><span class="line">            <span class="keyword">return</span> n + <span class="number">1</span></span><br><span class="line">        tx = px</span><br><span class="line">        ty = py</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ecc_mul</span><span class="params">(k, G, E, n)</span>:</span></span><br><span class="line">    k = k % n</span><br><span class="line">    x1 = G[<span class="number">0</span>]</span><br><span class="line">    y1 = G[<span class="number">1</span>]</span><br><span class="line">    rx = x1</span><br><span class="line">    ry = y1</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; k - <span class="number">1</span>:</span><br><span class="line">        rx, ry = ecc_add((rx, ry), (x1, y1), E)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> (rx, ry)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">keygen</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">13</span></span><br><span class="line">    b = <span class="number">22</span></span><br><span class="line">    p = <span class="number">23</span></span><br><span class="line">    <span class="comment">#a = 0</span></span><br><span class="line">    <span class="comment">#b = 7</span></span><br><span class="line">    <span class="comment">#p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">4</span> * (a ** <span class="number">3</span>) + <span class="number">27</span> * (b ** <span class="number">2</span>)) % p == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'[!] This is not a oval!'</span></span><br><span class="line">        exit()</span><br><span class="line">    E = (a, b, p)</span><br><span class="line">    x_y = get_x_y(E)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(x_y)):</span><br><span class="line">        <span class="keyword">print</span> str(i) + <span class="string">': '</span> + str(x_y[i])</span><br><span class="line">    G = x_y[<span class="number">4</span>]</span><br><span class="line">    <span class="comment">#G = (0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798, 0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8)</span></span><br><span class="line">    n = get_rank(G, E)</span><br><span class="line">    <span class="comment">#n = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141</span></span><br><span class="line">    n_B = random.randrange(<span class="number">0</span>, n)</span><br><span class="line">    P_B = ecc_mul(n_B, G, E, n)</span><br><span class="line">    pk = [E, n, G, P_B]</span><br><span class="line">    sk = n_B</span><br><span class="line">    <span class="keyword">return</span> pk, sk</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span><span class="params">(plaintext, pk)</span>:</span></span><br><span class="line">    E = pk[<span class="number">0</span>]</span><br><span class="line">    n = pk[<span class="number">1</span>]</span><br><span class="line">    G = pk[<span class="number">2</span>]</span><br><span class="line">    P_B = pk[<span class="number">3</span>]</span><br><span class="line">    m = libnum.s2n(plaintext)</span><br><span class="line">    k = random.randrange(<span class="number">1</span>, n)</span><br><span class="line">    P1 = ecc_mul(k, G, E, n)</span><br><span class="line">    P2 = ecc_mul(k, P_B, E, n)</span><br><span class="line">    x_y = get_x_y(E)</span><br><span class="line">    Pt = x_y[random.randrange(<span class="number">0</span>, len(x_y) - <span class="number">1</span>)]</span><br><span class="line">    p = E[<span class="number">2</span>]</span><br><span class="line">    C = (m * Pt[<span class="number">0</span>] + Pt[<span class="number">1</span>]) % p</span><br><span class="line">    ciphertext = [P1, ecc_add(Pt, P2, E), C]</span><br><span class="line">    <span class="keyword">return</span> ciphertext</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span><span class="params">(ciphertext, pk, sk)</span>:</span></span><br><span class="line">    E = pk[<span class="number">0</span>]</span><br><span class="line">    n = pk[<span class="number">1</span>]</span><br><span class="line">    G = pk[<span class="number">2</span>]</span><br><span class="line">    P_B = pk[<span class="number">3</span>]</span><br><span class="line">    n_B = sk</span><br><span class="line">    P1 = ciphertext[<span class="number">0</span>]</span><br><span class="line">    Pt_kP_B = ciphertext[<span class="number">1</span>]</span><br><span class="line">    C = ciphertext[<span class="number">2</span>]</span><br><span class="line">    n_B_kG = ecc_mul(n_B, P1, E, n)</span><br><span class="line">    p = E[<span class="number">2</span>]</span><br><span class="line">    n_B_kG_ = (n_B_kG[<span class="number">0</span>], (-n_B_kG[<span class="number">1</span>]) % p)</span><br><span class="line">    Pt = ecc_add(Pt_kP_B, n_B_kG_, E)</span><br><span class="line">    xt = Pt[<span class="number">0</span>]</span><br><span class="line">    yt = Pt[<span class="number">1</span>]</span><br><span class="line">    xt_ = gmpy2.invert(xt, p)</span><br><span class="line">    c_yt = gmpy2.sub(C, yt) % p</span><br><span class="line">    m = gmpy2.mul(c_yt, xt_) % p</span><br><span class="line">    plaintext = libnum.n2s(m)</span><br><span class="line">    <span class="keyword">return</span> plaintext</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    pk, sk = keygen()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'pk ='</span>, pk</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'sk ='</span>, sk</span><br><span class="line">    m = chr(<span class="number">15</span>)</span><br><span class="line">    <span class="comment">#m = raw_input('Please input your message: ')</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'m ='</span>, libnum.s2n(m)</span><br><span class="line">    c = encode(m, pk)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'ciphertext:'</span>, c</span><br><span class="line">    res = decode(c, pk, sk)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'plaintext:'</span>, ord(res)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/29/何为零知识证明/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          何为零知识证明
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/22/智能合约入门/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">智能合约入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSA"><span class="nav-number">1.</span> <span class="nav-text">RSA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ElGamal"><span class="nav-number">2.</span> <span class="nav-text">ElGamal</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ECC"><span class="nav-number">3.</span> <span class="nav-text">ECC</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script>
+</body>
+</html>
