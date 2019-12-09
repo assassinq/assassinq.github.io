@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-06T03:35:52.931Z">
+<meta property="og:updated_time" content="2019-11-29T08:13:24.574Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用QEMU+gdb对Linux Kernel进行调试">
 <meta name="twitter:description" content="最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。">
@@ -59,9 +59,31 @@
 
 
   
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -139,8 +161,7 @@
 <h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ uname -a</span><br><span class="line">Linux ubuntu 4.4.0-92-generic <span class="comment">#115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">➜  ~ lsb_release -a</span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 16.04.6 LTS</span><br><span class="line">Release:	16.04</span><br><span class="line">Codename:	xenial</span><br></pre></td></tr></table></figure>
 <p>使用<code>Ubuntu 16.04</code>，因为该发行版默认已经开启了内核调试支持：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ cat /boot/config-4.4.0-92-generic | grep <span class="string">"GDB"</span></span><br><span class="line"><span class="comment"># CONFIG_CFG80211_INTERNAL_REGDB is not set</span></span><br><span class="line">CONFIG_SERIAL_KGDB_NMI=y</span><br><span class="line">CONFIG_GDB_SCRIPTS=y</span><br><span class="line">CONFIG_HAVE_ARCH_KGDB=y</span><br><span class="line">CONFIG_KGDB=y</span><br><span class="line">CONFIG_KGDB_SERIAL_CONSOLE=y</span><br><span class="line"><span class="comment"># CONFIG_KGDB_TESTS is not set</span></span><br><span class="line">CONFIG_KGDB_LOW_LEVEL_TRAP=y</span><br><span class="line">CONFIG_KGDB_KDB=y</span><br></pre></td></tr></table></figure>
-<h1 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h1><p>准备工作要先做好…</p>
-<h2 id="Symbolic-Files"><a href="#Symbolic-Files" class="headerlink" title="Symbolic Files"></a>Symbolic Files</h2><p>首先准备调试需要的符号文件。看一下该版本的<code>Codename</code>：</p>
+<h1 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h1><h2 id="Symbolic-Files"><a href="#Symbolic-Files" class="headerlink" title="Symbolic Files"></a>Symbolic Files</h2><p>首先准备调试需要的符号文件。看一下该版本的<code>Codename</code>：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ lsb_release -c</span><br><span class="line">Codename:	xenial</span><br></pre></td></tr></table></figure>
 <p>然后新建文件<code>ddebs.list</code>，其内容如下（看情况修改<code>Codename</code>）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ cat /etc/apt/sources.list.d/ddebs.list</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial      main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial-security main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial-updates  main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
@@ -151,7 +172,7 @@
 <p>可以看到这是一个静态链接的可执行文件，用<code>gdb</code>可以进行调试，像这样：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ gdb -q /usr/lib/debug/boot/vmlinux-4.4.0-92-generic</span><br><span class="line">GEF <span class="keyword">for</span> linux ready, <span class="built_in">type</span> `gef<span class="string">' to start, `gef config'</span> to configure</span><br><span class="line">79 commands loaded <span class="keyword">for</span> GDB 7.11.1 using Python engine 3.5</span><br><span class="line">[*] 1 <span class="built_in">command</span> could not be loaded, run `gef missing` to know why.</span><br><span class="line">Reading symbols from /usr/lib/debug/boot/vmlinux-4.4.0-92-generic...done.</span><br><span class="line">gef➤  p init_uts_ns</span><br><span class="line"><span class="variable">$1</span> = &#123;</span><br><span class="line">  kref = &#123;</span><br><span class="line">    refcount = &#123;</span><br><span class="line">      counter = 0x2</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  name = &#123;</span><br><span class="line">    sysname = <span class="string">"Linux"</span>, <span class="string">'\000'</span> &lt;repeats 59 <span class="built_in">times</span>&gt;,</span><br><span class="line">    nodename = <span class="string">"(none)"</span>, <span class="string">'\000'</span> &lt;repeats 58 <span class="built_in">times</span>&gt;,</span><br><span class="line">    release = <span class="string">"4.4.0-92-generic"</span>, <span class="string">'\000'</span> &lt;repeats 48 <span class="built_in">times</span>&gt;,</span><br><span class="line">    version = <span class="string">"#115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017"</span>, <span class="string">'\000'</span> &lt;repeats 20 <span class="built_in">times</span>&gt;,</span><br><span class="line">    machine = <span class="string">"x86_64"</span>, <span class="string">'\000'</span> &lt;repeats 58 <span class="built_in">times</span>&gt;,</span><br><span class="line">    domainname = <span class="string">"(none)"</span>, <span class="string">'\000'</span> &lt;repeats 58 <span class="built_in">times</span>&gt;</span><br><span class="line">  &#125;,</span><br><span class="line">  user_ns = 0xffffffff81e42a00 &lt;init_user_ns&gt;,</span><br><span class="line">  ns = &#123;</span><br><span class="line">    stashed = &#123;</span><br><span class="line">      counter = 0x0</span><br><span class="line">    &#125;,</span><br><span class="line">    ops = 0xffffffff81a1afe0 &lt;utsns_operations&gt;,</span><br><span class="line">    inum = 0xeffffffe</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Linux-Kernel"><a href="#Linux-Kernel" class="headerlink" title="Linux Kernel"></a>Linux Kernel</h2><p>Linux 内核源代码肯定少不了：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libncurses5-dev build-essential kernel-package</span><br><span class="line"><span class="built_in">cd</span></span><br><span class="line">wget https://mirrors.edge.kernel.org/pub/linux/kernel/<span class="variable">$&#123;VERSION_1&#125;</span>/linux-<span class="variable">$&#123;VERSION_2&#125;</span>.tar.gz</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$KERNEL_SRC</span></span><br><span class="line">make menuconfig</span><br><span class="line">make</span><br><span class="line">make all</span><br><span class="line">make modules</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libncurses5-dev build-essential kernel-package</span><br><span class="line">wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.20.17.tar.gz</span><br><span class="line">tar -xvf linux-4.20.17.tar.gz</span><br><span class="line"><span class="built_in">cd</span> linux-4.20.17</span><br><span class="line">make menuconfig</span><br><span class="line">make</span><br><span class="line">make all</span><br><span class="line">make modules</span><br></pre></td></tr></table></figure>
 <p><code>make menuconfig</code>中需要勾选的：</p>
 <ul>
 <li><code>KernelHacking</code><ul>
@@ -317,6 +338,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

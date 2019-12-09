@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>2017-CSAW-Quals-realism | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfrewp">
+  
+  
+  
+  
+  <meta name="description" content="学习 z3 时复现的一道题，了解了 SSE 指令以及学习了 gdb 和 qemu 之间的调试。">
+<meta name="keywords" content="ctf,re,wp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2017-CSAW-Quals-realism">
+<meta property="og:url" content="https://qianfei11.github.io/2018/08/30/2017-CSAW-Quals-realism/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="学习 z3 时复现的一道题，了解了 SSE 指令以及学习了 gdb 和 qemu 之间的调试。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2017-CSAW-Quals-realism/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/2017-CSAW-Quals-realism/2.png">
+<meta property="og:updated_time" content="2019-11-24T10:39:13.551Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2017-CSAW-Quals-realism">
+<meta name="twitter:description" content="学习 z3 时复现的一道题，了解了 SSE 指令以及学习了 gdb 和 qemu 之间的调试。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/2017-CSAW-Quals-realism/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2017-CSAW-Quals-realism" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      2017-CSAW-Quals-realism
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/30/2017-CSAW-Quals-realism/" class="article-date">
+	  <time datetime="2018-08-30T14:09:36.000Z" itemprop="datePublished">August 30, 2018</time>
+	</a>
+
+       
+      
+
+	  |
+	  1.7k words
+	  |
+	  7 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>学习 z3 时复现的一道题，了解了 SSE 指令以及学习了 gdb 和 qemu 之间的调试。</p>
+<a id="more"></a>
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file main.bin</span><br><span class="line">main.bin: DOS/MBR boot sector</span><br></pre></td></tr></table></figure>
+<p>题目给的是一个 DOS 程序，直接拖进 IDA，以 16 位的模式打开。定位到一处检测字符串前缀的代码，基本可以判断出 1234h 即我们输入的字符串在内存中的地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">seg000:006F                 cmp     dword ptr ds:1234h, &apos;galf&apos;</span><br><span class="line">seg000:0078                 jnz     loc_14D</span><br><span class="line">seg000:007C                 movaps  xmm0, xmmword ptr ds:1238h</span><br><span class="line">seg000:0081                 movaps  xmm5, xmmword ptr ds:7C00h</span><br><span class="line">seg000:0086                 pshufd  xmm0, xmm0, 1Eh</span><br></pre></td></tr></table></figure>
+<p>因为 IDA 不能反编译，所以基本上是直接看汇编，那么需要稍微了解一下 <a href="https://www.jianshu.com/p/64ef4d304e17" target="_blank" rel="noopener">SSE 指令</a>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>MOVAPS</code></td>
+<td style="text-align:center">把源存储器内容值送入目的寄存器。当有 m128 时, 内存地址必须是 16 字节对齐的。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>PSHUFD</code></td>
+<td style="text-align:center">有三个操作数，从左往右，第一个操作数是目的操作数保存结果，第二个操作数是源操作数，第三个操作数是一个 8 位立即数，指定以怎样的顺序将源操作数中数据保存到目的操作数。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ANDPS</code></td>
+<td style="text-align:center">按位与</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>PSADBW</code></td>
+<td style="text-align:center">绝对差值求和</td>
+</tr>
+</tbody>
+</table>
+<p>接下来的汇编部分有一些小复杂，动态调试会比较清晰。先用 qemu 启动程序（-s 参数开启远程调试服务）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-i386 -drive format=raw,file=main.bin -s</span><br></pre></td></tr></table></figure>
+<p>gdb 进行远程连接，并设置指令架构，同时在比较完 flag 前缀后设下断点（DOS 中代码段基地址应该是 7c00）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gdb -ex <span class="string">'target remote localhost:1234'</span> \</span><br><span class="line">    -ex <span class="string">'set architecture i8086'</span> \</span><br><span class="line">    -ex <span class="string">'break *0x7c6f'</span> \</span><br><span class="line">    -ex <span class="string">'continue'</span></span><br></pre></td></tr></table></figure>
+<p>然后在程序中输入字符串，以 flag 为前缀，后面的部分用 a 到 p 来填充：</p>
+<p><img src="/pics/2017-CSAW-Quals-realism/1.png" alt="程序的输入"></p>
+<p>输入完成后我们可以看到 gdb 断了下来，此时可以开始和 IDA 对照着调试。可能是因为指令的结构不一样，所以 gdb 中只有当前指向的指令是基本正确的（有时可能也不正确，还是要看 IDA 的汇编）。同时在每次对 xmm 寄存器操作后，可以使用 p 命令输出并查看寄存器中的值。</p>
+<p><img src="/pics/2017-CSAW-Quals-realism/2.png" alt="IDA 和 gdb 对照着调试"></p>
+<p>首先单步调一下，看看两条 movaps 指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seg000:007C                 movaps  xmm0, xmmword ptr ds:1238h</span><br><span class="line">seg000:0081                 movaps  xmm5, xmmword ptr ds:7C00h</span><br></pre></td></tr></table></figure>
+<p>单步后可以看到 xmm0 中存放了我们输入的字符串中 flag 之后的部分（我是在 mac 下调试的，gdb 中可能有点 bug，寄存器存的值明显偏了 32 位）。接着执行下一条指令，可以看出 xmm5 中存放了内存中另一段的数据，可以打印出来看看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; p $xmm5</span><br><span class="line">$6 = &#123;</span><br><span class="line">  v4_float = &#123;-2.50091934, -1.48039995e-36, 1.93815862e-18, 0&#125;,</span><br><span class="line">  v2_double = &#123;-1.787847107871084e-289, 2.8231360405480285e-315&#125;,</span><br><span class="line">  v16_int8 = &#123;0x10, 0xf, 0x20, 0xc0, 0x83, 0xe0, 0xfb, 0x83, 0xc8, 0x2, 0xf, 0x22, 0x0, 0x0, 0x0, 0x0&#125;,</span><br><span class="line">  v8_int16 = &#123;0xf10, 0xc020, 0xe083, 0x83fb, 0x2c8, 0x220f, 0x0, 0x0&#125;,</span><br><span class="line">  v4_int32 = &#123;0xc0200f10, 0x83fbe083, 0x220f02c8, 0x0&#125;,</span><br><span class="line">  v2_int64 = &#123;0x83fbe083c0200f10, 0x220f02c8&#125;,</span><br><span class="line">  uint128 = 0x220f02c883fbe083c0200f10</span><br><span class="line">&#125;</span><br><span class="line">gef&gt; p $xmm4</span><br><span class="line">$7 = &#123;</span><br><span class="line">  v4_float = &#123;0, 0, 0, -134298496&#125;,</span><br><span class="line">  v2_double = &#123;0, -8.2671312985563202e+62&#125;,</span><br><span class="line">  v16_int8 = &#123;0x0 &lt;repeats 12 times&gt;, 0xb8, 0x13, 0x0, 0xcd&#125;,</span><br><span class="line">  v8_int16 = &#123;0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x13b8, 0xcd00&#125;,</span><br><span class="line">  v4_int32 = &#123;0x0, 0x0, 0x0, 0xcd0013b8&#125;,</span><br><span class="line">  v2_int64 = &#123;0x0, 0xcd0013b800000000&#125;,</span><br><span class="line">  uint128 = 0xcd0013b8000000000000000000000000</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seg000:0086                 pshufd  xmm0, xmm0, 1Eh</span><br><span class="line">seg000:008B                 mov     si, 8</span><br></pre></td></tr></table></figure>
+<p>接下来单步执行 pshufd 这条指令。不关注 pshufd 的具体作用的话，可以在调试中看到，运行过后发现 xmm0 中的值从 0x706f6e6d6c6b6a696867666564636261 变成了 0x6463626168676665706f6e6d6c6b6a69，数据的顺序变化了。然后将 si 置为 8，在后面的调试中可以判断出，si 中存放的为循环次数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seg000:008E                 movaps  xmm2, xmm0</span><br><span class="line">seg000:0091                 andps   xmm2, xmmword ptr [si+7D90h]</span><br></pre></td></tr></table></figure>
+<p>接下来两条指令分别将 xmm0 赋给 xmm2 以及将 xmm2 和内存中的一段数据按位与。看一看到 xmm2 中的值即为变化后的输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; p $xmm2</span><br><span class="line">$2 = &#123;</span><br><span class="line">  v4_float = &#123;2.96401656e+29, 4.37102201e+24, 1.67779994e+22, 0&#125;,</span><br><span class="line">  v2_double = &#123;8.5408834851248547e+194, 8.3212257841951935e-315&#125;,</span><br><span class="line">  v16_int8 = &#123;0x6d, 0x6e, 0x6f, 0x70, 0x65, 0x66, 0x67, 0x68, 0x61, 0x62, 0x63, 0x64, 0x0, 0x0, 0x0, 0x0&#125;,</span><br><span class="line">  v8_int16 = &#123;0x6e6d, 0x706f, 0x6665, 0x6867, 0x6261, 0x6463, 0x0, 0x0&#125;,</span><br><span class="line">  v4_int32 = &#123;0x706f6e6d, 0x68676665, 0x64636261, 0x0&#125;,</span><br><span class="line">  v2_int64 = &#123;0x68676665706f6e6d, 0x64636261&#125;,</span><br><span class="line">  uint128 = 0x6463626168676665706f6e6d</span><br><span class="line">&#125;</span><br><span class="line">gef&gt; p $xmm1</span><br><span class="line">$3 = &#123;</span><br><span class="line">  v4_float = &#123;0, 0, 0, 1.1384003e+27&#125;,</span><br><span class="line">  v2_double = &#123;0, 1.8458895617341177e+214&#125;,</span><br><span class="line">  v16_int8 = &#123;0x0 &lt;repeats 12 times&gt;, 0x69, 0x6a, 0x6b, 0x6c&#125;,</span><br><span class="line">  v8_int16 = &#123;0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x6a69, 0x6c6b&#125;,</span><br><span class="line">  v4_int32 = &#123;0x0, 0x0, 0x0, 0x6c6b6a69&#125;,</span><br><span class="line">  v2_int64 = &#123;0x0, 0x6c6b6a6900000000&#125;,</span><br><span class="line">  uint128 = 0x6c6b6a69000000000000000000000000</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看内存中的数据，可以看到和输入按位与之后，会把对应为 0x00 两个字节给抹掉。并通过下面的分析可以知道总共会有 8 次循环，每次进行按位与的数据是不同的，即每次的数据会左移 4 位：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; x/2gx 0x7D98</span><br><span class="line">0x7d98:	0xffffffffffffff00	0xffffffffffffff00</span><br><span class="line">gef&gt; x/2gx 0x7D97</span><br><span class="line">0x7d97:	0xffffffffffff00ff	0xffffffffffff00ff</span><br><span class="line">gef&gt; x/2gx 0x7D96</span><br><span class="line">0x7d96:	0xffffffffff00ffff	0xffffffffff00ffff</span><br><span class="line">gef&gt; x/2gx 0x7D95</span><br><span class="line">0x7d95:	0xffffffff00ffffff	0xffffffff00ffffff</span><br><span class="line">gef&gt; x/2gx 0x7D94</span><br><span class="line">0x7d94:	0xffffff00ffffffff	0xffffff00ffffffff</span><br><span class="line">gef&gt; x/2gx 0x7D93</span><br><span class="line">0x7d93:	0xffff00ffffffffff	0xffff00ffffffffff</span><br><span class="line">gef&gt; x/2gx 0x7D92</span><br><span class="line">0x7d92:	0xff00ffffffffffff	0xff00ffffffffffff</span><br><span class="line">gef&gt; x/2gx 0x7D91</span><br><span class="line">0x7d91:	0x00ffffffffffffff	0x00ffffffffffffff</span><br></pre></td></tr></table></figure>
+<p>接着看 psadbw 这条指令，这里将 xmm5 和 xmm2 中的数据进行绝对差值求和（每 64 位的数据逐字节相减，将结果相加后存到前一个操作数中）。接着把高低 64 位经过绝对差值求和的结果（每个结果大小为 16 位，高低两个结果共 32 位）保存到 edi 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">seg000:0096                 psadbw  xmm5, xmm2</span><br><span class="line">seg000:009A                 movaps  xmmword ptr ds:1268h, xmm5</span><br><span class="line">seg000:009F                 mov     di, ds:1268h</span><br><span class="line">seg000:00A3                 shl     edi, 10h</span><br><span class="line">seg000:00A7                 mov     di, ds:1270h</span><br></pre></td></tr></table></figure>
+<p>然后将 edi 中的结果和内存里的值比较，如果不相等，会有个大跳转，IDA 里大概判断一下应该是直接跳到失败处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">seg000:00AB                 mov     dx, si</span><br><span class="line">seg000:00AD                 dec     dx</span><br><span class="line">seg000:00AE                 add     dx, dx</span><br><span class="line">seg000:00B0                 add     dx, dx</span><br><span class="line">seg000:00B2                 cmp     edi, [edx+7DA8h]</span><br><span class="line">seg000:00BA                 jnz     loc_14D</span><br><span class="line">seg000:00BE                 dec     si</span><br><span class="line">seg000:00BF                 test    si, si</span><br><span class="line">seg000:00C1                 jnz     short sub_8E</span><br></pre></td></tr></table></figure>
+<p>查看内存中进行比较的值，正好 8 个值，每次都进行一次判断：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; x/8wx 0x7DA8</span><br><span class="line">0x7da8:	0x02110270	0x02290255	0x025e0291	0x01f90233</span><br><span class="line">0x7db8:	0x027b0278	0x02090221	0x0290025d	0x02df028f</span><br></pre></td></tr></table></figure>
+<p>基本上所有的线性关系都有了，接下来交给 z3 就行了。</p>
+<h1 id="Script"><a href="#Script" class="headerlink" title="Script"></a>Script</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">z3_abs</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> If(x &gt;= <span class="number">0</span>, x, -x)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">psadbw</span><span class="params">(xmm0, xmm1)</span>:</span></span><br><span class="line">    a = Sum([z3_abs(b1 - b2) <span class="keyword">for</span> b1, b2 <span class="keyword">in</span> zip(xmm0[:<span class="number">8</span>], xmm1[:<span class="number">8</span>])])</span><br><span class="line">    b = Sum([z3_abs(b1 - b2) <span class="keyword">for</span> b1, b2 <span class="keyword">in</span> zip(xmm0[<span class="number">8</span>:], xmm1[<span class="number">8</span>:])])</span><br><span class="line">    <span class="keyword">return</span> a + b * <span class="number">0x10000</span></span><br><span class="line"></span><br><span class="line">s = Solver()</span><br><span class="line">ZERO = IntVal(<span class="number">0</span>)</span><br><span class="line">xmm5 = <span class="string">'220f02c883fbe083c0200f10cd0013b8'</span>.decode(<span class="string">'hex'</span>)</span><br><span class="line">xmm5 = [ord(c) <span class="keyword">for</span> c <span class="keyword">in</span> xmm5]</span><br><span class="line">xmm5s = [xmm5]</span><br><span class="line"></span><br><span class="line">xmm0 = [Int(<span class="string">'x%d'</span> % i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>)]</span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> xmm0:</span><br><span class="line">    s.add(c &gt;= <span class="number">32</span>, c &lt;= <span class="number">126</span>)</span><br><span class="line"></span><br><span class="line">check = [<span class="number">0x02df028f</span>, <span class="number">0x0290025d</span>, <span class="number">0x02090221</span>, <span class="number">0x027b0278</span>, <span class="number">0x01f90233</span>, <span class="number">0x025e0291</span>, <span class="number">0x02290255</span>, <span class="number">0x02110270</span>]</span><br><span class="line">xmm5s += map(<span class="keyword">lambda</span> e: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, (e &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>, e &amp; <span class="number">0xFF</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, e &gt;&gt; <span class="number">24</span>, (e &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>], check)</span><br><span class="line"><span class="keyword">print</span> xmm5s</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>):</span><br><span class="line">    xmm5 = xmm5s[i]</span><br><span class="line">    xmm2 = list(xmm0)</span><br><span class="line">    xmm2[<span class="number">7</span> - i] = ZERO</span><br><span class="line">    xmm2[<span class="number">15</span> - i] = ZERO</span><br><span class="line">    res = psadbw(xmm5, xmm2)</span><br><span class="line">    s.add(res == check[i])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> s.check() == sat:</span><br><span class="line">    <span class="keyword">print</span> s.model()</span><br><span class="line">    flag = <span class="string">''</span>.join(chr(eval(str(s.model()[c]))) <span class="keyword">for</span> c <span class="keyword">in</span> xmm0)</span><br><span class="line">    <span class="comment"># pshufd xmm0, xmm0, 1Eh</span></span><br><span class="line">    flag = <span class="string">'flag'</span> + flag[:<span class="number">4</span>][::<span class="number">-1</span>] + flag[<span class="number">4</span>:<span class="number">8</span>][::<span class="number">-1</span>] + flag[<span class="number">12</span>:][::<span class="number">-1</span>] + flag[<span class="number">8</span>:<span class="number">12</span>][::<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">print</span> flag</span><br><span class="line">    <span class="comment"># flag&#123;4r3alz_m0d3_y0&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://fortenf.org/e/ctfs/re/2017/09/18/csaw17-realism.html" target="_blank" rel="noopener">https://fortenf.org/e/ctfs/re/2017/09/18/csaw17-realism.html</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/31/2018-安恒杯八月月赛/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2018-安恒杯八月月赛
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/22/2018-XMan结营赛/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018-XMan结营赛</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Analysis"><span class="nav-number">1.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Script"><span class="nav-number">2.</span> <span class="nav-text">Script</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

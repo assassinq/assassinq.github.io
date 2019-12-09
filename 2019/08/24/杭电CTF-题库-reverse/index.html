@@ -6,13 +6,13 @@
   <title>杭电CTF-题库-reverse | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="ctfwpre">
+  <meta name="keywords" content="ctfrewp">
   
   
   
   
   <meta name="description" content="在杭电的平台上做了几道题。">
-<meta name="keywords" content="ctf,wp,re">
+<meta name="keywords" content="ctf,re,wp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="杭电CTF-题库-reverse">
 <meta property="og:url" content="https://qianfei11.github.io/2019/08/24/杭电CTF-题库-reverse/index.html">
@@ -64,9 +64,31 @@
 
 
   
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -238,9 +260,9 @@
     </a>
   
   
-    <a href="/2019/08/20/从零开始认识跨站请求伪造（Cross-site-Request-Forgery）/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">从零开始认识跨站请求伪造（Cross-site Request Forgery）</div>
+      <div class="article-nav-title">Python实现TEA、XTEA、XXTEA加密解密算法</div>
     </a>
   
 </nav>
@@ -301,6 +323,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

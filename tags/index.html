@@ -56,9 +56,31 @@
 
 
   
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
 
 
-<!-- hexo-inject:begin --><!-- hexo-inject:end --><header id="allheader" class="site-header" role="banner">
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
   <div class="clearfix container">
       <div class="site-branding">
 
@@ -107,7 +129,7 @@
         <div class="archives-tags-wrap">
             
                 <blockquote>
-                <a href="/tags/blockchain/" style="font-size: 15.75px;">blockchain</a> <a href="/tags/c/" style="font-size: 14px;">c</a> <a href="/tags/crypto/" style="font-size: 14px;">crypto</a> <a href="/tags/ctf/" style="font-size: 28px;">ctf</a> <a href="/tags/cve/" style="font-size: 14px;">cve</a> <a href="/tags/github/" style="font-size: 15.75px;">github</a> <a href="/tags/hexo/" style="font-size: 15.75px;">hexo</a> <a href="/tags/kali/" style="font-size: 14px;">kali</a> <a href="/tags/linux/" style="font-size: 19.25px;">linux</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/note/" style="font-size: 15.75px;">note</a> <a href="/tags/pwn/" style="font-size: 24.5px;">pwn</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/re/" style="font-size: 22.75px;">re</a> <a href="/tags/repost/" style="font-size: 15.75px;">repost</a> <a href="/tags/sol/" style="font-size: 14px;">sol</a> <a href="/tags/solution/" style="font-size: 17.5px;">solution</a> <a href="/tags/translation/" style="font-size: 15.75px;">translation</a> <a href="/tags/web/" style="font-size: 21px;">web</a> <a href="/tags/windows/" style="font-size: 14px;">windows</a> <a href="/tags/wp/" style="font-size: 26.25px;">wp</a>
+                <a href="/tags/blockchain/" style="font-size: 15.56px;">blockchain</a> <a href="/tags/c/" style="font-size: 15.56px;">c</a> <a href="/tags/crypto/" style="font-size: 18.67px;">crypto</a> <a href="/tags/ctf/" style="font-size: 28px;">ctf</a> <a href="/tags/cve/" style="font-size: 14px;">cve</a> <a href="/tags/github/" style="font-size: 15.56px;">github</a> <a href="/tags/hexo/" style="font-size: 15.56px;">hexo</a> <a href="/tags/kali/" style="font-size: 14px;">kali</a> <a href="/tags/linux/" style="font-size: 20.22px;">linux</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/note/" style="font-size: 15.56px;">note</a> <a href="/tags/pwn/" style="font-size: 24.89px;">pwn</a> <a href="/tags/python/" style="font-size: 17.11px;">python</a> <a href="/tags/re/" style="font-size: 23.33px;">re</a> <a href="/tags/repost/" style="font-size: 15.56px;">repost</a> <a href="/tags/sol/" style="font-size: 14px;">sol</a> <a href="/tags/solution/" style="font-size: 18.67px;">solution</a> <a href="/tags/translation/" style="font-size: 15.56px;">translation</a> <a href="/tags/web/" style="font-size: 21.78px;">web</a> <a href="/tags/windows/" style="font-size: 14px;">windows</a> <a href="/tags/wp/" style="font-size: 26.44px;">wp</a>
                 </blockquote>
             
         </div>
@@ -116,9 +138,11 @@
         <!-- 
         <div id='tag_cloud' class="tags">
             
-                <a href="#ctf" title="ctf" rel="38">ctf</a>
+                <a href="#ctf" title="ctf" rel="39">ctf</a>
             
-                <a href="#wp" title="wp" rel="21">wp</a>
+                <a href="#re" title="re" rel="13">re</a>
+            
+                <a href="#wp" title="wp" rel="22">wp</a>
             
                 <a href="#pwn" title="pwn" rel="14">pwn</a>
             
@@ -126,7 +150,9 @@
             
                 <a href="#web" title="web" rel="9">web</a>
             
-                <a href="#re" title="re" rel="12">re</a>
+                <a href="#c" title="c" rel="2">c</a>
+            
+                <a href="#crypto" title="crypto" rel="4">crypto</a>
             
                 <a href="#hexo" title="hexo" rel="2">hexo</a>
             
@@ -138,13 +164,9 @@
             
                 <a href="#kali" title="kali" rel="1">kali</a>
             
-                <a href="#python" title="python" rel="1">python</a>
+                <a href="#python" title="python" rel="3">python</a>
             
-                <a href="#crypto" title="crypto" rel="1">crypto</a>
-            
-                <a href="#linux" title="linux" rel="5">linux</a>
-            
-                <a href="#c" title="c" rel="1">c</a>
+                <a href="#linux" title="linux" rel="6">linux</a>
             
                 <a href="#windows" title="windows" rel="1">windows</a>
             
@@ -152,9 +174,9 @@
             
                 <a href="#repost" title="repost" rel="2">repost</a>
             
-                <a href="#blockchain" title="blockchain" rel="2">blockchain</a>
-            
                 <a href="#solution" title="solution" rel="4">solution</a>
+            
+                <a href="#blockchain" title="blockchain" rel="2">blockchain</a>
             
                 <a href="#sol" title="sol" rel="1">sol</a>
             
@@ -221,6 +243,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2019/09/03/C语言实现RC2、RC5、RC6加密解密算法/" class="archive-article-date">
+		  <time datetime="2019-09-03T05:38:28.000Z" itemprop="datePublished">Sep 03, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/09/03/C语言实现RC2、RC5、RC6加密解密算法/">C语言实现RC2、RC5、RC6加密解密算法</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2018/06/19/Unix-Linux下实现Windows中conio-h头文件部分函数/" class="archive-article-date">
 		  <time datetime="2018-06-19T13:38:18.000Z" itemprop="datePublished">Jun 19, 2018</time>
 	  </a>
@@ -249,6 +290,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2019/11/14/Python实现DES、AES加密解密算法/" class="archive-article-date">
+		  <time datetime="2019-11-14T02:09:38.000Z" itemprop="datePublished">Nov 14, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/11/14/Python实现DES、AES加密解密算法/">Python实现DES、AES加密解密算法</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2019/10/24/Python实现Paillier加密解密算法/" class="archive-article-date">
 		  <time datetime="2019-10-24T03:49:26.000Z" itemprop="datePublished">Oct 24, 2019</time>
 	  </a>
@@ -256,6 +316,44 @@
   
     <h1 class="thumb" itemprop="name">
       <a class="archive-article-title" href="/2019/10/24/Python实现Paillier加密解密算法/">Python实现Paillier加密解密算法</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2019/09/03/C语言实现RC2、RC5、RC6加密解密算法/" class="archive-article-date">
+		  <time datetime="2019-09-03T05:38:28.000Z" itemprop="datePublished">Sep 03, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/09/03/C语言实现RC2、RC5、RC6加密解密算法/">C语言实现RC2、RC5、RC6加密解密算法</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/" class="archive-article-date">
+		  <time datetime="2019-08-22T09:00:10.000Z" itemprop="datePublished">Aug 22, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/">Python实现TEA、XTEA、XXTEA加密解密算法</a>
     </h1>
   
 
@@ -733,6 +831,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2018/08/30/2017-CSAW-Quals-realism/" class="archive-article-date">
+		  <time datetime="2018-08-30T14:09:36.000Z" itemprop="datePublished">Aug 30, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/08/30/2017-CSAW-Quals-realism/">2017-CSAW-Quals-realism</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2018/08/22/2018-XMan结营赛/" class="archive-article-date">
 		  <time datetime="2018-08-22T09:39:54.000Z" itemprop="datePublished">Aug 22, 2018</time>
 	  </a>
@@ -1153,6 +1270,25 @@
                 <h1 class="archive-tag">linux</h1>
             </div>
             <div class="archives">
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2019/11/27/如何给Linux添加系统调用/" class="archive-article-date">
+		  <time datetime="2019-11-27T05:50:19.000Z" itemprop="datePublished">Nov 27, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/11/27/如何给Linux添加系统调用/">如何给Linux添加系统调用</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
                 
                     <article class="archive-article archive-type-post">
   <div class="archive-article-inner">
@@ -1612,6 +1748,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2019/11/14/Python实现DES、AES加密解密算法/" class="archive-article-date">
+		  <time datetime="2019-11-14T02:09:38.000Z" itemprop="datePublished">Nov 14, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/11/14/Python实现DES、AES加密解密算法/">Python实现DES、AES加密解密算法</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2019/10/24/Python实现Paillier加密解密算法/" class="archive-article-date">
 		  <time datetime="2019-10-24T03:49:26.000Z" itemprop="datePublished">Oct 24, 2019</time>
 	  </a>
@@ -1619,6 +1774,25 @@
   
     <h1 class="thumb" itemprop="name">
       <a class="archive-article-title" href="/2019/10/24/Python实现Paillier加密解密算法/">Python实现Paillier加密解密算法</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/" class="archive-article-date">
+		  <time datetime="2019-08-22T09:00:10.000Z" itemprop="datePublished">Aug 22, 2019</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/">Python实现TEA、XTEA、XXTEA加密解密算法</a>
     </h1>
   
 
@@ -1837,6 +2011,25 @@
   
     <h1 class="thumb" itemprop="name">
       <a class="archive-article-title" href="/2018/11/06/合天网安实验室-逆向部分/">合天网安实验室-逆向部分</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
+      <a href="/2018/08/30/2017-CSAW-Quals-realism/" class="archive-article-date">
+		  <time datetime="2018-08-30T14:09:36.000Z" itemprop="datePublished">Aug 30, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/08/30/2017-CSAW-Quals-realism/">2017-CSAW-Quals-realism</a>
     </h1>
   
 
@@ -2596,6 +2789,25 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
 
+      <a href="/2018/08/30/2017-CSAW-Quals-realism/" class="archive-article-date">
+		  <time datetime="2018-08-30T14:09:36.000Z" itemprop="datePublished">Aug 30, 2018</time>
+	  </a>
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2018/08/30/2017-CSAW-Quals-realism/">2017-CSAW-Quals-realism</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+                    
+                
+                    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+
       <a href="/2018/08/22/2018-XMan结营赛/" class="archive-article-date">
 		  <time datetime="2018-08-22T09:39:54.000Z" itemprop="datePublished">Aug 22, 2018</time>
 	  </a>
@@ -2749,19 +2961,19 @@
    			<li><a href="https://github.com/qianfei11" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li> 
 
    		
-   			<li><a href="https://weibo.com/2431405175/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo" title="Weibo"><i class="fa fa-weibo" aria-hidden="true"></i></a></li> 
+   			<li><a href="/" title="Weibo"><i class="fa fa-weibo" aria-hidden="true"></i></a></li> 
 
    		
    			<li><a href="https://twitter.com/assassinq_" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> 
 
    		
-   			<li><a href="https://www.facebook.com/assassinquite" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li> 
+   			<li><a href="/" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li> 
 
    		
    			<li><a href="/" title="Google-plus"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li> 
 
    		
-   			<li><a href="https://www.instagram.com/assassinq_" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li> 
+   			<li><a href="/" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li> 
 
    		
    		</ul>
@@ -2799,7 +3011,7 @@
         
           <li class="link"><a href="https://esebanana.github.io">ESE</a></li>
         
-          <li class="link"><a href="https://betamaoIS.github.io">Betamao</a></li>
+          <li class="link"><a href="https://blog.betamao.me/">Betamao</a></li>
         
           <li class="link"><a href="https://err0rzz.github.io">Err0r</a></li>
         
@@ -2819,6 +3031,30 @@
     </ul>
     <div class="widget">
       <ul>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
+              <h6 style="margin: 0;"><a href="/2019/11/27/如何给Linux添加系统调用/">如何给Linux添加系统调用</a></h6>
+              <span>November 27, 2019</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
+              <h6 style="margin: 0;"><a href="/2019/11/14/Python实现DES、AES加密解密算法/">Python实现DES、AES加密解密算法</a></h6>
+              <span>November 14, 2019</span>
+            </div>
+
+          </li>
         
           <li class="clearfix">
 
@@ -2868,30 +3104,6 @@
 
           </li>
         
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/09/01/如何使用IDA创建结构体/">如何使用IDA创建结构体</a></h6>
-              <span>September 1, 2019</span>
-            </div>
-
-          </li>
-        
-          <li class="clearfix">
-
-            
-              <div class="widget-entry-summary" style="margin: 0;">
-            
-
-              <h6 style="margin: 0;"><a href="/2019/08/24/杭电CTF-题库-reverse/">杭电CTF-题库-reverse</a></h6>
-              <span>August 24, 2019</span>
-            </div>
-
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -2901,7 +3113,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blockchain/">blockchain</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cve/">cve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kali/">kali</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sol/">sol</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">21</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blockchain/">blockchain</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/">crypto</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">39</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cve/">cve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kali/">kali</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/re/">re</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/repost/">repost</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sol/">sol</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solution/">solution</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/translation/">translation</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wp/">wp</a><span class="tag-list-count">22</span></li></ul>
     </div>
   </div>
 
@@ -2912,7 +3124,7 @@
     <h3 class="widget-title">Archives</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2000/01/">January 2000</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2000/01/">January 2000</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -2960,6 +3172,9 @@
 
 
     <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
     
     
 </script>

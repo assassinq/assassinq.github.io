@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Python实现DES、AES加密解密算法 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="cryptopython">
+  
+  
+  
+  
+  <meta name="description" content="Enter Password and Continue Reading...">
+<meta name="keywords" content="crypto,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python实现DES、AES加密解密算法">
+<meta property="og:url" content="https://qianfei11.github.io/2019/11/14/Python实现DES、AES加密解密算法/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Enter Password and Continue Reading...">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-09T10:05:35.862Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python实现DES、AES加密解密算法">
+<meta name="twitter:description" content="Enter Password and Continue Reading...">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Python实现DES、AES加密解密算法" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Python实现DES、AES加密解密算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/11/14/Python实现DES、AES加密解密算法/" class="article-date">
+	  <time datetime="2019-11-14T02:09:38.000Z" itemprop="datePublished">November 14, 2019</time>
+	</a>
+
+       
+      
+
+	  |
+	  6 words
+	  |
+	  1 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="Enter Password and Continue Reading...">
+    <label for="hbePass">Enter Password and Continue Reading...</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="ec044989ef2f04d6562f5c51376ff89c2a3a601dc6a1b3d1a81f8b344b77b432">60fc22347b86984818dbccb7ad633c8f2d7d398be8ebcd9b2cf39e5ab47d1437a0a417a593ea0ebbbbd9fda84d54b61f2aa445ca88d9eabf2c085d9413f7d40e7b4b8f8513f9de2a262d98563fff89a2278eb4df11df2e2f311595b76f8c468fd1767a39b48c476970783127f5753485004870234536ae50d249c903edef4091a1e28d674ddf21d492ddab7473640953c1b0ad81db81bfed07bb689342214f1bd07c2277ed5641fb7ee9e36722f2d2e87135f8f5378f8c273bacf12151a3bed37809b40d29a38cae04d246f03b75849005e01d136659c28c78731acbe963405063cdc435801e290b11f9de81d61400ef4fe0d313636ddddf37083710d1f6a62128c0944cdd23a4fae719ecdbffba3b26d9c55b348888a95fafee7ee22881877b94aa94b6fd2efe753ee51942fdcaa97ffec65b0881f293feae4b841cd0b11e69df240ed477db80c08218bc642e52621432a7704e11bb78c90153eb203271a232263baa9081dc71ffa89f5c3b08b5c7af987b6e64f29062468e2fb5f03f8f7167b89b2224730cabfc66e9ac39ad7d2685cff4ca6204ea8b4d72e8af27c9b7ffdd25aeb905f3eba5c21eab740ae1de51ebccab01e187ee9867bc73aea726e5337514a1fef19b0aac1dccd47c4d97811247ac404156edabfe0971edbbebe76e4e547891f6a4763b5159a1e9e358ee0c3e7a30074515bf03baa57a30c1fbb99dcc97641c84661dcccb584b85e88f0162affea27de0cce07fbfec8d69728891e1a04a7b742436bb5f7b49480bb2bbba629ac48902a738514c93237841ef2f8986b517ada3c1df00c2107ee7b21f611bac85ed2f059b207af8084e5f551d2c0132bb6bfbf3937cc741445388fe863c7ee2fa8a5fa5921bebc38a470071870b02fe168ea9fd18a2170667cbc769a633bec621113a28976d7d20955b57e51f31231170dc1ab54bf89e11b824c43d003ed22707d422c86a8d86df5e9db53746fac529246a225d4eacc8725a6b9115f653e717a832937e2fdd536b010396e6d4332ca7ee63004a3680fd4e1de26e5e842729ab1036dd6270344f7c10ef0e7d55bb2f30ead272048e76aecd1dc1581a19a08c5d6afc2df8959d687055ca35f15640be6317899329304e2d4229746ff0b3f9a05599690795fba6ae2739cd5d871bdd016b70b221c0ebc5aa911d2fcf9c46ac3c210754df6b8e431889acd7479275b4dd3fef78fec8f64dbf9d36a984dc141fd06b5db8a76e49509bd7acff4452dd31363cb866002ec10d30fd9ed1a4a484c76509d6bf63ea14e61831aa66fc2ac4faca098e1ec3aa9734d72769a8ee1c1b9562e6b5a17ea6a8df19620ede3c80e4a55f81e882a7f689e63d7908ac52419dfff411210395bdbd77374191155426118adde4e958e07a5ce6d2728044e10430ca5825e860b95cf3642b10bced92cea6d5cd9b1f875c8bc9d78de8bac1ffcb0c3530ca1ed1fb293c0fa8c8eb6269d9e1e3f810b85d78638e8d811420fdbdbebc9e9fb1c91c36b39199acbe3c3ae27368214652e0a7fec0a7b5508a4554746ae6acf57ad08f2a33627142865ec974ba64a17e41ee4bebe29f285ed02ca94b6fae8e7707ddcd3501ea08eec7fc621a3804abb0a5effacfcd74a48ce5f782f50fb5cd20dd012c1cf42c37c0fcdee2df5356463f71900e0cd863da0b5325ea750344c56684ac3305885ae69622291a2ae75350503092c42260715a97c7a5c84052aae0ea59b36e6d2660a7aa77054bf2f6a7e09b22a3005a47dcc06230cb804dc285a68f1dd48fb66321b78194432100f64410e8f5c7d12b3e882a921732658dc0d1c44172cfd005f908da641f30aceaf8b9591bc0ea08b6075e7f7c0a69d399df31179c7502265d85308ecc22a231d8ac9ff974da6f477fb40c1cd3384a020d1f9c71029ecc7b60e6310756fff77bec92497e7d1ed69605ccf53f744b2a9e47fe2e9e145aa4ed154ac14b79d0f3288aa0cf5b9926d9c9161831f5ca5b9e590fdb34ea2d5c8e0449a49e6148a3ed794f7edc1e42d1462e0bef969739bcc197f3e5eb457e3c252c6829c63ef1784e23f85ed6c9b1a54bcc4e20b86b2a07322051b1a730d7f711a351ac7256fb41b350a65b1923cc51e89b8f74eed6ea7a38b05474588084bf681fc96d47a5f6f37e861b3f3a18e68cbf19058e720386ffa508f8409d7e9f84d6d137c633692623952cfeecb55e4390db277f41b10fbb70bd98154cda65f52218c2badea4021f237179d6e92efbda14c0b33a29f64df904e8c83a121316a67ad059aa62721b69010e0a43ac651c9dd99bb22cc9e61dbc2b931375f5bd064c85b0cdda5e996f63f9baa75e965297c45c3ab2c0364dd92b07c0e9f6b20f1daadf2ec8291fda164e17e8e585d2d6cd1404556207001d8832d602d0fcc2d64470c93a8aa9c2f8177c251e735b2b59a0222d4d8ca3e574783d430febd695fde8588559556ae02ee5036390fe9ad4ca696a571a31e86a40ec92a88ea98a49ac612c774e05fd425280347bdeb2e0b9f8ed4a3fe8df6aa5803ca530f42dce61266e74f91f942eb45cb208c8acf5293d0102761b7454a2517361dbb063704b0abfae5740f5eb3731f67ebc0323034721b3b65876e22736c150424389389ab52a16ca5f3483e71124b30e1a86a72f2ceef5cdcb147c339dc2b2a594acce92135c76829f495b8f8c51e7110ea8586404828852f0c5978cbcf899b6f1f83121ff4d3627b93c6221d36ffc858a9c863dbaa12710a443c0b5ad31841b310629ec03ebe3a9e7ce3d0227ac9cae376c2ab8c0009f50e1db0573e03ceda4cf8c0afa4ed3828c2ddbca8b4f3a25cbd57c8adb0fb99e81619cc40bf6e726dfba33f4ad1fb9dfc2069177ac2db26ba09bd2d025e63e6d089b5b4df3bdfdf2a1b8df85b0dc78509f36db11f437e2eafc991182886752f2eb918b12498aca5d9274c78fe65940c52e98b6cc3f092530d39b735745dae5af197ee95df89d4bd2adc7c5d5c019aef4c6ee0778d23bc74be14a11000d9737ceceed8578d0ca981ddc5b374036917db88a69a61a7cde8553aecddd3467d0264c87d71e7e6506bbf4dc316d80f63cda3d28f032dff53243fb445ccf0e324e7c03a1ef2a6402b86935666815a9b38159f8bc19c536b855eb264d70a549370e052e1ffa7a22791a4573e55bcabbf13038847b0f9835693fda02e7d337a9962236a02ae85801335fb6679eca9385d09a8b95ab84351d97b44089407894012f52d63e58ec8bf26c11885f0e2854c5d9a6d721e5aca171318e26a135419300b1b815b2a1d89bec0554868a81a4ffb931efec299aa5050666685023733a6f14f3d9a0c6229d60a21fd5142ef6dd73e38a28737939e1447716f82448cbfe0fef11f592ea467942e7dd17a7ab8087013c67b681f4f152ca463d45aa14d7cfb78d8021418960eb1fa25611cce0225702aacfb52d8d9ecd7a377d60ddf8bb4cafccf9e0918afe4be18eb24741a7f32fc08d6dcde21c93506d0450c9c1c979c61f86beeccaf20cfb75580ce3bfe7bc17427b44145746c8e379eb9f3ab6f4ec264a45c5de9f9cde5dae23c2681092944343c36f3554573685dedd675495a4fbc3b00bf381174de907a57606bfa7d5cb45e0fea98be715a9198d7087073578932df13a379fc4addc9d4f8bbaa59c79fccbae348d699129564d83ceddd437894361d86f8ee5886df9623e04cb0f835abda361722746e68e60264193e2b73aa9b6b2a2c9c964c80cd6335f1e5728946a049ebdb7759980f18831ab434d96c23984a0071e3caf67f19daa9b8019c49f3d31e8e16e8ebb4ed6d927fbcc35fd6908b373e59f4428d466971da257c516cb8d114c5630461926c2b883b6986712289971d6381a76fd7c573e06f87ca370e56f6afecc4e9771ce13c9f7e14e666ebe6d37bcd8dd0389fbbbcf99bc78d1cdda1dff68266a336de5cd579025354da03352a28cc9a2ed6b956d39f622c94f5e10165a9e84feb82695cd04665a034065f69094d28276deb77bb600da34ba464e6986733fe535a8425543d37d9432c73fc28121758c4964873a28bae1225647dda41f62f0f9024cd3b24875503fa5d0d67f6388bc5bc76d2262e847e65d32ffcf856721f1c28d6bbc56b0ae656fbfc5c85673fa1b1d5918942a227718e9d1b0e0012487ed05a6a4c62534b344896024268d00e8d4237c0118697335a09f3693f8928e07de1e7a23e83139392707c8cb44beac5c0a5f422eeaf07424de360381e1ebd6441d289bf4b6535191ab91bd4112a1f92e1ba48a5a2a08c85b502c2ff5876e221a64bb3f98c79e0219fa21fdead836a68930d4fa60c6e9424bc8318e0c6f8c619caecf755995590667f990e4d7f3693187745bddc87e3666daf3519f0dc52f069c45c7d74033b7667864672ff30a9d27d32022059df082d1cf79c755234cc54c9ff0aa590a2392c2eb52668a4f5a8851dc4266be965690c3189578bcdb83491598e89d47557cec9b260a5d47cbb04b33ffe63066dc8dd33cd1762d36e90546ddac6e4ad501d295bb46e8233acc74b9b78f374a405e4e1b496fc59750513b88e404413f021b87316a28a1a3e65aaf5b7ff91e7e3dcb6a1a92f94495e15f63cfaf2a7a586d23cc4e7298f20089750ed3547f0a435b214e7ac7098589f7a8accecc6d790622f240164ff1a0c3da3ded369fea257ce9505a3e7709c290b57e42a9294f2dde2759dbae8ae1eb3c800535cd448bef76b26b98eafc12499bc93d89d821183eb82853a1213a2eddf0f2f1709a5a15453e23d075637638a541450e73c3ee8a38939791242cf467e90e86229c0b0a11acd18bc72ea110c35a46ce0d7f9d797073ccc3b30d4011f463ba73e9022bdd008a546446a6de89268c93fd6a9bac8f9e54f638a46d3133e0c5b36f1f</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/27/如何给Linux添加系统调用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何给Linux添加系统调用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/24/Python实现Paillier加密解密算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python实现Paillier加密解密算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav">None</ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2019 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
