@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Nexus5刷机、Root并安装Xposed框架 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="reandroid">
+  
+  
+  
+  
+  <meta name="description" content="在闲鱼上从羊毛党那里买了部 Nexus 5（代号 hammerhead），记录第一次尝试刷机和 root（一开始不是很懂各种知识，所以没有记录下原本系统的版本等各种信息）。">
+<meta name="keywords" content="re,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nexus5刷机、Root并安装Xposed框架">
+<meta property="og:url" content="https://qianfei11.github.io/2020/02/05/Nexus5刷机、Root并安装Xposed框架/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="在闲鱼上从羊毛党那里买了部 Nexus 5（代号 hammerhead），记录第一次尝试刷机和 root（一开始不是很懂各种知识，所以没有记录下原本系统的版本等各种信息）。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Nexus5刷机、Root并安装Xposed框架/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Nexus5刷机、Root并安装Xposed框架/2.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Nexus5刷机、Root并安装Xposed框架/3.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Nexus5刷机、Root并安装Xposed框架/4.png">
+<meta property="og:updated_time" content="2020-02-06T02:16:55.913Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nexus5刷机、Root并安装Xposed框架">
+<meta name="twitter:description" content="在闲鱼上从羊毛党那里买了部 Nexus 5（代号 hammerhead），记录第一次尝试刷机和 root（一开始不是很懂各种知识，所以没有记录下原本系统的版本等各种信息）。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/Nexus5刷机、Root并安装Xposed框架/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Nexus5刷机、Root并安装Xposed框架" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Nexus5刷机、Root并安装Xposed框架
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/02/05/Nexus5刷机、Root并安装Xposed框架/" class="article-date">
+	  <time datetime="2020-02-05T06:59:47.000Z" itemprop="datePublished">February 5, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  1.4k words
+	  |
+	  7 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在闲鱼上从羊毛党那里买了部 Nexus 5（代号 hammerhead），记录第一次尝试刷机和 root（一开始不是很懂各种知识，所以没有记录下原本系统的版本等各种信息）。</p>
+<a id="more"></a>
+<h1 id="解锁"><a href="#解锁" class="headerlink" title="解锁"></a>解锁</h1><p>先使用 adb 命令进入 bootloader 模式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb reboot bootloader</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/Nexus5刷机、Root并安装Xposed框架/1.png" alt="bootloader界面样式"></p>
+<p>这部机子一开始已经解锁了，所以会报错：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ fastboot oem unlock</span><br><span class="line">                                                   FAILED (remote: <span class="string">'Already Unlocked'</span>)</span><br><span class="line">fastboot: error: Command failed</span><br></pre></td></tr></table></figure>
+<h1 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h1><p>刷机一般是采用<a href="https://developers.google.com/android/images" target="_blank" rel="noopener">官方的镜像</a>，搜索 hammerhead，找到需要刷的版本。我一开始用了 Android 5.0.1（LRX22C）的包，但一直没有成功。后来改成低版本的 Android 4.4.3（KTU84M）后，刷机成功。同样需要使用 adb 命令进入 bootloader 界面（也可以使用音量下键+电源键），然后确认有设备后执行镜像包中的 <code>flash-all.sh</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">$ adb reboot bootloader</span><br><span class="line">$ fastboot devices</span><br><span class="line">0b83c85e00ce15f9	fastboot</span><br><span class="line"></span><br><span class="line">$ ./flash-all.sh</span><br><span class="line">Sending <span class="string">'bootloader'</span> (2508 KB)                     OKAY [  0.290s]</span><br><span class="line">Writing <span class="string">'bootloader'</span>                               OKAY [  0.497s]</span><br><span class="line">Finished. Total time: 0.981s</span><br><span class="line">Rebooting into bootloader                          OKAY [  0.094s]</span><br><span class="line">Finished. Total time: 0.094s</span><br><span class="line">Sending <span class="string">'radio'</span> (45409 KB)                         OKAY [  1.640s]</span><br><span class="line">Writing <span class="string">'radio'</span>                                    OKAY [  3.105s]</span><br><span class="line">Finished. Total time: 4.975s</span><br><span class="line">Rebooting into bootloader                          OKAY [  0.106s]</span><br><span class="line">Finished. Total time: 0.106s</span><br><span class="line">--------------------------------------------</span><br><span class="line">Bootloader Version...: HHZ11k</span><br><span class="line">Baseband Version.....: M8974A-2.0.50.1.13</span><br><span class="line">Serial Number........: 0b83c85e00ce15f9</span><br><span class="line">--------------------------------------------</span><br><span class="line">extracting android-info.txt (0 MB) to RAM...</span><br><span class="line">Checking <span class="string">'product'</span>                                 OKAY [  0.097s]</span><br><span class="line">Checking <span class="string">'version-bootloader'</span>                      OKAY [  0.100s]</span><br><span class="line">Checking <span class="string">'version-baseband'</span>                        OKAY [  0.100s]</span><br><span class="line">extracting boot.img (8 MB) to disk... took 0.038s</span><br><span class="line">archive does not contain <span class="string">'boot.sig'</span></span><br><span class="line">Sending <span class="string">'boot'</span> (8700 KB)                           OKAY [  0.490s]</span><br><span class="line">Writing <span class="string">'boot'</span>                                     OKAY [  0.749s]</span><br><span class="line">archive does not contain <span class="string">'dtbo.img'</span></span><br><span class="line">archive does not contain <span class="string">'dt.img'</span></span><br><span class="line">extracting recovery.img (9 MB) to disk... took 0.039s</span><br><span class="line">archive does not contain <span class="string">'recovery.sig'</span></span><br><span class="line">Sending <span class="string">'recovery'</span> (9284 KB)                       OKAY [  0.510s]</span><br><span class="line">Writing <span class="string">'recovery'</span>                                 OKAY [  0.776s]</span><br><span class="line">archive does not contain <span class="string">'vbmeta.img'</span></span><br><span class="line">archive does not contain <span class="string">'vbmeta_system.img'</span></span><br><span class="line">archive does not contain <span class="string">'super_empty.img'</span></span><br><span class="line">archive does not contain <span class="string">'odm.img'</span></span><br><span class="line">archive does not contain <span class="string">'product.img'</span></span><br><span class="line">extracting system.img (704 MB) to disk... took 3.704s</span><br><span class="line">archive does not contain <span class="string">'system.sig'</span></span><br><span class="line">Sending <span class="string">'system'</span> (721400 KB)                       OKAY [ 22.834s]</span><br><span class="line">Writing <span class="string">'system'</span>                                   OKAY [ 49.509s]</span><br><span class="line">archive does not contain <span class="string">'system_ext.img'</span></span><br><span class="line">archive does not contain <span class="string">'vendor.img'</span></span><br><span class="line">Erasing <span class="string">'userdata'</span>                                 OKAY [ 15.664s]</span><br><span class="line">mke2fs 1.44.4 (18-Aug-2018)</span><br><span class="line">Creating filesystem with 7137786 4k blocks and 1785856 inodes</span><br><span class="line">Filesystem UUID: bc382e9c-a2d8-4adc-860a-6a31fcf236c3</span><br><span class="line">Superblock backups stored on blocks:</span><br><span class="line">	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,</span><br><span class="line">	4096000</span><br><span class="line"></span><br><span class="line">Allocating group tables: <span class="keyword">done</span></span><br><span class="line">Writing inode tables: <span class="keyword">done</span></span><br><span class="line">Creating journal (32768 blocks): <span class="keyword">done</span></span><br><span class="line">Writing superblocks and filesystem accounting information: <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">Sending <span class="string">'userdata'</span> (4416 KB)                       OKAY [  0.244s]</span><br><span class="line">Writing <span class="string">'userdata'</span>                                 OKAY [  0.495s]</span><br><span class="line">Erasing <span class="string">'cache'</span>                                    OKAY [  0.600s]</span><br><span class="line">mke2fs 1.44.4 (18-Aug-2018)</span><br><span class="line">Creating filesystem with 179200 4k blocks and 44832 inodes</span><br><span class="line">Filesystem UUID: 773d6dcf-5df9-40ae-8ffc-9f7f947e275d</span><br><span class="line">Superblock backups stored on blocks:</span><br><span class="line">	32768, 98304, 163840</span><br><span class="line"></span><br><span class="line">Allocating group tables: <span class="keyword">done</span></span><br><span class="line">Writing inode tables: <span class="keyword">done</span></span><br><span class="line">Creating journal (4096 blocks): <span class="keyword">done</span></span><br><span class="line">Writing superblocks and filesystem accounting information: <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">Sending <span class="string">'cache'</span> (428 KB)                           OKAY [  0.211s]</span><br><span class="line">Writing <span class="string">'cache'</span>                                    OKAY [  0.219s]</span><br><span class="line">Rebooting                                          OKAY [  0.100s]</span><br><span class="line">Finished. Total time: 100.120s</span><br></pre></td></tr></table></figure>
+<p>完成后，如果没有什么故障，稍过片刻就能打开新的系统了。</p>
+<blockquote>
+<p>我刷完后的系统打开后只有 256MB 可用空间，搜了一下，需要在 recovery mode 下对 <code>/data</code> 和 <code>/cache</code> 进行格式化，照着<a href="https://jilu.wiki/d/177" target="_blank" rel="noopener">这篇文章</a>对系统进行双清后，容量恢复到了正常状态。</p>
+</blockquote>
+<p><img src="/pics/Nexus5刷机、Root并安装Xposed框架/2.png" alt="recovery mode界面样式"></p>
+<p><img src="/pics/Nexus5刷机、Root并安装Xposed框架/3.png" alt="进行格式化"></p>
+<h1 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h1><p>刷完机后，可以进行 root 了。下载 Android Root 包 <a href="https://autoroot.chainfire.eu/" target="_blank" rel="noopener">CF-Auto-Root-hammerhead-hammerhead-nexus5.zip</a> 并解压进入目录。在 macOS 下时，提供的 fastbootm-mac 的版本过老，使用时会报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tools/fastboot-mac --version</span><br><span class="line">fastboot version 09a0d98bebce-android</span><br></pre></td></tr></table></figure>
+<p>本地的 fastboot 版本更新，所以我把 tools 中的工具替换为了本地的 /usr/local/bin/fastboot：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ fastboot --version</span><br><span class="line">fastboot version 29.0.2-5738569</span><br><span class="line">Installed as /usr/local/bin/fastboot</span><br></pre></td></tr></table></figure>
+<p>然后进入 bootloader，并执行 root-mac.sh：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">$ adb reboot bootloader</span><br><span class="line">$ ./root-mac.sh</span><br><span class="line"></span><br><span class="line">----- CF-Auto-Root-hammerhead-hammerhead-nexus5 -----</span><br><span class="line"></span><br><span class="line">If you are on Android 5.0 or newer, please make sure the &quot;Allow OEM Unlock&quot;</span><br><span class="line">option (if present) is enabled in &quot;Settings-&gt;Developer Options&quot;.</span><br><span class="line"></span><br><span class="line">If you cannot find &quot;Developer Options&quot; under &quot;Settings&quot;, first go to the</span><br><span class="line">&quot;Settings-&gt;About&quot; screen, find the &quot;Build number&quot; entry, and tap it 7 times.</span><br><span class="line"></span><br><span class="line">----- ----- ----- ----- ----- ----- -----</span><br><span class="line"></span><br><span class="line">Please make sure your device is in bootloader/fastboot mode before continuing.</span><br><span class="line"></span><br><span class="line">----- ----- ----- ----- ----- ----- -----</span><br><span class="line"></span><br><span class="line">***WARNING*** ALL YOUR DATA *MAY* BE WIPED ! ***WARNING***</span><br><span class="line"></span><br><span class="line">We are going to run the &quot;OEM UNLOCK&quot; command on your device. If your device</span><br><span class="line">was not previously unlocked, this will wipe all your data !</span><br><span class="line"></span><br><span class="line">Please watch the screen on your device, user input may be required.</span><br><span class="line"></span><br><span class="line">You may need to enter your administrator password to continue.</span><br><span class="line"></span><br><span class="line">Press Ctrl+C to cancel !</span><br><span class="line"></span><br><span class="line">Press ENTER to continue</span><br><span class="line"></span><br><span class="line">Password:</span><br><span class="line"></span><br><span class="line">----- ----- ----- ----- ----- ----- -----</span><br><span class="line"></span><br><span class="line">If you just unlocked for the first time, it is advised to boot the device into</span><br><span class="line">Android before continuing. This first boot may take several minutes, sometimes</span><br><span class="line">even half an hour.</span><br><span class="line"></span><br><span class="line">If you decide to boot back into Android first, return your device to</span><br><span class="line">bootloader/fastboot mode before continuing again.</span><br><span class="line"></span><br><span class="line">Press Ctrl+C to cancel !</span><br><span class="line"></span><br><span class="line">Press ENTER to continue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----- ----- ----- ----- ----- ----- -----</span><br><span class="line"></span><br><span class="line">We will now attempt to boot CF-Auto-Root. You should see a red Android on the</span><br><span class="line">screen of your device in a minute, with scrolling white text on top of it.</span><br><span class="line"></span><br><span class="line">Sending &apos;boot.img&apos; (15868 KB)                      OKAY [  0.605s]</span><br><span class="line">Booting                                            OKAY [  0.121s]</span><br><span class="line">Finished. Total time: 0.747s</span><br><span class="line"></span><br><span class="line">If nothing happens even after several minutes, something may be wrong.</span><br><span class="line"></span><br><span class="line">Once CF-Auto-Root is done, it will reboot your device. Keep in mind that your</span><br><span class="line">device may reboot a number of times, and it may be a few minutes before you</span><br><span class="line">are back into Android. It is important that you do not interrupt this process,</span><br><span class="line">unless it takes more than five minutes in total.</span><br><span class="line"></span><br><span class="line">Press ENTER to continue</span><br></pre></td></tr></table></figure>
+<p>成功后，手机会出现一个红色的安卓标志：</p>
+<p><img src="/pics/Nexus5刷机、Root并安装Xposed框架/4.png" alt="Root成功"></p>
+<p>打开手机后，会发现多了一个 app 叫 SuperSu。使用 adb 连接，并用 su 命令切换到 root：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell</span><br><span class="line">shell@hammerhead:/ $ su</span><br><span class="line">root@hammerhead:/ # id</span><br><span class="line">uid=0(root) gid=0(root) context=u:r:init:s0</span><br><span class="line">root@hammerhead:/ #</span><br></pre></td></tr></table></figure>
+<h1 id="TWRP"><a href="#TWRP" class="headerlink" title="TWRP"></a>TWRP</h1><p>下载 <a href="https://twrp.me/lg/lgnexus5.html" target="_blank" rel="noopener">twrp-3.3.1-0-hammerhead.img</a>，进入 bootloader，并用 fastboot 刷入这个第三方 Recovery，然后重启：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ adb reboot bootloader</span><br><span class="line">$ fastboot flash recovery twrp-3.3.1-0-hammerhead.img</span><br><span class="line">Sending &apos;recovery&apos; (13290 KB)                      OKAY [  0.630s]</span><br><span class="line">Writing &apos;recovery&apos;                                 OKAY [  1.040s]</span><br><span class="line">Finished. Total time: 1.863s</span><br><span class="line"></span><br><span class="line">$ fastboot reboot</span><br><span class="line">Rebooting                                          OKAY [  0.001s]</span><br><span class="line">Finished. Total time: 0.001s</span><br></pre></td></tr></table></figure>
+<h1 id="Xposed"><a href="#Xposed" class="headerlink" title="Xposed"></a>Xposed</h1><p>Android 4.0.3~Android 4.4 的版本不支持 sdk21 及以上的版本，通过直接下载 <a href="https://repo.xposed.info/module/de.robv.android.xposed.installer" target="_blank" rel="noopener">Xposed Installer</a> 来安装 Xposed 框架：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ adb install apks/de.robv.android.xposed.installer_v33_36570c.apk</span><br><span class="line">Performing Push Install</span><br><span class="line">apks/de.robv.android.xposed.installer_v33_36570c.apk: 1 file pushed. 6.7 MB/s (788771 bytes in 0.113s)</span><br><span class="line">	pkg: /data/local/tmp/de.robv.android.xposed.installer_v33_36570c.apk</span><br><span class="line">Success</span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.bodkin.ren/index.php/archives/513/" target="_blank" rel="noopener">https://www.bodkin.ren/index.php/archives/513/</a><br><a href="https://jilu.wiki/d/177" target="_blank" rel="noopener">https://jilu.wiki/d/177</a><br><a href="https://blog.csdn.net/feiniao8651/article/details/70083246/" target="_blank" rel="noopener">https://blog.csdn.net/feiniao8651/article/details/70083246/</a><br><a href="https://forum.xda-developers.com/general/xda-assist/xposed-sdk-19-t3311193" target="_blank" rel="noopener">https://forum.xda-developers.com/general/xda-assist/xposed-sdk-19-t3311193</a><br><a href="https://sspai.com/post/24538" target="_blank" rel="noopener">https://sspai.com/post/24538</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/07/Android逆向入门（三）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android逆向入门（三）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/31/Android逆向入门（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android逆向入门（二）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解锁"><span class="nav-number">1.</span> <span class="nav-text">解锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#刷机"><span class="nav-number">2.</span> <span class="nav-text">刷机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Root"><span class="nav-number">3.</span> <span class="nav-text">Root</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TWRP"><span class="nav-number">4.</span> <span class="nav-text">TWRP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Xposed"><span class="nav-number">5.</span> <span class="nav-text">Xposed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

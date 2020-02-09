@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="操作系统实验记录。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-12-04T08:36:38.985Z">
+<meta property="og:updated_time" content="2019-12-10T12:35:56.400Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何给Linux添加系统调用">
 <meta name="twitter:description" content="操作系统实验记录。">
@@ -150,7 +150,7 @@
       
 
 	  |
-	  504 words
+	  450 words
 	  |
 	  2 minute(s) to read
     </div>
@@ -160,27 +160,26 @@
 <a id="more"></a>
 <h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>OS：Ubuntu 16.04.6</p>
 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ uname -a</span><br><span class="line">Linux ubuntu 4.15.0-70-generic <span class="comment">#79~16.04.1-Ubuntu SMP Tue Nov 12 14:01:10 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span></span><br></pre></td></tr></table></figure>
-<h1 id="First-Download-Linux-Kernel-Source"><a href="#First-Download-Linux-Kernel-Source" class="headerlink" title="First: Download Linux Kernel Source"></a>First: Download Linux Kernel Source</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.20.17.tar.gz</span><br><span class="line">tar -xvf linux-4.20.17.tar.gz</span><br><span class="line">sudo mv linux-4.20.17 /usr/src/</span><br><span class="line">cd /usr/src/linux-4.20.17</span><br></pre></td></tr></table></figure>
+<h1 id="First-Download-Linux-Kernel-Source"><a href="#First-Download-Linux-Kernel-Source" class="headerlink" title="First: Download Linux Kernel Source"></a>First: Download Linux Kernel Source</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.20.17.tar.gz</span><br><span class="line">tar -xvf linux-4.20.17.tar.gz</span><br><span class="line">sudo mv linux-4.20.17/ /usr/src/</span><br><span class="line">cd /usr/src/linux-4.20.17/</span><br></pre></td></tr></table></figure>
 <h1 id="Second-Install-Dependences"><a href="#Second-Install-Dependences" class="headerlink" title="Second: Install Dependences"></a>Second: Install Dependences</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install bison flex libssl-dev libncurses5-dev</span><br></pre></td></tr></table></figure>
 <h1 id="Third-Add-My-Syscall"><a href="#Third-Add-My-Syscall" class="headerlink" title="Third: Add My Syscall"></a>Third: Add My Syscall</h1><p>入口（<code>arch/x86/entry/syscalls/syscall_64.tbl</code>）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Here are my syscalls</span><br><span class="line">548     64      mysyscall               sys_mysyscall</span><br></pre></td></tr></table></figure>
 <p>系统调用声明（<code>include/linux/syscalls.h</code>）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Here are my syscalls</span></span><br><span class="line"><span class="function">asmlinkage <span class="keyword">long</span> <span class="title">sys_mysyscall</span><span class="params">(<span class="keyword">long</span> uid, <span class="keyword">const</span> <span class="keyword">char</span> __user *content)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Here are my syscalls</span></span><br><span class="line"><span class="function">asmlinkage <span class="keyword">long</span> <span class="title">sys_mysyscall</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>添加调用（<code>kernel/sys.c</code>）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Here are my syscalls</span></span><br><span class="line"><span class="function">asmlinkage <span class="keyword">long</span> <span class="title">sys_mysyscall</span><span class="params">(<span class="keyword">long</span> uid, <span class="keyword">const</span> <span class="keyword">char</span> __user *content)</span></span>&#123;</span><br><span class="line">        printk(<span class="string">"%d says hello!!! %s\n"</span>, uid, content);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1712190426</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Here are my syscalls</span></span><br><span class="line"><span class="function">asmlinkage <span class="keyword">long</span> <span class="title">sys_mysyscall</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	printk(<span class="string">"Hello Kernel!!!\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1712190426</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="Forth-Compile"><a href="#Forth-Compile" class="headerlink" title="Forth: Compile"></a>Forth: Compile</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">make mrproper</span><br><span class="line">make clean</span><br><span class="line">make menuconfig <span class="comment"># 将Device drivers中的Staging drivers取消</span></span><br><span class="line"><span class="comment"># 下面的编译时间比较久 可以通过time记录一下时间</span></span><br><span class="line">time make bzImage <span class="comment"># 编译并生成压缩的内核映像 大约半个小时</span></span><br><span class="line">time make modules <span class="comment"># 编译模块 大约两个多小时</span></span><br><span class="line">sudo time make modules_install <span class="comment"># 安装模块 大约三分多种</span></span><br><span class="line">sudo time make install <span class="comment"># 安装内核 大约一分多钟</span></span><br></pre></td></tr></table></figure>
 <p>编译成功后 reboot 重启系统。</p>
 <h1 id="Fifth-Test"><a href="#Fifth-Test" class="headerlink" title="Fifth: Test"></a>Fifth: Test</h1><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ uname -a</span><br><span class="line">Linux ubuntu 4.20.17 <span class="comment">#1 SMP Thu Nov 28 22:48:22 PST 2019 x86_64 x86_64 x86_64 GNU/Linux</span></span><br></pre></td></tr></table></figure>
 <p>查看添加的系统调用是否成功：</p>
 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ grep -A 1 mysyscall /proc/kallsyms</span><br><span class="line">0000000000000000 T sys_mysyscall</span><br><span class="line">0000000000000000 T usermodehelper_read_unlock</span><br></pre></td></tr></table></figure>
 <p>编写测试程序如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/syscall.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">long</span> ret = syscall(<span class="number">548</span>, <span class="number">100</span>, <span class="string">"Kernel =&gt; 4.20.17"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, ret);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/syscall.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">long</span> ret = syscall(<span class="number">548</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, ret);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行结果，返回值为设定好的值：</p>
 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ ./3</span><br><span class="line">1712190426</span><br></pre></td></tr></table></figure>
 <p>使用 dmesg 命令（dmesg 命令显示 linux 内核的环形缓冲区信息，我们可以从中获得诸如系统架构、cpu、挂载的硬件，RAM 等多个运行级别的大量的系统信息）查看调用情况：</p>
-<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ dmesg | grep <span class="string">"hello"</span></span><br><span class="line">[  228.310507] -1021771944 says hello!!!</span><br></pre></td></tr></table></figure>
-<p>发现 shell 上的返回是设定好的值，但是如果往 syscall 里传参的结果是错的，暂时还不清楚是为什么。</p>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.cnblogs.com/tod-reg20130101/articles/9280792.html" target="_blank" rel="noopener">https://www.cnblogs.com/tod-reg20130101/articles/9280792.html</a><br><a href="https://www.zybuluo.com/hakureisino/note/514321" target="_blank" rel="noopener">https://www.zybuluo.com/hakureisino/note/514321</a></p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ dmesg | grep <span class="string">"Hello"</span></span><br><span class="line">[  228.310507] Hello Kernel!!!</span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.cnblogs.com/tod-reg20130101/articles/9280792.html" target="_blank" rel="noopener">https://www.cnblogs.com/tod-reg20130101/articles/9280792.html</a><br><a href="https://www.zybuluo.com/hakureisino/note/514321" target="_blank" rel="noopener">https://www.zybuluo.com/hakureisino/note/514321</a><br><a href="https://www.jianshu.com/p/b2d5fa8af581" target="_blank" rel="noopener">https://www.jianshu.com/p/b2d5fa8af581</a></p>
 
       
     </div>
@@ -222,6 +221,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/01/16/Android逆向入门（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android逆向入门（一）
+        
+      </div>
+    </a>
   
   
     <a href="/2019/11/14/Python实现DES、AES加密解密算法/" id="article-nav-older" class="article-nav-link-wrap">
@@ -266,7 +274,7 @@
 
   <div class="clearfix container">
       <div class="site-info">
-	      &copy; 2019 AssassinQ All Rights Reserved.
+	      &copy; 2020 AssassinQ All Rights Reserved.
         
       </div>
       <div class="site-credit">

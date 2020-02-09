@@ -21,7 +21,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://qianfei11.github.io/pics/2017-CSAW-Quals-realism/1.png">
 <meta property="og:image" content="https://qianfei11.github.io/pics/2017-CSAW-Quals-realism/2.png">
-<meta property="og:updated_time" content="2019-11-24T10:39:13.551Z">
+<meta property="og:updated_time" content="2020-01-24T08:38:54.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2017-CSAW-Quals-realism">
 <meta name="twitter:description" content="学习 z3 时复现的一道题，了解了 SSE 指令以及学习了 gdb 和 qemu 之间的调试。">
@@ -193,7 +193,7 @@
 </table>
 <p>接下来的汇编部分有一些小复杂，动态调试会比较清晰。先用 qemu 启动程序（-s 参数开启远程调试服务）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-i386 -drive format=raw,file=main.bin -s</span><br></pre></td></tr></table></figure>
-<p>gdb 进行远程连接，并设置指令架构，同时在比较完 flag 前缀后设下断点（DOS 中代码段基地址应该是 7c00）：</p>
+<p>gdb 进行远程连接，并设置指令架构，同时在比较完 flag 前缀后设下断点（MBR 的加载地址是 0x7C00）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gdb -ex <span class="string">'target remote localhost:1234'</span> \</span><br><span class="line">    -ex <span class="string">'set architecture i8086'</span> \</span><br><span class="line">    -ex <span class="string">'break *0x7c6f'</span> \</span><br><span class="line">    -ex <span class="string">'continue'</span></span><br></pre></td></tr></table></figure>
 <p>然后在程序中输入字符串，以 flag 为前缀，后面的部分用 a 到 p 来填充：</p>
 <p><img src="/pics/2017-CSAW-Quals-realism/1.png" alt="程序的输入"></p>
@@ -313,7 +313,7 @@
 
   <div class="clearfix container">
       <div class="site-info">
-	      &copy; 2019 AssassinQ All Rights Reserved.
+	      &copy; 2020 AssassinQ All Rights Reserved.
         
       </div>
       <div class="site-credit">

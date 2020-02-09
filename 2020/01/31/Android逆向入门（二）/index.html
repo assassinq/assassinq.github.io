@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Android逆向入门（二） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="reandroid">
+  
+  
+  
+  
+  <meta name="description" content="Android JNI 编程及 ARM 汇编入门。">
+<meta name="keywords" content="re,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向入门（二）">
+<meta property="og:url" content="https://qianfei11.github.io/2020/01/31/Android逆向入门（二）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Android JNI 编程及 ARM 汇编入门。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Android逆向入门/二/1.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Android逆向入门/二/2.png">
+<meta property="og:image" content="https://qianfei11.github.io/pics/Android逆向入门/二/3.png">
+<meta property="og:updated_time" content="2020-02-06T02:41:02.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向入门（二）">
+<meta name="twitter:description" content="Android JNI 编程及 ARM 汇编入门。">
+<meta name="twitter:image" content="https://qianfei11.github.io/pics/Android逆向入门/二/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Android逆向入门（二）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Android逆向入门（二）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/01/31/Android逆向入门（二）/" class="article-date">
+	  <time datetime="2020-01-31T08:10:49.000Z" itemprop="datePublished">January 31, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  4.7k words
+	  |
+	  21 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android JNI 编程及 ARM 汇编入门。</p>
+<a id="more"></a>
+<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>Android Studio 3.5.3</p>
+<h1 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h1><p>Android 程序分两层，Java 层和 Native 层。Java 层就是 Java 代码编译为 dex 文件，而 Native 层则是 C++ 代码编译为 so 文件（动态库）。两者使用 JNI（Java Native Interface）来进行链接。相比于 Java，Native 层安全性更加高，隐蔽性更加好，某种情况下效率更加高。Java 是跨平台的语言，而这跨平台的背后都是依靠 Java 虚拟机，虚拟机采用 C/C++ 编写，适配各个系统，通过 JNI 为上层 Java 提供各种服务，保证跨平台性。Java 程序中通过 JVM 加载并调用 JNI 程序来间接地调用目标原生函数。</p>
+<p><img src="/pics/Android逆向入门/二/1.png" alt="Java通过调用JNI程序来调用原声函数"></p>
+<p>如果要进行 JNI 开发，直接在 Android Studio 中新建一个 C++ 项目即可。在调试过程中，可以新建一个 <code>log.h</code> 定义几个在 C++ 文件中进行日志输出的函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;android/log.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> LOG_TAG</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOG_TAG <span class="meta-string">"MY_TAG"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGF(...) __android_log_print(ANDROID_LOG_FATAL, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>在 Java 文件中添加日志输出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        Log.d(<span class="string">"Debug"</span>, <span class="string">"infomation"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在需要调用 JNI 的函数中加载动态库：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Used to load the 'native-lib' library on application startup.</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">"native-lib"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Native-函数注册"><a href="#Native-函数注册" class="headerlink" title="Native 函数注册"></a>Native 函数注册</h2><h3 id="静态注册"><a href="#静态注册" class="headerlink" title="静态注册"></a>静态注册</h3><p>静态注册的理解和使用方式简单，出错率低。但必须遵循注册规则，当需要更改类名、包名或者方法时，需要按照之前方法重新生成头文件，灵活性不高。</p>
+<p>Java 文件中的 Native 声明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">sayHello</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>静态注册在 cpp 文件中通过 JNIEXPORT 和 JNICALL 两个宏定义声明，在虚拟机加载 so 时发现上面两个宏定义的函数时就会链接到对应的 native 方法。so 中的名字为类名 + 函数名的组合，并且自带两个参数，即 <code>JNIEnv* env</code> 和 <code>jclass</code>（static 方法时）/<code>jobject</code>（普通方法时）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"log.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line">JNIEXPORT jstring JNICALL</span><br><span class="line">Java_com_assassinq_easycpp_MainActivity_sayHello(JNIEnv *env, jobject obj) &#123;</span><br><span class="line">    <span class="keyword">return</span> env-&gt;NewStringUTF(<span class="string">"Hello World"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>静态注册有一些缺点：</p>
+<ol>
+<li>Native 函数名称特别长，不利于书写；</li>
+<li>每次新增或删除接口时需要重新生成文件，比较繁琐；</li>
+<li>第一次调用时需要根据函数名建立索引，影响效率；</li>
+<li>JNI 层的函数名是由 Java 接口名生成，很容易通过 hook 调用动态库中的函数。</li>
+</ol>
+<h3 id="动态注册"><a href="#动态注册" class="headerlink" title="动态注册"></a>动态注册</h3><p>动态注册在 JNI 层通过重载 <code>JNI_OnLoad()</code> 函数来实现，系统初始化 JNI 在加载时，会调用 <code>JNI_OnLoad()</code>，而卸载时会调用 <code>JNI_UnLoad()</code>。原理是通过自定义方法把 C/C++ 函数映射到 JAVA 定义的方法，不需要通过 JAVA 方法名查找匹配 Native 函数名，也就不需要遵循静态注册的命名规则。</p>
+<p>cpp 文件中的函数定义如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">jstring <span class="title">sayHi</span><span class="params">(JNIEnv *env, jobject obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> env-&gt;NewStringUTF(<span class="string">"Hi World"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过内置函数 <code>RegisterNatives()</code> 实现自定义的注册方法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">registerNativeMethods</span><span class="params">(JNIEnv *env, <span class="keyword">const</span> <span class="keyword">char</span> *className, JNINativeMethod *gMethods, <span class="keyword">int</span> numMethods)</span> </span>&#123;</span><br><span class="line">    jclass clazz;</span><br><span class="line">    clazz = env-&gt;FindClass(className);</span><br><span class="line">    <span class="keyword">if</span> (clazz == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> JNI_FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (env-&gt;RegisterNatives(clazz, gMethods, numMethods) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> JNI_FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> JNI_TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义 gClassName 和 gMethods 两个变量，分别表示需要查找的类名和需要注册的方法信息：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> *gClassName = <span class="string">"com/assassinq/easycpp/MainActivity"</span>;</span><br><span class="line"><span class="keyword">static</span> JNINativeMethod gMethods[] = &#123;</span><br><span class="line">        &#123;<span class="string">"sayHi"</span>, <span class="string">"()Ljava/lang/String;"</span>, (<span class="keyword">void</span> *) sayHi&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中方法信息的结构体如下，第一个变量为方法名，第二个变量为方法签名（字符串类型，以 Smali 代码的方式），第三个变量为对应的函数指针：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* name; <span class="comment">// native 的方法名</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* signature; <span class="comment">// 方法签名，例如 ()Ljava/lang/String;</span></span><br><span class="line">    <span class="keyword">void</span>*       fnPtr; <span class="comment">// 函数指针</span></span><br><span class="line">&#125; JNINativeMethod;</span><br></pre></td></tr></table></figure>
+<p>最后重写 <code>JNI_OnLoad()</code> 函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JNIEXPORT jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM *vm, <span class="keyword">void</span> *reserved)</span> </span>&#123;</span><br><span class="line">    JNIEnv *env = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (vm-&gt;GetEnv((<span class="keyword">void</span> **)&amp;env, JNI_VERSION_1_6) != JNI_OK) &#123;</span><br><span class="line">        LOGE(<span class="string">"This jni version is not supported"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (registerNativeMethods(env, gClassName, gMethods, <span class="keyword">sizeof</span>(gMethods) / <span class="keyword">sizeof</span>(gMethods[<span class="number">0</span>])) == JNI_FALSE) &#123;</span><br><span class="line">        LOGE(<span class="string">"Unable to register native methods"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    LOGE(<span class="string">"Methods loaded successfully"</span>);</span><br><span class="line">    <span class="keyword">return</span> JNI_VERSION_1_6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="so-动态链接库"><a href="#so-动态链接库" class="headerlink" title="so 动态链接库"></a>so 动态链接库</h2><p>在编译过程中，可以修改 app 目录下的 build.gradle 中的内容，使用 android.defaultConfig.ndk.abiFilters 来指示 Gradle 要构建和打包的 ABI 版本，生成不同架构下的动态链接库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    ...</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        ndk &#123;</span><br><span class="line">            abiFilters &quot;armeabi-v7a&quot;, &quot;arm64-v8a&quot;, &quot;x86&quot;, &quot;x86_64&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>so 文件一般存放在 apk 的 lib 目录下（NDK r17 版本开始已经去掉了 armeabi、mips、mips64 的 ABI 支持）：</p>
+<ul>
+<li>armeabi-v7a：第 7 代及以上的 ARM 处理器。2011 年 15 月以后的生产的大部分 Android 设备都使用它。</li>
+<li>arm64-v8a：第 8 代、64 位 ARM 处理器，很少设备，三星 Galaxy S6 是其中之一。</li>
+<li>armabi：第 5 代、第 6 代的 ARM 处理器，早期的手机用的比较多。</li>
+<li>x86：Intel x86（平板、模拟器用得比较多）。</li>
+<li>x86_64：Intel x64（64 位的平板）。</li>
+<li>…</li>
+</ul>
+<h2 id="IDA-反编译-so-文件"><a href="#IDA-反编译-so-文件" class="headerlink" title="IDA 反编译 so 文件"></a>IDA 反编译 so 文件</h2><p>用 IDA 打开编译后的 apk，可以看到 lib 中存在一个 libnative-lib.so：</p>
+<p><img src="/pics/Android逆向入门/二/2.png" alt="拖进IDA"></p>
+<p>查看静态注册函数的反编译结果：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">fastcall <span class="title">Java_com_assassinq_easycpp_MainActivity_sayHello</span><span class="params">(_JNIEnv *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> _JNIEnv::NewStringUTF(a1, <span class="string">"Hello World"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看动态注册的函数的反编译结果：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">fastcall <span class="title">sayHi</span><span class="params">(_JNIEnv *a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> _JNIEnv::NewStringUTF(a1, <span class="string">"Hi World"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="IDA-动态调试-apk"><a href="#IDA-动态调试-apk" class="headerlink" title="IDA 动态调试 apk"></a>IDA 动态调试 apk</h1><ol>
+<li>安装 apk 到手机：<code>adb install example.apk</code></li>
+<li>将 IDA 目录下的调试文件 push 到手机上：<code>adb push android_server /data/local/tmp</code></li>
+<li>赋给程序可执行权限：<code>chmod 777 android_server</code></li>
+<li>启动调试服务端：<code>./android_server</code> （自定义设置端口方式：<code>-p23333</code>）</li>
+<li>手机端端口转发至电脑端：<code>adb forward tcp:[pc_port] tcp:[mobile_port]</code></li>
+<li>IDA 调试端口设置：Debugger-&gt;Process option</li>
+<li>启动程序：<code>adb shell am start -D -n packageName/activityName</code></li>
+<li>IDA 挂接到 Native 层：Debugger-&gt;Attach to process…</li>
+<li>打开 monitor，监听并挂接到 JAVA 层：<code>jdb -connect com.sun.jdi.SocketAttach:hostname=127.0.0.1,port=8700</code></li>
+</ol>
+<p><img src="/pics/Android逆向入门/二/3.png" alt="成功调试JNI的界面"></p>
+<h1 id="动态链接库文件（-so-文件）"><a href="#动态链接库文件（-so-文件）" class="headerlink" title="动态链接库文件（.so 文件）"></a>动态链接库文件（.so 文件）</h1><p>加载顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">init_array -&gt; JNI_OnLoad -&gt; ... -&gt; fini_array</span><br></pre></td></tr></table></figure>
+<h2 id="so-文件查看工具"><a href="#so-文件查看工具" class="headerlink" title="so 文件查看工具"></a>so 文件查看工具</h2><h3 id="readelf"><a href="#readelf" class="headerlink" title="readelf"></a>readelf</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>-a</code></td>
+<td style="text-align:center">显示 so 文件的所有信息</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-h</code></td>
+<td style="text-align:center">显示 ELF 文件头</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-l</code></td>
+<td style="text-align:center">显示 Program Headers，动态加载时需要的信息</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-S</code></td>
+<td style="text-align:center">显示 Section Headers，静态加载分析时需要的信息</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-e</code></td>
+<td style="text-align:center">显示 ELF Header、Section Headers、Program Headers 信息</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-s</code></td>
+<td style="text-align:center">显示符号表（Symbol Table）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-d</code></td>
+<td style="text-align:center">显示动态节区（Dynamic Section）</td>
+</tr>
+</tbody>
+</table>
+<p>显示 ELF 文件头：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -h libnative-lib.so</span><br><span class="line">ELF Header:</span><br><span class="line">  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00</span><br><span class="line">  Class:                             ELF32</span><br><span class="line">  Data:                              2<span class="string">'s complement, little endian</span></span><br><span class="line"><span class="string">  Version:                           1 (current)</span></span><br><span class="line"><span class="string">  OS/ABI:                            UNIX - System V</span></span><br><span class="line"><span class="string">  ABI Version:                       0</span></span><br><span class="line"><span class="string">  Type:                              DYN (Shared object file)</span></span><br><span class="line"><span class="string">  Machine:                           ARM</span></span><br><span class="line"><span class="string">  Version:                           0x1</span></span><br><span class="line"><span class="string">  Entry point address:               0x0</span></span><br><span class="line"><span class="string">  Start of program headers:          52 (bytes into file)</span></span><br><span class="line"><span class="string">  Start of section headers:          12932 (bytes into file)</span></span><br><span class="line"><span class="string">  Flags:                             0x5000200, Version5 EABI, soft-float ABI</span></span><br><span class="line"><span class="string">  Size of this header:               52 (bytes)</span></span><br><span class="line"><span class="string">  Size of program headers:           32 (bytes)</span></span><br><span class="line"><span class="string">  Number of program headers:         8</span></span><br><span class="line"><span class="string">  Size of section headers:           40 (bytes)</span></span><br><span class="line"><span class="string">  Number of section headers:         27</span></span><br><span class="line"><span class="string">  Section header string table index: 26</span></span><br></pre></td></tr></table></figure>
+<p>显示 Program headers：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -l libnative-lib.so</span><br><span class="line"></span><br><span class="line">Elf file <span class="built_in">type</span> is DYN (Shared object file)</span><br><span class="line">Entry point 0x0</span><br><span class="line">There are 8 program headers, starting at offset 52</span><br><span class="line"></span><br><span class="line">Program Headers:</span><br><span class="line">  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align</span><br><span class="line">  PHDR           0x000034 0x00000034 0x00000034 0x00100 0x00100 R   0x4</span><br><span class="line">  LOAD           0x000000 0x00000000 0x00000000 0x02ab6 0x02ab6 R E 0x1000</span><br><span class="line">  LOAD           0x002e3c 0x00003e3c 0x00003e3c 0x001dc 0x001dd RW  0x1000</span><br><span class="line">  DYNAMIC        0x002e8c 0x00003e8c 0x00003e8c 0x00110 0x00110 RW  0x4</span><br><span class="line">  NOTE           0x000134 0x00000134 0x00000134 0x000bc 0x000bc R   0x4</span><br><span class="line">  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10</span><br><span class="line">  EXIDX          0x0021f4 0x000021f4 0x000021f4 0x001b8 0x001b8 R   0x4</span><br><span class="line">  GNU_RELRO      0x002e3c 0x00003e3c 0x00003e3c 0x001c4 0x001c4 RW  0x4</span><br><span class="line"></span><br><span class="line"> Section to Segment mapping:</span><br><span class="line">  Segment Sections...</span><br><span class="line">   00</span><br><span class="line">   01     .note.android.ident .note.gnu.build-id .dynsym .dynstr .gnu.hash .<span class="built_in">hash</span> .gnu.version .gnu.version_d .gnu.version_r .rel.dyn .rel.plt .plt .text .ARM.exidx .ARM.extab .rodata</span><br><span class="line">   02     .fini_array .data.rel.ro .dynamic .got .data .bss</span><br><span class="line">   03     .dynamic</span><br><span class="line">   04     .note.android.ident .note.gnu.build-id</span><br><span class="line">   05</span><br><span class="line">   06     .ARM.exidx</span><br><span class="line">   07     .fini_array .data.rel.ro .dynamic .got</span><br></pre></td></tr></table></figure>
+<p>显示 Section headers：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -S libnative-lib.so</span><br><span class="line">There are 27 section headers, starting at offset 0x3284:</span><br><span class="line"></span><br><span class="line">Section Headers:</span><br><span class="line">  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al</span><br><span class="line">  [ 0]                   NULL            00000000 000000 000000 00      0   0  0</span><br><span class="line">  [ 1] .note.android.ide NOTE            00000134 000134 000098 00   A  0   0  4</span><br><span class="line">  [ 2] .note.gnu.build-i NOTE            000001cc 0001cc 000024 00   A  0   0  4</span><br><span class="line">  [ 3] .dynsym           DYNSYM          000001f0 0001f0 000190 10   A  4   1  4</span><br><span class="line">  [ 4] .dynstr           STRTAB          00000380 000380 0001d3 00   A  0   0  1</span><br><span class="line">  [ 5] .gnu.hash         GNU_HASH        00000554 000554 00004c 04   A  3   0  4</span><br><span class="line">  [ 6] .<span class="built_in">hash</span>             HASH            000005a0 0005a0 0000b0 04   A  3   0  4</span><br><span class="line">  [ 7] .gnu.version      VERSYM          00000650 000650 000032 02   A  3   0  2</span><br><span class="line">  [ 8] .gnu.version_d    VERDEF          00000684 000684 00001c 00   A  4   1  4</span><br><span class="line">  [ 9] .gnu.version_r    VERNEED         000006a0 0006a0 000040 00   A  4   2  4</span><br><span class="line">  [10] .rel.dyn          REL             000006e0 0006e0 0000e8 08   A  3   0  4</span><br><span class="line">  [11] .rel.plt          REL             000007c8 0007c8 000088 08  AI  3  20  4</span><br><span class="line">  [12] .plt              PROGBITS        00000850 000850 0000e0 00  AX  0   0  4</span><br><span class="line">  [13] .text             PROGBITS        00000930 000930 0018c4 00  AX  0   0  4</span><br><span class="line">  [14] .ARM.exidx        ARM_EXIDX       000021f4 0021f4 0001b8 08  AL 13   0  4</span><br><span class="line">  [15] .ARM.extab        PROGBITS        000023ac 0023ac 0001a4 00   A  0   0  4</span><br><span class="line">  [16] .rodata           PROGBITS        00002550 002550 000566 01 AMS  0   0  1</span><br><span class="line">  [17] .fini_array       FINI_ARRAY      00003e3c 002e3c 000008 04  WA  0   0  4</span><br><span class="line">  [18] .data.rel.ro      PROGBITS        00003e44 002e44 000048 00  WA  0   0  4</span><br><span class="line">  [19] .dynamic          DYNAMIC         00003e8c 002e8c 000110 08  WA  4   0  4</span><br><span class="line">  [20] .got              PROGBITS        00003f9c 002f9c 000064 00  WA  0   0  4</span><br><span class="line">  [21] .data             PROGBITS        00004000 003000 000018 00  WA  0   0  4</span><br><span class="line">  [22] .bss              NOBITS          00004018 003018 000001 00  WA  0   0  1</span><br><span class="line">  [23] .comment          PROGBITS        00000000 003018 000109 01  MS  0   0  1</span><br><span class="line">  [24] .note.gnu.gold-ve NOTE            00000000 003124 00001c 00      0   0  4</span><br><span class="line">  [25] .ARM.attributes   ARM_ATTRIBUTES  00000000 003140 000034 00      0   0  1</span><br><span class="line">  [26] .shstrtab         STRTAB          00000000 003174 00010f 00      0   0  1</span><br><span class="line">Key to Flags:</span><br><span class="line">  W (write), A (alloc), X (execute), M (merge), S (strings)</span><br><span class="line">  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)</span><br><span class="line">  O (extra OS processing required) o (OS specific), p (processor specific)</span><br></pre></td></tr></table></figure>
+<p>显示符号表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -s libnative-lib.so</span><br><span class="line"></span><br><span class="line">Symbol table <span class="string">'.dynsym'</span> contains 25 entries:</span><br><span class="line">   Num:    Value  Size Type    Bind   Vis      Ndx Name</span><br><span class="line">     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND</span><br><span class="line">     1: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_atexit@LIBC (2)</span><br><span class="line">     2: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_finalize@LIBC (2)</span><br><span class="line">     3: 00000000     0 OBJECT  GLOBAL DEFAULT  UND __stack_chk_guard@LIBC (2)</span><br><span class="line">     4: 00000000     0 FUNC    GLOBAL DEFAULT  UND __stack_chk_fail@LIBC (2)</span><br><span class="line">     5: 00000000     0 FUNC    GLOBAL DEFAULT  UND __android_log_print</span><br><span class="line">     6: 00000000     0 OBJECT  GLOBAL DEFAULT  UND __sF@LIBC (2)</span><br><span class="line">     7: 00000000     0 FUNC    GLOBAL DEFAULT  UND abort@LIBC (2)</span><br><span class="line">     8: 00000000     0 FUNC    GLOBAL DEFAULT  UND fflush@LIBC (2)</span><br><span class="line">     9: 00000000     0 FUNC    GLOBAL DEFAULT  UND fprintf@LIBC (2)</span><br><span class="line">    10: 00000000     0 FUNC    GLOBAL DEFAULT  UND dladdr@LIBC (3)</span><br><span class="line">    11: 00000000     0 FUNC    GLOBAL DEFAULT  UND __aeabi_memclr8</span><br><span class="line">    12: 00000000     0 FUNC    GLOBAL DEFAULT  UND __aeabi_memcpy</span><br><span class="line">    13: 00000000     0 FUNC    GLOBAL DEFAULT  UND __gnu_Unwind_Find_exidx</span><br><span class="line">    14: 00000000     0 FUNC    GLOBAL DEFAULT  UND snprintf@LIBC (2)</span><br><span class="line">    15: 00004018     0 NOTYPE  GLOBAL DEFAULT  ABS _edata</span><br><span class="line">    16: 00004019     0 NOTYPE  GLOBAL DEFAULT  ABS _end</span><br><span class="line">    17: 00000975    36 FUNC    GLOBAL DEFAULT   13 Java_com_assassinq_easycp</span><br><span class="line">    18: 00000999    44 FUNC    WEAK   DEFAULT   13 _ZN7_JNIEnv12NewStringUTF</span><br><span class="line">    19: 00000b87    72 FUNC    WEAK   DEFAULT   13 _ZN7_JNIEnv15RegisterNati</span><br><span class="line">    20: 00000b5d    42 FUNC    WEAK   DEFAULT   13 _ZN7_JNIEnv9FindClassEPKc</span><br><span class="line">    21: 00004018     0 NOTYPE  GLOBAL DEFAULT  ABS __bss_start</span><br><span class="line">    22: 000009e9   224 FUNC    GLOBAL DEFAULT   13 JNI_OnLoad</span><br><span class="line">    23: 00000ac9    52 FUNC    WEAK   DEFAULT   13 _ZN7_JavaVM6GetEnvEPPvi</span><br><span class="line">    24: 000009c5    36 FUNC    GLOBAL DEFAULT   13 sayHi</span><br></pre></td></tr></table></figure>
+<p>显示 Dynamic Section：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -d libnative-lib.so</span><br><span class="line"></span><br><span class="line">Dynamic section at offset 0x2e8c contains 29 entries:</span><br><span class="line">  Tag        Type                         Name/Value</span><br><span class="line"> 0x00000003 (PLTGOT)                     0x3fb0</span><br><span class="line"> 0x00000002 (PLTRELSZ)                   136 (bytes)</span><br><span class="line"> 0x00000017 (JMPREL)                     0x7c8</span><br><span class="line"> 0x00000014 (PLTREL)                     REL</span><br><span class="line"> 0x00000011 (REL)                        0x6e0</span><br><span class="line"> 0x00000012 (RELSZ)                      232 (bytes)</span><br><span class="line"> 0x00000013 (RELENT)                     8 (bytes)</span><br><span class="line"> 0x6ffffffa (RELCOUNT)                   26</span><br><span class="line"> 0x00000006 (SYMTAB)                     0x1f0</span><br><span class="line"> 0x0000000b (SYMENT)                     16 (bytes)</span><br><span class="line"> 0x00000005 (STRTAB)                     0x380</span><br><span class="line"> 0x0000000a (STRSZ)                      467 (bytes)</span><br><span class="line"> 0x6ffffef5 (GNU_HASH)                   0x554</span><br><span class="line"> 0x00000004 (HASH)                       0x5a0</span><br><span class="line"> 0x00000001 (NEEDED)                     Shared library: [liblog.so]</span><br><span class="line"> 0x00000001 (NEEDED)                     Shared library: [libm.so]</span><br><span class="line"> 0x00000001 (NEEDED)                     Shared library: [libdl.so]</span><br><span class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so]</span><br><span class="line"> 0x0000000e (SONAME)                     Library soname: [libnative-lib.so]</span><br><span class="line"> 0x0000001a (FINI_ARRAY)                 0x3e3c</span><br><span class="line"> 0x0000001c (FINI_ARRAYSZ)               8 (bytes)</span><br><span class="line"> 0x0000001e (FLAGS)                      BIND_NOW</span><br><span class="line"> 0x6ffffffb (FLAGS_1)                    Flags: NOW</span><br><span class="line"> 0x6ffffff0 (VERSYM)                     0x650</span><br><span class="line"> 0x6ffffffc (VERDEF)                     0x684</span><br><span class="line"> 0x6ffffffd (VERDEFNUM)                  1</span><br><span class="line"> 0x6ffffffe (VERNEED)                    0x6a0</span><br><span class="line"> 0x6fffffff (VERNEEDNUM)                 2</span><br><span class="line"> 0x00000000 (NULL)                       0x0</span><br></pre></td></tr></table></figure>
+<h3 id="SO-Helper"><a href="#SO-Helper" class="headerlink" title="SO Helper"></a>SO Helper</h3><p>无名侠大佬开发的软件。可以用来快速地获取 so 文件的一些基本信息，提供较弱的汇编功能。</p>
+<h1 id="ARM-汇编代码"><a href="#ARM-汇编代码" class="headerlink" title="ARM 汇编代码"></a>ARM 汇编代码</h1><p>ARM 是 ARM 公司的 32 位处理器，其汇编指令的机器码就是 32 位。</p>
+<ol>
+<li>ARM 汇编语言是一门“低级”语言可以和系统的底层相互沟通；</li>
+<li>ARM 汇编语言编写的程序运行速度快，占用内存少；</li>
+<li>ARM 编写的代码难懂，难以维护；</li>
+<li>C 语言能实现的 ARM 汇编语言都能实现；</li>
+<li>ARM 具有 31 个通用寄存器，6 个状态寄存器；</li>
+<li>ARM 处理器支持 7 种运行模式。<ol>
+<li>用户模式：ARM 处理器正常的程序执行状态。</li>
+<li>快速中断模式：用于高速数据传输或通道处理。</li>
+<li>外部中断模式：用于通用的中断处理。</li>
+<li>管理模式：操作系统使用的保护模式。</li>
+<li>数据访问终止模式：当数据或指令预取终止时进如该模式，可用于模拟存储及存储保护。</li>
+<li>系统模式：运行具有特权的操作系统任务。</li>
+<li>未定义指令中止模式：当未定义的指令执行时进入该模式。</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>ARM 汇编难以分析的原因：IDA 自身的缺陷；函数库与类有时无法识别；自身对 ARM 汇编的熟练度。</p>
+</blockquote>
+<h2 id="函数参数传递"><a href="#函数参数传递" class="headerlink" title="函数参数传递"></a>函数参数传递</h2><p>遵循 ATPCS 规则，前 4 个参数使用 R0~R3 传递，剩余参数通过堆栈传递。</p>
+<h2 id="ARM-和-Thumb"><a href="#ARM-和-Thumb" class="headerlink" title="ARM 和 Thumb"></a>ARM 和 Thumb</h2><p>Thumb 是 16 位的 ARM 汇编。一般地，ARM 每行代码占 4 个字节码，Thumb 每个指令占 2 个字节。两者不能混用，但可以通过 BX、BLX 等指令在跳转的时候实现切换。在动态调试的时候，IDA 对 ARM 和 Thumb 的分析会混淆，可以用 Alt+G 来修改相应的识别。</p>
+<h2 id="ARM-寄存器"><a href="#ARM-寄存器" class="headerlink" title="ARM 寄存器"></a>ARM 寄存器</h2><ul>
+<li>R0-R7：通用寄存器</li>
+<li>R8-R10：不常用的通用寄存器</li>
+<li>R11：基质寄存器（FP）</li>
+<li>R12：暂时寄存器（IP）</li>
+<li>R13：堆栈制作（SP）</li>
+<li>R14：链接寄存器（LR）</li>
+<li>CPSR：状态寄存器</li>
+</ul>
+<h2 id="ARM-指令"><a href="#ARM-指令" class="headerlink" title="ARM 指令"></a>ARM 指令</h2><h3 id="寄存器交互指令"><a href="#寄存器交互指令" class="headerlink" title="寄存器交互指令"></a>寄存器交互指令</h3><ul>
+<li>LDR：从存储器中加载数据到寄存器。<ul>
+<li><code>LDR R1, [R2]</code>：把 R2 指向的位置的数据给 R1</li>
+</ul>
+</li>
+<li>STR：把寄存器的数据存储到存储器<ul>
+<li><code>STR R1, [R2]</code>：在 R2 指向的地址，存储 R1</li>
+</ul>
+</li>
+<li>LDM：将存储器的数据加载到一个寄存器列表。<ul>
+<li><code>LDM R0, {R1, R2, R3}</code>：把 R0 中的数据一次加载到 R1、R2、R3</li>
+</ul>
+</li>
+<li>SDM：将一个寄存器列表的数据存储到指定的存储器<ul>
+<li><code>SDM R0, {R1, R2, R3}</code>：把 R1、R2、R3 加载到 R0 单元</li>
+</ul>
+</li>
+<li>PUSH：入栈</li>
+<li>POP：出栈</li>
+</ul>
+<h3 id="数据传送指令"><a href="#数据传送指令" class="headerlink" title="数据传送指令"></a>数据传送指令</h3><ul>
+<li>MOV：将立即数或寄存器的数据传送到目标寄存器</li>
+</ul>
+<h3 id="数据算数运算指令"><a href="#数据算数运算指令" class="headerlink" title="数据算数运算指令"></a>数据算数运算指令</h3><h4 id="ADD（加法）"><a href="#ADD（加法）" class="headerlink" title="ADD（加法）"></a>ADD（加法）</h4><p>ADD 将把两个操作数加起来，把结果放置到目的寄存器中。操作数 1 是一个寄存器，操作数 2 可以是一个寄存器，被移位的寄存器，或一个立即值。</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD </span><span class="built_in">R0</span>, <span class="built_in">R1</span>, <span class="built_in">R2</span> <span class="comment">@ R0 = R1 + R2</span></span><br><span class="line"><span class="keyword">ADD </span><span class="built_in">R0</span>, <span class="built_in">R1</span>, <span class="number">#256</span> <span class="comment">@ R0 = R1 + 256</span></span><br><span class="line"><span class="keyword">ADD </span><span class="built_in">R0</span>, <span class="built_in">R2</span>, <span class="built_in">R3</span>, <span class="keyword">LSL#1 </span><span class="comment">@ R0 = R2 + (R3 &lt;&lt; 1)</span></span><br></pre></td></tr></table></figure>
+<p>加法可以在有符号和无符号数上进行。</p>
+<ul>
+<li>ADC：带进位的加法</li>
+</ul>
+<h4 id="SUB（减法）"><a href="#SUB（减法）" class="headerlink" title="SUB（减法）"></a>SUB（减法）</h4><p>SUB 用操作数 1 减去操作数 2，把结果放置到目的寄存器中。操作数 1 是一个寄存器，操作数 2 可以是一个寄存器，被移位的寄存器，或一个立即值。</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SUB </span><span class="built_in">R0</span>, <span class="built_in">R1</span>, <span class="built_in">R2</span> <span class="comment">@ R0 = R1 - R2</span></span><br><span class="line"><span class="keyword">SUB </span><span class="built_in">R0</span>, <span class="built_in">R1</span>, <span class="number">#256</span> <span class="comment">@ R0 = R1 - 256</span></span><br><span class="line"><span class="keyword">SUB </span><span class="built_in">R0</span>, <span class="built_in">R2</span>, <span class="built_in">R3</span>, <span class="keyword">LSL#1 </span><span class="comment">@ R0 = R2 - (R3 &lt;&lt; 1)</span></span><br></pre></td></tr></table></figure>
+<p>减法可以在有符号和无符号数上进行。</p>
+<ul>
+<li>SBC：带进位的减法</li>
+</ul>
+<h4 id="MUL（乘法）和-DIV（除法）"><a href="#MUL（乘法）和-DIV（除法）" class="headerlink" title="MUL（乘法）和 DIV（除法）"></a>MUL（乘法）和 DIV（除法）</h4><ul>
+<li>给出的所有操作数、和目的寄存器必须为简单的寄存器。</li>
+<li>不能对操作数 2 使用立即值或被移位的寄存器。</li>
+<li>目的寄存器和操作数 1 必须是不同的寄存器。</li>
+<li>不能指定 R15 为目的寄存器</li>
+</ul>
+<p>MUL 提供 32 位整数乘法。如果操作数是有符号的，可以假定结果也是有符号的。</p>
+<ul>
+<li>MLA：带累加的乘法</li>
+</ul>
+<p>除法指令 DIV 的条件与乘法类似。</p>
+<ul>
+<li>SDIV：带符号除法</li>
+<li>UDIV：不带符号位除法</li>
+</ul>
+<h3 id="数据逻辑运算指令"><a href="#数据逻辑运算指令" class="headerlink" title="数据逻辑运算指令"></a>数据逻辑运算指令</h3><ul>
+<li>AND：与</li>
+<li>ORR：或</li>
+<li>EOR：异或</li>
+<li>LSL：逻辑左移</li>
+<li>LSR：逻辑右移</li>
+</ul>
+<h3 id="比较指令"><a href="#比较指令" class="headerlink" title="比较指令"></a>比较指令</h3><ul>
+<li>CMP：比较指令</li>
+</ul>
+<h3 id="其他指令"><a href="#其他指令" class="headerlink" title="其他指令"></a>其他指令</h3><ul>
+<li>SWT：切换用户模式</li>
+<li>DCB：伪指令</li>
+</ul>
+<h3 id="跳转指令"><a href="#跳转指令" class="headerlink" title="跳转指令"></a>跳转指令</h3><ul>
+<li>B：无条件跳转</li>
+<li>BL：带链接的无条件跳转</li>
+<li>BLX：带状态的无条件跳转</li>
+<li>BNE：不相等跳转</li>
+<li>BEQ：相等跳转</li>
+</ul>
+<h4 id="偏移地址计算"><a href="#偏移地址计算" class="headerlink" title="偏移地址计算"></a>偏移地址计算</h4><ul>
+<li>ARM：低 27 位是偏移位置<ul>
+<li>偏移 = (目标地址 - 当前 PC 地址) / 指令长度</li>
+<li>正数下跳，负数上跳</li>
+</ul>
+</li>
+<li>Thumb 同理</li>
+<li>目标地址 = 偏移 * 指令长度 + 当前偏移地址</li>
+</ul>
+<h2 id="ARM-代码编写"><a href="#ARM-代码编写" class="headerlink" title="ARM 代码编写"></a>ARM 代码编写</h2><p>处理器架构定义：</p>
+<ul>
+<li><code>.arch</code> 指定了 ARM 处理器架构。</li>
+<li><code>armv5te</code> 表示本程序在 armv5te 架构处理器上运行。</li>
+<li><code>.fpu</code> 指定了协处理器的类型。</li>
+<li><code>softvfp</code> 表示使用浮点运算库来模拟协处理运算。</li>
+<li><code>.ebi_attribute</code> 指定了一些接口属性。</li>
+</ul>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">.arch</span> armv5te <span class="comment">@处理器架构</span></span><br><span class="line"><span class="symbol">.fpu</span> softvfp  <span class="comment">@协处理器类型</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">20</span>, <span class="number">1</span> <span class="comment">@接口属性</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">21</span>, <span class="number">1</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">23</span>, <span class="number">1</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">24</span>, <span class="number">1</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">25</span>, <span class="number">1</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">26</span>, <span class="number">1</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">30</span>, <span class="number">1</span></span><br><span class="line"><span class="symbol">.ebi_attribute</span> <span class="number">18</span>, <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>段定义：</p>
+<ul>
+<li><code>.section</code>：定义只读数据，属性是默认</li>
+<li><code>.text</code>：定义了代码段。</li>
+</ul>
+<p>注释方法：</p>
+<ul>
+<li><code>/.../</code>：多行注释</li>
+<li><code>@</code>：单行注释</li>
+</ul>
+<p>标号方式（和 8086 类似）：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">loop</span>:</span><br><span class="line">    ...</span><br><span class="line"><span class="symbol">end</span> loop</span><br></pre></td></tr></table></figure>
+<p>程序中所有以“.”开头的指令都是汇编指令，他们不属于 ARM 指令集：</p>
+<ul>
+<li>.file：制定了源文件名。</li>
+<li>.align：代码对其方式。</li>
+<li>.ascii：声明字符串。</li>
+<li>.global：声明全局变量。</li>
+<li>.type：指定符号的类型。</li>
+</ul>
+<p>声明函数的方法：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">.global</span> 函数名</span><br><span class="line"><span class="symbol">.type</span> 函数名, %<span class="meta">function</span></span><br><span class="line">函数名:</span><br><span class="line">    &lt;...函数体...&gt;</span><br><span class="line">声明一个实现两个数相加的函数的代码</span><br><span class="line"><span class="symbol">.global</span> MyAdd</span><br><span class="line"><span class="symbol">.type</span> MyAdd, &amp;<span class="meta">function</span></span><br><span class="line"><span class="symbol">MyAdd</span>:</span><br><span class="line">    <span class="keyword">ADD </span><span class="built_in">R0</span>, <span class="built_in">R0</span>, <span class="built_in">R1</span></span><br><span class="line">    <span class="keyword">MOV </span><span class="built_in">PC</span>, <span class="built_in">LR</span></span><br></pre></td></tr></table></figure>
+<h2 id="ARM-处理器寻址方式"><a href="#ARM-处理器寻址方式" class="headerlink" title="ARM 处理器寻址方式"></a>ARM 处理器寻址方式</h2><h3 id="立即寻址"><a href="#立即寻址" class="headerlink" title="立即寻址"></a>立即寻址</h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">@ 井号（#）作为前缀，表示16进制时以“0x”开头</span></span><br><span class="line"><span class="keyword">MOV </span><span class="built_in">R0</span>，<span class="number">#1234</span> <span class="comment">@ R0=0x1234</span></span><br></pre></td></tr></table></figure>
+<h3 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MOV </span><span class="built_in">R0</span>, <span class="built_in">R1</span> <span class="comment">@ R0=R1</span></span><br></pre></td></tr></table></figure>
+<h3 id="寄存器移位寻址"><a href="#寄存器移位寻址" class="headerlink" title="寄存器移位寻址"></a>寄存器移位寻址</h3><p>五种移位操作：</p>
+<ul>
+<li>LSL：逻辑左移，移位后寄存器空出的低位补 0；</li>
+<li>LSR：逻辑右移，移位后寄存器空出的高位补 0；</li>
+<li>ASR：算数右移，移动过程中符号位不变。如果操作数是整数，则移位后空出的高位补 0，否则补 1；</li>
+<li>ROR：循环右移，移位后移出的低位填入移位空出的高位；</li>
+<li>RRX：带扩展的循环右移，操作数右移移位，移位空出的高位用 C 标志的值填充。</li>
+</ul>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MOV </span><span class="built_in">R0</span>, <span class="built_in">R1</span>, <span class="keyword">LSL#2 </span><span class="comment">@ R0=R1*4</span></span><br></pre></td></tr></table></figure>
+<h3 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LDR </span><span class="built_in">R0</span>，[<span class="built_in">R1</span>] <span class="comment">@ 将R1寄存器中的值作为地址，取出地址中的值赋予R0</span></span><br></pre></td></tr></table></figure>
+<h3 id="寄存器间接基址偏移寻址"><a href="#寄存器间接基址偏移寻址" class="headerlink" title="寄存器间接基址偏移寻址"></a>寄存器间接基址偏移寻址</h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LDR </span><span class="built_in">R0</span>, [<span class="built_in">R1</span>, #-<span class="number">4</span>] <span class="comment">@ 将R1寄存器的值-0x4的值作为地址，取出地址中的值给R0</span></span><br></pre></td></tr></table></figure>
+<h3 id="多寄存器寻址"><a href="#多寄存器寻址" class="headerlink" title="多寄存器寻址"></a>多寄存器寻址</h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">@ LDM 是数据加载命令，指令的后缀IA表示每次执行完成加载操作后R0寄存器的值自增1</span></span><br><span class="line"><span class="keyword">LDMIA </span><span class="built_in">R0</span>, &#123;<span class="built_in">R1</span>, <span class="built_in">R2</span>, <span class="built_in">R3</span>, <span class="built_in">R4</span>&#125;</span><br><span class="line"><span class="comment">@ R1=[R0]</span></span><br><span class="line"><span class="comment">@ R2=[R0+#4]</span></span><br><span class="line"><span class="comment">@ R3=[R0+#8]</span></span><br><span class="line"><span class="comment">@ R4=[R0+#12]</span></span><br><span class="line"><span class="comment">@ ARM中，字表示的是一个32位。这里+#4的原因是因为32位占4个字节</span></span><br></pre></td></tr></table></figure>
+<h3 id="堆栈寻址"><a href="#堆栈寻址" class="headerlink" title="堆栈寻址"></a>堆栈寻址</h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">STMFD </span><span class="built_in">SP</span>!, &#123;<span class="built_in">R1</span>-<span class="built_in">R7</span>, <span class="built_in">LR</span>&#125; <span class="comment">@ 入栈，多用于保存子程序堆栈</span></span><br><span class="line"><span class="keyword">LDMFD </span><span class="built_in">SP</span>!, &#123;<span class="built_in">R1</span>-<span class="built_in">R7</span>, <span class="built_in">LR</span>&#125; <span class="comment">@ 出栈，多用于恢复子程序堆栈</span></span><br></pre></td></tr></table></figure>
+<h3 id="块拷贝寻址"><a href="#块拷贝寻址" class="headerlink" title="块拷贝寻址"></a>块拷贝寻址</h3><p>块拷贝可实现连续地址数据从存储器的某一位置拷贝到另一位置。</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LDMIA </span><span class="built_in">R0</span>!, &#123;<span class="built_in">R1</span>-<span class="built_in">R3</span>&#125; <span class="comment">@ 从寄存器指向的存储单元中读取3个字到R1-R3寄存器。</span></span><br></pre></td></tr></table></figure>
+<h3 id="相对寻址"><a href="#相对寻址" class="headerlink" title="相对寻址"></a>相对寻址</h3><p>相对寻址一程序计数器 PC 的当前值为基地址，指令中的地址标号作为偏移量，将两者相加之后得到的操作数的有效地址。</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.bilibili.com/video/av45424886" target="_blank" rel="noopener">https://www.bilibili.com/video/av45424886</a><br><a href="https://blog.csdn.net/miao_007/article/details/87632758" target="_blank" rel="noopener">https://blog.csdn.net/miao_007/article/details/87632758</a><br><a href="https://stackoverflow.com/questions/4629308/any-simple-way-to-log-in-android-ndk-code" target="_blank" rel="noopener">https://stackoverflow.com/questions/4629308/any-simple-way-to-log-in-android-ndk-code</a><br><a href="https://www.jianshu.com/p/acbf724fdcc9" target="_blank" rel="noopener">https://www.jianshu.com/p/acbf724fdcc9</a><br><a href="https://blog.csdn.net/afei__/article/details/81031965" target="_blank" rel="noopener">https://blog.csdn.net/afei__/article/details/81031965</a><br><a href="https://www.luoxudong.com/360.html" target="_blank" rel="noopener">https://www.luoxudong.com/360.html</a><br><a href="https://www.jianshu.com/p/23af9151837e" target="_blank" rel="noopener">https://www.jianshu.com/p/23af9151837e</a><br><a href="https://juejin.im/post/5afe28446fb9a07aa0483d0a" target="_blank" rel="noopener">https://juejin.im/post/5afe28446fb9a07aa0483d0a</a><br><a href="https://www.52pojie.cn/thread-699268-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-699268-1-1.html</a><br><a href="https://www.52pojie.cn/thread-673175-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-673175-1-1.html</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/05/Nexus5刷机、Root并安装Xposed框架/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Nexus5刷机、Root并安装Xposed框架
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/25/CTF-CheatSheet-by-AssassinQ/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【TOP】CTF CheatSheet by AssassinQ</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Environment"><span class="nav-number">1.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JNI"><span class="nav-number">2.</span> <span class="nav-text">JNI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Native-函数注册"><span class="nav-number">2.1.</span> <span class="nav-text">Native 函数注册</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态注册"><span class="nav-number">2.1.1.</span> <span class="nav-text">静态注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态注册"><span class="nav-number">2.1.2.</span> <span class="nav-text">动态注册</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#so-动态链接库"><span class="nav-number">2.2.</span> <span class="nav-text">so 动态链接库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDA-反编译-so-文件"><span class="nav-number">2.3.</span> <span class="nav-text">IDA 反编译 so 文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDA-动态调试-apk"><span class="nav-number">3.</span> <span class="nav-text">IDA 动态调试 apk</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态链接库文件（-so-文件）"><span class="nav-number">4.</span> <span class="nav-text">动态链接库文件（.so 文件）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#so-文件查看工具"><span class="nav-number">4.1.</span> <span class="nav-text">so 文件查看工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#readelf"><span class="nav-number">4.1.1.</span> <span class="nav-text">readelf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SO-Helper"><span class="nav-number">4.1.2.</span> <span class="nav-text">SO Helper</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ARM-汇编代码"><span class="nav-number">5.</span> <span class="nav-text">ARM 汇编代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数参数传递"><span class="nav-number">5.1.</span> <span class="nav-text">函数参数传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARM-和-Thumb"><span class="nav-number">5.2.</span> <span class="nav-text">ARM 和 Thumb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARM-寄存器"><span class="nav-number">5.3.</span> <span class="nav-text">ARM 寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARM-指令"><span class="nav-number">5.4.</span> <span class="nav-text">ARM 指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器交互指令"><span class="nav-number">5.4.1.</span> <span class="nav-text">寄存器交互指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传送指令"><span class="nav-number">5.4.2.</span> <span class="nav-text">数据传送指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据算数运算指令"><span class="nav-number">5.4.3.</span> <span class="nav-text">数据算数运算指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ADD（加法）"><span class="nav-number">5.4.3.1.</span> <span class="nav-text">ADD（加法）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SUB（减法）"><span class="nav-number">5.4.3.2.</span> <span class="nav-text">SUB（减法）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MUL（乘法）和-DIV（除法）"><span class="nav-number">5.4.3.3.</span> <span class="nav-text">MUL（乘法）和 DIV（除法）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据逻辑运算指令"><span class="nav-number">5.4.4.</span> <span class="nav-text">数据逻辑运算指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较指令"><span class="nav-number">5.4.5.</span> <span class="nav-text">比较指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他指令"><span class="nav-number">5.4.6.</span> <span class="nav-text">其他指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转指令"><span class="nav-number">5.4.7.</span> <span class="nav-text">跳转指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#偏移地址计算"><span class="nav-number">5.4.7.1.</span> <span class="nav-text">偏移地址计算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARM-代码编写"><span class="nav-number">5.5.</span> <span class="nav-text">ARM 代码编写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARM-处理器寻址方式"><span class="nav-number">5.6.</span> <span class="nav-text">ARM 处理器寻址方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#立即寻址"><span class="nav-number">5.6.1.</span> <span class="nav-text">立即寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器寻址"><span class="nav-number">5.6.2.</span> <span class="nav-text">寄存器寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器移位寻址"><span class="nav-number">5.6.3.</span> <span class="nav-text">寄存器移位寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器间接寻址"><span class="nav-number">5.6.4.</span> <span class="nav-text">寄存器间接寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器间接基址偏移寻址"><span class="nav-number">5.6.5.</span> <span class="nav-text">寄存器间接基址偏移寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多寄存器寻址"><span class="nav-number">5.6.6.</span> <span class="nav-text">多寄存器寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆栈寻址"><span class="nav-number">5.6.7.</span> <span class="nav-text">堆栈寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块拷贝寻址"><span class="nav-number">5.6.8.</span> <span class="nav-text">块拷贝寻址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相对寻址"><span class="nav-number">5.6.9.</span> <span class="nav-text">相对寻址</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
