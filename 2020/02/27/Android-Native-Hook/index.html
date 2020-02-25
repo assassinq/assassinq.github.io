@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Android Native Hook | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="reandroid">
+  
+  
+  
+  
+  <meta name="description" content="Continue Reading...">
+<meta name="keywords" content="re,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Native Hook">
+<meta property="og:url" content="qianfei11.coding.me/2020/02/27/Android-Native-Hook/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Continue Reading...">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-02-25T11:46:25.304Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Native Hook">
+<meta name="twitter:description" content="Continue Reading...">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Android-Native-Hook" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Android Native Hook
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/02/27/Android-Native-Hook/" class="article-date">
+	  <time datetime="2020-02-27T04:50:51.000Z" itemprop="datePublished">February 27, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  6 words
+	  |
+	  1 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder>
+    <label for="hbePass">Enter Password and Continue Reading...</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="bec0313f475fcacf2bf00164debaa6bf1f0f27c6fc0612139c3169087507ab14">4f566c74999324689d3d0809affd6997e80617111501fe7431de88aeb631f3a765ae3f6b26af36eed6f3bced81e321534fa367de70dc069bd171f71aa10c58a71ddedf0abb81f2e66498dc8688eac9334c217ebcde5841e64fc73777e1658ed270404428d204b1f44e300055e4e5aa2efaffd8e4ae824dd43b2a1d73ca07a099ea67a0adc82c5c72120fdf84379015fbb4ba5faccfccb8b4d03a99c66ad9253a715f947d23a673d2105ee75b0ec6ecb0b9e651ec74ee061307231bd758d6a942d27c4c4263a7b0934a6b100247bfef9f8117ddaaacd8a20102ed561249a7868415b002f6005adad000c41f6e9b9ff0dc28239c5ec4a4a2c610203acf496d668e7ce869335e2bc576daac99a910af8755e82d6932e186f0b4018e38694cd0cfb568e137039235f167ac2c57c658205efdd02f1ab8b8626d212f74b3c2d0b18a493fd5da1b1e7198a105cc0e163d78ce2d5f6b2a1f976d7afe5c32049a8e1aaab17e678d366fe784122702fb49f50f6734347d9be82b9c2117d2ad6843255604ec1efabd4617ae1ee4346a13af7d4362f7f04f713a532159c0257acdf242df730e6da8189f1854d39bd121969a1676b93f6ccdd410683d9e557377ca83e59ff35e40bfd9537662826ec30ba031c03691108a474202ccf8581894947d98fd9128a31815dceb0eec5749cc9b845eae5d7b2522d7723161750964aeeb3cf94a1f7015a5ad1bf9fb4a429be7202d5ecb6a9876b8c143694372db4f4e18556c9e05da1f6243e1a691a191b4e4f112ba0ecf01a8a7a3929919c170650a3dcf16b460ead4045f159bfa6dd3ed5e64236a31f7e9640b61162b54b64bab3f6f60b53a5f1505206b1f9f1b63a07a2244a97b918a2a470b3b302c10b408bf51d8073118248ae1cca57ca7a8e01f4ca290191402f7e0435214f572b762a7ab4e38ca422026c2409055339c048adcf65fe7efbe4bf15eb1f6dc08cbd0fa423a3306ad72e8dfa776d375f4ae7a4da46120e8387919abc8e9c083da1d8151926e5d40f22ffd171a428be3ff98f39f2bc6600d21ffad19881a1d518c65f64b3c727a2d215191f33f700ab2be186c39d19045aa6918ac3c96c0b10a9eb3ca1899ec6de40191662af5894c369cb88aa0e8371a66dad5abcbd3f064b072d7e6241334d277b4d7e0094471ba3836adc6ae6f425d768386047377fc94db5ee5e4a8f6521ec325db23613ffe6ff214cf3541ea4943488636eb1af05682c1e23d2208c6a5c6daae50dbce26d9ef41546ff6c99b643055e6946035cf8ea3e76667f898bb1422419bd0941187a25eb5b9d41b58799d29c5061b028f35f45ea597494b08d706174218a603e8e1740ae7cd930283eeb39384dc7edd229eb88633a7784eb262141d5c718c6f03d1578f7869109230ccdffb70c89f7197fbebacdf74879a4597df6a8ed07ea48c28b102351df000c5a3fe5b29ecd04d35985f317e30e8ae6e0a62c351815275c09c03387fb333fdac476d1c6079a9357335cda86820914a5d97c51482acab06e3700d806a0c14a2bd8e214e23dea8d1c718b7af1fd9275fc0ac4697e1393e305f11f46611a6551b1579c6f716834368764e9c3f63f052115cf75cfb1dd83858627d6eec848883c854ce0c908b8da5b03cbcee950823ac6c7e07b13975e878f51a6f1bc85f32315ca8718a3bdf82eca6c924d43ba206fc55d5e1f2690eb8a0550ef659acd58da017c96c568e035b4eb70fcfab793f4b5a9e447191fa13a6cf35e803f81aff1e7aabc6f4449a8fa65c728a971119dd80e4acf07ec2881877c239c913839be9f209892c5546bd0c31bc8b2c30abd8d058dc315bf5a90173a947deb59a623c28b9ac0ae8c2dff893b60b0398100d630d0838dd0db6ea6644a231191fd60dcfeca160ac653fecf785e1719d44c361ebf7fa30d5d24b810159349bb1be9c6dabd36a38bb67b346eefd32d01c61161db071cc07b67234fe6b6df24b210e6f4aeee61852b397c2559f7ef01d050684d7f71022bb88b04c7e9bc5032a3baea48c57d3c37747f88d4d7e30d885047876a7adcf3c28acce0587545bf194cf0c6efc0461c5d5b0118e1d567d509ad0adaf7e7b61a79a5c8e4f0e37b97faf8a21f074112ab5226ceb5b9ef3526ce582347f3085933e47a72a12c5eff3a2d732d451a203ff98b928bbe1a696cc9e0e29923e1aa9e60a5e480897a440e4605b48c465301cd5916be0263e53985edfc05f061f0bcbfaac663b59cdb5bbaaa4097f6967ab79c0020cf6a7f835010c194a352f0cd996ea488180ca1eb2d0a328d10511b48e596bb4d4aa2b1feb75ea66a47352d666f6f0f53ebaf620675dc38bb0c4dedae28e37f66fbf4caefd2d5cee159fed344647589405bf03bb3d4ea98abd3a21c14a57fd366dd0cb0f0977601dcaa840200efdcb85b97c858eaa76f11bf4d98f2cf776b6126b40ab9da33e7678b71bbab8562375e5d38dfede98e2797cc2e7a6408e822b43ec49b971cde5cabe8fd4581b5ac2add814048e126cc0520d81caa43b51bff699388310253b12783e53ab874d3e992fe14d7911c5be0df888dd63abd85c7d061a27373e670a1b5628132159ebba7d6e395ed202e2e0f3becc3e483edff04e1f46443425d3320e69ff14e33e88adaafd22a0a2a7bf14ae2921db421fb068c988a78298a44420ae5d4c84733e219afb58bb077eb2289ee305b97f210d18c62e9cf297a1258bbed63aeb461039eb3f513c68f2df0e6762c2af002da0670b5a6b10166aefa920dd20ae26abe36d9aad5f6592d3e2d03a0c1f52002be2b8ebf62a0b3bcd112d0dd38cc1e3d130437dbdd73da70682eb433dc2f2c020122c1a8965dcf00551e9901ebd64aa0f37b55742cbd470e5daa8de8fd35369be9c1e78263c3e62d4b9fcd88b6eafb02f2be8825bf3ecec000b8301d4d605ce5fc96b1e2e91d879375db2d2d2591caa0ea25923db4b21b63df0d4be2850ef9088f9cc2566bfb4756358b6a3dd5b7ee47fda07e08529f1d54093952f9137c33c193bf10afc1a0793b292f4b67c39ac1d958790dca42a21a861ca7bf7f9f0713176408e9915254a8b2ff43fd88056aa6ad1fe962e20869c73010b8e5928404fd87ef28554785013aeafb9eff8b83fbde39318f7b9d567a978a2c5281b6919de903bca77b6ec896d6b1db5edc2e4a6b5c00227f3236889e6ff31e01683a73c0786b90228eeb6773f48b0671c67605e84570cb616cffc7ffa0f3e5be39dd232a07e30966987142297cbf4c78a97954ee66ee284bc2b6be7040f39a8ff4e497e169c7f4a4e457b82fda81100c533d2ef2b32db8b525c6a1002e5decfa05676a0bb99158d007c7e170c0715e81c524e93628d0844bf7dd856b7b1c77459e8d8d8445f05f99d6d147046e63172e950bfe14f70dd7d760eaf8f21c94e8e95f43e10067b34adbf95e63d0945516bbda9c1825101bb4f288964ad5646d09cd362005105617ee4a3702d0bb8f21e1610300747ed742877dfbd221bde75ec22255536d5e4cff784e18221278618d871c323ea7ef3a651db68e0cc9ba18baad94935e75c930e5e1620b30dcb67aa69c87193bcb445c26dd6a7f3a71a922625cfc0e7e9e0b2e25e0f3e325c6e202d5fa19a902ccb04b4595d7ad23b81b3d58b5dc7c1f9de2dc5165d10dae69504a421d5f3bc95c5e25410ee0c32022118c0705918d256c7a2b3743ad815747d8f79b3304201b99cdbd0744ddeb8c43898894bb656d4b9ca453b31133eef5074c5aef12bd2db2a74bbb303dd5a58e4c9b790c38cd08c635a7f5db247f2f1f5dd9cc61d124aaa8a68d3054ff41e6a09dce22878a3dcb9f68bed5df975b90b48f80e8f63d1726082a1fbf545fc94ed4c7675e5a5a365dc82618e21d6c586643bb6ead6f889c6ead2e50cd9c74306a6a9964b1978693823cc36d997147f47675fb4c01f0f15fc070d8da0a24036b9d93a0e88bb87df83305d5b41241c12ad6158cfaa91b2a638088cb9ec0ce01f7b869f19e2f431aedf1ed528927c766fa0c6bc7b8267743df2c3fa68536653fc64dc6bbe2fc75623865a50e2c973beb1489cb6c71ed2d4f537450a1e19ed60df0bb4ecab07fd3339777308da05fce2baed9e9f01da83b46870025f54a417bee5fcbcc06e9aacd2ff92e921e6bb7ef847421453dbf6ab94c9746c2a60c7a149d61061518d2e67dabf3e8ba619f65c3d8f186228801add38e9a019a88037be4c7965b0d1a6c6077c435a2e0f2881ce2506e11208f644af49bd7ed2ec09e20ecf02bb52155d62443ab788ac46066539c34b5d70cdcdbdfa09f1587922fb040f8c7a3b048ccc65b4172b7cad2c4be2f522c5cf70ddebeeb3a57fe386a3de88ebcb0a3bb37acbdd029776c578c72ed6fd8456db98f907b6d5386302985f54ccaa85942aa4f32fc985ca5a944b52625b94c46aa720438a30195d6a33d37ba1e6dd629f47e555ce6165b896be1573e4ac1f0008c57e72645fc6eae42bed062dcba9a65c70b787a885b613ddad3240a334c06dfa966335434bd22e1a993b6f18fe1d0b22fc83e5b945f212e77fce9fb6fe76c7ccb7ab58a6c0ea4824253ad15436c0284e2f9e8cf5de104c42bb63d9b48e2ba1c2d18fa6540927f3ab1b64cac3829202278417f2bea1c0a32b5a85ef040d113fc8b3c46de92f8936c3a843bf5943f56f07963a027cec4a68091d5ce0b879244171bd5f146acd5cdd68a8d236424baada6cf78b7666d3154cfc489fd91782ef5de5e209f0847be4350a3053451cab8212c44145968e04e7b5ed65c098376454dafa41e10dcf47a8d8281c9178690dfb2056b811e53da48140a00531727fe9623b43f296a6019adc44a9bf3a363a3f20e7054119cf13db8708daba55004ab5528dadd2a48ddb3678c1cee7f1ee7148670281f65122b5428b274d1c457e9066b44beb16518d79a211cadc5500a7d4e7e42123927dc16e5b365ddcffa47dfe87f0384f6ecb7ac9e1e0f349b888cb874e3abef660c825f7fcf22a6be7d964fc2c48ea48da97c1dca0c51f3ec374ea15fc037b6e5195449375568d2c796cae7697d61a8c5dc210490b4976532ca8d1c8224ed355650c548e17a2d8e4d99f8002452596cde5469e9f1abdd5634148ed133222616288b9e18ee4c7c2e9ce37768ece749bf590e5be3980fc29f1ef3e8e2a11a634b4e8e5b9d9da3bc9c55c1bf263c60e8a4fb23709fb92407cbb6a3b92b5ece58255cb2ebb07bf5621645a1c6de179429cc4cbd030bec8ca0f49e6c14ed220e65b5d3eb1ae5f43978b99b7ccc94d191601ea718bf4afda7214bba74ac0226f7600d83c5c16ae5a586877b86ca21422846470d71cd9b0e27ea8a7aa0489e963788ccc7baf61ec1f9c142dabd60c4a34b00523b865e01dd299d03c08443a3a8fa67e92483fa21cdb26ca1fc12ab343fc64380e3c446eb7c50cf939ef412b43368f591ebe0f09c1dd86e7f442361f023a4b61d6e013c46e8cdf6ee938714d3a72a6b50cb13fd607ddb32e26c38515b4ea6fd848d2216dd34365b8385ca8bafc2eb2e17047fcf230152e9a0caef21084a9f607b996db102faccf0e6c50ad34258bea691cd141205b16876302846445224620233e78aab4aa860e4c900e80208c84866e992e4b8a6a3cff06129673a0c3a3ba196182e861b6398089ae2231939c6f2f46f825d390f0133bfd81737755c29b7195e08fbbda2564453ae00b86370c1729b33161c6f0f2cc9b0caa4f77770db1aa177dcb033d95d88f4cdb90e9a21f5484419d6060cfe249fa54b7fe011586deecdc8f10fa6cf961eaae8b8e2d73a0b0fc4e0229d0ed17b6f79c8bb7936d4b2ca204d76498b3decf317e1d73db8947cd924c4417f7ef868455a57e6397b4605a2aa18b8ac07741bf688d06d9b9aa1f0711a43ebf0ea7d37a91da121674819e9cd7cf2e957fb09dc2936ad1df42e8e47b72d4b4f8f8ee61afa494a7b309dcc0120febcf8b6ec539320f45ccd6951894c57e8aa99eaf020485b8cf54e1fc016da986cdb1162274cbc881e1b8ebd479def2229ebb1493c566fa38707fdef50c6b3f456dfcae23cf0fd9f0f66e2ad2fba8e0bccfad950e115b196acbb72ebb39190e463946b74d5ee90caf9bb08eb1be785d59b69372c6b17ee294fc47594aaa47e3784b0d5c30d2c2cbfde7c1ffbf49a163234f3a27d3ab426fa9e2d6f6ffeb7a78a4f6c4cd135406d3ab570e4807d610c93cb2fd9e61be4150a88b5bee1aa6e06cb679c169094f58d24e07e4ae4aee3756ac3ae192cdfab9554d6c00b20925f5dda890c5f1d8147d60585559594797008d76944f46a584c25f3f4d484b0ab13cb6285d9f8e071c98cb7371d2c2c9b349d237fb2144062cc7a839b2b381d5244941d44a86d521628cfae1a721f489020a6b307d582f608cb7bab541f4873d34e86fb48831009c7ade6b3fce6cbb77a866276d6702cdf716e2b533e5307e8178197a612c3c861f993806bee2119ba16b1c472b2ad04b734ac6a4b490c861dc09340ae435aa078620d8e2b6bffbdbc67effa9846d94d65f4a50d827c52138b30b45bad29efc4da7e03878622297dba25dba674987cfe45ac1a3f7f8f1cfb424d17bf3eb0f14480e042c84c2b1af840c861f5a22a11ce3d43aec0fc70d1d52ac716f5475afaf381f7fcf165b395e86d2c0fdc126b6e8d9bb2be20e597f48a30980e5cf1b2b72563956bac2fc62ac19b58fb44a20addac47f856c58752e94d1201e8d8657bde5cf200466030f8049b22a4ed95830cd5406bd836cebbaebad44f3c4c52bde4331941eaca2c1374df1aa04f32a9b202a09c917ea5609778edac6c7cf4376bab2e0fd0c902ee7f4d0c8822a0a0866bf6ee1140f037c41cbf26cb2ad67ca6e2150f2c398b340ec8db0f80313bb869c495db591ee11f3f2d19e5ffff565ebffcb8afee127d638b62f3d81843a22ba25afa6475941b8c8d6286af76a4b18b3dcae80b984a5ebf92747509e010fec9cbf907068c5ea4b</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/02/20/攻防世界-MOBILE-新手练习区/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">攻防世界-MOBILE-新手练习区</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav">None</ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

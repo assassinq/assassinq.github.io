@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Android逆向入门（四） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="reandroid">
+  
+  
+  
+  
+  <meta name="description" content="Android 加壳和脱壳入门。">
+<meta name="keywords" content="re,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向入门（四）">
+<meta property="og:url" content="qianfei11.coding.me/2020/02/14/[TODO]Android逆向入门（四）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="Android 加壳和脱壳入门。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="/pics/Android逆向入门/四/1.png">
+<meta property="og:image" content="/pics/Android逆向入门/四/2.png">
+<meta property="og:image" content="/pics/Android逆向入门/四/3.png">
+<meta property="og:image" content="/pics/Android逆向入门/四/4.png">
+<meta property="og:updated_time" content="2020-02-25T07:02:46.565Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向入门（四）">
+<meta name="twitter:description" content="Android 加壳和脱壳入门。">
+<meta name="twitter:image" content="/pics/Android逆向入门/四/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-[TODO]Android逆向入门（四）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Android逆向入门（四）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/02/14/[TODO]Android逆向入门（四）/" class="article-date">
+	  <time datetime="2020-02-14T06:21:40.000Z" itemprop="datePublished">February 14, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  5.5k words
+	  |
+	  27 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android 加壳和脱壳入门。</p>
+<a id="more"></a>
+<h1 id="dex-文件格式"><a href="#dex-文件格式" class="headerlink" title="dex 文件格式"></a>dex 文件格式</h1><p>Android 程序编译以后生成 apk 文件，里面的 classes.dex 文件存放着程序运行的字节码，dex 文件是可以直接在 Dalvik 虚拟机中加载运行的文件。由于 Dalvik 是一种针对嵌入式设备而特殊设计的 Java 虚拟机，所以 dex 文件与标准的 class 文件在结构设计上有着本质的区别。当 Java 程序编译成 class 后，还需要使用 dx 工具将所有的 class 文件整合到一个 dex 文件，目的是其中各个类能够共享数据，在一定程度上降低了冗余，同时也是文件结构更加经凑，dex 文件是传统 jar 文件大小的 50% 左右。要想手工脱壳，必须先了解 dex 的文件格式。</p>
+<p><img src="/pics/Android逆向入门/四/1.png" alt="dex文件和class文件的区别"></p>
+<p>ShakaApktool 使用 bs 命令即可对 class.dex 实现反编译回 smali 文件字节码，而使用 s 命令可以把 smali 字节码编译为 class.dex 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar ShakaApktool bs classes.dex -o smali-dir</span><br><span class="line">java -jar ShakaApktool s smali-dir -o example.dex</span><br></pre></td></tr></table></figure>
+<p>dex 文件的数据结构大概如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据名称</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">header</td>
+<td style="text-align:center">dex 文件头部，记录整个 dex 文件的相关属性</td>
+</tr>
+<tr>
+<td style="text-align:center">string_ids</td>
+<td style="text-align:center">字符串数据索引，记录了每个字符串在数据区的偏移量</td>
+</tr>
+<tr>
+<td style="text-align:center">type_ids</td>
+<td style="text-align:center">类似数据索引，记录了每个类型的字符串索引</td>
+</tr>
+<tr>
+<td style="text-align:center">proto_ids</td>
+<td style="text-align:center">原型数据索引，记录了方法声明的字符串，返回类型字符串，参数列表</td>
+</tr>
+<tr>
+<td style="text-align:center">field_ids</td>
+<td style="text-align:center">字段数据索引，记录了所属类，类型以及方法名</td>
+</tr>
+<tr>
+<td style="text-align:center">method_ids</td>
+<td style="text-align:center">类方法索引，记录方法所属类名，方法声明以及方法名等信息</td>
+</tr>
+<tr>
+<td style="text-align:center">class_defs</td>
+<td style="text-align:center">类定义数据索引，记录指定类各类信息，包括接口，超类，类数据偏移量</td>
+</tr>
+<tr>
+<td style="text-align:center">data</td>
+<td style="text-align:center">数据区，保存了各个类的真是数据</td>
+</tr>
+<tr>
+<td style="text-align:center">link_data</td>
+<td style="text-align:center">连接数据区</td>
+</tr>
+</tbody>
+</table>
+<p>这里先看一下 Android 源码，首先在 <a href="http://androidxref.com/4.1.1/xref/dalvik/vm/Common.h" target="_blank" rel="noopener">/dalvik/vm/Common.h</a> 中对数据类型有一个重命名：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * These match the definitions in the VM specification.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint8_t</span>             u1;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint16_t</span>            u2;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint32_t</span>            u4;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint64_t</span>            u8;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int8_t</span>              s1;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int16_t</span>             s2;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int32_t</span>             s4;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int64_t</span>             s8;</span><br></pre></td></tr></table></figure>
+<p>所有 dex 文件相关的数据结构都在 <a href="http://androidxref.com/4.1.1/xref/dalvik/libdex/DexFile.h" target="_blank" rel="noopener">/dalvik/libdex/DexFile.h</a> 中。dex 文件的结构如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Structure representing a DEX file.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Code should regard DexFile as opaque, using the API calls provided here</span></span><br><span class="line"><span class="comment"> * to access specific structures.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexFile</span> &#123;</span></span><br><span class="line">    <span class="comment">/* directly-mapped "opt" header */</span></span><br><span class="line">    <span class="keyword">const</span> DexOptHeader* pOptHeader;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* pointers to directly-mapped structs and arrays in base DEX */</span></span><br><span class="line">    <span class="keyword">const</span> DexHeader*    pHeader;</span><br><span class="line">    <span class="keyword">const</span> DexStringId*  pStringIds;</span><br><span class="line">    <span class="keyword">const</span> DexTypeId*    pTypeIds;</span><br><span class="line">    <span class="keyword">const</span> DexFieldId*   pFieldIds;</span><br><span class="line">    <span class="keyword">const</span> DexMethodId*  pMethodIds;</span><br><span class="line">    <span class="keyword">const</span> DexProtoId*   pProtoIds;</span><br><span class="line">    <span class="keyword">const</span> DexClassDef*  pClassDefs;</span><br><span class="line">    <span class="keyword">const</span> DexLink*      pLinkData;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * These are mapped out of the "auxillary" section, and may not be</span></span><br><span class="line"><span class="comment">     * included in the file.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">const</span> DexClassLookup* pClassLookup;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">void</span>*         pRegisterMapPool;       <span class="comment">// RegisterMapClassPool</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* points to start of DEX file data */</span></span><br><span class="line">    <span class="keyword">const</span> u1*           baseAddr;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* track memory overhead for auxillary structures */</span></span><br><span class="line">    <span class="keyword">int</span>                 overhead;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* additional app-specific data structures associated with the DEX */</span></span><br><span class="line">    <span class="comment">//void*               auxData;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>dex 文件结构分别为文件头、索引区和数据区：</p>
+<p><img src="/pics/Android逆向入门/四/2.png" alt="dex文件结构"></p>
+<h2 id="dex-文件头"><a href="#dex-文件头" class="headerlink" title="dex 文件头"></a>dex 文件头</h2><p>文件头中简单记录了 dex 文件的一些基本信息，以及大致的数据分布。长度固定为 0x70，其中每一项信息所占用的内存空间也是固定的，好处是虚拟机在处理 dex 时不用考虑 dex 文件的多样性：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段名称</th>
+<th style="text-align:center">偏移值</th>
+<th style="text-align:center">长度</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">magic</td>
+<td style="text-align:center">0x00</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">魔数字段，值为”dex\n035\0”</td>
+</tr>
+<tr>
+<td style="text-align:center">checksum</td>
+<td style="text-align:center">0x08</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">校验码</td>
+</tr>
+<tr>
+<td style="text-align:center">signature</td>
+<td style="text-align:center">0x0c</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">sha-1 签名</td>
+</tr>
+<tr>
+<td style="text-align:center">file_size</td>
+<td style="text-align:center">0x20</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">dex 文件总长度</td>
+</tr>
+<tr>
+<td style="text-align:center">header_size</td>
+<td style="text-align:center">0x24</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">文件头长度，009 版本=0x5c,035 版本=0x70</td>
+</tr>
+<tr>
+<td style="text-align:center">endian_tag</td>
+<td style="text-align:center">0x28</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">标示字节顺序的常量</td>
+</tr>
+<tr>
+<td style="text-align:center">link_size</td>
+<td style="text-align:center">0x2c</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">链接段的大小，如果为 0 就是静态链接</td>
+</tr>
+<tr>
+<td style="text-align:center">link_off</td>
+<td style="text-align:center">0x30</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">链接段的开始位置</td>
+</tr>
+<tr>
+<td style="text-align:center">map_off</td>
+<td style="text-align:center">0x34</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">map 数据基址</td>
+</tr>
+<tr>
+<td style="text-align:center">string_ids_size</td>
+<td style="text-align:center">0x38</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">字符串列表中字符串个数</td>
+</tr>
+<tr>
+<td style="text-align:center">string_ids_off</td>
+<td style="text-align:center">0x3c</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">字符串列表基址</td>
+</tr>
+<tr>
+<td style="text-align:center">type_ids_size</td>
+<td style="text-align:center">0x40</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">类列表里的类型个数</td>
+</tr>
+<tr>
+<td style="text-align:center">type_ids_off</td>
+<td style="text-align:center">0x44</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">类列表基址</td>
+</tr>
+<tr>
+<td style="text-align:center">proto_ids_size</td>
+<td style="text-align:center">0x48</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">原型列表里面的原型个数</td>
+</tr>
+<tr>
+<td style="text-align:center">proto_ids_off</td>
+<td style="text-align:center">0x4c</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">原型列表基址</td>
+</tr>
+<tr>
+<td style="text-align:center">field_ids_size</td>
+<td style="text-align:center">0x50</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">字段个数</td>
+</tr>
+<tr>
+<td style="text-align:center">field_ids_off</td>
+<td style="text-align:center">0x54</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">字段列表基址</td>
+</tr>
+<tr>
+<td style="text-align:center">method_ids_size</td>
+<td style="text-align:center">0x58</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">方法个数</td>
+</tr>
+<tr>
+<td style="text-align:center">method_ids_off</td>
+<td style="text-align:center">0x5c</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">方法列表基址</td>
+</tr>
+<tr>
+<td style="text-align:center">class_defs_size</td>
+<td style="text-align:center">0x60</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">类定义标中类的个数</td>
+</tr>
+<tr>
+<td style="text-align:center">class_defs_off</td>
+<td style="text-align:center">0x64</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">类定义列表基址</td>
+</tr>
+<tr>
+<td style="text-align:center">data_size</td>
+<td style="text-align:center">0x68</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">数据段的大小，必须 4k 对齐</td>
+</tr>
+<tr>
+<td style="text-align:center">data_off</td>
+<td style="text-align:center">0x6c</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">数据段基址</td>
+</tr>
+</tbody>
+</table>
+<p>文件头的数据结构如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "header_item" struct.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexHeader</span> &#123;</span></span><br><span class="line">    u1  magic[<span class="number">8</span>];           <span class="comment">/* includes version number */</span></span><br><span class="line">    u4  checksum;           <span class="comment">/* adler32 checksum */</span></span><br><span class="line">    u1  signature[kSHA1DigestLen]; <span class="comment">/* SHA-1 hash */</span></span><br><span class="line">    u4  fileSize;           <span class="comment">/* length of entire file */</span></span><br><span class="line">    u4  headerSize;         <span class="comment">/* offset to start of next section */</span></span><br><span class="line">    u4  endianTag;</span><br><span class="line">    u4  linkSize;</span><br><span class="line">    u4  linkOff;</span><br><span class="line">    u4  mapOff;</span><br><span class="line">    u4  stringIdsSize;</span><br><span class="line">    u4  stringIdsOff;</span><br><span class="line">    u4  typeIdsSize;</span><br><span class="line">    u4  typeIdsOff;</span><br><span class="line">    u4  protoIdsSize;</span><br><span class="line">    u4  protoIdsOff;</span><br><span class="line">    u4  fieldIdsSize;</span><br><span class="line">    u4  fieldIdsOff;</span><br><span class="line">    u4  methodIdsSize;</span><br><span class="line">    u4  methodIdsOff;</span><br><span class="line">    u4  classDefsSize;</span><br><span class="line">    u4  classDefsOff;</span><br><span class="line">    u4  dataSize;</span><br><span class="line">    u4  dataOff;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="索引区"><a href="#索引区" class="headerlink" title="索引区"></a>索引区</h2><p>索引区包括 string_ids、type_ids、proto_ids、field_ids、method_ids 几个数据结构。数组结构如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "string_id_item".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexStringId</span> &#123;</span></span><br><span class="line">    u4 stringDataOff;      <span class="comment">/* file offset to string_data_item */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "type_id_item".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexTypeId</span> &#123;</span></span><br><span class="line">    u4  descriptorIdx;      <span class="comment">/* index into stringIds list for type descriptor */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "field_id_item".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexFieldId</span> &#123;</span></span><br><span class="line">    u2  classIdx;           <span class="comment">/* index into typeIds list for defining class */</span></span><br><span class="line">    u2  typeIdx;            <span class="comment">/* index into typeIds for field type */</span></span><br><span class="line">    u4  nameIdx;            <span class="comment">/* index into stringIds for field name */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "method_id_item".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexMethodId</span> &#123;</span></span><br><span class="line">    u2  classIdx;           <span class="comment">/* index into typeIds list for defining class */</span></span><br><span class="line">    u2  protoIdx;           <span class="comment">/* index into protoIds for method prototype */</span></span><br><span class="line">    u4  nameIdx;            <span class="comment">/* index into stringIds for method name */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "proto_id_item".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexProtoId</span> &#123;</span></span><br><span class="line">    u4  shortyIdx;          <span class="comment">/* index into stringIds for shorty descriptor */</span></span><br><span class="line">    u4  returnTypeIdx;      <span class="comment">/* index into typeIds list for return type */</span></span><br><span class="line">    u4  parametersOff;      <span class="comment">/* file offset to type_list for parameter types */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="数据区"><a href="#数据区" class="headerlink" title="数据区"></a>数据区</h2><p>数据段包括 class_defs、data、link_data，数据结构如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "map_item".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexMapItem</span> &#123;</span></span><br><span class="line">    u2 type;              <span class="comment">/* type code (see kDexType* above) */</span></span><br><span class="line">    u2 unused;</span><br><span class="line">    u4 size;              <span class="comment">/* count of items of the indicated type */</span></span><br><span class="line">    u4 offset;            <span class="comment">/* file offset to the start of data */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "map_list".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexMapList</span> &#123;</span></span><br><span class="line">    u4  size;               <span class="comment">/* #of entries in list */</span></span><br><span class="line">    DexMapItem <span class="built_in">list</span>[<span class="number">1</span>];     <span class="comment">/* entries */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "class_def_item".</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexClassDef</span> &#123;</span></span><br><span class="line">    u4  classIdx;           <span class="comment">/* index into typeIds for this class */</span></span><br><span class="line">    u4  accessFlags;</span><br><span class="line">    u4  superclassIdx;      <span class="comment">/* index into typeIds for superclass */</span></span><br><span class="line">    u4  interfacesOff;      <span class="comment">/* file offset to DexTypeList */</span></span><br><span class="line">    u4  sourceFileIdx;      <span class="comment">/* index into stringIds for source file name */</span></span><br><span class="line">    u4  annotationsOff;     <span class="comment">/* file offset to annotations_directory_item */</span></span><br><span class="line">    u4  classDataOff;       <span class="comment">/* file offset to class_data_item */</span></span><br><span class="line">    u4  staticValuesOff;    <span class="comment">/* file offset to DexEncodedArray */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Link table.  Currently undefined.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexLink</span> &#123;</span></span><br><span class="line">    u1  bleargh;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="动态代码自修改（加壳原理）"><a href="#动态代码自修改（加壳原理）" class="headerlink" title="动态代码自修改（加壳原理）"></a>动态代码自修改（加壳原理）</h1><p>DexClassDef -&gt; DexClassData -&gt; DexMethod -&gt; DexCode -&gt; insns</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Direct-mapped "code_item".</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The "catches" table is used when throwing an exception,</span></span><br><span class="line"><span class="comment"> * "debugInfo" is used when displaying an exception stack trace or</span></span><br><span class="line"><span class="comment"> * debugging. An offset of zero indicates that there are no entries.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexCode</span> &#123;</span></span><br><span class="line">    u2  registersSize;      <span class="comment">// 使用的寄存器个数</span></span><br><span class="line">    u2  insSize;            <span class="comment">// 参数个数</span></span><br><span class="line">    u2  outsSize;           <span class="comment">// 调用其他方法时使用的寄存器个数</span></span><br><span class="line">    u2  triesSize;          <span class="comment">// Try/Catch的个数</span></span><br><span class="line">    u4  debugInfoOff;       <span class="comment">// 指令调试信息的偏移 /* file offset to debug info stream */</span></span><br><span class="line">    u4  insnsSize;          <span class="comment">// 指令集个数，以2字节为单位 /* size of the insns array, in u2 units */</span></span><br><span class="line">    u2  insns[<span class="number">1</span>];           <span class="comment">// 指令集</span></span><br><span class="line">    <span class="comment">/* followed by optional u2 padding */</span></span><br><span class="line">    <span class="comment">/* followed by try_item[triesSize] */</span></span><br><span class="line">    <span class="comment">/* followed by uleb128 handlersSize */</span></span><br><span class="line">    <span class="comment">/* followed by catch_handler_item[handlersSize] */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中，insns 的值是用于存放程序实现代码的地方。程序执行的时候会把整个 dex 文件加载到内存之中，然后动态地解析执行 insns 中的内容。只要修改了里面的数据，就相当于修改了程序执行流程。</p>
+<h2 id="修改-insns"><a href="#修改-insns" class="headerlink" title="修改 insns"></a>修改 insns</h2><h3 id="直接在内存中修改"><a href="#直接在内存中修改" class="headerlink" title="直接在内存中修改"></a>直接在内存中修改</h3><ol>
+<li>定位到 dex 文件</li>
+<li>计算函数的 DexCode 位置</li>
+<li>重写 DexCode 的 insns 数据</li>
+</ol>
+<h4 id="JNI-Bridge"><a href="#JNI-Bridge" class="headerlink" title="JNI Bridge"></a><a href="http://androidxref.com/4.1.1/xref/dalvik/vm/Jni.cpp" target="_blank" rel="noopener">JNI Bridge</a></h4><p>JNI 提供了让我们在 C++代码层中直接操作 Dalvik（Java）数据的接口，可以直接在 JNI 中操作相关数据来修改 Android 中的代码。</p>
+<h4 id="Object-结构体"><a href="#Object-结构体" class="headerlink" title="Object 结构体"></a><a href="http://androidxref.com/4.1.1/xref/dalvik/vm/oo/Object.cpp" target="_blank" rel="noopener">Object 结构体</a></h4><p>Android 运行时，解析 dex 文件，并生成相关的结构体：<a href="http://androidxref.com/4.1.1/xref/dalvik/vm/DvmDex.cpp" target="_blank" rel="noopener">DvmDex</a>。其中存储了各种字符串、类、方法等信息。加载的时候，调用 <code>dvmDexFileOpenPartial</code> 对 dex 文件进行解析，并转化为可执行的结构体，这也是这个函数可以作为脱壳用的函数的原因之一。（以前的爱加密可以直接通过 Hook 这个函数进行脱壳）。</p>
+<p>其中 Method 结构体是根据 DexMethod 生成的执行方法类。Dalvik 执行代码时，都是从 Method 中取出代码来执行的。因此可以直接通过操作 Method 结构体来修改执行的代码。</p>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>首先新建一个 JNI 项目，并新建两个函数 <code>ret1()</code> 和 <code>ret2()</code> 函数，以及一个 Native 函数 <code>changeMethod()</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.assassinq.editdexfile;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.android.material.floatingactionbutton.FloatingActionButton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.widget.Toolbar;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.Menu;</span><br><span class="line"><span class="keyword">import</span> android.view.MenuItem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">"hello"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Toolbar toolbar = findViewById(R.id.toolbar);</span><br><span class="line">        setSupportActionBar(toolbar);</span><br><span class="line"></span><br><span class="line">        FloatingActionButton fab = findViewById(R.id.fab);</span><br><span class="line">        fab.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Method m = MainActivity.class.getMethod(<span class="string">"ret1"</span>);</span><br><span class="line">                    Log.d(<span class="string">"DEBUG"</span>, <span class="string">"Return Value = "</span> + ret1());</span><br><span class="line">                    changeMethod(m);</span><br><span class="line">                    Log.d(<span class="string">"DEBUG"</span>, <span class="string">"Return Value = "</span> + ret1());</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"><span class="comment">//                    e.printStackTrace();</span></span><br><span class="line">                    Log.d(<span class="string">"EXCEPTION"</span>, Log.getStackTraceString(e));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Inflate the menu; this adds items to the action bar if it is present.</span></span><br><span class="line">        getMenuInflater().inflate(R.menu.menu_main, menu);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Handle action bar item clicks here. The action bar will</span></span><br><span class="line">        <span class="comment">// automatically handle clicks on the Home/Up button, so long</span></span><br><span class="line">        <span class="comment">// as you specify a parent activity in AndroidManifest.xml.</span></span><br><span class="line">        <span class="keyword">int</span> id = item.getItemId();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//noinspection SimplifiableIfStatement</span></span><br><span class="line">        <span class="keyword">if</span> (id == R.id.action_settings) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onOptionsItemSelected(item);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">ret1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">ret2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// public native void changeMethod(Method r1);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先编译生成一个不包含 JNI 的 apk，解压后取出其中的 classes.dex，然后在 010 Editor 中用 DEX Template 解析，找到 DexCode 中的 insns，并记录下 <code>ret1()</code> 和 <code>ret2()</code> 的字节码：</p>
+<p><img src="/pics/Android逆向入门/四/3.png" alt="两个函数的字节码"></p>
+<p>然后完善 JNI 函数，并且需要导入 Android 源码中 Dalvik 文件夹下相关的头文件。JNI 实现如下，将 <code>ret1()</code> 所指向的字节码修改为 <code>ret2()</code> 的字节码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;android/log.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Object.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Common.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOG_TAG</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGF(...) __android_log_print(ANDROID_LOG_FATAL, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> insns[] = &#123;<span class="number">0x12</span>, <span class="number">0x20</span>, <span class="number">0x0F</span>, <span class="number">0x00</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">changeMethod</span><span class="params">(JNIEnv *env, jobject obj, jobject method)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 12 10 0F 00 -&gt; ret 1</span></span><br><span class="line"><span class="comment">     * 12 20 0F 00 -&gt; ret 2</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Method *pMethod = (Method *) env-&gt;FromReflectedMethod(method);</span><br><span class="line">    pMethod-&gt;insns = (<span class="keyword">const</span> u2*) insns;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">registerNativeMethods</span><span class="params">(JNIEnv *env, <span class="keyword">const</span> <span class="keyword">char</span> *className, JNINativeMethod *gMethods,</span></span></span><br><span class="line"><span class="function"><span class="params">                                 <span class="keyword">int</span> numMethods)</span> </span>&#123;</span><br><span class="line">    jclass clazz;</span><br><span class="line">    clazz = env-&gt;FindClass(className);</span><br><span class="line">    <span class="keyword">if</span> (clazz == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> JNI_FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (env-&gt;RegisterNatives(clazz, gMethods, numMethods) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> JNI_FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> JNI_TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> *gClassName = <span class="string">"com/assassinq/editdexfile/MainActivity"</span>;</span><br><span class="line"><span class="keyword">static</span> JNINativeMethod gMethods[] = &#123;</span><br><span class="line">        &#123;<span class="string">"changeMethod"</span>, <span class="string">"(Ljava/lang/reflect/Method;)V"</span>, (<span class="keyword">void</span> *) changeMethod&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM *vm, <span class="keyword">void</span> *reserved)</span> </span>&#123;</span><br><span class="line">    JNIEnv *env = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span> (vm-&gt;GetEnv((<span class="keyword">void</span> **) &amp;env, JNI_VERSION_1_6) != JNI_OK) &#123;</span><br><span class="line">        LOGE(<span class="string">"This jni version is not supported"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (registerNativeMethods(env, gClassName, gMethods, <span class="keyword">sizeof</span>(gMethods) / <span class="keyword">sizeof</span>(gMethods[<span class="number">0</span>])) ==</span><br><span class="line">        JNI_FALSE) &#123;</span><br><span class="line">        LOGE(<span class="string">"Unable to register native methods"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    LOGE(<span class="string">"Methods loaded successfully"</span>);</span><br><span class="line">    <span class="keyword">return</span> JNI_VERSION_1_6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行程序并点击触发事件，查看日志发现修改生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">02-11 11:29:39.202 1795-1795/com.assassinq.editdexfile D/DEBUG: Return Value = 1</span><br><span class="line">02-11 11:29:39.202 1795-1795/com.assassinq.editdexfile D/DEBUG: Return Value = 2</span><br></pre></td></tr></table></figure>
+<h3 id="IDA-中动态修改"><a href="#IDA-中动态修改" class="headerlink" title="IDA 中动态修改"></a>IDA 中动态修改</h3><ol>
+<li>Ctrl+s 打开 map 数据</li>
+<li>查找内存加载的额 classes.dex 的位置</li>
+<li>直接计算偏移，修改相应的位置</li>
+</ol>
+<h3 id="内存修改的另一种方法"><a href="#内存修改的另一种方法" class="headerlink" title="内存修改的另一种方法"></a>内存修改的另一种方法</h3><p>修改方法定位：dexClassDef 遍历以获取 MethodId，对比 MethodName 与 proto 以获取目标 Method，然后对相应的 DexCode 进行修改。由于 Dex 加载到内存中是只有只读权限，故需要先修改内存页的权限才能正常地修改 DexCode 数据。</p>
+<p>遍历 Map：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">get_module_base</span><span class="params">(<span class="keyword">pid_t</span> pid, <span class="keyword">const</span> <span class="keyword">char</span> *module_name)</span> </span>&#123;</span><br><span class="line">    FILE *fp;</span><br><span class="line">    <span class="keyword">long</span> addr = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> *pch;</span><br><span class="line">    <span class="keyword">char</span> filename[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">char</span> line[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">if</span> (pid &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">snprintf</span>(filename, <span class="keyword">sizeof</span>(filename), <span class="string">"/proc/self/maps"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">snprintf</span>(filename, <span class="keyword">sizeof</span>(filename), <span class="string">"/proc/%d/maps"</span>, pid);</span><br><span class="line">    &#125;</span><br><span class="line">    fp = fopen(filename, <span class="string">"r"</span>);</span><br><span class="line">    <span class="keyword">if</span> (fp != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (fgets(line, <span class="keyword">sizeof</span>(line), fp)) &#123;</span><br><span class="line">            LOGD(<span class="string">"%s"</span>, line);</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">strstr</span>(line, module_name)) &#123;</span><br><span class="line">                pch = strtok(line, <span class="string">"-"</span>);</span><br><span class="line">                addr = strtoul(pch, <span class="literal">NULL</span>, <span class="number">16</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        fclose(fp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">void</span> *) addr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重置 Map 属性：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;asm-generic/mman-common.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;limits.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mprotect(PAGE_START((<span class="keyword">int</span>)(pCode-&gt;insns)), PAGE_SIZE, PROT_READ | PROT_WRITE | PROT_EXEC) == <span class="number">0</span>) &#123;</span><br><span class="line">    *(u4 *)(pCode-&gt;insns) = <span class="number">0x000f2012</span>;</span><br><span class="line">    mprotect(PAGE_START((<span class="keyword">int</span>)(pCode-&gt;insns)), PAGE_SIZE, PROT_READ | PROT_WRITE | PROT_EXEC);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h4><p>接下来编写 changeMethod2 函数，利用 dalvik 中的一些函数来逐步定位到指定函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">changeMethod2</span><span class="params">(JNIEnv *env, jobject obj)</span> </span>&#123;</span><br><span class="line">    u1 *pDex = (u1 *) get_module_base(<span class="number">-1</span>, <span class="string">"/data/dalvik-cache/data@app@com.assassinq.editdexfile"</span>);</span><br><span class="line">    <span class="keyword">if</span> (pDex != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        LOGD(<span class="string">"Get Module"</span>);</span><br><span class="line">        pDex += <span class="keyword">sizeof</span>(DexOptHeader);</span><br><span class="line">        DexFile *pDexFile = dexFileParse(pDex, <span class="keyword">sizeof</span>(DexHeader), kDexParseContinueOnError);</span><br><span class="line">        <span class="keyword">if</span> (pDexFile == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            LOGE(<span class="string">"Unable to parse DexFile"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> DexClassDef *pClassDef;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pDexFile-&gt;pHeader-&gt;classDefsSize; ++i) &#123;</span><br><span class="line">            <span class="keyword">const</span> DexClassDef *pDef = dexGetClassDef(pDexFile, i);</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(dexStringByTypeIdx(pDexFile, pDef-&gt;classIdx),</span><br><span class="line">                        <span class="string">"Lcom/assassinq/editdexfile/MainActivity;"</span>)) &#123;</span><br><span class="line">                pClassDef = pDef;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (pClassDef != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            LOGD(<span class="string">"Class Found"</span>);</span><br><span class="line">            <span class="keyword">const</span> u1 *pData = dexGetClassData(pDexFile, pClassDef);</span><br><span class="line">            <span class="keyword">if</span> (pData) &#123;</span><br><span class="line">                DexClassData *pClassData = dexReadAndVerifyClassData(&amp;pData, <span class="literal">NULL</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pClassData-&gt;header.virtualMethodsSize; ++i) &#123;</span><br><span class="line">                    DexMethod *pMethod = &amp;pClassData-&gt;virtualMethods[i];</span><br><span class="line">                    <span class="keyword">const</span> DexMethodId *pMethodId = dexGetMethodId(pDexFile, pMethod-&gt;methodIdx);</span><br><span class="line">                    <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(dexStringById(pDexFile, pMethodId-&gt;nameIdx), <span class="string">"ret1"</span>)) &#123;</span><br><span class="line">                        <span class="keyword">const</span> DexCode *pCode = dexGetCode(pDexFile, pMethod);</span><br><span class="line">                        LOGD(<span class="string">"Method found and try to patch"</span>);</span><br><span class="line">                        <span class="keyword">if</span> (mprotect((<span class="keyword">void</span> *) PAGE_START((<span class="keyword">int</span>) (pCode-&gt;insns)), PAGE_SIZE,</span><br><span class="line">                                     PROT_READ | PROT_WRITE) == <span class="number">0</span>) &#123;</span><br><span class="line">                            *(u4 *) (pCode-&gt;insns) = <span class="number">0x000F2012</span>;</span><br><span class="line">                            mprotect((<span class="keyword">void</span> *) PAGE_START((<span class="keyword">int</span>) (pCode-&gt;insns)), PAGE_SIZE,</span><br><span class="line">                                     PROT_READ);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">free</span>(pClassData);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        dexFileFree(pDexFile);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> JNINativeMethod gMethods[] = &#123;</span><br><span class="line">        ...</span><br><span class="line">        &#123;<span class="string">"changeMethod2"</span>, <span class="string">"()V"</span>,                           (<span class="keyword">void</span> *) changeMethod2&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>在 app 下的 build.gradle 中修改以强制转换指针：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    ...</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        externalNativeBuild &#123;</span><br><span class="line">            cmake &#123;</span><br><span class="line">                cppFlags &quot;-fpermissive&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>TODO:</p>
+<h1 id="DVM-脱壳"><a href="#DVM-脱壳" class="headerlink" title="DVM 脱壳"></a>DVM 脱壳</h1><p>目前存在对 apk 中的 classes.dex 进行加密的技术，称为加壳。通过对 dex 文件的加壳，可以达到减少体积，隐藏真实代码的效果。Android 的壳与 PE 文件一样，在程序运行时，先到达壳的入口点，运行解壳代码，然后再到达程序入口点并运行代码。如果要脱壳，就需要在程序解码完毕并到达程序真实入口点中间某个位置，把原始的 dex 代码给 dump 下来，还原到 apk 文件中。</p>
+<h2 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h2><p>壳入口：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span> <span class="attr">android:name</span>=<span class="string">"com.ali.mobisecenhance.SubApplication"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>程序入口：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">"com.ali.encryption.MainActivity"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="assets-分析"><a href="#assets-分析" class="headerlink" title="assets 分析"></a>assets 分析</h2><p>assets 中一般存储着加密过的 dex，以及解密用的 so 等信息，因此先分析 assets 可以有效获取程序解壳思路。</p>
+<h2 id="ProxyApplication-分析"><a href="#ProxyApplication-分析" class="headerlink" title="ProxyApplication 分析"></a>ProxyApplication 分析</h2><h2 id="壳代码分析"><a href="#壳代码分析" class="headerlink" title="壳代码分析"></a>壳代码分析</h2><p>壳代码中 Java 层转 Native 层：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">attachBaseContext</span><span class="params">(Context arg1)</span> </span>&#123;&#125; <span class="comment">// 还原代码</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;&#125; <span class="comment">// 执行原始代码</span></span><br></pre></td></tr></table></figure>
+<h2 id="so-文件分析"><a href="#so-文件分析" class="headerlink" title="so 文件分析"></a>so 文件分析</h2><p>带压缩的，一般用 libz 中的 uncompress 函数进行解码，可以用该函数进行快速定位。</p>
+<h2 id="IDA-中-dump-数据"><a href="#IDA-中-dump-数据" class="headerlink" title="IDA 中 dump 数据"></a>IDA 中 dump 数据</h2><p>在 Native 层中解密 dex 数据并还原后，替换为原始 Application。IDC Dump 脚本：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> fp, begin, end, len, b;</span><br><span class="line">    fp = fopen(<span class="string">"dump.data"</span>, <span class="string">"wb"</span>);</span><br><span class="line">    begin = <span class="number">0x544D2008</span>; <span class="comment">// 解密后数据在内存中的位置</span></span><br><span class="line">    len = <span class="number">0x019CF4</span>; <span class="comment">// 文件大小</span></span><br><span class="line">    end = begin + len;</span><br><span class="line">    <span class="keyword">for</span> (b = begin; b &lt; end; b++) &#123;</span><br><span class="line">        fputc(Byte(b), fp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Dex-加载流程"><a href="#Dex-加载流程" class="headerlink" title="Dex 加载流程"></a>Dex 加载流程</h2><p>vm-&gt;native-&gt;dalvik_systm_DexFile-&gt;openDexFile，读取内存中的 Dex 文件数据，并加载 Dalvik_dalvik_system_DexFile_openDexFile_bytearray。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 转换存储的dex格式为可执行的dex格式</span></span><br><span class="line">dvmRawDexFileOpenArray(pBytes, length, &amp;pRawDexFile);</span><br><span class="line"><span class="comment">// 添加到gDvm中</span></span><br><span class="line">addToDexFileTable(pDexOrJar);</span><br></pre></td></tr></table></figure>
+<p>壳实现加载流程：</p>
+<ol>
+<li>内存中解密 dex 函数</li>
+<li>将 dex 存储结构转换为可执行结构</li>
+<li>添加到 gDvm 中（有些壳是自己实现了这个功能，有些是调用了系统的函数）</li>
+<li>抹去 dex 存储结构中的有效数据</li>
+</ol>
+<h2 id="内存-dex-定位"><a href="#内存-dex-定位" class="headerlink" title="内存 dex 定位"></a>内存 dex 定位</h2><p>gDvm.userDexFiles 是存放 dex cookie（dexOfJar 结构）的地方，因此可以通过遍历该数据结构来获得每个 dex 文件的起始地址。</p>
+<p>Dex 重构：通过分析内存中的 dex 存储结构，完成对整个 dex 文件的 dump。</p>
+<p>Dex 转 Odex：优化 vm\analysis\Optimize.cpp-&gt;dvmOptimizeClass</p>
+<p>Dex 校验：vm\analysis\DexVerify.cpp-&gt;dvmVerifyClass</p>
+<p>取消非必要优化与校验：\system\build.prop =&gt; Dalvik.vm.dexopt-flag=v=n,o=n</p>
+<h1 id="ELF-文件简介（ARM-架构下的-ELF）"><a href="#ELF-文件简介（ARM-架构下的-ELF）" class="headerlink" title="ELF 文件简介（ARM 架构下的 ELF）"></a>ELF 文件简介（ARM 架构下的 ELF）</h1><h2 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2><p>ELF 在加载前和加载后的文件格式是完全不同的，给加密提供了方便。</p>
+<p><img src="/pics/Android逆向入门/四/4.png" alt="ELF在加载前和加载后的视图"></p>
+<p>链接执行时，Section Header 中的表将会被映射到 Program Header 中，里面的 ELF Header、Program Header 和 Section header 非常重要，Linker 会根据这三个头信息进行 so 文件加载。</p>
+<p>PS：如何从内存中 dump 下 so 文件？开启 IDA 动态调试，在 Module 窗口中找到对应的 so 文件，根据 so 文件的起始地址和文件大小，使用 IDC 脚本 dump 下来。</p>
+<h3 id="ELF-Header"><a href="#ELF-Header" class="headerlink" title="ELF Header"></a>ELF Header</h3><p>存储 so 文件最为基本的信息，如 so 运行的 CPU 平台、Program Header 数量、Section Header 数量等，重要性等同于 Dex Header。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -h libxtian.so</span><br><span class="line">ELF Header:</span><br><span class="line">  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00</span><br><span class="line">  Class:                             ELF32</span><br><span class="line">  Data:                              2<span class="string">'s complement, little endian</span></span><br><span class="line"><span class="string">  Version:                           1 (current)</span></span><br><span class="line"><span class="string">  OS/ABI:                            UNIX - System V</span></span><br><span class="line"><span class="string">  ABI Version:                       0</span></span><br><span class="line"><span class="string">  Type:                              DYN (Shared object file)</span></span><br><span class="line"><span class="string">  Machine:                           ARM</span></span><br><span class="line"><span class="string">  Version:                           0x1</span></span><br><span class="line"><span class="string">  Entry point address:               0x0</span></span><br><span class="line"><span class="string">  Start of program headers:          52 (bytes into file)</span></span><br><span class="line"><span class="string">  Start of section headers:          117240 (bytes into file)</span></span><br><span class="line"><span class="string">  Flags:                             0x5000200, Version5 EABI, soft-float ABI</span></span><br><span class="line"><span class="string">  Size of this header:               52 (bytes)</span></span><br><span class="line"><span class="string">  Size of program headers:           32 (bytes)</span></span><br><span class="line"><span class="string">  Number of program headers:         8</span></span><br><span class="line"><span class="string">  Size of section headers:           40 (bytes)</span></span><br><span class="line"><span class="string">  Number of section headers:         25</span></span><br><span class="line"><span class="string">  Section header string table index: 24</span></span><br></pre></td></tr></table></figure>
+<h3 id="Section-Header"><a href="#Section-Header" class="headerlink" title="Section Header"></a>Section Header</h3><p>存储 so 的链接用信息，主要是用于给外部程序详细地提供本 so 的信息，比如第几行对应哪个函数、什么名字、对应着源码的什么位置等等。IDA 就是通过读取该头信息进行 so 分析的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -S libxtian.so</span><br><span class="line">There are 25 section headers, starting at offset 0x1c9f8:</span><br><span class="line"></span><br><span class="line">Section Headers:</span><br><span class="line">  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al</span><br><span class="line">  [ 0]                   NULL            00000000 000000 000000 00      0   0  0</span><br><span class="line">  [ 1] .note.gnu.build-i NOTE            00000134 000134 000024 00   A  0   0  4</span><br><span class="line">  [ 2] .dynsym           DYNSYM          00000158 000158 000570 10   A  3   1  4</span><br><span class="line">  [ 3] .dynstr           STRTAB          000006c8 0006c8 00034e 00   A  0   0  1</span><br><span class="line">  [ 4] .<span class="built_in">hash</span>             HASH            00000a18 000a18 000270 04   A  2   0  4</span><br><span class="line">  [ 5] .gnu.version      VERSYM          00000c88 000c88 0000ae 02   A  2   0  2</span><br><span class="line">  [ 6] .gnu.version_d    VERDEF          00000d38 000d38 00001c 00   A  3   1  4</span><br><span class="line">  [ 7] .gnu.version_r    VERNEED         00000d54 000d54 000020 00   A  3   1  4</span><br><span class="line">  [ 8] .rel.dyn          REL             00000d74 000d74 0050f8 08   A  2   0  4</span><br><span class="line">  [ 9] .rel.plt          REL             00005e6c 005e6c 0000a0 08  AI  2  10  4</span><br><span class="line">  [10] .plt              PROGBITS        00005f0c 005f0c 000104 00  AX  0   0  4</span><br><span class="line">  [11] .text             PROGBITS        00006010 006010 013684 00  AX  0   0  4</span><br><span class="line">  [12] .ARM.extab        PROGBITS        00019694 019694 0001a4 00   A  0   0  4</span><br><span class="line">  [13] .ARM.exidx        ARM_EXIDX       00019838 019838 000250 08  AL 11   0  4</span><br><span class="line">  [14] .rodata           PROGBITS        00019a90 019a90 0002d0 00   A  0   0 16</span><br><span class="line">  [15] .fini_array       FINI_ARRAY      0001ad64 019d64 000008 00  WA  0   0  4</span><br><span class="line">  [16] .init_array       INIT_ARRAY      0001ad6c 019d6c 000004 00  WA  0   0  1</span><br><span class="line">  [17] .dynamic          DYNAMIC         0001ad70 019d70 000120 08  WA  3   0  4</span><br><span class="line">  [18] .got              PROGBITS        0001ae90 019e90 000170 00  WA  0   0  4</span><br><span class="line">  [19] .data             PROGBITS        0001b000 01a000 002870 00  WA  0   0 16</span><br><span class="line">  [20] .bss              NOBITS          0001d870 01c870 0001d8 00  WA  0   0  4</span><br><span class="line">  [21] .comment          PROGBITS        00000000 01c870 00003d 01  MS  0   0  1</span><br><span class="line">  [22] .note.gnu.gold-ve NOTE            00000000 01c8b0 00001c 00      0   0  4</span><br><span class="line">  [23] .ARM.attributes   ARM_ATTRIBUTES  00000000 01c8cc 000036 00      0   0  1</span><br><span class="line">  [24] .shstrtab         STRTAB          00000000 01c902 0000f6 00      0   0  1</span><br><span class="line">Key to Flags:</span><br><span class="line">  W (write), A (alloc), X (execute), M (merge), S (strings)</span><br><span class="line">  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)</span><br><span class="line">  O (extra OS processing required) o (OS specific), p (processor specific)</span><br></pre></td></tr></table></figure>
+<h3 id="Program-Header"><a href="#Program-Header" class="headerlink" title="Program Header"></a>Program Header</h3><p>存储 so 文件运行时需要的信息。该信息会直接被 Linker 所使用，运用于 so 加载。因此这个 Header 的数据是肯定可信的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -l libxtian.so</span><br><span class="line"></span><br><span class="line">Elf file <span class="built_in">type</span> is DYN (Shared object file)</span><br><span class="line">Entry point 0x0</span><br><span class="line">There are 8 program headers, starting at offset 52</span><br><span class="line"></span><br><span class="line">Program Headers:</span><br><span class="line">  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align</span><br><span class="line">  PHDR           0x000034 0x00000034 0x00000034 0x00100 0x00100 R   0x4</span><br><span class="line">  LOAD           0x000000 0x00000000 0x00000000 0x19d60 0x19d60 R E 0x1000</span><br><span class="line">  LOAD           0x019d64 0x0001ad64 0x0001ad64 0x02b0c 0x02ce4 RW  0x1000</span><br><span class="line">  DYNAMIC        0x019d70 0x0001ad70 0x0001ad70 0x00120 0x00120 RW  0x4</span><br><span class="line">  NOTE           0x000134 0x00000134 0x00000134 0x00024 0x00024 R   0x4</span><br><span class="line">  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0</span><br><span class="line">  EXIDX          0x019838 0x00019838 0x00019838 0x00250 0x00250 R   0x4</span><br><span class="line">  GNU_RELRO      0x019d64 0x0001ad64 0x0001ad64 0x0029c 0x0029c RW  0x4</span><br><span class="line"></span><br><span class="line"> Section to Segment mapping:</span><br><span class="line">  Segment Sections...</span><br><span class="line">   00</span><br><span class="line">   01     .note.gnu.build-id .dynsym .dynstr .<span class="built_in">hash</span> .gnu.version .gnu.version_d .gnu.version_r .rel.dyn .rel.plt .plt .text .ARM.extab .ARM.exidx .rodata</span><br><span class="line">   02     .fini_array .init_array .dynamic .got .data .bss</span><br><span class="line">   03     .dynamic</span><br><span class="line">   04     .note.gnu.build-id</span><br><span class="line">   05</span><br><span class="line">   06     .ARM.exidx</span><br><span class="line">   07     .fini_array .init_array .dynamic .got</span><br></pre></td></tr></table></figure>
+<h2 id="加载-so-的流程"><a href="#加载-so-的流程" class="headerlink" title="加载 so 的流程"></a>加载 so 的流程</h2><p>Android 上的 ELF 文件是通过 Linker（位于 Bionic/Linker）加载到内存中并进行执行的。所以通过研究 Linker 可以清楚地知道 Android 系统到底使用了到了 so 的哪些数据。Linker 启动时会先对自身的函数表数据等进行重定位，然后再对其他 so 文件进行定位。</p>
+<p>Linkere 加载中只会用到 Program Header（甚至直接删除 Section Header 也是可以的）。Program Header 解析：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">link.cpp -&gt; <span class="function">soinfo *<span class="title">do_dlopen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">int</span> flags)</span> <span class="comment">// so加载</span></span></span><br><span class="line"><span class="function"><span class="title">find_library</span><span class="params">(name)</span></span>;</span><br><span class="line">si-&gt;CallConstructors();</span><br><span class="line">CallFunction(<span class="string">"DT_INIT"</span>, init_func); <span class="comment">// so脱壳点</span></span><br><span class="line">CallArray(<span class="string">"DT_INIT_ARRAY"</span>, init_array, init_array_count, <span class="literal">false</span>); <span class="comment">// dex脱壳点</span></span><br></pre></td></tr></table></figure>
+<p>加载 so 的时候，有两种加载方式，一个是直接 load，还有一个是 loadLibrary。无论是哪种方式，都会先获取 ClassLoader，然后再调用相应的方法。当传进来的 loader 不为空，则会调用 findLibrary 方法，然后执行 doLoad 方法，如果 loader 为空，则会执行另一个流程，但是后面也会执行 doLoad 方法。</p>
+<h2 id="ELF-文件变形与保护（阻碍分析）"><a href="#ELF-文件变形与保护（阻碍分析）" class="headerlink" title="ELF 文件变形与保护（阻碍分析）"></a>ELF 文件变形与保护（阻碍分析）</h2><ul>
+<li>Section 段处理：鉴于 Section Header 没有被 Linker 用于加载，所以可以对 Section 段写入无用数据，可以阻碍静态分析软件的分析。</li>
+<li>Program 段处理：Program 段中可以对 DYNAMIC 区段进行混淆，添加重复的数据以及无效的数据。</li>
+</ul>
+<h1 id="so-文件加壳修复"><a href="#so-文件加壳修复" class="headerlink" title="so 文件加壳修复"></a>so 文件加壳修复</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Program Headers:</span><br><span class="line">  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align</span><br><span class="line">  EXIDX          0x02867c 0x0002867c 0x0002867c 0x00568 0x00568 R   0x4</span><br><span class="line">  LOAD           0x000000 0x00000000 0x00000000 0x13294 0x13294 R E 0x8000</span><br><span class="line">  LOAD           0x018c10 0x00030c10 0x00030c10 0x0052c 0x01548 RW  0x8000</span><br><span class="line">  DYNAMIC        0x018c74 0x00030c74 0x00030c74 0x00108 0x00108 RW  0x4</span><br><span class="line">  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4</span><br><span class="line">  GNU_RELRO      0x018c10 0x00030c10 0x00030c10 0x003f0 0x003f0 R   0x1</span><br></pre></td></tr></table></figure>
+<p>加过壳的标志：<code>FileSiz!=MemSiz</code>，明显存在加载后在内存进行解码的可能。函数地址也在文件之外。</p>
+<p>修复：dump 内存，数据对齐重定位。</p>
+<h1 id="Android-源码定制添加反反调试基址"><a href="#Android-源码定制添加反反调试基址" class="headerlink" title="Android 源码定制添加反反调试基址"></a>Android 源码定制添加反反调试基址</h1><p>反调试一般会检测 proc 下是否有 status/stat 文件。首先修改 kernel 源码中的 <code>fs/proc/base.c</code>。修改 proc_pid_wchan 函数的返回值：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">proc_pid_wchan</span><span class="params">(struct task_struct *task, <span class="keyword">char</span> *buffer)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">long</span> wchan;</span><br><span class="line">        <span class="keyword">char</span> symname[KSYM_NAME_LEN];</span><br><span class="line"></span><br><span class="line">        wchan = get_wchan(task);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (lookup_symbol_name(wchan, symname) &lt; <span class="number">0</span>)</span><br><span class="line">                <span class="keyword">if</span> (!ptrace_may_access(task, PTRACE_MODE_READ))</span><br><span class="line">                        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                        <span class="keyword">return</span> <span class="built_in">sprintf</span>(buffer, <span class="string">"%lu"</span>, wchan);</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">strstr</span>(symname, <span class="string">"trace"</span>)) &#123; <span class="comment">// 检测进程中是否有trace这个字符串</span></span><br><span class="line">                        <span class="keyword">return</span> <span class="built_in">sprintf</span>(buffer, <span class="string">"%s"</span>, <span class="string">"sys_epoll_wait"</span>); <span class="comment">// sys_epoll_wait用来获取文件状态已经就绪的事件</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">sprintf</span>(buffer, <span class="string">"%s"</span>, symname);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后是 <code>fs/proc/array.c</code> 文件，分别修改 tast_state 函数和 task_state_array 变量：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">task_state</span><span class="params">(struct seq_file *m, struct pid_namespace *ns,</span></span></span><br><span class="line"><span class="function"><span class="params">                                struct pid *pid, struct task_struct *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">group_info</span> *<span class="title">group_info</span>;</span></span><br><span class="line">        <span class="keyword">int</span> g;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">fdtable</span> *<span class="title">fdt</span> = <span class="title">NULL</span>;</span></span><br><span class="line">        <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">cred</span> *<span class="title">cred</span>;</span></span><br><span class="line">        <span class="keyword">pid_t</span> ppid, tpid;</span><br><span class="line"></span><br><span class="line">        rcu_read_lock();</span><br><span class="line">        ppid = pid_alive(p) ?</span><br><span class="line">                task_tgid_nr_ns(rcu_dereference(p-&gt;real_parent), ns) : <span class="number">0</span>;</span><br><span class="line">        tpid = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (pid_alive(p)) &#123;</span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> *<span class="title">tracer</span> = <span class="title">ptrace_parent</span>(<span class="title">p</span>);</span></span><br><span class="line">                <span class="keyword">if</span> (tracer)</span><br><span class="line">                        tpid = task_pid_nr_ns(tracer, ns);</span><br><span class="line">        &#125;</span><br><span class="line">        cred = get_task_cred(p);</span><br><span class="line">        seq_printf(m,</span><br><span class="line">                <span class="string">"State:\t%s\n"</span></span><br><span class="line">                <span class="string">"Tgid:\t%d\n"</span></span><br><span class="line">                <span class="string">"Pid:\t%d\n"</span></span><br><span class="line">                <span class="string">"PPid:\t%d\n"</span></span><br><span class="line">                <span class="string">"TracerPid:\t%d\n"</span></span><br><span class="line">                <span class="string">"Uid:\t%d\t%d\t%d\t%d\n"</span></span><br><span class="line">                <span class="string">"Gid:\t%d\t%d\t%d\t%d\n"</span>,</span><br><span class="line">                get_task_state(p),</span><br><span class="line">                task_tgid_nr_ns(p, ns),</span><br><span class="line">                pid_nr_ns(pid, ns),</span><br><span class="line">                ppid, <span class="number">0</span>, <span class="comment">// 把tpid修改为0</span></span><br><span class="line">                cred-&gt;uid, cred-&gt;euid, cred-&gt;suid, cred-&gt;fsuid,</span><br><span class="line">                cred-&gt;gid, cred-&gt;egid, cred-&gt;sgid, cred-&gt;fsgid);</span><br><span class="line"></span><br><span class="line">        task_lock(p);</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;files)</span><br><span class="line">                fdt = files_fdtable(p-&gt;files);</span><br><span class="line">        seq_printf(m,</span><br><span class="line">                <span class="string">"FDSize:\t%d\n"</span></span><br><span class="line">                <span class="string">"Groups:\t"</span>,</span><br><span class="line">                fdt ? fdt-&gt;max_fds : <span class="number">0</span>);</span><br><span class="line">        rcu_read_unlock();</span><br><span class="line"></span><br><span class="line">        group_info = cred-&gt;group_info;</span><br><span class="line">        task_unlock(p);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (g = <span class="number">0</span>; g &lt; min(group_info-&gt;ngroups, NGROUPS_SMALL); g++)</span><br><span class="line">                seq_printf(m, <span class="string">"%d "</span>, GROUP_AT(group_info, g));</span><br><span class="line">        put_cred(cred);</span><br><span class="line"></span><br><span class="line">        seq_putc(m, <span class="string">'\n'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> * <span class="keyword">const</span> task_state_array[] = &#123;</span><br><span class="line">        <span class="string">"R (running)"</span>,          <span class="comment">/*   0 */</span></span><br><span class="line">        <span class="string">"S (sleeping)"</span>,         <span class="comment">/*   1 */</span></span><br><span class="line">        <span class="string">"D (disk sleep)"</span>,       <span class="comment">/*   2 */</span></span><br><span class="line">        <span class="string">"S (sleeping)"</span>,         <span class="comment">// "T (stopped)",          /*   4 */</span></span><br><span class="line">        <span class="string">"S (sleeping)"</span>,         <span class="comment">// "t (tracing stop)",     /*   8 */</span></span><br><span class="line">        <span class="string">"Z (zombie)"</span>,           <span class="comment">/*  16 */</span></span><br><span class="line">        <span class="string">"X (dead)"</span>,             <span class="comment">/*  32 */</span></span><br><span class="line">        <span class="string">"x (dead)"</span>,             <span class="comment">/*  64 */</span></span><br><span class="line">        <span class="string">"K (wakekill)"</span>,         <span class="comment">/* 128 */</span></span><br><span class="line">        <span class="string">"W (waking)"</span>,           <span class="comment">/* 256 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后可以根据<a href="https://se8s0n.github.io/2019/04/19/%E5%B0%9D%E8%AF%95%E7%BB%95%E8%BF%87TracePID%E5%8F%8D%E8%B0%83%E8%AF%95%E4%BA%8C%E2%80%94%E2%80%94%E4%BB%8E%E6%BA%90%E7%A0%81%E5%85%A5%E6%89%8B/" target="_blank" rel="noopener">这篇文章</a>把 boot.img 重新打包并刷入手机。</p>
+<h1 id="Refereences"><a href="#Refereences" class="headerlink" title="Refereences"></a>Refereences</h1><p><a href="https://www.bilibili.com/video/av45424886" target="_blank" rel="noopener">https://www.bilibili.com/video/av45424886</a><br><a href="https://www.jianshu.com/p/f7f0a712ddfe" target="_blank" rel="noopener">https://www.jianshu.com/p/f7f0a712ddfe</a><br><a href="https://source.android.com/devices/tech/dalvik/dex-format.html" target="_blank" rel="noopener">https://source.android.com/devices/tech/dalvik/dex-format.html</a><br><a href="https://www.jianshu.com/p/f7f0a712ddfe" target="_blank" rel="noopener">https://www.jianshu.com/p/f7f0a712ddfe</a><br><a href="http://gnaixx.cc/2016/11/26/20161126dex-file/" target="_blank" rel="noopener">http://gnaixx.cc/2016/11/26/20161126dex-file/</a><br><a href="https://www.cnblogs.com/stars-one/p/8890162.html" target="_blank" rel="noopener">https://www.cnblogs.com/stars-one/p/8890162.html</a><br><a href="http://shxi.me/posts/7b82cd68.html" target="_blank" rel="noopener">http://shxi.me/posts/7b82cd68.html</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/15/2014-AliCTF-EvilAPK_3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2014-AliCTF-EvilAPK_3
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/12/Android逆向入门（三）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android逆向入门（三）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dex-文件格式"><span class="nav-number">1.</span> <span class="nav-text">dex 文件格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dex-文件头"><span class="nav-number">1.1.</span> <span class="nav-text">dex 文件头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引区"><span class="nav-number">1.2.</span> <span class="nav-text">索引区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据区"><span class="nav-number">1.3.</span> <span class="nav-text">数据区</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态代码自修改（加壳原理）"><span class="nav-number">2.</span> <span class="nav-text">动态代码自修改（加壳原理）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改-insns"><span class="nav-number">2.1.</span> <span class="nav-text">修改 insns</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接在内存中修改"><span class="nav-number">2.1.1.</span> <span class="nav-text">直接在内存中修改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JNI-Bridge"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">JNI Bridge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Object-结构体"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">Object 结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Example"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">Example</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IDA-中动态修改"><span class="nav-number">2.1.2.</span> <span class="nav-text">IDA 中动态修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存修改的另一种方法"><span class="nav-number">2.1.3.</span> <span class="nav-text">内存修改的另一种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Example-1"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">Example</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DVM-脱壳"><span class="nav-number">3.</span> <span class="nav-text">DVM 脱壳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查壳"><span class="nav-number">3.1.</span> <span class="nav-text">查壳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assets-分析"><span class="nav-number">3.2.</span> <span class="nav-text">assets 分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProxyApplication-分析"><span class="nav-number">3.3.</span> <span class="nav-text">ProxyApplication 分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#壳代码分析"><span class="nav-number">3.4.</span> <span class="nav-text">壳代码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#so-文件分析"><span class="nav-number">3.5.</span> <span class="nav-text">so 文件分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDA-中-dump-数据"><span class="nav-number">3.6.</span> <span class="nav-text">IDA 中 dump 数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dex-加载流程"><span class="nav-number">3.7.</span> <span class="nav-text">Dex 加载流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存-dex-定位"><span class="nav-number">3.8.</span> <span class="nav-text">内存 dex 定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ELF-文件简介（ARM-架构下的-ELF）"><span class="nav-number">4.</span> <span class="nav-text">ELF 文件简介（ARM 架构下的 ELF）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件结构"><span class="nav-number">4.1.</span> <span class="nav-text">文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ELF-Header"><span class="nav-number">4.1.1.</span> <span class="nav-text">ELF Header</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Section-Header"><span class="nav-number">4.1.2.</span> <span class="nav-text">Section Header</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Program-Header"><span class="nav-number">4.1.3.</span> <span class="nav-text">Program Header</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载-so-的流程"><span class="nav-number">4.2.</span> <span class="nav-text">加载 so 的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ELF-文件变形与保护（阻碍分析）"><span class="nav-number">4.3.</span> <span class="nav-text">ELF 文件变形与保护（阻碍分析）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#so-文件加壳修复"><span class="nav-number">5.</span> <span class="nav-text">so 文件加壳修复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-源码定制添加反反调试基址"><span class="nav-number">6.</span> <span class="nav-text">Android 源码定制添加反反调试基址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Refereences"><span class="nav-number">7.</span> <span class="nav-text">Refereences</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

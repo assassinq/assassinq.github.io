@@ -15,11 +15,11 @@
 <meta name="keywords" content="re,android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android逆向入门（一）">
-<meta property="og:url" content="https://qianfei11.github.io/2020/01/16/Android逆向入门（一）/index.html">
+<meta property="og:url" content="qianfei11.coding.me/2020/01/16/Android逆向入门（一）/index.html">
 <meta property="og:site_name" content="AssassinQ">
 <meta property="og:description" content="开始学习安卓。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-01-25T07:46:26.201Z">
+<meta property="og:updated_time" content="2020-02-18T09:11:55.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android逆向入门（一）">
 <meta name="twitter:description" content="开始学习安卓。">
@@ -150,9 +150,9 @@
       
 
 	  |
-	  2.1k words
+	  2.2k words
 	  |
-	  9 minute(s) to read
+	  10 minute(s) to read
     </div>
     <div class="article-entry" itemprop="articleBody">
       
@@ -322,9 +322,40 @@
 <td style="text-align:center"><code>iget-object</code></td>
 <td style="text-align:center">调用对象</td>
 </tr>
+<tr>
+<td style="text-align:center"><code>move-result-object</code></td>
+<td style="text-align:center">将上一句的结果赋值给寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>new-array v0, v1, type</code></td>
+<td style="text-align:center">构造指定类型与大小的数组，并赋值给寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>array-length v0, v1</code></td>
+<td style="text-align:center">获取指定寄存器中数组的长度并赋值给寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>const/4</code></td>
+<td style="text-align:center">赋值</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>rem-int/2addr v0, v1</code></td>
+<td style="text-align:center">计算模结果存入寄存器</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>int-to-byte</code></td>
+<td style="text-align:center">整型转字节型</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>goto</code></td>
+<td style="text-align:center">直接跳转到指定位置</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>return-object</code></td>
+<td style="text-align:center">返回一个对象类型</td>
+</tr>
 </tbody>
 </table>
-<p>| <code>move-result-object</code> |<br>| <code>new-array</code> |<br>| <code>array-length</code> |<br>| <code>const/4</code> |<br>| <code>if-ge</code> |<br>| <code>aget-byte</code> |<br>| <code>aput-byte</code> |<br>| <code>rem-int/2addr</code> |<br>| <code>int-to-byte</code> |<br>| <code>goto</code> |<br>| <code>return-object</code> |</p>
 <h2 id="Smali-中函数的调用"><a href="#Smali-中函数的调用" class="headerlink" title="Smali 中函数的调用"></a>Smali 中函数的调用</h2><p>函数分为 direct 和 virtual 两种类型。direct method 就是 private 函数，其余的 public 和 protected 函数都属于 virtual method。</p>
 <h3 id="invoke-static"><a href="#invoke-static" class="headerlink" title="invoke-static"></a><code>invoke-static</code></h3><p>调用静态函数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-static &#123;v0&#125;, Ljava/lang/System;-&gt;loadLibrary(Ljava/lang/String;)V</span><br></pre></td></tr></table></figure>
@@ -449,6 +480,7 @@
 <li>使用 apktool/ShakaApktool 反编译 apk 文件</li>
 <li>在 Android Studio 中导入源码</li>
 <li>设置远程调试选项，Host 填写为 localhost，端口填写为 8700</li>
+<li>在 Debugger setup 中勾选 Suspend on process entry point、Suspend on thread start/exit 以及 Suspend on library load/unload</li>
 <li>使用 adb 以 debug 方式启动 apk：<code>adb shell am start -D -n packageName/ActivityName</code></li>
 <li>下好断点，打开 monitor，开始调试</li>
 </ol>
@@ -495,7 +527,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/01/21/2019-CISCN-BabyBank/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/21/[TODO]2019-CISCN-BabyBank/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Android逆向入门（三） | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="reandroid">
+  
+  
+  
+  
+  <meta name="description" content="记录 Jeb 插件编写、简单 Hook 以及 Android 系统结构简述。">
+<meta name="keywords" content="re,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向入门（三）">
+<meta property="og:url" content="qianfei11.coding.me/2020/02/12/Android逆向入门（三）/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="记录 Jeb 插件编写、简单 Hook 以及 Android 系统结构简述。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="/pics/Android逆向入门/三/1.png">
+<meta property="og:image" content="/pics/Android逆向入门/三/2.png">
+<meta property="og:image" content="/pics/Android逆向入门/三/3.png">
+<meta property="og:image" content="/pics/Android逆向入门/三/4.png">
+<meta property="og:image" content="/pics/Android逆向入门/三/5.png">
+<meta property="og:image" content="/pics/Android逆向入门/三/6.png">
+<meta property="og:image" content="/pics/Android逆向入门/三/7.png">
+<meta property="og:updated_time" content="2020-02-19T09:06:39.439Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向入门（三）">
+<meta name="twitter:description" content="记录 Jeb 插件编写、简单 Hook 以及 Android 系统结构简述。">
+<meta name="twitter:image" content="/pics/Android逆向入门/三/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Android逆向入门（三）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Android逆向入门（三）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/02/12/Android逆向入门（三）/" class="article-date">
+	  <time datetime="2020-02-12T06:06:59.000Z" itemprop="datePublished">February 12, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  2.7k words
+	  |
+	  12 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录 Jeb 插件编写、简单 Hook 以及 Android 系统结构简述。</p>
+<a id="more"></a>
+<h1 id="JEB-插件扩展"><a href="#JEB-插件扩展" class="headerlink" title="JEB 插件扩展"></a>JEB 插件扩展</h1><h2 id="插件帮助文件"><a href="#插件帮助文件" class="headerlink" title="插件帮助文件"></a>插件帮助文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$JEB/doc/apidoc</span><br></pre></td></tr></table></figure>
+<h2 id="插件编写"><a href="#插件编写" class="headerlink" title="插件编写"></a>插件编写</h2><p>语言：Java/Python</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jeb.api.IScript;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">decJebString</span> <span class="title">implemants</span> <span class="title">IScript</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> JebInstance jeb = <span class="keyword">null</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(JebInstance jebInstance)</span> </span>&#123;</span><br><span class="line">        jeb = jebInstance;</span><br><span class="line">        jeb.print(<span class="string">"Hello World!!!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>强制反编译结果，相当于 Ctrl+F5：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jeb.api.IScript;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">decJebString</span> <span class="title">implemants</span> <span class="title">IScript</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String targetSignature = <span class="string">"Lcom/pnfsoftware/jebglobal/decStr;-&gt;decodeString([BII)Ljava/lang/String;"</span>;</span><br><span class="line">    <span class="keyword">private</span> JebInstance jeb = <span class="keyword">null</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(JebInstance jebInstance)</span> </span>&#123;</span><br><span class="line">        jeb = jebInstance;</span><br><span class="line">        Dex dex = jeb.getDex();</span><br><span class="line">        List&lt;String&gt; classSignatures = dex.getClassSignatures(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">int</span> methodCount = dex.getMethodCount();</span><br><span class="line">        String methodSig;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; methodCount; i++) &#123;</span><br><span class="line">            DexMethod dexMethod = dex.getMethod(i);</span><br><span class="line">            <span class="keyword">int</span> idx = dexMethod.getIndex();</span><br><span class="line">            methodSig = dexMethod.getSignature(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">if</span>(methodSig.equals(targetSignature)) &#123;</span><br><span class="line">                List&lt;Integer&gt; methodReferences = dex.getMethodReferences(idx); <span class="comment">// 获取交叉引用</span></span><br><span class="line">                <span class="keyword">for</span>(Integer refIdx : methodReferences) &#123;</span><br><span class="line">                    DexMethod refDexMethod = dex.getMethod(refIdx);</span><br><span class="line">                    jeb.decompileMethod(refDexMethod.getSignature(<span class="keyword">true</span>));</span><br><span class="line">                    ...</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Android-快速定位关键代码"><a href="#Android-快速定位关键代码" class="headerlink" title="Android 快速定位关键代码"></a>Android 快速定位关键代码</h1><ul>
+<li>字符串、特征字</li>
+<li>关键 API 监控</li>
+<li>Hook 解密函数</li>
+<li>Monitor</li>
+<li>插 Log 信息<ul>
+<li><code>invoke-static {v0}, Lcom/android/killer/Log;-&gt;LogStr(Ljava/lang/String;)V</code></li>
+</ul>
+</li>
+<li>动态调试</li>
+</ul>
+<h1 id="快速-Hook-代码"><a href="#快速-Hook-代码" class="headerlink" title="快速 Hook 代码"></a>快速 Hook 代码</h1><p>对函数进行挂钩，可以影响整个函数的执行。挂钩后，注入的代码可以接管整个函数，修改函数的参数，返回值，甚至整个函数的行为等。</p>
+<h2 id="Cydia-Substrate"><a href="#Cydia-Substrate" class="headerlink" title="Cydia Substrate"></a><a href="http://www.cydiasubstrate.com/" target="_blank" rel="noopener">Cydia Substrate</a></h2><p>只要知道类名就可以 Hook，而且属于系统全局属性，软件基本上不能检测到。</p>
+<h3 id="Hook-Java"><a href="#Hook-Java" class="headerlink" title="Hook Java"></a>Hook Java</h3><ol>
+<li>新建空项目</li>
+<li>导入 lib 文件 substrate-api.jar</li>
+<li>修改 AndroidManifest.xml 文件</li>
+<li>编写入口类</li>
+<li>安装激活插件，重启后可以看到插件效果</li>
+</ol>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>修改 AndroidManifest.xml 文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">        <span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>=<span class="string">"com.saurik.substrate.main"</span> <span class="attr">android:value</span>=<span class="string">"com.assassinq.cydiajavahook.CydiaMain"</span>/&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"cydia.permission.SUBSTRATE"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_PHONE_STATE"</span>&gt;</span><span class="tag">&lt;/<span class="name">uses-permission</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>编写入口类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.assassinq.cydiajavahook;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.saurik.substrate.MS;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CydiaMain</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MS.hookClassLoad(<span class="string">"android.content.res.Resources"</span>, <span class="keyword">new</span> MS.ClassLoadHook() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">classLoaded</span><span class="params">(Class&lt;?&gt; resources)</span> </span>&#123;</span><br><span class="line">                Method getColor;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    getColor = resources.getDeclaredMethod(<span class="string">"getColor"</span>, Integer.TYPE);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    getColor = <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (getColor != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">final</span> MS.MethodPointer old = <span class="keyword">new</span> MS.MethodPointer();</span><br><span class="line">                    MS.hookMethod(resources, getColor, <span class="keyword">new</span> MS.MethodHook() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> Object <span class="title">invoked</span><span class="params">(Object res, Object... args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                            <span class="keyword">int</span> color = (Integer) old.invoke(res, args);</span><br><span class="line">                            <span class="keyword">return</span> color &amp; ~<span class="number">0xFFFFFF</span> | <span class="number">0x00AAAA</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;, old);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编写完成后，将程序安装到手机上，会弹出 Substrate extentions updated：</p>
+<p><img src="/pics/Android逆向入门/三/1.png" alt></p>
+<p>点击进入 Cydia Substrate，点击 Restart System (Soft) 来重启系统：</p>
+<p><img src="/pics/Android逆向入门/三/2.png" alt></p>
+<p>重启后发现系统某些部分的颜色已经被我们 Hook 成了其他颜色：</p>
+<p><img src="/pics/Android逆向入门/三/3.png" alt></p>
+<p>在设置中打开更加明显：</p>
+<p><img src="/pics/Android逆向入门/三/4.png" alt></p>
+<h4 id="Java-反射"><a href="#Java-反射" class="headerlink" title="Java 反射"></a>Java 反射</h4><p>Java 可以通过反射方法去获取类以及它的成员。反射相当于提供一些函数，让我们在不知道原始累的定义的情况下，去修改类中相关的成员的属性、值等。</p>
+<p>所有类都是继承自 Object 类的，所以都可以使用 Object 的方法。也可以强制转换为 Object。所有，遇到无法表示出来的对象时，直接用 Object 即可。</p>
+<p>获取对象的类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="string">"123"</span>;</span><br><span class="line">Class clazz = obj.getClass();</span><br></pre></td></tr></table></figure>
+<p>获取类中的方法（使用对应的不是以 s 为后缀的函数可以获取特定的函数或 field）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Method[] mPubMethods = clazz.getMethods(); <span class="comment">// 获取公有可直接调用的方法</span></span><br><span class="line">Method[] mDeclareMethods = clazz.getDeclareMethods(); <span class="comment">// 获取类中声明的所有方法</span></span><br><span class="line">Field[] mPubFields = clazz.getFields(); <span class="comment">// 获取public的field</span></span><br><span class="line">Field[] mDeclareFields = clazz.getDeclaredFields(); <span class="comment">// 获取声明的所有field</span></span><br></pre></td></tr></table></figure>
+<p>方法调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">method.invoke(obj, arg)</span><br></pre></td></tr></table></figure>
+<p>域操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">field.set(obj, <span class="string">"1"</span>);</span><br><span class="line">field.get(obj);</span><br></pre></td></tr></table></figure>
+<p>访问权限设置（域与方法都一样，控制是否可以直接访问，其实就是相当于 public 属性）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">field.isAccessible();</span><br><span class="line">field.setAccessible(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<p>其余的函数，可以获取函数的名称，还有其他种种信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">field.getName();</span><br><span class="line">field.toString();</span><br><span class="line">Class.forName(<span class="string">"android.view.Menu"</span>); <span class="comment">// 寻找类，必须是一个classloader下的才能使用</span></span><br></pre></td></tr></table></figure>
+<h2 id="Xposed"><a href="#Xposed" class="headerlink" title="Xposed"></a>Xposed</h2><p>Xposed 是在程序启动的时候同时加载的，因此他的 Hook 是区分进程的。对于程序的类和参数可以通过名字来进行 Hook。Xposed 的 Hook 分为函数执行前和执行后两个位置，可以分别进行参数修改和结果修改。如果不想进行调用的话，可以在执行前使用 <code>setResult(NULL)</code> 函数。比起 Cydia 使用范围更加广泛，各种插件都是基于 Xposed 的，并且是开源的。</p>
+<ol>
+<li>新建基础项目</li>
+<li>导入 lib 文件 XposedBridgeApi-54.jar（compileOnly 模式，也就是不参与编译到最终文件中）</li>
+<li>修改 AndroidManifest.xml 文件</li>
+<li>入口类编写</li>
+<li>设置启动入口：在 assets 文件夹中，新建 xposed_init 文件，写入入口类的信息 com.assassinq.xposedjavahook.XposedMain</li>
+<li>安装激活插件，重启后可以看到插件效果</li>
+</ol>
+<p>修改 app 下的 build.gradle 文件，将对应 lib/XposedBridgeApi-54.jar 的操作 implementation 修改成 compileOnly：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    compileOnly files(<span class="string">'lib/XposedBridgeApi-54.jar'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Hook-Java-1"><a href="#Hook-Java-1" class="headerlink" title="Hook Java"></a>Hook Java</h3><p>修改 AndroidManifest.xml 文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">manifest</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">        <span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>=<span class="string">"xposedmodule"</span> <span class="attr">android:value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>=<span class="string">"xposeddescription"</span> <span class="attr">android:value</span>=<span class="string">"Hook getColor"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>=<span class="string">"xposedminversion"</span> <span class="attr">android:value</span>=<span class="string">"54"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_PHONE_STATE"</span>&gt;</span><span class="tag">&lt;/<span class="name">uses-permission</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>入口类编写，新建一个类文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XposedMain</span> <span class="keyword">implements</span> <span class="title">IXposedHookLoadPackage</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleLoadPackage</span><span class="params">(XC_LoadPackage.LoadPackageParam param)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"><span class="comment">//        if (param.packageName.equals("apk")) &#123;</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                findAndHookMethod(<span class="string">"android.content.res.Resources"</span>, param.classLoader, <span class="string">"getColor"</span>, <span class="keyword">int</span>.class, <span class="keyword">new</span> myGetColor());</span><br><span class="line"><span class="comment">//                waitForDebugger();</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                XposedBridge.log(e);</span><br><span class="line">            &#125;</span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myGetColor</span> <span class="keyword">extends</span> <span class="title">XC_MethodHook</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">beforeHookedMethod</span><span class="params">(MethodHookParam param)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        Log.d(<span class="string">"DEBUG"</span>, <span class="string">"Before Method Hook"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">afterHookedMethod</span><span class="params">(MethodHookParam param)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        Log.d(<span class="string">"DEBUG"</span>, <span class="string">"After Method Hook"</span>);</span><br><span class="line">        <span class="keyword">int</span> res = (<span class="keyword">int</span>) param.getResult();s</span><br><span class="line">        res = res &amp; ~<span class="number">0xFFFFFF</span> | <span class="number">0x00AAAA</span>;</span><br><span class="line">        param.setResult(res);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样，编写完成后会弹出一个 Xposed module is not activated：</p>
+<p><img src="/pics/Android逆向入门/三/5.png" alt></p>
+<p>点击后勾选我们编写的模块，并在 Framework 界面点击 Soft Reboot 以激活插件：</p>
+<p><img src="/pics/Android逆向入门/三/6.png" alt></p>
+<p>重启后系统部分颜色同样被改变，但效果没有 Cydia 的好：</p>
+<p><img src="/pics/Android逆向入门/三/7.png" alt></p>
+<h3 id="classLoader"><a href="#classLoader" class="headerlink" title="classLoader"></a>classLoader</h3><p>与 Java 上的类似，就是一个类装载器。与 Java 不同的是，classLoader 所加载的就是 dex 文件本身。所以通过程序的 classLoader，可以取得程序的 dex 中所定义的所有类及其成员函数。同理，如果一个程序有多个 dex，那么会对应着多个 classLoader，特别是使用动态加载的 dex，则需要传递想要的 classLoader 才可以进行数据获取。</p>
+<h1 id="Android-源码浅析"><a href="#Android-源码浅析" class="headerlink" title="Android 源码浅析"></a>Android 源码浅析</h1><h2 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h2><p>Ubuntu 14.04</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>首先搭建好 JDK 6 的环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &amp;&amp; wget https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin</span><br><span class="line">chmod +x jdk-6u45-linux-x64.bin &amp;&amp; ./jdk-6u45-linux-x64.bin</span><br><span class="line"><span class="built_in">cd</span> /usr &amp;&amp; sudo mkdir java</span><br><span class="line"><span class="built_in">cd</span> java &amp;&amp; sudo mv ~/jdk1.6.0_45 .</span><br><span class="line">vim ~/.bashrc</span><br><span class="line"><span class="comment"># export JAVA_HOME="/usr/java/jdk1.6.0_45"</span></span><br><span class="line"><span class="comment"># export JRE_HOME="$JAVA_HOME/jre"</span></span><br><span class="line"><span class="comment"># export CLASSPATH="$CLASSPATH:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar"</span></span><br><span class="line"><span class="comment"># export PATH="$PATH:$JAVA_HOME/bin"</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
+<p>然后安装一些编译时需要用到的依赖文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip</span><br></pre></td></tr></table></figure>
+<p>添加 51-android.rules，使得手机 USB 连接到 Ubuntu 能够被识别：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &amp;&amp; wget https://raw.githubusercontent.com/M0Rf30/android-udev-rules/master/51-android.rules</span><br><span class="line">sudo mv 51-android.rules /etc/udev/rules.d/</span><br><span class="line">sudo udevadm control --reload-rules</span><br></pre></td></tr></table></figure>
+<p>接下来使用 repo 工具同步下载 Android 源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &amp;&amp; mkdir bin <span class="comment"># export PATH="$HOME/bin:$PATH"</span></span><br><span class="line">curl https://mirrors.tuna.tsinghua.edu.cn/git/git-repo &gt; ~/bin/repo</span><br><span class="line"><span class="comment"># curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo</span></span><br><span class="line">chmod a+x ~/bin/repo</span><br><span class="line"><span class="built_in">export</span> WORKING_DIRECTORY=<span class="string">"android-4.4.3_r1"</span></span><br><span class="line">mkdir <span class="variable">$WORKING_DIRECTORY</span> &amp;&amp; <span class="built_in">cd</span> <span class="variable">$WORKING_DIRECTORY</span></span><br><span class="line">git config --global user.name <span class="string">"Your Name"</span></span><br><span class="line">git config --global user.email <span class="string">"your@example.com"</span></span><br><span class="line"><span class="comment"># export REPO_URL="https://aosp.tuna.tsinghua.edu.cn/android/git-repo"</span></span><br><span class="line"><span class="comment"># vim ~/bin/repo # REPO_URL = 'https://aosp.tuna.tsinghua.edu.cn/android/git-repo'</span></span><br><span class="line">repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-4.4.3_r1</span><br><span class="line"><span class="comment"># repo init -u https://android.googlesource.com/platform/manifest -b android-4.4.3_r1</span></span><br><span class="line">repo sync <span class="comment"># Takes a very long time</span></span><br><span class="line"><span class="comment"># repo sync -c --no-clone-bundle --no-tags --prune -j4</span></span><br></pre></td></tr></table></figure>
+<p>同步完成后进行编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> build/envsetup.sh <span class="comment"># Setup environment</span></span><br><span class="line">lunch aosp_arm-eng <span class="comment"># Setup choices</span></span><br><span class="line"><span class="built_in">export</span> USE_CCACHE=1 <span class="comment"># Enable ccache</span></span><br><span class="line">prebuilts/misc/linux-x86/ccache/ccache -M 100G <span class="comment"># Set ccache memory = 100G</span></span><br><span class="line"><span class="comment"># export CCACHE_DIR=$YOUR_PATH/.ccache # Set ccache dir # Default in $HOME/.ccache</span></span><br><span class="line">make -j4</span><br></pre></td></tr></table></figure>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p>安装一下 Android Studio，用来作为查看源码的编辑器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386</span><br><span class="line">wget https://dl.google.com/dl/android/studio/ide-zips/3.5.3.0/android-studio-ide-191.6010548-linux.tar.gz</span><br><span class="line">tar zxvf android-studio-ide-191.6010548-linux.tar.gz</span><br><span class="line">sudo mv android-studio /usr/<span class="built_in">local</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/android-studio/bin</span><br><span class="line">./studio.sh</span><br></pre></td></tr></table></figure>
+<p>PS：<a href="https://www.v2ex.com/t/455266" target="_blank" rel="noopener">谷歌在国内有服务器，用 ping.chinaz.com 解析出 dl.google.com 最快的 ip，在 hosts 里写死就行了，直接满速下载。</a></p>
+<p>生成 Android Studio 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="variable">$HOME</span>/<span class="variable">$WORKING_DIRECTORY</span> &amp;&amp; <span class="built_in">source</span> build/envsetup.sh</span><br><span class="line">lunch aosp_arm-eng</span><br><span class="line"><span class="built_in">cd</span> development/tools/idegen &amp;&amp; mm</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HOME</span>/<span class="variable">$WORKING_DIRECTORY</span> &amp;&amp; ./development/tools/idegen/idegen.sh</span><br></pre></td></tr></table></figure>
+<p>运行完后，将根目录下的 android.ipr 导入 Android Studio 即可。目录结构：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文件夹/文件</th>
+<th style="text-align:center">包含内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">abi</td>
+</tr>
+<tr>
+<td style="text-align:center">art</td>
+<td style="text-align:center">art 模式相关的代码</td>
+</tr>
+<tr>
+<td style="text-align:center">bionic</td>
+<td style="text-align:center">各种 so 库的源代码</td>
+</tr>
+<tr>
+<td style="text-align:center">bootable</td>
+<td style="text-align:center">recovery、bootloader、diskinstaller</td>
+</tr>
+<tr>
+<td style="text-align:center">build</td>
+<td style="text-align:center">源码编译生成的规则代码</td>
+</tr>
+<tr>
+<td style="text-align:center">cts</td>
+<td style="text-align:center">Android 兼容性测试套件标准</td>
+</tr>
+<tr>
+<td style="text-align:center">dalvik</td>
+<td style="text-align:center">Dalvik 模式相关的代码</td>
+</tr>
+<tr>
+<td style="text-align:center">developers</td>
+<td style="text-align:center">一些开发上用来参考的资料</td>
+</tr>
+<tr>
+<td style="text-align:center">development</td>
+<td style="text-align:center">Android 开发相关的代码，makekey 等</td>
+</tr>
+<tr>
+<td style="text-align:center">device</td>
+<td style="text-align:center">手机驱动的源码</td>
+</tr>
+<tr>
+<td style="text-align:center">docs</td>
+<td style="text-align:center">doc 文档</td>
+</tr>
+<tr>
+<td style="text-align:center">external</td>
+<td style="text-align:center">Android 使用的一些开源的模块</td>
+</tr>
+<tr>
+<td style="text-align:center">frameworks</td>
+<td style="text-align:center">框架</td>
+</tr>
+<tr>
+<td style="text-align:center">hardware</td>
+<td style="text-align:center">部分开源的 HAL 代码</td>
+</tr>
+<tr>
+<td style="text-align:center">libcore</td>
+<td style="text-align:center">一些核心的 lib 文件库</td>
+</tr>
+<tr>
+<td style="text-align:center">libnativehelper</td>
+<td style="text-align:center">jni 相关的代码，包括如何通过 jni 来获取 Dalvik 中的某些函数</td>
+</tr>
+<tr>
+<td style="text-align:center">Makefile</td>
+</tr>
+<tr>
+<td style="text-align:center">ndk</td>
+<td style="text-align:center">ndk 代码</td>
+</tr>
+<tr>
+<td style="text-align:center">out</td>
+</tr>
+<tr>
+<td style="text-align:center">packages</td>
+<td style="text-align:center">应用程序源码</td>
+</tr>
+<tr>
+<td style="text-align:center">pdk</td>
+</tr>
+<tr>
+<td style="text-align:center">prebuilts</td>
+<td style="text-align:center">镜像生成依赖的一些文件，如 gcc、kernel 等</td>
+</tr>
+<tr>
+<td style="text-align:center">sdk</td>
+<td style="text-align:center">sdk 源码，模拟器源码</td>
+</tr>
+<tr>
+<td style="text-align:center">system</td>
+<td style="text-align:center">底层文件系统库、应用及组件（C 语言）</td>
+</tr>
+<tr>
+<td style="text-align:center">tools</td>
+</tr>
+</tbody>
+</table>
+<h2 id="内核代码"><a href="#内核代码" class="headerlink" title="内核代码"></a>内核代码</h2><p>编译内核代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://aosp.tuna.tsinghua.edu.cn/kernel/msm</span><br><span class="line"><span class="comment"># git clone https://android.googlesource.com/kernel/msm</span></span><br><span class="line"><span class="built_in">cd</span> msm</span><br><span class="line">git branch -a</span><br><span class="line">git checkout remotes/origin/android-msm-hammerhead-3.4-kitkat-mr1</span><br><span class="line">sudo -i <span class="comment"># 在root下进行编译</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">"<span class="variable">$PATH</span>:<span class="variable">$WORKING_DIRECTORY</span>/prebuilts/gcc/linux-x86/arm/arm-eabi-4.6/bin"</span></span><br><span class="line"><span class="built_in">export</span> ARCH=arm</span><br><span class="line"><span class="built_in">export</span> SUBARCH=arm</span><br><span class="line"><span class="built_in">export</span> CROSS_COMPILE=arm-eabi-</span><br><span class="line">make hammerhead_defconfig</span><br><span class="line">make -j4</span><br></pre></td></tr></table></figure>
+<p>完成后将输出的 zImage-dtb 文件覆盖到之前的安卓源码中。重新编译手机镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> build/envsetup.sh</span><br><span class="line">lunch aosp_hammerhead-userdebug</span><br><span class="line">make -j4</span><br></pre></td></tr></table></figure>
+<p>刷机：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb reboot bootloader</span><br><span class="line">fastboot -w flashall</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">编译命令</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">m</td>
+<td style="text-align:center">编译所有的模块</td>
+</tr>
+<tr>
+<td style="text-align:center">mm</td>
+<td style="text-align:center">编译当前目录下的模块，当前目录下要有 Android.mk 文件</td>
+</tr>
+<tr>
+<td style="text-align:center">mmm</td>
+<td style="text-align:center">编译指定路径下的模块，指定路径下要有 Android.mk 文件</td>
+</tr>
+<tr>
+<td style="text-align:center">make snod</td>
+<td style="text-align:center">部分编译完后，使用该命令来编译的结果整合到镜像中</td>
+</tr>
+</tbody>
+</table>
+<h2 id="使用-Docker-进行编译-Android-源码"><a href="#使用-Docker-进行编译-Android-源码" class="headerlink" title="使用 Docker 进行编译 Android 源码"></a>使用 Docker 进行编译 Android 源码</h2><p>源码编译的时候在不同环境中可能会有不同的问题，但在有了 docker 之后，环境的问题就可以很轻松地解决了。命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &amp;&amp; mkdir build</span><br><span class="line"><span class="built_in">export</span> AOSP_VOL=<span class="string">"<span class="variable">$HOME</span>/build"</span></span><br><span class="line">wget https://raw.githubusercontent.com/tiann/docker-aosp/master/tests/build-kitkat.sh <span class="comment"># 连接不上的话改一下hosts</span></span><br><span class="line">bash build-kitkat.sh</span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.bilibili.com/video/av45424886" target="_blank" rel="noopener">https://www.bilibili.com/video/av45424886</a><br><a href="https://source.android.com/setup?hl=en" target="_blank" rel="noopener">https://source.android.com/setup?hl=en</a><br><a href="https://jingyan.baidu.com/article/d621e8dae805272865913fa7.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/d621e8dae805272865913fa7.html</a><br><a href="https://www.cnblogs.com/yyangblog/archive/2011/03/02/1968880.html" target="_blank" rel="noopener">https://www.cnblogs.com/yyangblog/archive/2011/03/02/1968880.html</a><br><a href="https://blog.csdn.net/u012417380/article/details/72809141" target="_blank" rel="noopener">https://blog.csdn.net/u012417380/article/details/72809141</a><br><a href="https://blog.csdn.net/u012417380/article/details/73196722" target="_blank" rel="noopener">https://blog.csdn.net/u012417380/article/details/73196722</a><br><a href="https://blog.csdn.net/u012417380/article/details/73353670" target="_blank" rel="noopener">https://blog.csdn.net/u012417380/article/details/73353670</a><br><a href="https://blog.csdn.net/sergeycao/article/details/46459419" target="_blank" rel="noopener">https://blog.csdn.net/sergeycao/article/details/46459419</a><br><a href="https://www.jianshu.com/p/3bdf6e9f9dfe" target="_blank" rel="noopener">https://www.jianshu.com/p/3bdf6e9f9dfe</a><br><a href="http://shxi.me/posts/7b82cd68.html" target="_blank" rel="noopener">http://shxi.me/posts/7b82cd68.html</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/14/[TODO]Android逆向入门（四）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android逆向入门（四）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/11/2020春节-吾爱破解解题领红包活动/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2020春节-吾爱破解解题领红包活动</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JEB-插件扩展"><span class="nav-number">1.</span> <span class="nav-text">JEB 插件扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插件帮助文件"><span class="nav-number">1.1.</span> <span class="nav-text">插件帮助文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件编写"><span class="nav-number">1.2.</span> <span class="nav-text">插件编写</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-快速定位关键代码"><span class="nav-number">2.</span> <span class="nav-text">Android 快速定位关键代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速-Hook-代码"><span class="nav-number">3.</span> <span class="nav-text">快速 Hook 代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cydia-Substrate"><span class="nav-number">3.1.</span> <span class="nav-text">Cydia Substrate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hook-Java"><span class="nav-number">3.1.1.</span> <span class="nav-text">Hook Java</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Example"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-反射"><span class="nav-number">3.1.1.2.</span> <span class="nav-text">Java 反射</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xposed"><span class="nav-number">3.2.</span> <span class="nav-text">Xposed</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hook-Java-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">Hook Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#classLoader"><span class="nav-number">3.2.2.</span> <span class="nav-text">classLoader</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-源码浅析"><span class="nav-number">4.</span> <span class="nav-text">Android 源码浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Environment"><span class="nav-number">4.1.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译"><span class="nav-number">4.2.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录结构"><span class="nav-number">4.3.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内核代码"><span class="nav-number">4.4.</span> <span class="nav-text">内核代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Docker-进行编译-Android-源码"><span class="nav-number">4.5.</span> <span class="nav-text">使用 Docker 进行编译 Android 源码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

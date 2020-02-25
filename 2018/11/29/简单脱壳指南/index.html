@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>简单脱壳指南 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="re">
+  
+  
+  
+  
+  <meta name="description" content="记录一下脱一些简单压缩壳的过程（主要是找 OEP）。">
+<meta name="keywords" content="re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单脱壳指南">
+<meta property="og:url" content="qianfei11.coding.me/2018/11/29/简单脱壳指南/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="记录一下脱一些简单压缩壳的过程（主要是找 OEP）。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="/pics/脱壳指南/1.png">
+<meta property="og:image" content="/pics/脱壳指南/2.png">
+<meta property="og:image" content="/pics/脱壳指南/3.png">
+<meta property="og:image" content="/pics/脱壳指南/4.png">
+<meta property="og:image" content="/pics/脱壳指南/5.png">
+<meta property="og:image" content="/pics/脱壳指南/6.png">
+<meta property="og:image" content="/pics/脱壳指南/7.png">
+<meta property="og:image" content="/pics/脱壳指南/8.png">
+<meta property="og:image" content="/pics/脱壳指南/9.png">
+<meta property="og:image" content="/pics/脱壳指南/10.png">
+<meta property="og:image" content="/pics/脱壳指南/11.png">
+<meta property="og:image" content="/pics/脱壳指南/26.png">
+<meta property="og:image" content="/pics/脱壳指南/12.png">
+<meta property="og:image" content="/pics/脱壳指南/13.png">
+<meta property="og:image" content="/pics/脱壳指南/14.png">
+<meta property="og:image" content="/pics/脱壳指南/15.png">
+<meta property="og:image" content="/pics/脱壳指南/16.png">
+<meta property="og:image" content="/pics/脱壳指南/17.png">
+<meta property="og:image" content="/pics/脱壳指南/18.png">
+<meta property="og:image" content="/pics/脱壳指南/19.png">
+<meta property="og:image" content="/pics/脱壳指南/20.png">
+<meta property="og:image" content="/pics/脱壳指南/21.png">
+<meta property="og:image" content="/pics/脱壳指南/22.png">
+<meta property="og:image" content="/pics/脱壳指南/23.png">
+<meta property="og:image" content="/pics/脱壳指南/24.png">
+<meta property="og:image" content="/pics/脱壳指南/25.png">
+<meta property="og:updated_time" content="2020-02-09T09:38:15.163Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单脱壳指南">
+<meta name="twitter:description" content="记录一下脱一些简单压缩壳的过程（主要是找 OEP）。">
+<meta name="twitter:image" content="/pics/脱壳指南/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-简单脱壳指南" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      简单脱壳指南
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/11/29/简单脱壳指南/" class="article-date">
+	  <time datetime="2018-11-29T09:04:10.000Z" itemprop="datePublished">November 29, 2018</time>
+	</a>
+
+       
+      
+
+	  |
+	  1.5k words
+	  |
+	  5 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录一下脱一些简单压缩壳的过程（主要是找 OEP）。</p>
+<a id="more"></a>
+<h1 id="压缩壳和加密壳"><a href="#压缩壳和加密壳" class="headerlink" title="压缩壳和加密壳"></a>压缩壳和加密壳</h1><ul>
+<li>在理解什么是压缩壳的时候，先了解什么是壳。壳可以简单理解为就是在 PE 文件中包含了代码，而又不影响 PE 文件的执行。其中压缩壳是让 PE 文件变小的壳。在运行加了压缩壳的程序时，壳先对程序进行解压缩，然后再运行源程序。</li>
+<li>加密壳主要就是针对软件的加密保护，也有一些人用加密壳来做一些木马的免杀，导致一些杀软件查到该壳就误报病毒。加密壳的种类有很多，如果手工脱和修复，即使对高手来脱，也需要费很大力气。</li>
+</ul>
+<h1 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h1><ul>
+<li>调试工具：<code>Ollydbg</code></li>
+<li>查壳工具：<code>ExeInfo</code>/<code>PEID</code></li>
+<li>脱壳工具：<code>LordPE</code>、<code>ImportRE</code></li>
+</ul>
+<p>OD 快捷键：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>f7</code></td>
+<td style="text-align:center">单步步入</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f8</code></td>
+<td style="text-align:center">单步步过</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f4</code></td>
+<td style="text-align:center">运行到选定位置</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f2</code></td>
+<td style="text-align:center">设置断点</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+f2</code></td>
+<td style="text-align:center">重新开始</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f9</code></td>
+<td style="text-align:center">运行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>shift+f9</code></td>
+<td style="text-align:center">忽略异常运行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>alt+f9</code></td>
+<td style="text-align:center">执行到用户代码</td>
+</tr>
+</tbody>
+</table>
+<h1 id="脱壳"><a href="#脱壳" class="headerlink" title="脱壳"></a>脱壳</h1><h2 id="LordPE"><a href="#LordPE" class="headerlink" title="LordPE"></a>LordPE</h2><p>LordPE 用来将程序 dump 出来：</p>
+<ol>
+<li>找到程序右键，<code>修正镜像大小</code>；</li>
+<li><code>完整转存</code>。</li>
+</ol>
+<p><img src="/pics/脱壳指南/1.png" alt="LordPE步骤"></p>
+<h2 id="ImportREC"><a href="#ImportREC" class="headerlink" title="ImportREC"></a>ImportREC</h2><p>ImportREC 用来修改 OEP 和一些 IAT：</p>
+<ol>
+<li>找到程序，输入找到的<code>OEP</code>的值；</li>
+<li>点击<code>IAT自动搜索</code>；</li>
+<li><code>获取导入表</code>；</li>
+<li><code>显示无效的</code>，如果有无效的表清除即可；</li>
+<li><code>修正转储</code>。</li>
+</ol>
+<p><img src="/pics/脱壳指南/2.png" alt="ImportREC步骤"></p>
+<p>了解了脱壳的方法后，我们需要做的就是找到 OEP。</p>
+<h1 id="压缩壳"><a href="#压缩壳" class="headerlink" title="压缩壳"></a>压缩壳</h1><p>压缩壳的特点是减小软件体积大小，主要目的起对软件的压缩，加密保护不是重点。例如：UPX、ASPack 等等。</p>
+<ul>
+<li><code>UPX</code>（the Ultimate Packer for eXecutables）是一个免费且开源的可执行程序文件加壳器，支持许多不同操作系统下的可执行文件格式。</li>
+<li><code>ASPack</code>是一种可压缩 32 位 Windows<code>EXE</code>文件与<code>DLL</code>文件的压缩工具，能将大多数 EXE 文件及 DLL 文件平均压缩百分之三十到四十的压缩率。</li>
+<li><code>kkrunchy</code>是一个<code>64K Demo</code>专用的压缩工具，压缩率非常高。</li>
+<li><code>NSPack</code>是一款支持<code>EXE</code>/<code>DLL</code>/<code>OCX</code>/<code>SCR</code>等类型的文件进行压缩。可以兼容 64 位操作系统。</li>
+<li><code>PECompact</code>是一款能压缩可执行文件（后缀为<code>EXE</code>）的压缩加壳工具，压缩率极高，压缩后的程序无需解压即可直接运行，通过压缩代码、数据、相关资源使压缩能达到 100%。</li>
+</ul>
+<h2 id="单步执行法"><a href="#单步执行法" class="headerlink" title="单步执行法"></a>单步执行法</h2><p>以 UPX 为例。单步执行法，通过单步执行一步一步，找到 OEP（程序入口点）。如果遇到向下的跳转则默认跳转：</p>
+<p><img src="/pics/脱壳指南/3.png" alt="向下跳转f7实现"></p>
+<p>遇到向上的跳转则直接执行到下一条语句，即 f4：</p>
+<p><img src="/pics/脱壳指南/4.png" alt="向上跳转"></p>
+<p><img src="/pics/脱壳指南/5.png" alt="f4到下一条语句"></p>
+<p>最后执行到<code>popad</code>处会有一个大范围的<code>jmp</code>，即转到 OEP。</p>
+<h2 id="ESP-定律法"><a href="#ESP-定律法" class="headerlink" title="ESP 定律法"></a>ESP 定律法</h2><p>以 UPX 为例。利用压缩前后 ESP 不变的定律。在指令<code>pushad</code>时单步一下，会发现寄存器中只有<code>ESP</code>发生变化：</p>
+<p><img src="/pics/脱壳指南/6.png" alt="只有ESP的值发生改变"></p>
+<p>然后右键 ESP 的值，跟随数据窗口：</p>
+<p><img src="/pics/脱壳指南/7.png" alt="跟随数据窗口"></p>
+<p> 再在数据窗口中硬件访问，设下断点：</p>
+<p><img src="/pics/脱壳指南/8.png" alt="设置硬件断点"></p>
+<p>同样也可以通过<code>dd xxxxxxxx</code>或者<code>hr xxxxxxxx</code>设下硬件断点，在下方 command 处输入：</p>
+<p><img src="/pics/脱壳指南/9.png" alt="dd命令"></p>
+<p><img src="/pics/脱壳指南/10.png" alt="hr命令"></p>
+<p>然后 f9 继续执行到<code>popad</code>后，删去硬件断点：</p>
+<p><img src="/pics/脱壳指南/11.png" alt="删除硬件断点"></p>
+<p>f7 到达 OEP。</p>
+<h2 id="特殊的-ESP-定律法"><a href="#特殊的-ESP-定律法" class="headerlink" title="特殊的 ESP 定律法"></a>特殊的 ESP 定律法</h2><p>以 FSG2.0 为例。不遵循 ESP 不变的定律，FSG2.0 专用的方法。单步走到<code>popad</code>的下一条指令，观察堆栈窗口从上往下数第四个地址的值即为 OEP 的地址。右键在反汇编窗口跟随：</p>
+<p><img src="/pics/脱壳指南/26.png" alt="第四个值在反汇编窗口跟随"></p>
+<p>下硬件断点后 f9 运行，到达 OEP。</p>
+<h2 id="二次内存镜像法"><a href="#二次内存镜像法" class="headerlink" title="二次内存镜像法"></a>二次内存镜像法</h2><p>以 UPX 为例。进入内存段中，先找到程序段的第一个<code>.rsrc</code>，并设下断点后执行：</p>
+<p><img src="/pics/脱壳指南/12.png" alt="程序段第一个.rsrc"></p>
+<p>再在内存段中的<code>0x00401000</code>处设下断点，再执行</p>
+<p><img src="/pics/脱壳指南/13.png" alt="0x00401000处"></p>
+<p>然后按照单步执行法往下走就能看到<code>popad</code>还有 jmp：</p>
+<p><img src="/pics/脱壳指南/14.png" alt="看到popad"></p>
+<h2 id="一步直达法"><a href="#一步直达法" class="headerlink" title="一步直达法"></a>一步直达法</h2><p>以 UPX 为例。在遇到指令<code>pushad</code>后，通过经验可以判断必存在<code>popad</code>，直接搜索指令找到 OEP：</p>
+<p><img src="/pics/脱壳指南/15.png" alt="搜索指令"></p>
+<p><img src="/pics/脱壳指南/16.png" alt="不需要选整个块"></p>
+<h2 id="模拟跟踪法"><a href="#模拟跟踪法" class="headerlink" title="模拟跟踪法"></a>模拟跟踪法</h2><p>以 ASPack 为例。先进入内存中，找到 SFX：</p>
+<p><img src="/pics/脱壳指南/17.png" alt="找到SFX"></p>
+<p>在命令框输入<code>tc eip&lt;xxxxxxxx</code>：</p>
+<p><img src="/pics/脱壳指南/18.png" alt="输入tc命令"></p>
+<p>会看到 OD 左上角变成了跟踪：</p>
+<p><img src="/pics/脱壳指南/19.png" alt="左上角变成了跟踪"></p>
+<p>等待一段时间就会跳转到 OEP。</p>
+<h2 id="SFX-模拟跟踪法"><a href="#SFX-模拟跟踪法" class="headerlink" title="SFX 模拟跟踪法"></a>SFX 模拟跟踪法</h2><p>以 ASPack 为例。进入<code>选项-&gt;调试设置</code>（<code>Alt+O</code>）：</p>
+<p><img src="/pics/脱壳指南/20.png" alt="调试设置"></p>
+<p>一般情况选择块方式跟踪或者字节方式，这里选择前者：</p>
+<p><img src="/pics/脱壳指南/21.png" alt="选择块方式跟踪"></p>
+<p>确定后，重新载入（<code>Ctrl+f2</code>），直接跳到了 OEP。</p>
+<h2 id="最后一次异常法"><a href="#最后一次异常法" class="headerlink" title="最后一次异常法"></a>最后一次异常法</h2><p>以 PECompact 为例。先在调试选项中忽略所有异常：</p>
+<p><img src alt></p>
+<p>重新载入后，执行 m 次 shift+f9，直到程序跑飞。然后重新载入程序，执行 m-1 次 shift+f9。在堆栈窗口中找到<code>SE句柄</code>，然后 ctrl+g 转到 SE 句柄：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">0045DE74    B8 F9CB45F0     mov eax,0xF045CBF9</span><br><span class="line">0045DE79    8D88 9E120010   lea ecx,dword ptr ds:[eax+0x1000129E]</span><br><span class="line">0045DE7F    8941 01         mov dword ptr ds:[ecx+0x1],eax</span><br><span class="line">0045DE82    8B5424 04       mov edx,dword ptr ss:[esp+0x4]</span><br><span class="line">0045DE86    8B52 0C         mov edx,dword ptr ds:[edx+0xC]</span><br><span class="line">0045DE89    C602 E9         mov byte ptr ds:[edx],0xE9</span><br><span class="line">0045DE8C    83C2 05         add edx,0x5</span><br><span class="line">0045DE8F    2BCA            sub ecx,edx                              ; ntdll_1.7720353D</span><br><span class="line">0045DE91    894A FC         mov dword ptr ds:[edx-0x4],ecx           ; qqspirit.0045DE74</span><br><span class="line">0045DE94    33C0            xor eax,eax</span><br><span class="line">0045DE96    C3              retn</span><br><span class="line">0045DE97    B8 78563412     mov eax,0x12345678                       ; 下断点</span><br></pre></td></tr></table></figure>
+<p>随后执行到断点处，单步跟到 OEP。</p>
+<h1 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h1><p>有时候脱完壳却不能运行程序，需要修复 IAT。首先载入 OD，在 OEP 往下找<code>call</code>：</p>
+<p><img src="/pics/脱壳指南/22.png" alt="找到call"></p>
+<p>找到后在命令框处输入<code>d xxxxxx</code>：</p>
+<p><img src="/pics/脱壳指南/23.png" alt="数据窗口中跟随"></p>
+<p>在数据窗口中，往上查找，直到数据为 0，记录下 IAT 地址；往下也同样：</p>
+<p><img src="/pics/脱壳指南/24.png" alt="查找首尾地址"></p>
+<p>在<code>ImportREC</code>中修改 OEP 后，不采取自动获取的方式，手动输入 IAT 起始地址和大小，偷懒的办法是大小直接输 1000：</p>
+<p><img src="/pics/脱壳指南/25.png" alt="ImportREC修改"></p>
+<p>然后清除掉无效的，转储一下得到完整程序。</p>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://www.cnblogs.com/hongyuyingxiao/p/9630173.html" target="_blank" rel="noopener">https://www.cnblogs.com/hongyuyingxiao/p/9630173.html</a><br><a href="https://findream.github.io/2018/07/15/%E5%B8%B8%E8%A7%81%E5%A3%B3%E7%9A%84%E8%84%B1%E5%A3%B3%E6%80%9D%E8%B7%AF/" target="_blank" rel="noopener">https://findream.github.io/2018/07/15/%E5%B8%B8%E8%A7%81%E5%A3%B3%E7%9A%84%E8%84%B1%E5%A3%B3%E6%80%9D%E8%B7%AF/</a><br>cnblogs.com/iBinary/p/7764483.html</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/12/08/绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          绕过TLS（Thread Local Storage）和SMC（Self Modifying Code）保护
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/22/南邮-逆向/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">南邮-逆向</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#压缩壳和加密壳"><span class="nav-number">1.</span> <span class="nav-text">压缩壳和加密壳</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用工具"><span class="nav-number">2.</span> <span class="nav-text">使用工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脱壳"><span class="nav-number">3.</span> <span class="nav-text">脱壳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LordPE"><span class="nav-number">3.1.</span> <span class="nav-text">LordPE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImportREC"><span class="nav-number">3.2.</span> <span class="nav-text">ImportREC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#压缩壳"><span class="nav-number">4.</span> <span class="nav-text">压缩壳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单步执行法"><span class="nav-number">4.1.</span> <span class="nav-text">单步执行法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESP-定律法"><span class="nav-number">4.2.</span> <span class="nav-text">ESP 定律法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊的-ESP-定律法"><span class="nav-number">4.3.</span> <span class="nav-text">特殊的 ESP 定律法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二次内存镜像法"><span class="nav-number">4.4.</span> <span class="nav-text">二次内存镜像法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一步直达法"><span class="nav-number">4.5.</span> <span class="nav-text">一步直达法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟跟踪法"><span class="nav-number">4.6.</span> <span class="nav-text">模拟跟踪法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SFX-模拟跟踪法"><span class="nav-number">4.7.</span> <span class="nav-text">SFX 模拟跟踪法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后一次异常法"><span class="nav-number">4.8.</span> <span class="nav-text">最后一次异常法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修复"><span class="nav-number">5.</span> <span class="nav-text">修复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">6.</span> <span class="nav-text">参考网站</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
