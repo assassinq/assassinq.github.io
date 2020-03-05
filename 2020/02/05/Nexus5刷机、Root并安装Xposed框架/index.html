@@ -23,7 +23,7 @@
 <meta property="og:image" content="/pics/Nexus5刷机、Root并安装Xposed框架/2.png">
 <meta property="og:image" content="/pics/Nexus5刷机、Root并安装Xposed框架/3.png">
 <meta property="og:image" content="/pics/Nexus5刷机、Root并安装Xposed框架/4.png">
-<meta property="og:updated_time" content="2020-02-06T02:16:55.913Z">
+<meta property="og:updated_time" content="2020-02-25T23:54:41.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nexus5刷机、Root并安装Xposed框架">
 <meta name="twitter:description" content="在闲鱼上从羊毛党那里买了部 Nexus 5（代号 hammerhead），记录第一次尝试刷机和 root（一开始不是很懂各种知识，所以没有记录下原本系统的版本等各种信息）。">
@@ -163,6 +163,8 @@
       
         <p>在闲鱼上从羊毛党那里买了部 Nexus 5（代号 hammerhead），记录第一次尝试刷机和 root（一开始不是很懂各种知识，所以没有记录下原本系统的版本等各种信息）。</p>
 <a id="more"></a>
+<p>查看设备名称：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell@hammerhead:/ $ getprop ro.product.device</span><br><span class="line">hammerhead</span><br></pre></td></tr></table></figure>
 <h1 id="解锁"><a href="#解锁" class="headerlink" title="解锁"></a>解锁</h1><p>先使用 adb 命令进入 bootloader 模式：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb reboot bootloader</span><br></pre></td></tr></table></figure>
 <p><img src="/pics/Nexus5刷机、Root并安装Xposed框架/1.png" alt="bootloader界面样式"></p>

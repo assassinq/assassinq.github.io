@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>使用X11在macOS上获得更好的体验 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="macOS">
+  
+  
+  
+  
+  <meta name="description" content="X11 也叫做 X Window 系统，X Window 系统（X11 或 X）是一种位图显示的视窗系统。它是在 Unix 和 类 Unix 操作系统，以及 OpenVMS 上建立图形用户界面的标准工具包和协议，并可用于几乎所有已有的现代操作系统。">
+<meta name="keywords" content="macOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用X11在macOS上获得更好的体验">
+<meta property="og:url" content="qianfei11.coding.me/2020/03/05/使用X11在macOS上获得更好的体验/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="X11 也叫做 X Window 系统，X Window 系统（X11 或 X）是一种位图显示的视窗系统。它是在 Unix 和 类 Unix 操作系统，以及 OpenVMS 上建立图形用户界面的标准工具包和协议，并可用于几乎所有已有的现代操作系统。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="/pics/使用X11在macOS上获得更好的体验/1.png">
+<meta property="og:image" content="/pics/使用X11在macOS上获得更好的体验/2.png">
+<meta property="og:image" content="/pics/使用X11在macOS上获得更好的体验/3.png">
+<meta property="og:image" content="/pics/使用X11在macOS上获得更好的体验/4.png">
+<meta property="og:updated_time" content="2020-03-05T08:22:56.913Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用X11在macOS上获得更好的体验">
+<meta name="twitter:description" content="X11 也叫做 X Window 系统，X Window 系统（X11 或 X）是一种位图显示的视窗系统。它是在 Unix 和 类 Unix 操作系统，以及 OpenVMS 上建立图形用户界面的标准工具包和协议，并可用于几乎所有已有的现代操作系统。">
+<meta name="twitter:image" content="/pics/使用X11在macOS上获得更好的体验/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-使用X11在macOS上获得更好的体验" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      使用X11在macOS上获得更好的体验
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/03/05/使用X11在macOS上获得更好的体验/" class="article-date">
+	  <time datetime="2020-03-05T01:05:31.000Z" itemprop="datePublished">March 5, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  668 words
+	  |
+	  3 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>X11 也叫做 X Window 系统，X Window 系统（X11 或 X）是一种位图显示的视窗系统。它是在 Unix 和 类 Unix 操作系统，以及 OpenVMS 上建立图形用户界面的标准工具包和协议，并可用于几乎所有已有的现代操作系统。</p>
+<a id="more"></a>
+<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>使用 Homebrew 下载 XQuartz：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cask install xquartz</span><br></pre></td></tr></table></figure>
+<p>打开 XQuartz 并设置如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open -a XQuartz</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/使用X11在macOS上获得更好的体验/1.png" alt="打开安全性下的两个选项"></p>
+<h1 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h1><p><code>ssh</code> 命令中加上 <code>-X</code> 参数，可以打开远程的 GUI 界面：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -X beale@192.168.2.190</span><br><span class="line">beale@192.168.2.190<span class="string">'s password:</span></span><br><span class="line"><span class="string">Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-31-generic x86_64)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> * Documentation:  https://help.ubuntu.com</span></span><br><span class="line"><span class="string"> * Management:     https://landscape.canonical.com</span></span><br><span class="line"><span class="string"> * Support:        https://ubuntu.com/advantage</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">700 packages can be updated.</span></span><br><span class="line"><span class="string">452 updates are security updates.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The programs included with the Ubuntu system are free software;</span></span><br><span class="line"><span class="string">the exact distribution terms for each program are described in the</span></span><br><span class="line"><span class="string">individual files in /usr/share/doc/*/copyright.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by</span></span><br><span class="line"><span class="string">applicable law.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$ firefox</span></span><br></pre></td></tr></table></figure>
+<p><img src="/pics/使用X11在macOS上获得更好的体验/2.png" alt="可以远程打开GUI界面"></p>
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>Docker 现在已经是一个配置环境的利器，缺点就是只有 CLI，但可以通过 X11 在 Docker 中开启 GUI。首先需要获取本机 IP 地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ IP=$(ifconfig en0 | grep inet | awk <span class="string">'$1=="inet" &#123;print $2&#125;'</span>)</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$IP</span></span><br></pre></td></tr></table></figure>
+<p>通过参数 <code>-e</code> 覆盖容器内的环境变量 <code>DISPLAY=$IP:0</code>，并用 <code>-v</code> 参数挂载本地 <code>/tmp/.X11-unix</code> 到容器内部的同一位置，利用 Docker Hub 中提供的一个 Firefox 的镜像来启动装有 Firefox 浏览器的容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name firefox -e DISPLAY=<span class="variable">$IP</span>:0 -v /tmp/.X11-unix:/tmp/.X11-unix jess/firefox</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/使用X11在macOS上获得更好的体验/3.png" alt="开启的效果"></p>
+<h2 id="Upgrade"><a href="#Upgrade" class="headerlink" title="Upgrade"></a>Upgrade</h2><p>在 Docker 中使用 GDB 调试一般采用 tmux 来解决窗口的问题，很久之前看了 Swings 大佬的博客，发现了用 X11 来实现 GDB 弹窗的方法，这种感觉想想就爽。这里 XQuartz 主要作为一个新终端的承载器和 host 机器和 Docker 的通讯器。</p>
+<p>和上面同理也是先获取 IP，再做一个环境变量的覆盖和 X11 文件的挂载，这里用我的镜像启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm --privileged -e DISPLAY=$IP:0 -v &quot;/tmp/.X11-unix:/tmp/.X11-unix&quot; -v &quot;$PWD:/root/tmp&quot; assassinq/pwn-machine-16.04:v8 /bin/bash</span><br></pre></td></tr></table></figure>
+<p>然后终端需要设置一下字体的编码，测试的时候发现不改变编码弹窗的时候会发生乱码的情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LANG=C.UTF-8</span><br></pre></td></tr></table></figure>
+<p>同时，弹窗的终端使用的是 lxterminal，一个比较轻量级的终端。exp 里终端设置如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.terminal = [<span class="string">"lxterminal"</span>, <span class="string">"-e"</span>]</span><br></pre></td></tr></table></figure>
+<p>接下来就可以开始愉快地调试了：</p>
+<p><img src="/pics/使用X11在macOS上获得更好的体验/4.png" alt="在Docker中GDB弹窗"></p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://blog.csdn.net/hdzhang_blog/article/details/80058559" target="_blank" rel="noopener">https://blog.csdn.net/hdzhang_blog/article/details/80058559</a><br><a href="https://bestwing.me/Docker-for-Mac-and-run-gdb-GUI-window.html" target="_blank" rel="noopener">https://bestwing.me/Docker-for-Mac-and-run-gdb-GUI-window.html</a><br><a href="http://blog.lujun9972.win/blog/2018/04/24/docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%B7%91gui%E7%9A%84%E6%9C%80%E7%AE%80%E5%8D%95%E6%96%B9%E6%B3%95/index.html" target="_blank" rel="noopener">http://blog.lujun9972.win/blog/2018/04/24/docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E8%B7%91gui%E7%9A%84%E6%9C%80%E7%AE%80%E5%8D%95%E6%96%B9%E6%B3%95/index.html</a><br><a href="https://sourabhbajaj.com/blog/2017/02/07/gui-applications-docker-mac/" target="_blank" rel="noopener">https://sourabhbajaj.com/blog/2017/02/07/gui-applications-docker-mac/</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/03/01/使用Termux在Android上打造小型Linux服务器/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用Termux在Android上打造小型Linux服务器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Environment"><span class="nav-number">1.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH"><span class="nav-number">2.</span> <span class="nav-text">SSH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker"><span class="nav-number">3.</span> <span class="nav-text">Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Upgrade"><span class="nav-number">3.1.</span> <span class="nav-text">Upgrade</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
