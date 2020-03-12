@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Linux下的各类程序保护机制 | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctfpwn">
+  
+  
+  
+  
+  <meta name="description" content="之前一直在做逆向，快一年没碰 PWN 了，接下来有一堆比赛，赶紧重新 PWN 起来。这里先整理一下 Linux 下的程序保护机制。">
+<meta name="keywords" content="ctf,pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下的各类程序保护机制">
+<meta property="og:url" content="qianfei11.coding.me/2020/03/06/Linux下的各类程序保护机制/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="之前一直在做逆向，快一年没碰 PWN 了，接下来有一堆比赛，赶紧重新 PWN 起来。这里先整理一下 Linux 下的程序保护机制。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="/pics/Linux下的各类程序保护机制/1.png">
+<meta property="og:image" content="/pics/Linux下的各类程序保护机制/2.png">
+<meta property="og:updated_time" content="2020-03-07T14:23:50.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux下的各类程序保护机制">
+<meta name="twitter:description" content="之前一直在做逆向，快一年没碰 PWN 了，接下来有一堆比赛，赶紧重新 PWN 起来。这里先整理一下 Linux 下的程序保护机制。">
+<meta name="twitter:image" content="/pics/Linux下的各类程序保护机制/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Linux下的各类程序保护机制" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Linux下的各类程序保护机制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/03/06/Linux下的各类程序保护机制/" class="article-date">
+	  <time datetime="2020-03-06T10:59:35.000Z" itemprop="datePublished">March 6, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  2.6k words
+	  |
+	  13 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前一直在做逆向，快一年没碰 PWN 了，接下来有一堆比赛，赶紧重新 PWN 起来。这里先整理一下 Linux 下的程序保护机制。</p>
+<a id="more"></a>
+<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>Linux 版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ uname -a</span><br><span class="line">Linux ubuntu 4.4.0-31-generic <span class="comment">#50-Ubuntu SMP Wed Jul 13 00:07:12 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</span></span><br></pre></td></tr></table></figure>
+<p>GCC 版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ gcc --version</span><br><span class="line">gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609</span><br><span class="line">Copyright (C) 2015 Free Software Foundation, Inc.</span><br><span class="line">This is free software; see the <span class="built_in">source</span> <span class="keyword">for</span> copying conditions.  There is NO</span><br><span class="line">warranty; not even <span class="keyword">for</span> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span><br></pre></td></tr></table></figure>
+<h1 id="Checksec"><a href="#Checksec" class="headerlink" title="Checksec"></a>Checksec</h1><p><a href="https://github.com/slimm609/checksec.sh/" target="_blank" rel="noopener">Checksec</a> 是用 Shell 编写的一个脚本，它可以用来检查可执行文件属性，例如 PIE, RELRO, PaX, Canaries, ASLR, Fortify Source 等等属性。</p>
+<p><img src="/pics/Linux下的各类程序保护机制/1.png" alt="Checksec检测Linux下程序保护机制"></p>
+<h1 id="Cannary"><a href="#Cannary" class="headerlink" title="Cannary"></a>Cannary</h1><p>Canary 表示栈保护功能是否开启。栈溢出保护是一种缓冲区溢出攻击缓解手段，当函数存在缓冲区溢出攻击漏洞时，攻击者可以覆盖栈上的返回地址来让 Shellcode 能够得到执行。当启用栈保护后，函数开始执行的时候会先往栈里插入 Cookie 信息，当函数真正返回的时候会验证 Cookie 信息是否合法，如果不合法就停止程序运行。攻击者在覆盖返回地址的时候往往也会将 Cookie 信息给覆盖掉，导致栈保护检查失败而阻止 Shellcode 的执行。在 Linux 中将 Cookie 信息称为 Canary。</p>
+<p>gcc 在 4.2 版本中添加了 <code>-fstack-protector</code> 和 <code>-fstack-protector-all</code> 编译参数以支持栈保护功能，4.9 新增了 <code>-fstack-protector-strong</code> 编译参数让保护的范围更广。故在编译时可以控制是否开启栈保护以及程度。</p>
+<p>测试代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">20</span>];</span><br><span class="line">	gets(buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Default（-fstack-protector）"><a href="#Default（-fstack-protector）" class="headerlink" title="Default（-fstack-protector）"></a>Default（<code>-fstack-protector</code>）</h2><p>默认情况下，开启了 Cannary 保护（即 <code>-fstack-protector</code> 参数），一开始会在栈上存储 Cannary（<code>QWORD PTR fs:0x28</code>），在程序结束时通过异或检查栈上的值是否正确来检查 Cannary 是否被篡改，如果不正确则调用 <code>__stack_chk_fail()</code> 产生报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">0000000000400596 &lt;main&gt;:</span><br><span class="line">  400596:	55                   	push   rbp</span><br><span class="line">  400597:	48 89 e5             	mov    rbp,rsp</span><br><span class="line">  40059a:	48 83 ec 20          	sub    rsp,0x20</span><br><span class="line">  40059e:	64 48 8b 04 25 28 00 	mov    rax,QWORD PTR fs:0x28</span><br><span class="line">  4005a5:	00 00</span><br><span class="line">  4005a7:	48 89 45 f8          	mov    QWORD PTR [rbp-0x8],rax</span><br><span class="line">  4005ab:	31 c0                	xor    eax,eax</span><br><span class="line">  4005ad:	48 8d 45 e0          	lea    rax,[rbp-0x20]</span><br><span class="line">  4005b1:	48 89 c7             	mov    rdi,rax</span><br><span class="line">  4005b4:	b8 00 00 00 00       	mov    eax,0x0</span><br><span class="line">  4005b9:	e8 c2 fe ff ff       	call   400480 &lt;gets@plt&gt;</span><br><span class="line">  4005be:	b8 00 00 00 00       	mov    eax,0x0</span><br><span class="line">  4005c3:	48 8b 55 f8          	mov    rdx,QWORD PTR [rbp-0x8]</span><br><span class="line">  4005c7:	64 48 33 14 25 28 00 	xor    rdx,QWORD PTR fs:0x28</span><br><span class="line">  4005ce:	00 00</span><br><span class="line">  4005d0:	74 05                	je     4005d7 &lt;main+0x41&gt;</span><br><span class="line">  4005d2:	e8 89 fe ff ff       	call   400460 &lt;__stack_chk_fail@plt&gt;</span><br><span class="line">  4005d7:	c9                   	leave</span><br><span class="line">  4005d8:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<h2 id="fno-stack-protector"><a href="#fno-stack-protector" class="headerlink" title="-fno-stack-protector"></a><code>-fno-stack-protector</code></h2><p><code>-fstack-protector</code> 参数取消对栈的保护，直接编译成程序所对应的汇编：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">0000000000400526 &lt;main&gt;:</span><br><span class="line">  400526:	55                   	push   rbp</span><br><span class="line">  400527:	48 89 e5             	mov    rbp,rsp</span><br><span class="line">  40052a:	48 83 ec 20          	sub    rsp,0x20</span><br><span class="line">  40052e:	48 8d 45 e0          	lea    rax,[rbp-0x20]</span><br><span class="line">  400532:	48 89 c7             	mov    rdi,rax</span><br><span class="line">  400535:	b8 00 00 00 00       	mov    eax,0x0</span><br><span class="line">  40053a:	e8 d1 fe ff ff       	call   400410 &lt;gets@plt&gt;</span><br><span class="line">  40053f:	b8 00 00 00 00       	mov    eax,0x0</span><br><span class="line">  400544:	c9                   	leave</span><br><span class="line">  400545:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<h1 id="NX（DEP）"><a href="#NX（DEP）" class="headerlink" title="NX（DEP）"></a>NX（DEP）</h1><p>NX 即 No-eXecute（不可执行）的意思，NX（即 Windows 下的 DEP，数据执行保护）的基本原理是将数据所在内存页标识为不可执行，当程序溢出成功转入 Shellcode 时，程序会尝试在数据页面上执行指令，此时 CPU 就会抛出异常，而不是去执行恶意指令。</p>
+<h2 id="Default（-z-noexecstack）"><a href="#Default（-z-noexecstack）" class="headerlink" title="Default（-z noexecstack）"></a>Default（<code>-z noexecstack</code>）</h2><p>默认开始 NX，栈上的数据不可执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assassinq$ vmmap</span><br><span class="line">Start              End                Perm	Name</span><br><span class="line">0x00400000         0x00401000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00600000         0x00601000         r--p	/home/beale/Test_Dir/main</span><br><span class="line">0x00601000         0x00602000         rw-p	/home/beale/Test_Dir/main</span><br><span class="line">0x00007ffff7a0d000 0x00007ffff7bcd000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7bcd000 0x00007ffff7dcd000 ---p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dcd000 0x00007ffff7dd1000 r--p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd1000 0x00007ffff7dd3000 rw-p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd3000 0x00007ffff7dd7000 rw-p	mapped</span><br><span class="line">0x00007ffff7dd7000 0x00007ffff7dfd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7fdd000 0x00007ffff7fe0000 rw-p	mapped</span><br><span class="line">0x00007ffff7ff8000 0x00007ffff7ffa000 r--p	[vvar]</span><br><span class="line">0x00007ffff7ffa000 0x00007ffff7ffc000 r-xp	[vdso]</span><br><span class="line">0x00007ffff7ffc000 0x00007ffff7ffd000 r--p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffd000 0x00007ffff7ffe000 rw-p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffe000 0x00007ffff7fff000 rw-p	mapped</span><br><span class="line">0x00007ffffffde000 0x00007ffffffff000 rw-p	[stack]</span><br><span class="line">0xffffffffff600000 0xffffffffff601000 r-xp	[vsyscall]</span><br></pre></td></tr></table></figure>
+<h2 id="z-execstack"><a href="#z-execstack" class="headerlink" title="-z execstack"></a><code>-z execstack</code></h2><p>开启栈可执行后，栈上的代码可被执行，同时其他处内存部分都是读写执行全开：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assassinq$ vmmap</span><br><span class="line">Start              End                Perm	Name</span><br><span class="line">0x00400000         0x00401000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00600000         0x00601000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00601000         0x00602000         rwxp	/home/beale/Test_Dir/main</span><br><span class="line">0x00007ffff7a0d000 0x00007ffff7bcd000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7bcd000 0x00007ffff7dcd000 ---p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dcd000 0x00007ffff7dd1000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd1000 0x00007ffff7dd3000 rwxp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd3000 0x00007ffff7dd7000 rwxp	mapped</span><br><span class="line">0x00007ffff7dd7000 0x00007ffff7dfd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7fdd000 0x00007ffff7fe0000 rwxp	mapped</span><br><span class="line">0x00007ffff7ff8000 0x00007ffff7ffa000 r--p	[vvar]</span><br><span class="line">0x00007ffff7ffa000 0x00007ffff7ffc000 r-xp	[vdso]</span><br><span class="line">0x00007ffff7ffc000 0x00007ffff7ffd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffd000 0x00007ffff7ffe000 rwxp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffe000 0x00007ffff7fff000 rwxp	mapped</span><br><span class="line">0x00007ffffffde000 0x00007ffffffff000 rwxp	[stack]</span><br><span class="line">0xffffffffff600000 0xffffffffff601000 r-xp	[vsyscall]</span><br></pre></td></tr></table></figure>
+<h1 id="PIE（ASLR）"><a href="#PIE（ASLR）" class="headerlink" title="PIE（ASLR）"></a>PIE（ASLR）</h1><p>一般情况下 NX 和地址空间分布随机化（ASLR）会同时工作。内存地址随机化机制（Address Space Layout Randomization)，有以下三种情况：</p>
+<ol>
+<li>0 - 表示关闭进程地址空间随机化。</li>
+<li>1 - 表示将 mmap 的基址，stack 和 Vdso 页面随机化。</li>
+<li>2 - 表示在 1 的基础上增加 heap 的随机化。</li>
+</ol>
+<p>可以防范基于 ret2libc 方式的针对 DEP 的攻击。ASLR 和 DEP 配合使用，能有效阻止攻击者在堆栈上运行恶意代码。位置独立的可执行区域（Position-Independent Executables）使得在利用缓冲溢出和移动操作系统中存在的其他内存崩溃缺陷时采用面向返回的编程（Return-Oriented Programming）方法变得难得多。</p>
+<blockquote>
+<p>Linux 关闭 PIE 的方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> 0 | sudo tee /proc/sys/kernel/randomize_va_space</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="Default（-no-pie）"><a href="#Default（-no-pie）" class="headerlink" title="Default（-no-pie）"></a>Default（<code>-no-pie</code>）</h2><p>默认不开启。静态分析程序时所得到的地址都是运行时的真实地址，基地址为 0x400000：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0000000000400526 &lt;main&gt;:</span><br><span class="line">  400526:	55                   	push   rbp</span><br><span class="line">  400527:	48 89 e5             	mov    rbp,rsp</span><br><span class="line">  40052a:	bf c4 05 40 00       	mov    edi,0x4005c4</span><br><span class="line">  40052f:	e8 cc fe ff ff       	call   400400 &lt;puts@plt&gt;</span><br><span class="line">  400534:	b8 00 00 00 00       	mov    eax,0x0</span><br><span class="line">  400539:	5d                   	pop    rbp</span><br><span class="line">  40053a:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<p>与 gdb 调试的时候相同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">───────────────────────────────────── Code ─────────────────────────────────────</span><br><span class="line">   0x400521 &lt;frame_dummy+33&gt;:	jmp    0x4004a0 &lt;register_tm_clones&gt;</span><br><span class="line">   0x400526 &lt;main&gt;:	push   rbp</span><br><span class="line">   0x400527 &lt;main+1&gt;:	mov    rbp,rsp</span><br><span class="line">=&gt; 0x40052a &lt;main+4&gt;:	mov    edi,0x4005c4</span><br><span class="line">   0x40052f &lt;main+9&gt;:	call   0x400400 &lt;puts@plt&gt;</span><br><span class="line">   0x400534 &lt;main+14&gt;:	mov    eax,0x0</span><br><span class="line">   0x400539 &lt;main+19&gt;:	pop    rbp</span><br><span class="line">   0x40053a &lt;main+20&gt;:	ret</span><br></pre></td></tr></table></figure>
+<h2 id="pie"><a href="#pie" class="headerlink" title="-pie"></a><code>-pie</code></h2><p><code>-fpie</code> 与 <code>-fPIE</code> 效果一样，用于编译；<code>-pie</code> 用于链接。开启 PIE 后的静态反编译结果没有基地址，每次运行时的基地址不同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0000000000000750 &lt;main&gt;:</span><br><span class="line"> 750:	55                   	push   rbp</span><br><span class="line"> 751:	48 89 e5             	mov    rbp,rsp</span><br><span class="line"> 754:	48 8d 3d 99 00 00 00 	lea    rdi,[rip+0x99]        # 7f4 &lt;_IO_stdin_used+0x4&gt;</span><br><span class="line"> 75b:	e8 90 fe ff ff       	call   5f0 &lt;puts@plt&gt;</span><br><span class="line"> 760:	b8 00 00 00 00       	mov    eax,0x0</span><br><span class="line"> 765:	5d                   	pop    rbp</span><br><span class="line"> 766:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<p>gdb 调试时如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">───────────────────────────────────── Code ─────────────────────────────────────</span><br><span class="line">   0x55555555474b &lt;frame_dummy+43&gt;:</span><br><span class="line">    jmp    0x555555554690 &lt;register_tm_clones&gt;</span><br><span class="line">   0x555555554750 &lt;main&gt;:	push   rbp</span><br><span class="line">   0x555555554751 &lt;main+1&gt;:	mov    rbp,rsp</span><br><span class="line">=&gt; 0x555555554754 &lt;main+4&gt;:	lea    rdi,[rip+0x99]        # 0x5555555547f4</span><br><span class="line">   0x55555555475b &lt;main+11&gt;:	call   0x5555555545f0 &lt;puts@plt&gt;</span><br><span class="line">   0x555555554760 &lt;main+16&gt;:	mov    eax,0x0</span><br><span class="line">   0x555555554765 &lt;main+21&gt;:	pop    rbp</span><br><span class="line">   0x555555554766 &lt;main+22&gt;:	ret</span><br><span class="line">[rip+0x99] : 0x5555555547f4 (&quot;Hello World&quot;)</span><br></pre></td></tr></table></figure>
+<h1 id="RELRO"><a href="#RELRO" class="headerlink" title="RELRO"></a>RELRO</h1><p>在 Linux 系统安全领域数据可以写的存储区就会是攻击的目标，尤其是存储函数指针的区域。所以在安全防护的角度来说尽量减少可写的存储区域对安全会有极大的好处。GCC、GNU linker 以及 Glibc-dynamic linker 一起配合实现了一种叫做 relro（Read Only Relocation）的技术。大概实现就是由 linker 指定程序的一块经过 dynamic linker 处理过 relocation 之后的区域为只读.</p>
+<p>设置符号重定向表格为只读或在程序启动时就解析并绑定所有动态符号，从而减少对 GOT 攻击。RELRO 为 Partial RELRO，说明对 GOT 表具有写权限。</p>
+<h2 id="Default（-z-lazy）"><a href="#Default（-z-lazy）" class="headerlink" title="Default（-z lazy）"></a>Default（<code>-z lazy</code>）</h2><p>默认情况下对 GOT 表具有写权限。可以看到 <code>puts</code> 和 <code>_libc_start_main</code> 所在的内存部分是可写的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">assassinq$ checksec</span><br><span class="line">CANARY    : disabled</span><br><span class="line">FORTIFY   : disabled</span><br><span class="line">NX        : ENABLED</span><br><span class="line">PIE       : disabled</span><br><span class="line">RELRO     : Partial</span><br><span class="line">assassinq$ got</span><br><span class="line"></span><br><span class="line">/home/beale/Test_Dir/main:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line">DYNAMIC RELOCATION RECORDS</span><br><span class="line">OFFSET           TYPE              VALUE</span><br><span class="line">0000000000600ff8 R_X86_64_GLOB_DAT  __gmon_start__</span><br><span class="line">0000000000601018 R_X86_64_JUMP_SLOT  puts@GLIBC_2.2.5</span><br><span class="line">0000000000601020 R_X86_64_JUMP_SLOT  __libc_start_main@GLIBC_2.2.5</span><br><span class="line"></span><br><span class="line">assassinq$ vmmap</span><br><span class="line">Start              End                Perm	Name</span><br><span class="line">0x00400000         0x00401000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00600000         0x00601000         r--p	/home/beale/Test_Dir/main</span><br><span class="line">0x00601000         0x00602000         rw-p	/home/beale/Test_Dir/main</span><br><span class="line">0x00007ffff7a0d000 0x00007ffff7bcd000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7bcd000 0x00007ffff7dcd000 ---p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dcd000 0x00007ffff7dd1000 r--p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd1000 0x00007ffff7dd3000 rw-p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd3000 0x00007ffff7dd7000 rw-p	mapped</span><br><span class="line">0x00007ffff7dd7000 0x00007ffff7dfd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7fdd000 0x00007ffff7fe0000 rw-p	mapped</span><br><span class="line">0x00007ffff7ff8000 0x00007ffff7ffa000 r--p	[vvar]</span><br><span class="line">0x00007ffff7ffa000 0x00007ffff7ffc000 r-xp	[vdso]</span><br><span class="line">0x00007ffff7ffc000 0x00007ffff7ffd000 r--p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffd000 0x00007ffff7ffe000 rw-p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffe000 0x00007ffff7fff000 rw-p	mapped</span><br><span class="line">0x00007ffffffde000 0x00007ffffffff000 rw-p	[stack]</span><br><span class="line">0xffffffffff600000 0xffffffffff601000 r-xp	[vsyscall]</span><br></pre></td></tr></table></figure>
+<h2 id="z-norelro"><a href="#z-norelro" class="headerlink" title="-z norelro"></a><code>-z norelro</code></h2><p>没有开启 RELRO 的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">assassinq$ checksec</span><br><span class="line">CANARY    : disabled</span><br><span class="line">FORTIFY   : disabled</span><br><span class="line">NX        : ENABLED</span><br><span class="line">PIE       : disabled</span><br><span class="line">RELRO     : disabled</span><br><span class="line">assassinq$ got</span><br><span class="line"></span><br><span class="line">/home/beale/Test_Dir/main:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line">DYNAMIC RELOCATION RECORDS</span><br><span class="line">OFFSET           TYPE              VALUE</span><br><span class="line">00000000006008a8 R_X86_64_GLOB_DAT  __gmon_start__</span><br><span class="line">00000000006008c8 R_X86_64_JUMP_SLOT  puts@GLIBC_2.2.5</span><br><span class="line">00000000006008d0 R_X86_64_JUMP_SLOT  __libc_start_main@GLIBC_2.2.5</span><br><span class="line"></span><br><span class="line">assassinq$ vmmap</span><br><span class="line">Start              End                Perm	Name</span><br><span class="line">0x00400000         0x00401000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00600000         0x00601000         rw-p	/home/beale/Test_Dir/main</span><br><span class="line">0x00007ffff7a0d000 0x00007ffff7bcd000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7bcd000 0x00007ffff7dcd000 ---p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dcd000 0x00007ffff7dd1000 r--p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd1000 0x00007ffff7dd3000 rw-p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd3000 0x00007ffff7dd7000 rw-p	mapped</span><br><span class="line">0x00007ffff7dd7000 0x00007ffff7dfd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7fdd000 0x00007ffff7fe0000 rw-p	mapped</span><br><span class="line">0x00007ffff7ff8000 0x00007ffff7ffa000 r--p	[vvar]</span><br><span class="line">0x00007ffff7ffa000 0x00007ffff7ffc000 r-xp	[vdso]</span><br><span class="line">0x00007ffff7ffc000 0x00007ffff7ffd000 r--p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffd000 0x00007ffff7ffe000 rw-p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffe000 0x00007ffff7fff000 rw-p	mapped</span><br><span class="line">0x00007ffffffde000 0x00007ffffffff000 rw-p	[stack]</span><br><span class="line">0xffffffffff600000 0xffffffffff601000 r-xp	[vsyscall]</span><br></pre></td></tr></table></figure>
+<h2 id="z-now"><a href="#z-now" class="headerlink" title="-z now"></a><code>-z now</code></h2><p>此时无法修改 GOT 表。<code>puts</code> 和 <code>_libc_start_main</code> 所在的内存部分只有读权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">assassinq$ checksec</span><br><span class="line">CANARY    : disabled</span><br><span class="line">FORTIFY   : disabled</span><br><span class="line">NX        : ENABLED</span><br><span class="line">PIE       : disabled</span><br><span class="line">RELRO     : FULL</span><br><span class="line">assassinq$ got</span><br><span class="line"></span><br><span class="line">/home/beale/Test_Dir/main:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line">DYNAMIC RELOCATION RECORDS</span><br><span class="line">OFFSET           TYPE              VALUE</span><br><span class="line">0000000000600fe8 R_X86_64_GLOB_DAT  puts@GLIBC_2.2.5</span><br><span class="line">0000000000600ff0 R_X86_64_GLOB_DAT  __libc_start_main@GLIBC_2.2.5</span><br><span class="line">0000000000600ff8 R_X86_64_GLOB_DAT  __gmon_start__</span><br><span class="line"></span><br><span class="line">assassinq$ vmmap</span><br><span class="line">Start              End                Perm	Name</span><br><span class="line">0x00400000         0x00401000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00600000         0x00601000         r--p	/home/beale/Test_Dir/main</span><br><span class="line">0x00601000         0x00602000         rw-p	/home/beale/Test_Dir/main</span><br><span class="line">0x00007ffff7a0d000 0x00007ffff7bcd000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7bcd000 0x00007ffff7dcd000 ---p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dcd000 0x00007ffff7dd1000 r--p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd1000 0x00007ffff7dd3000 rw-p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd3000 0x00007ffff7dd7000 rw-p	mapped</span><br><span class="line">0x00007ffff7dd7000 0x00007ffff7dfd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7fdd000 0x00007ffff7fe0000 rw-p	mapped</span><br><span class="line">0x00007ffff7ff8000 0x00007ffff7ffa000 r--p	[vvar]</span><br><span class="line">0x00007ffff7ffa000 0x00007ffff7ffc000 r-xp	[vdso]</span><br><span class="line">0x00007ffff7ffc000 0x00007ffff7ffd000 r--p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffd000 0x00007ffff7ffe000 rw-p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffe000 0x00007ffff7fff000 rw-p	mapped</span><br><span class="line">0x00007ffffffde000 0x00007ffffffff000 rw-p	[stack]</span><br><span class="line">0xffffffffff600000 0xffffffffff601000 r-xp	[vsyscall]</span><br></pre></td></tr></table></figure>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>各种安全选择的编译参数如下：</p>
+<ul>
+<li>NX：<code>-z execstack</code> / <code>-z noexecstack</code> (关闭 / 开启)</li>
+<li>Canary：<code>-fno-stack-protector</code> / <code>-fstack-protector</code> / <code>-fstack-protector-all</code> (关闭 / 开启 / 全开启)</li>
+<li>PIE：<code>-no-pie</code> / <code>-pie</code> (关闭 / 开启)</li>
+<li>RELRO：<code>-z norelro</code> / <code>-z lazy</code> / <code>-z now</code> (关闭 / 部分开启 / 完全开启)</li>
+</ul>
+<p><img src="/pics/Linux下的各类程序保护机制/2.png" alt="保护全开的程序"></p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="http://www.gandalf.site/2019/03/linux-pwn.html" target="_blank" rel="noopener">http://www.gandalf.site/2019/03/linux-pwn.html</a><br><a href="https://stackoverflow.com/questions/24465014/gcc-generate-canary-or-not" target="_blank" rel="noopener">https://stackoverflow.com/questions/24465014/gcc-generate-canary-or-not</a><br><a href="https://stackoverflow.com/questions/2463150/what-is-the-fpie-option-for-position-independent-executables-in-gcc-and-ld" target="_blank" rel="noopener">https://stackoverflow.com/questions/2463150/what-is-the-fpie-option-for-position-independent-executables-in-gcc-and-ld</a><br><a href="https://richardustc.github.io/2013-05-21-2013-05-21-pie.html" target="_blank" rel="noopener">https://richardustc.github.io/2013-05-21-2013-05-21-pie.html</a><br><a href="http://liudonghua.com/archives/2014/10/26/gcc_g++%E4%B8%AD%E7%9A%84pic%E4%B8%8Epie/" target="_blank" rel="noopener">http://liudonghua.com/archives/2014/10/26/gcc_g++%E4%B8%AD%E7%9A%84pic%E4%B8%8Epie/</a><br><a href="https://paper.seebug.org/481/" target="_blank" rel="noopener">https://paper.seebug.org/481/</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/03/05/使用X11在macOS上获得更好的体验/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用X11在macOS上获得更好的体验</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Environment"><span class="nav-number">1.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Checksec"><span class="nav-number">2.</span> <span class="nav-text">Checksec</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cannary"><span class="nav-number">3.</span> <span class="nav-text">Cannary</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Default（-fstack-protector）"><span class="nav-number">3.1.</span> <span class="nav-text">Default（-fstack-protector）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fno-stack-protector"><span class="nav-number">3.2.</span> <span class="nav-text">-fno-stack-protector</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NX（DEP）"><span class="nav-number">4.</span> <span class="nav-text">NX（DEP）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Default（-z-noexecstack）"><span class="nav-number">4.1.</span> <span class="nav-text">Default（-z noexecstack）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#z-execstack"><span class="nav-number">4.2.</span> <span class="nav-text">-z execstack</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PIE（ASLR）"><span class="nav-number">5.</span> <span class="nav-text">PIE（ASLR）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Default（-no-pie）"><span class="nav-number">5.1.</span> <span class="nav-text">Default（-no-pie）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pie"><span class="nav-number">5.2.</span> <span class="nav-text">-pie</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RELRO"><span class="nav-number">6.</span> <span class="nav-text">RELRO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Default（-z-lazy）"><span class="nav-number">6.1.</span> <span class="nav-text">Default（-z lazy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#z-norelro"><span class="nav-number">6.2.</span> <span class="nav-text">-z norelro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#z-now"><span class="nav-number">6.3.</span> <span class="nav-text">-z now</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">8.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

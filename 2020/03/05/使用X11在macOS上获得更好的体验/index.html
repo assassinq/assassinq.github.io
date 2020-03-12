@@ -6,13 +6,13 @@
   <title>使用X11在macOS上获得更好的体验 | AssassinQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="macOS">
+  <meta name="keywords" content="macos">
   
   
   
   
   <meta name="description" content="X11 也叫做 X Window 系统，X Window 系统（X11 或 X）是一种位图显示的视窗系统。它是在 Unix 和 类 Unix 操作系统，以及 OpenVMS 上建立图形用户界面的标准工具包和协议，并可用于几乎所有已有的现代操作系统。">
-<meta name="keywords" content="macOS">
+<meta name="keywords" content="macos">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用X11在macOS上获得更好的体验">
 <meta property="og:url" content="qianfei11.coding.me/2020/03/05/使用X11在macOS上获得更好的体验/index.html">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="/pics/使用X11在macOS上获得更好的体验/2.png">
 <meta property="og:image" content="/pics/使用X11在macOS上获得更好的体验/3.png">
 <meta property="og:image" content="/pics/使用X11在macOS上获得更好的体验/4.png">
-<meta property="og:updated_time" content="2020-03-05T08:22:56.913Z">
+<meta property="og:updated_time" content="2020-03-07T03:25:09.695Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用X11在macOS上获得更好的体验">
 <meta name="twitter:description" content="X11 也叫做 X Window 系统，X Window 系统（X11 或 X）是一种位图显示的视窗系统。它是在 Unix 和 类 Unix 操作系统，以及 OpenVMS 上建立图形用户界面的标准工具包和协议，并可用于几乎所有已有的现代操作系统。">
@@ -155,7 +155,7 @@
       
 
 	  |
-	  668 words
+	  680 words
 	  |
 	  3 minute(s) to read
     </div>
@@ -171,8 +171,8 @@
 <h1 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h1><p><code>ssh</code> 命令中加上 <code>-X</code> 参数，可以打开远程的 GUI 界面：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -X beale@192.168.2.190</span><br><span class="line">beale@192.168.2.190<span class="string">'s password:</span></span><br><span class="line"><span class="string">Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-31-generic x86_64)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> * Documentation:  https://help.ubuntu.com</span></span><br><span class="line"><span class="string"> * Management:     https://landscape.canonical.com</span></span><br><span class="line"><span class="string"> * Support:        https://ubuntu.com/advantage</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">700 packages can be updated.</span></span><br><span class="line"><span class="string">452 updates are security updates.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">The programs included with the Ubuntu system are free software;</span></span><br><span class="line"><span class="string">the exact distribution terms for each program are described in the</span></span><br><span class="line"><span class="string">individual files in /usr/share/doc/*/copyright.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by</span></span><br><span class="line"><span class="string">applicable law.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$ firefox</span></span><br></pre></td></tr></table></figure>
 <p><img src="/pics/使用X11在macOS上获得更好的体验/2.png" alt="可以远程打开GUI界面"></p>
-<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>Docker 现在已经是一个配置环境的利器，缺点就是只有 CLI，但可以通过 X11 在 Docker 中开启 GUI。首先需要获取本机 IP 地址：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ IP=$(ifconfig en0 | grep inet | awk <span class="string">'$1=="inet" &#123;print $2&#125;'</span>)</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$IP</span></span><br></pre></td></tr></table></figure>
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>Docker 现在已经是一个配置环境的利器，缺点就是只有 CLI，但可以通过 X11 在 Docker 中开启 GUI。首先需要获取本机 IP 地址，并添加到 X11 Server 的列表中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ IP=$(ifconfig en0 | grep inet | awk <span class="string">'$1=="inet" &#123;print $2&#125;'</span>)</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$IP</span></span><br><span class="line">$ xhost + <span class="variable">$IP</span></span><br></pre></td></tr></table></figure>
 <p>通过参数 <code>-e</code> 覆盖容器内的环境变量 <code>DISPLAY=$IP:0</code>，并用 <code>-v</code> 参数挂载本地 <code>/tmp/.X11-unix</code> 到容器内部的同一位置，利用 Docker Hub 中提供的一个 Firefox 的镜像来启动装有 Firefox 浏览器的容器：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name firefox -e DISPLAY=<span class="variable">$IP</span>:0 -v /tmp/.X11-unix:/tmp/.X11-unix jess/firefox</span><br></pre></td></tr></table></figure>
 <p><img src="/pics/使用X11在macOS上获得更好的体验/3.png" alt="开启的效果"></p>
@@ -193,7 +193,7 @@
       
       
   <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macos/">macos</a></li></ul>
 
       
         
@@ -227,6 +227,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/03/06/Linux下的各类程序保护机制/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux下的各类程序保护机制
+        
+      </div>
+    </a>
   
   
     <a href="/2020/03/01/使用Termux在Android上打造小型Linux服务器/" id="article-nav-older" class="article-nav-link-wrap">

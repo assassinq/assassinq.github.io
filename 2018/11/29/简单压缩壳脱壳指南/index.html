@@ -45,7 +45,7 @@
 <meta property="og:image" content="/pics/脱壳指南/23.png">
 <meta property="og:image" content="/pics/脱壳指南/24.png">
 <meta property="og:image" content="/pics/脱壳指南/25.png">
-<meta property="og:updated_time" content="2020-03-02T14:58:19.694Z">
+<meta property="og:updated_time" content="2020-03-09T09:29:57.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单压缩壳脱壳指南">
 <meta name="twitter:description" content="记录一下脱一些简单压缩壳的过程（主要是找 OEP）。">
@@ -286,7 +286,7 @@
 <p><img src="/pics/脱壳指南/16.png" alt="不需要选整个块"></p>
 <h2 id="模拟跟踪法"><a href="#模拟跟踪法" class="headerlink" title="模拟跟踪法"></a>模拟跟踪法</h2><p>以 ASPack 为例。先进入内存中，找到 SFX：</p>
 <p><img src="/pics/脱壳指南/17.png" alt="找到SFX"></p>
-<p>在命令框输入 <code>tc eip&lt;xxxxxxxx</code>：</p>
+<p>在命令框输入 <code>tc eip&lt;xxxxxxxx</code>（即追踪 EIP 小于指定地址时的代码，也就是程序的代码段）：</p>
 <p><img src="/pics/脱壳指南/18.png" alt="输入tc命令"></p>
 <p>会看到 OD 左上角变成了跟踪：</p>
 <p><img src="/pics/脱壳指南/19.png" alt="左上角变成了跟踪"></p>
@@ -295,7 +295,7 @@
 <p><img src="/pics/脱壳指南/20.png" alt="调试设置"></p>
 <p>一般情况选择块方式跟踪或者字节方式，这里选择前者：</p>
 <p><img src="/pics/脱壳指南/21.png" alt="选择块方式跟踪"></p>
-<p>确定后，重新载入（<code>Ctrl+F2</code>），直接跳到了 OEP。</p>
+<p>确定后，重新载入（<code>Ctrl+F2</code>），OD 会自动地去查找到 OEP。</p>
 <h2 id="最后一次异常法"><a href="#最后一次异常法" class="headerlink" title="最后一次异常法"></a>最后一次异常法</h2><p>以 PECompact 为例。先在调试选项中忽略所有异常。重新载入后，执行 m 次 shift+f9，直到程序跑飞。然后重新载入程序，执行 m-1 次 shift+f9。在堆栈窗口中找到 SE 句柄，然后 Ctrl+G 转到 SE 句柄：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">0045DE74    B8 F9CB45F0     mov eax,0xF045CBF9</span><br><span class="line">0045DE79    8D88 9E120010   lea ecx,dword ptr ds:[eax+0x1000129E]</span><br><span class="line">0045DE7F    8941 01         mov dword ptr ds:[ecx+0x1],eax</span><br><span class="line">0045DE82    8B5424 04       mov edx,dword ptr ss:[esp+0x4]</span><br><span class="line">0045DE86    8B52 0C         mov edx,dword ptr ds:[edx+0xC]</span><br><span class="line">0045DE89    C602 E9         mov byte ptr ds:[edx],0xE9</span><br><span class="line">0045DE8C    83C2 05         add edx,0x5</span><br><span class="line">0045DE8F    2BCA            sub ecx,edx                              ; ntdll_1.7720353D</span><br><span class="line">0045DE91    894A FC         mov dword ptr ds:[edx-0x4],ecx           ; qqspirit.0045DE74</span><br><span class="line">0045DE94    33C0            xor eax,eax</span><br><span class="line">0045DE96    C3              retn</span><br><span class="line">0045DE97    B8 78563412     mov eax,0x12345678                       ; 下断点</span><br></pre></td></tr></table></figure>
 <p>随后执行到断点处，单步跟到 OEP。</p>
