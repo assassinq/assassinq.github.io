@@ -21,7 +21,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="/pics/Linux下的各类程序保护机制/1.png">
 <meta property="og:image" content="/pics/Linux下的各类程序保护机制/2.png">
-<meta property="og:updated_time" content="2020-03-07T14:23:50.282Z">
+<meta property="og:updated_time" content="2020-03-13T15:52:25.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下的各类程序保护机制">
 <meta name="twitter:description" content="之前一直在做逆向，快一年没碰 PWN 了，接下来有一堆比赛，赶紧重新 PWN 起来。这里先整理一下 Linux 下的程序保护机制。">
@@ -153,7 +153,7 @@
       
 
 	  |
-	  2.6k words
+	  2.7k words
 	  |
 	  13 minute(s) to read
     </div>
@@ -180,7 +180,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assassinq$ vmmap</span><br><span class="line">Start              End                Perm	Name</span><br><span class="line">0x00400000         0x00401000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00600000         0x00601000         r--p	/home/beale/Test_Dir/main</span><br><span class="line">0x00601000         0x00602000         rw-p	/home/beale/Test_Dir/main</span><br><span class="line">0x00007ffff7a0d000 0x00007ffff7bcd000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7bcd000 0x00007ffff7dcd000 ---p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dcd000 0x00007ffff7dd1000 r--p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd1000 0x00007ffff7dd3000 rw-p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd3000 0x00007ffff7dd7000 rw-p	mapped</span><br><span class="line">0x00007ffff7dd7000 0x00007ffff7dfd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7fdd000 0x00007ffff7fe0000 rw-p	mapped</span><br><span class="line">0x00007ffff7ff8000 0x00007ffff7ffa000 r--p	[vvar]</span><br><span class="line">0x00007ffff7ffa000 0x00007ffff7ffc000 r-xp	[vdso]</span><br><span class="line">0x00007ffff7ffc000 0x00007ffff7ffd000 r--p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffd000 0x00007ffff7ffe000 rw-p	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffe000 0x00007ffff7fff000 rw-p	mapped</span><br><span class="line">0x00007ffffffde000 0x00007ffffffff000 rw-p	[stack]</span><br><span class="line">0xffffffffff600000 0xffffffffff601000 r-xp	[vsyscall]</span><br></pre></td></tr></table></figure>
 <h2 id="z-execstack"><a href="#z-execstack" class="headerlink" title="-z execstack"></a><code>-z execstack</code></h2><p>开启栈可执行后，栈上的代码可被执行，同时其他处内存部分都是读写执行全开：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assassinq$ vmmap</span><br><span class="line">Start              End                Perm	Name</span><br><span class="line">0x00400000         0x00401000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00600000         0x00601000         r-xp	/home/beale/Test_Dir/main</span><br><span class="line">0x00601000         0x00602000         rwxp	/home/beale/Test_Dir/main</span><br><span class="line">0x00007ffff7a0d000 0x00007ffff7bcd000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7bcd000 0x00007ffff7dcd000 ---p	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dcd000 0x00007ffff7dd1000 r-xp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd1000 0x00007ffff7dd3000 rwxp	/lib/x86_64-linux-gnu/libc-2.23.so</span><br><span class="line">0x00007ffff7dd3000 0x00007ffff7dd7000 rwxp	mapped</span><br><span class="line">0x00007ffff7dd7000 0x00007ffff7dfd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7fdd000 0x00007ffff7fe0000 rwxp	mapped</span><br><span class="line">0x00007ffff7ff8000 0x00007ffff7ffa000 r--p	[vvar]</span><br><span class="line">0x00007ffff7ffa000 0x00007ffff7ffc000 r-xp	[vdso]</span><br><span class="line">0x00007ffff7ffc000 0x00007ffff7ffd000 r-xp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffd000 0x00007ffff7ffe000 rwxp	/lib/x86_64-linux-gnu/ld-2.23.so</span><br><span class="line">0x00007ffff7ffe000 0x00007ffff7fff000 rwxp	mapped</span><br><span class="line">0x00007ffffffde000 0x00007ffffffff000 rwxp	[stack]</span><br><span class="line">0xffffffffff600000 0xffffffffff601000 r-xp	[vsyscall]</span><br></pre></td></tr></table></figure>
-<h1 id="PIE（ASLR）"><a href="#PIE（ASLR）" class="headerlink" title="PIE（ASLR）"></a>PIE（ASLR）</h1><p>一般情况下 NX 和地址空间分布随机化（ASLR）会同时工作。内存地址随机化机制（Address Space Layout Randomization)，有以下三种情况：</p>
+<h1 id="PIE（ASLR）"><a href="#PIE（ASLR）" class="headerlink" title="PIE（ASLR）"></a>PIE（ASLR）</h1><p>一般情况下 NX 和地址空间分布随机化（ASLR）会同时工作。<a href="https://blog.csdn.net/spenghui/article/details/79910884" target="_blank" rel="noopener">ASLR 不负责代码段以及数据段的随机化工作，这项工作由 PIE 负责；但是只有在开启 ASLR 之后，PIE 才会生效。</a>内存地址随机化机制（Address Space Layout Randomization)，有以下三种情况（具体的 ASLR 和 PIE 的互相作用：<a href="https://www.cnblogs.com/rec0rd/p/7646857.html）：" target="_blank" rel="noopener">https://www.cnblogs.com/rec0rd/p/7646857.html）：</a></p>
 <ol>
 <li>0 - 表示关闭进程地址空间随机化。</li>
 <li>1 - 表示将 mmap 的基址，stack 和 Vdso 页面随机化。</li>
@@ -257,6 +257,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/03/13/Understanding-SigReturn-Oriented-Programming/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Understanding SigReturn-Oriented-Programming
+        
+      </div>
+    </a>
   
   
     <a href="/2020/03/05/使用X11在macOS上获得更好的体验/" id="article-nav-older" class="article-nav-link-wrap">

