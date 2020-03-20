@@ -1,163 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>不同版本Android动态调试前打开调试开关简述 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="reandroid">
-  
-  
-  
-  
-  <meta name="description" content="手上有两台谷歌儿子，系统版本不同，开启动态调试的方法也不同。">
-<meta name="keywords" content="re,android">
-<meta property="og:type" content="article">
-<meta property="og:title" content="不同版本Android动态调试前打开调试开关简述">
-<meta property="og:url" content="blog.b3ale.cn/2020/02/29/不同版本Android动态调试前打开调试开关简述/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="手上有两台谷歌儿子，系统版本不同，开启动态调试的方法也不同。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/不同版本Android动态调试前打开调试开关简述/1.png">
-<meta property="og:updated_time" content="2020-03-01T03:15:16.903Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="不同版本Android动态调试前打开调试开关简述">
-<meta name="twitter:description" content="手上有两台谷歌儿子，系统版本不同，开启动态调试的方法也不同。">
-<meta name="twitter:image" content="/pics/不同版本Android动态调试前打开调试开关简述/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>不同版本Android动态调试前打开调试开关简述 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-不同版本Android动态调试前打开调试开关简述" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      不同版本Android动态调试前打开调试开关简述
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2020/02/29/不同版本Android动态调试前打开调试开关简述/" class="article-date">
-	  <time datetime="2020-02-29T02:13:37.000Z" itemprop="datePublished">February 29, 2020</time>
-	</a>
-
-       
-      
-
-	  |
-	  842 words
-	  |
-	  3 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Saturday, February 29th 2020, 10:13 am
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    873 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      3 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>手上有两台谷歌儿子，系统版本不同，开启动态调试的方法也不同。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>手上有两台谷歌儿子，系统版本不同，开启动态调试的方法也不同。</p>
 <a id="more"></a>
 <h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>众所周知，最常规的方法就是在 AndroidManifest.xml 中的 application 标签中添加 <code>android:debuggable=&quot;true&quot;</code> 字段，然后再回编译、签名、安装、然后进行动态调试。但这种方法实在太麻烦了。</p>
 <p>网上还有另外一种修改 Android prop 的工具 <a href="https://github.com/wpvsyou/mprop" target="_blank" rel="noopener">mprop</a>，用来修改 <code>default.prop</code> 中的 <code>ro.debuggable</code> 字段为 1（默认为 0）。因为 Android 系统初始化时，init 进程会解析系统属性文件，然后将其保存到内存中去，以便给所有应用提供服务（这种方法可以直接调试所有应用），所以在 init 进程的内存块中是存在这些属性的。在修改完成后要重启 adbd 进程，但这种方法的缺点是在每次开关机后需要重新修改。</p>
@@ -166,202 +172,411 @@
 <p>开启动态调试的要求是已 root，并且安装了 Xposed 框架。</p>
 <h2 id="BDOpener"><a href="#BDOpener" class="headerlink" title="BDOpener"></a>BDOpener</h2><p><a href="https://github.com/riusksk/BDOpener" target="_blank" rel="noopener">BDOpener 下载链接</a></p>
 <p>这里使用的是 BDOpener，这是一款 Xposed 的模块，用于修改程序的 debugable 选项，同时也支持开启备份选项，方便数据转移。只需要安装程序后，启用并重启手机，就能调试，可以用 monitor 来查看效果。</p>
-<p><img src="/pics/不同版本Android动态调试前打开调试开关简述/1.png" alt="monitor查看效果"></p>
+<p><img src="/pics/不同版本Android动态调试前打开调试开关简述/1.png" srcset="/img/loading.gif" alt></p>
 <h1 id="Android-9"><a href="#Android-9" class="headerlink" title="Android 9"></a>Android 9</h1><p>设备：Pixel XL</p>
 <p>开启动态调试的要求是安装了 Magisk 框架（安装后默认 root）。因为 Xposed 的作者在 Android 6 后没有再更新，后来 Android 7 只出了非官方版本，尝试采用了 Magisk+Taichi 的方式来使用上面的 Xposed 模块，但安装了之后发现 Android UI 会在开机之后崩溃，所以尝试了另外一种方法。</p>
 <h2 id="MagiskHidePropsConf"><a href="#MagiskHidePropsConf" class="headerlink" title="MagiskHidePropsConf"></a><a href="https://forum.xda-developers.com/apps/magisk/module-magiskhide-props-config-t3789228" target="_blank" rel="noopener">MagiskHidePropsConf</a></h2><p><a href="https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf" target="_blank" rel="noopener">MagiskHidePropsConf 下载链接</a></p>
 <p><a href="https://github.com/osm0sis/android-busybox-ndk" target="_blank" rel="noopener">Busybox 下载链接</a></p>
 <p>MagiskHidePropsConf 是 Magisk 下的一个模块，可以用来修改系统中内存里的 props 值，并且永久生效，那么就可以用来修改 <code>ro.debuggable</code> 字段了。同时要求安装 Busybox for Android NDK 才能运行。操作如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">marlin:/ <span class="comment"># props</span></span><br><span class="line"></span><br><span class="line">Loading... Please <span class="built_in">wait</span>.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MagiskHide Props Config v5.2.2</span><br><span class="line">by Didgeridoohan @ XDA Developers</span><br><span class="line"></span><br><span class="line">=====================================</span><br><span class="line"> Updating fingerprints list</span><br><span class="line">=====================================</span><br><span class="line"></span><br><span class="line">Checking connection.</span><br><span class="line">No connection.</span><br><span class="line"></span><br><span class="line">MagiskHide Props Config v5.2.2</span><br><span class="line">by Didgeridoohan @ XDA Developers</span><br><span class="line"></span><br><span class="line">=====================================</span><br><span class="line"> Select an option below.</span><br><span class="line">=====================================</span><br><span class="line"></span><br><span class="line">1 - Edit device fingerprint</span><br><span class="line">2 - Device simulation (disabled)</span><br><span class="line">3 - Edit MagiskHide props</span><br><span class="line">4 - Add/edit custom props</span><br><span class="line">5 - Delete prop values</span><br><span class="line">6 - Script settings</span><br><span class="line">7 - Collect logs</span><br><span class="line">r - Reset all options/settings</span><br><span class="line">b - Reboot device</span><br><span class="line">e - Exit</span><br><span class="line"></span><br><span class="line">See the module readme or the</span><br><span class="line">support thread @ XDA <span class="keyword">for</span> details.</span><br><span class="line"></span><br><span class="line">Enter your desired option: 3</span><br><span class="line"></span><br><span class="line">MagiskHide Props Config v5.2.2</span><br><span class="line">by Didgeridoohan @ XDA Developers</span><br><span class="line"></span><br><span class="line">=====================================</span><br><span class="line"> MagiskHide props (active)</span><br><span class="line"> Select an option below:</span><br><span class="line">=====================================</span><br><span class="line"></span><br><span class="line">Change the sensitive props <span class="built_in">set</span> by MagiskHide.</span><br><span class="line"></span><br><span class="line">1 - ro.debuggable</span><br><span class="line">2 - ro.secure</span><br><span class="line">3 - ro.build.type</span><br><span class="line">4 - ro.build.tags</span><br><span class="line">5 - ro.build.selinux</span><br><span class="line">a - Change all props</span><br><span class="line">b - Go back to main menu</span><br><span class="line">e - Exit</span><br><span class="line"></span><br><span class="line">Pick several options at once by</span><br><span class="line">separating inputs with a comma.</span><br><span class="line">Example: 1,5,6</span><br><span class="line"></span><br><span class="line">See the module readme or the</span><br><span class="line">support thread @ XDA <span class="keyword">for</span> details.</span><br><span class="line"></span><br><span class="line">Enter your desired option: 1</span><br><span class="line"></span><br><span class="line">MagiskHide Props Config v5.2.2</span><br><span class="line">by Didgeridoohan @ XDA Developers</span><br><span class="line"></span><br><span class="line">=====================================</span><br><span class="line"> ro.debuggable</span><br><span class="line">=====================================</span><br><span class="line"></span><br><span class="line">Currently <span class="built_in">set</span> to 0.</span><br><span class="line"></span><br><span class="line">You currently have the safe value <span class="built_in">set</span>.</span><br><span class="line">Are you sure you want to change it to 1?</span><br><span class="line"></span><br><span class="line">Enter y(es), n(o) or e(xit): y</span><br><span class="line"></span><br><span class="line">MagiskHide Props Config v5.2.2</span><br><span class="line">by Didgeridoohan @ XDA Developers</span><br><span class="line"></span><br><span class="line">=====================================</span><br><span class="line"> Reboot - ro.debuggable</span><br><span class="line">=====================================</span><br><span class="line"></span><br><span class="line">Reboot <span class="keyword">for</span> changes to take effect.</span><br><span class="line"></span><br><span class="line">Do you want to reboot now (y/n)?</span><br><span class="line"></span><br><span class="line">Enter y(es), n(o) or e(xit): y</span><br><span class="line"></span><br><span class="line">Rebooting...</span><br></pre></td></tr></table></figure>
+<pre><code class="sh">marlin:/ # props
+
+Loading... Please wait.
+
+
+MagiskHide Props Config v5.2.2
+by Didgeridoohan @ XDA Developers
+
+=====================================
+ Updating fingerprints list
+=====================================
+
+Checking connection.
+No connection.
+
+MagiskHide Props Config v5.2.2
+by Didgeridoohan @ XDA Developers
+
+=====================================
+ Select an option below.
+=====================================
+
+1 - Edit device fingerprint
+2 - Device simulation (disabled)
+3 - Edit MagiskHide props
+4 - Add/edit custom props
+5 - Delete prop values
+6 - Script settings
+7 - Collect logs
+r - Reset all options/settings
+b - Reboot device
+e - Exit
+
+See the module readme or the
+support thread @ XDA for details.
+
+Enter your desired option: 3
+
+MagiskHide Props Config v5.2.2
+by Didgeridoohan @ XDA Developers
+
+=====================================
+ MagiskHide props (active)
+ Select an option below:
+=====================================
+
+Change the sensitive props set by MagiskHide.
+
+1 - ro.debuggable
+2 - ro.secure
+3 - ro.build.type
+4 - ro.build.tags
+5 - ro.build.selinux
+a - Change all props
+b - Go back to main menu
+e - Exit
+
+Pick several options at once by
+separating inputs with a comma.
+Example: 1,5,6
+
+See the module readme or the
+support thread @ XDA for details.
+
+Enter your desired option: 1
+
+MagiskHide Props Config v5.2.2
+by Didgeridoohan @ XDA Developers
+
+=====================================
+ ro.debuggable
+=====================================
+
+Currently set to 0.
+
+You currently have the safe value set.
+Are you sure you want to change it to 1?
+
+Enter y(es), n(o) or e(xit): y
+
+MagiskHide Props Config v5.2.2
+by Didgeridoohan @ XDA Developers
+
+=====================================
+ Reboot - ro.debuggable
+=====================================
+
+Reboot for changes to take effect.
+
+Do you want to reboot now (y/n)?
+
+Enter y(es), n(o) or e(xit): y
+
+Rebooting...
+</code></pre>
 <p>重启后也可以动态调了，同样可以用 monitor 来验证有没有成功。</p>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ai-sewell.me/2018/%E6%89%93%E5%BC%80%E8%B0%83%E8%AF%95%E5%BC%80%E5%85%B3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">https://ai-sewell.me/2018/%E6%89%93%E5%BC%80%E8%B0%83%E8%AF%95%E5%BC%80%E5%85%B3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/</a><br><a href="https://bbs.pediy.com/thread-248322.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-248322.htm</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/re/">re</a>
+                    
+                      <a class="hover-with-bg" href="/tags/android/">android</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/03/01/使用Termux在Android上打造小型Linux服务器/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>使用Termux在Android上打造小型Linux服务器</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/02/20/[TODO]攻防世界-MOBILE-新手练习区/">
+                        <span>攻防世界-MOBILE-新手练习区</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2020/03/01/使用Termux在Android上打造小型Linux服务器/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          使用Termux在Android上打造小型Linux服务器
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2020/02/20/[TODO]攻防世界-MOBILE-新手练习区/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">攻防世界-MOBILE-新手练习区</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-4"><span class="nav-number">2.</span> <span class="nav-text">Android 4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BDOpener"><span class="nav-number">2.1.</span> <span class="nav-text">BDOpener</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-9"><span class="nav-number">3.</span> <span class="nav-text">Android 9</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MagiskHidePropsConf"><span class="nav-number">3.1.</span> <span class="nav-text">MagiskHidePropsConf</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "不同版本Android动态调试前打开调试开关简述&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -379,5 +594,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

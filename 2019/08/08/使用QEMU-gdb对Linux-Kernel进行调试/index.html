@@ -1,197 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>使用QEMU+gdb对Linux Kernel进行调试 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="linux">
-  
-  
-  
-  
-  <meta name="description" content="最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。">
-<meta name="keywords" content="linux">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用QEMU+gdb对Linux Kernel进行调试">
-<meta property="og:url" content="blog.b3ale.cn/2019/08/08/使用QEMU-gdb对Linux-Kernel进行调试/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-11-29T08:13:24.574Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用QEMU+gdb对Linux Kernel进行调试">
-<meta name="twitter:description" content="最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>使用QEMU+gdb对Linux Kernel进行调试 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-使用QEMU-gdb对Linux-Kernel进行调试" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      使用QEMU+gdb对Linux Kernel进行调试
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/08/08/使用QEMU-gdb对Linux-Kernel进行调试/" class="article-date">
-	  <time datetime="2019-08-08T01:02:12.000Z" itemprop="datePublished">August 8, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  2k words
-	  |
-	  11 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Thursday, August 8th 2019, 9:02 am
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      12 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。</p>
 <a id="more"></a>
-<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ uname -a</span><br><span class="line">Linux ubuntu 4.4.0-92-generic <span class="comment">#115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">➜  ~ lsb_release -a</span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 16.04.6 LTS</span><br><span class="line">Release:	16.04</span><br><span class="line">Codename:	xenial</span><br></pre></td></tr></table></figure>
-<p>使用<code>Ubuntu 16.04</code>，因为该发行版默认已经开启了内核调试支持：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ cat /boot/config-4.4.0-92-generic | grep <span class="string">"GDB"</span></span><br><span class="line"><span class="comment"># CONFIG_CFG80211_INTERNAL_REGDB is not set</span></span><br><span class="line">CONFIG_SERIAL_KGDB_NMI=y</span><br><span class="line">CONFIG_GDB_SCRIPTS=y</span><br><span class="line">CONFIG_HAVE_ARCH_KGDB=y</span><br><span class="line">CONFIG_KGDB=y</span><br><span class="line">CONFIG_KGDB_SERIAL_CONSOLE=y</span><br><span class="line"><span class="comment"># CONFIG_KGDB_TESTS is not set</span></span><br><span class="line">CONFIG_KGDB_LOW_LEVEL_TRAP=y</span><br><span class="line">CONFIG_KGDB_KDB=y</span><br></pre></td></tr></table></figure>
-<h1 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h1><h2 id="Symbolic-Files"><a href="#Symbolic-Files" class="headerlink" title="Symbolic Files"></a>Symbolic Files</h2><p>首先准备调试需要的符号文件。看一下该版本的<code>Codename</code>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ lsb_release -c</span><br><span class="line">Codename:	xenial</span><br></pre></td></tr></table></figure>
-<p>然后新建文件<code>ddebs.list</code>，其内容如下（看情况修改<code>Codename</code>）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ cat /etc/apt/sources.list.d/ddebs.list</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial      main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial-security main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial-updates  main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-<p><code>http://ddebs.ubuntu.com</code>是<code>Ubuntu</code>的符号服务器。执行下面的命令添加密钥，然后就可以更新并下载符号文件了：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ wget -O - http://ddebs.ubuntu.com/dbgsym-release-key.asc | sudo apt-key add -</span><br><span class="line">➜  ~ sudo apt-get update</span><br><span class="line">➜  ~ uname -r</span><br><span class="line">4.4.0-92-generic</span><br><span class="line">➜  ~ sudo apt-get install linux-image-4.13.0-38-generic-dbgsym</span><br></pre></td></tr></table></figure>
+<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><pre><code class="bash">➜  ~ uname -a
+Linux ubuntu 4.4.0-92-generic #115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+➜  ~ lsb_release -a
+No LSB modules are available.
+Distributor ID:    Ubuntu
+Description:    Ubuntu 16.04.6 LTS
+Release:    16.04
+Codename:    xenial
+</code></pre>
+<p>使用 <code>Ubuntu 16.04</code>，因为该发行版默认已经开启了内核调试支持：</p>
+<pre><code class="bash">➜  ~ cat /boot/config-4.4.0-92-generic | grep &quot;GDB&quot;
+# CONFIG_CFG80211_INTERNAL_REGDB is not set
+CONFIG_SERIAL_KGDB_NMI=y
+CONFIG_GDB_SCRIPTS=y
+CONFIG_HAVE_ARCH_KGDB=y
+CONFIG_KGDB=y
+CONFIG_KGDB_SERIAL_CONSOLE=y
+# CONFIG_KGDB_TESTS is not set
+CONFIG_KGDB_LOW_LEVEL_TRAP=y
+CONFIG_KGDB_KDB=y
+</code></pre>
+<h1 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h1><h2 id="Symbolic-Files"><a href="#Symbolic-Files" class="headerlink" title="Symbolic Files"></a>Symbolic Files</h2><p>首先准备调试需要的符号文件。看一下该版本的 <code>Codename</code>：</p>
+<pre><code class="bash">➜  ~ lsb_release -c
+Codename:    xenial
+</code></pre>
+<p>然后新建文件 <code>ddebs.list</code>，其内容如下（看情况修改 <code>Codename</code>）：</p>
+<pre><code class="bash">➜  ~ cat /etc/apt/sources.list.d/ddebs.list
+deb http://ddebs.ubuntu.com/ xenial      main restricted universe multiverse
+deb http://ddebs.ubuntu.com/ xenial-security main restricted universe multiverse
+deb http://ddebs.ubuntu.com/ xenial-updates  main restricted universe multiverse
+deb http://ddebs.ubuntu.com/ xenial-proposed main restricted universe multiverse
+</code></pre>
+<p><code>http://ddebs.ubuntu.com</code> 是 <code>Ubuntu</code> 的符号服务器。执行下面的命令添加密钥，然后就可以更新并下载符号文件了：</p>
+<pre><code class="bash">➜  ~ wget -O - http://ddebs.ubuntu.com/dbgsym-release-key.asc | sudo apt-key add -
+➜  ~ sudo apt-get update
+➜  ~ uname -r
+4.4.0-92-generic
+➜  ~ sudo apt-get install linux-image-4.13.0-38-generic-dbgsym
+</code></pre>
 <p>完成后，符号文件将会放在下面的目录下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ file /usr/lib/debug/boot/vmlinux-4.4.0-92-generic</span><br><span class="line">/usr/lib/debug/boot/vmlinux-4.4.0-92-generic: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, BuildID[sha1]=a57bd034055907e83dfd68d2999f976285d2ab31, not stripped</span><br></pre></td></tr></table></figure>
-<p>可以看到这是一个静态链接的可执行文件，用<code>gdb</code>可以进行调试，像这样：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ gdb -q /usr/lib/debug/boot/vmlinux-4.4.0-92-generic</span><br><span class="line">GEF <span class="keyword">for</span> linux ready, <span class="built_in">type</span> `gef<span class="string">' to start, `gef config'</span> to configure</span><br><span class="line">79 commands loaded <span class="keyword">for</span> GDB 7.11.1 using Python engine 3.5</span><br><span class="line">[*] 1 <span class="built_in">command</span> could not be loaded, run `gef missing` to know why.</span><br><span class="line">Reading symbols from /usr/lib/debug/boot/vmlinux-4.4.0-92-generic...done.</span><br><span class="line">gef➤  p init_uts_ns</span><br><span class="line"><span class="variable">$1</span> = &#123;</span><br><span class="line">  kref = &#123;</span><br><span class="line">    refcount = &#123;</span><br><span class="line">      counter = 0x2</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  name = &#123;</span><br><span class="line">    sysname = <span class="string">"Linux"</span>, <span class="string">'\000'</span> &lt;repeats 59 <span class="built_in">times</span>&gt;,</span><br><span class="line">    nodename = <span class="string">"(none)"</span>, <span class="string">'\000'</span> &lt;repeats 58 <span class="built_in">times</span>&gt;,</span><br><span class="line">    release = <span class="string">"4.4.0-92-generic"</span>, <span class="string">'\000'</span> &lt;repeats 48 <span class="built_in">times</span>&gt;,</span><br><span class="line">    version = <span class="string">"#115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017"</span>, <span class="string">'\000'</span> &lt;repeats 20 <span class="built_in">times</span>&gt;,</span><br><span class="line">    machine = <span class="string">"x86_64"</span>, <span class="string">'\000'</span> &lt;repeats 58 <span class="built_in">times</span>&gt;,</span><br><span class="line">    domainname = <span class="string">"(none)"</span>, <span class="string">'\000'</span> &lt;repeats 58 <span class="built_in">times</span>&gt;</span><br><span class="line">  &#125;,</span><br><span class="line">  user_ns = 0xffffffff81e42a00 &lt;init_user_ns&gt;,</span><br><span class="line">  ns = &#123;</span><br><span class="line">    stashed = &#123;</span><br><span class="line">      counter = 0x0</span><br><span class="line">    &#125;,</span><br><span class="line">    ops = 0xffffffff81a1afe0 &lt;utsns_operations&gt;,</span><br><span class="line">    inum = 0xeffffffe</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">➜  ~ file /usr/lib/debug/boot/vmlinux-4.4.0-92-generic
+/usr/lib/debug/boot/vmlinux-4.4.0-92-generic: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, BuildID[sha1]=a57bd034055907e83dfd68d2999f976285d2ab31, not stripped
+</code></pre>
+<p>可以看到这是一个静态链接的可执行文件，用 <code>gdb</code> 可以进行调试，像这样：</p>
+<pre><code class="bash">➜  ~ gdb -q /usr/lib/debug/boot/vmlinux-4.4.0-92-generic
+GEF for linux ready, type `gef&#39; to start, `gef config&#39; to configure
+79 commands loaded for GDB 7.11.1 using Python engine 3.5
+[*] 1 command could not be loaded, run `gef missing` to know why.
+Reading symbols from /usr/lib/debug/boot/vmlinux-4.4.0-92-generic...done.
+gef➤  p init_uts_ns
+$1 = {
+  kref = {
+    refcount = {
+      counter = 0x2
+    }
+  },
+  name = {
+    sysname = &quot;Linux&quot;, &#39;\000&#39; &lt;repeats 59 times&gt;,
+    nodename = &quot;(none)&quot;, &#39;\000&#39; &lt;repeats 58 times&gt;,
+    release = &quot;4.4.0-92-generic&quot;, &#39;\000&#39; &lt;repeats 48 times&gt;,
+    version = &quot;#115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017&quot;, &#39;\000&#39; &lt;repeats 20 times&gt;,
+    machine = &quot;x86_64&quot;, &#39;\000&#39; &lt;repeats 58 times&gt;,
+    domainname = &quot;(none)&quot;, &#39;\000&#39; &lt;repeats 58 times&gt;
+  },
+  user_ns = 0xffffffff81e42a00 &lt;init_user_ns&gt;,
+  ns = {
+    stashed = {
+      counter = 0x0
+    },
+    ops = 0xffffffff81a1afe0 &lt;utsns_operations&gt;,
+    inum = 0xeffffffe
+  }
+}
+</code></pre>
 <h2 id="Linux-Kernel"><a href="#Linux-Kernel" class="headerlink" title="Linux Kernel"></a>Linux Kernel</h2><p>Linux 内核源代码肯定少不了：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libncurses5-dev build-essential kernel-package</span><br><span class="line">wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.20.17.tar.gz</span><br><span class="line">tar -xvf linux-4.20.17.tar.gz</span><br><span class="line"><span class="built_in">cd</span> linux-4.20.17</span><br><span class="line">make menuconfig</span><br><span class="line">make</span><br><span class="line">make all</span><br><span class="line">make modules</span><br></pre></td></tr></table></figure>
-<p><code>make menuconfig</code>中需要勾选的：</p>
+<pre><code class="bash">sudo apt-get install libncurses5-dev build-essential kernel-package
+wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.20.17.tar.gz
+tar -xvf linux-4.20.17.tar.gz
+cd linux-4.20.17
+make menuconfig
+make
+make all
+make modules
+</code></pre>
+<p><code>make menuconfig</code> 中需要勾选的：</p>
 <ul>
 <li><code>KernelHacking</code><ul>
-<li>选中<code>Compile the kernel with debug info</code></li>
-<li>选中<code>Compile the kernel with frame pointers</code></li>
-<li>选中<code>KGDB:kernel debugging with remote gdb</code></li>
+<li>选中 <code>Compile the kernel with debug info</code></li>
+<li>选中 <code>Compile the kernel with frame pointers</code></li>
+<li>选中 <code>KGDB:kernel debugging with remote gdb</code></li>
 </ul>
 </li>
 <li><code>Processor type and features</code><ul>
-<li>取消<code>Paravirtualized guest support</code></li>
+<li>取消 <code>Paravirtualized guest support</code></li>
 </ul>
 </li>
 <li><code>KernelHacking</code><ul>
-<li>取消<code>Write protect kernel read-only data structures</code></li>
+<li>取消 <code>Write protect kernel read-only data structures</code></li>
 </ul>
 </li>
 </ul>
 <h2 id="Busybox"><a href="#Busybox" class="headerlink" title="Busybox"></a>Busybox</h2><p>启动内核还需要一个简单的文件系统和一些命令，可以使用<code>busybox</code>来构建</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span></span><br><span class="line">wget https://busybox.net/downloads/busybox-<span class="variable">$&#123;VERSION&#125;</span>.tar.bz2</span><br><span class="line">tar -jxvf busybox-<span class="variable">$&#123;VERSION&#125;</span>.tar.bz2</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$BUSYBOX_SRC</span></span><br><span class="line">make menuconfig</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-<p><code>make menuconfig</code>中需要勾选的：</p>
+<pre><code class="bash">cd
+wget https://busybox.net/downloads/busybox-${VERSION}.tar.bz2
+tar -jxvf busybox-${VERSION}.tar.bz2
+cd $BUSYBOX_SRC
+make menuconfig
+make install
+</code></pre>
+<p><code>make menuconfig</code> 中需要勾选的：</p>
 <ul>
 <li><code>Busybox Settings</code><ul>
 <li><code>Build Options</code><ul>
@@ -201,214 +284,503 @@
 </ul>
 </li>
 <li><code>Linux System Utilities</code><ul>
-<li>关闭<code>Support mounting NFS file system</code>（网络文件系统）</li>
+<li>关闭 <code>Support mounting NFS file system</code>（网络文件系统）</li>
 </ul>
 </li>
 <li><code>Networking Utilities</code><ul>
-<li>关闭<code>inetd</code> (Internet 超级服务器)</li>
+<li>关闭 <code>inetd</code> (Internet 超级服务器)</li>
 </ul>
 </li>
 </ul>
-<p>接下来在<code>busybox</code>下简单配置一下启动脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> _install</span><br><span class="line">mkdir proc sys dev etc etc/init.d</span><br><span class="line">vim etc/init.d/rcS</span><br><span class="line">chmod +x etc/init.d/rcS</span><br><span class="line">cat etc/init.d/rcS</span><br><span class="line"><span class="comment"># #!/bin/sh</span></span><br><span class="line"><span class="comment"># mount -t proc none /proc</span></span><br><span class="line"><span class="comment"># mount -t sysfs none /sys</span></span><br><span class="line"><span class="comment"># /sbin/mdev -s</span></span><br></pre></td></tr></table></figure>
+<p>接下来在 <code>busybox</code> 下简单配置一下启动脚本：</p>
+<pre><code class="bash">cd _install
+mkdir proc sys dev etc etc/init.d
+vim etc/init.d/rcS
+chmod +x etc/init.d/rcS
+cat etc/init.d/rcS
+# #!/bin/sh
+# mount -t proc none /proc
+# mount -t sysfs none /sys
+# /sbin/mdev -s
+</code></pre>
 <p>然后创建文件系统：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . | cpio -o --format=newc &gt; ../rootfs.img</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">find . | cpio -o --format=newc &gt; ../rootfs.img
+</code></pre>
 <p>接下来就可以启动系统了：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-x86_64 -kernel <span class="variable">$KERNEL_SRC</span>/arch/x86_64/boot/bzImage -initrd <span class="variable">$BUSYBOX_SRC</span>/rootfs.img -append <span class="string">"console=ttyS0 root=/dev/ram rdinit=/sbin/init"</span> -cpu kvm64,+smep,+smap --nographic -gdb tcp::1234</span><br></pre></td></tr></table></figure>
-<h1 id="Finally-it-Kind-of-Works"><a href="#Finally-it-Kind-of-Works" class="headerlink" title="Finally it Kind-of Works"></a>Finally it Kind-of Works</h1><p>接下来可以用<code>gdb</code>进行调试，同时尝试在函数<code>cmdline_proc_show()</code>处下断点：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ gdb -ex <span class="string">"target remote localhost:1234"</span> <span class="variable">$KERNEL_SRC</span>/vmlinux</span><br><span class="line">GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1</span><br><span class="line">Copyright (C) 2016 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.  Type <span class="string">"show copying"</span></span><br><span class="line">and <span class="string">"show warranty"</span> <span class="keyword">for</span> details.</span><br><span class="line">This GDB was configured as <span class="string">"x86_64-linux-gnu"</span>.</span><br><span class="line">Type <span class="string">"show configuration"</span> <span class="keyword">for</span> configuration details.</span><br><span class="line">For bug reporting instructions, please see:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;.</span><br><span class="line">Find the GDB manual and other documentation resources online at:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/documentation/&gt;.</span><br><span class="line">For <span class="built_in">help</span>, <span class="built_in">type</span> <span class="string">"help"</span>.</span><br><span class="line">Type <span class="string">"apropos word"</span> to search <span class="keyword">for</span> commands related to <span class="string">"word"</span>...</span><br><span class="line">GEF <span class="keyword">for</span> linux ready, <span class="built_in">type</span> `gef<span class="string">' to start, `gef config'</span> to configure</span><br><span class="line">79 commands loaded <span class="keyword">for</span> GDB 7.11.1 using Python engine 3.5</span><br><span class="line">[*] 1 <span class="built_in">command</span> could not be loaded, run `gef missing` to know why.</span><br><span class="line">Reading symbols from /home/assassinq/linux-4.4.1/vmlinux...done.</span><br><span class="line">warning: File <span class="string">"/home/assassinq/linux-4.4.1/scripts/gdb/vmlinux-gdb.py"</span> auto-loading has been declined by your `auto-load safe-path<span class="string">' set to "$debugdir:$datadir/auto-load".</span></span><br><span class="line"><span class="string">To enable execution of this file add</span></span><br><span class="line"><span class="string">	add-auto-load-safe-path /home/assassinq/linux-4.4.1/scripts/gdb/vmlinux-gdb.py</span></span><br><span class="line"><span class="string">line to your configuration file "/home/assassinq/.gdbinit".</span></span><br><span class="line"><span class="string">To completely disable this security protection add</span></span><br><span class="line"><span class="string">	set auto-load safe-path /</span></span><br><span class="line"><span class="string">line to your configuration file "/home/assassinq/.gdbinit".</span></span><br><span class="line"><span class="string">For more information about this security protection see the</span></span><br><span class="line"><span class="string">"Auto-loading safe path" section in the GDB manual.  E.g., run from the shell:</span></span><br><span class="line"><span class="string">	info "(gdb)Auto-loading safe path"</span></span><br><span class="line"><span class="string">Remote debugging using localhost:1234</span></span><br><span class="line"><span class="string">native_safe_halt () at ./arch/x86/include/asm/irqflags.h:50</span></span><br><span class="line"><span class="string">50	&#125;</span></span><br><span class="line"><span class="string">[ Legend: Modified register | Code | Heap | Stack | String ]</span></span><br><span class="line"><span class="string">───────────────────────────────────────────────────────────────── registers ────</span></span><br><span class="line"><span class="string">$rax   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$rbx   : 0xffffffff81d585c0  →  0x0000000000000001  →  0x0000000000000001</span></span><br><span class="line"><span class="string">$rcx   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$rdx   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$rsp   : 0xffffffff81bf7e98  →  &lt;init_thread_union+16024&gt; mov eax, 0xff81bf7e</span></span><br><span class="line"><span class="string">$rbp   : 0xffffffff81bf7e98  →  &lt;init_thread_union+16024&gt; mov eax, 0xff81bf7e</span></span><br><span class="line"><span class="string">$rsi   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$rdi   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$rip   : 0xffffffff810624f6  →  0x000000841f0fc35d  →  0x000000841f0fc35d</span></span><br><span class="line"><span class="string">$r8    : 0xffff88000760db60  →  0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$r9    : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$r10   : 0x0000000000000333  →  0x0000000000000333</span></span><br><span class="line"><span class="string">$r11   : 0xffff880006d8bde0  →  0x0000000000000400  →  0x0000000000000400</span></span><br><span class="line"><span class="string">$r12   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$r13   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$r14   : 0x0000000000000000  →  0x0000000000000000</span></span><br><span class="line"><span class="string">$r15   : 0xffffffff81bf4000  →  &lt;init_thread_union+0&gt; add BYTE PTR [rbp-0x40], dl</span></span><br><span class="line"><span class="string">$eflags: [carry PARITY adjust ZERO sign trap INTERRUPT direction overflow resume virtualx86 identification]</span></span><br><span class="line"><span class="string">$cs: 0x0010 $ss: 0x0018 $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000</span></span><br><span class="line"><span class="string">───────────────────────────────────────────────────────────────────── stack ────</span></span><br><span class="line"><span class="string">[!] Unmapped address</span></span><br><span class="line"><span class="string">─────────────────────────────────────────────────────────────── code:x86:64 ────</span></span><br><span class="line"><span class="string">   0xffffffff810624f1 &lt;native_safe_halt+1&gt; mov    rbp, rsp</span></span><br><span class="line"><span class="string">   0xffffffff810624f4 &lt;native_safe_halt+4&gt; sti</span></span><br><span class="line"><span class="string">   0xffffffff810624f5 &lt;native_safe_halt+5&gt; hlt</span></span><br><span class="line"><span class="string">   0xffffffff810624f6 &lt;native_safe_halt+6&gt; pop    rbp</span></span><br><span class="line"><span class="string">   0xffffffff810624f7 &lt;native_safe_halt+7&gt; ret</span></span><br><span class="line"><span class="string">   0xffffffff810624f8                  nop    DWORD PTR [rax+rax*1+0x0]</span></span><br><span class="line"><span class="string">   0xffffffff81062500 &lt;native_halt+0&gt;  push   rbp</span></span><br><span class="line"><span class="string">   0xffffffff81062501 &lt;native_halt+1&gt;  mov    rbp, rsp</span></span><br><span class="line"><span class="string">   0xffffffff81062504 &lt;native_halt+4&gt;  hlt</span></span><br><span class="line"><span class="string">────────────────────────────────────────── source:./arch/x86/incl[...].h+50 ────</span></span><br><span class="line"><span class="string">     45	 &#125;</span></span><br><span class="line"><span class="string">     46</span></span><br><span class="line"><span class="string">     47	 static inline void native_safe_halt(void)</span></span><br><span class="line"><span class="string">     48	 &#123;</span></span><br><span class="line"><span class="string">     49	 	asm volatile("sti; hlt": : :"memory");</span></span><br><span class="line"><span class="string"> →   50	 &#125;</span></span><br><span class="line"><span class="string">     51</span></span><br><span class="line"><span class="string">     52	 static inline void native_halt(void)</span></span><br><span class="line"><span class="string">     53	 &#123;</span></span><br><span class="line"><span class="string">     54	 	asm volatile("hlt": : :"memory");</span></span><br><span class="line"><span class="string">     55	 &#125;</span></span><br><span class="line"><span class="string">─────────────────────────────────────────────────────────────────── threads ────</span></span><br><span class="line"><span class="string">[#0] Id 1, Name: "", stopped, reason: SIGTRAP</span></span><br><span class="line"><span class="string">───────────────────────────────────────────────────────────────────── trace ────</span></span><br><span class="line"><span class="string">[#0] 0xffffffff810624f6 → native_safe_halt()</span></span><br><span class="line"><span class="string">[#1] 0xffffffff81020cee → arch_safe_halt()</span></span><br><span class="line"><span class="string">[#2] 0xffffffff81020cee → default_idle()</span></span><br><span class="line"><span class="string">[#3] 0xffffffff8102147f → arch_cpu_idle()</span></span><br><span class="line"><span class="string">[#4] 0xffffffff810c06fa → default_idle_call()</span></span><br><span class="line"><span class="string">[#5] 0xffffffff810c0a37 → cpuidle_idle_call()</span></span><br><span class="line"><span class="string">[#6] 0xffffffff810c0a37 → cpu_idle_loop()</span></span><br><span class="line"><span class="string">[#7] 0xffffffff810c0a37 → cpu_startup_entry(state=&lt;optimized out&gt;)</span></span><br><span class="line"><span class="string">[#8] 0xffffffff8181accc → rest_init()</span></span><br><span class="line"><span class="string">[#9] 0xffffffff81d7f023 → start_kernel()</span></span><br><span class="line"><span class="string">────────────────────────────────────────────────────────────────────────────────</span></span><br><span class="line"><span class="string">gef➤  b cmdline_proc_show</span></span><br><span class="line"><span class="string">Breakpoint 1 at 0xffffffff81276000: file fs/proc/cmdline.c, line 7.</span></span><br><span class="line"><span class="string">gef➤  c</span></span><br><span class="line"><span class="string">Continuing.</span></span><br></pre></td></tr></table></figure>
-<p>在终端输入<code>cat /proc/cmdline</code>后会被断点断下来：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/ <span class="comment"># id</span></span><br><span class="line">uid=0 gid=0</span><br><span class="line">/ <span class="comment"># whoami</span></span><br><span class="line">whoami: unknown uid 0</span><br><span class="line">/ <span class="comment"># pwd</span></span><br><span class="line">/</span><br><span class="line">/ <span class="comment"># cat /proc/cmdline</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">qemu-system-x86_64 -kernel $KERNEL_SRC/arch/x86_64/boot/bzImage -initrd $BUSYBOX_SRC/rootfs.img -append &quot;console=ttyS0 root=/dev/ram rdinit=/sbin/init&quot; -cpu kvm64,+smep,+smap --nographic -gdb tcp::1234
+</code></pre>
+<h1 id="Finally-it-Kind-of-Works"><a href="#Finally-it-Kind-of-Works" class="headerlink" title="Finally it Kind-of Works"></a>Finally it Kind-of Works</h1><p>接下来可以用 <code>gdb</code> 进行调试，同时尝试在函数 <code>cmdline_proc_show()</code> 处下断点：</p>
+<pre><code class="bash">➜  ~ gdb -ex &quot;target remote localhost:1234&quot; $KERNEL_SRC/vmlinux
+GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;
+and &quot;show warranty&quot; for details.
+This GDB was configured as &quot;x86_64-linux-gnu&quot;.
+Type &quot;show configuration&quot; for configuration details.
+For bug reporting instructions, please see:
+&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
+Find the GDB manual and other documentation resources online at:
+&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+For help, type &quot;help&quot;.
+Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...
+GEF for linux ready, type `gef&#39; to start, `gef config&#39; to configure
+79 commands loaded for GDB 7.11.1 using Python engine 3.5
+[*] 1 command could not be loaded, run `gef missing` to know why.
+Reading symbols from /home/assassinq/linux-4.4.1/vmlinux...done.
+warning: File &quot;/home/assassinq/linux-4.4.1/scripts/gdb/vmlinux-gdb.py&quot; auto-loading has been declined by your `auto-load safe-path&#39; set to &quot;$debugdir:$datadir/auto-load&quot;.
+To enable execution of this file add
+    add-auto-load-safe-path /home/assassinq/linux-4.4.1/scripts/gdb/vmlinux-gdb.py
+line to your configuration file &quot;/home/assassinq/.gdbinit&quot;.
+To completely disable this security protection add
+    set auto-load safe-path /
+line to your configuration file &quot;/home/assassinq/.gdbinit&quot;.
+For more information about this security protection see the
+&quot;Auto-loading safe path&quot; section in the GDB manual.  E.g., run from the shell:
+    info &quot;(gdb)Auto-loading safe path&quot;
+Remote debugging using localhost:1234
+native_safe_halt () at ./arch/x86/include/asm/irqflags.h:50
+50    }
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0000000000000000  →  0x0000000000000000
+$rbx   : 0xffffffff81d585c0  →  0x0000000000000001  →  0x0000000000000001
+$rcx   : 0x0000000000000000  →  0x0000000000000000
+$rdx   : 0x0000000000000000  →  0x0000000000000000
+$rsp   : 0xffffffff81bf7e98  →  &lt;init_thread_union+16024&gt; mov eax, 0xff81bf7e
+$rbp   : 0xffffffff81bf7e98  →  &lt;init_thread_union+16024&gt; mov eax, 0xff81bf7e
+$rsi   : 0x0000000000000000  →  0x0000000000000000
+$rdi   : 0x0000000000000000  →  0x0000000000000000
+$rip   : 0xffffffff810624f6  →  0x000000841f0fc35d  →  0x000000841f0fc35d
+$r8    : 0xffff88000760db60  →  0x0000000000000000  →  0x0000000000000000
+$r9    : 0x0000000000000000  →  0x0000000000000000
+$r10   : 0x0000000000000333  →  0x0000000000000333
+$r11   : 0xffff880006d8bde0  →  0x0000000000000400  →  0x0000000000000400
+$r12   : 0x0000000000000000  →  0x0000000000000000
+$r13   : 0x0000000000000000  →  0x0000000000000000
+$r14   : 0x0000000000000000  →  0x0000000000000000
+$r15   : 0xffffffff81bf4000  →  &lt;init_thread_union+0&gt; add BYTE PTR [rbp-0x40], dl
+$eflags: [carry PARITY adjust ZERO sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0010 $ss: 0x0018 $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+───────────────────────────────────────────────────────────────────── stack ────
+[!] Unmapped address
+─────────────────────────────────────────────────────────────── code:x86:64 ────
+   0xffffffff810624f1 &lt;native_safe_halt+1&gt; mov    rbp, rsp
+   0xffffffff810624f4 &lt;native_safe_halt+4&gt; sti
+   0xffffffff810624f5 &lt;native_safe_halt+5&gt; hlt
+   0xffffffff810624f6 &lt;native_safe_halt+6&gt; pop    rbp
+   0xffffffff810624f7 &lt;native_safe_halt+7&gt; ret
+   0xffffffff810624f8                  nop    DWORD PTR [rax+rax*1+0x0]
+   0xffffffff81062500 &lt;native_halt+0&gt;  push   rbp
+   0xffffffff81062501 &lt;native_halt+1&gt;  mov    rbp, rsp
+   0xffffffff81062504 &lt;native_halt+4&gt;  hlt
+────────────────────────────────────────── source:./arch/x86/incl[...].h+50 ────
+     45     }
+     46
+     47     static inline void native_safe_halt(void)
+     48     {
+     49         asm volatile(&quot;sti; hlt&quot;: : :&quot;memory&quot;);
+ →   50     }
+     51
+     52     static inline void native_halt(void)
+     53     {
+     54         asm volatile(&quot;hlt&quot;: : :&quot;memory&quot;);
+     55     }
+─────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;&quot;, stopped, reason: SIGTRAP
+───────────────────────────────────────────────────────────────────── trace ────
+[#0] 0xffffffff810624f6 → native_safe_halt()
+[#1] 0xffffffff81020cee → arch_safe_halt()
+[#2] 0xffffffff81020cee → default_idle()
+[#3] 0xffffffff8102147f → arch_cpu_idle()
+[#4] 0xffffffff810c06fa → default_idle_call()
+[#5] 0xffffffff810c0a37 → cpuidle_idle_call()
+[#6] 0xffffffff810c0a37 → cpu_idle_loop()
+[#7] 0xffffffff810c0a37 → cpu_startup_entry(state=&lt;optimized out&gt;)
+[#8] 0xffffffff8181accc → rest_init()
+[#9] 0xffffffff81d7f023 → start_kernel()
+────────────────────────────────────────────────────────────────────────────────
+gef➤  b cmdline_proc_show
+Breakpoint 1 at 0xffffffff81276000: file fs/proc/cmdline.c, line 7.
+gef➤  c
+Continuing.
+</code></pre>
+<p>在终端输入 <code>cat /proc/cmdline</code> 后会被断点断下来：</p>
+<pre><code class="bash">/ # id
+uid=0 gid=0
+/ # whoami
+whoami: unknown uid 0
+/ # pwd
+/
+/ # cat /proc/cmdline
+</code></pre>
 <p>可以跟着源码调试了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">Breakpoint 1, cmdline_proc_show (m=0xffff880005f7c180, v=0x1 &lt;irq_stack_union+1&gt;) at fs/proc/cmdline.c:7</span><br><span class="line">7	&#123;</span><br><span class="line">[ Legend: Modified register | Code | Heap | Stack | String ]</span><br><span class="line">───────────────────────────────────────────────────────────────── registers ────</span><br><span class="line">$rax   : 0xffff880000047ee0  →   push rax</span><br><span class="line">$rbx   : 0x0000000000000000  →  0x0000000000000000</span><br><span class="line">$rcx   : 0x0000000000003014  →  0x0000000000003014</span><br><span class="line">$rdx   : 0x0000000000003013  →  0x0000000000003013</span><br><span class="line">$rsp   : 0xffff880005fc3868  →   mov esp, 0xff812245</span><br><span class="line">$rbp   : 0xffff880005fc38d0  →   lock cmp ah, bh</span><br><span class="line">$rsi   : 0x0000000000000001  →  0x0000000000000001</span><br><span class="line">$rdi   : 0xffff880005f7c180  →   add BYTE PTR [rax], al</span><br><span class="line">$rip   : 0xffffffff81276000  →  &lt;cmdline_proc_show+0&gt; nop DWORD PTR [rax+rax*1+0x0]</span><br><span class="line">$r8    : 0xffff880007619bc0  →   add BYTE PTR [rax-0xc], al</span><br><span class="line">$r9    : 0xffff880005f40000  →   add BYTE PTR [rax-0xc], al</span><br><span class="line">$r10   : 0x0000000000000001  →  0x0000000000000001</span><br><span class="line">$r11   : 0xffff880005fc4000  →  0x0000000000000000  →  0x0000000000000000</span><br><span class="line">$r12   : 0xffff880005fc3a88  →  0x0000000000000000  →  0x0000000000000000</span><br><span class="line">$r13   : 0xffff880005f7d000  →  0x0000000000000000  →  0x0000000000000000</span><br><span class="line">$r14   : 0xffff880005f7c180  →   add BYTE PTR [rax], al</span><br><span class="line">$r15   : 0x0000000000000001  →  0x0000000000000001</span><br><span class="line">$eflags: [CARRY parity adjust zero sign trap INTERRUPT direction overflow resume virtualx86 identification]</span><br><span class="line">$cs: 0x0010 $ss: 0x0018 $ds: 0x0000 $es: 0x0000 $fs: 0x0063 $gs: 0x0000</span><br><span class="line">───────────────────────────────────────────────────────────────────── stack ────</span><br><span class="line">[!] Unmapped address</span><br><span class="line">─────────────────────────────────────────────────────────────── code:x86:64 ────</span><br><span class="line">   0xffffffff81275ff7 &lt;cmdline_proc_open+23&gt; repnz  cli</span><br><span class="line">   0xffffffff81275ff9 &lt;cmdline_proc_open+25&gt; call   FWORD PTR [rbp-0x3d]</span><br><span class="line">   0xffffffff81275ffc                  nop    DWORD PTR [rax+0x0]</span><br><span class="line">   0xffffffff81276000 &lt;cmdline_proc_show+0&gt; nop    DWORD PTR [rax+rax*1+0x0]</span><br><span class="line">   0xffffffff81276005 &lt;cmdline_proc_show+5&gt; push   rbp</span><br><span class="line">   0xffffffff81276006 &lt;cmdline_proc_show+6&gt; mov    rdx, QWORD PTR [rip+0xcccffb]        # 0xffffffff81f43008 &lt;saved_command_line&gt;</span><br><span class="line">   0xffffffff8127600d &lt;cmdline_proc_show+13&gt; mov    rsi, 0xffffffff81b454d3</span><br><span class="line">   0xffffffff81276014 &lt;cmdline_proc_show+20&gt; mov    rbp, rsp</span><br><span class="line">   0xffffffff81276017 &lt;cmdline_proc_show+23&gt; call   0xffffffff81224970 &lt;seq_printf&gt;</span><br><span class="line">──────────────────────────────────────────────── source:fs/proc/cmdline.c+7 ────</span><br><span class="line">      2	 #include &lt;linux/init.h&gt;</span><br><span class="line">      3	 #include &lt;linux/proc_fs.h&gt;</span><br><span class="line">      4	 #include &lt;linux/seq_file.h&gt;</span><br><span class="line">      5</span><br><span class="line">      6	 static int cmdline_proc_show(struct seq_file *m, void *v)</span><br><span class="line"> →    7	 &#123;</span><br><span class="line">      8	 	seq_printf(m, &quot;%s\n&quot;, saved_command_line);</span><br><span class="line">      9	 	return 0;</span><br><span class="line">     10	 &#125;</span><br><span class="line">     11</span><br><span class="line">     12	 static int cmdline_proc_open(struct inode *inode, struct file *file)</span><br><span class="line">─────────────────────────────────────────────────────────────────── threads ────</span><br><span class="line">[#0] Id 1, Name: &quot;&quot;, stopped, reason: BREAKPOINT</span><br><span class="line">───────────────────────────────────────────────────────────────────── trace ────</span><br><span class="line">[#0] 0xffffffff81276000 → cmdline_proc_show(m=0xffff880005f7c180, v=0x1 &lt;irq_stack_union+1&gt;)</span><br><span class="line">[#1] 0xffffffff812245bc → seq_read(file=0xffff880005f7d000, buf=&lt;optimized out&gt;, size=&lt;optimized out&gt;, ppos=0xffff880005fc3a88)</span><br><span class="line">[#2] 0xffffffff8126d4e2 → proc_reg_read(file=&lt;optimized out&gt;, buf=&lt;optimized out&gt;, count=&lt;optimized out&gt;, ppos=&lt;optimized out&gt;)</span><br><span class="line">[#3] 0xffffffff811fff55 → do_loop_readv_writev(filp=&lt;optimized out&gt;, iter=0xffff880005fc3958, ppos=0xffff880005fc3a88, fn=0xffffffff8126d4a0 &lt;proc_reg_read&gt;)</span><br><span class="line">[#4] 0xffffffff81200d52 → do_readv_writev(type=0x0, file=0xffff880005f7d000, uvector=&lt;optimized out&gt;, nr_segs=&lt;optimized out&gt;, pos=0xffff880005fc3a88)</span><br><span class="line">[#5] 0xffffffff81200da6 → vfs_readv(file=&lt;optimized out&gt;, vec=&lt;optimized out&gt;, vlen=&lt;optimized out&gt;, pos=&lt;optimized out&gt;)</span><br><span class="line">[#6] 0xffffffff8123283a → kernel_readv(offset=&lt;optimized out&gt;, vlen=&lt;optimized out&gt;, vec=&lt;optimized out&gt;, file=&lt;optimized out&gt;)</span><br><span class="line">[#7] 0xffffffff8123283a → default_file_splice_read(in=&lt;optimized out&gt;, ppos=&lt;optimized out&gt;, pipe=&lt;optimized out&gt;, len=0xff0000, flags=&lt;optimized out&gt;)</span><br><span class="line">[#8] 0xffffffff81231209 → do_splice_to(in=0xffff880005f7d000, ppos=0xffff880005fc3df0, pipe=0xffff880005f7c300, len=0x1000000, flags=0x0)</span><br><span class="line">[#9] 0xffffffff812312da → splice_direct_to_actor(in=&lt;optimized out&gt;, sd=0x1 &lt;irq_stack_union+1&gt;, actor=&lt;optimized out&gt;)</span><br><span class="line">────────────────────────────────────────────────────────────────────────────────</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<pre><code class="gdb">...
+Breakpoint 1, cmdline_proc_show (m=0xffff880005f7c180, v=0x1 &lt;irq_stack_union+1&gt;) at fs/proc/cmdline.c:7
+7    {
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────── registers ────
+$rax   : 0xffff880000047ee0  →   push rax
+$rbx   : 0x0000000000000000  →  0x0000000000000000
+$rcx   : 0x0000000000003014  →  0x0000000000003014
+$rdx   : 0x0000000000003013  →  0x0000000000003013
+$rsp   : 0xffff880005fc3868  →   mov esp, 0xff812245
+$rbp   : 0xffff880005fc38d0  →   lock cmp ah, bh
+$rsi   : 0x0000000000000001  →  0x0000000000000001
+$rdi   : 0xffff880005f7c180  →   add BYTE PTR [rax], al
+$rip   : 0xffffffff81276000  →  &lt;cmdline_proc_show+0&gt; nop DWORD PTR [rax+rax*1+0x0]
+$r8    : 0xffff880007619bc0  →   add BYTE PTR [rax-0xc], al
+$r9    : 0xffff880005f40000  →   add BYTE PTR [rax-0xc], al
+$r10   : 0x0000000000000001  →  0x0000000000000001
+$r11   : 0xffff880005fc4000  →  0x0000000000000000  →  0x0000000000000000
+$r12   : 0xffff880005fc3a88  →  0x0000000000000000  →  0x0000000000000000
+$r13   : 0xffff880005f7d000  →  0x0000000000000000  →  0x0000000000000000
+$r14   : 0xffff880005f7c180  →   add BYTE PTR [rax], al
+$r15   : 0x0000000000000001  →  0x0000000000000001
+$eflags: [CARRY parity adjust zero sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0010 $ss: 0x0018 $ds: 0x0000 $es: 0x0000 $fs: 0x0063 $gs: 0x0000
+───────────────────────────────────────────────────────────────────── stack ────
+[!] Unmapped address
+─────────────────────────────────────────────────────────────── code:x86:64 ────
+   0xffffffff81275ff7 &lt;cmdline_proc_open+23&gt; repnz  cli
+   0xffffffff81275ff9 &lt;cmdline_proc_open+25&gt; call   FWORD PTR [rbp-0x3d]
+   0xffffffff81275ffc                  nop    DWORD PTR [rax+0x0]
+   0xffffffff81276000 &lt;cmdline_proc_show+0&gt; nop    DWORD PTR [rax+rax*1+0x0]
+   0xffffffff81276005 &lt;cmdline_proc_show+5&gt; push   rbp
+   0xffffffff81276006 &lt;cmdline_proc_show+6&gt; mov    rdx, QWORD PTR [rip+0xcccffb]        # 0xffffffff81f43008 &lt;saved_command_line&gt;
+   0xffffffff8127600d &lt;cmdline_proc_show+13&gt; mov    rsi, 0xffffffff81b454d3
+   0xffffffff81276014 &lt;cmdline_proc_show+20&gt; mov    rbp, rsp
+   0xffffffff81276017 &lt;cmdline_proc_show+23&gt; call   0xffffffff81224970 &lt;seq_printf&gt;
+──────────────────────────────────────────────── source:fs/proc/cmdline.c+7 ────
+      2     #include &lt;linux/init.h&gt;
+      3     #include &lt;linux/proc_fs.h&gt;
+      4     #include &lt;linux/seq_file.h&gt;
+      5
+      6     static int cmdline_proc_show(struct seq_file *m, void *v)
+ →    7     {
+      8         seq_printf(m, &quot;%s\n&quot;, saved_command_line);
+      9         return 0;
+     10     }
+     11
+     12     static int cmdline_proc_open(struct inode *inode, struct file *file)
+─────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────── trace ────
+[#0] 0xffffffff81276000 → cmdline_proc_show(m=0xffff880005f7c180, v=0x1 &lt;irq_stack_union+1&gt;)
+[#1] 0xffffffff812245bc → seq_read(file=0xffff880005f7d000, buf=&lt;optimized out&gt;, size=&lt;optimized out&gt;, ppos=0xffff880005fc3a88)
+[#2] 0xffffffff8126d4e2 → proc_reg_read(file=&lt;optimized out&gt;, buf=&lt;optimized out&gt;, count=&lt;optimized out&gt;, ppos=&lt;optimized out&gt;)
+[#3] 0xffffffff811fff55 → do_loop_readv_writev(filp=&lt;optimized out&gt;, iter=0xffff880005fc3958, ppos=0xffff880005fc3a88, fn=0xffffffff8126d4a0 &lt;proc_reg_read&gt;)
+[#4] 0xffffffff81200d52 → do_readv_writev(type=0x0, file=0xffff880005f7d000, uvector=&lt;optimized out&gt;, nr_segs=&lt;optimized out&gt;, pos=0xffff880005fc3a88)
+[#5] 0xffffffff81200da6 → vfs_readv(file=&lt;optimized out&gt;, vec=&lt;optimized out&gt;, vlen=&lt;optimized out&gt;, pos=&lt;optimized out&gt;)
+[#6] 0xffffffff8123283a → kernel_readv(offset=&lt;optimized out&gt;, vlen=&lt;optimized out&gt;, vec=&lt;optimized out&gt;, file=&lt;optimized out&gt;)
+[#7] 0xffffffff8123283a → default_file_splice_read(in=&lt;optimized out&gt;, ppos=&lt;optimized out&gt;, pipe=&lt;optimized out&gt;, len=0xff0000, flags=&lt;optimized out&gt;)
+[#8] 0xffffffff81231209 → do_splice_to(in=0xffff880005f7d000, ppos=0xffff880005fc3df0, pipe=0xffff880005f7c300, len=0x1000000, flags=0x0)
+[#9] 0xffffffff812312da → splice_direct_to_actor(in=&lt;optimized out&gt;, sd=0x1 &lt;irq_stack_union+1&gt;, actor=&lt;optimized out&gt;)
+────────────────────────────────────────────────────────────────────────────────
+...
+</code></pre>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://xz.aliyun.com/t/2306" target="_blank" rel="noopener">https://xz.aliyun.com/t/2306</a><br><a href="https://n132.github.io/2019/07/14/2019-07-14-kernel-Outset/" target="_blank" rel="noopener">https://n132.github.io/2019/07/14/2019-07-14-kernel-Outset/</a><br><a href="https://github.com/firmianay/CTF-All-In-One/blob/master/doc/4.1_linux_kernel_debug.md" target="_blank" rel="noopener">https://github.com/firmianay/CTF-All-In-One/blob/master/doc/4.1_linux_kernel_debug.md</a><br><a href="http://blog.sina.com.cn/s/blog_3e4774e30102vwqy.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_3e4774e30102vwqy.html</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/08/11/解决gef-missing问题/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>解决gef missing问题</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/08/06/A-trip-of-ret2dl-resolve/">
+                        <span>A trip of ret2dl-resolve</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2019/08/11/解决gef-missing问题/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          解决gef missing问题
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2019/08/06/A-trip-of-ret2dl-resolve/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">A trip of ret2dl-resolve</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Environment"><span class="nav-number">1.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Preparation"><span class="nav-number">2.</span> <span class="nav-text">Preparation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbolic-Files"><span class="nav-number">2.1.</span> <span class="nav-text">Symbolic Files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-Kernel"><span class="nav-number">2.2.</span> <span class="nav-text">Linux Kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Busybox"><span class="nav-number">2.3.</span> <span class="nav-text">Busybox</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Finally-it-Kind-of-Works"><span class="nav-number">3.</span> <span class="nav-text">Finally it Kind-of Works</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "使用QEMU+gdb对Linux Kernel进行调试&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -426,5 +798,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

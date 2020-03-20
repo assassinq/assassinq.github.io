@@ -1,374 +1,736 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Some Linux Category Challenges | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ctfwplinux">
-  
-  
-  
-  
-  <meta name="description" content="在 Byte Bandits CTF 2019 和 WPICTF 2019 中又遇到了 Linux 题，记录记录。">
-<meta name="keywords" content="ctf,wp,linux">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Some Linux Category Challenges">
-<meta property="og:url" content="blog.b3ale.cn/2019/04/15/Some-Linux-Category-Challenges/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="在 Byte Bandits CTF 2019 和 WPICTF 2019 中又遇到了 Linux 题，记录记录。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T05:51:07.050Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Some Linux Category Challenges">
-<meta name="twitter:description" content="在 Byte Bandits CTF 2019 和 WPICTF 2019 中又遇到了 Linux 题，记录记录。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Some Linux Category Challenges - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-Some-Linux-Category-Challenges" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      Some Linux Category Challenges
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/04/15/Some-Linux-Category-Challenges/" class="article-date">
-	  <time datetime="2019-04-15T09:05:27.000Z" itemprop="datePublished">April 15, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  1.7k words
-	  |
-	  9 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在 Byte Bandits CTF 2019 和 WPICTF 2019 中又遇到了 Linux 题，记录记录。</p>
-<a id="more"></a>
-<h1 id="Byte-Bandits-CTF-2019"><a href="#Byte-Bandits-CTF-2019" class="headerlink" title="Byte Bandits CTF 2019"></a>Byte Bandits CTF 2019</h1><h2 id="bash-fu"><a href="#bash-fu" class="headerlink" title="bash-fu"></a>bash-fu</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ nc 13.234.130.76 7002</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (1): Not a tty</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">bash-4.4$ ls</span><br><span class="line">ls</span><br><span class="line">bash: LS: <span class="built_in">command</span> not found</span><br><span class="line">bash-4.4$ <span class="built_in">pwd</span></span><br><span class="line"><span class="built_in">pwd</span></span><br><span class="line">bash: PWD: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
-<p>显然 bash 是区分大小写的，而后台有一个程序把我们输入的命令改成了大写字母。谷歌一下可以找到<a href="https://www.cyberciti.biz/faq/linux-unix-shell-programming-converting-lowercase-uppercase/" target="_blank" rel="noopener">shell 如何将  字母进行大小写转换</a>。然后定义一下变量，执行<code>${l,,}</code>就能执行小写的命令了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4$ l=<span class="string">"ls /"</span></span><br><span class="line">l=<span class="string">"ls /"</span></span><br><span class="line">bash-4.4$ <span class="variable">$&#123;l,,&#125;</span></span><br><span class="line"><span class="variable">$&#123;l,,&#125;</span></span><br><span class="line">bin    etc    jail   media  opt    root   sbin   sys    usr</span><br><span class="line">dev    home   lib    mnt    proc   run    srv    tmp    var</span><br><span class="line">bash-4.4$ l=<span class="string">"ls /jail/"</span></span><br><span class="line">l=<span class="string">"ls /jail/"</span></span><br><span class="line">bash-4.4$ <span class="variable">$&#123;l,,&#125;</span></span><br><span class="line"><span class="variable">$&#123;l,,&#125;</span></span><br><span class="line">flag.txt  jail</span><br><span class="line">bash-4.4$ c=<span class="string">"cat /jail/flag.txt"</span></span><br><span class="line">c=<span class="string">"cat /jail/flag.txt"</span></span><br><span class="line">bash-4.4$ <span class="variable">$&#123;c,,&#125;</span></span><br><span class="line"><span class="variable">$&#123;c,,&#125;</span></span><br><span class="line">flag&#123;b@<span class="variable">$h_jails_are_3asy_p3</span>@sy&#125;</span><br></pre></td></tr></table></figure>
-<p>看一下<code>jail</code>，主要就是把小写字母替换成了大写：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4$ cat jail</span><br><span class="line">cat jail</span><br><span class="line"><span class="function"><span class="title">preexec</span></span> () &#123;</span><br><span class="line">    filtered=$(<span class="built_in">echo</span> <span class="variable">$BASH_COMMAND</span> | tr <span class="string">'[:lower:]'</span> <span class="string">'[:upper:]'</span>)</span><br><span class="line">    <span class="built_in">eval</span> <span class="variable">$filtered</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">preexec_invoke_exec</span></span> () &#123;</span><br><span class="line">    [ -n <span class="string">"<span class="variable">$COMP_LINE</span>"</span> ] &amp;&amp; <span class="built_in">return</span>  <span class="comment"># do nothing if completing</span></span><br><span class="line">    [ <span class="string">"<span class="variable">$BASH_COMMAND</span>"</span> = <span class="string">"<span class="variable">$PROMPT_COMMAND</span>"</span> ] &amp;&amp; <span class="built_in">return</span> <span class="comment"># don't cause a preexec for $PROMPT_COMMAND</span></span><br><span class="line">    [ <span class="string">"<span class="variable">$BASH_COMMAND</span>"</span> = <span class="string">"shopt -s extdebug"</span> ] &amp;&amp; <span class="built_in">return</span></span><br><span class="line">    preexec</span><br><span class="line">    <span class="built_in">return</span> 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">shopt</span> -s extdebug</span><br><span class="line"><span class="built_in">set</span> -o <span class="built_in">noglob</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">'preexec_invoke_exec'</span> DEBUG &amp;&amp; <span class="built_in">shopt</span> -s extdebug</span><br><span class="line"></span><br><span class="line"><span class="comment"># vim:ft=sh</span></span><br></pre></td></tr></table></figure>
-<p>还看到另外有一种做法是，用<code>$0</code>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4$ <span class="variable">$0</span></span><br><span class="line"><span class="variable">$0</span></span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (1): Not a tty</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">bash: /root/.bashrc: Permission denied</span><br><span class="line">bash-4.4$ <span class="built_in">cd</span> /jail</span><br><span class="line"><span class="built_in">cd</span> /jail</span><br><span class="line">bash-4.4$ ls</span><br><span class="line">ls</span><br><span class="line">flag.txt  jail</span><br><span class="line">bash-4.4$ cat flag.txt</span><br><span class="line">cat flag.txt</span><br><span class="line">flag&#123;b@<span class="variable">$h_jails_are_3asy_p3</span>@sy&#125;</span><br></pre></td></tr></table></figure>
-<p>测试了一下发现<code>$0</code>表示当前使用的 shell：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@152486b98e3d:~<span class="comment"># echo $0</span></span><br><span class="line">/bin/bash</span><br><span class="line">root@152486b98e3d:~<span class="comment"># $0</span></span><br><span class="line">root@152486b98e3d:~<span class="comment"># exit</span></span><br><span class="line">root@152486b98e3d:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-<h1 id="WPICTF-2019"><a href="#WPICTF-2019" class="headerlink" title="WPICTF 2019"></a>WPICTF 2019</h1><h2 id="suckmore-shell"><a href="#suckmore-shell" class="headerlink" title="suckmore-shell"></a>suckmore-shell</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ssh ctf@107.21.60.114</span><br><span class="line">ctf@107.21.60.114<span class="string">'s password:</span></span><br><span class="line"><span class="string">SuckMORE shell v1.0.1. Note: for POSIX support update to v1.1.0</span></span><br><span class="line"><span class="string">suckmore&gt;ls</span></span><br><span class="line"><span class="string">suckmore&gt;ls -h</span></span><br><span class="line"><span class="string">sleep: invalid option -- '</span>h<span class="string">'</span></span><br><span class="line"><span class="string">Try '</span>sleep --<span class="built_in">help</span><span class="string">' for more information.</span></span><br><span class="line"><span class="string">suckmore&gt;dir</span></span><br><span class="line"><span class="string">bin  boot  dev	etc  home  lib	lib64  lost+found  media  mnt  opt  proc  root	run  sbin  srv	sys  tmp  usr  var</span></span><br><span class="line"><span class="string">suckmore&gt;cd home</span></span><br><span class="line"><span class="string">cal: failed to parse timestamp or unknown month name: home</span></span><br></pre></td></tr></table></figure>
-<p><code>ls</code>被<code>alias</code>成了<code>sleep</code>，<code>cd</code>也变成了<code>cal</code>，可以用<code>dir</code>来代替<code>ls</code>。尝试用<code>$0</code>无果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">suckmore&gt;$0</span><br><span class="line">SuckMORE shell v1.0.1. Note: for POSIX support update to v1.1.0</span><br><span class="line">suckmore&gt;sh</span><br><span class="line">Why would you ever want to leave suckmore shell?</span><br></pre></td></tr></table></figure>
-<p>这里用<code>exec</code>来换 shell：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">suckmore&gt;<span class="built_in">exec</span> /bin/sh</span><br><span class="line">suckmore&gt;ls</span><br><span class="line">sh: /usr/bin/ls: Permission denied</span><br><span class="line">suckmore&gt;dir</span><br><span class="line">bin  boot  dev	etc  home  lib	lib64  lost+found  media  mnt  opt  proc  root	run  sbin  srv	sys  tmp  usr  var</span><br><span class="line">suckmore&gt;<span class="built_in">cd</span> home</span><br><span class="line">suckmore&gt;dir</span><br><span class="line">ctf</span><br><span class="line">suckmore&gt;<span class="built_in">cd</span> ctf</span><br><span class="line">suckmore&gt;dir</span><br><span class="line">flag</span><br><span class="line">suckmore&gt;cat flag</span><br><span class="line">sh: /usr/bin/cat: Permission denied</span><br><span class="line">suckmore&gt;sed <span class="string">''</span> flag</span><br><span class="line">WPI&#123;bash_sucks0194342&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="pseudo-random"><a href="#pseudo-random" class="headerlink" title="pseudo-random"></a>pseudo-random</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ ssh ctf@prand.wpictf.xyz</span><br><span class="line">ctf@prand.wpictf.xyz<span class="string">'s password:</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">bin  boot  dev	etc  home  lib	lib64  lost+found  media  mnt  opt  proc  root	run  sbin  srv	sys  tmp  usr  var</span></span><br><span class="line"><span class="string">sh-4.4$ cd home</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">ctf</span></span><br><span class="line"><span class="string">sh-4.4$ cd ctf</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">sh-4.4$ ls -a</span></span><br><span class="line"><span class="string">.  ..  .bash_logout  .bash_profile  .bashrc</span></span><br><span class="line"><span class="string">sh-4.4$ cd /</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">bin  boot  dev	etc  home  lib	lib64  lost+found  media  mnt  opt  proc  root	run  sbin  srv	sys  tmp  usr  var</span></span><br><span class="line"><span class="string">sh-4.4$ cd dev</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">console  core  fd  full  mqueue  null  ptmx  pts  random  shm  stderr  stdin  stdout  tty  urandom  zero</span></span><br><span class="line"><span class="string">sh-4.4$ file *random</span></span><br><span class="line"><span class="string">random:  openssl enc'</span>d data with salted password</span><br><span class="line">urandom: ASCII text</span><br></pre></td></tr></table></figure>
-<p>根据题目的提示，在 dev 目录下找到了一个不寻常的文件。通过<code>openssl</code>解密<code>aes-256-cbc</code>，指定解密文件为<code>random</code>，指定口令存放文件为<code>urandom</code>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sh-4.4$ openssl enc -d -aes-256-cbc -<span class="keyword">in</span> random -kfile urandom</span><br><span class="line">*** WARNING : deprecated key derivation used.</span><br><span class="line">Using -iter or -pbkdf2 would be better.</span><br><span class="line">Being holy <span class="keyword">in</span> our church means installing a wholly free operating system--GNU/Linux is a good choice--and not putting any non-free software on your computer. Join the Church of Emacs, and you too can be a saint!</span><br><span class="line">And lo, it came to pass, that the neophyte encountered the Beplattered One and humbly posed the question <span class="string">"Oh great master, is it a sin to use vi?"</span> And St. IGNUcuis dist thus reply unto him, <span class="string">"No, my young hacker friend, it is not a sin. It is a penance."</span></span><br><span class="line">WPI&#123;@11_Ur_d3v1c3s_r_b3l0ng_2_us&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="crond"><a href="#crond" class="headerlink" title="crond"></a>crond</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ ssh ctf@crond.wpictf.xyz</span><br><span class="line">ctf@crond.wpictf.xyz<span class="string">'s password:</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">bin  boot  dev	etc  home  lib	lib64  lost+found  media  mnt  opt  proc  root	run  sbin  srv	sys  tmp  usr  var</span></span><br><span class="line"><span class="string">sh-4.4$ cd home</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">ctf</span></span><br><span class="line"><span class="string">sh-4.4$ cd ctf</span></span><br><span class="line"><span class="string">sh-4.4$ ls</span></span><br><span class="line"><span class="string">sh-4.4$ ls -a</span></span><br><span class="line"><span class="string">.  ..  .bash_logout  .bash_profile  .bashrc</span></span><br><span class="line"><span class="string">sh-4.4$ cd /</span></span><br></pre></td></tr></table></figure>
-<p>找了一圈没什么收获，尝试看看进程下有什么特殊的地方：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sh-4.4$ ps</span><br><span class="line">sh: ps: command not found</span><br><span class="line">sh-4.4$ ls /proc</span><br><span class="line">1    acpi	cpuinfo    execdomains	ioports    kmsg		mdstat	 net	       self	 sysrq-trigger	version</span><br><span class="line">10   buddyinfo	crypto	   fb		irq	   kpagecgroup	meminfo  pagetypeinfo  slabinfo  sysvipc	version_signature</span><br><span class="line">11   bus	devices    filesystems	kallsyms   kpagecount	misc	 partitions    softirqs  thread-self	vmallocinfo</span><br><span class="line">320  cgroups	diskstats  fs		kcore	   kpageflags	modules  sched_debug   stat	 timer_list	vmstat</span><br><span class="line">321  cmdline	dma	   interrupts	key-users  loadavg	mounts	 schedstat     swaps	 tty		xen</span><br><span class="line">8    consoles	driver	   iomem	keys	   locks	mtrr	 scsi	       sys	 uptime		zoneinfo</span><br><span class="line">sh-4.4$ cd proc</span><br><span class="line">sh-4.4$ for i in `ls */cmdline`; do cat -A $i; echo &apos;&apos;; done</span><br><span class="line">/bin/bash^@/bin/init_d^@</span><br><span class="line">su^@ctf^@</span><br><span class="line">sh^@</span><br><span class="line">sleep^@1^@</span><br><span class="line">cat: 1482/cmdline: No such file or directory</span><br><span class="line"></span><br><span class="line">/bin/bash^@/usr/bin/fakecron^@</span><br><span class="line">cat^@-A^@self/cmdline^@</span><br><span class="line">cat^@-A^@thread-self/cmdline^@</span><br></pre></td></tr></table></figure>
-<p>尝试把每个进程的<code>cmdline</code>读出来，发现了跑着一个叫<code>/usr/bin/fakcron</code>的东西。<code>cron</code>是运用 Linux 所不可缺少的工具，可用来定期的管理获取日志的软件，定期的检查系统状态，可用来监视进程或者其它主机是否正常运行。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">sh-4.4$ sed <span class="string">''</span> /usr/bin/fakecron</span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Cron. But worse.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Copyright (c) 2019, SuckMore Software, a division of WPI Digital Holdings Ltd.</span></span><br><span class="line"><span class="comment"># Redistribution and use in source and binary forms, with or without</span></span><br><span class="line"><span class="comment"># modification, are permitted provided that the following conditions are met:</span></span><br><span class="line"><span class="comment"># 1. Redistributions of source code must retain the above copyrig</span></span><br><span class="line"><span class="comment">#    notice, this list of conditions and the following disclaimer.</span></span><br><span class="line"><span class="comment"># 2. Redistributions in binary form must reproduce the above copyright</span></span><br><span class="line"><span class="comment">#    notice, this list of conditions and the following disclaimer in the</span></span><br><span class="line"><span class="comment">#    documentation and/or other materials provided with the distribution.</span></span><br><span class="line"><span class="comment"># 3. All advertising materials mentioning features or use of this software</span></span><br><span class="line"><span class="comment">#    must display the following acknowledgement:</span></span><br><span class="line"><span class="comment">#    This product includes software developed by SuckMore Software, a division</span></span><br><span class="line"><span class="comment">#    of WPI Digital Holdings Ltd.</span></span><br><span class="line"><span class="comment"># 4. Neither the name of the SuckMore Software, a division of WPI Digital Holdings</span></span><br><span class="line"><span class="comment">#    Ltd, nor the names of its contributors may be used to endorse or promote</span></span><br><span class="line"><span class="comment">#    products derived from this software without specific prior written permission.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># THIS SOFTWARE IS PROVIDED BY SuckMore Software, a division of</span></span><br><span class="line"><span class="comment"># WPI Digital Holdings Ltd., ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,</span></span><br><span class="line"><span class="comment"># INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND</span></span><br><span class="line"><span class="comment"># FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL</span></span><br><span class="line"><span class="comment"># SuckMore Software, a division of WPI Digital Holdings Ltd.</span></span><br><span class="line"><span class="comment"># DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span></span><br><span class="line"><span class="comment"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span></span><br><span class="line"><span class="comment"># LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND</span></span><br><span class="line"><span class="comment"># ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></span><br><span class="line"><span class="comment"># (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span></span><br><span class="line"><span class="comment"># SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></span><br><span class="line"></span><br><span class="line">file=<span class="string">"/etc/deadline"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">cron</span></span>() &#123;</span><br><span class="line">    second=0</span><br><span class="line">    minute=0</span><br><span class="line">    hour=0</span><br><span class="line">    day=1;</span><br><span class="line">    month=1;</span><br><span class="line">    year=2019;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span></span><br><span class="line">        sleep 1;</span><br><span class="line">        target_second=`cut -d <span class="string">" "</span> -f 6 <span class="variable">$file</span>`</span><br><span class="line">        target_minute=`cut -d <span class="string">" "</span> -f 5 <span class="variable">$file</span>`</span><br><span class="line">        target_hour=`cut -d <span class="string">" "</span> -f 4 <span class="variable">$file</span>`</span><br><span class="line">        target_day=`cut -d <span class="string">" "</span> -f 3 <span class="variable">$file</span>`</span><br><span class="line">        target_month=`cut -d <span class="string">" "</span> -f 2 <span class="variable">$file</span>`</span><br><span class="line">        target_year=`cut -d <span class="string">" "</span> -f 1 <span class="variable">$file</span>`</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$second</span>"</span> -eq 59 ]]; <span class="keyword">then</span></span><br><span class="line">            minute=$((minute+1));</span><br><span class="line">            second=0;</span><br><span class="line">        <span class="keyword">elif</span> [[ <span class="string">"<span class="variable">$minute</span>"</span> -eq 59 ]]; <span class="keyword">then</span></span><br><span class="line">            hour=$((hour+1));</span><br><span class="line">            second=0;</span><br><span class="line">            minute=0;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            second=$((second+1));</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$year</span>"</span> -eq <span class="string">"<span class="variable">$target_year</span>"</span> ]] \</span><br><span class="line">            &amp;&amp; [[ <span class="string">"<span class="variable">$month</span>"</span> -eq <span class="string">"<span class="variable">$target_month</span>"</span> ]] \</span><br><span class="line">            &amp;&amp; [[ <span class="string">"<span class="variable">$day</span>"</span> -eq <span class="string">"<span class="variable">$target_day</span>"</span> ]] \</span><br><span class="line">            &amp;&amp; [[ <span class="string">"<span class="variable">$hour</span>"</span> -eq <span class="string">"<span class="variable">$target_second</span>"</span> ]] \</span><br><span class="line">            &amp;&amp; [[ <span class="string">"<span class="variable">$minute</span>"</span> -eq <span class="string">"<span class="variable">$target_minute</span>"</span> ]] \</span><br><span class="line">            &amp;&amp; [[ <span class="string">"<span class="variable">$second</span>"</span> -eq <span class="string">"<span class="variable">$target_hour</span>"</span> ]]; <span class="keyword">then</span></span><br><span class="line">            <span class="comment"># echo "WPI&#123;&#125;" &gt; /home/ctf/flag.txt</span></span><br><span class="line">            exec_flag</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">        rm /etc/faketimerc</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"<span class="variable">$year</span>-<span class="variable">$month</span>-<span class="variable">$day</span> <span class="variable">$hour</span>:<span class="variable">$minute</span>:<span class="variable">$second</span>"</span> &gt; /etc/faketimerc</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cron &amp;</span><br></pre></td></tr></table></figure>
-<p>发现只要在<code>/etc/faketimerc</code>中的时间和<code>/etc/deadline</code>中的值相同的时候，就会在家目录生成 flag：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sh-4.4$ cat /etc/faketimerc</span><br><span class="line">2019-1-1 0:0:11</span><br><span class="line">sh-4.4$ cat /etc/deadline</span><br><span class="line">2020 1 1 0 1 0</span><br><span class="line">sh-4.4$ <span class="built_in">echo</span> <span class="string">"2019 1 1 0 2 0"</span> &gt; /etc/deadline</span><br><span class="line">sh-4.4$ cat /etc/faketimerc</span><br><span class="line">2019-1-1 0:2:51</span><br><span class="line">sh-4.4$ ls /home/ctf/</span><br><span class="line">flag.txt</span><br><span class="line">sh-4.4$ cat /home/ctf/flag.txt</span><br><span class="line"><span class="string">"WPI&#123;L1nUxH@ck3r01a4&#125;"</span></span><br></pre></td></tr></table></figure>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.cyberciti.biz/faq/linux-unix-shell-programming-converting-lowercase-uppercase/" target="_blank" rel="noopener">https://www.cyberciti.biz/faq/linux-unix-shell-programming-converting-lowercase-uppercase/</a><br><a href="https://dark-lambda.com/2019/04/14/ctf/bytebandits-ctf-2019/bash-fu/" target="_blank" rel="noopener">https://dark-lambda.com/2019/04/14/ctf/bytebandits-ctf-2019/bash-fu/</a><br><a href="https://www.youtube.com/watch?v=RgcchGiTxpk" target="_blank" rel="noopener">https://www.youtube.com/watch?v=RgcchGiTxpk</a><br><a href="https://infosec.rm-it.de/2019/04/15/wpictf-2019-linux-category/" target="_blank" rel="noopener">https://infosec.rm-it.de/2019/04/15/wpictf-2019-linux-category/</a><br><a href="https://blog.51cto.com/shjia/1427138" target="_blank" rel="noopener">https://blog.51cto.com/shjia/1427138</a><br><a href="https://www.netkiller.cn/cryptography/openssl/index.html" target="_blank" rel="noopener">https://www.netkiller.cn/cryptography/openssl/index.html</a><br><a href="http://man.linuxde.net/openssl" target="_blank" rel="noopener">http://man.linuxde.net/openssl</a><br><a href="https://www.cnblogs.com/wang_yb/p/3804200.html" target="_blank" rel="noopener">https://www.cnblogs.com/wang_yb/p/3804200.html</a></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
-
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2019/04/29/2019-Starctf-quicksort/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          2019-Starctf-quicksort
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/03/31/2019-b00t2root-CTF/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">2019-b00t2root-CTF</div>
-    </a>
-  
 </nav>
 
-  
-</article>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
 
-<!-- Table of Contents -->
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Monday, April 15th 2019, 5:05 pm
+                </p>
+              
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Byte-Bandits-CTF-2019"><span class="nav-number">1.</span> <span class="nav-text">Byte Bandits CTF 2019</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bash-fu"><span class="nav-number">1.1.</span> <span class="nav-text">bash-fu</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WPICTF-2019"><span class="nav-number">2.</span> <span class="nav-text">WPICTF 2019</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#suckmore-shell"><span class="nav-number">2.1.</span> <span class="nav-text">suckmore-shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pseudo-random"><span class="nav-number">2.2.</span> <span class="nav-text">pseudo-random</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#crond"><span class="nav-number">2.3.</span> <span class="nav-text">crond</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol>
-    
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.9k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      10 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
     </div>
-  </aside>
+  </header>
 
-</section>
-        
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>在 Byte Bandits CTF 2019 和 WPICTF 2019 中又遇到了 Linux 题，记录一下。</p>
+<a id="more"></a>
+<h1 id="Byte-Bandits-CTF-2019"><a href="#Byte-Bandits-CTF-2019" class="headerlink" title="Byte Bandits CTF 2019"></a>Byte Bandits CTF 2019</h1><h2 id="bash-fu"><a href="#bash-fu" class="headerlink" title="bash-fu"></a>bash-fu</h2><pre><code class="bash">$ nc 13.234.130.76 7002
+bash: cannot set terminal process group (1): Not a tty
+bash: no job control in this shell
+bash-4.4$ ls
+ls
+bash: LS: command not found
+bash-4.4$ pwd
+pwd
+bash: PWD: command not found
+</code></pre>
+<p>显然 bash 是区分大小写的，而后台有一个程序把我们输入的命令改成了大写字母。谷歌一下可以找到<a href="https://www.cyberciti.biz/faq/linux-unix-shell-programming-converting-lowercase-uppercase/" target="_blank" rel="noopener">shell 如何将  字母进行大小写转换</a>。然后定义一下变量，执行<code>${l,,}</code>就能执行小写的命令了。</p>
+<pre><code class="bash">bash-4.4$ l=&quot;ls /&quot;
+l=&quot;ls /&quot;
+bash-4.4$ ${l,,}
+${l,,}
+bin    etc    jail   media  opt    root   sbin   sys    usr
+dev    home   lib    mnt    proc   run    srv    tmp    var
+bash-4.4$ l=&quot;ls /jail/&quot;
+l=&quot;ls /jail/&quot;
+bash-4.4$ ${l,,}
+${l,,}
+flag.txt  jail
+bash-4.4$ c=&quot;cat /jail/flag.txt&quot;
+c=&quot;cat /jail/flag.txt&quot;
+bash-4.4$ ${c,,}
+${c,,}
+flag{b@$h_jails_are_3asy_p3@sy}
+</code></pre>
+<p>看一下 <code>jail</code>，主要就是把小写字母替换成了大写：</p>
+<pre><code class="bash">bash-4.4$ cat jail
+cat jail
+preexec () {
+    filtered=$(echo $BASH_COMMAND | tr &#39;[:lower:]&#39; &#39;[:upper:]&#39;)
+    eval $filtered
+}
+preexec_invoke_exec () {
+    [ -n &quot;$COMP_LINE&quot; ] &amp;&amp; return  # do nothing if completing
+    [ &quot;$BASH_COMMAND&quot; = &quot;$PROMPT_COMMAND&quot; ] &amp;&amp; return # don&#39;t cause a preexec for $PROMPT_COMMAND
+    [ &quot;$BASH_COMMAND&quot; = &quot;shopt -s extdebug&quot; ] &amp;&amp; return
+    preexec
+    return 1
+}
+shopt -s extdebug
+set -o noglob
+trap &#39;preexec_invoke_exec&#39; DEBUG &amp;&amp; shopt -s extdebug
+
+# vim:ft=sh
+</code></pre>
+<p>还看到另外有一种做法是，用 <code>$0</code>：</p>
+<pre><code class="bash">bash-4.4$ $0
+$0
+bash: cannot set terminal process group (1): Not a tty
+bash: no job control in this shell
+bash: /root/.bashrc: Permission denied
+bash-4.4$ cd /jail
+cd /jail
+bash-4.4$ ls
+ls
+flag.txt  jail
+bash-4.4$ cat flag.txt
+cat flag.txt
+flag{b@$h_jails_are_3asy_p3@sy}
+</code></pre>
+<p>测试了一下发现 <code>$0</code> 表示当前使用的 shell：</p>
+<pre><code class="bash">root@152486b98e3d:~# echo $0
+/bin/bash
+root@152486b98e3d:~# $0
+root@152486b98e3d:~# exit
+root@152486b98e3d:~#
+</code></pre>
+<h1 id="WPICTF-2019"><a href="#WPICTF-2019" class="headerlink" title="WPICTF 2019"></a>WPICTF 2019</h1><h2 id="suckmore-shell"><a href="#suckmore-shell" class="headerlink" title="suckmore-shell"></a>suckmore-shell</h2><pre><code class="bash">$ ssh ctf@107.21.60.114
+ctf@107.21.60.114&#39;s password:
+SuckMORE shell v1.0.1. Note: for POSIX support update to v1.1.0
+suckmore&gt;ls
+suckmore&gt;ls -h
+sleep: invalid option -- &#39;h&#39;
+Try &#39;sleep --help&#39; for more information.
+suckmore&gt;dir
+bin  boot  dev    etc  home  lib    lib64  lost+found  media  mnt  opt  proc  root    run  sbin  srv    sys  tmp  usr  var
+suckmore&gt;cd home
+cal: failed to parse timestamp or unknown month name: home
+</code></pre>
+<p><code>ls</code> 被 <code>alias</code> 成了 <code>sleep</code>，<code>cd</code> 也变成了 <code>cal</code>，可以用 <code>dir</code> 来代替 <code>ls</code>。尝试用 <code>$0</code> 无果：</p>
+<pre><code>suckmore&gt;$0
+SuckMORE shell v1.0.1. Note: for POSIX support update to v1.1.0
+suckmore&gt;sh
+Why would you ever want to leave suckmore shell?
+</code></pre><p>这里用 <code>exec</code> 来换 shell：</p>
+<pre><code class="bash">suckmore&gt;exec /bin/sh
+suckmore&gt;ls
+sh: /usr/bin/ls: Permission denied
+suckmore&gt;dir
+bin  boot  dev    etc  home  lib    lib64  lost+found  media  mnt  opt  proc  root    run  sbin  srv    sys  tmp  usr  var
+suckmore&gt;cd home
+suckmore&gt;dir
+ctf
+suckmore&gt;cd ctf
+suckmore&gt;dir
+flag
+suckmore&gt;cat flag
+sh: /usr/bin/cat: Permission denied
+suckmore&gt;sed &#39;&#39; flag
+WPI{bash_sucks0194342}
+</code></pre>
+<h2 id="pseudo-random"><a href="#pseudo-random" class="headerlink" title="pseudo-random"></a>pseudo-random</h2><pre><code class="bash">$ ssh ctf@prand.wpictf.xyz
+ctf@prand.wpictf.xyz&#39;s password:
+sh-4.4$ ls
+bin  boot  dev    etc  home  lib    lib64  lost+found  media  mnt  opt  proc  root    run  sbin  srv    sys  tmp  usr  var
+sh-4.4$ cd home
+sh-4.4$ ls
+ctf
+sh-4.4$ cd ctf
+sh-4.4$ ls
+sh-4.4$ ls -a
+.  ..  .bash_logout  .bash_profile  .bashrc
+sh-4.4$ cd /
+sh-4.4$ ls
+bin  boot  dev    etc  home  lib    lib64  lost+found  media  mnt  opt  proc  root    run  sbin  srv    sys  tmp  usr  var
+sh-4.4$ cd dev
+sh-4.4$ ls
+console  core  fd  full  mqueue  null  ptmx  pts  random  shm  stderr  stdin  stdout  tty  urandom  zero
+sh-4.4$ file *random
+random:  openssl enc&#39;d data with salted password
+urandom: ASCII text
+</code></pre>
+<p>根据题目的提示，在 dev 目录下找到了一个不寻常的文件。通过 <code>openssl</code> 解密 <code>aes-256-cbc</code>，指定解密文件为 <code>random</code>，指定口令存放文件为 <code>urandom</code>：</p>
+<pre><code class="bash">sh-4.4$ openssl enc -d -aes-256-cbc -in random -kfile urandom
+*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+Being holy in our church means installing a wholly free operating system--GNU/Linux is a good choice--and not putting any non-free software on your computer. Join the Church of Emacs, and you too can be a saint!
+And lo, it came to pass, that the neophyte encountered the Beplattered One and humbly posed the question &quot;Oh great master, is it a sin to use vi?&quot; And St. IGNUcuis dist thus reply unto him, &quot;No, my young hacker friend, it is not a sin. It is a penance.&quot;
+WPI{@11_Ur_d3v1c3s_r_b3l0ng_2_us}
+</code></pre>
+<h2 id="crond"><a href="#crond" class="headerlink" title="crond"></a>crond</h2><pre><code class="bash">$ ssh ctf@crond.wpictf.xyz
+ctf@crond.wpictf.xyz&#39;s password:
+sh-4.4$ ls
+bin  boot  dev    etc  home  lib    lib64  lost+found  media  mnt  opt  proc  root    run  sbin  srv    sys  tmp  usr  var
+sh-4.4$ cd home
+sh-4.4$ ls
+ctf
+sh-4.4$ cd ctf
+sh-4.4$ ls
+sh-4.4$ ls -a
+.  ..  .bash_logout  .bash_profile  .bashrc
+sh-4.4$ cd /
+</code></pre>
+<p>找了一圈没什么收获，尝试看看进程下有什么特殊的地方：</p>
+<pre><code class="bash">sh-4.4$ ps
+sh: ps: command not found
+sh-4.4$ ls /proc
+1    acpi    cpuinfo    execdomains    ioports    kmsg        mdstat     net           self     sysrq-trigger    version
+10   buddyinfo    crypto       fb        irq       kpagecgroup    meminfo  pagetypeinfo  slabinfo  sysvipc    version_signature
+11   bus    devices    filesystems    kallsyms   kpagecount    misc     partitions    softirqs  thread-self    vmallocinfo
+320  cgroups    diskstats  fs        kcore       kpageflags    modules  sched_debug   stat     timer_list    vmstat
+321  cmdline    dma       interrupts    key-users  loadavg    mounts     schedstat     swaps     tty        xen
+8    consoles    driver       iomem    keys       locks    mtrr     scsi           sys     uptime        zoneinfo
+sh-4.4$ cd proc
+sh-4.4$ for i in `ls */cmdline`; do cat -A $i; echo &#39;&#39;; done
+/bin/bash^@/bin/init_d^@
+su^@ctf^@
+sh^@
+sleep^@1^@
+cat: 1482/cmdline: No such file or directory
+
+/bin/bash^@/usr/bin/fakecron^@
+cat^@-A^@self/cmdline^@
+cat^@-A^@thread-self/cmdline^@
+</code></pre>
+<p>尝试把每个进程的 <code>cmdline</code> 读出来，发现了跑着一个叫 <code>/usr/bin/fakcron</code> 的东西。<code>cron</code> 是运用 Linux 所不可缺少的工具，可用来定期的管理获取日志的软件，定期的检查系统状态，可用来监视进程或者其它主机是否正常运行。</p>
+<pre><code class="bash">sh-4.4$ sed &#39;&#39; /usr/bin/fakecron
+#!/bin/bash
+# Cron. But worse.
+#
+# Copyright (c) 2019, SuckMore Software, a division of WPI Digital Holdings Ltd.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+# 1. Redistributions of source code must retain the above copyrig
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#    This product includes software developed by SuckMore Software, a division
+#    of WPI Digital Holdings Ltd.
+# 4. Neither the name of the SuckMore Software, a division of WPI Digital Holdings
+#    Ltd, nor the names of its contributors may be used to endorse or promote
+#    products derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY SuckMore Software, a division of
+# WPI Digital Holdings Ltd., &#39;&#39;AS IS&#39;&#39; AND ANY EXPRESS OR IMPLIED WARRANTIES,
+# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+# FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+# SuckMore Software, a division of WPI Digital Holdings Ltd.
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+file=&quot;/etc/deadline&quot;
+
+cron() {
+    second=0
+    minute=0
+    hour=0
+    day=1;
+    month=1;
+    year=2019;
+
+    while true; do
+        sleep 1;
+        target_second=`cut -d &quot; &quot; -f 6 $file`
+        target_minute=`cut -d &quot; &quot; -f 5 $file`
+        target_hour=`cut -d &quot; &quot; -f 4 $file`
+        target_day=`cut -d &quot; &quot; -f 3 $file`
+        target_month=`cut -d &quot; &quot; -f 2 $file`
+        target_year=`cut -d &quot; &quot; -f 1 $file`
+
+        if [[ &quot;$second&quot; -eq 59 ]]; then
+            minute=$((minute+1));
+            second=0;
+        elif [[ &quot;$minute&quot; -eq 59 ]]; then
+            hour=$((hour+1));
+            second=0;
+            minute=0;
+        else
+            second=$((second+1));
+        fi
+
+        if [[ &quot;$year&quot; -eq &quot;$target_year&quot; ]] \
+            &amp;&amp; [[ &quot;$month&quot; -eq &quot;$target_month&quot; ]] \
+            &amp;&amp; [[ &quot;$day&quot; -eq &quot;$target_day&quot; ]] \
+            &amp;&amp; [[ &quot;$hour&quot; -eq &quot;$target_second&quot; ]] \
+            &amp;&amp; [[ &quot;$minute&quot; -eq &quot;$target_minute&quot; ]] \
+            &amp;&amp; [[ &quot;$second&quot; -eq &quot;$target_hour&quot; ]]; then
+            # echo &quot;WPI{}&quot; &gt; /home/ctf/flag.txt
+            exec_flag
+        fi
+
+        rm /etc/faketimerc
+        echo &quot;$year-$month-$day $hour:$minute:$second&quot; &gt; /etc/faketimerc
+    done
+}
+
+cron &amp;
+</code></pre>
+<p>发现只要在 <code>/etc/faketimerc</code> 中的时间和 <code>/etc/deadline</code> 中的值相同的时候，就会在家目录生成 flag：</p>
+<pre><code class="bash">sh-4.4$ cat /etc/faketimerc
+2019-1-1 0:0:11
+sh-4.4$ cat /etc/deadline
+2020 1 1 0 1 0
+sh-4.4$ echo &quot;2019 1 1 0 2 0&quot; &gt; /etc/deadline
+sh-4.4$ cat /etc/faketimerc
+2019-1-1 0:2:51
+sh-4.4$ ls /home/ctf/
+flag.txt
+sh-4.4$ cat /home/ctf/flag.txt
+&quot;WPI{L1nUxH@ck3r01a4}&quot;
+</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.cyberciti.biz/faq/linux-unix-shell-programming-converting-lowercase-uppercase/" target="_blank" rel="noopener">https://www.cyberciti.biz/faq/linux-unix-shell-programming-converting-lowercase-uppercase/</a><br><a href="https://dark-lambda.com/2019/04/14/ctf/bytebandits-ctf-2019/bash-fu/" target="_blank" rel="noopener">https://dark-lambda.com/2019/04/14/ctf/bytebandits-ctf-2019/bash-fu/</a><br><a href="https://www.youtube.com/watch?v=RgcchGiTxpk" target="_blank" rel="noopener">https://www.youtube.com/watch?v=RgcchGiTxpk</a><br><a href="https://infosec.rm-it.de/2019/04/15/wpictf-2019-linux-category/" target="_blank" rel="noopener">https://infosec.rm-it.de/2019/04/15/wpictf-2019-linux-category/</a><br><a href="https://blog.51cto.com/shjia/1427138" target="_blank" rel="noopener">https://blog.51cto.com/shjia/1427138</a><br><a href="https://www.netkiller.cn/cryptography/openssl/index.html" target="_blank" rel="noopener">https://www.netkiller.cn/cryptography/openssl/index.html</a><br><a href="http://man.linuxde.net/openssl" target="_blank" rel="noopener">http://man.linuxde.net/openssl</a><br><a href="https://www.cnblogs.com/wang_yb/p/3804200.html" target="_blank" rel="noopener">https://www.cnblogs.com/wang_yb/p/3804200.html</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/04/29/2019-Starctf-quicksort/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>2019-Starctf-quicksort</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/03/31/2019-b00t2root-CTF/">
+                        <span>2019-b00t2root-CTF</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
       </div>
-
     </div>
-    <!-- <nav id="mobile-nav">
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
   
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
       </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Some Linux Category Challenges&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -386,5 +748,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

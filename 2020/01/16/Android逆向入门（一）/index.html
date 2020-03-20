@@ -1,161 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Android逆向入门（一） | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="reandroid">
-  
-  
-  
-  
-  <meta name="description" content="开始学习安卓。">
-<meta name="keywords" content="re,android">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android逆向入门（一）">
-<meta property="og:url" content="blog.b3ale.cn/2020/01/16/Android逆向入门（一）/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="开始学习安卓。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-02-18T09:11:55.785Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android逆向入门（一）">
-<meta name="twitter:description" content="开始学习安卓。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Android逆向入门（一） - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-Android逆向入门（一）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      Android逆向入门（一）
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2020/01/16/Android逆向入门（一）/" class="article-date">
-	  <time datetime="2020-01-16T06:41:48.000Z" itemprop="datePublished">January 16, 2020</time>
-	</a>
-
-       
-      
-
-	  |
-	  2.2k words
-	  |
-	  10 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Thursday, January 16th 2020, 2:41 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.2k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      10 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>开始学习安卓。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>开始学习安卓。</p>
 <a id="more"></a>
 <h1 id="APK-的组成"><a href="#APK-的组成" class="headerlink" title="APK 的组成"></a>APK 的组成</h1><ul>
 <li>asset 文件夹<ul>
@@ -204,9 +212,16 @@
 <li>…</li>
 </ul>
 <h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><h3 id="Smali-函数（使用-P-V-寄存器）"><a href="#Smali-函数（使用-P-V-寄存器）" class="headerlink" title="Smali 函数（使用 P-V 寄存器）"></a>Smali 函数（使用 P-V 寄存器）</h3><p>在 smali 里的所有操作都必须经过寄存器来进行：本地寄存器用 v 开头、数字结尾的符号来表示，如 v0、v1、v2 等；参数寄存器则使用 p 开头、数字结尾的符号来表示，如 p0、p1、p2 等。特别注意的是，p0 不一定是函数中的第一个参数，在非 static 函数中，p0 代指 this，p1 表示函数的第一个参数，p2 代表函数中的第二个参数；而在 static 函数中 p0 才对应第一个参数（因为 Java 的 static 方法中没有 this 方法）。</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.method</span> 访问修饰符 函数名 函数签名</span><br><span class="line"><span class="keyword">    .locals</span> n <span class="comment"># 使用 n 个寄存器，即 v0~v(n-1)</span></span><br><span class="line"><span class="keyword">    .param</span> p1, <span class="string">"savedInstanceState"</span> <span class="comment"># Landroid/os/Bundle # 注释</span></span><br><span class="line"><span class="keyword">    .</span>.. <span class="comment"># 函数实现</span></span><br><span class="line">   <span class="built_in"> return-xxx </span><span class="comment"># 返回</span></span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure>
+<pre><code class="smali">.method 访问修饰符 函数名 函数签名
+    .locals n # 使用 n 个寄存器，即 v0~v(n-1)
+    .param p1, &quot;savedInstanceState&quot; # Landroid/os/Bundle # 注释
+    ... # 函数实现
+    return-xxx # 返回
+.end method
+</code></pre>
 <h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><p>参数通过寄存器传递（Pn、Vn）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke&#123;参数&#125;, 方法名</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">Invoke{参数}, 方法名
+</code></pre>
 <h2 id="Smali-字段描述符"><a href="#Smali-字段描述符" class="headerlink" title="Smali 字段描述符"></a>Smali 字段描述符</h2><table>
 <thead>
 <tr>
@@ -357,14 +372,18 @@
 </table>
 <h2 id="Smali-中函数的调用"><a href="#Smali-中函数的调用" class="headerlink" title="Smali 中函数的调用"></a>Smali 中函数的调用</h2><p>函数分为 direct 和 virtual 两种类型。direct method 就是 private 函数，其余的 public 和 protected 函数都属于 virtual method。</p>
 <h3 id="invoke-static"><a href="#invoke-static" class="headerlink" title="invoke-static"></a><code>invoke-static</code></h3><p>调用静态函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-static &#123;v0&#125;, Ljava/lang/System;-&gt;loadLibrary(Ljava/lang/String;)V</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">invoke-static {v0}, Ljava/lang/System;-&gt;loadLibrary(Ljava/lang/String;)V
+</code></pre>
 <h3 id="invoke-super"><a href="#invoke-super" class="headerlink" title="invoke-super"></a><code>invoke-super</code></h3><p>调用父类方法用的指令（一般用于调用 onCreate、onDestroy）。</p>
 <h3 id="invoke-direct"><a href="#invoke-direct" class="headerlink" title="invoke-direct"></a><code>invoke-direct</code></h3><p>调用 private 函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-direct &#123;p0&#125;, Landroid/app/TabActivity;-&gt;&lt;init&gt;()V</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">invoke-direct {p0}, Landroid/app/TabActivity;-&gt;&lt;init&gt;()V
+</code></pre>
 <h3 id="invoke-virtual"><a href="#invoke-virtual" class="headerlink" title="invoke-virtual"></a><code>invoke-virtual</code></h3><p>用于调用 protected 或 public 函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual &#123;v0,v1&#125;, Lcom/ccc;-&gt;Message(Ljava/lang/Object;)V</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">invoke-virtual {v0,v1}, Lcom/ccc;-&gt;Message(Ljava/lang/Object;)V
+</code></pre>
 <h3 id="invoke-xxxxx-range"><a href="#invoke-xxxxx-range" class="headerlink" title="invoke-xxxxx/range"></a><code>invoke-xxxxx/range</code></h3><p>当方法参数多于 5 个时（含 5 个），不能直接使用以上指令，而是在后面加上 <code>/range</code> 表示范围。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-direct/range &#123;v0 .. v5&#125;, Lcmb/pb/ui/PBContainerActivity;-&gt;h(ILjava/lang/CharSequence;Ljava/lang/String;Landroid/content/Intent;I)Z</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">invoke-direct/range {v0 .. v5}, Lcmb/pb/ui/PBContainerActivity;-&gt;h(ILjava/lang/CharSequence;Ljava/lang/String;Landroid/content/Intent;I)Z
+</code></pre>
 <h2 id="Smali-中的条件跳转分支"><a href="#Smali-中的条件跳转分支" class="headerlink" title="Smali 中的条件跳转分支"></a>Smali 中的条件跳转分支</h2><table>
 <thead>
 <tr>
@@ -423,25 +442,88 @@
 </tr>
 </tbody>
 </table>
-<h2 id="Smali-代码编写"><a href="#Smali-代码编写" class="headerlink" title="Smali 代码编写"></a>Smali 代码编写</h2><h3 id="静态返回-HelloWorld-的方法"><a href="#静态返回-HelloWorld-的方法" class="headerlink" title="静态返回 HelloWorld 的方法"></a>静态返回 HelloWorld 的方法</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.class</span><span class="keyword"> public</span> <span class="class">Lf8/helloworld/helloStr;</span> <span class="comment"># 类声明</span></span><br><span class="line"><span class="keyword">    .super</span> <span class="class">Ljava/lang/Object;</span> <span class="comment"># 父类声明</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .method</span><span class="keyword"> public</span><span class="keyword"> static</span> retHello()<span class="class">Ljava/lang/String;</span> <span class="comment"># 函数声明</span></span><br><span class="line"><span class="keyword">    .locals</span> 1 <span class="comment"># 寄存器数量</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> const-string </span>v0, <span class="string">"Hello World from StaticMethod"</span> <span class="comment"># 新建字符串</span></span><br><span class="line">   <span class="built_in"> return-object </span>v0 <span class="comment"># 返回Object类型</span></span><br><span class="line"><span class="keyword">.end method</span> <span class="comment"># 方法结束声明</span></span><br></pre></td></tr></table></figure>
-<h3 id="返回静态-field-的方法"><a href="#返回静态-field-的方法" class="headerlink" title="返回静态 field 的方法"></a>返回静态 field 的方法</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.field</span><span class="keyword"> public</span><span class="keyword"> static</span><span class="keyword"> final</span> hStr:<span class="class">Ljava/lang/String;</span> = <span class="string">"Hello World from static field"</span> <span class="comment"># field声明与初始化</span></span><br><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span><span class="keyword"> static</span> retHello2()<span class="class">Ljava/lang/String;</span></span><br><span class="line"><span class="keyword">    .locals</span> 1</span><br><span class="line">   <span class="built_in"> sget-object </span>v0, <span class="class">Lf8/helloworld/helloStr;</span>-&gt;hStr:<span class="class">Ljava/lang/String;</span> <span class="comment"># 获取field</span></span><br><span class="line">   <span class="built_in"> return-object </span>v0</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure>
-<h3 id="普通的函数"><a href="#普通的函数" class="headerlink" title="普通的函数"></a>普通的函数</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span><span class="keyword"> constructor</span> &lt;init&gt;()V</span><br><span class="line"><span class="keyword">    .locals</span> 0</span><br><span class="line">   <span class="built_in"> invoke-direct </span>&#123;p0&#125;, <span class="class">Ljava/lang/Object;</span>-&gt;&lt;init&gt;()V</span><br><span class="line">    return-void</span><br><span class="line"><span class="keyword">.end method</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span> retHello3()<span class="class">Ljava/lang/String;</span></span><br><span class="line"><span class="keyword">    .locals</span> 1</span><br><span class="line">   <span class="built_in"> const-string </span>v0, <span class="string">"Hello World from Method"</span></span><br><span class="line">   <span class="built_in"> return-object </span>v0</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure>
-<h3 id="普通的-field-与函数"><a href="#普通的-field-与函数" class="headerlink" title="普通的 field 与函数"></a>普通的 field 与函数</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.field</span><span class="keyword"> public</span> hStr2:<span class="class">Ljava/lang/String;</span></span><br><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span><span class="keyword"> constructor</span> &lt;init&gt;()V</span><br><span class="line"><span class="keyword">    .locals</span> 1</span><br><span class="line">   <span class="built_in"> invoke-direct </span>&#123;p0&#125;, <span class="class">Ljava/lang/Object;</span>-&gt;&lt;init&gt;()V</span><br><span class="line">   <span class="built_in"> const-string </span>v0, <span class="string">"Hello field"</span> <span class="comment"># 初始化非静态field</span></span><br><span class="line">   <span class="built_in"> iput-object </span>v0, p0, <span class="class">Lf8/helloworld/helloStr;</span>-&gt;hStr2:<span class="class">Ljava/lang/String;</span></span><br><span class="line">    return-void</span><br><span class="line"><span class="keyword">.end method</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span> retHello4()<span class="class">Ljava/lang/String;</span></span><br><span class="line"><span class="keyword">    .locals</span> 1</span><br><span class="line">   <span class="built_in"> iget-object </span>v0, p0, <span class="class">Lf8/helloworld/helloStr;</span>-&gt;hStr2:<span class="class">Ljava/lang/String;</span></span><br><span class="line">   <span class="built_in"> return-object </span>v0</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure>
+<h2 id="Smali-代码编写"><a href="#Smali-代码编写" class="headerlink" title="Smali 代码编写"></a>Smali 代码编写</h2><h3 id="静态返回-HelloWorld-的方法"><a href="#静态返回-HelloWorld-的方法" class="headerlink" title="静态返回 HelloWorld 的方法"></a>静态返回 HelloWorld 的方法</h3><pre><code class="smali">.class public Lf8/helloworld/helloStr; # 类声明
+    .super Ljava/lang/Object; # 父类声明
+
+    .method public static retHello()Ljava/lang/String; # 函数声明
+    .locals 1 # 寄存器数量
+
+    const-string v0, &quot;Hello World from StaticMethod&quot; # 新建字符串
+    return-object v0 # 返回Object类型
+.end method # 方法结束声明
+</code></pre>
+<h3 id="返回静态-field-的方法"><a href="#返回静态-field-的方法" class="headerlink" title="返回静态 field 的方法"></a>返回静态 field 的方法</h3><pre><code class="smali">.field public static final hStr:Ljava/lang/String; = &quot;Hello World from static field&quot; # field声明与初始化
+.method public static retHello2()Ljava/lang/String;
+    .locals 1
+    sget-object v0, Lf8/helloworld/helloStr;-&gt;hStr:Ljava/lang/String; # 获取field
+    return-object v0
+.end method
+</code></pre>
+<h3 id="普通的函数"><a href="#普通的函数" class="headerlink" title="普通的函数"></a>普通的函数</h3><pre><code class="smali">.method public constructor &lt;init&gt;()V
+    .locals 0
+    invoke-direct {p0}, Ljava/lang/Object;-&gt;&lt;init&gt;()V
+    return-void
+.end method
+
+.method public retHello3()Ljava/lang/String;
+    .locals 1
+    const-string v0, &quot;Hello World from Method&quot;
+    return-object v0
+.end method
+</code></pre>
+<h3 id="普通的-field-与函数"><a href="#普通的-field-与函数" class="headerlink" title="普通的 field 与函数"></a>普通的 field 与函数</h3><pre><code class="smali">.field public hStr2:Ljava/lang/String;
+.method public constructor &lt;init&gt;()V
+    .locals 1
+    invoke-direct {p0}, Ljava/lang/Object;-&gt;&lt;init&gt;()V
+    const-string v0, &quot;Hello field&quot; # 初始化非静态field
+    iput-object v0, p0, Lf8/helloworld/helloStr;-&gt;hStr2:Ljava/lang/String;
+    return-void
+.end method
+
+.method public retHello4()Ljava/lang/String;
+    .locals 1
+    iget-object v0, p0, Lf8/helloworld/helloStr;-&gt;hStr2:Ljava/lang/String;
+    return-object v0
+.end method
+</code></pre>
 <p>调用时需要先初始化一个实例：</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new-instance v1, <span class="class">Lf8/helloworld/helloStr;</span></span><br><span class="line">invoke-direct &#123;v1&#125;, <span class="class">Lf8/helloworld/helloStr;</span>-&gt;&lt;init&gt;()V</span><br><span class="line">invoke-virtual &#123;v1&#125;, <span class="class">Lf8/helloworld/helloStr;</span>-&gt;retHello3()<span class="class">Ljava/lang/String;</span></span><br><span class="line">move-result-object v1</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">new-instance v1, Lf8/helloworld/helloStr;
+invoke-direct {v1}, Lf8/helloworld/helloStr;-&gt;&lt;init&gt;()V
+invoke-virtual {v1}, Lf8/helloworld/helloStr;-&gt;retHello3()Ljava/lang/String;
+move-result-object v1
+</code></pre>
 <h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><h3 id="Android-Log"><a href="#Android-Log" class="headerlink" title="Android Log"></a>Android Log</h3><p>来自于包 <code>android/killer/log</code>。</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-static &#123;v0&#125;, <span class="class">Lcom/android/killer/Log;</span>-&gt;LogStr(<span class="class">Ljava/lang/String;</span>)V</span><br></pre></td></tr></table></figure>
-<h3 id="LoadLibrary"><a href="#LoadLibrary" class="headerlink" title="LoadLibrary"></a>LoadLibrary</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-static &#123;v0&#125;, <span class="class">Ljava/lang/System;</span>-&gt;loadLibrary(<span class="class">Ljava/lang/String;</span>)V</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">invoke-static {v0}, Lcom/android/killer/Log;-&gt;LogStr(Ljava/lang/String;)V
+</code></pre>
+<h3 id="LoadLibrary"><a href="#LoadLibrary" class="headerlink" title="LoadLibrary"></a>LoadLibrary</h3><pre><code class="smali">invoke-static {v0}, Ljava/lang/System;-&gt;loadLibrary(Ljava/lang/String;)V
+</code></pre>
 <h3 id="stackTrace"><a href="#stackTrace" class="headerlink" title="stackTrace"></a>stackTrace</h3><p>打印当前函数堆栈，方法为 <code>Thread.dumpStack()</code>。</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-static &#123;&#125;, <span class="class">Ljava/lang/Thread;</span>-&gt;dumpStack()V</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">invoke-static {}, Ljava/lang/Thread;-&gt;dumpStack()V
+</code></pre>
 <h3 id="Method-Trace"><a href="#Method-Trace" class="headerlink" title="Method Trace"></a>Method Trace</h3><p>函数跟踪。</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">invoke-static &#123;&#125;, <span class="class">Landroid/os/Debug;</span>-&gt;startMethodTracing()V</span><br><span class="line">invoke-static &#123;&#125;, <span class="class">Landroid/os/Debug;</span>-&gt;stopMethodTracing()V</span><br></pre></td></tr></table></figure>
+<pre><code class="smali">invoke-static {}, Landroid/os/Debug;-&gt;startMethodTracing()V
+invoke-static {}, Landroid/os/Debug;-&gt;stopMethodTracing()V
+</code></pre>
 <p>需要添加权限。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_EXTERNAL_STORAGE"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="xml">&lt;uses-permission android:name=&quot;android.permission.READ_EXTERNAL_STORAGE&quot;/&gt;
+&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
+</code></pre>
 <p>保存的 trace 文件可以 dump 出来使用 monitor 来打开。</p>
-<h3 id="字符串处理"><a href="#字符串处理" class="headerlink" title="字符串处理"></a>字符串处理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const-string v1, &quot;%d&quot; # 格式化描述符</span><br><span class="line">const/4 v2, 0x1 # 数组长度</span><br><span class="line">new-array v2, v2 [Ljava/lang/Object; # 创建Object数组</span><br><span class="line">aput-object v3, v2, v4 # 填充数组</span><br><span class="line">...</span><br><span class="line">invoke-static &#123;v1, v2&#125;, Ljava/lang/String;-&gt;format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String; # 格式化字符串</span><br><span class="line"># 字符串替换</span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Ljava/lang/String;-&gt;replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;</span><br><span class="line">invoke-virtual &#123;v0, v1, v2&#125;, Ljava/lang/String;-&gt;replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;</span><br></pre></td></tr></table></figure>
-<h3 id="waitForDebugger"><a href="#waitForDebugger" class="headerlink" title="waitForDebugger"></a>waitForDebugger</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-static &#123;&#125;, Landroid/os/Debug;-&gt;waitForDebugger()V</span><br></pre></td></tr></table></figure>
-<h1 id="apktool-ShakaApktool"><a href="#apktool-ShakaApktool" class="headerlink" title="apktool/ShakaApktool"></a>apktool/ShakaApktool</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar apktool.jar d example.apk -o example-dir</span><br><span class="line">java -jar apktool.jar b example-dir -o example.apk</span><br></pre></td></tr></table></figure>
+<h3 id="字符串处理"><a href="#字符串处理" class="headerlink" title="字符串处理"></a>字符串处理</h3><pre><code class="smali">const-string v1, &quot;%d&quot; # 格式化描述符
+const/4 v2, 0x1 # 数组长度
+new-array v2, v2 [Ljava/lang/Object; # 创建Object数组
+aput-object v3, v2, v4 # 填充数组
+...
+invoke-static {v1, v2}, Ljava/lang/String;-&gt;format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String; # 格式化字符串
+# 字符串替换
+invoke-virtual {v0, v1, v2}, Ljava/lang/String;-&gt;replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+invoke-virtual {v0, v1, v2}, Ljava/lang/String;-&gt;replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+</code></pre>
+<h3 id="waitForDebugger"><a href="#waitForDebugger" class="headerlink" title="waitForDebugger"></a>waitForDebugger</h3><pre><code class="smali">invoke-static {}, Landroid/os/Debug;-&gt;waitForDebugger()V
+</code></pre>
+<h1 id="apktool-ShakaApktool"><a href="#apktool-ShakaApktool" class="headerlink" title="apktool/ShakaApktool"></a>apktool/ShakaApktool</h1><pre><code class="bash">java -jar apktool.jar d example.apk -o example-dir
+java -jar apktool.jar b example-dir -o example.apk
+</code></pre>
 <table>
 <thead>
 <tr>
@@ -460,7 +542,9 @@
 </tr>
 </tbody>
 </table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -jar ShakaApktool.jar d -df example.apk -o example-dir</span><br><span class="line">java -jar ShakaApktool.jar b example-dir -o example.apk</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">java -jar ShakaApktool.jar d -df example.apk -o example-dir
+java -jar ShakaApktool.jar b example-dir -o example.apk
+</code></pre>
 <table>
 <thead>
 <tr>
@@ -485,192 +569,307 @@
 </ol>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.bilibili.com/video/av45424886" target="_blank" rel="noopener">https://www.bilibili.com/video/av45424886</a><br><a href="https://www.52pojie.cn/thread-395689-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-395689-1-1.html</a><br><a href="https://www.52pojie.cn/thread-396966-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-396966-1-1.html</a><br><a href="https://www.52pojie.cn/thread-397858-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-397858-1-1.html</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/re/">re</a>
+                    
+                      <a class="hover-with-bg" href="/tags/android/">android</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/01/24/2019-CISCN-strange-int/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>2019-CISCN-strange_int</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/11/27/如何给Linux添加系统调用/">
+                        <span>如何给Linux添加系统调用</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2020/01/24/2019-CISCN-strange-int/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          2019-CISCN-strange_int
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2019/11/27/如何给Linux添加系统调用/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">如何给Linux添加系统调用</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#APK-的组成"><span class="nav-number">1.</span> <span class="nav-text">APK 的组成</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dalvik-字节码"><span class="nav-number">2.</span> <span class="nav-text">Dalvik 字节码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Smali-文件结构"><span class="nav-number">3.</span> <span class="nav-text">Smali 文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#头部定义"><span class="nav-number">3.1.</span> <span class="nav-text">头部定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域定义"><span class="nav-number">3.2.</span> <span class="nav-text">域定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数定义"><span class="nav-number">3.3.</span> <span class="nav-text">函数定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Smali-函数（使用-P-V-寄存器）"><span class="nav-number">3.3.1.</span> <span class="nav-text">Smali 函数（使用 P-V 寄存器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数调用"><span class="nav-number">3.3.2.</span> <span class="nav-text">函数调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smali-字段描述符"><span class="nav-number">3.4.</span> <span class="nav-text">Smali 字段描述符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smali-基本语法"><span class="nav-number">3.5.</span> <span class="nav-text">Smali 基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smali-中函数的调用"><span class="nav-number">3.6.</span> <span class="nav-text">Smali 中函数的调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#invoke-static"><span class="nav-number">3.6.1.</span> <span class="nav-text">invoke-static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invoke-super"><span class="nav-number">3.6.2.</span> <span class="nav-text">invoke-super</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invoke-direct"><span class="nav-number">3.6.3.</span> <span class="nav-text">invoke-direct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invoke-virtual"><span class="nav-number">3.6.4.</span> <span class="nav-text">invoke-virtual</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invoke-xxxxx-range"><span class="nav-number">3.6.5.</span> <span class="nav-text">invoke-xxxxx/range</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smali-中的条件跳转分支"><span class="nav-number">3.7.</span> <span class="nav-text">Smali 中的条件跳转分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smali-代码编写"><span class="nav-number">3.8.</span> <span class="nav-text">Smali 代码编写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态返回-HelloWorld-的方法"><span class="nav-number">3.8.1.</span> <span class="nav-text">静态返回 HelloWorld 的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回静态-field-的方法"><span class="nav-number">3.8.2.</span> <span class="nav-text">返回静态 field 的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通的函数"><span class="nav-number">3.8.3.</span> <span class="nav-text">普通的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通的-field-与函数"><span class="nav-number">3.8.4.</span> <span class="nav-text">普通的 field 与函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Others"><span class="nav-number">3.9.</span> <span class="nav-text">Others</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-Log"><span class="nav-number">3.9.1.</span> <span class="nav-text">Android Log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadLibrary"><span class="nav-number">3.9.2.</span> <span class="nav-text">LoadLibrary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stackTrace"><span class="nav-number">3.9.3.</span> <span class="nav-text">stackTrace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-Trace"><span class="nav-number">3.9.4.</span> <span class="nav-text">Method Trace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串处理"><span class="nav-number">3.9.5.</span> <span class="nav-text">字符串处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#waitForDebugger"><span class="nav-number">3.9.6.</span> <span class="nav-text">waitForDebugger</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apktool-ShakaApktool"><span class="nav-number">4.</span> <span class="nav-text">apktool/ShakaApktool</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安卓-apk-调试（不需要修改原-apk-文件）"><span class="nav-number">5.</span> <span class="nav-text">安卓 apk 调试（不需要修改原 apk 文件）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Android逆向入门（一）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -688,5 +887,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

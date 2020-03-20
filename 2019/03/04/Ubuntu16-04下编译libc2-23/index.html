@@ -1,372 +1,528 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Ubuntu16.04下编译libc2.23 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="linux">
-  
-  
-  
-  
-  <meta name="description" content="为了更好地调试堆，需要自己编译一个带 symbol 的 libc。">
-<meta name="keywords" content="linux">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu16.04下编译libc2.23">
-<meta property="og:url" content="blog.b3ale.cn/2019/03/04/Ubuntu16-04下编译libc2-23/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="为了更好地调试堆，需要自己编译一个带 symbol 的 libc。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T05:50:19.851Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu16.04下编译libc2.23">
-<meta name="twitter:description" content="为了更好地调试堆，需要自己编译一个带 symbol 的 libc。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Ubuntu16.04下编译libc2.23 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-Ubuntu16-04下编译libc2-23" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      Ubuntu16.04下编译libc2.23
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/03/04/Ubuntu16-04下编译libc2-23/" class="article-date">
-	  <time datetime="2019-03-04T13:31:41.000Z" itemprop="datePublished">March 4, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  654 words
-	  |
-	  3 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Monday, March 4th 2019, 9:31 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    677 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      3 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>为了更好地调试堆，需要自己编译一个带 symbol 的 libc。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>为了更好地调试堆，需要自己编译一个带 symbol 的 libc。</p>
 <a id="more"></a>
 <h1 id="环境和工具"><a href="#环境和工具" class="headerlink" title="环境和工具"></a>环境和工具</h1><ul>
 <li>Ubuntu16.04</li>
 <li>glibc-2.23.tar.gz</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">assassinq@ubuntu ~/glibc-2.23/build$ uname -a</span><br><span class="line">Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">assassinq@ubuntu ~/glibc-2.23/build$ uname -a
+Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>从 ftp 上把 glibc 下载下来，解压后新建一个 build 文件夹：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &amp;&amp; wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz \</span><br><span class="line">tar -xvf glibc-2.23.tar.gz &amp;&amp; cd glibc-2.23 \</span><br><span class="line">mkdir build &amp;&amp; cd build # mkdir build32 &amp;&amp; cd build32</span><br></pre></td></tr></table></figure>
-<h1 id="编译过程中的挖坑和填坑"><a href="#编译过程中的挖坑和填坑" class="headerlink" title="编译过程中的挖坑和填坑"></a>编译过程中的挖坑和填坑</h1><p>在 build 文件夹下 configure，并且加上一些必要的参数使得编译时加上 symbol，并且指定输出文件夹：（转自<a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">2016 年 winesap 的社课</a>）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> x64</span></span><br><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">../configure --prefix=/path/to/install</span><br><span class="line"><span class="meta">#</span><span class="bash"> x32</span></span><br><span class="line">CC="gcc -m32" CXX="g++ -m32" \</span><br><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -Og" \</span><br><span class="line">../configure --prefix=/path/to/install --host=i686-linux-gnu</span><br></pre></td></tr></table></figure>
-<p>如果没有任何意外的话就能直接<code>make &amp;&amp; make install</code>编译了。下面记录一下遇到的几个坑。（感谢<a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">n132 大哥的博客</a>）</p>
+<pre><code class="shell">cd &amp;&amp; wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz \
+tar -xvf glibc-2.23.tar.gz &amp;&amp; cd glibc-2.23 \
+mkdir build &amp;&amp; cd build # mkdir build32 &amp;&amp; cd build32
+</code></pre>
+<h1 id="编译过程中的挖坑和填坑"><a href="#编译过程中的挖坑和填坑" class="headerlink" title="编译过程中的挖坑和填坑"></a>编译过程中的挖坑和填坑</h1><p>在 build 文件夹下 configure，并且加上一些必要的参数使得编译时加上 symbol，并且指定输出文件夹：（转自 <a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">2016 年 winesap 的社课</a>）</p>
+<pre><code class="shell"># x64
+CFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og&quot; \
+CXXFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og&quot; \
+../configure --prefix=/path/to/install
+# x32
+CC=&quot;gcc -m32&quot; CXX=&quot;g++ -m32&quot; \
+CFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og&quot; \
+CXXFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og&quot; \
+../configure --prefix=/path/to/install --host=i686-linux-gnu
+</code></pre>
+<p>如果没有任何意外的话就能直接 <code>make &amp;&amp; make install</code> 编译了。下面记录一下遇到的几个坑。（感谢 <a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">n132 大哥的博客</a>）</p>
 <h2 id="0x0-某些安装包缺失"><a href="#0x0-某些安装包缺失" class="headerlink" title="0x0 某些安装包缺失"></a>0x0 某些安装包缺失</h2><p>configure 的时候提示有些安装包缺失，不能生成 Makefile：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configure: error:</span><br><span class="line">*** These critical programs are missing or too old: gawk</span><br><span class="line">*** Check the INSTALL file for required versions.</span><br></pre></td></tr></table></figure>
-<p>根据提示安装一下即可：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install gawk</span><br></pre></td></tr></table></figure>
-<h2 id="0x1-警告提示"><a href="#0x1-警告提示" class="headerlink" title="0x1 警告提示"></a>0x1 警告提示</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">In file included from regex.c:67:0:</span><br><span class="line">regexec.c: In function ‘check_node_accept_bytes’:</span><br><span class="line">regexec.c:3856:29: error: ‘extra’ may be used uninitialized in this function [-Werror=maybe-uninitialized]</span><br><span class="line">        const unsigned char *coll_sym = extra + cset-&gt;coll_syms[i];</span><br><span class="line">                             ^</span><br><span class="line">cc1: all warnings being treated as errors</span><br><span class="line">../o-iterator.mk:9: recipe for target &apos;/home/assassinq/glibc-2.23/build/posix/regex.o&apos; failed</span><br><span class="line">make[2]: *** [/home/assassinq/glibc-2.23/build/posix/regex.o] Error 1</span><br><span class="line">make[2]: Leaving directory &apos;/home/assassinq/glibc-2.23/posix&apos;</span><br><span class="line">Makefile:214: recipe for target &apos;posix/subdir_lib&apos; failed</span><br><span class="line">make[1]: *** [posix/subdir_lib] Error 2</span><br><span class="line">make[1]: Leaving directory &apos;/home/assassinq/glibc-2.23&apos;</span><br><span class="line">Makefile:9: recipe for target &apos;all&apos; failed</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
-<p><code>cc1: all warnings being treated as errors</code>是因为设置了警告提示，这里可以回到之前 configure 的时候，<code>CFLAGS</code>新增加一个参数<code>-Wno-error</code>来去除警告：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og -Wno-error"</span><br></pre></td></tr></table></figure>
-<h2 id="0x2-ld-so-conf缺失"><a href="#0x2-ld-so-conf缺失" class="headerlink" title="0x2 ld.so.conf缺失"></a>0x2 <code>ld.so.conf</code>缺失</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/home/assassinq/glibc-2.23/build/elf/ldconfig: Warning: ignoring configuration file that cannot be opened: /home/assassinq/glibc-2.23/64/etc/ld.so.conf: No such file or directory</span><br><span class="line">make[1]: Leaving directory &apos;/home/assassinq/glibc-2.23&apos;</span><br></pre></td></tr></table></figure>
-<p>这里只需要直接 touch 一个新文件即可：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ../64/etc &amp;&amp; sudo touch ld.so.conf</span><br></pre></td></tr></table></figure>
+<pre><code>configure: error:
+*** These critical programs are missing or too old: gawk
+*** Check the INSTALL file for required versions.
+</code></pre><p>根据提示安装一下即可：</p>
+<pre><code class="shell">sudo apt-get update &amp;&amp; sudo apt-get install gawk
+</code></pre>
+<h2 id="0x1-警告提示"><a href="#0x1-警告提示" class="headerlink" title="0x1 警告提示"></a>0x1 警告提示</h2><pre><code>In file included from regex.c:67:0:
+regexec.c: In function ‘check_node_accept_bytes’:
+regexec.c:3856:29: error: ‘extra’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+        const unsigned char *coll_sym = extra + cset-&gt;coll_syms[i];
+                             ^
+cc1: all warnings being treated as errors
+../o-iterator.mk:9: recipe for target &#39;/home/assassinq/glibc-2.23/build/posix/regex.o&#39; failed
+make[2]: *** [/home/assassinq/glibc-2.23/build/posix/regex.o] Error 1
+make[2]: Leaving directory &#39;/home/assassinq/glibc-2.23/posix&#39;
+Makefile:214: recipe for target &#39;posix/subdir_lib&#39; failed
+make[1]: *** [posix/subdir_lib] Error 2
+make[1]: Leaving directory &#39;/home/assassinq/glibc-2.23&#39;
+Makefile:9: recipe for target &#39;all&#39; failed
+make: *** [all] Error 2
+</code></pre><p><code>cc1: all warnings being treated as errors</code>是因为设置了警告提示，这里可以回到之前 configure 的时候，<code>CFLAGS</code>新增加一个参数<code>-Wno-error</code>来去除警告：</p>
+<pre><code class="shell">CFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og -Wno-error&quot;
+</code></pre>
+<h2 id="0x2-ld-so-conf-缺失"><a href="#0x2-ld-so-conf-缺失" class="headerlink" title="0x2 ld.so.conf 缺失"></a>0x2 <code>ld.so.conf</code> 缺失</h2><pre><code>/home/assassinq/glibc-2.23/build/elf/ldconfig: Warning: ignoring configuration file that cannot be opened: /home/assassinq/glibc-2.23/64/etc/ld.so.conf: No such file or directory
+make[1]: Leaving directory &#39;/home/assassinq/glibc-2.23&#39;
+</code></pre><p>这里只需要直接 touch 一个新文件即可：</p>
+<pre><code class="shell">cd ../64/etc &amp;&amp; sudo touch ld.so.conf
+</code></pre>
 <h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>记录一下调<code>_dl_runtime_resolve</code>的 Makefile：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">all: a</span><br><span class="line">a: a.c</span><br><span class="line">        gcc a.c -o a -Wl, -dynamic-linker /path/to/install/lib/ld-2.23.so -g</span><br></pre></td></tr></table></figure>
-<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/</a><br><a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share</a></p>
+<pre><code>all: a
+a: a.c
+        gcc a.c -o a -Wl, -dynamic-linker /path/to/install/lib/ld-2.23.so -g
+</code></pre><h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/</a><br><a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/03/06/解决VMware下Ubuntu的一些问题/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>解决VMware下Ubuntu的一些问题</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/03/02/[TODO]Shellcode-Tricks/">
+                        <span>Shellcode Tricks</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2019/03/06/解决VMware下Ubuntu的一些问题/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          解决VMware下Ubuntu的一些问题
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2019/03/02/[TODO]Shellcode-Tricks/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Shellcode Tricks</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境和工具"><span class="nav-number">1.</span> <span class="nav-text">环境和工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译过程中的挖坑和填坑"><span class="nav-number">3.</span> <span class="nav-text">编译过程中的挖坑和填坑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x0-某些安装包缺失"><span class="nav-number">3.1.</span> <span class="nav-text">0x0 某些安装包缺失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x1-警告提示"><span class="nav-number">3.2.</span> <span class="nav-text">0x1 警告提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x2-ld-so-conf缺失"><span class="nav-number">3.3.</span> <span class="nav-text">0x2 ld.so.conf缺失</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试"><span class="nav-number">4.</span> <span class="nav-text">调试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Ubuntu16.04下编译libc2.23&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -384,5 +540,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

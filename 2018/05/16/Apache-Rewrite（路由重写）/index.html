@@ -1,453 +1,620 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Apache Rewrite（路由重写） | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="noteweb">
-  
-  
-  
-  
-  <meta name="description" content="Apache Rewrite 能够实现 URL 的跳转和隐藏真实地址。它基于 Perl 语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。">
-<meta name="keywords" content="note,web">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Apache Rewrite（路由重写）">
-<meta property="og:url" content="blog.b3ale.cn/2018/05/16/Apache-Rewrite（路由重写）/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="Apache Rewrite 能够实现 URL 的跳转和隐藏真实地址。它基于 Perl 语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T05:54:53.145Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Apache Rewrite（路由重写）">
-<meta name="twitter:description" content="Apache Rewrite 能够实现 URL 的跳转和隐藏真实地址。它基于 Perl 语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Apache Rewrite（路由重写） - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-Apache-Rewrite（路由重写）" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      Apache Rewrite（路由重写）
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2018/05/16/Apache-Rewrite（路由重写）/" class="article-date">
-	  <time datetime="2018-05-16T05:36:06.000Z" itemprop="datePublished">May 16, 2018</time>
-	</a>
-
-       
-      
-
-	  |
-	  2k words
-	  |
-	  8 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Apache Rewrite 能够实现 URL 的跳转和隐藏真实地址。它基于 Perl 语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。</p>
-<a id="more"></a>
-<h1 id="理解-Apache-Rewrite-的三个核心"><a href="#理解-Apache-Rewrite-的三个核心" class="headerlink" title="理解 Apache Rewrite 的三个核心"></a>理解 Apache Rewrite 的三个核心</h1><h2 id="RewriteEngine"><a href="#RewriteEngine" class="headerlink" title="RewriteEngine"></a>RewriteEngine</h2><p>这个是 rewrite 功能的总开关，用来开启是否启动 url rewrite。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br></pre></td></tr></table></figure>
-<h2 id="RewriteCond"><a href="#RewriteCond" class="headerlink" title="RewriteCond"></a>RewriteCond</h2><p>RewriteCond 就是一个过滤条件，简单来说，当 URL 满足 RewriteCond 配置的条件的情况，就会执行 RewriteCond 下面紧邻的 RewriteRule 语句。</p>
-<p>RewriteCond 和 RewriteRule 是上下对应的关系。可以有 1 个或者好几个 RewriteCond 来匹配一个 RewriteRule。</p>
-<p><code>RewriteCond %{待测试项目} 正则表达式条件</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond  %&#123;HTTP_USER_AGENT&#125;  ^Mozilla//5/.0.*</span><br><span class="line">RewriteRule  index.php            index.m.php</span><br></pre></td></tr></table></figure>
-<p>如果设置上面的匹配规则，到来的 http 请求中的<code>HTTP_USER_AGENT</code>匹配<code>^Mozilla//5/.0.*</code>正则表达式的话，则执行下面的 RewriteRule，也就是说访问路径会跳转到<code>index.m.php</code>这个文件。</p>
-<h2 id="RewriteRule"><a href="#RewriteRule" class="headerlink" title="RewriteRule"></a>RewriteRule</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule Pattern Substitution [flags]</span><br></pre></td></tr></table></figure>
-<p>Pattern 是一个正则匹配。Substitution 是匹配的替换 [flags]是一些参数限制。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule ^room/video/(\d+)\.html web/index\.php?c=room&amp;a=video&amp;r=$1 [QSA,NC,L]</span><br></pre></td></tr></table></figure>
-<p>意思是 以 room 开头的<code>room/video/123.html</code>这样子，变成<code>web/index.php?c=room&amp;a=video&amp;r=123</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule \.(jpg|gif) http://image.baidu.com/ [R,NC,L]</span><br></pre></td></tr></table></figure>
-<p>意思是以为是访问.jpg 或者 gif 的文件，都会调整到<code>http://image.baidu.com</code>。</p>
-<h1 id="重写规则的作用范围"><a href="#重写规则的作用范围" class="headerlink" title="重写规则的作用范围"></a>重写规则的作用范围</h1><ol>
-<li><p>可以使用在 Apache 主配置文件 httpd.conf 中。</p>
-</li>
-<li><p>可以使用在 httpd.conf 里定义的虚拟主机配置中。</p>
-</li>
-<li><p>可以使用在基本目录的跨越配置文件.htaccess 中。</p>
-</li>
-</ol>
-<p>这三种方式，都需要在写规则前，用“RewriteEngine on”指令来打开 rewrite 功能。</p>
-<h1 id="Apache-Rewrite-规则修正符"><a href="#Apache-Rewrite-规则修正符" class="headerlink" title="Apache Rewrite 规则修正符"></a>Apache Rewrite 规则修正符</h1><ol>
-<li>R<a href="force redirect">=code</a> 强制外部重定向</li>
-</ol>
-<p>强制在替代字符串加上<code>http://thishost[:thisport]/</code>前缀重定向到外部的 URL。如果 code 不指定，将用缺省的 302 HTTP 状态码。</p>
-<ol>
-<li><p>F(force URL to be forbidden)禁用 URL,返回 403HTTP 状态码。</p>
-</li>
-<li><p>G(force URL to be gone) 强制 URL 为 GONE，返回 410HTTP 状态码。</p>
-</li>
-<li><p>P(force proxy) 强制使用代理转发。</p>
-</li>
-<li><p>L(last rule) 表明当前规则是最后一条规则，停止分析以后规则的重写。</p>
-</li>
-<li><p>N(next round) 重新从第一条规则开始运行重写过程。</p>
-</li>
-<li><p>C(chained with next rule) 与下一条规则关联</p>
-</li>
-</ol>
-<p>如果规则匹配则正常处理，该标志无效，如果不匹配，那么下面所有关联的规则都跳过。</p>
-<ol>
-<li><p>T=MIME-type(force MIME type) 强制 MIME 类型。</p>
-</li>
-<li><p>NS (used only if no internal sub-request) 只用于不是内部子请求。</p>
-</li>
-<li><p>NC(no case) 不区分大小写。</p>
-</li>
-<li><p>QSA(query string append) 追加请求字符串。</p>
-</li>
-<li><p>NE(no URI escaping of output) 不在输出转义特殊字符。</p>
-</li>
-</ol>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule /foo/(.*) /bar?arg=P1%3d$1 [R,NE] #将能正确的将/foo/zoo转换成/bar?arg=P1=zoo</span><br></pre></td></tr></table></figure>
-<ol start="13">
-<li>PT(pass through to next handler) 传递给下一个处理。</li>
-</ol>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule ^/abc(.*) /def$1 [PT] # 将会交给/def规则处理</span><br><span class="line">Alias /def /ghi</span><br></pre></td></tr></table></figure>
-<ol start="14">
-<li><p>S=num(skip next rule(s)) 跳过 num 条规则。</p>
-</li>
-<li><p>E=VAR:VAL(set environment variable) 设置环境变量。</p>
-</li>
-</ol>
-<p>注：P 是代理模式转发，必须用 url 全称，并且要保证 modProxy 打开，也就是下面 httpd.conf 中的如下两个指令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LoadModule proxy_module modules/mod_proxy.so</span><br><span class="line">LoadModule proxy_http_module modules/mod_proxy_http.so</span><br></pre></td></tr></table></figure>
-<p>如果对应 proxy 模块没加载，则会出现 403 禁止页面。</p>
-<h1 id="特殊字符的含义"><a href="#特殊字符的含义" class="headerlink" title="特殊字符的含义"></a>特殊字符的含义</h1><p>*代表前面 0 或更多个字符。</p>
-<p>+代表前面 1 或更多个字符。</p>
-<p>？代表前面 0 或 1 个字符。</p>
-<p>^代表字符串的开始位置。</p>
-<p>\$代表字符串结束的位置。</p>
-<p>。为通配符，代表任何字符。</p>
-<p>\将跟在其后的字符还原为字符本身，例如“+”代表的就是“+”，而非其它意思。</p>
-<p>^在方括号里表示非的意思。例如［^.］代表非通配符。</p>
-<h1 id="htaccess"><a href="#htaccess" class="headerlink" title="htaccess"></a>htaccess</h1><p>.htaccess 文件(或者”分布式配置文件”）,全称是 Hypertext Access(超文本入口)。提供了针对目录改变配置的方法， 即，在一个特定的文档目录中放置一个包含一个或多个指令的文件， 以作用于此目录及其所有子目录。作为用户，所能使用的命令受到限制。管理员可以通过 Apache 的 AllowOverride 指令来设置。概述来说，htaccess 文件是 Apache 服务器中的一个配置文件，它负责相关目录下的网页配置。通过 htaccess 文件，可以帮我们实现：网页 301 重定向、自定义 404 错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能。</p>
-<h1 id="Apache-Rewrite-的方式"><a href="#Apache-Rewrite-的方式" class="headerlink" title="Apache Rewrite 的方式"></a>Apache Rewrite 的方式</h1><p>将 apache 的配置文件 httpd.conf 中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#LoadModule rewrite_module modules/mod_rewrite.so</span><br></pre></td></tr></table></figure>
-<p>前的’#’去掉。找到 ‘AllowOverride None’ 改成 ‘AllowOverride All’。</p>
-<p>注：’AllowOverride’的参数设置为’ALL’，表示整台服务器上都支持 URL 规则重写。</p>
-<p>对于不同的网址，需要在 APACHE 中增加如下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Directory “E:/Apache Group/Apache2/htdocs/leapsoul”&gt;</span><br><span class="line">/*引号里代表你的web存放目录*/</span><br><span class="line">/*如果是Linux，只要你定位到你网站目录即可*/</span><br><span class="line">Options FollowSymLinks</span><br><span class="line">AllowOverride None</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
-<p>Apache 服务器要读每个网站下目录下的<code>.htaccess</code>文件。如果没有这个文件，或者这个文档没有定义任何关于 URL 重写的规则就不会有任何效果。</p>
-<p>只要启用 mod_rewrite，然后简单的通过一个<code>.htaccess</code>文件再加上一些简单的规则就可以移除 URL 中的 index.php 了。</p>
-<h2 id="针对整个-apache-服务器的配置"><a href="#针对整个-apache-服务器的配置" class="headerlink" title="针对整个 apache 服务器的配置"></a>针对整个 apache 服务器的配置</h2><p>在网站配置下加入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteRule index.html index.php</span><br><span class="line">RewriteRule (d+).html$ info.php?id=$1</span><br></pre></td></tr></table></figure>
-<p>即通过 index.html 访问就是 index.php；通过 1.html 访问就是 info.php?id=1。</p>
-<h2 id="针对-apache-服务器下的某一目录的配置"><a href="#针对-apache-服务器下的某一目录的配置" class="headerlink" title="针对 apache 服务器下的某一目录的配置"></a>针对 apache 服务器下的某一目录的配置</h2><p>在.htaccess 文件中加入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f#这里将除了实际文件以为的所有其他请求都指向下行代码给出的脚本，这里是index.php</span><br><span class="line">RewriteRule .* index.php</span><br></pre></td></tr></table></figure>
-<p>在 Windows 资源管理器里面不允许你建立<code>.htaccess</code>这样只有扩展名的文件。所以你必须先将文件保存为其他名字，例如<code>app.htaccess</code>。然后进入 cmd，输入<code>ren a.htaccess .htaccess</code>命令来对文件改名。或者新建一个记事本，另存为<code>.htaccess</code>即可。</p>
-<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><h2 id="如果文件不存在重定向到-404-页面"><a href="#如果文件不存在重定向到-404-页面" class="headerlink" title="如果文件不存在重定向到 404 页面"></a>如果文件不存在重定向到 404 页面</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">RewriteRule .? /404.php [L]</span><br></pre></td></tr></table></figure>
-<p>这里-f 匹配的是存在的文件名，-d 匹配的存在的路径名。这段代码在进行 404 重定向之前，会判断你的文件名以及路径名是否存在【请注意这里】。你还可以在 404 页面上加一个?url=\$1 参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RewriteRule ^/?(.*)$ /404.php?url=$1 [L]</span><br></pre></td></tr></table></figure>
-<h2 id="域名跳转"><a href="#域名跳转" class="headerlink" title="域名跳转"></a>域名跳转</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond %&#123;HTTP_HOST&#125; ^en.smilejay.com [NC]</span><br><span class="line">RewriteRule ^(.*) http://www.smilejay.com/ [L]</span><br></pre></td></tr></table></figure>
-<h2 id="配置多用户虚拟服务器"><a href="#配置多用户虚拟服务器" class="headerlink" title="配置多用户虚拟服务器"></a>配置多用户虚拟服务器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ServerAdmin webmaster@kiya.us</span><br><span class="line">DocumentRoot /home/www/www.kiya.us</span><br><span class="line">ServerName dns.kiya.us</span><br><span class="line">ServerAlias dns.kiya.us kiya.us *.kiya.us</span><br><span class="line">CustomLog /var/log/httpd/osa/access_log.log” common</span><br><span class="line">ErrorLog /var/log/httpd/osa/error_log.log”</span><br><span class="line">AllowOverride None</span><br><span class="line">Order deny,allow</span><br><span class="line"></span><br><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond %&#123;HTTP_HOST&#125; ^[^.]+.kiya.(cn|us)$</span><br><span class="line">RewriteRule ^(.+) %&#123;HTTP_HOST&#125;$1 [C]</span><br><span class="line">RewriteRule ^([^.]+).kiya.(cn|us)(.*)$ /home/www/www.kiya.us/sylvan$3?un=$1&amp;%&#123;QUERY_STRING&#125; [L]</span><br></pre></td></tr></table></figure>
-<h2 id="通过-Rewrite-防止盗链"><a href="#通过-Rewrite-防止盗链" class="headerlink" title="通过 Rewrite 防止盗链"></a>通过 Rewrite 防止盗链</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTP_REFERER&#125; chinaz.com [NC]</span><br><span class="line">RewriteCond %&#123;HTTP_REFERER&#125; im286.com [NC]</span><br><span class="line">RewriteRule .*\.(jpg|jpeg|gif|png|rar|zip|txt|ace|torrent|gz|swf)$ http://www.xxx.com/fuck.png [R,NC,L]</span><br></pre></td></tr></table></figure>
-<h2 id="屏蔽-IE-和-Opera-浏览器"><a href="#屏蔽-IE-和-Opera-浏览器" class="headerlink" title="屏蔽 IE 和 Opera 浏览器"></a>屏蔽 IE 和 Opera 浏览器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond %&#123;HTTP_USER_AGENT&#125; ^MSIE [NC,OR]</span><br><span class="line">RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Opera [NC]</span><br><span class="line">RewriteRule ^.* – [F,L]             #这里&quot;-&quot;表示没有替换，浏览器为IE和Opera的访客将被禁止访问。</span><br></pre></td></tr></table></figure>
-<h2 id="自动添加-php-扩展名及自动换-html-到-php-扩展名"><a href="#自动添加-php-扩展名及自动换-html-到-php-扩展名" class="headerlink" title="自动添加.php 扩展名及自动换.html 到.php 扩展名"></a>自动添加.php 扩展名及自动换.html 到.php 扩展名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine On</span><br><span class="line">RewriteBase /test</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125;.php -f</span><br><span class="line">RewriteRule ([^/]+)$ /test/$1.php</span><br><span class="line">#for example: /test/admin =&gt; /test/admin.php</span><br><span class="line">RewriteRule ([^/]+)\.html$ /test/$1.php [L]</span><br><span class="line">#for example: /test/admin.html =&gt; /test/admin.php</span><br></pre></td></tr></table></figure>
-<h2 id="限制仅显示图片"><a href="#限制仅显示图片" class="headerlink" title="限制仅显示图片"></a>限制仅显示图片</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#限制目录只能显示图片</span><br><span class="line">&lt; IfModule mod_rewrite.c&gt;</span><br><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !^.*\.(gif|jpg|jpeg|png|swf)$</span><br><span class="line">RewriteRule .*$ – [F,L]</span><br><span class="line">&lt; /IfModule&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="隐藏-index-php"><a href="#隐藏-index-php" class="headerlink" title="隐藏 index.php"></a>隐藏 index.php</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Options +FollowSymLinks</span><br><span class="line">IndexIgnore */*</span><br><span class="line">RewriteEngine on</span><br><span class="line"></span><br><span class="line"># if a directory or a file exists, use it directly</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line"></span><br><span class="line"># otherwise forward it to index.php</span><br><span class="line">RewriteRule . index.php</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line">RewriteRule ^(.*)$ index.php/$1 [L]</span><br></pre></td></tr></table></figure>
-<p>参考网站：<br><a href="http://www.111cn.net/phper/apache/45642.htm" target="_blank" rel="noopener">http://www.111cn.net/phper/apache/45642.htm</a><br><a href="http://smilejay.com/2012/10/apache-rewrite/" target="_blank" rel="noopener">http://smilejay.com/2012/10/apache-rewrite/</a><br><a href="https://www.cnblogs.com/zhenghongxin/p/6798310.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhenghongxin/p/6798310.html</a><br><a href="https://phperzh.com/articles/2922" target="_blank" rel="noopener">https://phperzh.com/articles/2922</a><br><a href="https://zybuluo.com/phper/note/73726" target="_blank" rel="noopener">https://zybuluo.com/phper/note/73726</a></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/">note</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
-
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2018/06/19/Unix-Linux下实现Windows中conio-h头文件部分函数/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Unix/Linux下实现Windows中conio.h头文件部分函数
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/05/07/2018-ZJGSUCTF/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">2018-ZJGSUCTF</div>
-    </a>
-  
 </nav>
 
-  
-</article>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
 
-<!-- Table of Contents -->
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Wednesday, May 16th 2018, 1:36 pm
+                </p>
+              
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#理解-Apache-Rewrite-的三个核心"><span class="nav-number">1.</span> <span class="nav-text">理解 Apache Rewrite 的三个核心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RewriteEngine"><span class="nav-number">1.1.</span> <span class="nav-text">RewriteEngine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RewriteCond"><span class="nav-number">1.2.</span> <span class="nav-text">RewriteCond</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RewriteRule"><span class="nav-number">1.3.</span> <span class="nav-text">RewriteRule</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重写规则的作用范围"><span class="nav-number">2.</span> <span class="nav-text">重写规则的作用范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache-Rewrite-规则修正符"><span class="nav-number">3.</span> <span class="nav-text">Apache Rewrite 规则修正符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特殊字符的含义"><span class="nav-number">4.</span> <span class="nav-text">特殊字符的含义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#htaccess"><span class="nav-number">5.</span> <span class="nav-text">htaccess</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache-Rewrite-的方式"><span class="nav-number">6.</span> <span class="nav-text">Apache Rewrite 的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#针对整个-apache-服务器的配置"><span class="nav-number">6.1.</span> <span class="nav-text">针对整个 apache 服务器的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#针对-apache-服务器下的某一目录的配置"><span class="nav-number">6.2.</span> <span class="nav-text">针对 apache 服务器下的某一目录的配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例子"><span class="nav-number">7.</span> <span class="nav-text">例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如果文件不存在重定向到-404-页面"><span class="nav-number">7.1.</span> <span class="nav-text">如果文件不存在重定向到 404 页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域名跳转"><span class="nav-number">7.2.</span> <span class="nav-text">域名跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置多用户虚拟服务器"><span class="nav-number">7.3.</span> <span class="nav-text">配置多用户虚拟服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-Rewrite-防止盗链"><span class="nav-number">7.4.</span> <span class="nav-text">通过 Rewrite 防止盗链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#屏蔽-IE-和-Opera-浏览器"><span class="nav-number">7.5.</span> <span class="nav-text">屏蔽 IE 和 Opera 浏览器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动添加-php-扩展名及自动换-html-到-php-扩展名"><span class="nav-number">7.6.</span> <span class="nav-text">自动添加.php 扩展名及自动换.html 到.php 扩展名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制仅显示图片"><span class="nav-number">7.7.</span> <span class="nav-text">限制仅显示图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐藏-index-php"><span class="nav-number">7.8.</span> <span class="nav-text">隐藏 index.php</span></a></li></ol></li></ol>
-    
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      8 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
     </div>
-  </aside>
+  </header>
 
-</section>
-        
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>Apache Rewrite 能够实现 URL 的跳转和隐藏真实地址。它基于 Perl 语言的正则表达式规范。平时帮助我们实现拟静态，拟目录，域名跳转，防止盗链等。</p>
+<a id="more"></a>
+<h1 id="理解-Apache-Rewrite-的三个核心"><a href="#理解-Apache-Rewrite-的三个核心" class="headerlink" title="理解 Apache Rewrite 的三个核心"></a>理解 Apache Rewrite 的三个核心</h1><h2 id="RewriteEngine"><a href="#RewriteEngine" class="headerlink" title="RewriteEngine"></a>RewriteEngine</h2><p>这个是 rewrite 功能的总开关，用来开启是否启动 url rewrite。</p>
+<pre><code>RewriteEngine on
+</code></pre><h2 id="RewriteCond"><a href="#RewriteCond" class="headerlink" title="RewriteCond"></a>RewriteCond</h2><p>RewriteCond 就是一个过滤条件，简单来说，当 URL 满足 RewriteCond 配置的条件的情况，就会执行 RewriteCond 下面紧邻的 RewriteRule 语句。</p>
+<p>RewriteCond 和 RewriteRule 是上下对应的关系。可以有 1 个或者好几个 RewriteCond 来匹配一个 RewriteRule。</p>
+<p><code>RewriteCond %{待测试项目} 正则表达式条件</code>。</p>
+<pre><code>RewriteEngine on
+RewriteCond  %{HTTP_USER_AGENT}  ^Mozilla//5/.0.*
+RewriteRule  index.php            index.m.php
+</code></pre><p>如果设置上面的匹配规则，到来的 http 请求中的 <code>HTTP_USER_AGENT</code> 匹配 <code>^Mozilla//5/.0.*</code> 正则表达式的话，则执行下面的 RewriteRule，也就是说访问路径会跳转到 <code>index.m.php</code> 这个文件。</p>
+<h2 id="RewriteRule"><a href="#RewriteRule" class="headerlink" title="RewriteRule"></a>RewriteRule</h2><pre><code>RewriteRule Pattern Substitution [flags]
+</code></pre><p>Pattern 是一个正则匹配。Substitution 是匹配的替换 <code>[flags]</code> 是一些参数限制。</p>
+<pre><code>RewriteRule ^room/video/(\d+)\.html web/index\.php?c=room&amp;a=video&amp;r=$1 [QSA,NC,L]
+</code></pre><p>意思是 以 room 开头的 <code>room/video/123.html</code> 这样子，变成 <code>web/index.php?c=room&amp;a=video&amp;r=123</code>。</p>
+<pre><code>RewriteRule \.(jpg|gif) http://image.baidu.com/ [R,NC,L]
+</code></pre><p>意思是以为是访问 <code>.jpg</code> 或者 <code>.gif</code> 的文件，都会调整到 <code>http://image.baidu.com</code>。</p>
+<h1 id="重写规则的作用范围"><a href="#重写规则的作用范围" class="headerlink" title="重写规则的作用范围"></a>重写规则的作用范围</h1><ol>
+<li><p>可以使用在 Apache 主配置文件 <code>httpd.conf</code> 中。</p>
+</li>
+<li><p>可以使用在 <code>httpd.conf</code> 里定义的虚拟主机配置中。</p>
+</li>
+<li><p>可以使用在基本目录的跨越配置文件 <code>.htaccess</code> 中。</p>
+</li>
+</ol>
+<p>这三种方式，都需要在写规则前，用“<code>RewriteEngine on</code>”指令来打开 rewrite 功能。</p>
+<h1 id="Apache-Rewrite-规则修正符"><a href="#Apache-Rewrite-规则修正符" class="headerlink" title="Apache Rewrite 规则修正符"></a>Apache Rewrite 规则修正符</h1><ul>
+<li><code>R[=code](force redirect)</code>：强制外部重定向，强制在替代字符串加上 <code>http://thishost[:thisport]/</code> 前缀重定向到外部的 URL。如果 code 不指定，将用缺省的 302 HTTP 状态码。</li>
+<li><code>F(force URL to be forbidden)</code>：禁用 URL，返回 403HTTP 状态码。</li>
+<li><code>G(force URL to be gone)</code>：强制 URL 为 GONE，返回 410HTTP 状态码。</li>
+<li><code>P(force proxy)</code>：强制使用代理转发。</li>
+<li><code>L(last rule)</code>：表明当前规则是最后一条规则，停止分析以后规则的重写。</li>
+<li><code>N(next round)</code>：重新从第一条规则开始运行重写过程。</li>
+<li><code>C(chained with next rule)</code>：与下一条规则关联</li>
+</ul>
+<p>如果规则匹配则正常处理，该标志无效，如果不匹配，那么下面所有关联的规则都跳过。</p>
+<ul>
+<li><code>T=MIME-type(force MIME type)</code>：强制 MIME 类型。</li>
+<li><code>NS(used only if no internal sub-request)</code>：只用于不是内部子请求。</li>
+<li><code>NC(no case)</code>：不区分大小写。</li>
+<li><code>QSA(query string append)</code>：追加请求字符串。</li>
+<li><code>NE(no URI escaping of output)</code>：不在输出转义特殊字符。</li>
+</ul>
+<p>例如：</p>
+<pre><code>RewriteRule /foo/(.*) /bar?arg=P1%3d$1 [R,NE] #将能正确的将/foo/zoo转换成/bar?arg=P1=zoo
+</code></pre><ul>
+<li><code>PT(pass through to next handler)</code>：传递给下一个处理。</li>
+</ul>
+<p>例如：</p>
+<pre><code>RewriteRule ^/abc(.*) /def$1 [PT] # 将会交给/def规则处理
+Alias /def /ghi
+</code></pre><ul>
+<li><code>S=num(skip next rule(s))</code>：跳过 num 条规则。</li>
+<li><code>E=VAR:VAL(set environment variable)</code>：设置环境变量。</li>
+</ul>
+<p>注：P 是代理模式转发，必须用 url 全称，并且要保证 modProxy 打开，也就是下面 <code>httpd.conf</code> 中的如下两个指令：</p>
+<pre><code>LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+</code></pre><p>如果对应 proxy 模块没加载，则会出现 403 禁止页面。</p>
+<h1 id="特殊字符的含义"><a href="#特殊字符的含义" class="headerlink" title="特殊字符的含义"></a>特殊字符的含义</h1><ul>
+<li><code>*</code> 代表前面 0 或更多个字符。</li>
+<li><code>+</code> 代表前面 1 或更多个字符。</li>
+<li><code>?</code> 代表前面 0 或 1 个字符。</li>
+<li><code>^</code> 代表字符串的开始位置。</li>
+<li><code>$</code> 代表字符串结束的位置。</li>
+<li><code>.</code> 为通配符，代表任何字符。</li>
+<li><code>\</code> 将跟在其后的字符还原为字符本身，例如“<code>\+</code>”代表的就是“<code>+</code>”，而非其它意思。</li>
+<li><code>^</code> 在方括号里表示非的意思。例如 <code>[^.]</code> 代表非通配符。</li>
+</ul>
+<h1 id="htaccess"><a href="#htaccess" class="headerlink" title="htaccess"></a>htaccess</h1><p><code>.htaccess</code> 文件(或者”分布式配置文件”），全称是 Hypertext Access(超文本入口)。提供了针对目录改变配置的方法，即在一个特定的文档目录中放置一个包含一个或多个指令的文件，以作用于此目录及其所有子目录。作为用户，所能使用的命令受到限制。管理员可以通过 Apache 的 AllowOverride 指令来设置。概述来说，htaccess 文件是 Apache 服务器中的一个配置文件，它负责相关目录下的网页配置。通过 htaccess 文件，可以帮我们实现：网页 301 重定向、自定义 404 错误页面、改变文件扩展名、允许或阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能。</p>
+<h1 id="Apache-Rewrite-的方式"><a href="#Apache-Rewrite-的方式" class="headerlink" title="Apache Rewrite 的方式"></a>Apache Rewrite 的方式</h1><p>将 apache 的配置文件 <code>httpd.conf</code> 中</p>
+<pre><code>#LoadModule rewrite_module modules/mod_rewrite.so
+</code></pre><p>前的 <code>#</code> 去掉。找到 <code>AllowOverride None</code> 改成 <code>AllowOverride All</code>。</p>
+<p>注：<code>AllowOverride</code> 的参数设置为 <code>ALL</code>，表示整台服务器上都支持 URL 规则重写。</p>
+<p>对于不同的网址，需要在 APACHE 中增加如下内容：</p>
+<pre><code>&lt;Directory “E:/Apache Group/Apache2/htdocs/leapsoul”&gt;
+/*引号里代表你的web存放目录*/
+/*如果是Linux，只要你定位到你网站目录即可*/
+Options FollowSymLinks
+AllowOverride None
+&lt;/Directory&gt;
+</code></pre><p>Apache 服务器要读每个网站下目录下的 <code>.htaccess</code> 文件。如果没有这个文件，或者这个文档没有定义任何关于 URL 重写的规则就不会有任何效果。</p>
+<p>只要启用 mod_rewrite，然后简单的通过一个 <code>.htaccess</code> 文件再加上一些简单的规则就可以移除 URL 中的 <code>index.php</code> 了。</p>
+<h2 id="针对整个-apache-服务器的配置"><a href="#针对整个-apache-服务器的配置" class="headerlink" title="针对整个 apache 服务器的配置"></a>针对整个 apache 服务器的配置</h2><p>在网站配置下加入</p>
+<pre><code>RewriteEngine on
+RewriteRule index.html index.php
+RewriteRule (d+).html$ info.php?id=$1
+</code></pre><p>即通过 <code>index.html</code> 访问就是 <code>index.php</code>；通过 <code>1.html</code> 访问就是 <code>info.php?id=1</code>。</p>
+<h2 id="针对-apache-服务器下的某一目录的配置"><a href="#针对-apache-服务器下的某一目录的配置" class="headerlink" title="针对 apache 服务器下的某一目录的配置"></a>针对 apache 服务器下的某一目录的配置</h2><p>在 <code>.htaccess</code> 文件中加入</p>
+<pre><code>RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f#这里将除了实际文件以为的所有其他请求都指向下行代码给出的脚本，这里是index.php
+RewriteRule .* index.php
+</code></pre><p>在 Windows 资源管理器里面不允许你建立 <code>.htaccess</code> 这样只有扩展名的文件。所以你必须先将文件保存为其他名字，例如 <code>app.htaccess</code>。然后进入 cmd，输入 <code>ren a.htaccess .htaccess</code> 命令来对文件改名。或者新建一个记事本，另存为 <code>.htaccess</code> 即可。</p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><h2 id="如果文件不存在重定向到-404-页面"><a href="#如果文件不存在重定向到-404-页面" class="headerlink" title="如果文件不存在重定向到 404 页面"></a>如果文件不存在重定向到 404 页面</h2><pre><code>RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .? /404.php [L]
+</code></pre><p>这里 <code>-f</code> 匹配的是存在的文件名，<code>-d</code> 匹配的存在的路径名。这段代码在进行 404 重定向之前，会判断你的文件名以及路径名是否存在。还可以在 404 页面上加一个 <code>?url=\$1</code> 参数：</p>
+<pre><code>RewriteRule ^/?(.*)$ /404.php?url=$1 [L]
+</code></pre><h2 id="域名跳转"><a href="#域名跳转" class="headerlink" title="域名跳转"></a>域名跳转</h2><pre><code>RewriteEngine on
+RewriteCond %{HTTP_HOST} ^en.smilejay.com [NC]
+RewriteRule ^(.*) http://www.smilejay.com/ [L]
+</code></pre><h2 id="配置多用户虚拟服务器"><a href="#配置多用户虚拟服务器" class="headerlink" title="配置多用户虚拟服务器"></a>配置多用户虚拟服务器</h2><pre><code>ServerAdmin webmaster@kiya.us
+DocumentRoot /home/www/www.kiya.us
+ServerName dns.kiya.us
+ServerAlias dns.kiya.us kiya.us *.kiya.us
+CustomLog /var/log/httpd/osa/access_log.log” common
+ErrorLog /var/log/httpd/osa/error_log.log”
+AllowOverride None
+Order deny,allow
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^[^.]+.kiya.(cn|us)$
+RewriteRule ^(.+) %{HTTP_HOST}$1 [C]
+RewriteRule ^([^.]+).kiya.(cn|us)(.*)$ /home/www/www.kiya.us/sylvan$3?un=$1&amp;%{QUERY_STRING} [L]
+</code></pre><h2 id="通过-Rewrite-防止盗链"><a href="#通过-Rewrite-防止盗链" class="headerlink" title="通过 Rewrite 防止盗链"></a>通过 Rewrite 防止盗链</h2><pre><code>RewriteEngine On
+RewriteCond %{HTTP_REFERER} chinaz.com [NC]
+RewriteCond %{HTTP_REFERER} im286.com [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|rar|zip|txt|ace|torrent|gz|swf)$ http://www.xxx.com/fuck.png [R,NC,L]
+</code></pre><h2 id="屏蔽-IE-和-Opera-浏览器"><a href="#屏蔽-IE-和-Opera-浏览器" class="headerlink" title="屏蔽 IE 和 Opera 浏览器"></a>屏蔽 IE 和 Opera 浏览器</h2><pre><code>RewriteEngine on
+RewriteCond %{HTTP_USER_AGENT} ^MSIE [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^Opera [NC]
+RewriteRule ^.* – [F,L]             #这里&quot;-&quot;表示没有替换，浏览器为IE和Opera的访客将被禁止访问。
+</code></pre><h2 id="自动添加-php-扩展名及自动换-html-到-php-扩展名"><a href="#自动添加-php-扩展名及自动换-html-到-php-扩展名" class="headerlink" title="自动添加 .php 扩展名及自动换 .html 到 .php 扩展名"></a>自动添加 <code>.php</code> 扩展名及自动换 <code>.html</code> 到 <code>.php</code> 扩展名</h2><pre><code>RewriteEngine On
+RewriteBase /test
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ([^/]+)$ /test/$1.php
+#for example: /test/admin =&gt; /test/admin.php
+RewriteRule ([^/]+)\.html$ /test/$1.php [L]
+#for example: /test/admin.html =&gt; /test/admin.php
+</code></pre><h2 id="限制仅显示图片"><a href="#限制仅显示图片" class="headerlink" title="限制仅显示图片"></a>限制仅显示图片</h2><pre><code>#限制目录只能显示图片
+&lt; IfModule mod_rewrite.c&gt;
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !^.*\.(gif|jpg|jpeg|png|swf)$
+RewriteRule .*$ – [F,L]
+&lt; /IfModule&gt;
+</code></pre><h2 id="隐藏-index-php"><a href="#隐藏-index-php" class="headerlink" title="隐藏 index.php"></a>隐藏 <code>index.php</code></h2><pre><code>Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise forward it to index.php
+RewriteRule . index.php
+</code></pre><pre><code>RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
+</code></pre><h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="http://www.111cn.net/phper/apache/45642.htm" target="_blank" rel="noopener">http://www.111cn.net/phper/apache/45642.htm</a><br><a href="http://smilejay.com/2012/10/apache-rewrite/" target="_blank" rel="noopener">http://smilejay.com/2012/10/apache-rewrite/</a><br><a href="https://www.cnblogs.com/zhenghongxin/p/6798310.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhenghongxin/p/6798310.html</a><br><a href="https://phperzh.com/articles/2922" target="_blank" rel="noopener">https://phperzh.com/articles/2922</a><br><a href="https://zybuluo.com/phper/note/73726" target="_blank" rel="noopener">https://zybuluo.com/phper/note/73726</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/note/">note</a>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2018/07/01/RE入门（一）/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>RE入门（一）</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2018/05/07/2018-ZJGSUCTF/">
+                        <span>2018-ZJGSUCTF</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
       </div>
-
     </div>
-    <!-- <nav id="mobile-nav">
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
   
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
       </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Apache Rewrite（路由重写）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -465,5 +632,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

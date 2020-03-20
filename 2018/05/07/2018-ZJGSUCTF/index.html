@@ -1,435 +1,949 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>2018-ZJGSUCTF | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ctfwp">
-  
-  
-  
-  
-  <meta name="description" content="第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。">
-<meta name="keywords" content="ctf,wp">
-<meta property="og:type" content="article">
-<meta property="og:title" content="2018-ZJGSUCTF">
-<meta property="og:url" content="blog.b3ale.cn/2018/05/07/2018-ZJGSUCTF/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/WEB/1.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/WEB/2.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/1.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/2.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/3.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/4.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/5.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/6.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/7.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/8.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/RE/9.jpg">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/CRYPTO/1.png">
-<meta property="og:image" content="/pics/2018-ZJGSUCTF/MISC/1.jpg">
-<meta property="og:updated_time" content="2019-08-26T01:15:30.357Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018-ZJGSUCTF">
-<meta name="twitter:description" content="第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。">
-<meta name="twitter:image" content="/pics/2018-ZJGSUCTF/WEB/1.jpg">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>2018-ZJGSUCTF - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-2018-ZJGSUCTF" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      2018-ZJGSUCTF
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2018/05/07/2018-ZJGSUCTF/" class="article-date">
-	  <time datetime="2018-05-07T04:06:41.000Z" itemprop="datePublished">May 7, 2018</time>
-	</a>
-
-       
-      
-
-	  |
-	  2.9k words
-	  |
-	  15 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Monday, May 7th 2018, 12:06 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.9k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      15 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>第一次连续肝了两天的比赛，真正感受到了比赛的氛围，还有被大佬带飞的感觉，记录一下简单的几道题。</p>
 <a id="more"></a>
 <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="奇淫技巧"><a href="#奇淫技巧" class="headerlink" title="奇淫技巧"></a>奇淫技巧</h2><p>第一关，md5 碰撞。</p>
 <p>第二关，数组绕过。</p>
 <p>第三关，%00 截断。</p>
-<p>第四关，PHP 伪协议<code>data:text/plain,&lt;?php phpinfo()?&gt;</code>。（附上<a href="https://lalajun.github.io/2018/03/19/WEB-LFI%E4%B8%8ERFI%E5%88%A9%E7%94%A8/" target="_blank" rel="noopener">大佬博客</a>）</p>
-<h2 id="送分的"><a href="#送分的" class="headerlink" title="送分的"></a>送分的</h2><p>点击<code>flag in here</code>后，跳转到另一个网站，提示为非法源无法访问。</p>
-<p>想到<code>X-Forwarded-For</code>和<code>Referer</code>，经过尝试得到 flag。</p>
-<p><img src="/pics/2018-ZJGSUCTF/WEB/1.jpg" alt="返回结果"></p>
+<p>第四关，PHP 伪协议 <code>data:text/plain,&lt;?php phpinfo()?&gt;</code>。（附上<a href="https://lalajun.github.io/2018/03/19/WEB-LFI%E4%B8%8ERFI%E5%88%A9%E7%94%A8/" target="_blank" rel="noopener">大佬博客</a>）</p>
+<h2 id="送分的"><a href="#送分的" class="headerlink" title="送分的"></a>送分的</h2><p>点击 <code>flag in here</code> 后，跳转到另一个网站，提示为非法源无法访问。</p>
+<p>想到 <code>X-Forwarded-For</code> 和 <code>Referer</code>，经过尝试得到 flag。</p>
+<p><img src="/pics/2018-ZJGSUCTF/WEB/1.jpg" srcset="/img/loading.gif" alt></p>
 <h2 id="给你的小世界"><a href="#给你的小世界" class="headerlink" title="给你的小世界"></a>给你的小世界</h2><p>打开网站先欣赏一遍精彩的小故事，然后查看源码，得到提示。</p>
-<p><img src="/pics/2018-ZJGSUCTF/WEB/2.jpg" alt="源码提示"></p>
+<p><img src="/pics/2018-ZJGSUCTF/WEB/2.jpg" srcset="/img/loading.gif" alt></p>
 <p>第一段字母显然是 base64，然后根据解码后得到的提示分别 base32、base16 解密得到 flag。</p>
 <h1 id="RE"><a href="#RE" class="headerlink" title="RE"></a>RE</h1><p>RE 这块主要是复现。</p>
 <h2 id="签到题"><a href="#签到题" class="headerlink" title="签到题"></a>签到题</h2><p>发现题目打不开，原来是文本文件，有一段 C 代码和汇编组成。</p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/1.jpg" alt="一部分的截图"></p>
-<p>可以判断下面的汇编代码就是函数<code>ck1()</code>的汇编形式。具体操作也很容易看出：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.text:0040104A loc_40104A:                             ; CODE XREF: ck1+1F↑j</span><br><span class="line">.text:0040104A                 mov     ecx, [ebp+var_4]</span><br><span class="line">.text:0040104D                 cmp     ecx, [ebp+arg_4]</span><br><span class="line">.text:00401050                 jge     short loc_40106B</span><br><span class="line">.text:00401052                 mov     edx, [ebp+arg_0]</span><br><span class="line">.text:00401055                 add     edx, [ebp+var_4]</span><br><span class="line">.text:00401058                 movsx   eax, byte ptr [edx]</span><br><span class="line">.text:0040105B                 xor     eax, 30h</span><br><span class="line">.text:0040105E                 add     eax, 1</span><br><span class="line">.text:00401061                 mov     ecx, [ebp+arg_0]</span><br><span class="line">.text:00401064                 add     ecx, [ebp+var_4]</span><br><span class="line">.text:00401067                 mov     [ecx], al</span><br><span class="line">.text:00401069                 jmp     short loc_401041</span><br></pre></td></tr></table></figure>
-<p>可以看到就是把<code>enc</code>字符串中的每个字符分别和<code>0x30</code>异或后再加一。</p>
-<p>加密脚本（实际上就是填充函数<code>ck1()</code>的内容）如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> enc[<span class="number">37</span>]=<span class="string">"\x55\x5b\x50\x56\x4a\x66\x54\x5b\x52\x5e\x5c\x54\x6e\x43\x1f\x6e\x41\x54\x6e\x43\x57\x58\x42\x6e\x58\x42\x6e\x5e\x5d\x5b\x48\x6e\x50\x42\x5c\x4c"</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(enc); i++) &#123;</span><br><span class="line">	    enc[i] ^= <span class="number">0x30</span>;</span><br><span class="line">	    enc[i] += <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>,enc);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-ZJGSUCTF/RE/1.jpg" srcset="/img/loading.gif" alt></p>
+<p>可以判断下面的汇编代码就是函数 <code>ck1()</code> 的汇编形式。具体操作也很容易看出：</p>
+<pre><code class="asm">.text:0040104A loc_40104A:                             ; CODE XREF: ck1+1F↑j
+.text:0040104A                 mov     ecx, [ebp+var_4]
+.text:0040104D                 cmp     ecx, [ebp+arg_4]
+.text:00401050                 jge     short loc_40106B
+.text:00401052                 mov     edx, [ebp+arg_0]
+.text:00401055                 add     edx, [ebp+var_4]
+.text:00401058                 movsx   eax, byte ptr [edx]
+.text:0040105B                 xor     eax, 30h
+.text:0040105E                 add     eax, 1
+.text:00401061                 mov     ecx, [ebp+arg_0]
+.text:00401064                 add     ecx, [ebp+var_4]
+.text:00401067                 mov     [ecx], al
+.text:00401069                 jmp     short loc_401041
+</code></pre>
+<p>可以看到就是把 <code>enc</code> 字符串中的每个字符分别和 <code>0x30</code> 异或后再加一。</p>
+<p>加密脚本（实际上就是填充函数 <code>ck1()</code> 的内容）如下：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+int main() {
+    char enc[37]=&quot;\x55\x5b\x50\x56\x4a\x66\x54\x5b\x52\x5e\x5c\x54\x6e\x43\x1f\x6e\x41\x54\x6e\x43\x57\x58\x42\x6e\x58\x42\x6e\x5e\x5d\x5b\x48\x6e\x50\x42\x5c\x4c&quot;;
+    for(int i = 0; i &lt; strlen(enc); i++) {
+        enc[i] ^= 0x30;
+        enc[i] += 1;
+    }
+    printf(&quot;%s\n&quot;,enc);
+    return 0;
+}
+</code></pre>
 <h2 id="babyre"><a href="#babyre" class="headerlink" title="babyre"></a>babyre</h2><p>这题涉及到 ida 的一个小技巧 patch，通过<a href="https://bbs.pediy.com/thread-158896.htm" target="_blank" rel="noopener">看雪上的一篇文章</a>了解了一下。f5 发现不行，显示栈不平衡，需要 patch。</p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/2.jpg" alt="栈不平衡"></p>
-<p>先根据提示找到出错的位置。在 option 中勾选显示栈指针。然后再找到距离<code>ret</code>最近的<code>call</code>，然后修改栈指针的值。</p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/3.jpg" alt="显示栈指针"></p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/4.jpg" alt="改变return处栈指针的值"></p>
+<p><img src="/pics/2018-ZJGSUCTF/RE/2.jpg" srcset="/img/loading.gif" alt></p>
+<p>先根据提示找到出错的位置。在 option 中勾选显示栈指针。然后再找到距离 <code>ret</code> 最近的 <code>call</code>，然后修改栈指针的值。</p>
+<p><img src="/pics/2018-ZJGSUCTF/RE/3.jpg" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/2018-ZJGSUCTF/RE/4.jpg" srcset="/img/loading.gif" alt></p>
 <p>成功 f5 后审计代码：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *enc1; <span class="comment">// esi</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v4; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// esi</span></span><br><span class="line">  <span class="keyword">char</span> sbox; <span class="comment">// [esp+Ch] [ebp-238h]</span></span><br><span class="line">  <span class="keyword">char</span> Dst; <span class="comment">// [esp+Dh] [ebp-237h]</span></span><br><span class="line">  <span class="keyword">char</span> key; <span class="comment">// [esp+10Ch] [ebp-138h]</span></span><br><span class="line">  <span class="keyword">char</span> v10; <span class="comment">// [esp+12Eh] [ebp-116h]</span></span><br><span class="line">  <span class="keyword">char</span> input[<span class="number">52</span>]; <span class="comment">// [esp+20Ch] [ebp-38h]</span></span><br><span class="line"></span><br><span class="line">  sbox = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">memset</span>(&amp;Dst, <span class="number">0</span>, <span class="number">0xFF</span>u);</span><br><span class="line">  <span class="built_in">strcpy</span>(&amp;key, <span class="string">"flag&#123;this_is_not_the_flag_hahaha&#125;"</span>);</span><br><span class="line">  <span class="built_in">memset</span>(&amp;v10, <span class="number">0</span>, <span class="number">0xDE</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"input flag:\n"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%50s"</span>, input);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(input) == <span class="number">33</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    enc1 = base64encypt(input);</span><br><span class="line">    rc4_init(&amp;sbox, (<span class="keyword">int</span>)&amp;key, <span class="built_in">strlen</span>(&amp;key));</span><br><span class="line">    rc4_crypto((<span class="keyword">int</span>)&amp;sbox, (<span class="keyword">int</span>)enc1, <span class="built_in">strlen</span>(enc1));</span><br><span class="line">    v4 = <span class="number">0</span>;</span><br><span class="line">    v5 = enc1 - flag;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( flag[v5 + v4] != flag[v4] )</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">      ++v4;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> ( v4 &lt; <span class="number">44</span> );</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Congratulation!!!!!!\n"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  const char *enc1; // esi
+  signed int v4; // eax
+  int v5; // esi
+  char sbox; // [esp+Ch] [ebp-238h]
+  char Dst; // [esp+Dh] [ebp-237h]
+  char key; // [esp+10Ch] [ebp-138h]
+  char v10; // [esp+12Eh] [ebp-116h]
+  char input[52]; // [esp+20Ch] [ebp-38h]
+
+  sbox = 0;
+  memset(&amp;Dst, 0, 0xFFu);
+  strcpy(&amp;key, &quot;flag{this_is_not_the_flag_hahaha}&quot;);
+  memset(&amp;v10, 0, 0xDEu);
+  printf(&quot;input flag:\n&quot;);
+  scanf(&quot;%50s&quot;, input);
+  if ( strlen(input) == 33 )
+  {
+    enc1 = base64encypt(input);
+    rc4_init(&amp;sbox, (int)&amp;key, strlen(&amp;key));
+    rc4_crypto((int)&amp;sbox, (int)enc1, strlen(enc1));
+    v4 = 0;
+    v5 = enc1 - flag;
+    do
+    {
+      if ( flag[v5 + v4] != flag[v4] )
+        exit(0);
+      ++v4;
+    }
+    while ( v4 &lt; 44 );
+    printf(&quot;Congratulation!!!!!!\n&quot;);
+  }
+  return 0;
+}
+</code></pre>
 <p>经过对代码的审计，判断出先对输入字符串进行了 base64 加密，然后再通过 rc4 加密。在内存中分别找到 base64 的表以及被加密的 flag。</p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/5.jpg" alt="base64表"></p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/6.jpg" alt="被加密的flag"></p>
-<p>用 python2 中的<code>pycrypto</code>（使用方法：<code>from Crypto.Cipher</code>）进行 rc4 的加解密；用<code>base64</code>库进行 base64 加解密。脚本如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> ARC4</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">print</span> <span class="string">'-----------------ARC4-----------------'</span></span><br><span class="line">key = <span class="string">'flag&#123;this_is_not_the_flag_hahaha&#125;'</span></span><br><span class="line">flag = <span class="string">'\x20\xC3\x1A\xAE\x97\x3C\x7A\x41\xDE\xF6\x78\x15\xCB\x4B\x4C\xDC\x26\x55\x8B\x55\xE5\xE9\x55\x75\x40\x3D\x82\x13\xA5\x60\x13\x3B\xF5\xD8\x19\x0E\x47\xCF\x5F\x5E\xDE\x9D\x14\xBD'</span></span><br><span class="line">enc1 = ARC4.new(key).decrypt(flag)</span><br><span class="line"><span class="keyword">print</span> enc1</span><br><span class="line"><span class="keyword">print</span> <span class="string">'----------------base64----------------'</span></span><br><span class="line">replaced = <span class="string">''</span></span><br><span class="line">Base64 = <span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'</span></span><br><span class="line">table = <span class="string">'ABCDEFGHIJSTUVWKLMNOPQRXYZabcdqrstuvwxefghijklmnopyz0123456789+/'</span></span><br><span class="line"><span class="keyword">for</span> ch <span class="keyword">in</span> enc1:</span><br><span class="line">    <span class="keyword">if</span> ch <span class="keyword">in</span> Base64:</span><br><span class="line">        replaced += Base64[string.find(table, str(ch))]</span><br><span class="line">    <span class="keyword">elif</span> ch == <span class="string">'='</span>:</span><br><span class="line">        replaced += <span class="string">'='</span></span><br><span class="line"><span class="keyword">print</span> base64.b64decode(replaced)</span><br></pre></td></tr></table></figure>
+<p><img src="/pics/2018-ZJGSUCTF/RE/5.jpg" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/2018-ZJGSUCTF/RE/6.jpg" srcset="/img/loading.gif" alt></p>
+<p>用 python2 中的 <code>pycrypto</code>（使用方法：<code>from Crypto.Cipher</code>）进行 rc4 的加解密；用 <code>base64</code> 库进行 base64 加解密。脚本如下：</p>
+<pre><code class="python">from Crypto.Cipher import ARC4
+import base64
+import string
+print &#39;-----------------ARC4-----------------&#39;
+key = &#39;flag{this_is_not_the_flag_hahaha}&#39;
+flag = &#39;\x20\xC3\x1A\xAE\x97\x3C\x7A\x41\xDE\xF6\x78\x15\xCB\x4B\x4C\xDC\x26\x55\x8B\x55\xE5\xE9\x55\x75\x40\x3D\x82\x13\xA5\x60\x13\x3B\xF5\xD8\x19\x0E\x47\xCF\x5F\x5E\xDE\x9D\x14\xBD&#39;
+enc1 = ARC4.new(key).decrypt(flag)
+print enc1
+print &#39;----------------base64----------------&#39;
+replaced = &#39;&#39;
+Base64 = &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&#39;
+table = &#39;ABCDEFGHIJSTUVWKLMNOPQRXYZabcdqrstuvwxefghijklmnopyz0123456789+/&#39;
+for ch in enc1:
+    if ch in Base64:
+        replaced += Base64[string.find(table, str(ch))]
+    elif ch == &#39;=&#39;:
+        replaced += &#39;=&#39;
+print base64.b64decode(replaced)
+</code></pre>
 <h2 id="New-driver"><a href="#New-driver" class="headerlink" title="New driver"></a>New driver</h2><p>拖进 OD 一运行就退出了。拖进 ida 发现有 tls 反调试：</p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/7.jpg" alt="有TlsCallback_0函数"></p>
+<p><img src="/pics/2018-ZJGSUCTF/RE/7.jpg" srcset="/img/loading.gif" alt></p>
 <p>用 PEview 查看 exe 中相关 PE 结构，然后在 010editor 中将对应部分的 value 清零：</p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/8.jpg" alt="IMAGE_OPTIONAL_HEADER和IMAGE_TLS_DIRECTORY中都存在tls"></p>
+<p><img src="/pics/2018-ZJGSUCTF/RE/8.jpg" srcset="/img/loading.gif" alt></p>
 <p>除去 tls 后查壳发现有 upx。脱去后放进 ida：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main_0</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  HANDLE thread_2; <span class="comment">// [esp+D0h] [ebp-14h]</span></span><br><span class="line">  HANDLE thread_1; <span class="comment">// [esp+DCh] [ebp-8h]</span></span><br><span class="line"></span><br><span class="line">  j_read_input();</span><br><span class="line">  hObject = CreateMutexW(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  j_strcpy(Dest, Source);</span><br><span class="line">  thread_1 = CreateThread(<span class="number">0</span>, <span class="number">0</span>, (LPTHREAD_START_ROUTINE)one, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  thread_2 = CreateThread(<span class="number">0</span>, <span class="number">0</span>, (LPTHREAD_START_ROUTINE)two, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  CloseHandle(thread_1);</span><br><span class="line">  CloseHandle(thread_2);</span><br><span class="line">  <span class="keyword">while</span> ( dword_418008 != <span class="number">-1</span> )</span><br><span class="line">    ;</span><br><span class="line">  j_print_dest();</span><br><span class="line">  CloseHandle(hObject);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">int main_0()
+{
+  HANDLE thread_2; // [esp+D0h] [ebp-14h]
+  HANDLE thread_1; // [esp+DCh] [ebp-8h]
+
+  j_read_input();
+  hObject = CreateMutexW(0, 0, 0);
+  j_strcpy(Dest, Source);
+  thread_1 = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)one, 0, 0, 0);
+  thread_2 = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)two, 0, 0, 0);
+  CloseHandle(thread_1);
+  CloseHandle(thread_2);
+  while ( dword_418008 != -1 )
+    ;
+  j_print_dest();
+  CloseHandle(hObject);
+  return 0;
+}
+</code></pre>
 <p>一开始读取输入字符串，中间创建了两个线程，然后最后与被加密的 flag 进行比较以及输出 flag。回去看两个线程发现第二个线程没干什么事，主要是第一个线程进行了加密。其中加密函数的 sp 指针不平衡，需要修改指针值。修改后，进入函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> **__<span class="function">cdecl <span class="title">encrypt</span><span class="params">(<span class="keyword">char</span> *input, <span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> **result; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [esp+D3h] [ebp-5h]</span></span><br><span class="line"></span><br><span class="line">  v3 = input[index];</span><br><span class="line">  <span class="keyword">if</span> ( (v3 &lt; <span class="string">'a'</span> || v3 &gt; <span class="string">'z'</span>) &amp;&amp; (v3 &lt; <span class="string">'A'</span> || v3 &gt; <span class="string">'Z'</span>) )</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">if</span> ( v3 &lt; <span class="string">'a'</span> || v3 &gt; <span class="string">'z'</span> )                   <span class="comment">// lower case</span></span><br><span class="line">  &#123;</span><br><span class="line">    result = (<span class="keyword">char</span> **)table;</span><br><span class="line">    input[index] = table[input[index] - <span class="number">38</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>                                          <span class="comment">// upper case</span></span><br><span class="line">  &#123;</span><br><span class="line">    result = (<span class="keyword">char</span> **)table;</span><br><span class="line">    input[index] = table[input[index] - <span class="number">96</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">char **__cdecl encrypt(char *input, int index)
+{
+  char **result; // eax
+  char v3; // [esp+D3h] [ebp-5h]
+
+  v3 = input[index];
+  if ( (v3 &lt; &#39;a&#39; || v3 &gt; &#39;z&#39;) &amp;&amp; (v3 &lt; &#39;A&#39; || v3 &gt; &#39;Z&#39;) )
+    exit(0);
+  if ( v3 &lt; &#39;a&#39; || v3 &gt; &#39;z&#39; )                   // lower case
+  {
+    result = (char **)table;
+    input[index] = table[input[index] - 38];
+  }
+  else                                          // upper case
+  {
+    result = (char **)table;
+    input[index] = table[input[index] - 96];
+  }
+  return result;
+}
+</code></pre>
 <p>对每个字符大小写进行了判断，然后减法操作。还有一点是两个线程每次循环分别都 sleep 了 100s，那么依次循环就会造成奇偶依次加密。solve 脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">table = <span class="string">'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm'</span></span><br><span class="line">enc = [<span class="number">0x54</span>, <span class="number">0x4F</span>, <span class="number">0x69</span>, <span class="number">0x5A</span>, <span class="number">0x69</span>, <span class="number">0x5A</span>, <span class="number">0x74</span>, <span class="number">0x4F</span>, <span class="number">0x72</span>, <span class="number">0x59</span>, <span class="number">0x61</span>, <span class="number">0x54</span>, <span class="number">0x6F</span>, <span class="number">0x55</span>, <span class="number">0x77</span>, <span class="number">0x50</span>, <span class="number">0x6E</span>, <span class="number">0x54</span>, <span class="number">0x6F</span>, <span class="number">0x42</span>, <span class="number">0x73</span>, <span class="number">0x4F</span>, <span class="number">0x61</span>, <span class="number">0x4F</span>, <span class="number">0x61</span>, <span class="number">0x70</span>, <span class="number">0x73</span>, <span class="number">0x79</span>, <span class="number">0x53</span>, <span class="number">0x79</span>]</span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc)):</span><br><span class="line">  <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">    flag += chr(enc[i])</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    idx = table.index(chr(enc[i]))</span><br><span class="line">    <span class="keyword">if</span> idx &gt; <span class="number">26</span>: <span class="comment"># lower case</span></span><br><span class="line">      flag += chr(idx + <span class="number">38</span>)</span><br><span class="line">    <span class="keyword">else</span>: <span class="comment"># upper case</span></span><br><span class="line">      flag += chr(idx + <span class="number">96</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'flag:'</span>, flag</span><br></pre></td></tr></table></figure>
+<pre><code class="python">table = &#39;QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm&#39;
+enc = [0x54, 0x4F, 0x69, 0x5A, 0x69, 0x5A, 0x74, 0x4F, 0x72, 0x59, 0x61, 0x54, 0x6F, 0x55, 0x77, 0x50, 0x6E, 0x54, 0x6F, 0x42, 0x73, 0x4F, 0x61, 0x4F, 0x61, 0x70, 0x73, 0x79, 0x53, 0x79]
+flag = &#39;&#39;
+for i in range(len(enc)):
+  if i % 2 == 0:
+    flag += chr(enc[i])
+  else:
+    idx = table.index(chr(enc[i]))
+    if idx &gt; 26: # lower case
+      flag += chr(idx + 38)
+    else: # upper case
+      flag += chr(idx + 96)
+print &#39;flag:&#39;, flag
+</code></pre>
 <h2 id="Old-driver"><a href="#Old-driver" class="headerlink" title="Old driver"></a>Old driver</h2><p>32 位 exe 文件，拖进 ida 后，除了判断了字串长度为 40 和前后缀的 check，还发现函数被加密了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// ecx</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> j; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">char</span> input[<span class="number">39</span>]; <span class="comment">// [esp+0h] [ebp-40h]</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// [esp+27h] [ebp-19h]</span></span><br><span class="line">  <span class="keyword">int</span> v8; <span class="comment">// [esp+34h] [ebp-Ch]</span></span><br><span class="line">  __int16 v9; <span class="comment">// [esp+38h] [ebp-8h]</span></span><br><span class="line">  <span class="keyword">char</span> v10; <span class="comment">// [esp+3Ah] [ebp-6h]</span></span><br><span class="line"></span><br><span class="line">  input[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">memset</span>(&amp;input[<span class="number">1</span>], <span class="number">0</span>, <span class="number">0x31</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"input flag:\n"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%50s"</span>, input);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(input) == <span class="number">40</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; (<span class="keyword">char</span> *)nullsub_1 - (<span class="keyword">char</span> *)dword_401000; ++i )</span><br><span class="line">      *((_BYTE *)dword_401000 + i) ^= <span class="number">0xBB</span>u;</span><br><span class="line">    v9 = <span class="number">32123</span>;</span><br><span class="line">    v8 = <span class="number">1734437990</span>;</span><br><span class="line">    v10 = <span class="number">0</span>;</span><br><span class="line">    j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( input[j] != *((_BYTE *)&amp;v8 + j) )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_8;</span><br><span class="line">      ++j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> ( j &lt; <span class="number">5</span> );</span><br><span class="line">    LOBYTE(i) = v7;</span><br><span class="line">    <span class="keyword">if</span> ( v7 != *((_BYTE *)&amp;v8 + j) )</span><br><span class="line">LABEL_8:</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    ((<span class="keyword">void</span> (__fastcall *)(<span class="keyword">int</span>, <span class="keyword">char</span> *))loc_4010B0)(i, input);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  int i; // ecx
+  signed int j; // eax
+  char input[39]; // [esp+0h] [ebp-40h]
+  char v7; // [esp+27h] [ebp-19h]
+  int v8; // [esp+34h] [ebp-Ch]
+  __int16 v9; // [esp+38h] [ebp-8h]
+  char v10; // [esp+3Ah] [ebp-6h]
+
+  input[0] = 0;
+  memset(&amp;input[1], 0, 0x31u);
+  printf(&quot;input flag:\n&quot;);
+  scanf(&quot;%50s&quot;, input);
+  if ( strlen(input) == 40 )
+  {
+    for ( i = 0; i &lt; (char *)nullsub_1 - (char *)dword_401000; ++i )
+      *((_BYTE *)dword_401000 + i) ^= 0xBBu;
+    v9 = 32123;
+    v8 = 1734437990;
+    v10 = 0;
+    j = 0;
+    do
+    {
+      if ( input[j] != *((_BYTE *)&amp;v8 + j) )
+        goto LABEL_8;
+      ++j;
+    }
+    while ( j &lt; 5 );
+    LOBYTE(i) = v7;
+    if ( v7 != *((_BYTE *)&amp;v8 + j) )
+LABEL_8:
+      exit(0);
+    ((void (__fastcall *)(int, char *))loc_4010B0)(i, input);
+  }
+  return 0;
+}
+</code></pre>
 <p>可以用 IDAPython 来 patch 一下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ida_bytes <span class="keyword">import</span> *</span><br><span class="line">start_addr = <span class="number">0x00401000</span></span><br><span class="line">end_addr = <span class="number">0x00401260</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(start_addr, end_addr, <span class="number">4</span>):</span><br><span class="line">  tmp = get_bytes(i, <span class="number">1</span>)</span><br><span class="line">  patch_bytes(i, chr(ord(tmp) ^ <span class="number">0xbb</span>))</span><br></pre></td></tr></table></figure>
+<pre><code class="python">from ida_bytes import *
+start_addr = 0x00401000
+end_addr = 0x00401260
+for i in range(start_addr, end_addr, 4):
+  tmp = get_bytes(i, 1)
+  patch_bytes(i, chr(ord(tmp) ^ 0xbb))
+</code></pre>
 <p>或者用 Ollydbg 把解密过后的程序 dump 出来。找到加密过后的位置设下断点，断下来之后 dump 即可（注意前面还需要过一个长度的 check）：</p>
-<p><img src="/pics/2018-ZJGSUCTF/RE/9.jpg" alt="断点处"></p>
+<p><img src="/pics/2018-ZJGSUCTF/RE/9.jpg" srcset="/img/loading.gif" alt></p>
 <p>把 dump 出来的程序拖进 ida：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// ecx</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> j; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">char</span> input[<span class="number">39</span>]; <span class="comment">// [esp+0h] [ebp-40h]</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// [esp+27h] [ebp-19h]</span></span><br><span class="line">  <span class="keyword">int</span> v8; <span class="comment">// [esp+34h] [ebp-Ch]</span></span><br><span class="line">  __int16 v9; <span class="comment">// [esp+38h] [ebp-8h]</span></span><br><span class="line">  <span class="keyword">char</span> v10; <span class="comment">// [esp+3Ah] [ebp-6h]</span></span><br><span class="line"></span><br><span class="line">  input[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">memset</span>(&amp;input[<span class="number">1</span>], <span class="number">0</span>, <span class="number">0x31</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"input flag:\n"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%50s"</span>, input);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(input) == <span class="number">40</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; (<span class="keyword">char</span> *)nullsub_1 - (<span class="keyword">char</span> *)maze_solve; ++i )</span><br><span class="line">      *((_BYTE *)maze_solve + i) ^= <span class="number">0xBB</span>u;</span><br><span class="line">    v9 = '&#125;&#123;';</span><br><span class="line">    v8 = 'galf';</span><br><span class="line">    v10 = <span class="number">0</span>;</span><br><span class="line">    j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( input[j] != *((_BYTE *)&amp;v8 + j) )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_8;</span><br><span class="line">      ++j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> ( j &lt; <span class="number">5</span> );</span><br><span class="line">    LOBYTE(i) = v7;</span><br><span class="line">    <span class="keyword">if</span> ( v7 != *((_BYTE *)&amp;v8 + j) )</span><br><span class="line">LABEL_8:</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    base64(i, input);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  int i; // ecx
+  signed int j; // eax
+  char input[39]; // [esp+0h] [ebp-40h]
+  char v7; // [esp+27h] [ebp-19h]
+  int v8; // [esp+34h] [ebp-Ch]
+  __int16 v9; // [esp+38h] [ebp-8h]
+  char v10; // [esp+3Ah] [ebp-6h]
+
+  input[0] = 0;
+  memset(&amp;input[1], 0, 0x31u);
+  printf(&quot;input flag:\n&quot;);
+  scanf(&quot;%50s&quot;, input);
+  if ( strlen(input) == 40 )
+  {
+    for ( i = 0; i &lt; (char *)nullsub_1 - (char *)maze_solve; ++i )
+      *((_BYTE *)maze_solve + i) ^= 0xBBu;
+    v9 = &#39;}{&#39;;
+    v8 = &#39;galf&#39;;
+    v10 = 0;
+    j = 0;
+    do
+    {
+      if ( input[j] != *((_BYTE *)&amp;v8 + j) )
+        goto LABEL_8;
+      ++j;
+    }
+    while ( j &lt; 5 );
+    LOBYTE(i) = v7;
+    if ( v7 != *((_BYTE *)&amp;v8 + j) )
+LABEL_8:
+      exit(0);
+    base64(i, input);
+  }
+  return 0;
+}
+</code></pre>
 <p>进入加密函数后，先是对六位异或，然后 base64 几位字符，最后走个 maze。solve 脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">flag = <span class="string">'flag&#123;'</span></span><br><span class="line">enc1 = [<span class="number">0xF2</span>, <span class="number">0xEE</span>, <span class="number">0xEF</span>, <span class="number">0xF5</span>, <span class="number">0xD9</span>, <span class="number">0xEF</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc1)):</span><br><span class="line">  flag += chr(enc1[i] ^ <span class="number">0x86</span>)</span><br><span class="line">enc2 = <span class="string">'z91c'</span>[::<span class="number">-1</span>] + <span class="string">'fNWb'</span>[::<span class="number">-1</span>]</span><br><span class="line">flag += base64.b64decode(enc2)</span><br><span class="line"><span class="comment"># maze</span></span><br><span class="line"><span class="comment"># --------</span></span><br><span class="line"><span class="comment"># g +    +</span></span><br><span class="line"><span class="comment"># + + ++ +</span></span><br><span class="line"><span class="comment"># + + #+ +</span></span><br><span class="line"><span class="comment"># + ++++ +</span></span><br><span class="line"><span class="comment"># + ++++ +</span></span><br><span class="line"><span class="comment"># +      +</span></span><br><span class="line"><span class="comment"># --------</span></span><br><span class="line"><span class="comment"># 'a'-down '2'-up 'q'-left 'w'-right</span></span><br><span class="line">path = <span class="string">'waaaaawwwww22222qqaaw'</span></span><br><span class="line">flag += path</span><br><span class="line">flag += <span class="string">'&#125;'</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'flag:'</span>, flag</span><br></pre></td></tr></table></figure>
-<h2 id="秋名山车神"><a href="#秋名山车神" class="headerlink" title="秋名山车神"></a>秋名山车神</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> file re5</span></span><br><span class="line">re5: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=1c630722da16df2163ff83ea21cce93bf6b71a87, not stripped</span><br></pre></td></tr></table></figure>
+<pre><code class="python">import base64
+flag = &#39;flag{&#39;
+enc1 = [0xF2, 0xEE, 0xEF, 0xF5, 0xD9, 0xEF]
+for i in range(len(enc1)):
+  flag += chr(enc1[i] ^ 0x86)
+enc2 = &#39;z91c&#39;[::-1] + &#39;fNWb&#39;[::-1]
+flag += base64.b64decode(enc2)
+# maze
+# --------
+# g +    +
+# + + ++ +
+# + + #+ +
+# + ++++ +
+# + ++++ +
+# +      +
+# --------
+# &#39;a&#39;-down &#39;2&#39;-up &#39;q&#39;-left &#39;w&#39;-right
+path = &#39;waaaaawwwww22222qqaaw&#39;
+flag += path
+flag += &#39;}&#39;
+print &#39;flag:&#39;, flag
+</code></pre>
+<h2 id="秋名山车神"><a href="#秋名山车神" class="headerlink" title="秋名山车神"></a>秋名山车神</h2><pre><code class="shell">$ file re5
+re5: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=1c630722da16df2163ff83ea21cce93bf6b71a87, not stripped
+</code></pre>
 <p>32 位 elf 拖进 ida 查看：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [esp+0h] [ebp-2F0h]</span></span><br><span class="line">  <span class="keyword">char</span> <span class="keyword">m_t</span>; <span class="comment">// [esp+80h] [ebp-270h]</span></span><br><span class="line">  <span class="keyword">char</span> matrix; <span class="comment">// [esp+180h] [ebp-170h]</span></span><br><span class="line">  <span class="keyword">char</span> input; <span class="comment">// [esp+282h] [ebp-6Eh]</span></span><br><span class="line">  <span class="keyword">int</span> pipes[<span class="number">2</span>]; <span class="comment">// [esp+2C8h] [ebp-28h]</span></span><br><span class="line">  <span class="keyword">__pid_t</span> pid; <span class="comment">// [esp+2D0h] [ebp-20h]</span></span><br><span class="line">  <span class="keyword">size_t</span> length; <span class="comment">// [esp+2D4h] [ebp-1Ch]</span></span><br><span class="line">  <span class="keyword">int</span> *v11; <span class="comment">// [esp+2E4h] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  v11 = &amp;argc;</span><br><span class="line">  length = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">memset</span>(&amp;v4, <span class="number">0</span>, <span class="number">0x80</span>u);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"input flag:"</span>);</span><br><span class="line">  __isoc99_scanf();</span><br><span class="line">  length = <span class="built_in">strlen</span>(&amp;input);</span><br><span class="line">  <span class="keyword">if</span> ( length != <span class="number">64</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( pipe(pipes) &lt; <span class="number">0</span> )</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  pid = fork();</span><br><span class="line">  <span class="keyword">if</span> ( pid &lt; <span class="number">0</span> )</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">if</span> ( pid &lt;= <span class="number">0</span> )                               <span class="comment">// children process</span></span><br><span class="line">  &#123;</span><br><span class="line">    close(pipes[<span class="number">1</span>]);</span><br><span class="line">    read(pipes[<span class="number">0</span>], &amp;input, length);</span><br><span class="line">    ck2((<span class="keyword">char</span> **)&amp;matrix, &amp;input);</span><br><span class="line">    ck3((<span class="keyword">char</span> **)key_matrix, (<span class="keyword">char</span> **)&amp;matrix, (<span class="keyword">int</span>)&amp;<span class="keyword">m_t</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">if</span> ( ck4((<span class="keyword">int</span>)&amp;<span class="keyword">m_t</span>) )</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"Congratulate!!!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>                                          <span class="comment">// father process</span></span><br><span class="line">  &#123;</span><br><span class="line">    close(pipes[<span class="number">0</span>]);</span><br><span class="line">    ck1(&amp;input, length);</span><br><span class="line">    write(pipes[<span class="number">1</span>], &amp;input, length);</span><br><span class="line">    wait(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>main 函数中主要是先读取一个字符串，如果长度不为 64 则退出。之后 fork 了一个子进程，然后新建一个 pipe，在父进程把字符串输入 pipe，经过<code>ck1()</code>之后送到 pipe 里；子进程从 pipe 读取字符串，经过<code>ck2()</code>和<code>ck3()</code>后，在<code>ck4()</code>里判断。下面一个个分析。</p>
-<p><code>ck1()</code>是 rot13 加密：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">int __cdecl ck1(char *input, int length)</span><br><span class="line">&#123;</span><br><span class="line">  int result; // eax</span><br><span class="line">  char v3; // [esp+Bh] [ebp-5h]</span><br><span class="line">  int i; // [esp+Ch] [ebp-4h]</span><br><span class="line"></span><br><span class="line">  for ( i = 0; ; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    result = i;</span><br><span class="line">    if ( i &gt;= length )</span><br><span class="line">      break;</span><br><span class="line">    v3 = input[i] + 13;</span><br><span class="line">    if ( input[i] &lt;= 96 || input[i] &gt; 122 )</span><br><span class="line">    &#123;</span><br><span class="line">      if ( input[i] &lt;= 64 || input[i] &gt; 90 )</span><br><span class="line">      &#123;</span><br><span class="line">        v3 = input[i];</span><br><span class="line">      &#125;</span><br><span class="line">      else if ( (unsigned __int8)v3 &gt; 0x5Au )</span><br><span class="line">      &#123;</span><br><span class="line">        v3 = input[i] - 13;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else if ( (unsigned __int8)v3 &gt; 0x7Au )</span><br><span class="line">    &#123;</span><br><span class="line">      v3 = input[i] - 13;</span><br><span class="line">    &#125;</span><br><span class="line">    input[i] = v3;</span><br><span class="line">  &#125;</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>ck2()</code>这里把输入的字符串转化成 8x8 的矩阵：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">signed</span> <span class="keyword">int</span> __<span class="function">cdecl <span class="title">ck2</span><span class="params">(<span class="keyword">char</span> **m, <span class="keyword">char</span> *input)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">int</span> v3; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">char</span> *v4; <span class="comment">// edx</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// [esp+4h] [ebp-Ch]</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [esp+8h] [ebp-8h]</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> j; <span class="comment">// [esp+Ch] [ebp-4h]</span></span><br><span class="line"></span><br><span class="line">  result = <span class="number">134520832</span>;</span><br><span class="line">  v5 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">7</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">7</span>; ++j )</span><br><span class="line">    &#123;</span><br><span class="line">      v3 = v5;</span><br><span class="line">      v5 += (<span class="keyword">int</span>)&amp;(&amp;GLOBAL_OFFSET_TABLE_)[<span class="number">4290763520</span>] + <span class="number">1</span>;</span><br><span class="line">      v4 = (<span class="keyword">char</span> *)input[v3];</span><br><span class="line">      result = j;</span><br><span class="line">      (&amp;m[<span class="number">8</span> * i])[j] = v4;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>ck3()</code>将输入的矩阵与一个 global 的矩阵<code>key</code>相乘：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">ck3</span><span class="params">(<span class="keyword">char</span> **key, <span class="keyword">char</span> **input, <span class="keyword">char</span> **a3, <span class="keyword">int</span> a4_8, <span class="keyword">int</span> a5_8, <span class="keyword">int</span> a6_8)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">int</span> m; <span class="comment">// [esp+4h] [ebp-10h]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [esp+8h] [ebp-Ch]</span></span><br><span class="line">  <span class="keyword">int</span> k; <span class="comment">// [esp+8h] [ebp-Ch]</span></span><br><span class="line">  <span class="keyword">int</span> j; <span class="comment">// [esp+Ch] [ebp-8h]</span></span><br><span class="line">  <span class="keyword">int</span> l; <span class="comment">// [esp+Ch] [ebp-8h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; a5_8; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; a4_8; ++j )</span><br><span class="line">      (&amp;a3[<span class="number">8</span> * i])[j] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> ( k = <span class="number">0</span>; ; ++k )</span><br><span class="line">  &#123;</span><br><span class="line">    result = k;</span><br><span class="line">    <span class="keyword">if</span> ( k &gt;= a5_8 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">for</span> ( l = <span class="number">0</span>; l &lt; a4_8; ++l )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">for</span> ( m = <span class="number">0</span>; m &lt; a6_8; ++m )</span><br><span class="line">        (&amp;a3[<span class="number">8</span> * k])[l] = &amp;(&amp;a3[<span class="number">8</span> * k])[l][(_DWORD)(&amp;key[<span class="number">8</span> * k])[m] * (_DWORD)(&amp;input[<span class="number">8</span> * m])[l]];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最后的<code>ck4()</code>将输出的矩阵与 global 的<code>enc_flag</code>进行比较：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">signed</span> <span class="keyword">int</span> __<span class="function">cdecl <span class="title">ck4</span><span class="params">(<span class="keyword">char</span> **m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [esp+8h] [ebp-Ch]</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> j; <span class="comment">// [esp+Ch] [ebp-8h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">7</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">7</span>; ++j )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( (&amp;m[<span class="number">8</span> * i])[j] != *(<span class="keyword">char</span> **)&amp;enc_flag[<span class="number">4</span> * (<span class="number">8</span> * i + j)] )</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char v4; // [esp+0h] [ebp-2F0h]
+  char m_t; // [esp+80h] [ebp-270h]
+  char matrix; // [esp+180h] [ebp-170h]
+  char input; // [esp+282h] [ebp-6Eh]
+  int pipes[2]; // [esp+2C8h] [ebp-28h]
+  __pid_t pid; // [esp+2D0h] [ebp-20h]
+  size_t length; // [esp+2D4h] [ebp-1Ch]
+  int *v11; // [esp+2E4h] [ebp-Ch]
+
+  v11 = &amp;argc;
+  length = 0;
+  memset(&amp;v4, 0, 0x80u);
+  puts(&quot;input flag:&quot;);
+  __isoc99_scanf();
+  length = strlen(&amp;input);
+  if ( length != 64 )
+    return 0;
+  if ( pipe(pipes) &lt; 0 )
+    exit(1);
+  pid = fork();
+  if ( pid &lt; 0 )
+    exit(1);
+  if ( pid &lt;= 0 )                               // children process
+  {
+    close(pipes[1]);
+    read(pipes[0], &amp;input, length);
+    ck2((char **)&amp;matrix, &amp;input);
+    ck3((char **)key_matrix, (char **)&amp;matrix, (int)&amp;m_t, 8, 8, 8);
+    if ( ck4((int)&amp;m_t) )
+      printf(&quot;Congratulate!!!&quot;);
+  }
+  else                                          // father process
+  {
+    close(pipes[0]);
+    ck1(&amp;input, length);
+    write(pipes[1], &amp;input, length);
+    wait(0);
+  }
+  return 0;
+}
+</code></pre>
+<p>main 函数中主要是先读取一个字符串，如果长度不为 64 则退出。之后 fork 了一个子进程，然后新建一个 pipe，在父进程把字符串输入 pipe，经过 <code>ck1()</code> 之后送到 pipe 里；子进程从 pipe 读取字符串，经过 <code>ck2()</code> 和 <code>ck3()</code> 后，在 <code>ck4()</code> 里判断。下面一个个分析。</p>
+<p><code>ck1()</code> 是 rot13 加密：</p>
+<pre><code class="cpp">int __cdecl ck1(char *input, int length)
+{
+  int result; // eax
+  char v3; // [esp+Bh] [ebp-5h]
+  int i; // [esp+Ch] [ebp-4h]
+
+  for ( i = 0; ; ++i )
+  {
+    result = i;
+    if ( i &gt;= length )
+      break;
+    v3 = input[i] + 13;
+    if ( input[i] &lt;= 96 || input[i] &gt; 122 )
+    {
+      if ( input[i] &lt;= 64 || input[i] &gt; 90 )
+      {
+        v3 = input[i];
+      }
+      else if ( (unsigned __int8)v3 &gt; 0x5Au )
+      {
+        v3 = input[i] - 13;
+      }
+    }
+    else if ( (unsigned __int8)v3 &gt; 0x7Au )
+    {
+      v3 = input[i] - 13;
+    }
+    input[i] = v3;
+  }
+  return result;
+}
+</code></pre>
+<p><code>ck2()</code> 这里把输入的字符串转化成 8x8 的矩阵：</p>
+<pre><code class="cpp">signed int __cdecl ck2(char **m, char *input)
+{
+  signed int result; // eax
+  int v3; // eax
+  char *v4; // edx
+  int v5; // [esp+4h] [ebp-Ch]
+  signed int i; // [esp+8h] [ebp-8h]
+  signed int j; // [esp+Ch] [ebp-4h]
+
+  result = 134520832;
+  v5 = 0;
+  for ( i = 0; i &lt;= 7; ++i )
+  {
+    for ( j = 0; j &lt;= 7; ++j )
+    {
+      v3 = v5;
+      v5 += (int)&amp;(&amp;GLOBAL_OFFSET_TABLE_)[4290763520] + 1;
+      v4 = (char *)input[v3];
+      result = j;
+      (&amp;m[8 * i])[j] = v4;
+    }
+  }
+  return result;
+}
+</code></pre>
+<p><code>ck3()</code> 将输入的矩阵与一个 global 的矩阵 <code>key</code> 相乘：</p>
+<pre><code class="cpp">int __cdecl ck3(char **key, char **input, char **a3, int a4_8, int a5_8, int a6_8)
+{
+  int result; // eax
+  int m; // [esp+4h] [ebp-10h]
+  int i; // [esp+8h] [ebp-Ch]
+  int k; // [esp+8h] [ebp-Ch]
+  int j; // [esp+Ch] [ebp-8h]
+  int l; // [esp+Ch] [ebp-8h]
+
+  for ( i = 0; i &lt; a5_8; ++i )
+  {
+    for ( j = 0; j &lt; a4_8; ++j )
+      (&amp;a3[8 * i])[j] = 0;
+  }
+  for ( k = 0; ; ++k )
+  {
+    result = k;
+    if ( k &gt;= a5_8 )
+      break;
+    for ( l = 0; l &lt; a4_8; ++l )
+    {
+      for ( m = 0; m &lt; a6_8; ++m )
+        (&amp;a3[8 * k])[l] = &amp;(&amp;a3[8 * k])[l][(_DWORD)(&amp;key[8 * k])[m] * (_DWORD)(&amp;input[8 * m])[l]];
+    }
+  }
+  return result;
+}
+</code></pre>
+<p>最后的 <code>ck4()</code> 将输出的矩阵与 global 的 <code>enc_flag</code> 进行比较：</p>
+<pre><code class="cpp">signed int __cdecl ck4(char **m)
+{
+  signed int i; // [esp+8h] [ebp-Ch]
+  signed int j; // [esp+Ch] [ebp-8h]
+
+  for ( i = 0; i &lt;= 7; ++i )
+  {
+    for ( j = 0; j &lt;= 7; ++j )
+    {
+      if ( (&amp;m[8 * i])[j] != *(char **)&amp;enc_flag[4 * (8 * i + j)] )
+        return 0;
+    }
+  }
+  return 1;
+}
+</code></pre>
 <p>主要用 numpy，可以比较方便地实现矩阵间的运算。脚本如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">key = [<span class="number">0x0000002B</span>, <span class="number">0x00000016</span>, <span class="number">0x0000001E</span>, <span class="number">0x00000053</span>, <span class="number">0x00000035</span>, <span class="number">0x00000039</span>, <span class="number">0x00000020</span>, <span class="number">0x00000029</span>, <span class="number">0x00000035</span>, <span class="number">0x00000063</span>, <span class="number">0x0000000A</span>, <span class="number">0x00000028</span>, <span class="number">0x0000002C</span>, <span class="number">0x00000006</span>, <span class="number">0x00000032</span>, <span class="number">0x0000002A</span>, <span class="number">0x00000055</span>, <span class="number">0x00000039</span>, <span class="number">0x00000014</span>, <span class="number">0x0000005F</span>, <span class="number">0x00000020</span>, <span class="number">0x00000019</span>, <span class="number">0x00000034</span>, <span class="number">0x00000021</span>, <span class="number">0x00000019</span>, <span class="number">0x0000000B</span>, <span class="number">0x0000005A</span>, <span class="number">0x00000009</span>, <span class="number">0x00000050</span>, <span class="number">0x00000034</span>, <span class="number">0x0000006F</span>, <span class="number">0x0000005C</span>, <span class="number">0x00000016</span>, <span class="number">0x0000001A</span>, <span class="number">0x00000068</span>, <span class="number">0x00000063</span>, <span class="number">0x00000034</span>, <span class="number">0x0000004E</span>, <span class="number">0x00000016</span>, <span class="number">0x00000045</span>, <span class="number">0x0000004C</span>, <span class="number">0x00000053</span>, <span class="number">0x0000002F</span>, <span class="number">0x0000003F</span>, <span class="number">0x0000003F</span>, <span class="number">0x00000028</span>, <span class="number">0x00000069</span>, <span class="number">0x00000051</span>, <span class="number">0x00000039</span>, <span class="number">0x00000044</span>, <span class="number">0x00000012</span>, <span class="number">0x00000024</span>, <span class="number">0x0000000A</span>, <span class="number">0x0000004D</span>, <span class="number">0x00000055</span>, <span class="number">0x00000031</span>, <span class="number">0x00000049</span>, <span class="number">0x0000003B</span>, <span class="number">0x00000040</span>, <span class="number">0x0000003B</span>, <span class="number">0x00000043</span>, <span class="number">0x00000028</span>, <span class="number">0x00000021</span>, <span class="number">0x00000036</span>]</span><br><span class="line">enc = [<span class="number">0x00009A06</span>, <span class="number">0x0000879A</span>, <span class="number">0x00007DC4</span>, <span class="number">0x00008F1F</span>, <span class="number">0x000088AC</span>, <span class="number">0x0000850B</span>, <span class="number">0x0000785D</span>, <span class="number">0x0000822E</span>, <span class="number">0x00008FBC</span>, <span class="number">0x00007F69</span>, <span class="number">0x000081E5</span>, <span class="number">0x00008714</span>, <span class="number">0x00008572</span>, <span class="number">0x00008786</span>, <span class="number">0x00006A94</span>, <span class="number">0x000076FE</span>, <span class="number">0x0000A871</span>, <span class="number">0x00009A1E</span>, <span class="number">0x0000967E</span>, <span class="number">0x00009D97</span>, <span class="number">0x00009D4B</span>, <span class="number">0x00009AC6</span>, <span class="number">0x00007E38</span>, <span class="number">0x00008C62</span>, <span class="number">0x0000CD4A</span>, <span class="number">0x00009116</span>, <span class="number">0x0000A837</span>, <span class="number">0x0000A960</span>, <span class="number">0x0000A3A7</span>, <span class="number">0x00009B7E</span>, <span class="number">0x0000AC9C</span>, <span class="number">0x0000AB9E</span>, <span class="number">0x0000C94C</span>, <span class="number">0x0000AD7C</span>, <span class="number">0x0000A2C8</span>, <span class="number">0x0000BD86</span>, <span class="number">0x0000B1ED</span>, <span class="number">0x0000AD94</span>, <span class="number">0x0000A195</span>, <span class="number">0x0000AFE8</span>, <span class="number">0x0000ED71</span>, <span class="number">0x0000C239</span>, <span class="number">0x0000CD7E</span>, <span class="number">0x0000D459</span>, <span class="number">0x0000CEFF</span>, <span class="number">0x0000CBBC</span>, <span class="number">0x0000B972</span>, <span class="number">0x0000C36F</span>, <span class="number">0x0000A82A</span>, <span class="number">0x000089EF</span>, <span class="number">0x00008CBF</span>, <span class="number">0x00009AD1</span>, <span class="number">0x0000868F</span>, <span class="number">0x000086A6</span>, <span class="number">0x00007A26</span>, <span class="number">0x00007CD2</span>, <span class="number">0x0000C000</span>, <span class="number">0x0000A97A</span>, <span class="number">0x0000A470</span>, <span class="number">0x0000B3C8</span>, <span class="number">0x0000AFE5</span>, <span class="number">0x0000ABB9</span>, <span class="number">0x00008F7D</span>, <span class="number">0x0000A70A</span>]</span><br><span class="line">key = np.mat(key).reshape(<span class="number">8</span>, <span class="number">8</span>)</span><br><span class="line">enc = np.mat(enc).reshape(<span class="number">8</span>, <span class="number">8</span>)</span><br><span class="line"><span class="comment"># enc = key * out</span></span><br><span class="line"><span class="comment"># out = key逆 * enc</span></span><br><span class="line">out = key.I * enc</span><br><span class="line">out = out.reshape(<span class="number">1</span>, <span class="number">64</span>).tolist()[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(out)):</span><br><span class="line">  out[i] = int(round(out[i]))</span><br><span class="line"><span class="keyword">print</span> out</span><br><span class="line"></span><br><span class="line">flag = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(out)):</span><br><span class="line">  flag += chr(out[i])</span><br><span class="line"><span class="keyword">print</span> flag</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rot13</span><span class="params">(s)</span>:</span></span><br><span class="line">	out = <span class="string">''</span></span><br><span class="line">	<span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">		tmp = ord(ch) + <span class="number">13</span></span><br><span class="line">		<span class="keyword">if</span> ch.isupper():</span><br><span class="line">			<span class="keyword">if</span> tmp &gt; <span class="number">90</span>:</span><br><span class="line">				tmp -= <span class="number">26</span></span><br><span class="line">		<span class="keyword">elif</span> ch.islower():</span><br><span class="line">			<span class="keyword">if</span> tmp &gt; <span class="number">122</span>:</span><br><span class="line">				tmp -= <span class="number">26</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			tmp = ord(ch)</span><br><span class="line">		out += chr(tmp)</span><br><span class="line">	<span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line">flag = rot13(flag)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'flag:'</span>, flag</span><br></pre></td></tr></table></figure>
+<pre><code class="python">import numpy as np
+key = [0x0000002B, 0x00000016, 0x0000001E, 0x00000053, 0x00000035, 0x00000039, 0x00000020, 0x00000029, 0x00000035, 0x00000063, 0x0000000A, 0x00000028, 0x0000002C, 0x00000006, 0x00000032, 0x0000002A, 0x00000055, 0x00000039, 0x00000014, 0x0000005F, 0x00000020, 0x00000019, 0x00000034, 0x00000021, 0x00000019, 0x0000000B, 0x0000005A, 0x00000009, 0x00000050, 0x00000034, 0x0000006F, 0x0000005C, 0x00000016, 0x0000001A, 0x00000068, 0x00000063, 0x00000034, 0x0000004E, 0x00000016, 0x00000045, 0x0000004C, 0x00000053, 0x0000002F, 0x0000003F, 0x0000003F, 0x00000028, 0x00000069, 0x00000051, 0x00000039, 0x00000044, 0x00000012, 0x00000024, 0x0000000A, 0x0000004D, 0x00000055, 0x00000031, 0x00000049, 0x0000003B, 0x00000040, 0x0000003B, 0x00000043, 0x00000028, 0x00000021, 0x00000036]
+enc = [0x00009A06, 0x0000879A, 0x00007DC4, 0x00008F1F, 0x000088AC, 0x0000850B, 0x0000785D, 0x0000822E, 0x00008FBC, 0x00007F69, 0x000081E5, 0x00008714, 0x00008572, 0x00008786, 0x00006A94, 0x000076FE, 0x0000A871, 0x00009A1E, 0x0000967E, 0x00009D97, 0x00009D4B, 0x00009AC6, 0x00007E38, 0x00008C62, 0x0000CD4A, 0x00009116, 0x0000A837, 0x0000A960, 0x0000A3A7, 0x00009B7E, 0x0000AC9C, 0x0000AB9E, 0x0000C94C, 0x0000AD7C, 0x0000A2C8, 0x0000BD86, 0x0000B1ED, 0x0000AD94, 0x0000A195, 0x0000AFE8, 0x0000ED71, 0x0000C239, 0x0000CD7E, 0x0000D459, 0x0000CEFF, 0x0000CBBC, 0x0000B972, 0x0000C36F, 0x0000A82A, 0x000089EF, 0x00008CBF, 0x00009AD1, 0x0000868F, 0x000086A6, 0x00007A26, 0x00007CD2, 0x0000C000, 0x0000A97A, 0x0000A470, 0x0000B3C8, 0x0000AFE5, 0x0000ABB9, 0x00008F7D, 0x0000A70A]
+key = np.mat(key).reshape(8, 8)
+enc = np.mat(enc).reshape(8, 8)
+# enc = key * out
+# out = key逆 * enc
+out = key.I * enc
+out = out.reshape(1, 64).tolist()[0]
+for i in range(len(out)):
+  out[i] = int(round(out[i]))
+print out
+
+flag = &#39;&#39;
+for i in range(len(out)):
+  flag += chr(out[i])
+print flag
+
+def rot13(s):
+    out = &#39;&#39;
+    for ch in s:
+        tmp = ord(ch) + 13
+        if ch.isupper():
+            if tmp &gt; 90:
+                tmp -= 26
+        elif ch.islower():
+            if tmp &gt; 122:
+                tmp -= 26
+        else:
+            tmp = ord(ch)
+        out += chr(tmp)
+    return out
+
+flag = rot13(flag)
+print &#39;flag:&#39;, flag
+</code></pre>
 <h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><h2 id="贝斯家族永不言败"><a href="#贝斯家族永不言败" class="headerlink" title="贝斯家族永不言败"></a>贝斯家族永不言败</h2><p>各种 base 解码。</p>
 <h2 id="壮壮可能是疯了…"><a href="#壮壮可能是疯了…" class="headerlink" title="壮壮可能是疯了…"></a>壮壮可能是疯了…</h2><p>通过猪圈密码解开第一步。</p>
-<p><img src="/pics/2018-ZJGSUCTF/CRYPTO/1.png" alt="猪圈密码"></p>
+<p><img src="/pics/2018-ZJGSUCTF/CRYPTO/1.png" srcset="/img/loading.gif" alt></p>
 <h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="这是神魔鬼"><a href="#这是神魔鬼" class="headerlink" title="这是神魔鬼"></a>这是神魔鬼</h2><p>词频题，解码网站在<a href="https://www.quipqiup.com" target="_blank" rel="noopener">这里</a>。</p>
 <h2 id="表情包-10-块钱"><a href="#表情包-10-块钱" class="headerlink" title="表情包 10 块钱"></a>表情包 10 块钱</h2><p>用 stegsolve 打开 gif 逐帧查看，快速看过 260+的图像后，收集到一张二维码的四片碎片，用美图秀秀拼接起来，再 XOR 一下，扫码得到 flag。</p>
 <h2 id="童年"><a href="#童年" class="headerlink" title="童年"></a>童年</h2><p>用金手指作弊通关魂斗罗得到 flag。</p>
-<p><img src="/pics/2018-ZJGSUCTF/MISC/1.jpg" alt="作弊内容"></p>
+<p><img src="/pics/2018-ZJGSUCTF/MISC/1.jpg" srcset="/img/loading.gif" alt></p>
 <h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://esebanana.github.io/2018/05/07/wp_2018_5_7_ZJGSUCTF/" target="_blank" rel="noopener">https://esebanana.github.io/2018/05/07/wp_2018_5_7_ZJGSUCTF/</a><br><a href="https://bbs.pediy.com/thread-158896.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-158896.htm</a><br><a href="https://esebanana.github.io/2018/04/08/re_10_tls_smc/" target="_blank" rel="noopener">https://esebanana.github.io/2018/04/08/re_10_tls_smc/</a><br><a href="https://esebanana.github.io/2018/04/12/re_11_tou_ke/" target="_blank" rel="noopener">https://esebanana.github.io/2018/04/12/re_11_tou_ke/</a><br><a href="https://www.52pojie.cn/thread-593356-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-593356-1-1.html</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2018/05/16/Apache-Rewrite（路由重写）/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Apache Rewrite（路由重写）</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2018/04/17/macOS下利用Hexo和Github搭建博客/">
+                        <span>macOS下利用Hexo和Github搭建博客</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wp/">wp</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2018/05/16/Apache-Rewrite（路由重写）/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Apache Rewrite（路由重写）
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2018/04/17/macOS下利用Hexo和Github搭建博客/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">macOS下利用Hexo和Github搭建博客</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WEB"><span class="nav-number">1.</span> <span class="nav-text">WEB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#奇淫技巧"><span class="nav-number">1.1.</span> <span class="nav-text">奇淫技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#送分的"><span class="nav-number">1.2.</span> <span class="nav-text">送分的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给你的小世界"><span class="nav-number">1.3.</span> <span class="nav-text">给你的小世界</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RE"><span class="nav-number">2.</span> <span class="nav-text">RE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#签到题"><span class="nav-number">2.1.</span> <span class="nav-text">签到题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babyre"><span class="nav-number">2.2.</span> <span class="nav-text">babyre</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#New-driver"><span class="nav-number">2.3.</span> <span class="nav-text">New driver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Old-driver"><span class="nav-number">2.4.</span> <span class="nav-text">Old driver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秋名山车神"><span class="nav-number">2.5.</span> <span class="nav-text">秋名山车神</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CRYPTO"><span class="nav-number">3.</span> <span class="nav-text">CRYPTO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#贝斯家族永不言败"><span class="nav-number">3.1.</span> <span class="nav-text">贝斯家族永不言败</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#壮壮可能是疯了…"><span class="nav-number">3.2.</span> <span class="nav-text">壮壮可能是疯了…</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MISC"><span class="nav-number">4.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#这是神魔鬼"><span class="nav-number">4.1.</span> <span class="nav-text">这是神魔鬼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表情包-10-块钱"><span class="nav-number">4.2.</span> <span class="nav-text">表情包 10 块钱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#童年"><span class="nav-number">4.3.</span> <span class="nav-text">童年</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考网站"><span class="nav-number">5.</span> <span class="nav-text">参考网站</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "2018-ZJGSUCTF&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -447,5 +961,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

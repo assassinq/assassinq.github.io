@@ -1,392 +1,860 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>C语言实现RC2、RC5、RC6加密解密算法 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="ccrypto">
-  
-  
-  
-  
-  <meta name="description" content="RC 算法是由 Ron Rivest 发明的一系列对称密钥加密算法。虽然这一系列的算法名字相似，但实际上算法之间没有太大的关联。">
-<meta name="keywords" content="c,crypto">
-<meta property="og:type" content="article">
-<meta property="og:title" content="C语言实现RC2、RC5、RC6加密解密算法">
-<meta property="og:url" content="blog.b3ale.cn/2019/09/03/C语言实现RC2、RC5、RC6加密解密算法/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="RC 算法是由 Ron Rivest 发明的一系列对称密钥加密算法。虽然这一系列的算法名字相似，但实际上算法之间没有太大的关联。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc2.png">
-<meta property="og:image" content="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc5.png">
-<meta property="og:image" content="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc6.jpeg">
-<meta property="og:updated_time" content="2019-09-06T09:17:29.717Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C语言实现RC2、RC5、RC6加密解密算法">
-<meta name="twitter:description" content="RC 算法是由 Ron Rivest 发明的一系列对称密钥加密算法。虽然这一系列的算法名字相似，但实际上算法之间没有太大的关联。">
-<meta name="twitter:image" content="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc2.png">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>C语言实现RC2、RC5、RC6加密解密算法 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-C语言实现RC2、RC5、RC6加密解密算法" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      C语言实现RC2、RC5、RC6加密解密算法
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/09/03/C语言实现RC2、RC5、RC6加密解密算法/" class="article-date">
-	  <time datetime="2019-09-03T05:38:28.000Z" itemprop="datePublished">September 3, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  3.2k words
-	  |
-	  17 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Tuesday, September 3rd 2019, 1:38 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    3.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      17 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>RC 算法是由 Ron Rivest 发明的一系列对称密钥加密算法。虽然这一系列的算法名字相似，但实际上算法之间没有太大的关联。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>RC 算法是由 Ron Rivest 发明的一系列对称密钥加密算法。虽然这一系列的算法名字相似，但实际上算法之间没有太大的关联。</p>
 <a id="more"></a>
 <h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>现在总共有六个 RC 系列的算法。其中 RC1 从来没有发布过，RC3 在开始使用前就被证明是不安全的。余下的都是现如今有所运用的算法。</p>
 <ol>
 <li>RC2 是一个于 1987 年发布的 64 位分组加密算法。</li>
-<li>RC4 是当今运用最广泛的序列密码。我在<a href="https://qianfei11.github.io/2018/05/13/C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0RC4%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">之前的文章</a>中实现过。</li>
+<li>RC4 是当今运用最广泛的序列密码。</li>
 <li>RC5 是一个于 1994 年发布的 32/64/128 位分组加密算法。</li>
 <li>RC6 是一个于 1997 年发布的基于 RC5 的 128 位分组加密算法，在当年 AES 的评选中曾是 AES 决赛算法。</li>
 </ol>
 <p>了解过算法的基本知识后，下面是 RC2、RC5 以及 RC6 在 C 语言下的实现。</p>
 <h1 id="RC2"><a href="#RC2" class="headerlink" title="RC2"></a><a href="https://en.wikipedia.org/wiki/RC2" target="_blank" rel="noopener">RC2</a></h1><p>RC2 是一种分组密码，和 DES 很像，它的输入和输出的长度都是 64 位，而密钥是可变的，长度范围是从 1 到 128 比特，目前使用的是 8 比特的密钥。RC2 被设计成能够在 16 位处理器上运行。在 IBM AT 上它能够比 DES 的加密速度快一倍（假设在完成密钥扩展的情况下）。</p>
 <p>RC2 总共分为三个算法步骤。分别是密钥扩展、加密、解密。</p>
-<p><img src="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc2.png" alt="RC2 加密算法"></p>
+<p><img src="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc2.png" srcset="/img/loading.gif" alt></p>
 <h2 id="密钥扩展算法"><a href="#密钥扩展算法" class="headerlink" title="密钥扩展算法"></a>密钥扩展算法</h2><p>密钥扩展通过一个长度变化的密钥生成 64 个字数组。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc2_keygen</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">short</span> xkey[<span class="number">64</span>], <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *key, <span class="keyword">unsigned</span> len, <span class="keyword">unsigned</span> bits)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> x;</span><br><span class="line">    <span class="keyword">unsigned</span> i;</span><br><span class="line">    <span class="comment">/* 256-entry permutation table, probably derived somehow from pi */</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> PITABLE[<span class="number">256</span>] = &#123;<span class="number">0xD9</span>, <span class="number">0x78</span>, <span class="number">0xF9</span>, <span class="number">0xC4</span>, <span class="number">0x19</span>, <span class="number">0xDD</span>, <span class="number">0xB5</span>, <span class="number">0xED</span>, <span class="number">0x28</span>, <span class="number">0xE9</span>, <span class="number">0xFD</span>, <span class="number">0x79</span>, <span class="number">0x4A</span>, <span class="number">0xA0</span>, <span class="number">0xD8</span>, <span class="number">0x9D</span>, <span class="number">0xC6</span>, <span class="number">0x7E</span>, <span class="number">0x37</span>, <span class="number">0x83</span>, <span class="number">0x2B</span>, <span class="number">0x76</span>, <span class="number">0x53</span>, <span class="number">0x8E</span>, <span class="number">0x62</span>, <span class="number">0x4C</span>, <span class="number">0x64</span>, <span class="number">0x88</span>, <span class="number">0x44</span>, <span class="number">0x8B</span>, <span class="number">0xFB</span>, <span class="number">0xA2</span>, <span class="number">0x17</span>, <span class="number">0x9A</span>, <span class="number">0x59</span>, <span class="number">0xF5</span>, <span class="number">0x87</span>, <span class="number">0xB3</span>, <span class="number">0x4F</span>, <span class="number">0x13</span>, <span class="number">0x61</span>, <span class="number">0x45</span>, <span class="number">0x6D</span>, <span class="number">0x8D</span>, <span class="number">0x09</span>, <span class="number">0x81</span>, <span class="number">0x7D</span>, <span class="number">0x32</span>, <span class="number">0xBD</span>, <span class="number">0x8F</span>, <span class="number">0x40</span>, <span class="number">0xEB</span>, <span class="number">0x86</span>, <span class="number">0xB7</span>, <span class="number">0x7B</span>, <span class="number">0x0B</span>, <span class="number">0xF0</span>, <span class="number">0x95</span>, <span class="number">0x21</span>, <span class="number">0x22</span>, <span class="number">0x5C</span>, <span class="number">0x6B</span>, <span class="number">0x4E</span>, <span class="number">0x82</span>, <span class="number">0x54</span>, <span class="number">0xD6</span>, <span class="number">0x65</span>, <span class="number">0x93</span>, <span class="number">0xCE</span>, <span class="number">0x60</span>, <span class="number">0xB2</span>, <span class="number">0x1C</span>, <span class="number">0x73</span>, <span class="number">0x56</span>, <span class="number">0xC0</span>, <span class="number">0x14</span>, <span class="number">0xA7</span>, <span class="number">0x8C</span>, <span class="number">0xF1</span>, <span class="number">0xDC</span>, <span class="number">0x12</span>, <span class="number">0x75</span>, <span class="number">0xCA</span>, <span class="number">0x1F</span>, <span class="number">0x3B</span>, <span class="number">0xBE</span>, <span class="number">0xE4</span>, <span class="number">0xD1</span>, <span class="number">0x42</span>, <span class="number">0x3D</span>, <span class="number">0xD4</span>, <span class="number">0x30</span>, <span class="number">0xA3</span>, <span class="number">0x3C</span>, <span class="number">0xB6</span>, <span class="number">0x26</span>, <span class="number">0x6F</span>, <span class="number">0xBF</span>, <span class="number">0x0E</span>, <span class="number">0xDA</span>, <span class="number">0x46</span>, <span class="number">0x69</span>, <span class="number">0x07</span>, <span class="number">0x57</span>, <span class="number">0x27</span>, <span class="number">0xF2</span>, <span class="number">0x1D</span>, <span class="number">0x9B</span>, <span class="number">0xBC</span>, <span class="number">0x94</span>, <span class="number">0x43</span>, <span class="number">0x03</span>, <span class="number">0xF8</span>, <span class="number">0x11</span>, <span class="number">0xC7</span>, <span class="number">0xF6</span>, <span class="number">0x90</span>, <span class="number">0xEF</span>, <span class="number">0x3E</span>, <span class="number">0xE7</span>, <span class="number">0x06</span>, <span class="number">0xC3</span>, <span class="number">0xD5</span>, <span class="number">0x2F</span>, <span class="number">0xC8</span>, <span class="number">0x66</span>, <span class="number">0x1E</span>, <span class="number">0xD7</span>, <span class="number">0x08</span>, <span class="number">0xE8</span>, <span class="number">0xEA</span>, <span class="number">0xDE</span>, <span class="number">0x80</span>, <span class="number">0x52</span>, <span class="number">0xEE</span>, <span class="number">0xF7</span>, <span class="number">0x84</span>, <span class="number">0xAA</span>, <span class="number">0x72</span>, <span class="number">0xAC</span>, <span class="number">0x35</span>, <span class="number">0x4D</span>, <span class="number">0x6A</span>, <span class="number">0x2A</span>, <span class="number">0x96</span>, <span class="number">0x1A</span>, <span class="number">0xD2</span>, <span class="number">0x71</span>, <span class="number">0x5A</span>, <span class="number">0x15</span>, <span class="number">0x49</span>, <span class="number">0x74</span>, <span class="number">0x4B</span>, <span class="number">0x9F</span>, <span class="number">0xD0</span>, <span class="number">0x5E</span>, <span class="number">0x04</span>, <span class="number">0x18</span>, <span class="number">0xA4</span>, <span class="number">0xEC</span>, <span class="number">0xC2</span>, <span class="number">0xE0</span>, <span class="number">0x41</span>, <span class="number">0x6E</span>, <span class="number">0x0F</span>, <span class="number">0x51</span>, <span class="number">0xCB</span>, <span class="number">0xCC</span>, <span class="number">0x24</span>, <span class="number">0x91</span>, <span class="number">0xAF</span>, <span class="number">0x50</span>, <span class="number">0xA1</span>, <span class="number">0xF4</span>, <span class="number">0x70</span>, <span class="number">0x39</span>, <span class="number">0x99</span>, <span class="number">0x7C</span>, <span class="number">0x3A</span>, <span class="number">0x85</span>, <span class="number">0x23</span>, <span class="number">0xB8</span>, <span class="number">0xB4</span>, <span class="number">0x7A</span>, <span class="number">0xFC</span>, <span class="number">0x02</span>, <span class="number">0x36</span>, <span class="number">0x5B</span>, <span class="number">0x25</span>, <span class="number">0x55</span>, <span class="number">0x97</span>, <span class="number">0x31</span>, <span class="number">0x2D</span>, <span class="number">0x5D</span>, <span class="number">0xFA</span>, <span class="number">0x98</span>, <span class="number">0xE3</span>, <span class="number">0x8A</span>, <span class="number">0x92</span>, <span class="number">0xAE</span>, <span class="number">0x05</span>, <span class="number">0xDF</span>, <span class="number">0x29</span>, <span class="number">0x10</span>, <span class="number">0x67</span>, <span class="number">0x6C</span>, <span class="number">0xBA</span>, <span class="number">0xC9</span>, <span class="number">0xD3</span>, <span class="number">0x00</span>, <span class="number">0xE6</span>, <span class="number">0xCF</span>, <span class="number">0xE1</span>, <span class="number">0x9E</span>, <span class="number">0xA8</span>, <span class="number">0x2C</span>, <span class="number">0x63</span>, <span class="number">0x16</span>, <span class="number">0x01</span>, <span class="number">0x3F</span>, <span class="number">0x58</span>, <span class="number">0xE2</span>, <span class="number">0x89</span>, <span class="number">0xA9</span>, <span class="number">0x0D</span>, <span class="number">0x38</span>, <span class="number">0x34</span>, <span class="number">0x1B</span>, <span class="number">0xAB</span>, <span class="number">0x33</span>, <span class="number">0xFF</span>, <span class="number">0xB0</span>, <span class="number">0xBB</span>, <span class="number">0x48</span>, <span class="number">0x0C</span>, <span class="number">0x5F</span>, <span class="number">0xB9</span>, <span class="number">0xB1</span>, <span class="number">0xCD</span>, <span class="number">0x2E</span>, <span class="number">0xC5</span>, <span class="number">0xF3</span>, <span class="number">0xDB</span>, <span class="number">0x47</span>, <span class="number">0xE5</span>, <span class="number">0xA5</span>, <span class="number">0x9C</span>, <span class="number">0x77</span>, <span class="number">0x0A</span>, <span class="number">0xA6</span>, <span class="number">0x20</span>, <span class="number">0x68</span>, <span class="number">0xFE</span>, <span class="number">0x7F</span>, <span class="number">0xC1</span>, <span class="number">0xAD</span>&#125;;</span><br><span class="line"></span><br><span class="line">    assert(len &gt; <span class="number">0</span> &amp;&amp; len &lt;= <span class="number">128</span>);</span><br><span class="line">    assert(bits &lt;= <span class="number">1024</span>);</span><br><span class="line">    <span class="keyword">if</span> (!bits)</span><br><span class="line">        bits = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memcpy</span>(xkey, key, len);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Phase 1: Expand input key to 128 bytes */</span></span><br><span class="line">    <span class="comment">// for i = T, T+1, ..., 127 do</span></span><br><span class="line">    <span class="comment">//     L[i] = PITABLE[L[i-1] + L[i-T]];</span></span><br><span class="line">    <span class="keyword">if</span> (len &lt; <span class="number">128</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        x = ((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[len - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">        &#123;</span><br><span class="line">            x = PITABLE[(x + ((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[i++]) &amp; <span class="number">255</span>];</span><br><span class="line">            ((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[len++] = x;</span><br><span class="line">        &#125; <span class="keyword">while</span> (len &lt; <span class="number">128</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Phase 2 - reduce effective key size to "bits" */</span></span><br><span class="line">    <span class="comment">// L[128-T8] = PITABLE[L[128-T8] &amp; TM];</span></span><br><span class="line">    len = (bits + <span class="number">7</span>) &gt;&gt; <span class="number">3</span>; <span class="comment">// bits = T1, len = T8, T8 = (T1+7)/8;</span></span><br><span class="line">    i = <span class="number">128</span> - len;</span><br><span class="line">    x = PITABLE[((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[i] &amp; (<span class="number">255</span> &gt;&gt; (<span class="number">7</span> &amp; -bits))]; <span class="comment">// (255 &gt;&gt; (7 &amp; -bits) = TM, TM = 255 MOD 2^(8 + T1 - 8*T8);</span></span><br><span class="line">    ((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[i] = x;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// for i = 127-T8, ..., 0 do</span></span><br><span class="line">    <span class="comment">//     L[i] = PITABLE[L[i+1] XOR L[i+T8]];</span></span><br><span class="line">    <span class="keyword">while</span> (i--)</span><br><span class="line">    &#123;</span><br><span class="line">        x = PITABLE[x ^ ((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[i + len]];</span><br><span class="line">        ((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[i] = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Phase 3 - copy to xkey in little-endian order */</span></span><br><span class="line">    i = <span class="number">63</span>;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        xkey[i] = ((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[<span class="number">2</span> * i] +</span><br><span class="line">                  (((<span class="keyword">unsigned</span> <span class="keyword">char</span> *)xkey)[<span class="number">2</span> * i + <span class="number">1</span>] &lt;&lt; <span class="number">8</span>);</span><br><span class="line">    &#125; <span class="keyword">while</span> (i--);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc2_keygen(unsigned short xkey[64], const unsigned char *key, unsigned len, unsigned bits)
+{
+    unsigned char x;
+    unsigned i;
+    /* 256-entry permutation table, probably derived somehow from pi */
+    static const unsigned char PITABLE[256] = {0xD9, 0x78, 0xF9, 0xC4, 0x19, 0xDD, 0xB5, 0xED, 0x28, 0xE9, 0xFD, 0x79, 0x4A, 0xA0, 0xD8, 0x9D, 0xC6, 0x7E, 0x37, 0x83, 0x2B, 0x76, 0x53, 0x8E, 0x62, 0x4C, 0x64, 0x88, 0x44, 0x8B, 0xFB, 0xA2, 0x17, 0x9A, 0x59, 0xF5, 0x87, 0xB3, 0x4F, 0x13, 0x61, 0x45, 0x6D, 0x8D, 0x09, 0x81, 0x7D, 0x32, 0xBD, 0x8F, 0x40, 0xEB, 0x86, 0xB7, 0x7B, 0x0B, 0xF0, 0x95, 0x21, 0x22, 0x5C, 0x6B, 0x4E, 0x82, 0x54, 0xD6, 0x65, 0x93, 0xCE, 0x60, 0xB2, 0x1C, 0x73, 0x56, 0xC0, 0x14, 0xA7, 0x8C, 0xF1, 0xDC, 0x12, 0x75, 0xCA, 0x1F, 0x3B, 0xBE, 0xE4, 0xD1, 0x42, 0x3D, 0xD4, 0x30, 0xA3, 0x3C, 0xB6, 0x26, 0x6F, 0xBF, 0x0E, 0xDA, 0x46, 0x69, 0x07, 0x57, 0x27, 0xF2, 0x1D, 0x9B, 0xBC, 0x94, 0x43, 0x03, 0xF8, 0x11, 0xC7, 0xF6, 0x90, 0xEF, 0x3E, 0xE7, 0x06, 0xC3, 0xD5, 0x2F, 0xC8, 0x66, 0x1E, 0xD7, 0x08, 0xE8, 0xEA, 0xDE, 0x80, 0x52, 0xEE, 0xF7, 0x84, 0xAA, 0x72, 0xAC, 0x35, 0x4D, 0x6A, 0x2A, 0x96, 0x1A, 0xD2, 0x71, 0x5A, 0x15, 0x49, 0x74, 0x4B, 0x9F, 0xD0, 0x5E, 0x04, 0x18, 0xA4, 0xEC, 0xC2, 0xE0, 0x41, 0x6E, 0x0F, 0x51, 0xCB, 0xCC, 0x24, 0x91, 0xAF, 0x50, 0xA1, 0xF4, 0x70, 0x39, 0x99, 0x7C, 0x3A, 0x85, 0x23, 0xB8, 0xB4, 0x7A, 0xFC, 0x02, 0x36, 0x5B, 0x25, 0x55, 0x97, 0x31, 0x2D, 0x5D, 0xFA, 0x98, 0xE3, 0x8A, 0x92, 0xAE, 0x05, 0xDF, 0x29, 0x10, 0x67, 0x6C, 0xBA, 0xC9, 0xD3, 0x00, 0xE6, 0xCF, 0xE1, 0x9E, 0xA8, 0x2C, 0x63, 0x16, 0x01, 0x3F, 0x58, 0xE2, 0x89, 0xA9, 0x0D, 0x38, 0x34, 0x1B, 0xAB, 0x33, 0xFF, 0xB0, 0xBB, 0x48, 0x0C, 0x5F, 0xB9, 0xB1, 0xCD, 0x2E, 0xC5, 0xF3, 0xDB, 0x47, 0xE5, 0xA5, 0x9C, 0x77, 0x0A, 0xA6, 0x20, 0x68, 0xFE, 0x7F, 0xC1, 0xAD};
+
+    assert(len &gt; 0 &amp;&amp; len &lt;= 128);
+    assert(bits &lt;= 1024);
+    if (!bits)
+        bits = 1024;
+
+    memcpy(xkey, key, len);
+
+    /* Phase 1: Expand input key to 128 bytes */
+    // for i = T, T+1, ..., 127 do
+    //     L[i] = PITABLE[L[i-1] + L[i-T]];
+    if (len &lt; 128)
+    {
+        i = 0;
+        x = ((unsigned char *)xkey)[len - 1];
+        do
+        {
+            x = PITABLE[(x + ((unsigned char *)xkey)[i++]) &amp; 255];
+            ((unsigned char *)xkey)[len++] = x;
+        } while (len &lt; 128);
+    }
+
+    /* Phase 2 - reduce effective key size to &quot;bits&quot; */
+    // L[128-T8] = PITABLE[L[128-T8] &amp; TM];
+    len = (bits + 7) &gt;&gt; 3; // bits = T1, len = T8, T8 = (T1+7)/8;
+    i = 128 - len;
+    x = PITABLE[((unsigned char *)xkey)[i] &amp; (255 &gt;&gt; (7 &amp; -bits))]; // (255 &gt;&gt; (7 &amp; -bits) = TM, TM = 255 MOD 2^(8 + T1 - 8*T8);
+    ((unsigned char *)xkey)[i] = x;
+
+    // for i = 127-T8, ..., 0 do
+    //     L[i] = PITABLE[L[i+1] XOR L[i+T8]];
+    while (i--)
+    {
+        x = PITABLE[x ^ ((unsigned char *)xkey)[i + len]];
+        ((unsigned char *)xkey)[i] = x;
+    }
+
+    /* Phase 3 - copy to xkey in little-endian order */
+    i = 63;
+    do
+    {
+        xkey[i] = ((unsigned char *)xkey)[2 * i] +
+                  (((unsigned char *)xkey)[2 * i + 1] &lt;&lt; 8);
+    } while (i--);
+}
+</code></pre>
 <h2 id="加密算法"><a href="#加密算法" class="headerlink" title="加密算法"></a>加密算法</h2><p>加密操作将一组 64 比特的字存入 4 个字中再进行加密。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc2_encrypt</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">short</span> xkey[<span class="number">64</span>], <span class="keyword">unsigned</span> <span class="keyword">char</span> *plain, <span class="keyword">unsigned</span> <span class="keyword">char</span> *cipher)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// xkey = K, plain = R</span></span><br><span class="line">    <span class="keyword">unsigned</span> x76, x54, x32, x10, i;</span><br><span class="line"></span><br><span class="line">    x76 = (plain[<span class="number">7</span>] &lt;&lt; <span class="number">8</span>) + plain[<span class="number">6</span>];</span><br><span class="line">    x54 = (plain[<span class="number">5</span>] &lt;&lt; <span class="number">8</span>) + plain[<span class="number">4</span>];</span><br><span class="line">    x32 = (plain[<span class="number">3</span>] &lt;&lt; <span class="number">8</span>) + plain[<span class="number">2</span>];</span><br><span class="line">    x10 = (plain[<span class="number">1</span>] &lt;&lt; <span class="number">8</span>) + plain[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// R[i] = R[i] + K[j] + (R[i-1] &amp; R[i-2]) + ((~R[i-1]) &amp; R[i-3]);</span></span><br><span class="line">        <span class="comment">// j = j + 1;</span></span><br><span class="line">        <span class="comment">// R[i] = R[i] rol s[i];</span></span><br><span class="line">        x10 += (x32 &amp; ~x76) + (x54 &amp; x76) + xkey[<span class="number">4</span> * i + <span class="number">0</span>];</span><br><span class="line">        x10 = (x10 &lt;&lt; <span class="number">1</span>) + (x10 &gt;&gt; <span class="number">15</span> &amp; <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        x32 += (x54 &amp; ~x10) + (x76 &amp; x10) + xkey[<span class="number">4</span> * i + <span class="number">1</span>];</span><br><span class="line">        x32 = (x32 &lt;&lt; <span class="number">2</span>) + (x32 &gt;&gt; <span class="number">14</span> &amp; <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">        x54 += (x76 &amp; ~x32) + (x10 &amp; x32) + xkey[<span class="number">4</span> * i + <span class="number">2</span>];</span><br><span class="line">        x54 = (x54 &lt;&lt; <span class="number">3</span>) + (x54 &gt;&gt; <span class="number">13</span> &amp; <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">        x76 += (x10 &amp; ~x54) + (x32 &amp; x54) + xkey[<span class="number">4</span> * i + <span class="number">3</span>];</span><br><span class="line">        x76 = (x76 &lt;&lt; <span class="number">5</span>) + (x76 &gt;&gt; <span class="number">11</span> &amp; <span class="number">31</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// R[i] = R[i] + K[R[i-1] &amp; 63];</span></span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">4</span> || i == <span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            x10 += xkey[x76 &amp; <span class="number">63</span>];</span><br><span class="line">            x32 += xkey[x10 &amp; <span class="number">63</span>];</span><br><span class="line">            x54 += xkey[x32 &amp; <span class="number">63</span>];</span><br><span class="line">            x76 += xkey[x54 &amp; <span class="number">63</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cipher[<span class="number">0</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x10;</span><br><span class="line">    cipher[<span class="number">1</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x10 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">    cipher[<span class="number">2</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x32;</span><br><span class="line">    cipher[<span class="number">3</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x32 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">    cipher[<span class="number">4</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x54;</span><br><span class="line">    cipher[<span class="number">5</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x54 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">    cipher[<span class="number">6</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x76;</span><br><span class="line">    cipher[<span class="number">7</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x76 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc2_encrypt(unsigned short xkey[64], unsigned char *plain, unsigned char *cipher)
+{
+    // xkey = K, plain = R
+    unsigned x76, x54, x32, x10, i;
+
+    x76 = (plain[7] &lt;&lt; 8) + plain[6];
+    x54 = (plain[5] &lt;&lt; 8) + plain[4];
+    x32 = (plain[3] &lt;&lt; 8) + plain[2];
+    x10 = (plain[1] &lt;&lt; 8) + plain[0];
+
+    for (i = 0; i &lt; 16; i++)
+    {
+        // R[i] = R[i] + K[j] + (R[i-1] &amp; R[i-2]) + ((~R[i-1]) &amp; R[i-3]);
+        // j = j + 1;
+        // R[i] = R[i] rol s[i];
+        x10 += (x32 &amp; ~x76) + (x54 &amp; x76) + xkey[4 * i + 0];
+        x10 = (x10 &lt;&lt; 1) + (x10 &gt;&gt; 15 &amp; 1);
+
+        x32 += (x54 &amp; ~x10) + (x76 &amp; x10) + xkey[4 * i + 1];
+        x32 = (x32 &lt;&lt; 2) + (x32 &gt;&gt; 14 &amp; 3);
+
+        x54 += (x76 &amp; ~x32) + (x10 &amp; x32) + xkey[4 * i + 2];
+        x54 = (x54 &lt;&lt; 3) + (x54 &gt;&gt; 13 &amp; 7);
+
+        x76 += (x10 &amp; ~x54) + (x32 &amp; x54) + xkey[4 * i + 3];
+        x76 = (x76 &lt;&lt; 5) + (x76 &gt;&gt; 11 &amp; 31);
+
+        // R[i] = R[i] + K[R[i-1] &amp; 63];
+        if (i == 4 || i == 10)
+        {
+            x10 += xkey[x76 &amp; 63];
+            x32 += xkey[x10 &amp; 63];
+            x54 += xkey[x32 &amp; 63];
+            x76 += xkey[x54 &amp; 63];
+        }
+    }
+
+    cipher[0] = (unsigned char)x10;
+    cipher[1] = (unsigned char)(x10 &gt;&gt; 8);
+    cipher[2] = (unsigned char)x32;
+    cipher[3] = (unsigned char)(x32 &gt;&gt; 8);
+    cipher[4] = (unsigned char)x54;
+    cipher[5] = (unsigned char)(x54 &gt;&gt; 8);
+    cipher[6] = (unsigned char)x76;
+    cipher[7] = (unsigned char)(x76 &gt;&gt; 8);
+}
+</code></pre>
 <h2 id="解密算法"><a href="#解密算法" class="headerlink" title="解密算法"></a>解密算法</h2><p>解密操作即为加密操作的逆运算。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc2_decrypt</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">short</span> xkey[<span class="number">64</span>], <span class="keyword">unsigned</span> <span class="keyword">char</span> *plain, <span class="keyword">unsigned</span> <span class="keyword">char</span> *cipher)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> x76, x54, x32, x10, i;</span><br><span class="line"></span><br><span class="line">    x76 = (cipher[<span class="number">7</span>] &lt;&lt; <span class="number">8</span>) + cipher[<span class="number">6</span>];</span><br><span class="line">    x54 = (cipher[<span class="number">5</span>] &lt;&lt; <span class="number">8</span>) + cipher[<span class="number">4</span>];</span><br><span class="line">    x32 = (cipher[<span class="number">3</span>] &lt;&lt; <span class="number">8</span>) + cipher[<span class="number">2</span>];</span><br><span class="line">    x10 = (cipher[<span class="number">1</span>] &lt;&lt; <span class="number">8</span>) + cipher[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">    i = <span class="number">15</span>;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// R[i] = R[i] ror s[i];</span></span><br><span class="line">        <span class="comment">// R[i] = R[i] - K[j] - (R[i-1] &amp; R[i-2]) - ((~R[i-1]) &amp; R[i-3]);</span></span><br><span class="line">        <span class="comment">// j = j - 1;</span></span><br><span class="line">        x76 &amp;= <span class="number">65535</span>;</span><br><span class="line">        x76 = (x76 &lt;&lt; <span class="number">11</span>) + (x76 &gt;&gt; <span class="number">5</span>);</span><br><span class="line">        x76 -= (x10 &amp; ~x54) + (x32 &amp; x54) + xkey[<span class="number">4</span> * i + <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">        x54 &amp;= <span class="number">65535</span>;</span><br><span class="line">        x54 = (x54 &lt;&lt; <span class="number">13</span>) + (x54 &gt;&gt; <span class="number">3</span>);</span><br><span class="line">        x54 -= (x76 &amp; ~x32) + (x10 &amp; x32) + xkey[<span class="number">4</span> * i + <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        x32 &amp;= <span class="number">65535</span>;</span><br><span class="line">        x32 = (x32 &lt;&lt; <span class="number">14</span>) + (x32 &gt;&gt; <span class="number">2</span>);</span><br><span class="line">        x32 -= (x54 &amp; ~x10) + (x76 &amp; x10) + xkey[<span class="number">4</span> * i + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        x10 &amp;= <span class="number">65535</span>;</span><br><span class="line">        x10 = (x10 &lt;&lt; <span class="number">15</span>) + (x10 &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        x10 -= (x32 &amp; ~x76) + (x54 &amp; x76) + xkey[<span class="number">4</span> * i + <span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// R[i] = R[i] - K[R[i-1] &amp; 63];</span></span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">5</span> || i == <span class="number">11</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            x76 -= xkey[x54 &amp; <span class="number">63</span>];</span><br><span class="line">            x54 -= xkey[x32 &amp; <span class="number">63</span>];</span><br><span class="line">            x32 -= xkey[x10 &amp; <span class="number">63</span>];</span><br><span class="line">            x10 -= xkey[x76 &amp; <span class="number">63</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (i--);</span><br><span class="line"></span><br><span class="line">    plain[<span class="number">0</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x10;</span><br><span class="line">    plain[<span class="number">1</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x10 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">    plain[<span class="number">2</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x32;</span><br><span class="line">    plain[<span class="number">3</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x32 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">    plain[<span class="number">4</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x54;</span><br><span class="line">    plain[<span class="number">5</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x54 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">    plain[<span class="number">6</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)x76;</span><br><span class="line">    plain[<span class="number">7</span>] = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)(x76 &gt;&gt; <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc2_decrypt(unsigned short xkey[64], unsigned char *plain, unsigned char *cipher)
+{
+    unsigned x76, x54, x32, x10, i;
+
+    x76 = (cipher[7] &lt;&lt; 8) + cipher[6];
+    x54 = (cipher[5] &lt;&lt; 8) + cipher[4];
+    x32 = (cipher[3] &lt;&lt; 8) + cipher[2];
+    x10 = (cipher[1] &lt;&lt; 8) + cipher[0];
+
+    i = 15;
+    do
+    {
+        // R[i] = R[i] ror s[i];
+        // R[i] = R[i] - K[j] - (R[i-1] &amp; R[i-2]) - ((~R[i-1]) &amp; R[i-3]);
+        // j = j - 1;
+        x76 &amp;= 65535;
+        x76 = (x76 &lt;&lt; 11) + (x76 &gt;&gt; 5);
+        x76 -= (x10 &amp; ~x54) + (x32 &amp; x54) + xkey[4 * i + 3];
+
+        x54 &amp;= 65535;
+        x54 = (x54 &lt;&lt; 13) + (x54 &gt;&gt; 3);
+        x54 -= (x76 &amp; ~x32) + (x10 &amp; x32) + xkey[4 * i + 2];
+
+        x32 &amp;= 65535;
+        x32 = (x32 &lt;&lt; 14) + (x32 &gt;&gt; 2);
+        x32 -= (x54 &amp; ~x10) + (x76 &amp; x10) + xkey[4 * i + 1];
+
+        x10 &amp;= 65535;
+        x10 = (x10 &lt;&lt; 15) + (x10 &gt;&gt; 1);
+        x10 -= (x32 &amp; ~x76) + (x54 &amp; x76) + xkey[4 * i + 0];
+
+        // R[i] = R[i] - K[R[i-1] &amp; 63];
+        if (i == 5 || i == 11)
+        {
+            x76 -= xkey[x54 &amp; 63];
+            x54 -= xkey[x32 &amp; 63];
+            x32 -= xkey[x10 &amp; 63];
+            x10 -= xkey[x76 &amp; 63];
+        }
+    } while (i--);
+
+    plain[0] = (unsigned char)x10;
+    plain[1] = (unsigned char)(x10 &gt;&gt; 8);
+    plain[2] = (unsigned char)x32;
+    plain[3] = (unsigned char)(x32 &gt;&gt; 8);
+    plain[4] = (unsigned char)x54;
+    plain[5] = (unsigned char)(x54 &gt;&gt; 8);
+    plain[6] = (unsigned char)x76;
+    plain[7] = (unsigned char)(x76 &gt;&gt; 8);
+}
+</code></pre>
 <h1 id="RC5"><a href="#RC5" class="headerlink" title="RC5"></a><a href="https://en.wikipedia.org/wiki/RC5" target="_blank" rel="noopener">RC5</a></h1><p>RC5 同样也是分组密码，它支持可变的分组大小(32、64 或 128 比特)，密钥长度（0 至 2040 位）和加密轮数（0 ～ 255）。RC5 中有几个参数，w 代表一个字的字节大小，RC5 是以一个字为单位来进行所有操作的；r 代表加密轮数；b 代表密钥的长度。RC5 常用的 w 通常为 16、32 和 64。下面实现的是 w 为 32 时的 RC5 算法。</p>
 <p>RC5 和 RC2 类似，总共分为三个算法步骤。分别是密钥扩展、加密、解密。</p>
-<p><img src="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc5.png" alt="RC5 加密算法"></p>
+<p><img src="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc5.png" srcset="/img/loading.gif" alt></p>
 <p>算法中需要一些宏定义：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> WORD;           <span class="comment">/* Should be 32-bit = 4 bytes        */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> w 32                         <span class="comment">/* word size in bits                 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> r 12                         <span class="comment">/* number of rounds                  */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> b 16                         <span class="comment">/* number of bytes in key            */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> c 4                          <span class="comment">/* number words in key               */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> t 26                         <span class="comment">/* size of table S = 2*(r+1) words   */</span></span></span><br><span class="line">WORD S[t];                           <span class="comment">/* expanded key table                */</span></span><br><span class="line">WORD P = <span class="number">0xb7e15163</span>, Q = <span class="number">0x9e3779b9</span>; <span class="comment">/* magic constants                   */</span></span><br><span class="line"><span class="comment">/* Rotation operators. x must be unsigned, to get logical right shift     */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROTL(x, y) (((x) <span class="meta-string">&lt;&lt; (y &amp; (w - 1))) | ((x) &gt;&gt; (w - (y &amp; (w - 1)))))</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROTR(x, y) (((x) &gt;&gt; (y &amp; (w - 1))) | ((x) &lt;&lt; (w - (y &amp; (w - 1)))))</span></span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">typedef unsigned int WORD;           /* Should be 32-bit = 4 bytes        */
+#define w 32                         /* word size in bits                 */
+#define r 12                         /* number of rounds                  */
+#define b 16                         /* number of bytes in key            */
+#define c 4                          /* number words in key               */
+#define t 26                         /* size of table S = 2*(r+1) words   */
+WORD S[t];                           /* expanded key table                */
+WORD P = 0xb7e15163, Q = 0x9e3779b9; /* magic constants                   */
+/* Rotation operators. x must be unsigned, to get logical right shift     */
+#define ROTL(x, y) (((x) &lt;&lt; (y &amp; (w - 1))) | ((x) &gt;&gt; (w - (y &amp; (w - 1)))))
+#define ROTR(x, y) (((x) &gt;&gt; (y &amp; (w - 1))) | ((x) &lt;&lt; (w - (y &amp; (w - 1)))))
+</code></pre>
 <h2 id="密钥扩展算法-1"><a href="#密钥扩展算法-1" class="headerlink" title="密钥扩展算法"></a>密钥扩展算法</h2><p>密钥扩展首先分别初始化 L 数组和 S 盒，随后通过 L 进行按字异或得到 S 盒。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc5_keygen</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *K)</span> <span class="comment">/* secret input ket K[0...b-1] */</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD i, j, k, u = w / <span class="number">8</span>, A, B, L[c];</span><br><span class="line">    <span class="comment">/* Initialize L, then S, then mix key into S */</span></span><br><span class="line">    <span class="keyword">for</span> (i = b - <span class="number">1</span>, L[c - <span class="number">1</span>] = <span class="number">0</span>; i != <span class="number">-1</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        L[i / u] = (L[i / u] &lt;&lt; <span class="number">8</span>) + K[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (S[<span class="number">0</span>] = P, i = <span class="number">1</span>; i &lt; t; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        S[i] = S[i - <span class="number">1</span>] + Q;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (A = B = i = j = k = <span class="number">0</span>; k &lt; <span class="number">3</span> * t; k++, i = (i + <span class="number">1</span>) % t, j = (j + <span class="number">1</span>) % c) <span class="comment">/* 3*t &gt; 3*c */</span></span><br><span class="line">    &#123;</span><br><span class="line">        A = S[i] = ROTL(S[i] + (A + B), <span class="number">3</span>);</span><br><span class="line">        B = L[j] = ROTL(L[j] + (A + B), (A + B));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc5_keygen(unsigned char *K) /* secret input ket K[0...b-1] */
+{
+    WORD i, j, k, u = w / 8, A, B, L[c];
+    /* Initialize L, then S, then mix key into S */
+    for (i = b - 1, L[c - 1] = 0; i != -1; i--)
+    {
+        L[i / u] = (L[i / u] &lt;&lt; 8) + K[i];
+    }
+    for (S[0] = P, i = 1; i &lt; t; i++)
+    {
+        S[i] = S[i - 1] + Q;
+    }
+    for (A = B = i = j = k = 0; k &lt; 3 * t; k++, i = (i + 1) % t, j = (j + 1) % c) /* 3*t &gt; 3*c */
+    {
+        A = S[i] = ROTL(S[i] + (A + B), 3);
+        B = L[j] = ROTL(L[j] + (A + B), (A + B));
+    }
+}
+</code></pre>
 <h2 id="加密算法-1"><a href="#加密算法-1" class="headerlink" title="加密算法"></a>加密算法</h2><p>加密涉及的一个简单轮函数的加密。基于安全需要和时间方面的考虑，建议 12 或 20 轮加密。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc5_encrypt</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *plain, <span class="keyword">unsigned</span> <span class="keyword">char</span> *cipher)</span> <span class="comment">/* 2 WORD input pt/output ct */</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD pt[<span class="number">2</span>], ct[<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        pt[i] = plain[<span class="number">4</span> * i] + (plain[<span class="number">4</span> * i + <span class="number">1</span>] &lt;&lt; <span class="number">8</span>) + (plain[<span class="number">4</span> * i + <span class="number">2</span>] &lt;&lt; <span class="number">16</span>) + (plain[<span class="number">4</span> * i + <span class="number">3</span>] &lt;&lt; <span class="number">24</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    WORD A = pt[<span class="number">0</span>] + S[<span class="number">0</span>], B = pt[<span class="number">1</span>] + S[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= r; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        A = ROTL(A ^ B, B) + S[<span class="number">2</span> * i];</span><br><span class="line">        B = ROTL(B ^ A, A) + S[<span class="number">2</span> * i + <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    ct[<span class="number">0</span>] = A;</span><br><span class="line">    ct[<span class="number">1</span>] = B;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cipher[<span class="number">4</span> * i] = ct[i] &amp; <span class="number">0xFF</span>;</span><br><span class="line">        cipher[<span class="number">4</span> * i + <span class="number">1</span>] = (ct[i] &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        cipher[<span class="number">4</span> * i + <span class="number">2</span>] = (ct[i] &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        cipher[<span class="number">4</span> * i + <span class="number">3</span>] = (ct[i] &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc5_encrypt(unsigned char *plain, unsigned char *cipher) /* 2 WORD input pt/output ct */
+{
+    WORD pt[2], ct[2];
+    for (int i = 0; i &lt; 2; i++)
+    {
+        pt[i] = plain[4 * i] + (plain[4 * i + 1] &lt;&lt; 8) + (plain[4 * i + 2] &lt;&lt; 16) + (plain[4 * i + 3] &lt;&lt; 24);
+    }
+
+    WORD A = pt[0] + S[0], B = pt[1] + S[1];
+    for (int i = 1; i &lt;= r; i++)
+    {
+        A = ROTL(A ^ B, B) + S[2 * i];
+        B = ROTL(B ^ A, A) + S[2 * i + 1];
+    }
+    ct[0] = A;
+    ct[1] = B;
+    for (int i = 0; i &lt; 2; i++)
+    {
+        cipher[4 * i] = ct[i] &amp; 0xFF;
+        cipher[4 * i + 1] = (ct[i] &gt;&gt; 8) &amp; 0xFF;
+        cipher[4 * i + 2] = (ct[i] &gt;&gt; 16) &amp; 0xFF;
+        cipher[4 * i + 3] = (ct[i] &gt;&gt; 24) &amp; 0xFF;
+    }
+}
+</code></pre>
 <h2 id="解密算法-1"><a href="#解密算法-1" class="headerlink" title="解密算法"></a>解密算法</h2><p>解密实际上就是加密过程的逆运算。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc5_decrypt</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *cipher, <span class="keyword">unsigned</span> <span class="keyword">char</span> *plain)</span> <span class="comment">/* 2 WORD input ct/output pt */</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD pt[<span class="number">2</span>], ct[<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ct[i] = cipher[<span class="number">4</span> * i] + (cipher[<span class="number">4</span> * i + <span class="number">1</span>] &lt;&lt; <span class="number">8</span>) + (cipher[<span class="number">4</span> * i + <span class="number">2</span>] &lt;&lt; <span class="number">16</span>) + (cipher[<span class="number">4</span> * i + <span class="number">3</span>] &lt;&lt; <span class="number">24</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    WORD B = ct[<span class="number">1</span>], A = ct[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = r; i &gt; <span class="number">0</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        B = ROTR(B - S[<span class="number">2</span> * i + <span class="number">1</span>], A) ^ A;</span><br><span class="line">        A = ROTR(A - S[<span class="number">2</span> * i], B) ^ B;</span><br><span class="line">    &#125;</span><br><span class="line">    pt[<span class="number">1</span>] = B - S[<span class="number">1</span>];</span><br><span class="line">    pt[<span class="number">0</span>] = A - S[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        plain[<span class="number">4</span> * i] = pt[i] &amp; <span class="number">0xFF</span>;</span><br><span class="line">        plain[<span class="number">4</span> * i + <span class="number">1</span>] = (pt[i] &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        plain[<span class="number">4</span> * i + <span class="number">2</span>] = (pt[i] &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        plain[<span class="number">4</span> * i + <span class="number">3</span>] = (pt[i] &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc5_decrypt(unsigned char *cipher, unsigned char *plain) /* 2 WORD input ct/output pt */
+{
+    WORD pt[2], ct[2];
+    for (int i = 0; i &lt; 2; i++)
+    {
+        ct[i] = cipher[4 * i] + (cipher[4 * i + 1] &lt;&lt; 8) + (cipher[4 * i + 2] &lt;&lt; 16) + (cipher[4 * i + 3] &lt;&lt; 24);
+    }
+    WORD B = ct[1], A = ct[0];
+    for (int i = r; i &gt; 0; i--)
+    {
+        B = ROTR(B - S[2 * i + 1], A) ^ A;
+        A = ROTR(A - S[2 * i], B) ^ B;
+    }
+    pt[1] = B - S[1];
+    pt[0] = A - S[0];
+    for (int i = 0; i &lt; 2; i++)
+    {
+        plain[4 * i] = pt[i] &amp; 0xFF;
+        plain[4 * i + 1] = (pt[i] &gt;&gt; 8) &amp; 0xFF;
+        plain[4 * i + 2] = (pt[i] &gt;&gt; 16) &amp; 0xFF;
+        plain[4 * i + 3] = (pt[i] &gt;&gt; 24) &amp; 0xFF;
+    }
+}
+</code></pre>
 <h1 id="RC6"><a href="#RC6" class="headerlink" title="RC6"></a><a href="https://en.wikipedia.org/wiki/RC6" target="_blank" rel="noopener">RC6</a></h1><p>RC6 是一个从 RC5 派生而来的对称分组加密算法，用以满足高级加密标准（AES）竞赛的要求。RC6 拥有 128 位的块大小，支持 128、192、256 位乃至 2040 位的密钥长度。像 RC5 一样，RC6 是可以被参数化的。它也因而支持变长的分组大小、密钥长度以及加密轮数。RC6 和 RC5 在结构、使用基于数据的置换规则、取模加法以及异或操作等很多方面都很相似。事实上，RC6 可以被看做是交织的两组平行的 RC5 加密。其中，RC6 使用了乘法运算，能够让置换基于字中每一位，而不是其中的几位。</p>
-<p><img src="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc6.jpeg" alt="RC6 加密算法"></p>
+<p><img src="/pics/C语言实现RC2、RC5、RC6加密解密算法/rc6.jpeg" srcset="/img/loading.gif" alt></p>
 <p>算法中需要一些宏定义：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> WORD;           <span class="comment">/* Should be 32-bit = 4 bytes        */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> w 32                         <span class="comment">/* word size in bits                 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> r 20                         <span class="comment">/* based on security estimates       */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> bytes (w / 8)                <span class="comment">/* bytes per word                    */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> c ((b + bytes - 1) / bytes)  <span class="comment">/* key in words, rounded up          */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> R24 (2 * r + 4)              <span class="comment">/* length of array S                 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> lgw 5                        <span class="comment">/* log2(w) -- wussed out             */</span></span></span><br><span class="line">WORD S[R24 - <span class="number">1</span>];                     <span class="comment">/* Key schedule                      */</span></span><br><span class="line">WORD P = <span class="number">0xb7e15163</span>, Q = <span class="number">0x9e3779b9</span>; <span class="comment">/* magic constants                   */</span></span><br><span class="line"><span class="comment">/* Rotation operators. x must be unsigned, to get logical right shift     */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROTL(x, y) (((x) <span class="meta-string">&lt;&lt; (y &amp; (w - 1))) | ((x) &gt;&gt; (w - (y &amp; (w - 1)))))</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROTR(x, y) (((x) &gt;&gt; (y &amp; (w - 1))) | ((x) &lt;&lt; (w - (y &amp; (w - 1)))))</span></span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">typedef unsigned int WORD;           /* Should be 32-bit = 4 bytes        */
+#define w 32                         /* word size in bits                 */
+#define r 20                         /* based on security estimates       */
+#define bytes (w / 8)                /* bytes per word                    */
+#define c ((b + bytes - 1) / bytes)  /* key in words, rounded up          */
+#define R24 (2 * r + 4)              /* length of array S                 */
+#define lgw 5                        /* log2(w) -- wussed out             */
+WORD S[R24 - 1];                     /* Key schedule                      */
+WORD P = 0xb7e15163, Q = 0x9e3779b9; /* magic constants                   */
+/* Rotation operators. x must be unsigned, to get logical right shift     */
+#define ROTL(x, y) (((x) &lt;&lt; (y &amp; (w - 1))) | ((x) &gt;&gt; (w - (y &amp; (w - 1)))))
+#define ROTR(x, y) (((x) &gt;&gt; (y &amp; (w - 1))) | ((x) &lt;&lt; (w - (y &amp; (w - 1)))))
+</code></pre>
 <h2 id="密钥扩展算法-2"><a href="#密钥扩展算法-2" class="headerlink" title="密钥扩展算法"></a>密钥扩展算法</h2><p>RC6 中接受的密钥长度相比于 RC5 更长，生成的 S 盒大小为 2r+4。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc6_keygen</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *K, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, j, s, v;</span><br><span class="line">    WORD L[(<span class="number">32</span> + bytes - <span class="number">1</span>) / bytes]; <span class="comment">/* Big enough for max b */</span></span><br><span class="line">    WORD A, B;</span><br><span class="line"></span><br><span class="line">    L[c - <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = b - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        L[i / bytes] = (L[i / bytes] &lt;&lt; <span class="number">8</span>) + K[i];</span><br><span class="line"></span><br><span class="line">    S[<span class="number">0</span>] = P;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= <span class="number">2</span> * r + <span class="number">3</span>; i++)</span><br><span class="line">        S[i] = S[i - <span class="number">1</span>] + Q;</span><br><span class="line"></span><br><span class="line">    A = B = i = j = <span class="number">0</span>;</span><br><span class="line">    v = R24;</span><br><span class="line">    <span class="keyword">if</span> (c &gt; v)</span><br><span class="line">        v = c;</span><br><span class="line">    v *= <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (s = <span class="number">1</span>; s &lt;= v; s++)</span><br><span class="line">    &#123;</span><br><span class="line">        A = S[i] = ROTL(S[i] + A + B, <span class="number">3</span>);</span><br><span class="line">        B = L[j] = ROTL(L[j] + A + B, A + B);</span><br><span class="line">        i = (i + <span class="number">1</span>) % R24;</span><br><span class="line">        j = (j + <span class="number">1</span>) % c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc6_keygen(unsigned char *K, int b)
+{
+    int i, j, s, v;
+    WORD L[(32 + bytes - 1) / bytes]; /* Big enough for max b */
+    WORD A, B;
+
+    L[c - 1] = 0;
+    for (i = b - 1; i &gt;= 0; i--)
+        L[i / bytes] = (L[i / bytes] &lt;&lt; 8) + K[i];
+
+    S[0] = P;
+    for (i = 1; i &lt;= 2 * r + 3; i++)
+        S[i] = S[i - 1] + Q;
+
+    A = B = i = j = 0;
+    v = R24;
+    if (c &gt; v)
+        v = c;
+    v *= 3;
+
+    for (s = 1; s &lt;= v; s++)
+    {
+        A = S[i] = ROTL(S[i] + A + B, 3);
+        B = L[j] = ROTL(L[j] + A + B, A + B);
+        i = (i + 1) % R24;
+        j = (j + 1) % c;
+    }
+}
+</code></pre>
 <h2 id="加密算法-2"><a href="#加密算法-2" class="headerlink" title="加密算法"></a>加密算法</h2><p>RC6 加密时比 RC5 多了乘法运算，加密过程也变得更复杂。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc6_encrypt</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *plain, <span class="keyword">unsigned</span> <span class="keyword">char</span> *cipher)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD pt[<span class="number">4</span>], ct[<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        pt[i] = plain[<span class="number">4</span> * i] + (plain[<span class="number">4</span> * i + <span class="number">1</span>] &lt;&lt; <span class="number">8</span>) + (plain[<span class="number">4</span> * i + <span class="number">2</span>] &lt;&lt; <span class="number">16</span>) + (plain[<span class="number">4</span> * i + <span class="number">3</span>] &lt;&lt; <span class="number">24</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    WORD A, B, C, D, t, u, x;</span><br><span class="line"></span><br><span class="line">    A = pt[<span class="number">0</span>];</span><br><span class="line">    B = pt[<span class="number">1</span>];</span><br><span class="line">    C = pt[<span class="number">2</span>];</span><br><span class="line">    D = pt[<span class="number">3</span>];</span><br><span class="line">    B += S[<span class="number">0</span>];</span><br><span class="line">    D += S[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= <span class="number">2</span> * r; i += <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        t = ROTL(B * (<span class="number">2</span> * B + <span class="number">1</span>), lgw);</span><br><span class="line">        u = ROTL(D * (<span class="number">2</span> * D + <span class="number">1</span>), lgw);</span><br><span class="line">        A = ROTL(A ^ t, u) + S[i];</span><br><span class="line">        C = ROTL(C ^ u, t) + S[i + <span class="number">1</span>];</span><br><span class="line">        x = A;</span><br><span class="line">        A = B;</span><br><span class="line">        B = C;</span><br><span class="line">        C = D;</span><br><span class="line">        D = x;</span><br><span class="line">    &#125;</span><br><span class="line">    A += S[<span class="number">2</span> * r + <span class="number">2</span>];</span><br><span class="line">    C += S[<span class="number">2</span> * r + <span class="number">3</span>];</span><br><span class="line">    ct[<span class="number">0</span>] = A;</span><br><span class="line">    ct[<span class="number">1</span>] = B;</span><br><span class="line">    ct[<span class="number">2</span>] = C;</span><br><span class="line">    ct[<span class="number">3</span>] = D;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cipher[<span class="number">4</span> * i] = ct[i] &amp; <span class="number">0xFF</span>;</span><br><span class="line">        cipher[<span class="number">4</span> * i + <span class="number">1</span>] = (ct[i] &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        cipher[<span class="number">4</span> * i + <span class="number">2</span>] = (ct[i] &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        cipher[<span class="number">4</span> * i + <span class="number">3</span>] = (ct[i] &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc6_encrypt(unsigned char *plain, unsigned char *cipher)
+{
+    WORD pt[4], ct[4];
+    for (int i = 0; i &lt; 4; i++)
+    {
+        pt[i] = plain[4 * i] + (plain[4 * i + 1] &lt;&lt; 8) + (plain[4 * i + 2] &lt;&lt; 16) + (plain[4 * i + 3] &lt;&lt; 24);
+    }
+
+    WORD A, B, C, D, t, u, x;
+
+    A = pt[0];
+    B = pt[1];
+    C = pt[2];
+    D = pt[3];
+    B += S[0];
+    D += S[1];
+    for (int i = 2; i &lt;= 2 * r; i += 2)
+    {
+        t = ROTL(B * (2 * B + 1), lgw);
+        u = ROTL(D * (2 * D + 1), lgw);
+        A = ROTL(A ^ t, u) + S[i];
+        C = ROTL(C ^ u, t) + S[i + 1];
+        x = A;
+        A = B;
+        B = C;
+        C = D;
+        D = x;
+    }
+    A += S[2 * r + 2];
+    C += S[2 * r + 3];
+    ct[0] = A;
+    ct[1] = B;
+    ct[2] = C;
+    ct[3] = D;
+
+    for (int i = 0; i &lt; 4; i++)
+    {
+        cipher[4 * i] = ct[i] &amp; 0xFF;
+        cipher[4 * i + 1] = (ct[i] &gt;&gt; 8) &amp; 0xFF;
+        cipher[4 * i + 2] = (ct[i] &gt;&gt; 16) &amp; 0xFF;
+        cipher[4 * i + 3] = (ct[i] &gt;&gt; 24) &amp; 0xFF;
+    }
+}
+</code></pre>
 <h2 id="解密算法-2"><a href="#解密算法-2" class="headerlink" title="解密算法"></a>解密算法</h2><p>解密过程同样是加密过程的逆运算。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rc6_decrypt</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *cipher, <span class="keyword">unsigned</span> <span class="keyword">char</span> *plain)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD pt[<span class="number">4</span>], ct[<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ct[i] = cipher[<span class="number">4</span> * i] + (cipher[<span class="number">4</span> * i + <span class="number">1</span>] &lt;&lt; <span class="number">8</span>) + (cipher[<span class="number">4</span> * i + <span class="number">2</span>] &lt;&lt; <span class="number">16</span>) + (cipher[<span class="number">4</span> * i + <span class="number">3</span>] &lt;&lt; <span class="number">24</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    WORD A, B, C, D, t, u, x;</span><br><span class="line"></span><br><span class="line">    A = ct[<span class="number">0</span>];</span><br><span class="line">    B = ct[<span class="number">1</span>];</span><br><span class="line">    C = ct[<span class="number">2</span>];</span><br><span class="line">    D = ct[<span class="number">3</span>];</span><br><span class="line">    C -= S[<span class="number">2</span> * r + <span class="number">3</span>];</span><br><span class="line">    A -= S[<span class="number">2</span> * r + <span class="number">2</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span> * r; i &gt;= <span class="number">2</span>; i -= <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        x = D;</span><br><span class="line">        D = C;</span><br><span class="line">        C = B;</span><br><span class="line">        B = A;</span><br><span class="line">        A = x;</span><br><span class="line">        u = ROTL(D * (<span class="number">2</span> * D + <span class="number">1</span>), lgw);</span><br><span class="line">        t = ROTL(B * (<span class="number">2</span> * B + <span class="number">1</span>), lgw);</span><br><span class="line">        C = ROTR(C - S[i + <span class="number">1</span>], t) ^ u;</span><br><span class="line">        A = ROTR(A - S[i], u) ^ t;</span><br><span class="line">    &#125;</span><br><span class="line">    D -= S[<span class="number">1</span>];</span><br><span class="line">    B -= S[<span class="number">0</span>];</span><br><span class="line">    pt[<span class="number">0</span>] = A;</span><br><span class="line">    pt[<span class="number">1</span>] = B;</span><br><span class="line">    pt[<span class="number">2</span>] = C;</span><br><span class="line">    pt[<span class="number">3</span>] = D;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        plain[<span class="number">4</span> * i] = pt[i] &amp; <span class="number">0xFF</span>;</span><br><span class="line">        plain[<span class="number">4</span> * i + <span class="number">1</span>] = (pt[i] &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        plain[<span class="number">4</span> * i + <span class="number">2</span>] = (pt[i] &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">        plain[<span class="number">4</span> * i + <span class="number">3</span>] = (pt[i] &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">void rc6_decrypt(unsigned char *cipher, unsigned char *plain)
+{
+    WORD pt[4], ct[4];
+    for (int i = 0; i &lt; 4; i++)
+    {
+        ct[i] = cipher[4 * i] + (cipher[4 * i + 1] &lt;&lt; 8) + (cipher[4 * i + 2] &lt;&lt; 16) + (cipher[4 * i + 3] &lt;&lt; 24);
+    }
+
+    WORD A, B, C, D, t, u, x;
+
+    A = ct[0];
+    B = ct[1];
+    C = ct[2];
+    D = ct[3];
+    C -= S[2 * r + 3];
+    A -= S[2 * r + 2];
+    for (int i = 2 * r; i &gt;= 2; i -= 2)
+    {
+        x = D;
+        D = C;
+        C = B;
+        B = A;
+        A = x;
+        u = ROTL(D * (2 * D + 1), lgw);
+        t = ROTL(B * (2 * B + 1), lgw);
+        C = ROTR(C - S[i + 1], t) ^ u;
+        A = ROTR(A - S[i], u) ^ t;
+    }
+    D -= S[1];
+    B -= S[0];
+    pt[0] = A;
+    pt[1] = B;
+    pt[2] = C;
+    pt[3] = D;
+
+    for (int i = 0; i &lt; 4; i++)
+    {
+        plain[4 * i] = pt[i] &amp; 0xFF;
+        plain[4 * i + 1] = (pt[i] &gt;&gt; 8) &amp; 0xFF;
+        plain[4 * i + 2] = (pt[i] &gt;&gt; 16) &amp; 0xFF;
+        plain[4 * i + 3] = (pt[i] &gt;&gt; 24) &amp; 0xFF;
+    }
+}
+</code></pre>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://en.wikipedia.org/wiki/RC_algorithm" target="_blank" rel="noopener">RC_algorithm</a><br><a href="https://www.ripublication.com/irph/ijict_spl/ijictv4n17spl_13.pdf" target="_blank" rel="noopener">A Comparative Study of Rivest Cipher Algorithms</a><br><a href="http://113.209.194.153/ds_pdf/13711077.pdf" target="_blank" rel="noopener">现代密码学教程</a><br><a href="https://tools.ietf.org/pdf/rfc2268.pdf" target="_blank" rel="noopener">A Description of the RC2(r) Encryption Algorithm</a><br><a href="http://people.csail.mit.edu/rivest/Rivest-rc5rev.pdf" target="_blank" rel="noopener">The RC5 Encryption Algorithm</a><br><a href="http://people.csail.mit.edu/rivest/pubs/RRSY98.pdf" target="_blank" rel="noopener">The RC6 Block Cipher</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/c/">c</a>
+                    
+                      <a class="hover-with-bg" href="/tags/crypto/">crypto</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/09/16/Have-Fun-with-Metasploit-Framework/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Have Fun with Metasploit-Framework</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/09/01/如何使用IDA创建结构体/">
+                        <span>如何使用IDA创建结构体</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2019/09/16/Have-Fun-with-Metasploit-Framework/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Have Fun with Metasploit-Framework
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2019/09/01/如何使用IDA创建结构体/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">如何使用IDA创建结构体</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RC2"><span class="nav-number">2.</span> <span class="nav-text">RC2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥扩展算法"><span class="nav-number">2.1.</span> <span class="nav-text">密钥扩展算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密算法"><span class="nav-number">2.2.</span> <span class="nav-text">加密算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密算法"><span class="nav-number">2.3.</span> <span class="nav-text">解密算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RC5"><span class="nav-number">3.</span> <span class="nav-text">RC5</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥扩展算法-1"><span class="nav-number">3.1.</span> <span class="nav-text">密钥扩展算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密算法-1"><span class="nav-number">3.2.</span> <span class="nav-text">加密算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密算法-1"><span class="nav-number">3.3.</span> <span class="nav-text">解密算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RC6"><span class="nav-number">4.</span> <span class="nav-text">RC6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥扩展算法-2"><span class="nav-number">4.1.</span> <span class="nav-text">密钥扩展算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密算法-2"><span class="nav-number">4.2.</span> <span class="nav-text">加密算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密算法-2"><span class="nav-number">4.3.</span> <span class="nav-text">解密算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "C语言实现RC2、RC5、RC6加密解密算法&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -404,5 +872,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

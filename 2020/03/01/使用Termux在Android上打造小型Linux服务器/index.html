@@ -1,416 +1,600 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>使用Termux在Android上打造小型Linux服务器 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="android">
-  
-  
-  
-  
-  <meta name="description" content="使用 Termux 可以在 Android 上获得极佳的终端体验。">
-<meta name="keywords" content="android">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用Termux在Android上打造小型Linux服务器">
-<meta property="og:url" content="blog.b3ale.cn/2020/03/01/使用Termux在Android上打造小型Linux服务器/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="使用 Termux 可以在 Android 上获得极佳的终端体验。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/使用Termux在Android上打造小型Linux服务器/1.png">
-<meta property="og:image" content="/pics/使用Termux在Android上打造小型Linux服务器/2.png">
-<meta property="og:image" content="/pics/使用Termux在Android上打造小型Linux服务器/3.png">
-<meta property="og:image" content="/pics/使用Termux在Android上打造小型Linux服务器/4.png">
-<meta property="og:image" content="/pics/使用Termux在Android上打造小型Linux服务器/5.png">
-<meta property="og:image" content="/pics/使用Termux在Android上打造小型Linux服务器/6.png">
-<meta property="og:updated_time" content="2020-03-04T01:46:16.813Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Termux在Android上打造小型Linux服务器">
-<meta name="twitter:description" content="使用 Termux 可以在 Android 上获得极佳的终端体验。">
-<meta name="twitter:image" content="/pics/使用Termux在Android上打造小型Linux服务器/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>使用Termux在Android上打造小型Linux服务器 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-使用Termux在Android上打造小型Linux服务器" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      使用Termux在Android上打造小型Linux服务器
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2020/03/01/使用Termux在Android上打造小型Linux服务器/" class="article-date">
-	  <time datetime="2020-03-01T02:50:30.000Z" itemprop="datePublished">March 1, 2020</time>
-	</a>
-
-       
-      
-
-	  |
-	  992 words
-	  |
-	  4 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Sunday, March 1st 2020, 10:50 am
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      4 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-        <p>使用 Termux 可以在 Android 上获得极佳的终端体验。</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>使用 Termux 可以在 Android 上获得极佳的终端体验。</p>
 <a id="more"></a>
 <p>一些基础按键就不记录了。然后在 Termux 上的包管理工具有 pkg 和 apt，和 Debian 的基本一样，对我们来说已经很熟悉了。下面只是做一些简短的记录，用于备份。</p>
 <h1 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh-my-zsh"></a>oh-my-zsh</h1><p>在 Termux 手机界面上可以完美实现 oh-my-zsh 的 agnoster 主题，在 Github 上已经有人实现了对应的安装脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://github.com/Cabbagec/termux-ohmyzsh/raw/master/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">sh -c &quot;$(curl -fsSL https://github.com/Cabbagec/termux-ohmyzsh/raw/master/install.sh)&quot;
+</code></pre>
 <p>具体的安装过程也不列举了，装完后会让我们选主题和字体。成功之后根目录下会有一个 storage 目录，映射了手机系统上的一些文件夹，方便文件传输：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ls -l storage</span><br><span class="line">total 24</span><br><span class="line">lrwxrwxrwx 1 u0_a146 u0_a146 26 Mar  1 12:45 dcim -&gt; /storage/emulated/0/DCIM</span><br><span class="line">lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 downloads -&gt; /storage/emulated/0/Download</span><br><span class="line">lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 movies -&gt; /storage/emulated/0/Movies</span><br><span class="line">lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 music -&gt; /storage/emulated/0/Music</span><br><span class="line">lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 pictures -&gt; /storage/emulated/0/Pictures</span><br><span class="line">lrwxrwxrwx 1 u0_a146 u0_a146 22 Mar  1 12:45 shared -&gt; /storage/emulated/0</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ ls -l storage
+total 24
+lrwxrwxrwx 1 u0_a146 u0_a146 26 Mar  1 12:45 dcim -&gt; /storage/emulated/0/DCIM
+lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 downloads -&gt; /storage/emulated/0/Download
+lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 movies -&gt; /storage/emulated/0/Movies
+lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 music -&gt; /storage/emulated/0/Music
+lrwxrwxrwx 1 u0_a146 u0_a146 30 Mar  1 12:45 pictures -&gt; /storage/emulated/0/Pictures
+lrwxrwxrwx 1 u0_a146 u0_a146 22 Mar  1 12:45 shared -&gt; /storage/emulated/0
+</code></pre>
 <p>同样，我们可以给 QQ 的文件传输整一个软链接：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /data/data/com.termux/files/home/storage/shared/tencent/QQfile_recv QQ</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">ln -s /data/data/com.termux/files/home/storage/shared/tencent/QQfile_recv QQ
+</code></pre>
 <p>如此一来，传输文件就方便了很多：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al</span><br><span class="line">...</span><br><span class="line">lrwxrwxrwx 1 u0_a146 u0_a146   70 Mar  1 16:05 QQ -&gt; /data/data/com.termux/files/home/storage/shared/tencent/QQfile_recv</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ ls -al
+...
+lrwxrwxrwx 1 u0_a146 u0_a146   70 Mar  1 16:05 QQ -&gt; /data/data/com.termux/files/home/storage/shared/tencent/QQfile_recv
+...
+</code></pre>
 <p>还能修改启动时的问候语：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp <span class="variable">$PREFIX</span>/etc/motd <span class="variable">$PREFIX</span>/etc/motd.bak</span><br><span class="line">vim <span class="variable">$PREFIX</span>/etc/motd</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/1.png" alt="修改后的问候语"></p>
+<pre><code class="bash">cp $PREFIX/etc/motd $PREFIX/etc/motd.bak
+vim $PREFIX/etc/motd
+</code></pre>
+<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/1.png" srcset="/img/loading.gif" alt></p>
 <h1 id="Change-apt-sources"><a href="#Change-apt-sources" class="headerlink" title="Change apt-sources"></a>Change apt-sources</h1><p>给 apt 换个清华源：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> EDITOR=vi</span><br><span class="line">apt edit-sources</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">export EDITOR=vi
+apt edit-sources
+</code></pre>
 <p>修改为以下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># The termux repository mirror from TUNA:</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/termux stable main</span><br></pre></td></tr></table></figure>
+<pre><code class="txt"># The termux repository mirror from TUNA:
+deb https://mirrors.tuna.tsinghua.edu.cn/termux stable main
+</code></pre>
 <h1 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h1><p>接下来装个 SSH，用电脑连上更方便地进行后续的安装。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt upgrade</span><br><span class="line">apt install openssh</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">apt update
+apt upgrade
+apt install openssh
+</code></pre>
 <p>将电脑的公钥 push 到手机上：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb push ~/.ssh/id_rsa.pub /sdcard/authorized_keys</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">adb push ~/.ssh/id_rsa.pub /sdcard/authorized_keys
+</code></pre>
 <p>在 Termux 中把电脑公钥放在 <code>.ssh</code> 目录下，并设置 authorized_keys 文件为拥有者只读。最后启动服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> .ssh</span><br><span class="line">mv /sdcard/authorized_keys .</span><br><span class="line">chmod 400 authorized_keys</span><br><span class="line">sshd</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">cd .ssh
+mv /sdcard/authorized_keys .
+chmod 400 authorized_keys
+sshd
+</code></pre>
 <p>在电脑上转发 adb 端口并连接：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb forward tcp:8022 tcp:8022</span><br><span class="line">ssh localhost -p 8022</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">adb forward tcp:8022 tcp:8022
+ssh localhost -p 8022
+</code></pre>
 <h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p>Python 必不可少。默认 Python 指 Python3，Python2 指 Python2：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install python2</span><br><span class="line">apt install python <span class="comment"># python3</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bash">apt install python2
+apt install python # python3
+</code></pre>
 <h1 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h1><p>IPython 的安装必须有 clang 的依赖，否则会报错：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt install clang</span><br><span class="line">pip install ipython</span><br><span class="line">pip3.6 install ipython</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">apt install clang
+pip install ipython
+pip3.6 install ipython
+</code></pre>
 <h1 id="tsu"><a href="#tsu" class="headerlink" title="tsu"></a>tsu</h1><p>用 tsu 替代 su 可以完美实现 root 转换：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install tsu</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/2.png" alt="tsu使用效果"></p>
+<pre><code class="bash">apt install tsu
+</code></pre>
+<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/2.png" srcset="/img/loading.gif" alt></p>
 <h1 id="MSF"><a href="#MSF" class="headerlink" title="MSF"></a>MSF</h1><p>需要联（ke）网（xue）下载：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install unstable-repo</span><br><span class="line">apt install metasploit</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">apt install unstable-repo
+apt install metasploit
+</code></pre>
 <p>输入 msfconsole 可以查看效果：</p>
-<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/3.png" alt="打开MSF框架"></p>
+<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/3.png" srcset="/img/loading.gif" alt></p>
 <p>这个版本也已经有 CVE-2019-0708 的 EXP 了：</p>
-<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/4.png" alt="CVD-2019-0708的EXP"></p>
+<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/4.png" srcset="/img/loading.gif" alt></p>
 <h1 id="Termux-API"><a href="#Termux-API" class="headerlink" title="Termux-API"></a>Termux-API</h1><p>其它很多软件像是 Nmap、SQLMap 等等，还有 Github 上的项目都基本和 Linux 中一模一样，可以用 apt 还有 pip 等管理器进行安装。下面记录一下 Termux-API 这一工具。首先要安装一下 <a href="https://play.google.com/store/apps/details?id=com.termux.api" target="_blank" rel="noopener">Termux:API</a> 这一 APP，然后用 apt 安装命令行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install termux-api</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">apt install termux-api
+</code></pre>
 <p>获取电池信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ termux-battery-status</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"health"</span>: <span class="string">"GOOD"</span>,</span><br><span class="line">  <span class="string">"percentage"</span>: 100,</span><br><span class="line">  <span class="string">"plugged"</span>: <span class="string">"PLUGGED_USB"</span>,</span><br><span class="line">  <span class="string">"status"</span>: <span class="string">"FULL"</span>,</span><br><span class="line">  <span class="string">"temperature"</span>: 22.700000762939453,</span><br><span class="line">  <span class="string">"current"</span>: -38757</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ termux-battery-status
+{
+  &quot;health&quot;: &quot;GOOD&quot;,
+  &quot;percentage&quot;: 100,
+  &quot;plugged&quot;: &quot;PLUGGED_USB&quot;,
+  &quot;status&quot;: &quot;FULL&quot;,
+  &quot;temperature&quot;: 22.700000762939453,
+  &quot;current&quot;: -38757
+}
+</code></pre>
 <p>获取相机信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ termux-camera-info</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ termux-camera-info
+</code></pre>
 <p>获取与设置剪切板：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ termux-clipboard-set thisisassassinq</span><br><span class="line">$ termux-clipboard-get</span><br><span class="line">thisisassassinq</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ termux-clipboard-set thisisassassinq
+$ termux-clipboard-get
+thisisassassinq
+</code></pre>
 <p>获取通讯录列表：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ termux-contact-list</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ termux-contact-list
+</code></pre>
 <p>拨打电话：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ termux-telephony-call 10001</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ termux-telephony-call 10001
+</code></pre>
 <p>获取当前 Wi-Fi 连接信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ termux-wifi-connectioninfo</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"bssid"</span>: <span class="string">"02:00:00:00:00:00"</span>,</span><br><span class="line">  <span class="string">"frequency_mhz"</span>: 2412,</span><br><span class="line">  <span class="string">"ip"</span>: <span class="string">"192.168.101.68"</span>,</span><br><span class="line">  <span class="string">"link_speed_mbps"</span>: 144,</span><br><span class="line">  <span class="string">"mac_address"</span>: <span class="string">"02:00:00:00:00:00"</span>,</span><br><span class="line">  <span class="string">"network_id"</span>: 0,</span><br><span class="line">  <span class="string">"rssi"</span>: -53,</span><br><span class="line">  <span class="string">"ssid"</span>: <span class="string">"&lt;unknown ssid&gt;"</span>,</span><br><span class="line">  <span class="string">"ssid_hidden"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">"supplicant_state"</span>: <span class="string">"COMPLETED"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ termux-wifi-connectioninfo
+{
+  &quot;bssid&quot;: &quot;02:00:00:00:00:00&quot;,
+  &quot;frequency_mhz&quot;: 2412,
+  &quot;ip&quot;: &quot;192.168.101.68&quot;,
+  &quot;link_speed_mbps&quot;: 144,
+  &quot;mac_address&quot;: &quot;02:00:00:00:00:00&quot;,
+  &quot;network_id&quot;: 0,
+  &quot;rssi&quot;: -53,
+  &quot;ssid&quot;: &quot;&lt;unknown ssid&gt;&quot;,
+  &quot;ssid_hidden&quot;: true,
+  &quot;supplicant_state&quot;: &quot;COMPLETED&quot;
+}
+</code></pre>
 <p>获取最近一次 Wi-Fi 扫描信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ termux-wifi-scaninfo</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">$ termux-wifi-scaninfo
+</code></pre>
 <h1 id="nyancat"><a href="#nyancat" class="headerlink" title="nyancat"></a>nyancat</h1><p>彩虹猫是在 2011 年 4 月上传在 YouTube 的视频，并且迅速爆红于网络，并在 2011 年 YouTube 浏览量最高的视频中排名第五。这个视频内容为一只卡通的猫咪飞翔在宇宙中，身后拖出一条彩虹，并且配上了 UTAU 虚拟歌手桃音モモ所演唱的背景音乐。终端版本下载：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install nyancat</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/5.png" alt="nyancat效果"></p>
+<pre><code class="bash">apt install nyancat
+</code></pre>
+<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/5.png" srcset="/img/loading.gif" alt></p>
 <h1 id="终端二维码"><a href="#终端二维码" class="headerlink" title="终端二维码"></a>终端二维码</h1><p>生成终端二维码（字体没选好，效果不太好）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"https://qianfei11.github.io"</span> | curl -F-=\&lt;- qrenco.de</span><br></pre></td></tr></table></figure>
-<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/6.png" alt="终端二维码效果"></p>
+<pre><code class="bash">echo &quot;https://qianfei11.github.io&quot; | curl -F-=\&lt;- qrenco.de
+</code></pre>
+<p><img src="/pics/使用Termux在Android上打造小型Linux服务器/6.png" srcset="/img/loading.gif" alt></p>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://mushuichuan.com/2017/12/10/termux/" target="_blank" rel="noopener">https://mushuichuan.com/2017/12/10/termux/</a><br><a href="http://blackwolfsec.cc/2016/12/10/termux/" target="_blank" rel="noopener">http://blackwolfsec.cc/2016/12/10/termux/</a><br><a href="https://www.sqlsec.com/2018/05/termux.html" target="_blank" rel="noopener">https://www.sqlsec.com/2018/05/termux.html</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/android/">android</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/03/05/使用X11在macOS上获得更好的体验/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>使用X11在macOS上获得更好的体验</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/02/29/不同版本Android动态调试前打开调试开关简述/">
+                        <span>不同版本Android动态调试前打开调试开关简述</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
 
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
+      </div>
+    
   </div>
-  
+</div>
+
+<!-- Custom -->
+
+
     
-<nav id="article-nav">
+  </main>
+
   
-    <a href="/2020/03/05/使用X11在macOS上获得更好的体验/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          使用X11在macOS上获得更好的体验
-        
-      </div>
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
     </a>
   
-  
-    <a href="/2020/02/29/不同版本Android动态调试前打开调试开关简述/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">不同版本Android动态调试前打开调试开关简述</div>
-    </a>
-  
-</nav>
 
   
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#oh-my-zsh"><span class="nav-number">1.</span> <span class="nav-text">oh-my-zsh</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Change-apt-sources"><span class="nav-number">2.</span> <span class="nav-text">Change apt-sources</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH"><span class="nav-number">3.</span> <span class="nav-text">SSH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python"><span class="nav-number">4.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPython"><span class="nav-number">5.</span> <span class="nav-text">IPython</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tsu"><span class="nav-number">6.</span> <span class="nav-text">tsu</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MSF"><span class="nav-number">7.</span> <span class="nav-text">MSF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Termux-API"><span class="nav-number">8.</span> <span class="nav-text">Termux-API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nyancat"><span class="nav-number">9.</span> <span class="nav-text">nyancat</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#终端二维码"><span class="nav-number">10.</span> <span class="nav-text">终端二维码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">11.</span> <span class="nav-text">References</span></a></li></ol>
-    
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </aside>
+  </div>
+</div>
+  
 
-</section>
-        
-      </div>
+  
 
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
     </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
-  
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
-      </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
-      </div>
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "使用Termux在Android上打造小型Linux服务器&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -428,5 +612,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

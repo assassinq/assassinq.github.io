@@ -1,369 +1,630 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
+
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>Python实现TEA、XTEA、XXTEA加密解密算法 | AssassinQ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="cryptopython">
-  
-  
-  
-  
-  <meta name="description" content="闲来无事，喝杯茶冷静一下。">
-<meta name="keywords" content="crypto,python">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Python实现TEA、XTEA、XXTEA加密解密算法">
-<meta property="og:url" content="blog.b3ale.cn/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/index.html">
-<meta property="og:site_name" content="AssassinQ">
-<meta property="og:description" content="闲来无事，喝杯茶冷静一下。">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/1.png">
-<meta property="og:image" content="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/2.png">
-<meta property="og:image" content="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/3.png">
-<meta property="og:updated_time" content="2019-12-14T09:30:14.152Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python实现TEA、XTEA、XXTEA加密解密算法">
-<meta name="twitter:description" content="闲来无事，喝杯茶冷静一下。">
-<meta name="twitter:image" content="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml">
-  
-  <link rel="icon" href="/css/images/favicon.ico">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-    
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz%3A200%2C300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Python实现TEA、XTEA、XXTEA加密解密算法 - AssassinQ</title>
 
-  <link rel="stylesheet" id="athemes-headings-fonts-css" href="//fonts.googleapis.com/css?family=Oswald%3A300%2C400%2C700&amp;ver=4.6.1" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/fashion.css">
-  <link rel="stylesheet" href="/css/glyphs.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
 
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
-</html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
 
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-  
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="site-header-image">
-    <img id="originBg" width="100%" alt="Hike News" src>
-  </div>
-
-  <div id="header-blur" class="site-header-image blur" style="position: absolute; top:0; height: 207px; min-height: 207px; min-width: 100%;">
-    <img id="blurBg" width="100%" style="top: 96%" alt="Hike News" src>
-  </div>
-
-  <script>
-        var imgUrls = "css/images/pose01.jpg".split(",");
-        var random = Math.floor((Math.random() * imgUrls.length ));
-        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-          document.getElementById("originBg").src=imgUrls[random];
-          document.getElementById("blurBg").src=imgUrls[random];
-        } else {
-          document.getElementById("originBg").src='/' + imgUrls[random];
-          document.getElementById("blurBg").src='/' + imgUrls[random];
-        }
-    </script>
-
-
-
-
-<header id="allheader" class="site-header" role="banner" style="width: 100%; position: absolute; top:0; background: rgba(255,255,255,.8);">
-  <div class="clearfix container">
-      <div class="site-branding">
-
-          <h1 class="site-title">
-            
-              <a href="/" title="AssassinQ" rel="home"> AssassinQ </a>
-            
-          </h1>
-          
-          
-            <div class="site-description">ZJGSU-IS-17</div>
-          
-            
-          <nav id="main-navigation" class="main-navigation" role="navigation">
-            <a class="nav-open">Menu</a>
-            <a class="nav-close">Close</a>
-
-            <div class="clearfix sf-menu">
-              <ul id="main-nav" class="menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/">Home</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/archives">Archives</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/tags">Tags</a> </li>
-                    
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class href="/about">About</a> </li>
-                    
-              </ul>
-            </div>
-          </nav>
-
-      </div>
-  </div>
-</header>
-
-
-  <div id="container">
-    <div id="wrap">
-            
-      <div id="content" class="outer">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <section id="main" style="float:none;"><article id="post-Python实现TEA、XTEA、XXTEA加密解密算法" style="width: 66%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
-    
-    
-      <header class="article-header">
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
         
-  
-    <h1 class="thumb" itemprop="name">
-      Python实现TEA、XTEA、XXTEA加密解密算法
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      	<a href="/2019/08/22/Python实现TEA、XTEA、XXTEA加密解密算法/" class="article-date">
-	  <time datetime="2019-08-22T09:00:10.000Z" itemprop="datePublished">August 22, 2019</time>
-	</a>
-
-       
-      
-
-	  |
-	  758 words
-	  |
-	  4 minute(s) to read
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>闲来无事，喝杯茶冷静一下。</p>
-<a id="more"></a>
-<h1 id="TEA"><a href="#TEA" class="headerlink" title="TEA"></a><a href="https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm" target="_blank" rel="noopener">TEA</a></h1><p>微型加密算法（<code>Tiny Encryption Algorithm</code>，<code>TEA</code>）是一种易于描述和执行的块密码，通常只需要很少的代码就可实现。<code>TEA</code>操作处理在两个<code>32</code>位无符号整型上（可能源于一个<code>64</code>位数据），并且使用一个<code>128</code>位的密钥。设计者是<code>Roger Needham</code>和<code>David Wheeler</code>。</p>
-<p>加密过程：</p>
-<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/1.png" alt="TEA算法详解"></p>
-<p>Python 实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	x = <span class="number">0</span></span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	k0 = k[<span class="number">0</span>]</span><br><span class="line">	k1 = k[<span class="number">1</span>]</span><br><span class="line">	k2 = k[<span class="number">2</span>]</span><br><span class="line">	k3 = k[<span class="number">3</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">		x += delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v0 += ((v1 &lt;&lt; <span class="number">4</span>) + k0) ^ (v1 + x) ^ ((v1 &gt;&gt; <span class="number">5</span>) + k1)</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v1 += ((v0 &lt;&lt; <span class="number">4</span>) + k2) ^ (v0 + x) ^ ((v0 &gt;&gt; <span class="number">5</span>) + k3)</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	x = <span class="number">0xC6EF3720</span></span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	k0 = k[<span class="number">0</span>]</span><br><span class="line">	k1 = k[<span class="number">1</span>]</span><br><span class="line">	k2 = k[<span class="number">2</span>]</span><br><span class="line">	k3 = k[<span class="number">3</span>]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">		v1 -= ((v0 &lt;&lt; <span class="number">4</span>) + k2) ^ (v0 + x) ^ ((v0 &gt;&gt; <span class="number">5</span>) + k3)</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v0 -= ((v1 &lt;&lt; <span class="number">4</span>) + k0) ^ (v1 + x) ^ ((v1 &gt;&gt; <span class="number">5</span>) + k1)</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		x -= delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	plain = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">	key = [<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">	encrypted = encrypt(plain, key)</span><br><span class="line">	<span class="keyword">print</span> encrypted</span><br><span class="line">	decrypted = decrypt(encrypted, key)</span><br><span class="line">	<span class="keyword">print</span> decrypted</span><br></pre></td></tr></table></figure>
-<h1 id="XTEA"><a href="#XTEA" class="headerlink" title="XTEA"></a><a href="https://en.wikipedia.org/wiki/XTEA" target="_blank" rel="noopener">XTEA</a></h1><p><code>XTEA</code>是<code>TEA</code>的升级版，增加了更多的密钥表，移位和异或操作等等。</p>
-<p>加密过程：</p>
-<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/2.png" alt="XTEA算法详解"></p>
-<p>Python 实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(rounds, v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	x = <span class="number">0</span></span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">		v0 += (((v1 &lt;&lt; <span class="number">4</span>) ^ (v1 &gt;&gt; <span class="number">5</span>)) + v1) ^ (x + k[x &amp; <span class="number">3</span>])</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		x += delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v1 += (((v0 &lt;&lt; <span class="number">4</span>) ^ (v0 &gt;&gt; <span class="number">5</span>)) + v0) ^ (x + k[(x &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>])</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(rounds, v, k)</span>:</span></span><br><span class="line">	v0 = v[<span class="number">0</span>]</span><br><span class="line">	v1 = v[<span class="number">1</span>]</span><br><span class="line">	delta = <span class="number">0x9E3779B9</span></span><br><span class="line">	x = delta * rounds</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">		v1 -= (((v0 &lt;&lt; <span class="number">4</span>) ^ (v0 &gt;&gt; <span class="number">5</span>)) + v0) ^ (x + k[(x &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>])</span><br><span class="line">		v1 = v1 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		x -= delta</span><br><span class="line">		x = x &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">		v0 -= (((v1 &lt;&lt; <span class="number">4</span>) ^ (v1 &gt;&gt; <span class="number">5</span>)) + v1) ^ (x + k[x &amp; <span class="number">3</span>])</span><br><span class="line">		v0 = v0 &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">	v[<span class="number">0</span>] = v0</span><br><span class="line">	v[<span class="number">1</span>] = v1</span><br><span class="line">	<span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	plain = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">	key = [<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">	rounds = <span class="number">32</span></span><br><span class="line">	encrypted = encrypt(rounds, plain, key)</span><br><span class="line">	<span class="keyword">print</span> encrypted</span><br><span class="line">	decrypted = decrypt(rounds, encrypted, key)</span><br><span class="line">	<span class="keyword">print</span> decrypted</span><br></pre></td></tr></table></figure>
-<h1 id="XXTEA"><a href="#XXTEA" class="headerlink" title="XXTEA"></a><a href="https://en.wikipedia.org/wiki/XXTEA" target="_blank" rel="noopener">XXTEA</a></h1><p><code>XXTEA</code>，又称<code>Corrected Block TEA</code>，是<code>XTEA</code>的升级版。</p>
-<p>加密过程：</p>
-<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/3.png" alt="XXTEA算法详解"></p>
-<p>Python 实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shift</span><span class="params">(z, y, x, k, p, e)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> ((((z &gt;&gt; <span class="number">5</span>) ^ (y &lt;&lt; <span class="number">2</span>)) + ((y &gt;&gt; <span class="number">3</span>) ^ (z &lt;&lt; <span class="number">4</span>))) ^ ((x ^ y) + (k[(p &amp; <span class="number">3</span>) ^ e] ^ z)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(v, k)</span>:</span></span><br><span class="line">    delta = <span class="number">0x9E3779B9</span></span><br><span class="line">    n = len(v)</span><br><span class="line">    rounds = <span class="number">6</span> + <span class="number">52</span> / n</span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    z = v[n - <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">        x = (x + delta) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">        e = (x &gt;&gt; <span class="number">2</span>) &amp; <span class="number">3</span></span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> range(n - <span class="number">1</span>):</span><br><span class="line">            y = v[p + <span class="number">1</span>]</span><br><span class="line">            v[p] = (v[p] + shift(z, y, x, k, p, e)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">            z = v[p]</span><br><span class="line">        p += <span class="number">1</span></span><br><span class="line">        y = v[<span class="number">0</span>]</span><br><span class="line">        v[n - <span class="number">1</span>] = (v[n - <span class="number">1</span>] + shift(z, y, x, k, p, e)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">        z = v[n - <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(v, k)</span>:</span></span><br><span class="line">    delta = <span class="number">0x9E3779B9</span></span><br><span class="line">    n = len(v)</span><br><span class="line">    rounds = <span class="number">6</span> + <span class="number">52</span> / n</span><br><span class="line">    x = (rounds * delta) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">    y = v[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(rounds):</span><br><span class="line">        e = (x &gt;&gt; <span class="number">2</span>) &amp; <span class="number">3</span></span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> range(n - <span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>):</span><br><span class="line">            z = v[p - <span class="number">1</span>]</span><br><span class="line">            v[p] = (v[p] - shift(z, y, x, k, p, e)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">            y = v[p]</span><br><span class="line">        p -= <span class="number">1</span></span><br><span class="line">        z = v[n - <span class="number">1</span>]</span><br><span class="line">        v[<span class="number">0</span>] = (v[<span class="number">0</span>] - shift(z, y, x, k, p, e)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">        y = v[<span class="number">0</span>]</span><br><span class="line">        x = (x - delta) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">    <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    plain = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">    key = [<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">    encrypted = encrypt(plain, key)</span><br><span class="line">    <span class="keyword">print</span> encrypted</span><br><span class="line">    decrypted = decrypt(encrypted, key)</span><br><span class="line">    <span class="keyword">print</span> decrypted</span><br></pre></td></tr></table></figure>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://blog.csdn.net/gsls200808/article/details/48243019" target="_blank" rel="noopener">https://blog.csdn.net/gsls200808/article/details/48243019</a></p>
-
-      
-    </div>
-    <footer class="entry-meta entry-footer">
-      
-      
-  <span class="ico-tags"></span>
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crypto/">crypto</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-
-      
-        
-	<div id="comment">
-		<!-- 来必力City版安装代码 -->
-		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
-		<script type="text/javascript">
-		   (function(d, s) {
-		       var j, e = d.getElementsByTagName(s)[0];
-
-		       if (typeof LivereTower === 'function') { return; }
-
-		       j = d.createElement(s);
-		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-		       j.async = true;
-
-		       e.parentNode.insertBefore(j, e);
-		   })(document, 'script');
-		</script>
-		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-		</div>
-		<!-- City版安装代码已完成 -->
-	</div>
-
-
-
-      
-    </footer>
-    <hr class="entry-footer-hr">
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2019/08/24/杭电CTF-题库-reverse/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          杭电CTF-题库-reverse
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/08/20/从零开始认识跨站请求伪造（Cross-site-Request-Forgery）/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">从零开始认识跨站请求伪造（Cross-site Request Forgery）</div>
-    </a>
-  
 </nav>
 
-  
-</article>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
 
-<!-- Table of Contents -->
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Thursday, August 22nd 2019, 5:00 pm
+                </p>
+              
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TEA"><span class="nav-number">1.</span> <span class="nav-text">TEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XTEA"><span class="nav-number">2.</span> <span class="nav-text">XTEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XXTEA"><span class="nav-number">3.</span> <span class="nav-text">XXTEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol>
-    
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    773 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      4 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
     </div>
-  </aside>
+  </header>
 
-</section>
-        
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>闲来无事，喝杯茶冷静一下。</p>
+<a id="more"></a>
+<h1 id="TEA"><a href="#TEA" class="headerlink" title="TEA"></a><a href="https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm" target="_blank" rel="noopener">TEA</a></h1><p>微型加密算法（<code>Tiny Encryption Algorithm</code>，<code>TEA</code>）是一种易于描述和执行的块密码，通常只需要很少的代码就可实现。<code>TEA</code> 操作处理在两个 <code>32</code> 位无符号整型上（可能源于一个 <code>64</code> 位数据），并且使用一个 <code>128</code> 位的密钥。设计者是 <code>Roger Needham</code> 和 <code>David Wheeler</code>。</p>
+<p>加密过程：</p>
+<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/1.png" srcset="/img/loading.gif" alt></p>
+<p>Python 实现：</p>
+<pre><code class="python">#!/usr/bin/env python
+
+def encrypt(v, k):
+    v0 = v[0]
+    v1 = v[1]
+    x = 0
+    delta = 0x9E3779B9
+    k0 = k[0]
+    k1 = k[1]
+    k2 = k[2]
+    k3 = k[3]
+    for i in range(32):
+        x += delta
+        x = x &amp; 0xFFFFFFFF
+        v0 += ((v1 &lt;&lt; 4) + k0) ^ (v1 + x) ^ ((v1 &gt;&gt; 5) + k1)
+        v0 = v0 &amp; 0xFFFFFFFF
+        v1 += ((v0 &lt;&lt; 4) + k2) ^ (v0 + x) ^ ((v0 &gt;&gt; 5) + k3)
+        v1 = v1 &amp; 0xFFFFFFFF
+    v[0] = v0
+    v[1] = v1
+    return v
+
+def decrypt(v, k):
+    v0 = v[0]
+    v1 = v[1]
+    x = 0xC6EF3720
+    delta = 0x9E3779B9
+    k0 = k[0]
+    k1 = k[1]
+    k2 = k[2]
+    k3 = k[3]
+    for i in range(32):
+        v1 -= ((v0 &lt;&lt; 4) + k2) ^ (v0 + x) ^ ((v0 &gt;&gt; 5) + k3)
+        v1 = v1 &amp; 0xFFFFFFFF
+        v0 -= ((v1 &lt;&lt; 4) + k0) ^ (v1 + x) ^ ((v1 &gt;&gt; 5) + k1)
+        v0 = v0 &amp; 0xFFFFFFFF
+        x -= delta
+        x = x &amp; 0xFFFFFFFF
+    v[0] = v0
+    v[1] = v1
+    return v
+
+
+if __name__ == &#39;__main__&#39;:
+    plain = [1, 2]
+    key = [2, 2, 3, 4]
+    encrypted = encrypt(plain, key)
+    print encrypted
+    decrypted = decrypt(encrypted, key)
+    print decrypted
+</code></pre>
+<h1 id="XTEA"><a href="#XTEA" class="headerlink" title="XTEA"></a><a href="https://en.wikipedia.org/wiki/XTEA" target="_blank" rel="noopener">XTEA</a></h1><p><code>XTEA</code> 是 <code>TEA</code> 的升级版，增加了更多的密钥表，移位和异或操作等等。</p>
+<p>加密过程：</p>
+<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/2.png" srcset="/img/loading.gif" alt></p>
+<p>Python 实现：</p>
+<pre><code class="python">#!/usr/bin/env python
+
+def encrypt(rounds, v, k):
+    v0 = v[0]
+    v1 = v[1]
+    x = 0
+    delta = 0x9E3779B9
+    for i in range(rounds):
+        v0 += (((v1 &lt;&lt; 4) ^ (v1 &gt;&gt; 5)) + v1) ^ (x + k[x &amp; 3])
+        v0 = v0 &amp; 0xFFFFFFFF
+        x += delta
+        x = x &amp; 0xFFFFFFFF
+        v1 += (((v0 &lt;&lt; 4) ^ (v0 &gt;&gt; 5)) + v0) ^ (x + k[(x &gt;&gt; 11) &amp; 3])
+        v1 = v1 &amp; 0xFFFFFFFF
+    v[0] = v0
+    v[1] = v1
+    return v
+
+def decrypt(rounds, v, k):
+    v0 = v[0]
+    v1 = v[1]
+    delta = 0x9E3779B9
+    x = delta * rounds
+    for i in range(rounds):
+        v1 -= (((v0 &lt;&lt; 4) ^ (v0 &gt;&gt; 5)) + v0) ^ (x + k[(x &gt;&gt; 11) &amp; 3])
+        v1 = v1 &amp; 0xFFFFFFFF
+        x -= delta
+        x = x &amp; 0xFFFFFFFF
+        v0 -= (((v1 &lt;&lt; 4) ^ (v1 &gt;&gt; 5)) + v1) ^ (x + k[x &amp; 3])
+        v0 = v0 &amp; 0xFFFFFFFF
+    v[0] = v0
+    v[1] = v1
+    return v
+
+if __name__ == &#39;__main__&#39;:
+    plain = [1, 2]
+    key = [2, 2, 3, 4]
+    rounds = 32
+    encrypted = encrypt(rounds, plain, key)
+    print encrypted
+    decrypted = decrypt(rounds, encrypted, key)
+    print decrypted
+</code></pre>
+<h1 id="XXTEA"><a href="#XXTEA" class="headerlink" title="XXTEA"></a><a href="https://en.wikipedia.org/wiki/XXTEA" target="_blank" rel="noopener">XXTEA</a></h1><p><code>XXTEA</code>，又称 <code>Corrected Block TEA</code>，是 <code>XTEA</code> 的升级版。</p>
+<p>加密过程：</p>
+<p><img src="/pics/Python实现TEA、XTEA、XXTEA加密解密算法/3.png" srcset="/img/loading.gif" alt></p>
+<p>Python 实现：</p>
+<pre><code class="python">#!/usr/bin/env python
+
+def shift(z, y, x, k, p, e):
+    return ((((z &gt;&gt; 5) ^ (y &lt;&lt; 2)) + ((y &gt;&gt; 3) ^ (z &lt;&lt; 4))) ^ ((x ^ y) + (k[(p &amp; 3) ^ e] ^ z)))
+
+def encrypt(v, k):
+    delta = 0x9E3779B9
+    n = len(v)
+    rounds = 6 + 52 / n
+    x = 0
+    z = v[n - 1]
+    for i in range(rounds):
+        x = (x + delta) &amp; 0xFFFFFFFF
+        e = (x &gt;&gt; 2) &amp; 3
+        for p in range(n - 1):
+            y = v[p + 1]
+            v[p] = (v[p] + shift(z, y, x, k, p, e)) &amp; 0xFFFFFFFF
+            z = v[p]
+        p += 1
+        y = v[0]
+        v[n - 1] = (v[n - 1] + shift(z, y, x, k, p, e)) &amp; 0xFFFFFFFF
+        z = v[n - 1]
+    return v
+
+def decrypt(v, k):
+    delta = 0x9E3779B9
+    n = len(v)
+    rounds = 6 + 52 / n
+    x = (rounds * delta) &amp; 0xFFFFFFFF
+    y = v[0]
+    for i in range(rounds):
+        e = (x &gt;&gt; 2) &amp; 3
+        for p in range(n - 1, 0, -1):
+            z = v[p - 1]
+            v[p] = (v[p] - shift(z, y, x, k, p, e)) &amp; 0xFFFFFFFF
+            y = v[p]
+        p -= 1
+        z = v[n - 1]
+        v[0] = (v[0] - shift(z, y, x, k, p, e)) &amp; 0xFFFFFFFF
+        y = v[0]
+        x = (x - delta) &amp; 0xFFFFFFFF
+    return v
+
+if __name__ == &#39;__main__&#39;:
+    plain = [1, 2]
+    key = [2, 2, 3, 4]
+    encrypted = encrypt(plain, key)
+    print encrypted
+    decrypted = decrypt(encrypted, key)
+    print decrypted
+</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://blog.csdn.net/gsls200808/article/details/48243019" target="_blank" rel="noopener">https://blog.csdn.net/gsls200808/article/details/48243019</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/crypto/">crypto</a>
+                    
+                      <a class="hover-with-bg" href="/tags/python/">python</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/08/24/杭电CTF-题库-reverse/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>杭电CTF-题库-reverse</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/08/20/从零开始认识跨站请求伪造（Cross-site-Request-Forgery）/">
+                        <span>从零开始认识跨站请求伪造（Cross-site Request Forgery）</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
       </div>
-
     </div>
-    <!-- <nav id="mobile-nav">
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    <footer id="footer" class="site-footer">
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
   
 
-  <div class="clearfix container">
-      <div class="site-info">
-	      &copy; 2020 AssassinQ All Rights Reserved.
-        
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="site-credit">
-        Theme by <a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank">hipaper</a>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
       </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
   </div>
 </footer>
 
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("allheader").offsetHeight - document.getElementById("footer").offsetHeight + "px";
-
-
-    <!-- headerblur min height -->
-    
-      var headerblur = document.getElementById("header-blur");
-      headerblur.style.minHeight = window.getComputedStyle(document.getElementById("allheader"), null).height;
-    
-    
-</script>
-    
-<div style="display: none;">
-  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-</div>
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-<script src="/js/bootstrap.js"></script>
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
 <script src="/js/main.js"></script>
 
 
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
 
 
 
 
 
-  <div style="display: none;">
-    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
-  </div>
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
 
+<!-- Plugins -->
 
 
 
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
 
-  </div>
 
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Python实现TEA、XTEA、XXTEA加密解密算法&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -381,5 +642,17 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

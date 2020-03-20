@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>SameBall.exe v1.02 注册码算法浅析 - AssassinQ</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Thursday, March 19th 2020, 1:44 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      3 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>老师布置的一个作业，算法其实不难，但逆向起来比较复杂，看懂了就好理解了。简单的做个记录。</p>
+<a id="more"></a>
+<h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>程序是一个对对碰游戏，每过一段时间，程序会检测注册表中是否有注册信息，如果没有会弹出注册窗口。</p>
+<h1 id="Bruteforce"><a href="#Bruteforce" class="headerlink" title="Bruteforce"></a>Bruteforce</h1><p>先看看注册向导中会提供什么有用的信息：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/1.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/2.png" srcset="/img/loading.gif" alt></p>
+<p>通过字符串搜索，定位到关键的几处代码：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/3.png" srcset="/img/loading.gif" alt></p>
+<p>然后单步走出这个函数，在 004063CA 处，对前面函数的结构做了一个判断，并跳有一个跳转，往下的代码，可以看出是在使用 RegSetValueA 往注册表里写东西，说明判断注册码成功后进行注册。那么只需要把这个跳转 nop 掉，或者是改成强制的 JMP 004063D0（即跳到下一条指令）即可：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/4.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/5.png" srcset="/img/loading.gif" alt></p>
+<p>将修改保存到文件之后随便输入什么内容都能注册了。</p>
+<h1 id="Algorithm-Analysis"><a href="#Algorithm-Analysis" class="headerlink" title="Algorithm Analysis"></a>Algorithm Analysis</h1><p>先尝试随机输入一些数据，然后根据前面的分析，可以发现在 004063B2 处进行了判断，前面的函数应该生成了注册码：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/6.png" srcset="/img/loading.gif" alt></p>
+<p>进入 00406780 函数，通过函数将两个长为 32 的字符串转为了整型，整型的字长被记录在最低字上：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/7.png" srcset="/img/loading.gif" alt></p>
+<p>接着在在 0040686C 处发现两个字符串以及我们输入的字符串被作为参数传入：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/8.png" srcset="/img/loading.gif" alt></p>
+<p>进入 00406570 函数之后，在 004065C0 处先对字符串的长度判断是否小于 0x100，接着判断字符串的长度是否大于零：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/9.png" srcset="/img/loading.gif" alt></p>
+<p>然后对字符串每个字符进行判断是否在 0 ～ F 的范围内，即是否是一个十六进制字符串：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/10.png" srcset="/img/loading.gif" alt></p>
+<p>显然如果不是的话就会出错，所以在这里设下断点，重新输入一个十六进制数 1234 作为注册码。接着继续往下，在 0040663A 处将我们的输入字符串转成了整型：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/11.png" srcset="/img/loading.gif" alt></p>
+<p>接着往下跟进 00401AE0 函数，其中也传入了三个数字。在 00401B39 到 00401B48 处，计算 8231FC324594496514663D91E6C19989 共有多少位：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/12.png" srcset="/img/loading.gif" alt></p>
+<p>接着将得到的位数 0x80 减去 2，开始进入下面的一个大循环：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/13.png" srcset="/img/loading.gif" alt></p>
+<p>接着在循环中多次调用了 00410630 函数，其中将我们的输入自己相乘，并将结果返回：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/14.png" srcset="/img/loading.gif" alt></p>
+<p>然后调用了 00410A40 函数，具体的汇编个人觉得是被编译器优化过后的结果，通过推测判断可以发现这个函数的运行结果为之前的乘积模 CFBCC6EC474AE5CD0F7BC8DBBA353A11 的结果：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/15.png" srcset="/img/loading.gif" alt></p>
+<p>接着在后面取出了 8231FC324594496514663D91E6C19989，去最高的字并右移 0x1E 位，判断最低位是否为 1，如果为 1 进行下面的一堆乘法操作；反之跳过这段内容。看到这段内容，回想起以前做 ACM 的时候接触过的快速幂算法，按比特判断是否加上对应的次方：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/16.png" srcset="/img/loading.gif" alt></p>
+<p>如果为 0，跳转到最下面，将迭代的数字减一，并开始下一个循环：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/17.png" srcset="/img/loading.gif" alt></p>
+<p>在接下来的循环中，如果判断相乘的数大于一个字，就会分成几个字分别和目标相乘，依次由最高字开始，每次将乘积左移 32 位后加上下一次的乘积：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/18.png" srcset="/img/loading.gif" alt></p>
+<p>这样下来基本清楚 00401AE0 函数是将我们的输入乘上 8231FC324594496514663D91E6C19989 次方再模去 CFBCC6EC474AE5CD0F7BC8DBBA353A11 的结果，推测应该是 RSA 了。后面有一些乱七八糟的函数，调试了很多遍后没发现有什么作用。最后下断点在 00401E34 这里，最后 EAX 存储的地址即为指向 0x1234 经过上面操作的结果：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/19.png" srcset="/img/loading.gif" alt></p>
+<p>然后在 00406570 函数的最后面 0040675F 这边停下来，发现最后将结果转成了字符串，并在 EAX 里存储了这个字符串的地址：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/20.png" srcset="/img/loading.gif" alt></p>
+<p>最后调试的时候是将结果和 0 进行比较，这样的话注册码写 0 就行了，0 的几次方结果都是 0。测试了一下注册码写 0 的话是可以写入注册表的，但是感觉不太可能这么简单，不过前面的 RSA 算法分析应该是没有什么问题了：</p>
+<p><img src="/pics/SameBall-exe-v1.02-注册码算法浅析/21.png" srcset="/img/loading.gif" alt></p>
+<p>整体看下来发现动态调试确实相比静态分析能更加深入地熟悉一个程序，连续分析了两天，是一次痛苦但收获颇多的经历。</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://bbs.pediy.com/thread-38901.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-38901.htm</a><br><a href="https://oi-wiki.org/math/quick-pow/" target="_blank" rel="noopener">https://oi-wiki.org/math/quick-pow/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/re/">re</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/03/20/Off-by-One-All-in-One/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Off by One All in One</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/03/14/Use-SROP-with-ret2VDSO/">
+                        <span>Use SROP with ret2VDSO</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "SameBall.exe v1.02 注册码算法浅析&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
