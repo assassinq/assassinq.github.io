@@ -13,7 +13,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#005f6b">
-  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
   <title>Ubuntu16.04下编译libc2.23 - AssassinQ</title>
@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    677 字
+                    816 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      4 分钟
                   </span>
                 
 
@@ -169,16 +169,16 @@
 <li>Ubuntu16.04</li>
 <li>glibc-2.23.tar.gz</li>
 </ul>
-<pre><code class="shell">assassinq@ubuntu ~/glibc-2.23/build$ uname -a
+<pre><code class="bash">assassinq@ubuntu ~/glibc-2.23/build$ uname -a
 Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 </code></pre>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>从 ftp 上把 glibc 下载下来，解压后新建一个 build 文件夹：</p>
-<pre><code class="shell">cd &amp;&amp; wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz \
+<pre><code class="bash">cd &amp;&amp; wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz \
 tar -xvf glibc-2.23.tar.gz &amp;&amp; cd glibc-2.23 \
 mkdir build &amp;&amp; cd build # mkdir build32 &amp;&amp; cd build32
 </code></pre>
 <h1 id="编译过程中的挖坑和填坑"><a href="#编译过程中的挖坑和填坑" class="headerlink" title="编译过程中的挖坑和填坑"></a>编译过程中的挖坑和填坑</h1><p>在 build 文件夹下 configure，并且加上一些必要的参数使得编译时加上 symbol，并且指定输出文件夹：（转自 <a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">2016 年 winesap 的社课</a>）</p>
-<pre><code class="shell"># x64
+<pre><code class="bash"># x64
 CFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og&quot; \
 CXXFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og&quot; \
 ../configure --prefix=/path/to/install
@@ -189,14 +189,14 @@ CXXFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og&quot; \
 ../configure --prefix=/path/to/install --host=i686-linux-gnu
 </code></pre>
 <p>如果没有任何意外的话就能直接 <code>make &amp;&amp; make install</code> 编译了。下面记录一下遇到的几个坑。（感谢 <a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">n132 大哥的博客</a>）</p>
-<h2 id="0x0-某些安装包缺失"><a href="#0x0-某些安装包缺失" class="headerlink" title="0x0 某些安装包缺失"></a>0x0 某些安装包缺失</h2><p>configure 的时候提示有些安装包缺失，不能生成 Makefile：</p>
+<h2 id="某些安装包缺失"><a href="#某些安装包缺失" class="headerlink" title="某些安装包缺失"></a>某些安装包缺失</h2><p>configure 的时候提示有些安装包缺失，不能生成 Makefile：</p>
 <pre><code>configure: error:
 *** These critical programs are missing or too old: gawk
 *** Check the INSTALL file for required versions.
 </code></pre><p>根据提示安装一下即可：</p>
-<pre><code class="shell">sudo apt-get update &amp;&amp; sudo apt-get install gawk
+<pre><code class="bash">sudo apt update &amp;&amp; sudo apt install gawk
 </code></pre>
-<h2 id="0x1-警告提示"><a href="#0x1-警告提示" class="headerlink" title="0x1 警告提示"></a>0x1 警告提示</h2><pre><code>In file included from regex.c:67:0:
+<h2 id="warnings-being-treated-as-errors"><a href="#warnings-being-treated-as-errors" class="headerlink" title="warnings being treated as errors"></a><code>warnings being treated as errors</code></h2><pre><code>In file included from regex.c:67:0:
 regexec.c: In function ‘check_node_accept_bytes’:
 regexec.c:3856:29: error: ‘extra’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
         const unsigned char *coll_sym = extra + cset-&gt;coll_syms[i];
@@ -210,19 +210,25 @@ make[1]: *** [posix/subdir_lib] Error 2
 make[1]: Leaving directory &#39;/home/assassinq/glibc-2.23&#39;
 Makefile:9: recipe for target &#39;all&#39; failed
 make: *** [all] Error 2
-</code></pre><p><code>cc1: all warnings being treated as errors</code>是因为设置了警告提示，这里可以回到之前 configure 的时候，<code>CFLAGS</code>新增加一个参数<code>-Wno-error</code>来去除警告：</p>
-<pre><code class="shell">CFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og -Wno-error&quot;
+</code></pre><p><code>cc1: all warnings being treated as errors</code> 是因为设置了警告提示，这里可以回到之前 configure 的时候，<code>CFLAGS</code> 新增加一个参数 <code>-Wno-error</code> 来去除警告：</p>
+<pre><code class="bash">CFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og -Wno-error&quot;
 </code></pre>
-<h2 id="0x2-ld-so-conf-缺失"><a href="#0x2-ld-so-conf-缺失" class="headerlink" title="0x2 ld.so.conf 缺失"></a>0x2 <code>ld.so.conf</code> 缺失</h2><pre><code>/home/assassinq/glibc-2.23/build/elf/ldconfig: Warning: ignoring configuration file that cannot be opened: /home/assassinq/glibc-2.23/64/etc/ld.so.conf: No such file or directory
+<h2 id="ld-so-conf-缺失"><a href="#ld-so-conf-缺失" class="headerlink" title="ld.so.conf 缺失"></a><code>ld.so.conf</code> 缺失</h2><pre><code>/home/assassinq/glibc-2.23/build/elf/ldconfig: Warning: ignoring configuration file that cannot be opened: /home/assassinq/glibc-2.23/64/etc/ld.so.conf: No such file or directory
 make[1]: Leaving directory &#39;/home/assassinq/glibc-2.23&#39;
 </code></pre><p>这里只需要直接 touch 一个新文件即可：</p>
-<pre><code class="shell">cd ../64/etc &amp;&amp; sudo touch ld.so.conf
+<pre><code class="bash">cd ../64/etc &amp;&amp; sudo touch ld.so.conf
 </code></pre>
-<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>记录一下调<code>_dl_runtime_resolve</code>的 Makefile：</p>
-<pre><code>all: a
-a: a.c
-        gcc a.c -o a -Wl, -dynamic-linker /path/to/install/lib/ld-2.23.so -g
-</code></pre><h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/</a><br><a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share</a></p>
+<h2 id="Build-with-Docker"><a href="#Build-with-Docker" class="headerlink" title="Build with Docker"></a>Build with Docker</h2><p>在 macOS 下使用 Docker 挂载文件后编译可能会有以下错误：</p>
+<pre><code class="bash">/root/tmp/elf/dl-load.c:1850: undefined reference to `__GI___xstat64&#39;
+/usr/bin/ld: /root/tmp/build/elf/librtld.os: relocation R_X86_64_PC32 against undefined symbol `__GI___xstat64&#39; can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: final link failed: Bad value
+collect2: error: ld returned 1 exit status
+</code></pre>
+<p>原因是 macOS 默认文件系统呢对大小写不敏感，不过解决方法似乎只有格式化成大小写不敏感的文件系统。（<a href="https://stackoverflow.com/questions/55355885/error-trying-to-install-glibc-in-wsl-relocation-r-x86-64-pc32-against-undefined）" target="_blank" rel="noopener">https://stackoverflow.com/questions/55355885/error-trying-to-install-glibc-in-wsl-relocation-r-x86-64-pc32-against-undefined）</a></p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>通过设置 <code>LD_LIBRARY_PATH</code> 把程序的动态链接库更改为添加了调试符号的版本：</p>
+<pre><code class="bash">$ export LD_LIBRABRY_PATH=/path/to/install/lib
+</code></pre>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/</a><br><a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share</a></p>
 
             </div>
             <hr>
@@ -253,7 +259,7 @@ a: a.c
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2019/03/02/[TODO]Shellcode-Tricks/">
+                      <a href="/2019/03/02/Shellcode-Tricks/">
                         <span>Shellcode Tricks</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>

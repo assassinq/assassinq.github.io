@@ -13,7 +13,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#005f6b">
-  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
   <title>A trip of ret2dl-resolve - AssassinQ</title>
@@ -165,9 +165,14 @@
             <div class="markdown-body">
               <p>一步步了解 <code>dl-resolve</code> 的利用方法。</p>
 <a id="more"></a>
-<h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>通过利用 <code>ret2dl-resolve</code> 绕过 NX 和 ASLR 的限制。</p>
+<p>记录一下调 <code>_dl_runtime_resolve</code> 的 Makefile：</p>
+<pre><code>all: a
+a: a.c
+        gcc a.c -o a -Wl, -dynamic-linker /path/to/install/lib/ld-2.23.so -g
+</code></pre><h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>通过利用 <code>ret2dl-resolve</code> 绕过 NX 和 ASLR 的限制。</p>
 <p>例子如下：</p>
-<pre><code class="cpp">#include &lt;unistd.h&gt;
+<pre><code class="cpp">// gcc -o bof -m32 -fno-stack-protector bof.c
+#include &lt;unistd.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
 
@@ -184,7 +189,6 @@ int main() {
     vuln();
     return 0;
 }
-// gcc -o bof -m32 -fno-stack-protector bof.c
 </code></pre>
 <h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><h2 id="ELF-Header"><a href="#ELF-Header" class="headerlink" title="ELF Header"></a>ELF Header</h2><p>ELF 可执行文件由 ELF 头部，程序头部表和其对应的段，节头部表和其对应的节组成，源码在 <a href="https://code.woboq.org/userspace/glibc/elf/elf.h.html" target="_blank" rel="noopener">elf.h</a> 中实现</p>
 <p>一个参与动态链接的可执行文件，它的程序头部表包含类型为 <code>PT_DYNAMIC</code> 的段，<code>PT_DYNAMIC</code> 又包含 <code>.dynamic</code> 节，程序头的结构如下：</p>
@@ -1006,7 +1010,7 @@ bof  bof.c  core  exp.py  Makefile  peda-session-bof.txt
 $ id
 uid=1000(assassinq) gid=1000(assassinq) groups=1000(assassinq),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare),129(docker)
 </code></pre>
-<h1 id="Complement-64-bit"><a href="#Complement-64-bit" class="headerlink" title="Complement: 64 bit"></a>Complement: 64 bit</h1><p>64 位下的利用相较于 32 位下有一些不同，像是一些结构体发生变化，如 <code>Elf64_Rela</code>，还有其他的都在<a href="http://rk700.github.io/2015/08/09/return-to-dl-resolve/" target="_blank" rel="noopener">记事本的这篇文章</a>中都详细地介绍了</p>
+<h1 id="Complement-64-bit"><a href="#Complement-64-bit" class="headerlink" title="Complement: 64 bit"></a>Complement: 64 bit</h1><p>64 位下的利用相较于 32 位下有一些不同，像是一些结构体发生变化，如 <code>Elf64_Rela</code>，还有其他的都在<a href="http://rk700.github.io/2015/08/09/return-to-dl-resolve/" target="_blank" rel="noopener">记事本的这篇文章</a>中都详细地介绍了。</p>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="http://pwn4.fun/2016/11/09/Return-to-dl-resolve/" target="_blank" rel="noopener">http://pwn4.fun/2016/11/09/Return-to-dl-resolve/</a><br><a href="http://www.inforsec.org/wp/?p=389" target="_blank" rel="noopener">http://www.inforsec.org/wp/?p=389</a><br><a href="http://drops.wooyun.org/binary/14360" target="_blank" rel="noopener">http://drops.wooyun.org/binary/14360</a><br><a href="http://rk700.github.io/2015/08/09/return-to-dl-resolve/" target="_blank" rel="noopener">http://rk700.github.io/2015/08/09/return-to-dl-resolve/</a><br><a href="http://phrack.org/issues/58/4.html#article" target="_blank" rel="noopener">http://phrack.org/issues/58/4.html#article</a></p>
 
             </div>

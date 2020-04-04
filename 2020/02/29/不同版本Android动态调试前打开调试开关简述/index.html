@@ -13,7 +13,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#005f6b">
-  <meta name="description" content="ZJGSU-IS-17">
+  <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
   <title>不同版本Android动态调试前打开调试开关简述 - AssassinQ</title>
@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    873 字
+                    950 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      4 分钟
                   </span>
                 
 
@@ -274,7 +274,12 @@ Enter y(es), n(o) or e(xit): y
 Rebooting...
 </code></pre>
 <p>重启后也可以动态调了，同样可以用 monitor 来验证有没有成功。</p>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ai-sewell.me/2018/%E6%89%93%E5%BC%80%E8%B0%83%E8%AF%95%E5%BC%80%E5%85%B3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">https://ai-sewell.me/2018/%E6%89%93%E5%BC%80%E8%B0%83%E8%AF%95%E5%BC%80%E5%85%B3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/</a><br><a href="https://bbs.pediy.com/thread-248322.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-248322.htm</a></p>
+<h2 id="Magisk-命令"><a href="#Magisk-命令" class="headerlink" title="Magisk 命令"></a>Magisk 命令</h2><p>使用 Magisk 的命令也可以实现：</p>
+<pre><code class="bash">magisk resetprop ro.debuggable 1
+stop; start; # 必须用这种方式重启
+</code></pre>
+<p>在调试的过程中发现在 Pixel 下如果开了调试会出现开发者选项无法打开的问题，暂时没有解决方法。</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ai-sewell.me/2018/%E6%89%93%E5%BC%80%E8%B0%83%E8%AF%95%E5%BC%80%E5%85%B3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">https://ai-sewell.me/2018/%E6%89%93%E5%BC%80%E8%B0%83%E8%AF%95%E5%BC%80%E5%85%B3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/</a><br><a href="https://bbs.pediy.com/thread-248322.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-248322.htm</a><br><a href="https://www.renyiwei.com/archives/1704.html" target="_blank" rel="noopener">https://www.renyiwei.com/archives/1704.html</a></p>
 
             </div>
             <hr>
