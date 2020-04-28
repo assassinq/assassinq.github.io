@@ -819,7 +819,7 @@ static JNINativeMethod gMethods[] = {
     }
     ...
 }
-</code></pre><p>TODO:</p>
+</code></pre><p>TODO</p>
 <h1 id="DVM-脱壳"><a href="#DVM-脱壳" class="headerlink" title="DVM 脱壳"></a>DVM 脱壳</h1><p>目前存在对 apk 中的 classes.dex 进行加密的技术，称为加壳。通过对 dex 文件的加壳，可以达到减少体积，隐藏真实代码的效果。Android 的壳与 PE 文件一样，在程序运行时，先到达壳的入口点，运行解壳代码，然后再到达程序入口点并运行代码。如果要脱壳，就需要在程序解码完毕并到达程序真实入口点中间某个位置，把原始的 dex 代码给 dump 下来，还原到 apk 文件中。</p>
 <h2 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h2><p>壳入口：</p>
 <pre><code class="xml">&lt;application android:name=&quot;com.ali.mobisecenhance.SubApplication&quot; /&gt;

@@ -118,7 +118,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  Thursday, August 8th 2019, 9:02 am
+                  Thursday, August 8th 2019, 11:24 pm
                 </p>
               
 
@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    2.1k 字
+                    1.6k 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      12 分钟
+                      9 分钟
                   </span>
                 
 
@@ -165,7 +165,8 @@
             <div class="markdown-body">
               <p>最近在分析一个 CVE 的时候涉及到对内核的调试，先提前研究一下。</p>
 <a id="more"></a>
-<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><pre><code class="bash">➜  ~ uname -a
+<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>OS：Ubuntu 16.04（VMware Fusion）</p>
+<pre><code class="bash">➜  ~ uname -a
 Linux ubuntu 4.4.0-92-generic #115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
 ➜  ~ lsb_release -a
 No LSB modules are available.
@@ -174,87 +175,27 @@ Description:    Ubuntu 16.04.6 LTS
 Release:    16.04
 Codename:    xenial
 </code></pre>
-<p>使用 <code>Ubuntu 16.04</code>，因为该发行版默认已经开启了内核调试支持：</p>
-<pre><code class="bash">➜  ~ cat /boot/config-4.4.0-92-generic | grep &quot;GDB&quot;
-# CONFIG_CFG80211_INTERNAL_REGDB is not set
-CONFIG_SERIAL_KGDB_NMI=y
-CONFIG_GDB_SCRIPTS=y
-CONFIG_HAVE_ARCH_KGDB=y
-CONFIG_KGDB=y
-CONFIG_KGDB_SERIAL_CONSOLE=y
-# CONFIG_KGDB_TESTS is not set
-CONFIG_KGDB_LOW_LEVEL_TRAP=y
-CONFIG_KGDB_KDB=y
+<h1 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h1><h2 id="Dependence"><a href="#Dependence" class="headerlink" title="Dependence"></a>Dependence</h2><p>安装 QEMU：</p>
+<pre><code class="bash">$ sudo apt install qemu qemu-system
 </code></pre>
-<h1 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h1><h2 id="Symbolic-Files"><a href="#Symbolic-Files" class="headerlink" title="Symbolic Files"></a>Symbolic Files</h2><p>首先准备调试需要的符号文件。看一下该版本的 <code>Codename</code>：</p>
-<pre><code class="bash">➜  ~ lsb_release -c
-Codename:    xenial
+<p>一些用于编译内核的依赖：</p>
+<pre><code class="bash">$ sudo apt install libncurses5-dev build-essential kernel-package
 </code></pre>
-<p>然后新建文件 <code>ddebs.list</code>，其内容如下（看情况修改 <code>Codename</code>）：</p>
-<pre><code class="bash">➜  ~ cat /etc/apt/sources.list.d/ddebs.list
-deb http://ddebs.ubuntu.com/ xenial      main restricted universe multiverse
-deb http://ddebs.ubuntu.com/ xenial-security main restricted universe multiverse
-deb http://ddebs.ubuntu.com/ xenial-updates  main restricted universe multiverse
-deb http://ddebs.ubuntu.com/ xenial-proposed main restricted universe multiverse
+<h2 id="Linux-Kernel"><a href="#Linux-Kernel" class="headerlink" title="Linux Kernel"></a>Linux Kernel</h2><p>Linux 内核源码肯定少不了，编译完后：</p>
+<pre><code class="bash">$ wget https://mirrors.tuna.tsinghua.edu.cn/kernel/v4.x/linux-4.20.17.tar.gz
+$ tar -zxvf linux-4.20.17.tar.gz &amp;&amp; cd linux-4.20.17
+$ make menuconfig # 直接保存即可
+$ make bzImage
 </code></pre>
-<p><code>http://ddebs.ubuntu.com</code> 是 <code>Ubuntu</code> 的符号服务器。执行下面的命令添加密钥，然后就可以更新并下载符号文件了：</p>
-<pre><code class="bash">➜  ~ wget -O - http://ddebs.ubuntu.com/dbgsym-release-key.asc | sudo apt-key add -
-➜  ~ sudo apt-get update
-➜  ~ uname -r
-4.4.0-92-generic
-➜  ~ sudo apt-get install linux-image-4.13.0-38-generic-dbgsym
-</code></pre>
-<p>完成后，符号文件将会放在下面的目录下：</p>
-<pre><code class="bash">➜  ~ file /usr/lib/debug/boot/vmlinux-4.4.0-92-generic
-/usr/lib/debug/boot/vmlinux-4.4.0-92-generic: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, BuildID[sha1]=a57bd034055907e83dfd68d2999f976285d2ab31, not stripped
-</code></pre>
-<p>可以看到这是一个静态链接的可执行文件，用 <code>gdb</code> 可以进行调试，像这样：</p>
-<pre><code class="bash">➜  ~ gdb -q /usr/lib/debug/boot/vmlinux-4.4.0-92-generic
-GEF for linux ready, type `gef&#39; to start, `gef config&#39; to configure
-79 commands loaded for GDB 7.11.1 using Python engine 3.5
-[*] 1 command could not be loaded, run `gef missing` to know why.
-Reading symbols from /usr/lib/debug/boot/vmlinux-4.4.0-92-generic...done.
-gef➤  p init_uts_ns
-$1 = {
-  kref = {
-    refcount = {
-      counter = 0x2
-    }
-  },
-  name = {
-    sysname = &quot;Linux&quot;, &#39;\000&#39; &lt;repeats 59 times&gt;,
-    nodename = &quot;(none)&quot;, &#39;\000&#39; &lt;repeats 58 times&gt;,
-    release = &quot;4.4.0-92-generic&quot;, &#39;\000&#39; &lt;repeats 48 times&gt;,
-    version = &quot;#115-Ubuntu SMP Thu Aug 10 09:04:33 UTC 2017&quot;, &#39;\000&#39; &lt;repeats 20 times&gt;,
-    machine = &quot;x86_64&quot;, &#39;\000&#39; &lt;repeats 58 times&gt;,
-    domainname = &quot;(none)&quot;, &#39;\000&#39; &lt;repeats 58 times&gt;
-  },
-  user_ns = 0xffffffff81e42a00 &lt;init_user_ns&gt;,
-  ns = {
-    stashed = {
-      counter = 0x0
-    },
-    ops = 0xffffffff81a1afe0 &lt;utsns_operations&gt;,
-    inum = 0xeffffffe
-  }
-}
-</code></pre>
-<h2 id="Linux-Kernel"><a href="#Linux-Kernel" class="headerlink" title="Linux Kernel"></a>Linux Kernel</h2><p>Linux 内核源代码肯定少不了：</p>
-<pre><code class="bash">sudo apt-get install libncurses5-dev build-essential kernel-package
-wget https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/linux-4.20.17.tar.gz
-tar -xvf linux-4.20.17.tar.gz
-cd linux-4.20.17
-make menuconfig
-make
-make all
-make modules
-</code></pre>
-<p><code>make menuconfig</code> 中需要勾选的：</p>
+<p>在 <code>make menuconfig</code> 中配置：</p>
 <ul>
-<li><code>KernelHacking</code><ul>
+<li><code>Kernel hacking</code><ul>
+<li><code>Compile-time checks and compiler options</code><ul>
 <li>选中 <code>Compile the kernel with debug info</code></li>
+</ul>
+</li>
 <li>选中 <code>Compile the kernel with frame pointers</code></li>
-<li>选中 <code>KGDB:kernel debugging with remote gdb</code></li>
+<li>选中 <code>KGDB: kernel debugger</code></li>
 </ul>
 </li>
 <li><code>Processor type and features</code><ul>
@@ -266,51 +207,63 @@ make modules
 </ul>
 </li>
 </ul>
-<h2 id="Busybox"><a href="#Busybox" class="headerlink" title="Busybox"></a>Busybox</h2><p>启动内核还需要一个简单的文件系统和一些命令，可以使用<code>busybox</code>来构建</p>
-<pre><code class="bash">cd
-wget https://busybox.net/downloads/busybox-${VERSION}.tar.bz2
-tar -jxvf busybox-${VERSION}.tar.bz2
-cd $BUSYBOX_SRC
-make menuconfig
-make install
+<p>过一段时间之后编译得到 <code>arch/x86/boot/bzImage</code>（被压缩后的内核文件）以及 <code>vmlinux</code>（带调试信息的内核文件）：</p>
+<pre><code class="bash">...
+  OBJCOPY arch/x86/boot/setup.bin
+  OBJCOPY arch/x86/boot/vmlinux.bin
+  HOSTCC  arch/x86/boot/tools/build
+  BUILD   arch/x86/boot/bzImage
+Setup is 17148 bytes (padded to 17408 bytes).
+System is 8385 kB
+CRC 67bf4091
+Kernel: arch/x86/boot/bzImage is ready  (#1)
 </code></pre>
-<p><code>make menuconfig</code> 中需要勾选的：</p>
+<h2 id="Busybox"><a href="#Busybox" class="headerlink" title="Busybox"></a>Busybox</h2><p>启动内核还需要一个简单的文件系统和一些命令，可以使用 Busybox 来构建</p>
+<pre><code class="bash">$ wget https://busybox.net/downloads/busybox-1.31.0.tar.bz2
+$ tar -jxvf busybox-1.31.0.tar.bz2 &amp;&amp; cd busybox-1.31.0
+$ make menuconfig # Build static binary (no shared libs)
+$ make install
+</code></pre>
+<p>在 <code>make menuconfig</code> 中配置：</p>
 <ul>
-<li><code>Busybox Settings</code><ul>
+<li><code>Settings</code><ul>
 <li><code>Build Options</code><ul>
-<li><code>Build Busybox as a static binary</code>（编译成静态文件）</li>
+<li><code>Build static binary (no shared libs)</code>（编译成静态文件）</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><code>Linux System Utilities</code><ul>
-<li>关闭 <code>Support mounting NFS file system</code>（网络文件系统）</li>
+<li>关闭 <code>Support mounting NFS file systems on Linux &lt; 2.6.23</code>（网络文件系统）</li>
 </ul>
 </li>
 <li><code>Networking Utilities</code><ul>
-<li>关闭 <code>inetd</code> (Internet 超级服务器)</li>
+<li>关闭 <code>inetd</code>（Internet 超级服务器）</li>
 </ul>
 </li>
 </ul>
-<p>接下来在 <code>busybox</code> 下简单配置一下启动脚本：</p>
-<pre><code class="bash">cd _install
-mkdir proc sys dev etc etc/init.d
-vim etc/init.d/rcS
-chmod +x etc/init.d/rcS
-cat etc/init.d/rcS
-# #!/bin/sh
-# mount -t proc none /proc
-# mount -t sysfs none /sys
-# /sbin/mdev -s
+<p>接下来在 Busybox 目录下简单配置一下启动脚本：</p>
+<pre><code>➜  _install mkdir proc sys dev etc etc/init.d
+➜  _install vim etc/init.d/rcS
+➜  _install chmod +x etc/init.d/rcS
+➜  _install cat etc/init.d/rcS
+#!/bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+/sbin/mdev -s
+</code></pre><p>然后创建文件系统：</p>
+<pre><code>$ find . | cpio -o --format=newc &gt; ../rootfs.img
+</code></pre><p>接下来就可以启动系统了：</p>
+<pre><code class="bash">$ qemu-system-x86_64 \
+    -kernel $KERNEL_SRC/arch/x86_64/boot/bzImage \
+    -initrd $BUSYBOX_SRC/rootfs.img \
+    -append &quot;console=ttyS0 root=/dev/ram rdinit=/sbin/init&quot; \
+    -cpu kvm64,+smep,+smap \
+    --nographic \
+    -gdb tcp::1234
 </code></pre>
-<p>然后创建文件系统：</p>
-<pre><code class="bash">find . | cpio -o --format=newc &gt; ../rootfs.img
-</code></pre>
-<p>接下来就可以启动系统了：</p>
-<pre><code class="bash">qemu-system-x86_64 -kernel $KERNEL_SRC/arch/x86_64/boot/bzImage -initrd $BUSYBOX_SRC/rootfs.img -append &quot;console=ttyS0 root=/dev/ram rdinit=/sbin/init&quot; -cpu kvm64,+smep,+smap --nographic -gdb tcp::1234
-</code></pre>
-<h1 id="Finally-it-Kind-of-Works"><a href="#Finally-it-Kind-of-Works" class="headerlink" title="Finally it Kind-of Works"></a>Finally it Kind-of Works</h1><p>接下来可以用 <code>gdb</code> 进行调试，同时尝试在函数 <code>cmdline_proc_show()</code> 处下断点：</p>
-<pre><code class="bash">➜  ~ gdb -ex &quot;target remote localhost:1234&quot; $KERNEL_SRC/vmlinux
+<h1 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h1><p>接下来使用用 gdb 进行调试：</p>
+<pre><code class="gdb">➜  ~ gdb -ex &quot;target remote localhost:1234&quot; $KERNEL_SRC/vmlinux
 GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
 Copyright (C) 2016 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
@@ -326,19 +279,7 @@ Find the GDB manual and other documentation resources online at:
 For help, type &quot;help&quot;.
 Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...
 GEF for linux ready, type `gef&#39; to start, `gef config&#39; to configure
-79 commands loaded for GDB 7.11.1 using Python engine 3.5
-[*] 1 command could not be loaded, run `gef missing` to know why.
-Reading symbols from /home/assassinq/linux-4.4.1/vmlinux...done.
-warning: File &quot;/home/assassinq/linux-4.4.1/scripts/gdb/vmlinux-gdb.py&quot; auto-loading has been declined by your `auto-load safe-path&#39; set to &quot;$debugdir:$datadir/auto-load&quot;.
-To enable execution of this file add
-    add-auto-load-safe-path /home/assassinq/linux-4.4.1/scripts/gdb/vmlinux-gdb.py
-line to your configuration file &quot;/home/assassinq/.gdbinit&quot;.
-To completely disable this security protection add
-    set auto-load safe-path /
-line to your configuration file &quot;/home/assassinq/.gdbinit&quot;.
-For more information about this security protection see the
-&quot;Auto-loading safe path&quot; section in the GDB manual.  E.g., run from the shell:
-    info &quot;(gdb)Auto-loading safe path&quot;
+80 commands loaded for GDB 7.11.1 using Python engine 3.5
 Remote debugging using localhost:1234
 native_safe_halt () at ./arch/x86/include/asm/irqflags.h:50
 50    }
@@ -480,7 +421,7 @@ $cs: 0x0010 $ss: 0x0018 $ds: 0x0000 $es: 0x0000 $fs: 0x0063 $gs: 0x0000
 ────────────────────────────────────────────────────────────────────────────────
 ...
 </code></pre>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://xz.aliyun.com/t/2306" target="_blank" rel="noopener">https://xz.aliyun.com/t/2306</a><br><a href="https://n132.github.io/2019/07/14/2019-07-14-kernel-Outset/" target="_blank" rel="noopener">https://n132.github.io/2019/07/14/2019-07-14-kernel-Outset/</a><br><a href="https://github.com/firmianay/CTF-All-In-One/blob/master/doc/4.1_linux_kernel_debug.md" target="_blank" rel="noopener">https://github.com/firmianay/CTF-All-In-One/blob/master/doc/4.1_linux_kernel_debug.md</a><br><a href="http://blog.sina.com.cn/s/blog_3e4774e30102vwqy.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_3e4774e30102vwqy.html</a></p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://xz.aliyun.com/t/2306" target="_blank" rel="noopener">https://xz.aliyun.com/t/2306</a><br><a href="http://pwn4.fun/2017/04/17/Linux%E5%86%85%E6%A0%B8%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">http://pwn4.fun/2017/04/17/Linux%E5%86%85%E6%A0%B8%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</a><br><a href="https://veritas501.space/2018/06/03/kernel%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">https://veritas501.space/2018/06/03/kernel%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</a><br><a href="https://n132.github.io/2019/07/14/2019-07-14-kernel-Outset/" target="_blank" rel="noopener">https://n132.github.io/2019/07/14/2019-07-14-kernel-Outset/</a></p>
 
             </div>
             <hr>
@@ -490,6 +431,10 @@ $cs: 0x0010 $ss: 0x0018 $ds: 0x0000 $es: 0x0000 $fs: 0x0063 $gs: 0x0000
                 
                   <span>
                 <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
                     
                       <a class="hover-with-bg" href="/tags/linux/">linux</a>
                     

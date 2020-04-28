@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="Software Security Researcher">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Linux Sandbox - Ptrace - B3ale</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Saturday, April 18th 2020, 10:15 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.7k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      8 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>ptrace 是一个系统调用，也可以用作实现沙箱。</p>
+<a id="more"></a>
+<h1 id="What-is-Ptrace"><a href="#What-is-Ptrace" class="headerlink" title="What is Ptrace"></a>What is Ptrace</h1><p>ptrace 是一个系统调用，Tracer 进程可以监控和修改 Tracee 进程的运行状态，如内存、寄存器的值等。使用 ptrace 可以让某一进程处于受控状态，所以可以用作实现沙箱，如利用 ptrace 来监控 Tracee 使用哪些系统调用，并禁止 Tracee 使用某些危险的系统调用等。ptrace 使用信号来进行进程间通信：</p>
+<pre><code class="bash">$ kill -l
+ 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP
+ 2) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1
+1)  SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM
+2)  SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP
+3)  SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ
+4)  SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR
+5)  SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3
+6)  SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
+7)  SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
+8)  SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12
+9)  SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
+10) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
+11) SIGRTMAX-1  64) SIGRTMAX
+</code></pre>
+<h1 id="How-to-trace"><a href="#How-to-trace" class="headerlink" title="How to trace"></a>How to trace</h1><p>ptrace 的作用：</p>
+<ul>
+<li>Tracer 追踪 Tracee 的执行</li>
+<li>拦截特定的事件（TRAP、SYSCALL）</li>
+<li>读写 Tracee 的运行状态，如内存、寄存器的值等</li>
+<li>用来实现 gdb 和 strace</li>
+</ul>
+<p>ptrace 的函数原型如下。其中 <code>request</code> 指明进行的操作，<code>pid</code> 为被追踪的进程（<code>pid</code>、<code>addr</code> 和 <code>data</code> 有时不会派上用场，根据具体情况而定）：</p>
+<pre><code class="cpp">#include &lt;sys/ptrace.h&gt;
+#include &lt;sys/user.h&gt;
+
+long ptrace(enum __ptrace_request request, pid_t pid,
+                        void *addr, void *data);
+</code></pre>
+<p><code>request</code> 有很多定义，这里记录几个常用的（详见 <a href="http://man7.org/linux/man-pages/man2/ptrace.2.html" target="_blank" rel="noopener">Linux Programmer’s Manual</a>）：</p>
+<ul>
+<li><code>PTRACE_TRACEME</code>：表明该进程会被父进程追踪。<code>pid</code>、<code>addr</code> 和 <code>data</code> 的值被忽略。这也是唯一能被 Tracee 使用的 <code>request</code>，其他的 <code>request</code> 都由 Tracer 指定；</li>
+<li><code>PTRACE_ATTACH</code>：Tracer 向 Tracee 发送 SIGSTOP 信号使其暂停，并对 Tracee 追踪；</li>
+<li><code>PTRACE_SEIZE</code>（从 Linux 3.4 开始有的 <code>request</code>）：追踪指定 <code>pid</code> 的进程，但不会像 <code>PTRACE_ATTACH</code> 一样让 Tracee 暂停。<code>addr</code> 必须为 0，<code>data</code> 指定 ptrace 选项；</li>
+<li><code>PTRACE_DETACH</code>：解除追踪关系，Tracee 将继续运行；</li>
+<li><code>PTRACE_CONT</code>：重启停止的 Tracee 进程，如果 <code>data</code> 不为 0，该值就会被当成对应的 Signal 传给 Tracee；反之不会发送 Signal。<code>addr</code> 的值被忽略；</li>
+<li><code>PTRACE_SYSCALL</code>：在系统调用的入口或是出口处将 Tracee 进程停止并进行追踪。<code>addr</code> 的值被忽略；</li>
+<li><code>PTRACE_PEEKUSER</code>：在 Tracee 的用户内存里获取一个字的数据，其中 <code>addr</code> 是在结构体 <code>user</code>（<code>/usr/include/sys/user.h</code>）中的偏移。</li>
+</ul>
+<h2 id="Trace-Child-Process"><a href="#Trace-Child-Process" class="headerlink" title="Trace Child Process"></a>Trace Child Process</h2><ul>
+<li>先在子进程中调用 <code>ptrace(PTRACE_TRACEME)</code>；</li>
+<li>在父进程中使用 <code>waitpid(pid)</code> 等待；</li>
+<li>然后使用 <code>ptrace(PTRACE_CONT)</code> 继续执行；<ul>
+<li>如果没有遇到 <code>int 0x3</code> 就会一直跑；</li>
+<li>要追 syscall 的时候可以用 <code>ptrace(PTRACE_SYSCALL)</code>。</li>
+</ul>
+</li>
+</ul>
+<p>测试代码如下。子进程被父进程追踪，父进程在等待追踪结束后，重启子进程：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stddef.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ptrace.h&gt;
+#include &lt;sys/user.h&gt;
+#include &lt;sys/wait.h&gt;
+
+int main(int argc, char **argv) {
+    pid_t pid = fork();
+    if (pid) {
+        while (1) {
+            int status;
+            waitpid(pid, &amp;status, 0);
+            if (WIFEXITED(status)){
+                break;
+            }
+            // ...
+            ptrace(PTRACE_CONT, pid, 0, 0);
+        }
+    } else {
+        ptrace(PTRACE_TRACEME, 0, 0, 0);
+        execl(&quot;/bin/ls&quot;, &quot;ls&quot;, NULL);
+    }
+}
+</code></pre>
+<h2 id="Trace-syscall"><a href="#Trace-syscall" class="headerlink" title="Trace syscall"></a>Trace syscall</h2><ul>
+<li>使用 <code>ptrace(PTRACE_PEEKUSER)</code> 来读取 CPU；<ul>
+<li>addr 为结构体 <code>user</code> 中的偏移；</li>
+<li><a href="https://elixir.bootlin.com/linux/v4.4.31/source/arch/x86/include/asm/user_32.h" target="_blank" rel="noopener"><code>arch/x86/include/asm/user_32.h</code></a>（<code>/usr/include/sys/user.h</code>）</li>
+<li>orig_rax 为系统调用号；</li>
+</ul>
+</li>
+<li>syscall 分别在 enter 和 exit 时各中断一次；<ul>
+<li>exit 的时候可以在 rax 获取返回值。</li>
+</ul>
+</li>
+</ul>
+<p>添加一个 incall 来判断在 syscall 的 enter 和 exit 之间的切换，并在系统调用退出时输出调用号；然后获取 <code>user</code> 结构体中的 <code>orig_rax</code> 字段，即系统调用号：</p>
+<pre><code class="cpp">    int incall = 0;
+    while (1) {
+        // ...
+        long orig_rax = ptrace(PTRACE_PEEKUSER, pid,
+            offsetof(struct user, regs.orig_rax), 0);
+        if (incall) {
+            printf(&quot;nr = %ld\n&quot;, orig_rax);
+        }
+        incall = ~incall;
+        ptrace(PTRACE_SYSCALL, pid, 0, 0);
+    }
+</code></pre>
+<h2 id="读取-Tracee-的内容"><a href="#读取-Tracee-的内容" class="headerlink" title="读取 Tracee 的内容"></a>读取 Tracee 的内容</h2><ul>
+<li><code>ptrace(PTRACE_PEEKDATA)</code></li>
+<li>固定读一个字（4 字节）</li>
+</ul>
+<p><code>/bin/ls</code> 中调用了 write 进行输出，可以对 write 进行追踪并获取相应的内容：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stddef.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ptrace.h&gt;
+#include &lt;sys/user.h&gt;
+#include &lt;sys/wait.h&gt;
+
+int main(int argc, char **argv) {
+    pid_t pid = fork();
+    if (pid) {
+        int incall = 0;
+        while (1) {
+            int status;
+            waitpid(pid, &amp;status, 0);
+            if (WIFEXITED(status)){
+                break;
+            }
+            long orig_rax = ptrace(PTRACE_PEEKUSER, pid,
+                offsetof(struct user, regs.orig_rax), 0);
+            long rsi = ptrace(PTRACE_PEEKUSER, pid,
+                offsetof(struct user, regs.rsi), 0);
+            long rdx = ptrace(PTRACE_PEEKUSER, pid,
+                offsetof(struct user, regs.rdx), 0);
+            long rax = ptrace(PTRACE_PEEKUSER, pid,
+                offsetof(struct user, regs.rax), 0);
+            //printf(&quot;nr = %ld\n&quot;, orig_rax);
+            if (incall) {
+                if (orig_rax == 1) {
+                    printf(&quot;write(\&quot;&quot;);
+                    for (int i = 0; i &lt; rdx; i++) {
+                        int d = ptrace(PTRACE_PEEKDATA, pid,
+                            rsi + i, 0);
+                        printf(&quot;%c&quot;, d &amp; 0xff);
+                    }
+                }
+            } else {
+                if (orig_rax == 1) {
+                    printf(&quot;\&quot;) = %d\n&quot;, (int)rax);
+                }
+            }
+            incall = ~incall;
+            ptrace(PTRACE_SYSCALL, pid, 0, 0);
+        }
+    } else {
+        ptrace(PTRACE_TRACEME, 0, 0, 0);
+        execl(&quot;/bin/ls&quot;, &quot;ls&quot;, NULL);
+    }
+}
+</code></pre>
+<p>运行结果：</p>
+<pre><code class="bash">➜  ptrace ./ptrace
+write(&quot;a  a.c    escape    escape.c  Makefile  ptrace  ptrace.c
+a  a.c    escape    escape.c  Makefile  ptrace  ptrace.c
+&quot;) = 51
+</code></pre>
+<h1 id="Bypass-Ptrace-Sandbox"><a href="#Bypass-Ptrace-Sandbox" class="headerlink" title="Bypass Ptrace Sandbox"></a>Bypass Ptrace Sandbox</h1><ul>
+<li>摆脱对 syscall 的追踪<ul>
+<li>Fork 脱离 Tracer</li>
+<li>砍掉父进程</li>
+</ul>
+</li>
+<li>绕过 syscall 的检查<ul>
+<li><code>syscall_restart</code> 等造成 incall 计算错误</li>
+</ul>
+</li>
+</ul>
+<h2 id="Escape-by-Fork"><a href="#Escape-by-Fork" class="headerlink" title="Escape by Fork"></a>Escape by Fork</h2><ul>
+<li>只要 ptrace 没有跟踪好 fork、vfork、clone，子进程就不会被 ptrace 跟踪；</li>
+<li>正确的做法是要继续跟好子进程，或者直接禁止 fork。<ul>
+<li>可以设置 <code>PTRACE_O_TRACECLONE</code> 选项，会自动跟踪 clone 出来的新进程。</li>
+</ul>
+</li>
+</ul>
+<p>测试代码如下：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stddef.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ptrace.h&gt;
+#include &lt;sys/user.h&gt;
+#include &lt;sys/wait.h&gt;
+
+int main(int argc, char **argv) {
+    pid_t pid = fork();
+    if (pid) {
+        int incall = 0;
+        while (1) {
+            int status;
+            waitpid(pid, &amp;status, 0);
+            if (WIFEXITED(status)){
+                break;
+            }
+            long orig_rax = ptrace(PTRACE_PEEKUSER, pid,
+                offsetof(struct user, regs.orig_rax), 0);
+            if (incall) {
+                if (orig_rax == 59) {
+                    printf(&quot;SYS_execve detected\n&quot;);
+                    kill(pid, SIGKILL);
+                    exit(0);
+                }
+            }
+            incall = ~incall;
+            ptrace(PTRACE_SYSCALL, pid, 0, 0);
+        }
+    } else {
+        ptrace(PTRACE_TRACEME, 0, 0, 0);
+        execl(&quot;./a&quot;, &quot;a&quot;, NULL);
+    }
+}
+</code></pre>
+<p>子进程新 fork 一个进程来执行 execve：</p>
+<pre><code class="cpp">    if (fork()) {
+        sleep(1);
+    } else {
+        execl(&quot;/bin/ls&quot;, &quot;ls&quot;, 0);
+    }
+</code></pre>
+<p>运行结果：</p>
+<pre><code class="bash">➜  ptrace ./ptrace
+a  a.c    escape    escape.c  Makefile  ptrace  ptrace.c
+</code></pre>
+<h2 id="Escape-by-Kill"><a href="#Escape-by-Kill" class="headerlink" title="Escape by Kill"></a>Escape by Kill</h2><ul>
+<li>杀死父进程；<ul>
+<li><code>kill(getppid(), 9);</code>；</li>
+<li>ppid 无法获取时可以尝试 pid-1；</li>
+<li><code>/proc/self/stat</code> 中可以拿到 pid 和 ppid；</li>
+<li><code>kill(-1, 9);</code> 杀死除了自己以外的所有进程。</li>
+</ul>
+</li>
+<li>设置 <code>PTRACE_O_EXITKILL</code> 可以让 Tracer 结束时把所有的 Tracee 杀死。</li>
+</ul>
+<p>在子进程中杀死父进程：</p>
+<pre><code class="cpp">    kill(getppid(), 9);
+    execl(&quot;/bin/ls&quot;, &quot;ls&quot;, 0);
+</code></pre>
+<p>运行效果：</p>
+<pre><code class="bash">➜  ptrace ./ptrace
+[1]    2211 killed     ./ptrace
+a  a.c  escape  escape.c  Makefile  ptrace  ptrace.c
+</code></pre>
+<p>用 alarm 和 sleep 可以搅乱 syscall 进出的顺序：</p>
+<pre><code class="cpp">    alarm(1);
+    sleep(2);
+    execl(&quot;/bin/ls&quot;, &quot;ls&quot;, 0);
+</code></pre>
+<p>加上一条用来判断进出 syscall 的输出：</p>
+<pre><code class="cpp">            printf(&quot;%s %ld\n&quot;, (incall ? &quot;Enter&quot; : &quot;Exit&quot;), orig_rax);
+</code></pre>
+<p>运行效果如下。在执行 alarm 后会导致 sys_nanosleep（35）由进入了一次，后面会调用一个 sys_restart_syscall（219），大概可能和 syscall 的原理有关。在这之后的 syscall 的顺序就会乱掉：</p>
+<pre><code class="bash">Enter 35
+Exit 35
+Enter 35
+Exit 219
+Enter 219
+Exit 59
+Enter 59
+</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.youtube.com/watch?v=gQXyZY7Ucjc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=gQXyZY7Ucjc</a><br><a href="https://blog.betamao.me/2019/02/02/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bptrace/" target="_blank" rel="noopener">https://blog.betamao.me/2019/02/02/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bptrace/</a><br><a href="https://atum.li/2017/04/25/linuxsandbox/#ptrace" target="_blank" rel="noopener">https://atum.li/2017/04/25/linuxsandbox/#ptrace</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/04/19/IO-FILE-in-CTF/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>IO_FILE in CTF</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/04/17/[TODO]Linux-Sandbox-Seccomp/">
+                        <span>Linux Sandbox - Seccomp</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Linux Sandbox - Ptrace&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

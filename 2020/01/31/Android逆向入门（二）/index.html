@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    4.7k 字
+                    4.8k 字
                   </span>
                 
 
@@ -313,6 +313,7 @@ static JNINativeMethod gMethods[] = {
 <li>启动调试服务端：<code>./android_server</code> （自定义设置端口方式：<code>-p23333</code>）</li>
 <li>手机端端口转发至电脑端：<code>adb forward tcp:[pc_port] tcp:[mobile_port]</code></li>
 <li>IDA 调试端口设置：Debugger-&gt;Process option</li>
+<li>在 Debugger setup 中勾选 Suspend on process entry point、Suspend on thread start/exit 以及 Suspend on library load/unload</li>
 <li>启动程序：<code>adb shell am start -D -n packageName/activityName</code></li>
 <li>IDA 挂接到 Native 层：Debugger-&gt;Attach to process…</li>
 <li>打开 monitor，监听并挂接到 JAVA 层：<code>jdb -connect com.sun.jdi.SocketAttach:hostname=127.0.0.1,port=8700</code></li>

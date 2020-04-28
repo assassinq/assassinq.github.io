@@ -201,7 +201,7 @@ a: a.c
 6528         gdbarch_skip_solib_resolver (gdbarch, stop_pc);
 ...
 </code></pre>
-<p>生成 Makefile 时必须添加 <code>--enable-tui</code> 才会有 layout 的界面（gdb 默认使用 Python3.5，如果有需要可以改成 Python2.7）：</p>
+<p>生成 Makefile 时必须添加 <code>--enable-tui</code> 才会有 layout 的界面（编译的时候使用系统默认 python 版本，如果需要 pwndbg、gef 之类的插件就必须用 python3）：</p>
 <pre><code class="bash">../configure --enable-tui --with-python=/usr/bin/python2.7
 </code></pre>
 <p>如果在最后安装 gdb 的时候出现 <code>makeinfo: not found</code>，只需要装个 <code>texinfo</code> 即可：</p>

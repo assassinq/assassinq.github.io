@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="Software Security Researcher">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>Linux Sandbox - Setuid - B3ale</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Thursday, April 23rd 2020, 10:39 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      9 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>Yet Another Linux Sandbox Technic.</p>
+<a id="more"></a>
+<h1 id="Combination-Blow"><a href="#Combination-Blow" class="headerlink" title="Combination Blow"></a>Combination Blow</h1><p>Setuid Sandbox 主要是基于 Linux Kernel 所提供的安全机制（如 DAC）来实现。简单地说就是利用 <code>random uid/gid + chroot() + capability</code> 的组合出击来达到目标。其实现非常简单，无需修改 Kernel。Setuid Sandbox 的实现简单易行。在一定程度上，它可以用于隔离不可信的程序。由于它完全依赖于 kernel 所提供的安全机制，除非攻击者能找到 kernel 的 0-day 漏洞并通过攻击获得 root 权限，否则 Setuid Sandbox 所提供的安全隔离是可以保证的。</p>
+<h2 id="What-is-setuid"><a href="#What-is-setuid" class="headerlink" title="What is setuid"></a>What is setuid</h2><p>Linux 中每个进程都会有一个 uid，<code>uid = 0</code> 则为 root 用户进程（privileged），<code>uid &gt; 0</code>则为普通用户进程（unprivileged）。不同 uid 进程之间（不包括 root 进程）是相互隔离的，各自都有自己独立的权限，互不干扰。而 root 进程具有特权，它能干任何事情。Linux uid/gid 机制主要是用于进程的权限隔离。如果你打算执行不可信的程序，那么你可以在启动该程序时为其分配一个 random uid，大概的执行流程如下：<code>fork() -&gt; setuid() -&gt; {设置相关的进程资源限制，如 RLIMIT_NPROC (0,0)} -&gt; execve()</code>。而 <code>setuid()</code> 只能由 root 权限（或拥有 <code>CAP_SETUID</code> Capability）才能成功调用，所以要顺利执行这个流程需要借助某个拥有 root 权限的进程。</p>
+<p>Linux 下为进程设置了三个 UID：</p>
+<ul>
+<li>Real UID（RUID）：进程创建者的 UID，正常情况下它一直不会变化，永远表示进程创建者，但 root 用户可以更改它；</li>
+<li>Saved UID（SUID）：拥有者可以为自己的可执行程序设置 SUID 位，设置后任何人执行程序，程序启动时都将获得程序拥有者的权限；</li>
+<li>Effective UID（EUID）：为权限检查时实际生效的 UID，意味着在判断用户权限时并不检查 RUID 及 SUID，只看 EUID。</li>
+</ul>
+<p>用 <code>getresuid</code> 来获取当前用户的三个 UID：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int main() {
+    int ruid, euid, suid;
+    if (getresuid(&amp;ruid, &amp;euid, &amp;suid) == 0) {
+        printf(&quot;RUID: %d\tEUID: %d\tSUID: %d\n&quot;, ruid, euid, suid);
+    } else {
+        ;
+    }
+    return 0;
+}
+</code></pre>
+<p>如果为文件加上 SUID 标志位，其他用户运行该文件时会获得 root 的权限。但 RUID 保持不变：</p>
+<pre><code class="bash">root in ~/Setuid-Sandbox λ sudo -u root ./test-uid
+RUID: 0    EUID: 0    SUID: 0
+root in ~/Setuid-Sandbox λ sudo -u www-data ./test-uid
+RUID: 33    EUID: 33    SUID: 33
+root in ~/Setuid-Sandbox λ chmod u+s ./test-uid
+root in ~/Setuid-Sandbox λ ls -l ./test-uid
+-rwsr-xr-x 1 root root 8720 Apr 24 19:11 ./test-uid
+root in ~/Setuid-Sandbox λ sudo -u www-data ./test-uid
+RUID: 33    EUID: 0    SUID: 0
+</code></pre>
+<h2 id="What-is-chroot"><a href="#What-is-chroot" class="headerlink" title="What is chroot"></a>What is chroot</h2><p>通常来说，提到 Chroot 一般有两个含义，<code>chroot(1)</code> 是 <code>/usr/bin/chroot</code>，<code>chroot(2)</code> 是 glibc 中的一个函数。Chroot 是 Linux Kernel 提供的另一个安全功能，它用于改变进程的根目录。比如运行 <code>chroot(&quot;/tmp/sandbox/1/&quot;)</code>，会启动一个新的 Shell 并设置新进程的根目录为 <code>&quot;/tmp/sandbox/1/&quot;</code>，那么该进程的文件操作将被限制在 <code>&quot;/tmp/sandbox/1/&quot;</code> 中。注意，<code>chroot()</code> 只能由 root 权限（或拥有 <code>CAP_SYS_CHROOT</code> Capability）才能成功调用。</p>
+<h3 id="Chroot-Command"><a href="#Chroot-Command" class="headerlink" title="Chroot Command"></a>Chroot Command</h3><p>需要静态编译 Busybox 和 Bash：</p>
+<pre><code class="bash">$ wget
+$ tar -zxvf
+$ cd  &amp;&amp; mkdir build
+$ make O=build defconfig
+$ cd build &amp;&amp; make menuconfig # Select &quot;Build BusyBox as a static binary (no shared libs)&quot;
+$ make
+$ wget http://ftp.gnu.org/gnu/bash/bash-5.0-beta.tar.gz
+$ tar -zxvf bash-5.0-beta.tar.gz
+$ cd bash-5.0-beta &amp;&amp; ./configure --enable-static-link --without-bash-malloc
+$ make
+</code></pre>
+<p>使用 chroot 来修改当前的根目录，可以看到 ls 的结果是不同的：</p>
+<pre><code class="bash">root in ~/Setuid-Sandbox λ ./bash
+root@iZ2zecelicizfr2e28zon3Z:~/Setuid-Sandbox# ./busybox ls /
+bin             etc             initrd.img.old  lost+found      opt             run             sys             var
+boot            home            lib             media           proc            sbin            tmp             vmlinuz
+dev             initrd.img      lib64           mnt             root            srv             usr             vmlinuz.old
+root@iZ2zecelicizfr2e28zon3Z:~/Setuid-Sandbox# exit
+exit
+root in ~/Setuid-Sandbox λ chroot . ./bash
+bash-5.0# ./busybox ls /
+bash      busybox   chroot    chroot.c  ls
+bash-5.0# exit
+exit
+</code></pre>
+<h3 id="Chroot-Function"><a href="#Chroot-Function" class="headerlink" title="Chroot Function"></a>Chroot Function</h3><p>进程中有 <code>cwd</code>（当前目录）和 <code>root</code>（根目录）两个目录。C 库中提供了几个函数对两者进行修改：</p>
+<pre><code class="cpp">int chdir(const char *path);     //依据目录名改cwd
+int fchdir(int fd);              //依据文件描述符改cwd
+int chroot(const char *path);    //依据目录名改root
+</code></pre>
+<pre><code class="cpp">#include &lt;unistd.h&gt;
+
+int main() {
+    chroot(&quot;.&quot;);
+    chdir(&quot;/&quot;);
+    char *argv[] = {&quot;./bash&quot;, NULL};
+    execl(argv[0], argv, NULL);
+    return 0;
+}
+</code></pre>
+<h3 id="Create-bash-jail"><a href="#Create-bash-jail" class="headerlink" title="Create bash jail"></a>Create bash jail</h3><p>可以使用 <a href="https://olivier.sessink.nl/jailkit/index.html" target="_blank" rel="noopener">jailkit</a> 创建一个安全的 jail 环境：</p>
+<pre><code class="bash">$ wget https://olivier.sessink.nl/jailkit/jailkit-2.20.tar.gz
+$ tar -zxvf jailkit-2.20.tar.gz
+$ cd jailkit-2.20 &amp;&amp; ./configure
+$ make
+$ make install
+</code></pre>
+<h3 id="Combine-with-setuid"><a href="#Combine-with-setuid" class="headerlink" title="Combine with setuid"></a>Combine with setuid</h3><p>那么在前面叙述的执行流程中，可以先让具有 root 权限的进程去执行 <code>chroot()</code> 后再调用 <code>setuid() -&gt; {...} -&gt; execve()</code>。但其实这样做是行不通的，因为进程的根目录已经被修改，<code>execve()</code> 本要执行的 Binary 文件已经不可用了。Google 的一篇文章里给出了一个解决此问题的简单方法：</p>
+<ol>
+<li>创建一个子进程，注意使用 <code>clone()</code> 和 <code>CLONE_FS</code>，使得父子进程可以共享根目录、当前目录等等；</li>
+<li>父进程降权后执行 <code>execve()</code>，又产生一个新进程；</li>
+<li>然后父进程请求子进程执行 <code>chroot()</code>；</li>
+<li>子进程执行 <code>chroot()</code>，新的根目录会对两个子进程同时生效。</li>
+<li>父进程退出。</li>
+</ol>
+<p>这个方法的前提是 父进程 需要设置 <code>RLIMIT_NOFILE</code> 为 <code>(0, 0)</code>，并且对于不可信的子进程（<code>execve</code> 创建的新进程）来说，在执行第 4 步之前应是可控的。另外，对于父进程来说，由于它是以 root 身份运行，那么就可能会成为攻击点，比如 Confused Deputy Problem。</p>
+<h2 id="Capability-Mechanism"><a href="#Capability-Mechanism" class="headerlink" title="Capability Mechanism"></a>Capability Mechanism</h2><p>Linux Capability 主要是解决 Confused Deputy Problem（如 CSRF）。Linux 支持 Capability 的主要目的是细化 root 的特权。比如拿 ping 来说，它需要使用 raw_sockets 所以需要 root 特权才能运行；如果有了 Capability 机制，由于该程序只需要一个 <code>CAP_NET_RAW</code> 的 Capability 即可运行，那么根据最小权限原则，该程序运行时可以丢弃所有多余的 Capability，以防止被误用或被攻击。所以，Capability 机制可以将 root 特权进行很好的细分。Kernel-2.6.18 起已支持 30 多种不同的 Capability，在 Kernel-2.6.24 及以上的版本中一个普通用户进程也将可以持有 Capability。</p>
+<h2 id="What-is-rbash（Restricted-Bash）"><a href="#What-is-rbash（Restricted-Bash）" class="headerlink" title="What is rbash（Restricted Bash）"></a>What is rbash（Restricted Bash）</h2><p><code>rbash</code> 的主要作用是限制了部分 Bash 命令，会以一种受限的方式启动 Bash：</p>
+<ol>
+<li>只能执行当前目录下的可执行文件；</li>
+<li>在执行命令时命令不能带 <code>/</code>；</li>
+<li>不能改变当前工作目录；</li>
+<li>不能更改 <code>PATH</code> 或 <code>SHELL</code> 变量；</li>
+<li>不能使用重定向输出；</li>
+<li>…</li>
+</ol>
+<pre><code class="bash">root@5b0ef65c6894:~# rbash
+root@5b0ef65c6894:~# cd tmp/
+rbash: cd: restricted
+root@5b0ef65c6894:~# ./tmp/rp-lin-x64
+rbash: ./tmp/rp-lin-x64: restricted: cannot specify `/&#39; in command names
+root@5b0ef65c6894:~# export PATH=$PATH:/root/tmp
+rbash: PATH: readonly variable
+</code></pre>
+<h1 id="Bypass"><a href="#Bypass" class="headerlink" title="Bypass"></a>Bypass</h1><h2 id="Bypass-setuid"><a href="#Bypass-setuid" class="headerlink" title="Bypass setuid"></a>Bypass setuid</h2><p>当程序执行完高权限后使用 <code>setresuid</code> 进行降权操作，但是并未完全抹除高权限：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int main() {
+    int ruid, euid, suid;
+    getresuid(&amp;ruid, &amp;euid, &amp;suid);
+    printf(&quot;RUID: %d\tEUID: %d\tSUID: %d\n&quot;, ruid, euid, suid);
+
+    seteuid(2333); // Modify EUID
+    getresuid(&amp;ruid, &amp;euid, &amp;suid);
+    printf(&quot;RUID: %d\tEUID: %d\tSUID: %d\n&quot;, ruid, euid, suid);
+
+    setresuid(-1, 2, -1); // unprivileged
+    getresuid(&amp;ruid, &amp;euid, &amp;suid);
+    printf(&quot;RUID: %d\tEUID: %d\tSUID: %d\n&quot;, ruid, euid, suid);
+
+    setresuid(-1, 0, -1); // Get root privilege
+    setresuid(123, 123, 123);
+    getresuid(&amp;ruid, &amp;euid, &amp;suid);
+    printf(&quot;RUID: %d\tEUID: %d\tSUID: %d\n&quot;, ruid, euid, suid);
+    return 0;
+}
+</code></pre>
+<h2 id="Bypass-chroot"><a href="#Bypass-chroot" class="headerlink" title="Bypass chroot"></a>Bypass chroot</h2><p>Chroot 沙箱可以将进程对文件的访问限制在一个指定的目录中，但是由于 Chroot 不是一个安全的 feature，所以该沙箱可能会被逃逸出来。比如使用 <a href="https://github.com/earthquake/chw00t" target="_blank" rel="noopener"><code>chw00t</code></a>。当进程中存在文件在当前 root 目录树外，即在 jail 外，即表明越狱成功，此时的 root 就是原来文件系统的 root 了。</p>
+<h2 id="Bypass-rbash"><a href="#Bypass-rbash" class="headerlink" title="Bypass rbash"></a>Bypass rbash</h2><p>rbash 的绕过方法也有很多，通常跟 chroot 配合使用。不过它本身对文件操作是没有限制的。可以使用 vi、vim 等命令时：</p>
+<pre><code class="bash">root in ~/Setuid-Sandbox λ rbash
+root@iZ2zecelicizfr2e28zon3Z:~/Setuid-Sandbox# vi
+# :set shell=/usr/bin/zsh
+# :shell
+root in ~/Setuid-Sandbox λ ls
+bash  busybox  chroot  chroot.c  ls
+</code></pre>
+<p>可以使用 cp、mv 等文件操作命令时：</p>
+<pre><code class="bash">root in ~/Setuid-Sandbox λ rbash
+root@iZ2zecelicizfr2e28zon3Z:~/Setuid-Sandbox# cp /usr/bin/zsh .
+root@iZ2zecelicizfr2e28zon3Z:~/Setuid-Sandbox# ls
+bash  busybox  chroot  chroot.c  ls  zsh
+root@iZ2zecelicizfr2e28zon3Z:~/Setuid-Sandbox# zsh
+root in ~/Setuid-Sandbox λ ls
+bash  busybox  chroot  chroot.c  ls  zsh
+</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.linuxidc.com/Linux/2015-02/112914.htm" target="_blank" rel="noopener">https://www.linuxidc.com/Linux/2015-02/112914.htm</a><br><a href="https://atum.li/2017/04/25/linuxsandbox" target="_blank" rel="noopener">https://atum.li/2017/04/25/linuxsandbox</a><br><a href="https://blog.betamao.me/2019/01/31/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bchroot%E4%B8%8Erbash/" target="_blank" rel="noopener">https://blog.betamao.me/2019/01/31/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bchroot%E4%B8%8Erbash/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/04/25/[TODO]House-of-All-in-One/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>House of All in One</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/04/19/IO-FILE-in-CTF/">
+                        <span>IO_FILE in CTF</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Linux Sandbox - Setuid&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

