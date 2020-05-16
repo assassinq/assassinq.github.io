@@ -358,7 +358,7 @@ class myGetColor extends XC_MethodHook {
     @Override
     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
         Log.d(&quot;DEBUG&quot;, &quot;After Method Hook&quot;);
-        int res = (int) param.getResult();s
+        int res = (int) param.getResult();
         res = res &amp; ~0xFFFFFF | 0x00AAAA;
         param.setResult(res);
     }

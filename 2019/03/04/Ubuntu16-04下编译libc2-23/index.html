@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    820 字
+                    923 字
                   </span>
                 
 
@@ -213,6 +213,9 @@ make: *** [all] Error 2
 </code></pre><p><code>cc1: all warnings being treated as errors</code> 是因为设置了警告提示，这里可以回到之前 configure 的时候，<code>CFLAGS</code> 新增加一个参数 <code>-Wno-error</code> 来去除警告：</p>
 <pre><code class="bash">CFLAGS=&quot;-g -g3 -ggdb -gdwarf-4 -Og -Wno-error&quot;
 </code></pre>
+<blockquote>
+<p>2020-05-02 更新：在 20.04 中编译 glibc-2.29 和 glibc-2.31 的时候发现在加 FALGS 里加 <code>-Wno-error</code> 没有用了，需要在 configure 时增加 <code>--disable-werror</code> 参数。<br>同时在 20.04 中编译 glibc-2.29 需要额外加上 <code>--enable-cet</code> 参数来避免链接报错（因为 20.04 自带的 gcc 隐式启用 <code>-fcf-protection</code> 标志）</p>
+</blockquote>
 <h2 id="ld-so-conf-缺失"><a href="#ld-so-conf-缺失" class="headerlink" title="ld.so.conf 缺失"></a><code>ld.so.conf</code> 缺失</h2><pre><code>/home/assassinq/glibc-2.23/build/elf/ldconfig: Warning: ignoring configuration file that cannot be opened: /home/assassinq/glibc-2.23/64/etc/ld.so.conf: No such file or directory
 make[1]: Leaving directory &#39;/home/assassinq/glibc-2.23&#39;
 </code></pre><p>这里只需要直接 touch 一个新文件即可：</p>
@@ -228,7 +231,7 @@ collect2: error: ld returned 1 exit status
 <h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>通过设置 <code>LD_LIBRARY_PATH</code> 把程序的动态链接库更改为添加了调试符号的版本：</p>
 <pre><code class="bash">$ export LD_LIBRABRY_PATH=/path/to/install/lib
 </code></pre>
-<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/</a><br><a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share</a></p>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><p><a href="https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/" target="_blank" rel="noopener">https://n132.github.io/2018/04/30/2018-04-30-%E7%BC%96%E8%AF%91-Libc-2-23/</a><br><a href="https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share" target="_blank" rel="noopener">https://www.youtube.com/watch?v=wsIvqd9YqTI&amp;feature=share</a><br><a href="https://stackoverflow.com/questions/8132594/disable-werror-ini-configure-file" target="_blank" rel="noopener">https://stackoverflow.com/questions/8132594/disable-werror-ini-configure-file</a><br><a href="https://www.stacknoob.com/s/bsxmrGZgZTpjwfpnpmAgNT" target="_blank" rel="noopener">https://www.stacknoob.com/s/bsxmrGZgZTpjwfpnpmAgNT</a></p>
 
             </div>
             <hr>
