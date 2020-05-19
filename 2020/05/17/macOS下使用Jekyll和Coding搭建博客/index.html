@@ -16,7 +16,7 @@
   <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
-  <title>Archives - B3ale</title>
+  <title>macOS下使用Jekyll和Coding搭建博客 - B3ale</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
@@ -41,7 +41,7 @@
 
 
 <body>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 80vh;">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
@@ -115,6 +115,33 @@
             </span>
 
             
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Sunday, May 17th 2020, 2:34 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    415 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      1 分钟
+                  </span>
+                
+
+                
+              </p>
+            
           </div>
 
           
@@ -125,73 +152,135 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">83 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2019</p>
-    
-    <a href="/2019/03/31/Linux-Category-Challs-in-b00t2root-2019/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Linux Category Challs in b00t2root-2019</span>
-      <span style="float: right;">03-31</span>
-    </a>
-  
-    
-    <a href="/2019/03/25/2019-Securinets-CTF-Quals/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">2019-Securinets-CTF-Quals</span>
-      <span style="float: right;">03-25</span>
-    </a>
-  
-    
-    <a href="/2019/03/17/Buffer-Overflow-with-gcc-4-9/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Buffer Overflow with gcc&gt;=4.9</span>
-      <span style="float: right;">03-17</span>
-    </a>
-  
-    
-    <a href="/2019/03/07/Gets一把梭/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Gets一把梭</span>
-      <span style="float: right;">03-07</span>
-    </a>
-  
-    
-    <a href="/2019/03/06/解决VMware下Ubuntu的一些问题/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">解决VMware下Ubuntu的一些问题</span>
-      <span style="float: right;">03-06</span>
-    </a>
-  
-    
-    <a href="/2019/03/04/Ubuntu16-04下编译libc2-23/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Ubuntu16.04下编译libc2.23</span>
-      <span style="float: right;">03-04</span>
-    </a>
-  
-    
-    <a href="/2019/03/02/Shellcode-Tricks/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Shellcode Tricks</span>
-      <span style="float: right;">03-02</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>仅作记录。</p>
+<a id="more"></a>
+<h1 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h1><p>环境是 macOS Mojave，像是 command-line tools、ruby 之类的安装就不记录了。用的是 Coding 提供的静态网站服务，经过测试 jekyll 3.5 可以正常部署（版本过高在部署的时候会报错），依次安装对应的 bundle 和 jekyll：</p>
+<pre><code class="bash">$ gem install bundle:1.15.4
+$ gem install -n /usr/local/bin/ jekyll -v &quot;3.5&quot;
+</code></pre>
+<h1 id="Setup-Site"><a href="#Setup-Site" class="headerlink" title="Setup Site"></a>Setup Site</h1><p>先在 coding 上创建一个新的仓库，并开启静态网站服务，然后克隆到本地：</p>
+<pre><code class="bash">$ git clone xxx.git blog &amp;&amp; cd blog
+</code></pre>
+<p>接下来用 <code>jekyll new .</code> 在仓库中新建静态网站，并做相关的依赖安装，最后用 <code>jekyll build</code> 生成静态网站代码：</p>
+<pre><code class="bash">$ bundle exec jekyll new .
+$ bundle install
+$ bundle exec jekyll build
+</code></pre>
+<p>不看 git 的话，大概会有如下的文件。大致上和 hexo 的根目录差不了太多：</p>
+<pre><code class="bash">$ find .
+.
+./_posts
+./_posts/2020-05-17-welcome-to-jekyll.markdown
+./.sass-cache
+./.sass-cache/81a794e6149bb69272e907db97d7f50b54a1e9e5
+./.sass-cache/81a794e6149bb69272e907db97d7f50b54a1e9e5/_syntax-highlighting.scssc
+./.sass-cache/81a794e6149bb69272e907db97d7f50b54a1e9e5/_base.scssc
+./.sass-cache/81a794e6149bb69272e907db97d7f50b54a1e9e5/_layout.scssc
+./.sass-cache/27601696a600f8c750bfb957d6267563e8022d5f
+./.sass-cache/27601696a600f8c750bfb957d6267563e8022d5f/minima.scssc
+./404.html
+./.gitignore
+./index.md
+./_site
+./_site/feed.xml
+./_site/jekyll
+./_site/jekyll/update
+./_site/jekyll/update/2020
+./_site/jekyll/update/2020/05
+./_site/jekyll/update/2020/05/17
+./_site/jekyll/update/2020/05/17/welcome-to-jekyll.html
+./_site/index.html
+./_site/404.html
+./_site/about
+./_site/about/index.html
+./_site/assets
+./_site/assets/main.css
+./_site/assets/minima-social-icons.svg
+./_config.yml
+./Gemfile
+./Gemfile.lock
+</code></pre>
+<p>可以用 <code>jekyll serve</code> 在本地对网站进行预览：</p>
+<pre><code class="bash">$ bundle exec jekyll serve
+</code></pre>
+<p>最后用 git 把代码同步到远程仓库，并在 coding 上进行部署即可：</p>
+<pre><code class="bash">$ git add --all .
+$ git commit -m &quot;message&quot;
+$ git push origin master
+</code></pre>
+<p>jekyll 默认主题比较简洁，我个人比较喜欢。但好像相比 hexo 对文章的管理要麻烦一点。</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://jekyllrb.com/docs/installation/" target="_blank" rel="noopener">https://jekyllrb.com/docs/installation/</a><br><a href="https://www.jianshu.com/p/9f198d5779e6" target="_blank" rel="noopener">https://www.jianshu.com/p/9f198d5779e6</a></p>
 
-
-              </div>
             </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/macos/">macos</a>
+                    
+                      <a class="hover-with-bg" href="/tags/jekyll/">jekyll</a>
+                    
+                      <a class="hover-with-bg" href="/tags/coding/">coding</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/05/05/Tcache-Stashing-Unlink-Attack/">
+                        <span>Tcache Stashing Unlink Attack</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
           </div>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -269,6 +358,59 @@
 
 
 
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
 
 
 
@@ -297,7 +439,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Today's tears water tomorrow's gardens.&nbsp;",
+        "macOS下使用Jekyll和Coding搭建博客&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
