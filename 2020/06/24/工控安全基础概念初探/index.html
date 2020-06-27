@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#005f6b">
+  <meta name="description" content="Software Security Researcher">
+  <meta name="author" content>
+  <meta name="keywords" content>
+  <title>工控安全基础概念初探 - B3ale</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.13.0/css/mdb.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link defer rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<link rel="alternate" href="/atom.xml" title="B3ale" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/links/">Links</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Wednesday, June 24th 2020, 8:33 pm
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.7k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                      6 分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5 z-depth-3" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>初探工控安全。</p>
+<a id="more"></a>
+<h1 id="Terminologies"><a href="#Terminologies" class="headerlink" title="Terminologies"></a>Terminologies</h1><ul>
+<li>SCADA（Supervisory Control And Data Acquisition）：数据采集与监视控制系统</li>
+<li>ICS（Industrial Control System）：工业控制系统</li>
+<li>DCS（Distributed Control System）：分布式（集散）控制系统</li>
+<li>PCS（Process Control System）：过程控制系统</li>
+<li>ESD（Emergency Shutdown Device）：紧急停车系统</li>
+<li>PLC（Programmable Logic Controller）：可编程序控制器<ul>
+<li>工业场景需要控制许多的机械设备，而大部分机械设备需要用电路信号直接控制，比如许许多多的开关，对应到电上就是电路的通断。所以需要一些可以满足这种应用场景的专用计算机，并且还需要低时延，稳定性高，防震防潮等，即 PLC</li>
+<li>使用一种叫”梯形图”的语言编写控制输入输出逻辑的程序（实现通过梯形图控制硬件 IO）</li>
+</ul>
+</li>
+<li>RTU（Remote Terminal Unit）：远程终端控制系统</li>
+<li>IED（Intelligent Electronic Device）：智能检测单元</li>
+<li>HMI（Human Machine Interface）：人机界面</li>
+<li>MIS（Management Information System）：管理信息系统</li>
+<li>SIS（Supervisory Information System）：生产过程自动化监控和管理系统</li>
+<li>MES（Manufacturing Execution System）：制造执行管理系统</li>
+</ul>
+<h1 id="Protocols"><a href="#Protocols" class="headerlink" title="Protocols"></a>Protocols</h1><h2 id="Modbus"><a href="#Modbus" class="headerlink" title="Modbus"></a><a href="https://www.anquanke.com/post/id/185513" target="_blank" rel="noopener">Modbus</a></h2><p>MODBUS 协议定义了一个与基础通信层无关的简单协议数据单元（PDU）。特定总线或网络上的 MODBUS 协议映射能够在应用数据单元（ADU）上引入一些附加域。</p>
+<p><img src="/pics/工控安全基础概念初探/1.png" srcset="/img/loading.gif" alt></p>
+<p>安全问题：</p>
+<ul>
+<li>缺乏认证：仅需要使用一个合法的 Modbus 地址和合法的功能码即可以建立一个 Modbus 会话；</li>
+<li>缺乏授权：没有基于角色的访问控制机制，任意用户可以执行任意的功能；</li>
+<li>缺乏加密：地址和命令明文传输，可以很容易地捕获和解析。</li>
+</ul>
+<h2 id="PROFIBUS"><a href="#PROFIBUS" class="headerlink" title="PROFIBUS"></a>PROFIBUS</h2><p>一种用于工厂自动化车间级监控和现场设备层数据通信与控制的现场总线技术，可实现现场设备层到车间级监控的分散式数字控制和现场通信网络。</p>
+<h2 id="DNP3"><a href="#DNP3" class="headerlink" title="DNP3"></a>DNP3</h2><ul>
+<li>DNP（Distributed Network Protocol，分布式网络协议）是一种应用于自动化组件之间的通讯协议，常见于电力、水处理等行业；</li>
+<li>简化 OSI 模型，只包含了物理层，数据层与应用层的体系结构（EPA）；</li>
+<li>SCADA 可以使用 DNP 协议与主站、RTU、及 IED 进行通讯。</li>
+</ul>
+<h2 id="ICCP"><a href="#ICCP" class="headerlink" title="ICCP"></a>ICCP</h2><p>电力控制中心通讯协议。</p>
+<h2 id="OPC"><a href="#OPC" class="headerlink" title="OPC"></a>OPC</h2><p>过程控制的 OLE（OLE for Process Control）。OPC 包括一整套接口、属性和方法的标准集，用于过程控制和制造业自动化系统。</p>
+<h2 id="BACnet"><a href="#BACnet" class="headerlink" title="BACnet"></a>BACnet</h2><p>楼宇自动控制网络数据通讯协议（A Data Communication Protocol for Building Automation and Control Networks）。BACnet 协议是为计算机控制采暖、制冷、空调 HVAC 系统和其他建筑物设备系统定义服务和协议。</p>
+<h2 id="CIP"><a href="#CIP" class="headerlink" title="CIP"></a>CIP</h2><p>通用工业协议，被 DeviceNet、ControlNet、EtherNet/IP 三种网络所采用。</p>
+<h2 id="Siemens-S7"><a href="#Siemens-S7" class="headerlink" title="Siemens S7"></a>Siemens S7</h2><p>属于第 7 层的协议，用于西门子设备之间进行交换数据，通过 TSAP，可加载 MPI、DP、以太网等不同物理结构总线或网络上，PLC 一般可以通过封装好的通讯功能快实现。</p>
+<h2 id="其他工控协议"><a href="#其他工控协议" class="headerlink" title="其他工控协议"></a>其他工控协议</h2><p>IEC 60870-5-104、EtherNet/IP、Tridium Niagara Fox、Crimson V3、OMRON FINS、PCWorx、ProConOs、MELSEC-Q 等。</p>
+<h1 id="Programming"><a href="#Programming" class="headerlink" title="Programming"></a>Programming</h1><p>工控编程是工控系统运行的核心和重点：</p>
+<ul>
+<li>工控编程核心为明白工控业务逻辑，而工控编程遵循 IEC61131-3（工控史上首例实现 PLC、DCS、运动控制、 SCADA 等联合编程的标准——IEC61131-3），包括 5 种编程语言标准，3 种是图形化语言（梯形图、顺序功能图和功能块图），两种是文本化语言（指令表和结构文本）。</li>
+<li>工控设备往往可以在线调试，从而可以控制某些输入输出端口，实现强制启停的功能，如果这些功能可以采用 Remote 方式重发，那攻击危害就更为严重。</li>
+<li>工控设备的连接方式多样，一般采用串口，但是目前设备发展支持以太网、USB 接口等新的方式，如果网口不行试试串口、USB。</li>
+<li>工控组态可以非常复杂，甚至连接成百上千个输入输出都有可能，组态中会由于添加了新的组件而更加麻烦，这时候要慢慢看，一点一点缕出来。</li>
+</ul>
+<h1 id="Communication-Hijack"><a href="#Communication-Hijack" class="headerlink" title="Communication Hijack"></a>Communication Hijack</h1><p>通信劫持是工控场景中最经典利用方式，例如 ARP 劫持、PLC/HMI 通信劫持、PLC 会话劫持、PLC 命令执行等内容。通信劫持的方法：</p>
+<ul>
+<li>ARP 劫持，ARP 劫持可以阻断 PLC 与其他设备的通信，鉴于工程会存在写死 IP 等交互地址，未必管用，但是值得一试；</li>
+<li>PLC/HMI 通信劫持，采用旁路设备接入或控制 PLC 设备，对 IO 进行强制重写或输出；</li>
+<li>PLC 命令执行，针对工控设备最敏感的部分是设备宕机（无法恢复的）、设备启停、设备强制更新参数，等等这些对普通工艺能够产生较大的影响。</li>
+</ul>
+<h1 id="Discover"><a href="#Discover" class="headerlink" title="Discover"></a>Discover</h1><p>目前针对工控设备扫描中，在 Nmap、Metasploit、Censes 集成了大量的工具，用于挖掘当前在线 PLC、DCS 等 ICS 设备。</p>
+<h2 id="基于端口"><a href="#基于端口" class="headerlink" title="基于端口"></a>基于端口</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">端口</th>
+<th style="text-align:center">协议 / 设备</th>
+<th style="text-align:center">来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">102（TCP）</td>
+<td style="text-align:center">Siemens S7</td>
+<td style="text-align:center"><code>nmap --script s7-info.nse -p 102 [HOST]</code> \ <code>nmap -sP --script s71200-enumerate-old.nse -p 102 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">502（TCP）</td>
+<td style="text-align:center">Modbus</td>
+<td style="text-align:center"><code>nmap --script modicon-info -p 502 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">2404（TCP）</td>
+<td style="text-align:center">IEC 60870-5-104</td>
+<td style="text-align:center"><code>nmap -Pn -n -d --script iec-identify.nse --script-args=&#39;iec-identify.timeout=500&#39; -p 2404 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">20000（TCP）</td>
+<td style="text-align:center">DNP3</td>
+<td style="text-align:center"><code>nmap -sT --script dnp3-enumerate.nse -p 20000 [HOST]</code> / <code>nmap --script dnp3-info -p 20000 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">44818（TCP）</td>
+<td style="text-align:center">Ethernet/IP</td>
+<td style="text-align:center"><code>nmap --script enip-enumerate -sU -p 44818 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">47808（UDP）</td>
+<td style="text-align:center">BACnet</td>
+<td style="text-align:center"><code>nmap --script BACnet-discover-enumerate.nse -sU -p 47808 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">1911（TCP）</td>
+<td style="text-align:center">Tridium Nixagara Fo</td>
+<td style="text-align:center"><code>nmap --script fox-info.nse -p 1911 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">789（TCP）</td>
+<td style="text-align:center">Crimson V3</td>
+<td style="text-align:center"><code>nmap --script cr3-fingerprint.nse -p 789 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">9600（TCP）</td>
+<td style="text-align:center">OMRON FINS</td>
+<td style="text-align:center"><code>nmap --script omrontcp-info -p 9600 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">1962（TCP）</td>
+<td style="text-align:center">PCWorx</td>
+<td style="text-align:center"><code>nmap --script pcworx-info -p 1962 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">20547（TCP）</td>
+<td style="text-align:center">ProConOs</td>
+<td style="text-align:center"><code>nmap --script proconos-info -p 20547</code></td>
+</tr>
+<tr>
+<td style="text-align:center">5007（TCP）</td>
+<td style="text-align:center">Melsec-Q</td>
+<td style="text-align:center"><code>nmap --script melsecq-discover -sT -p 5007 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">5006</td>
+<td style="text-align:center">Melsec-Q</td>
+<td style="text-align:center"><code>nmap --script melsecq-discover-udp.nse -sU -p 5006 [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">1200（TCP）</td>
+<td style="text-align:center">Codesys</td>
+<td style="text-align:center"><code>nmap --script codesys-v2-discover.nse [HOST]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">10001</td>
+<td style="text-align:center">ATG</td>
+<td style="text-align:center"><code>nmap --script atg-info -p 10001 [HOST]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="基于组态软件的组件"><a href="#基于组态软件的组件" class="headerlink" title="基于组态软件的组件"></a>基于组态软件的组件</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">端口</th>
+<th style="text-align:center">协议 / 设备</th>
+<th style="text-align:center">连接方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">102（TCP）</td>
+<td style="text-align:center">Siemens S7</td>
+<td style="text-align:center">西门子软件 Step7 自带扫描当前网段 PLC 设备功能</td>
+</tr>
+<tr>
+<td style="text-align:center">502（TCP）</td>
+<td style="text-align:center">Modbus</td>
+<td style="text-align:center">施耐德 SoMachine Basic 连接 PLC 设备自带扫描内网网段功能</td>
+</tr>
+</tbody>
+</table>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://wooyun.js.org/drops/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8%E5%88%86%E6%9E%90.html" target="_blank" rel="noopener">https://wooyun.js.org/drops/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8%E5%88%86%E6%9E%90.html</a><br><a href="https://xuanxuanblingbling.github.io/ics/2020/01/10/ics/" target="_blank" rel="noopener">https://xuanxuanblingbling.github.io/ics/2020/01/10/ics/</a><br><a href="https://www.cnpanda.net/sec/592.html" target="_blank" rel="noopener">https://www.cnpanda.net/sec/592.html</a><br><a href="https://wh0ale.github.io/2018/12/19/2018-12-19-%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8/" target="_blank" rel="noopener">https://wh0ale.github.io/2018/12/19/2018-12-19-%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8/</a><br><a href="https://ctf-wiki.github.io/ctf-wiki/ics/ctfs-zh/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/ics/ctfs-zh/</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ics/">ics</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-12 col-md-6">
+                    
+                  </div>
+                  <div class="post-next col-12 col-md-6">
+                    
+                      <a href="/2020/05/31/实现获取键盘中断的字符设备驱动程序/">
+                        <span>实现获取键盘中断的字符设备驱动程序</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc-start"></div>
+<div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="http://blog.b3ale.cn" target="_blank" rel="nofollow noopener"><b>Hard Work Pays Off.</b></a>
+    </div>
+    
+  <div>
+    
+      <!-- 不蒜子统计PV -->
+      
+      <span id="busuanzi_container_site_pv" style="display: none">
+      总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    </span>
+    
+    
+      <!-- 不蒜子统计UV -->
+      
+      <span id="busuanzi_container_site_uv" style="display: none">
+      总访客数 <span id="busuanzi_value_site_uv"></span> 人
+    </span>
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.13.0/js/mdb.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="/js/lazyload.js"></script>
+
+
+
+  
+  <script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var navHeight = $('#navbar').height();
+      var toc = $('#toc');
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      var tocLimMax = 2 * boardTop + boardCtn.height();
+
+      $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
+        var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
+        if (tocLimMin <= scroH && scroH <= tocLimMax) {
+          toc.css({
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
+        } else if (scroH <= tocLimMin) {
+          toc.css({
+            'position': '',
+            'top': '',
+          });
+        } else if (scroH > tocLimMax) {
+          toc.css('display', 'none');
+        }
+      });
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = boardCtn.css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
+    });
+  </script>
+
+
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "工控安全基础概念初探&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
