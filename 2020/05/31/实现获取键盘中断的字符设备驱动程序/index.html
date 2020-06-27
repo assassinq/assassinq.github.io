@@ -437,19 +437,19 @@ int main() {
 }
 </code></pre>
 <h1 id="四、-程序测试及结果"><a href="#四、-程序测试及结果" class="headerlink" title="四、 程序测试及结果"></a>四、 程序测试及结果</h1><p>安装模块后，看到字符设备驱动程序已经正常创建，且开始存储键盘的扫描码：</p>
-<p><img src="./实现获取键盘中断的字符设备驱动程序/1.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/实现获取键盘中断的字符设备驱动程序/1.png" srcset="/img/loading.gif" alt></p>
 <p>在运行编写好的用户程序，看到从 kfifo 队列中读取出了指定长度的字节：</p>
-<p><img src="./实现获取键盘中断的字符设备驱动程序/2.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/实现获取键盘中断的字符设备驱动程序/2.png" srcset="/img/loading.gif" alt></p>
 <p>查看 <code>key_count</code> 的值，使用 dmesg 查看得到 <code>key_count</code> 为 113，然后输入回车查看 <code>/sys/class</code> 下的存储的驱动程序属性 <code>key_count</code> 为 114，正好时输入了回车后自加了 1：</p>
-<p><img src="./实现获取键盘中断的字符设备驱动程序/3.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/实现获取键盘中断的字符设备驱动程序/3.png" srcset="/img/loading.gif" alt></p>
 <p>查看此时 <code>buf_size</code> 的值为 20，然后修改其值为 40（因为 kfifo 的申请会将传入的长度自动对其到 2 的幂次方，故原本的 kfifo 队列长度应该为 32，修改后的长度变为 64）：</p>
-<p><img src="./实现获取键盘中断的字符设备驱动程序/4.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/实现获取键盘中断的字符设备驱动程序/4.png" srcset="/img/loading.gif" alt></p>
 <p>此时查看输出 <code>buf_size</code> 已改变：</p>
-<p><img src="./实现获取键盘中断的字符设备驱动程序/5.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/实现获取键盘中断的字符设备驱动程序/5.png" srcset="/img/loading.gif" alt></p>
 <p>再修改用户应用程序中的 <code>BUF_SIZE</code> 为 0x40，也可以正常读取到：</p>
-<p><img src="./实现获取键盘中断的字符设备驱动程序/6.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/实现获取键盘中断的字符设备驱动程序/6.png" srcset="/img/loading.gif" alt></p>
 <p>如果再把驱动程序中的 <code>buf_size</code> 改小，就会导致 kfifo 队列中的元素最多为 32 个（<code>buf_size</code> 为 20 会自动向上对齐到 2 的幂次方），而应用程序中必须要读 0x40 个字符，永远达到不了标准，就会导致永远读取不到数据：</p>
-<p><img src="./实现获取键盘中断的字符设备驱动程序/7.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/实现获取键盘中断的字符设备驱动程序/7.png" srcset="/img/loading.gif" alt></p>
 <h1 id="五、-总结"><a href="#五、-总结" class="headerlink" title="五、 总结"></a>五、 总结</h1><p>在这次的实验中，熟悉了字符设备驱动程序以及 sysfs，并且将先前学过的内核数据结构、中断、进程调度、进程同步等相关知识结合，对 Linux 内核有了更深的理解。</p>
 <h1 id="附录：代码"><a href="#附录：代码" class="headerlink" title="附录：代码"></a>附录：代码</h1><pre><code class="cpp">#include &lt;linux/module.h&gt;
 #include &lt;linux/init.h&gt;
