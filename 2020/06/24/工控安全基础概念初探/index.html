@@ -127,7 +127,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    7.9k 字
+                    8.6k 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      31 分钟
+                      34 分钟
                   </span>
                 
 
@@ -163,7 +163,7 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>初探工控安全。</p>
+              <p>初探工控安全，主要分为协议安全、网络安全和固件安全等。</p>
 <a id="more"></a>
 <h1 id="Terminologies"><a href="#Terminologies" class="headerlink" title="Terminologies"></a>Terminologies</h1><ul>
 <li>SCADA（Supervisory Control And Data Acquisition）：数据采集与监视控制系统</li>
@@ -183,11 +183,79 @@
 <li>SIS（Supervisory Information System）：生产过程自动化监控和管理系统</li>
 <li>MES（Manufacturing Execution System）：制造执行管理系统</li>
 </ul>
-<h1 id="Protocols"><a href="#Protocols" class="headerlink" title="Protocols"></a>Protocols</h1><h2 id="Modbus"><a href="#Modbus" class="headerlink" title="Modbus"></a><a href="https://www.anquanke.com/post/id/185513" target="_blank" rel="noopener">Modbus</a></h2><p>Modbus 是一种应用层的报文传输协议，它既可以在物理层面上选择串口进行简单的串行通信，也可以使用 TCP 的方式进行传输。Modbus 协议定义了一个与基础通信层无关的简单协议数据单元（PDU）。特定总线或网络上的 Modbus 协议映射能够在应用数据单元（ADU）上引入一些附加域。</p>
+<h1 id="ICS-Structure"><a href="#ICS-Structure" class="headerlink" title="ICS Structure"></a>ICS Structure</h1><p>工业控制系统结构：</p>
+<ol>
+<li>传感器和执行器；</li>
+<li>可编程控制器（PLC）；</li>
+<li>工业网络及现场总线；</li>
+<li>工业计算机及工业组态软件。</li>
+</ol>
+<p><img src="/pics/工控安全基础概念初探/1.png" srcset="/img/loading.gif" alt></p>
+<ul>
+<li>过程自动化控制系统<ul>
+<li>应用在流程行业，比如：石油、化工、医药、冶金、水处理等</li>
+<li>对应的控制系统：DCS 居多，大型 PLC 为主，单台控制器 IO 点数多数在 2000 点以上，全冗余架构</li>
+</ul>
+</li>
+<li>工厂自动化控制系统<ul>
+<li>应用在离散行业，比如：汽车、港口、烟草等</li>
+<li>对应的控制系统：主要以 PLC 为主，采用和设备捆绑为主，单台控制 IO 点数少于 2000 点，单机为主</li>
+</ul>
+</li>
+</ul>
+<h2 id="工控产品厂商和产品介绍"><a href="#工控产品厂商和产品介绍" class="headerlink" title="工控产品厂商和产品介绍"></a>工控产品厂商和产品介绍</h2><ul>
+<li>Siemens<ul>
+<li>控制系统家族<ul>
+<li>S7-1500 控制系统</li>
+<li>S7-1200 控制系统</li>
+<li>S7-300/400 控制系统</li>
+<li>S7-WINAC 控制系统</li>
+</ul>
+</li>
+<li>组态软件家族<ul>
+<li>TIA 博图/Step7</li>
+<li>WINCC 组态监控软件</li>
+<li>PLCSIM 模拟仿真软件</li>
+</ul>
+</li>
+<li>通讯协议及端口<ul>
+<li>S7 Comm 协议（私有协议）</li>
+<li>通讯端口 102</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Rockwell Automation<ul>
+<li>控制系统家族<ul>
+<li>Controllogix 控制系统</li>
+<li>Compactlogix 控制系统</li>
+<li>MicroLogix 控制系统</li>
+<li>Softlogix 控制系统</li>
+</ul>
+</li>
+<li>组态软件家族<ul>
+<li>Studio5000/RSLogix 5000 组态软件</li>
+<li>FactoryTalk View SE 组态监控软件</li>
+<li>Emulation 模拟仿真软件</li>
+</ul>
+</li>
+<li>通讯协议及端口</li>
+<li>Ethernet/IP（公开协议）</li>
+<li>通讯端口 44818/2222</li>
+</ul>
+</li>
+</ul>
+<h1 id="Protocols"><a href="#Protocols" class="headerlink" title="Protocols"></a>Protocols</h1><p>安全问题：</p>
+<ul>
+<li>缺乏身份认证：仅需要使用一个合法的 Modbus 地址和合法的功能码即可以建立一个 Modbus 会话；</li>
+<li>缺乏授权机制：没有基于角色的访问控制机制，任意用户可以执行任意的功能；</li>
+<li>缺乏加密保护：地址和命令明文传输，可以很容易地捕获和解析。</li>
+</ul>
+<h2 id="Modbus"><a href="#Modbus" class="headerlink" title="Modbus"></a><a href="https://www.anquanke.com/post/id/185513" target="_blank" rel="noopener">Modbus</a></h2><p>Modbus 是一种应用层的报文传输协议，它既可以在物理层面上选择串口进行简单的串行通信，也可以使用 TCP 的方式进行传输。Modbus 协议定义了一个与基础通信层无关的简单协议数据单元（PDU）。特定总线或网络上的 Modbus 协议映射能够在应用数据单元（ADU）上引入一些附加域。</p>
 <blockquote>
 <p>因为 Modbus 是应用层的协议，所以其安全漏洞并不只是它本身，TCP/IP 的漏洞也可以利用在 Modbus 上。</p>
 </blockquote>
-<p><img src="/pics/工控安全基础概念初探/1.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/pics/工控安全基础概念初探/2.png" srcset="/img/loading.gif" alt></p>
 <p>Modbus 对应的协议栈：</p>
 <table>
 <thead>
@@ -235,12 +303,6 @@
 </tr>
 </tbody>
 </table>
-<p>安全问题：</p>
-<ul>
-<li>缺乏认证：仅需要使用一个合法的 Modbus 地址和合法的功能码即可以建立一个 Modbus 会话；</li>
-<li>缺乏授权：没有基于角色的访问控制机制，任意用户可以执行任意的功能；</li>
-<li>缺乏加密：地址和命令明文传输，可以很容易地捕获和解析。</li>
-</ul>
 <h2 id="PROFIBUS"><a href="#PROFIBUS" class="headerlink" title="PROFIBUS"></a>PROFIBUS</h2><p>一种用于工厂自动化车间级监控和现场设备层数据通信与控制的现场总线技术，可实现现场设备层到车间级监控的分散式数字控制和现场通信网络。</p>
 <h2 id="DNP3"><a href="#DNP3" class="headerlink" title="DNP3"></a>DNP3</h2><ul>
 <li>DNP（Distributed Network Protocol，分布式网络协议）是一种应用于自动化组件之间的通讯协议，常见于电力、水处理等行业；</li>
@@ -252,6 +314,7 @@
 <h2 id="BACnet"><a href="#BACnet" class="headerlink" title="BACnet"></a>BACnet</h2><p>楼宇自动控制网络数据通讯协议（A Data Communication Protocol for Building Automation and Control Networks）。BACnet 协议是为计算机控制采暖、制冷、空调 HVAC 系统和其他建筑物设备系统定义服务和协议。</p>
 <h2 id="CIP"><a href="#CIP" class="headerlink" title="CIP"></a>CIP</h2><p>通用工业协议，被 DeviceNet、ControlNet、EtherNet/IP 三种网络所采用。</p>
 <h2 id="Siemens-S7（S7COMM）"><a href="#Siemens-S7（S7COMM）" class="headerlink" title="Siemens S7（S7COMM）"></a>Siemens S7（S7COMM）</h2><p>S7COMM 全称 S7 Communication，是西门子专有协议，在西门子 S7-300/400 系列的 PLC 之间运行，用于 PLC 编程，PLC 之间的数据交换。S7 协议被封装在 TPKT 和 ISO-COTP 协议中。通过 TSAP，可加载 MPI、DP、以太网等不同物理结构总线或网络上，PLC 一般可以通过封装好的通讯功能快实现。协议结构体包含三部分：</p>
+<p><img src="/pics/工控安全基础概念初探/3.png" srcset="/img/loading.gif" alt></p>
 <ul>
 <li>Header</li>
 <li>Parameter</li>
@@ -762,18 +825,59 @@
 </li>
 </ul>
 <h2 id="其他工控协议"><a href="#其他工控协议" class="headerlink" title="其他工控协议"></a>其他工控协议</h2><p>IEC 60870-5-104、EtherNet/IP、Tridium Niagara Fox、Crimson V3、OMRON FINS、PCWorx、ProConOs、MELSEC-Q 等。</p>
-<h1 id="Programming"><a href="#Programming" class="headerlink" title="Programming"></a>Programming</h1><p>工控编程是工控系统运行的核心和重点：</p>
+<h1 id="Vulnerabilities"><a href="#Vulnerabilities" class="headerlink" title="Vulnerabilities"></a>Vulnerabilities</h1><p>除了上面讲的协议部分，其他还有很多方面存在漏洞。</p>
+<h2 id="Code-Logic-Vulnerability-in-PLC"><a href="#Code-Logic-Vulnerability-in-PLC" class="headerlink" title="Code Logic Vulnerability in PLC"></a>Code Logic Vulnerability in PLC</h2><p>工控编程是工控系统运行的核心和重点：</p>
 <ul>
 <li>工控编程核心为明白工控业务逻辑，而工控编程遵循 IEC61131-3（工控史上首例实现 PLC、DCS、运动控制、 SCADA 等联合编程的标准——IEC61131-3），包括 5 种编程语言标准，3 种是图形化语言（梯形图、顺序功能图和功能块图），两种是文本化语言（指令表和结构文本）。</li>
 <li>工控设备往往可以在线调试，从而可以控制某些输入输出端口，实现强制启停的功能，如果这些功能可以采用 Remote 方式重发，那攻击危害就更为严重。</li>
 <li>工控设备的连接方式多样，一般采用串口，但是目前设备发展支持以太网、USB 接口等新的方式，如果网口不行试试串口、USB。</li>
 <li>工控组态可以非常复杂，甚至连接成百上千个输入输出都有可能，组态中会由于添加了新的组件而更加麻烦，这时候要慢慢看，一点一点缕出来。</li>
 </ul>
-<h1 id="Communication-Hijack"><a href="#Communication-Hijack" class="headerlink" title="Communication Hijack"></a>Communication Hijack</h1><p>通信劫持是工控场景中最经典利用方式，例如 ARP 劫持、PLC/HMI 通信劫持、PLC 会话劫持、PLC 命令执行等内容。通信劫持的方法：</p>
+<h3 id="PLC-代码逻辑漏洞"><a href="#PLC-代码逻辑漏洞" class="headerlink" title="PLC 代码逻辑漏洞"></a>PLC 代码逻辑漏洞</h3><ul>
+<li>计算逻辑漏洞</li>
+<li>看门狗超时漏洞</li>
+<li>缓冲区溢出漏洞</li>
+</ul>
+<h2 id="Communication-Hijack"><a href="#Communication-Hijack" class="headerlink" title="Communication Hijack"></a>Communication Hijack</h2><p>通信劫持是工控场景中最经典利用方式，例如 ARP 劫持、PLC/HMI 通信劫持、PLC 会话劫持、PLC 命令执行等内容。通信劫持的方法：</p>
 <ul>
 <li>ARP 劫持，ARP 劫持可以阻断 PLC 与其他设备的通信，鉴于工程会存在写死 IP 等交互地址，未必管用，但是值得一试；</li>
 <li>PLC/HMI 通信劫持，采用旁路设备接入或控制 PLC 设备，对 IO 进行强制重写或输出；</li>
 <li>PLC 命令执行，针对工控设备最敏感的部分是设备宕机（无法恢复的）、设备启停、设备强制更新参数，等等这些对普通工艺能够产生较大的影响。</li>
+</ul>
+<h3 id="工业以太网链路漏洞"><a href="#工业以太网链路漏洞" class="headerlink" title="工业以太网链路漏洞"></a>工业以太网链路漏洞</h3><ul>
+<li>MAC 泛洪攻击</li>
+<li>ARP 溢出/中间人攻击</li>
+<li>环网 Beacon 协议攻击</li>
+<li>VLAN 跳转攻击</li>
+<li>交换机 WEB 漏洞攻击</li>
+</ul>
+<h2 id="Host-Security-Vulnerability"><a href="#Host-Security-Vulnerability" class="headerlink" title="Host Security Vulnerability"></a>Host Security Vulnerability</h2><p>主机上可能会自带的漏洞：</p>
+<ul>
+<li>防火墙关闭</li>
+<li>没有杀毒软件防护</li>
+<li>缺乏 USB 准入</li>
+<li>Windows 本身的漏洞<ul>
+<li>SMB v1.0 Port 445</li>
+<li>RDP Port 3389</li>
+<li>AD 域攻击</li>
+<li>DNS 污染攻击</li>
+</ul>
+</li>
+</ul>
+<p><img src="/pics/工控安全基础概念初探/4.png" srcset="/img/loading.gif" alt></p>
+<h2 id="Vulnerability-in-SCADA"><a href="#Vulnerability-in-SCADA" class="headerlink" title="Vulnerability in SCADA"></a>Vulnerability in SCADA</h2><ul>
+<li>DoS 拒绝式服务攻击</li>
+<li>缓冲区溢出漏洞</li>
+<li>COM 服务组件未授权访问漏洞</li>
+<li>SQL 数据库注入的漏洞</li>
+</ul>
+<h2 id="Physical-Security-Vulnerability"><a href="#Physical-Security-Vulnerability" class="headerlink" title="Physical Security Vulnerability"></a>Physical Security Vulnerability</h2><ul>
+<li>设备所在地无防护</li>
+<li>机房机柜未上锁</li>
+<li>网络端口未加固</li>
+<li>控制器钥匙未拔出</li>
+<li>供电电源为单路</li>
+<li>接地系统不完善</li>
 </ul>
 <h1 id="Discovering"><a href="#Discovering" class="headerlink" title="Discovering"></a>Discovering</h1><p>目前针对工控设备扫描中，在 Nmap、Metasploit、Censes 集成了大量的工具，用于挖掘当前在线 PLC、DCS 等 ICS 设备。</p>
 <h2 id="基于端口"><a href="#基于端口" class="headerlink" title="基于端口"></a>基于端口</h2><table>
@@ -883,6 +987,42 @@
 </tr>
 </tbody>
 </table>
+<h1 id="Defence"><a href="#Defence" class="headerlink" title="Defence"></a>Defence</h1><p>工业控制系统安全防御：</p>
+<ul>
+<li>区域边界<ul>
+<li>工业防火墙</li>
+<li>区域防火墙</li>
+<li>网闸</li>
+</ul>
+</li>
+<li>网络安全<ul>
+<li>交换机空余端口关闭</li>
+<li>Native VLAN</li>
+<li>禁用 CDP 或 LLDP</li>
+<li>握手报文加密</li>
+</ul>
+</li>
+<li>主机安全<ul>
+<li>杀毒软件</li>
+<li>防火墙</li>
+<li>基线安全</li>
+<li>USB 口准入</li>
+<li>应用白名单</li>
+</ul>
+</li>
+<li>控制器安全<ul>
+<li>协议加密</li>
+<li>准入控制</li>
+<li>身份认证</li>
+</ul>
+</li>
+<li>物理安全<ul>
+<li>接地安全</li>
+<li>双路供电</li>
+<li>电柜上锁</li>
+</ul>
+</li>
+</ul>
 <h1 id="Appendix"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix</h1><h2 id="错误码的含义"><a href="#错误码的含义" class="headerlink" title="错误码的含义"></a>错误码的含义</h2><table>
 <thead>
 <tr>
@@ -2088,7 +2228,7 @@
 </tr>
 <tr>
 <td style="text-align:center"><code>_N_ENDEXT</code></td>
-<td style="text-align:center">PI-Service <code>_N_ENDEXT</code>（）</td>
+<td style="text-align:center">PI-Service <code>_N_ENDEXT</code></td>
 </tr>
 <tr>
 <td style="text-align:center"><code>_N_F_OPER</code></td>
@@ -2104,7 +2244,7 @@
 </tr>
 <tr>
 <td style="text-align:center"><code>N_SCALE</code></td>
-<td style="text-align:center">PI-Service <code>_N_SCALE_</code>（测量单位设置（公制&lt; - &gt; INCH））</td>
+<td style="text-align:center">PI-Service <code>_N_SCALE_</code>（测量单位设置）</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>_N_SETUFR</code></td>
@@ -2152,7 +2292,7 @@
 </tr>
 <tr>
 <td style="text-align:center"><code>_N_SRTEXT</code></td>
-<td style="text-align:center">PI-Service <code>_N_SRTEXT</code>（文件正在/ _N_EXT_DIR 中标记）</td>
+<td style="text-align:center">PI-Service <code>_N_SRTEXT</code>（文件正在 <code>_N_EXT_DIR</code> 中标记）</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>_N_F_CLOS</code></td>
@@ -2168,7 +2308,7 @@
 </tr>
 <tr>
 <td style="text-align:center"><code>N_ASUP_</code></td>
-<td style="text-align:center">PI-Service <code>_N_ASUP __</code>（分配中断）</td>
+<td style="text-align:center">PI-Service <code>_N_ASUP</code>（分配中断）</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>_N_CHEKDM</code></td>
@@ -2300,7 +2440,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://wooyun.js.org/drops/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8%E5%88%86%E6%9E%90.html" target="_blank" rel="noopener">https://wooyun.js.org/drops/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8%E5%88%86%E6%9E%90.html</a><br><a href="https://xuanxuanblingbling.github.io/ics/2020/01/10/ics/" target="_blank" rel="noopener">https://xuanxuanblingbling.github.io/ics/2020/01/10/ics/</a><br><a href="https://www.cnpanda.net/sec/592.html" target="_blank" rel="noopener">https://www.cnpanda.net/sec/592.html</a><br><a href="https://ctf-wiki.github.io/ctf-wiki/ics/ctfs-zh/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/ics/ctfs-zh/</a><br><a href="https://www.cnpanda.net/sec/578.html" target="_blank" rel="noopener">https://www.cnpanda.net/sec/578.html</a></p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://wooyun.js.org/drops/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8%E5%88%86%E6%9E%90.html" target="_blank" rel="noopener">https://wooyun.js.org/drops/%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8%E5%88%86%E6%9E%90.html</a><br><a href="https://xuanxuanblingbling.github.io/ics/2020/01/10/ics/" target="_blank" rel="noopener">https://xuanxuanblingbling.github.io/ics/2020/01/10/ics/</a><br><a href="https://www.cnpanda.net/sec/592.html" target="_blank" rel="noopener">https://www.cnpanda.net/sec/592.html</a><br><a href="https://ctf-wiki.github.io/ctf-wiki/ics/ctfs-zh/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/ics/ctfs-zh/</a><br><a href="https://www.cnpanda.net/sec/578.html" target="_blank" rel="noopener">https://www.cnpanda.net/sec/578.html</a><br><a href="https://www.bilibili.com/video/BV1Ft41177cs" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1Ft41177cs</a></p>
 
             </div>
             <hr>
