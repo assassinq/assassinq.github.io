@@ -239,16 +239,17 @@ for img_name in imgs:
 Running as user &quot;root&quot; and group &quot;root&quot;. This could be dangerous.
 </code></pre>
 <p>查看后发现都是八个字节的数据，那么应该是键盘流量，用脚本跑出来：</p>
-<pre><code class="python">#!usr/bin/env python
+<pre><code class="python">#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
 mappings = { 0x04:&quot;A&quot;,  0x05:&quot;B&quot;,  0x06:&quot;C&quot;, 0x07:&quot;D&quot;, 0x08:&quot;E&quot;, 0x09:&quot;F&quot;, 0x0A:&quot;G&quot;,  0x0B:&quot;H&quot;, 0x0C:&quot;I&quot;,  0x0D:&quot;J&quot;, 0x0E:&quot;K&quot;, 0x0F:&quot;L&quot;, 0x10:&quot;M&quot;, 0x11:&quot;N&quot;,0x12:&quot;O&quot;,  0x13:&quot;P&quot;, 0x14:&quot;Q&quot;, 0x15:&quot;R&quot;, 0x16:&quot;S&quot;, 0x17:&quot;T&quot;, 0x18:&quot;U&quot;,0x19:&quot;V&quot;, 0x1A:&quot;W&quot;, 0x1B:&quot;X&quot;, 0x1C:&quot;Y&quot;, 0x1D:&quot;Z&quot;, 0x1E:&quot;1&quot;, 0x1F:&quot;2&quot;, 0x20:&quot;3&quot;, 0x21:&quot;4&quot;, 0x22:&quot;5&quot;,  0x23:&quot;6&quot;, 0x24:&quot;7&quot;, 0x25:&quot;8&quot;, 0x26:&quot;9&quot;, 0x27:&quot;0&quot;, 0x28:&quot;\n&quot;, 0x2a:&quot;[DEL]&quot;,  0X2B:&quot;    &quot;, 0x2C:&quot; &quot;,  0x2D:&quot;-&quot;, 0x2E:&quot;=&quot;, 0x2F:&quot;[&quot;,  0x30:&quot;]&quot;,  0x31:&quot;\\&quot;, 0x32:&quot;~&quot;, 0x33:&quot;;&quot;,  0x34:&quot;&#39;&quot;, 0x36:&quot;,&quot;,  0x37:&quot;.&quot; }
 nums = []
 keys = open(&#39;usbdata.txt&#39;)
 for line in keys:
-    if line[0]!=&#39;0&#39; or line[1]!=&#39;0&#39; or line[3]!=&#39;0&#39; or line[4]!=&#39;0&#39; or line[9]!=&#39;0&#39; or line[10]!=&#39;0&#39; or line[12]!=&#39;0&#39; or line[13]!=&#39;0&#39; or line[15]!=&#39;0&#39; or line[16]!=&#39;0&#39; or line[18]!=&#39;0&#39; or line[19]!=&#39;0&#39; or line[21]!=&#39;0&#39; or line[22]!=&#39;0&#39;:
-         continue
-    nums.append(int(line[6:8],16))
+    if line[0]!=&#39;0&#39; or line[1]!=&#39;0&#39; or line[2]!=&#39;0&#39; or line[3]!=&#39;0&#39; or line[6]!=&#39;0&#39; or line[7]!=&#39;0&#39; or line[8]!=&#39;0&#39; or line[9]!=&#39;0&#39; or line[10]!=&#39;0&#39; or line[11]!=&#39;0&#39; or line[12]!=&#39;0&#39; or line[13]!=&#39;0&#39; or line[14]!=&#39;0&#39; or line[15]!=&#39;0&#39;:
+        continue
+    nums.append(int(line[4:6],16))
+print nums
 keys.close()
 output = &quot;&quot;
 for n in nums:
