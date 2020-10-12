@@ -16,7 +16,7 @@
   <meta name="description" content="Software Security Researcher">
   <meta name="author" content>
   <meta name="keywords" content>
-  <title>Archives - B3ale</title>
+  <title>B3ale</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
@@ -41,7 +41,7 @@
 
 
 <body>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 80vh;">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">&nbsp;<strong>B3ale</strong>&nbsp;</a>
@@ -118,6 +118,10 @@
           </div>
 
           
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
         </div>
       </div>
     </div>
@@ -127,27 +131,61 @@
     
       <div class="container nopadding-md">
         <div class="py-5 z-depth-3" id="board"
-          >
+          style=margin-top:0>
           
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
 
-<div class="list-group">
-  <p class="h4">91 posts in total.</p>
-  <hr>
-  
+
+  <div class="row mx-auto index-card">
     
-      
-      <p class="h5">2018</p>
     
-    <a href="/2018/04/17/macOS下使用Hexo和Github搭建博客/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">macOS下使用Hexo和Github搭建博客</span>
-      <span style="float: right;">04-17</span>
-    </a>
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/1970/01/01/CTF-Cheatsheet/">
+        <p class="h4 index-header">CTF Cheatsheet</p>
+      </a>
+
+      <a href="/1970/01/01/CTF-Cheatsheet/">
+        
+        
+          
+          
+        
+        <div class="index-excerpt" style="max-height: none;">
+          <div class="index-text mb-1">Sorry, the article is encrypted....</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;1970-01-01&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/ctf/">ctf</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="index posts navigation">
+    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/9/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
+    </span>
+  </nav>
   
-</div>
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
+      ele.href += '#board';
+    }
+  </script>
 
 
 
@@ -261,7 +299,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Today's tears water tomorrow's gardens.&nbsp;",
+        "Hard Work Pays Off.&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
